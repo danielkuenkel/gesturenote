@@ -157,6 +157,8 @@ include '../includes/language.php';
             <!-- initialization -->
             <div class="recorder-content hidden gr-initialize text-center">
                 <div class="embed-responsive embed-responsive-4by3" style="">
+                    <div class="embed-responsive-item" id="initialize-recorders-list">
+                    </div>
                     <div class="embed-responsive-item" style="display: flex; flex-direction: column; justify-content: center;">
                         <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
                     </div>
@@ -165,22 +167,23 @@ include '../includes/language.php';
 
             <!-- recording -->
             <div class="root recorder-content hidden gr-record">
-<!--                <div id="toggle-gesture-recording-record-source" class="hidden text-center">
-                    <div class="btn-group btn-group-xs">
-                        <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
-                        <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
-                        <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="kinect" id="btn-kinect"><i class="fa fa-code"></i> <?php echo $lang->sensors->kinect->title ?></button>
-                    </div>
-                </div>-->
+                <!--                <div id="toggle-gesture-recording-record-source" class="hidden text-center">
+                                    <div class="btn-group btn-group-xs">
+                                        <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
+                                        <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
+                                        <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="kinect" id="btn-kinect"><i class="fa fa-code"></i> <?php echo $lang->sensors->kinect->title ?></button>
+                                    </div>
+                                </div>-->
                 <div class="sensor-content">
                     <div data-sensor-source="webcam" id="webcam-stream" class="sensor-source-record hidden">
-                        <div class="root embed-responsive embed-responsive-4by3" style="background-color: #eeeeee; border-top-left-radius: 4px; border-top-right-radius: 4px">
+                        <div class="root embed-responsive embed-responsive-4by3" style="background-color: #eeeeee; border-top-left-radius: 5px; border-top-right-radius: 5px">
                             <div class="embed-responsive-item">
-                                <video class="recorder-webcam-video mirroredHorizontally" autoplay style=" border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
+                                <video class="recorder-webcam-video mirroredHorizontally" autoplay style=" border-top-left-radius: 5px; border-top-right-radius: 5px"></video>
                             </div>
                         </div>
                     </div>
-                    <div data-sensor-source="leap" id="leap-record" class="sensor-source-record whidden"></div>
+
+                    <div data-sensor-source="leap" id="leap-record" class="sensor-source-record hidden"></div>
                 </div>
 
                 <div class="progress hidden" id="record-timer-progress" style="height: 8px; border-top-left-radius: 0px; border-radius: 0px">
@@ -193,7 +196,7 @@ include '../includes/language.php';
 
             <!-- playback -->
             <div class="root recorder-content hidden gr-playback">
-                <div id="toggle-gesture-recording-preview-source" class="hidden text-center">
+                <div id="toggle-gesture-playback-preview-source" class="hidden text-center">
                     <div class="btn-group btn-group-xs">
                         <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
                         <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
@@ -204,19 +207,19 @@ include '../includes/language.php';
                 <div class="sensor-content" style="margin-top: 10px">
                     <div data-sensor-source="webcam" id="webcam-preview" class="sensor-source-preview hidden">
                         <div class="root embed-responsive embed-responsive-4by3">
-                            <video class="playback-webcam-video mirroredHorizontally" preload="metadata" style=" border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
+                            <video class="playback-webcam-video mirroredHorizontally" preload="metadata" style="border-top-left-radius: 5px; border-top-right-radius: 5px"></video>
                             <div class="controls-container embed-responsive-item">
                                 <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>
-                            </div>                            
+                            </div>
                         </div>
 
-                        <div id="recorder-webcam-slider-controls" style="margin-top: -10px">
+                        <div id="playback-webcam-slider-controls" style="margin-top: -10px">
                             <div style="width: 100%;">
                                 <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                             </div>
-                            <div id="recorder-webcam-playback-crop-slider-container" class="hidden" style="width: 100%;">
-                                <input id="webcam-crop-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                            <div id="playback-webcam-crop-slider-controls" class="hidden" style="width: 100%;">
+                                <input id="webcam-playback-crop-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                             </div>
                         </div>
 
@@ -241,7 +244,25 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div data-sensor-source="leap" id="leap-preview" class="sensor-source-preview whidden"></div>
+                    <div data-sensor-source="leap" id="leap-preview" class="sensor-source-preview hidden">
+                        <div class="embed-responsive embed-responsive-4by3 sensor-canvas">
+                            <div id="renderArea" class="embed-responsive-item"></div>
+                            <div class="controls-container embed-responsive-item">
+                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
+                                <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
+                                <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>
+                            </div>
+                        </div>
+                        <div id="playback-leap-slider-controls" style="margin-top: -10px">
+                            <div style="width: 100%;">
+                                <input id="leap-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                            </div>
+                            <div id="playback-leap-crop-slider-controls" class="hidden" style="width: 100%;">
+                                <input id="leap-playback-crop-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -260,14 +281,14 @@ include '../includes/language.php';
 
             <!-- save screen: form for data -->
             <div class="root recorder-content hidden gr-save">
-                <div id="toggle-gesture-save-source" class="hidden text-center" style="margin-top: 10px">
+                <div id="toggle-gesture-playback-save-source" class="hidden text-center">
                     <div class="btn-group btn-group-xs">
                         <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
                         <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
                     </div>
                 </div>
 
-                <div class="sensor-content">
+                <div class="sensor-content" style="margin-top: 10px">
                     <div data-sensor-source="webcam" id="webcam-save-preview" class="sensor-source-save hidden">
                         <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>
@@ -285,7 +306,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div data-sensor-source="leap" id="leap-recording-container" class="sensor-source-save hidden">
+                    <div data-sensor-source="leap" id="leap-save-preview" class="sensor-source-save hidden">
 
                         <div class="embed-responsive embed-responsive-4by3">
                             <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
@@ -296,9 +317,9 @@ include '../includes/language.php';
                             </div>
                         </div>
 
-                        <div id="playback-controls" style="margin-top: -10px">
-                            <div id="leap-playback-slider-container" class="leap-playback-slider-container hidden" style="width: 100%;">
-                                <input id="leap-playback-save-slider" data-slider-id="sliderLeap" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                        <div id="playback-leap-slider-controls" style="margin-top: -10px">
+                            <div style="width: 100%;">
+                                <input id="leap-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                             </div>
                         </div>
 
@@ -412,7 +433,7 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <div class="sensor-content">
+                <div class="sensor-content" style="margin-top: 10px">
                     <div data-sensor-source="webcam" id="webcam-save-success-preview" class="sensor-source-save-success hidden">
                         <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>
@@ -441,9 +462,9 @@ include '../includes/language.php';
                             </div>
                         </div>
 
-                        <div id="playback-controls" style="margin-top: -10px">
-                            <div id="leap-playback-slider-container" class="leap-playback-slider-container hidden" style="width: 100%;">
-                                <input id="leap-playback-save-slider" data-slider-id="sliderLeap" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                        <div id="playback-leap-slider-controls" style="margin-top: -10px">
+                            <div style="width: 100%;">
+                                <input id="leap-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                             </div>
                         </div>
 
@@ -466,6 +487,14 @@ include '../includes/language.php';
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="init-recorder-list-item">
+        <span style="margin-right: 2px;">
+            <i class="init-wait fa fa-circle-o-notch fa-spin"></i>
+            <i class="init-done fa fa-check hidden"></i>
+        </span>
+        <span class="sensor-title"></span>
     </div>
 
     <!--    <div id="gesture-recorder">

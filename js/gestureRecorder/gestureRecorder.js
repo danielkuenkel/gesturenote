@@ -62,7 +62,7 @@ function setState(state) {
     recorder.state = state;
     recorder.currentRecorderContent = $(recorder.options.recorderTarget).find('.recorder-contents .' + state);
     recorder.currentInstructionContent = $(recorder.options.recorderTarget).find('.instruction-contents .' + state);
-    console.log('set state: ', state);
+
     switch (state) {
         case GR_STATE_PRE_INITIALIZE:
             renderStatePreInitialize();
@@ -101,6 +101,9 @@ function updateRecorderNavigation() {
             $(navigation).find('[data-toggle-id="gr-pre-initialize"]').parent().removeClass('disabled');
             $(navigation).find('[data-toggle-id="gr-pre-initialize"]').parent().addClass('active');
             break;
+        case GR_STATE_INITIALIZE:
+            $(navigation).find('[data-toggle-id="gr-pre-initialize"]').parent().removeClass('disabled');
+            break;
         case GR_STATE_RECORD:
             $(navigation).find('[data-toggle-id="gr-pre-initialize"]').parent().removeClass('disabled');
             $(navigation).find('[data-toggle-id="gr-record"]').parent().removeClass('disabled');
@@ -109,18 +112,19 @@ function updateRecorderNavigation() {
         case GR_STATE_PLAYBACK:
             $(navigation).find('[data-toggle-id="gr-pre-initialize"]').parent().removeClass('disabled');
             $(navigation).find('[data-toggle-id="gr-record"]').parent().removeClass('disabled');
-            $(navigation).find('[data-toggle-id="gr-crop"]').parent().removeClass('disabled');
-            $(navigation).find('[data-toggle-id="gr-crop"]').parent().addClass('active');
+            $(navigation).find('[data-toggle-id="gr-playback"]').parent().removeClass('disabled');
+            $(navigation).find('[data-toggle-id="gr-playback"]').parent().addClass('active');
             break;
         case GR_STATE_SAVE:
             $(navigation).find('[data-toggle-id="gr-pre-initialize"]').parent().removeClass('disabled');
             $(navigation).find('[data-toggle-id="gr-record"]').parent().removeClass('disabled');
-            $(navigation).find('[data-toggle-id="gr-crop"]').parent().removeClass('disabled');
+            $(navigation).find('[data-toggle-id="gr-playback"]').parent().removeClass('disabled');
             $(navigation).find('[data-toggle-id="gr-save"]').parent().removeClass('disabled');
             $(navigation).find('[data-toggle-id="gr-save"]').parent().addClass('active');
             break;
         case GR_STATE_SAVE_SUCCESS:
         case GR_STATE_DELETE_SUCCESS:
+            $(navigation).find('[data-toggle-id="gr-pre-initialize"]').parent().removeClass('disabled');
             $(navigation).find('[data-toggle-id="gr-record"]').parent().removeClass('disabled');
             break;
     }
@@ -218,13 +222,13 @@ function renderStatePreInitialize() {
  */
 
 function renderStateInitialize() {
-    console.warn('init instance');
     recorder.destroy();
+
+    var recordersList = $(recorder.currentRecorderContent).find('#initialize-recorders-list').empty();
 
     if (recorder.options.initRecorders && recorder.options.initRecorders.length > 0) {
         for (var i = 0; i < recorder.options.initRecorders.length; i++) {
             var recordType = recorder.options.initRecorders[i].type;
-            console.log('init: ', recordType);
             switch (recordType) {
                 case TYPE_RECORD_WEBCAM:
                     initWebcamRecorder(recorder.options.initRecorders[i]);
@@ -233,7 +237,11 @@ function renderStateInitialize() {
                     initLeapRecorder(recorder.options.initRecorders[i]);
                     break;
             }
-            initInstanceEvents();
+            var recorderListItem = $('#item-container-gesture-recorder').find('#init-recorder-list-item').clone().removeAttr('id');
+            $(recorderListItem).attr('data-recorder-init-type', recordType);
+            $(recorderListItem).find('.sensor-title').text(translation.sensors[recordType].title);
+            $(recordersList).append(recorderListItem);
+            initInstancesEvents();
         }
     } else {
         console.warn('There are no recorder options for this GestureRecorder. Try option like: record:[{type:"webcam"}]');
@@ -242,16 +250,36 @@ function renderStateInitialize() {
     $(recorder.options.recorderTarget).find('.gr-record #btn-record').addClass('disabled');
 }
 
-function initInstanceEvents() {
+function initInstancesEvents() {
     if (recorders && recorders.length > 0) {
         for (var i = 0; i < recorders.length; i++) {
             if (recorders[i].instance && recorders[i].state !== 'ready') {
-                $(recorders[i].instance).unbind('ready').bind('ready', onRecorderInstanceReady);
-                $(recorders[i].instance).unbind('recordingStopped').bind('recordingStopped', onRecorderInstanceRecordingStopped);
-                $(recorders[i].instance).unbind('playbackReady').bind('playbackReady', onRecorderInstancePlaybackReady);
-                $(recorders[i].instance).unbind(GR_EVENT_GESTURE_TOO_SHORT).bind(GR_EVENT_GESTURE_TOO_SHORT, onRecorderInstanceGestureTooShort);
-                $(recorders[i].instance).unbind('dataExtracted').bind('dataExtracted', onRecorderInstanceDataExtracted);
-                $(recorders[i].instance).unbind('saveDataAttached').bind('saveDataAttached', onRecorderInstanceSaveDataAttached);
+                initInstanceEvents(recorders[i].instance);
+            }
+        }
+    }
+}
+
+function initInstanceEvents(instance) {
+    $(instance).unbind('ready').bind('ready', onRecorderInstanceReady);
+    $(document).unbind('instanceUpdated').bind('instanceUpdated', onRecorderInstanceUpdated);
+    $(instance).unbind('disconnected').bind('disconnected', onRecorderInstanceDisconnected);
+    $(instance).unbind('recordingStopped').bind('recordingStopped', onRecorderInstanceRecordingStopped);
+    $(instance).unbind('playbackReady').bind('playbackReady', onRecorderInstancePlaybackReady);
+    $(instance).unbind(GR_EVENT_GESTURE_TOO_SHORT).bind(GR_EVENT_GESTURE_TOO_SHORT, onRecorderInstanceGestureTooShort);
+    $(instance).unbind('dataExtracted').bind('dataExtracted', onRecorderInstanceDataExtracted);
+    $(instance).unbind('saveDataAttached').bind('saveDataAttached', onRecorderInstanceSaveDataAttached);
+}
+
+function onRecorderInstanceUpdated(event, type, newInstance) {
+    event.preventDefault();
+
+    console.log('update recorder instance: ', type, newInstance);
+    if (recorders && recorders.length > 0) {
+        for (var i = 0; i < recorders.length; i++) {
+            if (recorders[i].type === type) {
+                initInstanceEvents(newInstance);
+                recorders[i].instance = newInstance;
             }
         }
     }
@@ -273,12 +301,12 @@ function initWebcamRecorder(recorderOptions) {
 function initLeapRecorder(recorderOptions) {
     var recorderObject = {type: TYPE_RECORD_LEAP, state: 'uninitialized'};
     var options = {
+        parent: recorder.options.recorderTarget,
         offset: {x: 0, y: 200, z: 0},
         previewOnly: false,
         pauseOnHands: false,
         autoplay: true,
         recordEmptyHands: true,
-        parent: recorder.options.recorderTarget,
         autoplayPlayback: recorderOptions.autoplayPlayback,
         autoplaySave: recorderOptions.autoplaySave,
         autoplaySaveSuccess: recorderOptions.autoplaySaveSuccess
@@ -292,33 +320,36 @@ function initLeapRecorder(recorderOptions) {
 var instanceCount = 0;
 function onRecorderInstanceReady(event, type) {
     event.preventDefault();
+
     console.log('on recorder instance ready: ', type);
-    $(recorder.options.recorderTarget).find('.gr-record .sensor-source-record').addClass('hidden');
+    var recordersList = $(recorder.currentRecorderContent).find('#initialize-recorders-list');
 
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].type === type) {
-            $(recorder.options.recorderTarget).find('.gr-record [data-sensor-source=' + type + ']').removeClass('hidden');
-            $(recorder.options.recorderTarget).find('.gr-record [data-toggle-sensor=' + type + ']').removeClass('hidden');
-            if (i === 0) {
-                $(recorder.options.recorderTarget).find('.gr-record [data-toggle-sensor=' + type + ']').click();
-            }
             recorders[i].state = 'initialized';
+            var listItem = $(recordersList).find('[data-recorder-init-type=' + type + ']');
+            $(listItem).find('.init-wait').addClass('hidden');
+            $(listItem).find('.init-done').removeClass('hidden');
+            $(listItem).css({color: '#5cb85c'});
             instanceCount++;
         }
     }
-    
-    console.log(instanceCount, recorders.length);
+
     if (instanceCount === recorders.length) {
         console.log('all recorders ready for recording');
         instanceCount = 0;
         setState(GR_STATE_RECORD);
-    } else {
-//        setState(GR_STATE_INITIALIZE);
     }
-    
-    if (recorders.length > 1) {
-        $(recorder.options.recorderTarget).find('.gr-record #toggle-gesture-recording-record-source').removeClass('hidden');
+}
+
+function onRecorderInstanceDisconnected(event, type) {
+    event.preventDefault();
+    console.log('on recorder instance disconnected: ', type);
+    for (var i = 0; i < recorders.length; i++) {
+        recorders[i].state = 'uninitialized';
     }
+    instanceCount = 0;
+    setState(GR_STATE_INITIALIZE);
 }
 
 
@@ -336,6 +367,15 @@ function renderStateRecord() {
     var timerProgress = $(recorder.options.recorderTarget).find('#record-timer-progress');
     var progressBar = $(recorder.currentRecorderContent).find('#record-timer-progress-bar');
 
+    if (recorders.length > 1) {
+        $(recorder.currentRecorderContent).find('#toggle-gesture-recording-record-source').removeClass('hidden');
+    }
+
+    $(recorder.currentRecorderContent).find('.sensor-source-record').addClass('hidden');
+    for (var i = 0; i < recorders.length; i++) {
+        $(recorder.currentRecorderContent).find('[data-sensor-source=' + recorders[i].type + ']').removeClass('hidden');
+        $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
+    }
 
     $(recordButton).unbind('click').bind('click', function (event) {
         event.preventDefault();
@@ -376,6 +416,7 @@ function record() {
 }
 
 function stopRecord() {
+    instanceCount = 0;
     if (recorders && recorders.length > 0) {
         for (var i = 0; i < recorders.length; i++) {
             if (recorders[i].instance && recorders[i].state === 'recording') {
@@ -387,34 +428,23 @@ function stopRecord() {
 
 function onRecorderInstanceRecordingStopped(event, type) {
     event.preventDefault();
+    console.log('on recorder instance record stopped: ', type);
 
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].type === type && recorders[i].state === 'recording') {
             recorders[i].state = 'recordingStopped';
             recorders[i].instance.playback();
-            instanceCount++;
         }
-    }
-
-    if (instanceCount === recorders.length) {
-        console.log('all recorders stopped recording');
-        instanceCount = 0;
     }
 }
 
 function onRecorderInstancePlaybackReady(event, type) {
     event.preventDefault();
-    $(recorder.options.recorderTarget).find('.gr-playback .sensor-source-preview').addClass('hidden');
+    console.log('on recorder instance playback ready: ', type);
 
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].type === type && recorders[i].state === 'recordingStopped') {
-            $(recorder.options.recorderTarget).find('.gr-playback [data-sensor-source=' + type + ']').removeClass('hidden');
-            $(recorder.options.recorderTarget).find('.gr-playback [data-toggle-sensor=' + type + ']').removeClass('hidden');
-            if (i === 0) {
-                $(recorder.options.recorderTarget).find('.gr-playback [data-toggle-sensor=' + type + ']').click();
-            }
             recorders[i].state = 'playback';
-
             instanceCount++;
         }
     }
@@ -423,10 +453,6 @@ function onRecorderInstancePlaybackReady(event, type) {
         console.log('all recorders ready for playback');
         instanceCount = 0;
         setState(GR_STATE_PLAYBACK);
-    }
-
-    if (recorders.length > 1) {
-        $(recorder.options.recorderTarget).find('.gr-playback #toggle-gesture-recording-preview-source').removeClass('hidden');
     }
 }
 
@@ -441,19 +467,36 @@ function onRecorderInstancePlaybackReady(event, type) {
 
 function renderStatePlayback() {
     resetInputs();
-    var extractButton = $(recorder.currentRecorderContent).find('#btn-extract-gesture');
 
+    $(recorder.currentRecorderContent).find('.sensor-source-preview').addClass('hidden');
+    for (var i = 0; i < recorders.length; i++) {
+        $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
+        if (i === 0) {
+            $(recorder.currentRecorderContent).find('[data-sensor-source=' + recorders[i].type + ']').removeClass('hidden');
+            $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').click();
+        }
+
+//        if (recorders[i].state !== 'playback') {
+            recorders[i].state = 'playback';
+            recorders[i].instance.playback();
+//        }
+    }
+    if (recorders.length > 1) {
+        $(recorder.currentRecorderContent).find('#toggle-gesture-playback-preview-source').removeClass('hidden');
+    }
+
+    var extractButton = $(recorder.currentRecorderContent).find('#btn-extract-gesture');
     $(extractButton).unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
             clearAlerts($(recorder.options.recorderTarget));
             lockButton(extractButton, true, 'fa-arrow-right');
 
-            for (var i = 0; i < recorders.length; i++) {
-                if (recorders[i].state === 'playback' || recorders[i].state === 'saving') {
-                    recorders[i].state = 'extracting';
-                    recorders[i].instance.extract();
-                }
+            instanceCount = 0;
+            if (recorders[instanceCount].state === 'playback') {
+                $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[instanceCount].type + ']').click();
+                recorders[instanceCount].state = 'extracting';
+                recorders[instanceCount].instance.extract();
             }
         }
     });
@@ -461,11 +504,11 @@ function renderStatePlayback() {
 
 function onRecorderInstanceGestureTooShort(event, type) {
     event.preventDefault();
-    console.log('stop extraction');
+    console.log('stop extraction', type);
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].state === 'extracting') {
             recorders[i].instance.stopExtraction();
-            recorders[i].state = 'playback';
+            recorders[i].state = 'extractionStopped';
         }
     }
 
@@ -475,22 +518,17 @@ function onRecorderInstanceGestureTooShort(event, type) {
 
 function onRecorderInstanceDataExtracted(event, type) {
     event.preventDefault();
-    $(recorder.options.recorderTarget).find('.gr-save .sensor-source-save').addClass('hidden');
+    console.log('on recorder instance data extracted: ', type);
 
-    for (var i = 0; i < recorders.length; i++) {
-        if (recorders[i].type === type && recorders[i].state === 'extracting') {
-            $(recorder.options.recorderTarget).find('.gr-save [data-sensor-source=' + type + ']').removeClass('hidden');
-            $(recorder.options.recorderTarget).find('.gr-save [data-toggle-sensor=' + type + ']').removeClass('hidden');
-            if (i === 0) {
-                $(recorder.options.recorderTarget).find('.gr-save [data-toggle-sensor=' + type + ']').click();
-            }
-            recorders[i].state = 'saving';
-            recorders[i].instance.showSave();
-            instanceCount++;
-        }
-    }
+    recorders[instanceCount].state = 'saving';
+    recorders[instanceCount].instance.showSave();
 
-    if (instanceCount === recorders.length) {
+    instanceCount++;
+    if (instanceCount < recorders.length) {
+        $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[instanceCount].type + ']').click();
+        recorders[instanceCount].state = 'extracting';
+        recorders[instanceCount].instance.extract();
+    } else {
         console.log('all recorders extracted data successfully');
         instanceCount = 0;
         setState(GR_STATE_SAVE);
@@ -518,6 +556,20 @@ function renderStateSave() {
     var associationInput = $(recorder.currentRecorderContent).find('#gestureAssociation');
     var descriptionInput = $(recorder.currentRecorderContent).find('#gestureDescription');
     var jointsInput = $(recorder.currentRecorderContent).find('#gesture-save-form #human-body #joint-container');
+
+    $(recorder.currentRecorderContent).find('.sensor-source-save').addClass('hidden');
+    for (var i = 0; i < recorders.length; i++) {
+        $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
+        if (i === 0) {
+            $(recorder.currentRecorderContent).find('[data-sensor-source=' + recorders[i].type + ']').removeClass('hidden');
+            $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').click();
+        }
+    }
+
+    if (recorders.length > 1) {
+        $(recorder.currentRecorderContent).find('#toggle-gesture-playback-save-source').removeClass('hidden');
+    }
+
 
 //    $('#gestureName, #gestureContext, #gestureAssociation, #gestureDescription').unbind('input').bind('input', function () {
 //        if (gestureInputsValid()) {
@@ -719,6 +771,7 @@ function onRecorderInstanceSaveDataAttached(event, type, updateSaveData) {
         } else {
             setState(GR_STATE_SAVE_SUCCESS);
         }
+        instanceCount = 0;
     }
 }
 
@@ -747,19 +800,26 @@ function saveGesture() {
  */
 
 function renderStateSaveSuccess() {
+    instanceCount = 0;
     resetInputs();
     appendAlert($(recorder.currentRecorderContent), ALERT_GESTURE_SAVE_SUCCESS);
 
+    $(recorder.currentRecorderContent).find('.sensor-source-save-success').addClass('hidden');
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].state === 'saveDataAttached') {
-            $(recorder.currentRecorderContent).find('[data-sensor-source=' + recorders[i].type + ']').removeClass('hidden');
+
             $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
             if (i === 0) {
+                $(recorder.currentRecorderContent).find('[data-sensor-source=' + recorders[i].type + ']').removeClass('hidden');
                 $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').click();
             }
             recorders[i].state = 'saveSuccess';
             recorders[i].instance.showSaveSuccess(gestureSaveData);
         }
+    }
+
+    if (recorders.length > 1) {
+        $(recorder.currentRecorderContent).find('#toggle-gesture-save-success-source').removeClass('hidden');
     }
 
     var deleteButton = $(recorder.currentRecorderContent).find('#btn-delete-saved-gesture');

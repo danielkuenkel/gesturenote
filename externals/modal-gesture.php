@@ -37,11 +37,11 @@ include '../includes/language.php';
                             </div>
                         </div>
 
-                        <div id="leap-recording-container" class="hidden" data-sensor-source="leap">
+                        <div data-sensor-source="leap" id="leap-recording-container" class="hidden">
 
                             <div class="embed-responsive embed-responsive-4by3">
                                 <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
-                                <div class="hidden-controls-container embed-responsive-item">
+                                <div class="controls-container embed-responsive-item">
                                     <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                     <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
                                     <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
@@ -61,7 +61,7 @@ include '../includes/language.php';
                         <div class="btn-group btn-group-xs">
                             <button type="button" class="btn btn-default btn-toggle-sensor-source active" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
                             <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
-                            <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="kinect" id="btn-kinect"><i class="fa fa-code"></i> <?php echo $lang->sensors->kinect->title ?></button>
+                            <!--<button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="kinect" id="btn-kinect"><i class="fa fa-code"></i> <?php echo $lang->sensors->kinect->title ?></button>-->
                         </div>
                     </div>
 
@@ -296,8 +296,8 @@ include '../includes/language.php';
 <script>
     var testRatings = [{physicalContext: 1, adaption: 0, fittingTask: 3}, {physicalContext: 0, adaption: 3, fittingTask: 4}, {physicalContext: 2, adaption: 0, fittingTask: 3}, {physicalContext: 2, adaption: 2, fittingTask: 3}, {physicalContext: 2, adaption: 1, fittingTask: 1}];
     var currentRatings = [{physicalContext: 0, adaption: 0, fittingTask: 0}];
-    var leapMotionRecorder = null;
-    
+    var leapMotionPreview = null;
+
     $(document).ready(function () {
         renderSensorData();
         initGestureRating($('#gesture-rating'), 5);
@@ -352,10 +352,9 @@ include '../includes/language.php';
         });
 
         $('#custom-modal').bind('hide.bs.modal', function () {
-            if (leapMotionRecorder && currentPreviewGesture.gesture.sensorData) {
-                leapMotionRecorder.destroy();
-                leapMotionRecorder = null;
-                
+            if (leapMotionPreview && currentPreviewGesture.gesture.sensorData) {
+                leapMotionPreview.destroy();
+                leapMotionPreview = null;
             }
             $(this).unbind('hide.bs.modal');
         });
@@ -1023,21 +1022,13 @@ include '../includes/language.php';
             previewOnly: true,
             pauseOnHands: false,
             autoplay: true,
-//            recordEmptyHands: true,
             recording: currentPreviewGesture.gesture.sensorData.url,
-//            overlays: $('#alert-hints'),
             renderTarget: $(container).find('#renderArea'),
-//            recordElement: $(container).find('#btn-start-recording'),
-//            stopRecordElement: $(container).find('#btn-stop-recording'),
             playbackElement: $(container).find('#btn-toggle-playback'),
             downloadJsonElement: $(container).find('.btn-download-as-json'),
             downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
-//            loadRecordingElement: $(container).find('#btn-load-recording'),
-//            loadInputElement: $(container).find('#upload-leap-recording'),
             playbackSliderElement: $(container).find('#leap-playback-slider')
-                    //            cropRecordElement: $(container).find('#btn-crop-recording'),
-//            cropSliderElement: $(container).find('#leap-playback-crop-slider')
         };
-        leapMotionRecorder = new LeapMotionRecorder(options);
+        leapMotionPreview = new LeapRecorder(options);
     }
 </script>
