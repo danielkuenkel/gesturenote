@@ -1594,6 +1594,7 @@
             },
 
             importFrameData: function (data, format, callback) {
+//                console.log(data, format);
                 this.idle();
                 delete this.recording;
                 this.recording = new Recording({
@@ -1602,14 +1603,14 @@
                     requestProtocolVersion: this.controller.connection.opts.requestProtocolVersion
 //                    serviceVersion: this.controller.connection.protocol.serviceVersion
                 });
-                
+
 //                console.log('import', data);
                 this.recording.import(data, format, callback);
-                
 
-                
 
-                
+
+
+
 
 //                this.recording = new Recording({
 //                    timeBetweenLoops: this.options.timeBetweenLoops,
@@ -1718,14 +1719,18 @@
             recordFrameHandler: function (frameData) {
                 // Would be better to check controller.streaming() in showOverlay, but that method doesn't exist, yet.
                 this.setGraphic('wave');
-                if (frameData.hands.length > 0 || this.recordEmptyHands) {
+                if (this.recordEmptyHands || frameData.hands.length > 0) {
                     this.recording.addFrame(frameData);
                     this.hideOverlay();
-                } else if (!this.recording.blank()) {
-                    // play will detect state and emit recordingFinished
-                    // this should actually be split out in to discrete end-recording-state and begin-play-state handlers :-/
-                    this.finishRecording();
                 }
+//                if (frameData.hands.length > 0 || this.recordEmptyHands) {
+//                    this.recording.addFrame(frameData);
+//                    this.hideOverlay();
+//                } else if (!this.recording.blank()) {
+//                    // play will detect state and emit recordingFinished
+//                    // this should actually be split out in to discrete end-recording-state and begin-play-state handlers :-/
+//                    this.finishRecording();
+//                }
             },
 
             // Accepts a hash with any of

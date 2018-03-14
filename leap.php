@@ -37,7 +37,7 @@ session_start();
         <script src="js/three/three.min.js"></script>
         <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
         <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
-        <script src="js/gestureRecorder/leap.js"></script>
+        <script src="js/gestureRecorder/leapRecorder.js"></script>
 
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
@@ -80,7 +80,7 @@ session_start();
                 <button class="btn btn-default" id="btn-start-recording">RECORD</button>
                 <button class="btn btn-default disabled" id="btn-stop-recording">STOP RECORD</button>
                 <button class="btn btn-default disabled" id="btn-crop-recording">CROP</button>
-                <button class="btn btn-default" id="btn-toggle-playback"><i class="fa fa-play"></i></button>
+                <button class="btn btn-default disabled" id="btn-toggle-playback"><i class="fa fa-play"></i></button>
             </div>
             <div class="btn-group">
                 <button class="btn btn-default" id="btn-download-recording-as-json">DOWNLOAD JSON</button>
@@ -106,22 +106,22 @@ session_start();
         </div>
 
 
-<!--        <div class="container">
-            <div class="row">
-                <div class="col-xs-6 col-md-4 col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">test</div>
-                        <div class="panel-body">
-                            <div class="embed-responsive embed-responsive-4by3">
-                                <div id="renderArea" class="embed-responsive-item" ></div>
+        <!--        <div class="container">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-4 col-md-3">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">test</div>
+                                <div class="panel-body">
+                                    <div class="embed-responsive embed-responsive-4by3">
+                                        <div id="renderArea" class="embed-responsive-item" ></div>
+                                    </div>
+        
+                                </div>
                             </div>
-
+        
                         </div>
                     </div>
-
-                </div>
-            </div>
-        </div>-->
+                </div>-->
 
 
         <script>
@@ -141,10 +141,11 @@ session_start();
             function initializeLeapMotion() {
                 var options = {
                     offset: {x: 0, y: 200, z: 0},
-                    previewOnly: false,
-                    pauseOnHand: true,
+                    previewOnly: true,
+                    pauseOnHand: false,
                     autoplay: true,
-//                    recordEmptyHands: true,
+                    initPlaybackControlsAfterRecord: true,
+                    recordEmptyHands: true,
 //                    recording: 'uploads/c2b0952990889e8d3b41d070e3ffa519f29a8187a31c9f80b06069d605f084d853964161295c414197997a41577908dc1cedda5ddf04d624ac36fe400ecc10f9.json.lz',
                     overlays: $('#alert-hints'),
 //                    renderTarget: $('#renderArea'),
@@ -159,7 +160,7 @@ session_start();
                     playbackSliderElement: $('#leap-playback-slider'),
                     cropSliderElement: $('#leap-playback-crop-slider')
                 };
-                new LeapMotionRecorder(options); // destroy leap motion recorder instance via variable, e.g. lmr = new LeapMotionRecorder(options); lmr.destroy(); lmr = null;
+                new LeapRecorder(options); // destroy leap motion recorder instance via variable, e.g. lmr = new LeapMotionRecorder(options); lmr.destroy(); lmr = null;
             }
         </script>
 

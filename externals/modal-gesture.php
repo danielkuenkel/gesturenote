@@ -353,7 +353,7 @@ include '../includes/language.php';
 
         $('#custom-modal').bind('hide.bs.modal', function () {
             if (leapMotionPreview && currentPreviewGesture.gesture.sensorData) {
-                leapMotionPreview.destroy();
+                leapMotionPreview.destroy(true);
                 leapMotionPreview = null;
             }
             $(this).unbind('hide.bs.modal');

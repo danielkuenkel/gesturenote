@@ -194,7 +194,7 @@ WebcamRecorder.prototype.stop = function () {
     }
 };
 
-var crops = {};
+WebcamRecorder.prototype.crops = {};
 WebcamRecorder.prototype.initializePlaybackControls = function () {
     webcamRecorder.resetPlaybackControls();
     var togglePlaybackButton = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #btn-toggle-playback');
@@ -202,7 +202,7 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
     var playbackSlider = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #webcam-playback-slider');
     var toggleCroppingButton = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #btn-toggle-cropping');
     var cropSlider = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #webcam-playback-crop-slider');
-    crops = {left: 0, right: playbackVideo[0].duration};
+    webcamRecorder.crops = {left: 0, right: playbackVideo[0].duration};
 
     function initPlaybackSlider(highlightRange) {
         var sliderOptions = {
@@ -213,8 +213,8 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
             value: 0
         };
 
-        if (highlightRange === true && (crops.left > 0 || crops.right < sliderOptions.max)) {
-            sliderOptions.rangeHighlights = [{start: crops.left, end: crops.right, class: "isGesture"}];
+        if (highlightRange === true && (webcamRecorder.crops.left > 0 || webcamRecorder.crops.right < sliderOptions.max)) {
+            sliderOptions.rangeHighlights = [{start: webcamRecorder.crops.left, end: webcamRecorder.crops.right, class: "isGesture"}];
         }
 
         $(playbackVideo).unbind('timeupdate');
@@ -235,8 +235,8 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
 
         $(playbackVideo).unbind('timeupdate').bind('timeupdate', function () {
             if (!$(playbackSlider).hasClass('sliding')) {
-                if (playbackVideo[0].currentTime < crops.left || playbackVideo[0].currentTime > crops.right) {
-                    playbackVideo[0].currentTime = crops.left;
+                if (playbackVideo[0].currentTime < webcamRecorder.crops.left || playbackVideo[0].currentTime > webcamRecorder.crops.right) {
+                    playbackVideo[0].currentTime = webcamRecorder.crops.left;
                 }
                 $(playbackSlider).slider('setValue', $(playbackVideo)[0].currentTime);
             }
@@ -250,7 +250,7 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
 
         if ($(toggleCroppingButton).hasClass('cropping')) {
             $(toggleCroppingButton).click();
-            $(playbackSlider).slider('setValue', crops.left);
+            $(playbackSlider).slider('setValue', webcamRecorder.crops.left);
         }
 
         if ($(togglePlaybackButton).hasClass('playing')) {
@@ -262,8 +262,8 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
             $(togglePlaybackButton).addClass('playing');
             $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
 
-            if (playbackVideo[0].currentTime < crops.left || playbackVideo[0].currentTime > crops.right) {
-                playbackVideo[0].currentTime = crops.left;
+            if (playbackVideo[0].currentTime < webcamRecorder.crops.left || playbackVideo[0].currentTime > webcamRecorder.crops.right) {
+                playbackVideo[0].currentTime = webcamRecorder.crops.left;
             }
             $(playbackSlider).removeClass('sliding');
             playbackVideo[0].play();
@@ -293,7 +293,7 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
                     $(cropSlider).parent().addClass('hidden');
 
                     initPlaybackSlider(true);
-                    $(playbackSlider).slider('setValue', crops.left);
+                    $(playbackSlider).slider('setValue', webcamRecorder.crops.left);
                 } else {
                     $(this).addClass('cropping');
                     $(playbackSlider).parent().addClass('hidden');
@@ -304,7 +304,7 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
                         max: playbackVideo[0].duration,
                         step: 0.001,
                         precision: 3,
-                        value: [crops.left, crops.right]
+                        value: [webcamRecorder.crops.left, webcamRecorder.crops.right]
                     });
 
                     $(cropSlider).unbind('change').bind('change', function (event) {
@@ -316,15 +316,15 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
     }
 
     function updateCropping(newValues) {
-        if (crops.left !== newValues[0]) {
-            crops.left = newValues[0];
-            $(playbackVideo)[0].currentTime = crops.left;
-        } else if (crops.right !== newValues[1]) {
-            crops.right = newValues[1];
-            $(playbackVideo)[0].currentTime = crops.right;
+        if (webcamRecorder.crops.left !== newValues[0]) {
+            webcamRecorder.crops.left = newValues[0];
+            $(playbackVideo)[0].currentTime = webcamRecorder.crops.left;
+        } else if (webcamRecorder.crops.right !== newValues[1]) {
+            webcamRecorder.crops.right = newValues[1];
+            $(playbackVideo)[0].currentTime = webcamRecorder.crops.right;
         }
     }
-}
+};
 
 WebcamRecorder.prototype.resetPlaybackControls = function () {
     var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
@@ -353,7 +353,7 @@ WebcamRecorder.prototype.extract = function () {
         $(togglePlaybackButton).click();
     }
     $(playbackVideo).unbind('timeupdate');
-    $(playbackVideo)[0].currentTime = crops.left;
+    $(playbackVideo)[0].currentTime = webcamRecorder.crops.left;
 
     var preview = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview');
     $(preview).find('.controls-container').addClass('hidden');
@@ -370,7 +370,7 @@ WebcamRecorder.prototype.extract = function () {
     var ctx = canvas.getContext('2d');
 
     draw_interval = setInterval(function () {
-        if ($(playbackVideo)[0].currentTime >= crops.right) {
+        if ($(playbackVideo)[0].currentTime >= webcamRecorder.crops.right) {
             clearInterval(draw_interval);
             if (shotsArray.length > 0) {
                 if (!extractionStopped) {
@@ -482,6 +482,9 @@ WebcamRecorder.prototype.showSaveSuccess = function (saveData) {
 };
 
 WebcamRecorder.prototype.destroy = function () {
+    webcamSaveGestureData = null;
+    webcamRecorder.crops = {};
+    
     if (webcamRecorder.mediaStream) {
         if (webcamRecorder.mediaStream.getAudioTracks()[0])
             webcamRecorder.mediaStream.getAudioTracks()[0].stop();
@@ -495,62 +498,11 @@ WebcamRecorder.prototype.destroy = function () {
         $(playbackVideo).removeAttr('src');
     }
 
-    webcamRecorder.stop();
+    if(webcamRecorder) {
+        webcamRecorder.recordingChunks = [];
+        webcamRecorder = null;
+    }
 };
 function resetRecorder() {
     webcamRecorder.destroy();
 }
-
-//function initializeLeapmotionRecorder() {
-//    var container = $(webcamRecorder.options.recorderTarget).find('#leap-recording-container');
-//    var options = {
-//        offset: {x: 0, y: 200, z: 0},
-//        previewOnly: false,
-//        pauseOnHands: false,
-//        autoplay: true,
-//        recordEmptyHands: true,
-////            recording: currentPreviewGesture.gesture.sensorData.url,
-//        overlays: $(container).find('#leap-alert-space')
-////            renderTarget: $(container).find('#renderArea'),
-////            recordElement: $(container).find('#btn-start-recording'),
-////            stopRecordElement: $(container).find('#btn-stop-recording'),
-////        playbackElement: $(container).find('#btn-toggle-playback'),
-////            downloadJsonElement: $(container).find('.btn-download-as-json'),
-////            downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
-////            loadRecordingElement: $(container).find('#btn-load-recording'),
-////            loadInputElement: $(container).find('#upload-leap-recording'),
-////        playbackSliderElement: $(container).find('#leap-playback-slider'),
-////        cropRecordElement: $(container).find('#btn-crop-recording'),
-////        cropSliderElement: $(container).find('#leap-playback-crop-slider')
-//    };
-//    sensorRecorder = new LeapMotionRecorder(options);
-//}
-//
-//function initializeLeapmotionPreview(recordedFrameData) {
-//    var container = $(webcamRecorder.options.recorderTarget).find('#leap-preview-container');
-////    console.log(recordedFrameData);
-//    setTimeout(function () {
-//        var options = {
-//            offset: {x: 0, y: 200, z: 0},
-//            previewOnly: true,
-//            pauseOnHands: false,
-//            autoplay: true,
-//            rawData: recordedFrameData,
-////        recordEmptyHands: true,
-////            recording: currentPreviewGesture.gesture.sensorData.url,
-////        overlays: $(container).find('#leap-alert-space'),
-//            renderTarget: $(container).find('#renderArea'),
-////            recordElement: $(container).find('#btn-start-recording'),
-////            stopRecordElement: $(container).find('#btn-stop-recording'),
-//            playbackElement: $(container).find('#btn-toggle-playback'),
-////            downloadJsonElement: $(container).find('.btn-download-as-json'),
-////            downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
-////            loadRecordingElement: $(container).find('#btn-load-recording'),
-////            loadInputElement: $(container).find('#upload-leap-recording'),
-//            playbackSliderElement: $(container).find('#leap-playback-slider'),
-//            cropRecordElement: $(container).find('#btn-crop-recording'),
-//            cropSliderElement: $(container).find('#leap-playback-crop-slider')
-//        };
-//        sensorPreview = new LeapMotionRecorder(options);
-//    }, 1000);
-//}

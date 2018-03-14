@@ -476,10 +476,10 @@ function renderStatePlayback() {
             $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').click();
         }
 
-//        if (recorders[i].state !== 'playback') {
+        if (recorders[i].state !== 'playback') {
             recorders[i].state = 'playback';
             recorders[i].instance.playback();
-//        }
+        }
     }
     if (recorders.length > 1) {
         $(recorder.currentRecorderContent).find('#toggle-gesture-playback-preview-source').removeClass('hidden');

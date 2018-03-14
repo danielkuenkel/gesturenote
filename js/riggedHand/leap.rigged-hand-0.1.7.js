@@ -80,7 +80,7 @@
 
             element = Detector.getWebGLErrorMessage();
             element.id = id;
-console.log('parent', parent);
+            console.log('parent', parent);
             parent.appendChild(element);
 
         }
@@ -373,15 +373,24 @@ console.log('parent', parent);
         }
         
         updateRenderTarget = function(target) {
+//            console.log('update render target', target);
+//            this.renderer.domElement = target;
+//            this.renderer = null;
+//            this.parent = null;
+//            this.scene = null;
             this.renderTarget = target;
-
-            this.initScene();
-            this.parent = this.scene;
-                if(this.renderTarget) {
-                    $(this.renderTarget).append(this.renderer.domElement);
-                } else {
-                    document.body.appendChild(this.renderer.domElement);
-                }
+            
+//            this.initScene();
+//            this.parent = this.scene;
+//console.log(this.renderer.domElement);
+            
+            if(this.renderTarget) {
+                $(this.renderTarget).append(this.renderer.domElement);
+                this.renderer.domElement.style.position = 'relative';
+            } else {
+                document.body.appendChild(this.renderer.domElement);
+                this.renderer.domElement.style.position = 'fixed';
+            }
         }
 
         initScene = function () {
@@ -401,6 +410,7 @@ console.log('parent', parent);
                 this.camera.lookAt(new THREE.Vector3(0, 0, 0));
             }
         
+            console.log('init scene: ', scope.renderTarget, !this.renderer);
             if (!this.renderer) {
                 this.renderer = new THREE.WebGLRenderer({
                     alpha: true
@@ -415,11 +425,19 @@ console.log('parent', parent);
                 
                 this.renderer.setClearColor(0x000000, 0);
                 this.renderer.setSize(renderWidth, renderHeight);
-                this.renderer.domElement.style.position = scope.renderTarget ? 'relative' : 'fixed';
+                
+                
+                if(scope.renderTarget && scope.renderTarget.length > 0) {
+                    this.renderer.domElement.style.position = 'relative';
+                } else {
+                    this.renderer.domElement.style.position = 'fixed';
+                }
+                
                 this.renderer.domElement.style.top = 0;
                 this.renderer.domElement.style.left = 0;
                 this.renderer.domElement.style.width = '100%';
                 this.renderer.domElement.style.height = '100%';
+                
                 window.addEventListener('resize', function () {
                     var renderWidth = window.innerWidth;
                     var renderHeight = window.innerHeight;
@@ -564,11 +582,14 @@ console.log('parent', parent);
                 var JSON, handMesh, meshes;
                 meshes = spareMeshes[leapHand.type];
                 if (meshes.length > 0) {
+//                    console.log('pop new hand mesh');
                     handMesh = meshes.pop();
                 } else {
+//                    console.log('create new hand mesh');
                     JSON = rigs[leapHand.type];
                     handMesh = createMesh(JSON);
                 }
+//                console.log(leapHand, handMesh, meshes);
                 return handMesh;
             };
             createMesh(rigs['right']);
@@ -578,11 +599,12 @@ console.log('parent', parent);
                 var handMesh, palm, rigFinger, _i, _len, _ref;
                 handMesh = getMesh(leapHand);
                 scope.parent.add(handMesh);
-                if(leapHand.data) {
+//                if(leapHand.data) {
                 leapHand.data('riggedHand.mesh', handMesh);
-            } else {
-                leapHand.riggedHandMesh = handMesh;
-            }
+//                } else {
+//                    console.log('add mesh: ', handMesh, leapHand);
+//                    leapHand.riggedHandMesh = handMesh;
+//                }
                 palm = handMesh.children[0];
                 if (scope.helper) {
                     handMesh.helper = new THREE.SkeletonHelper(handMesh);
@@ -625,13 +647,19 @@ console.log('parent', parent);
             removeMesh = function (leapHand) {
                 var handMesh;
                 handMesh = leapHand.data('riggedHand.mesh');
+//                console.log(leapHand.data, leapHand);
                 leapHand.data('riggedHand.mesh', null);
+                
                 scope.parent.remove(handMesh);
-                if (handMesh.helper) {
+                if (handMesh && handMesh.helper) {
                     scope.parent.remove(handMesh.helper);
                     handMesh.helper = null;
+                    
                 }
-                spareMeshes[leapHand.type].push(handMesh);
+                if(handMesh) {
+                    spareMeshes[leapHand.type].push(handMesh);
+                }
+                
                 if (scope.boneLabels) {
                     handMesh.children[0].traverse(function (bone) {
                         return document.body.removeChild(handMesh.boneLabels[bone.id]);

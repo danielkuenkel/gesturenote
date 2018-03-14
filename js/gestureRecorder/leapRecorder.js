@@ -54,7 +54,7 @@ function LeapRecorder(options) {
         {
             console.log("device removed ");
             appendAlert(options.overlays, ALERT_PLEASE_WAIT);
-            $(leapRecorder).trigger('disconnected', [TYPE_RECORD_LEAP]);
+            $(leapRecorder).trigger('disconnected', ['leap']);
         }
 
         controller.on('deviceStopped', onDeviceStopped);
@@ -62,7 +62,7 @@ function LeapRecorder(options) {
         {
             console.log("device stopped ");
             appendAlert(options.overlays, ALERT_PLEASE_WAIT);
-            $(leapRecorder).trigger('disconnected', [TYPE_RECORD_LEAP]);
+            $(leapRecorder).trigger('disconnected', ['leap']);
         }
 
         controller.on('deviceStreaming', onDeviceStreaming);
@@ -70,7 +70,7 @@ function LeapRecorder(options) {
         {
             console.log("device streaming ");
             clearAlerts(options.overlays);
-            $(leapRecorder).trigger('ready', [TYPE_RECORD_LEAP]);
+            $(leapRecorder).trigger('ready', ['leap']);
         }
 
         controller.on('blur', onBlur);
@@ -115,6 +115,7 @@ function LeapRecorder(options) {
                 $(options.playbackElement).addClass('disabled');
             }
             if (options.playbackSliderElement) {
+                $(options.playbackSliderElement).slider();
                 $(options.playbackSliderElement).slider('destroy');
                 $(options.playbackSliderElement).parent().addClass('hidden');
             }
@@ -130,8 +131,10 @@ function LeapRecorder(options) {
         }
 
         recordedFrameData = leapRecorder.recording('json');
-        $(leapRecorder).trigger('recordingStopped', [TYPE_RECORD_LEAP]);
-//        initializeControls(controller, options);
+        if (options.initPlaybackControlsAfterRecord && options.initPlaybackControlsAfterRecord === true) {
+            leapRecorder.initializePlaybackControls(controller, options);
+        }
+        $(leapRecorder).trigger('recordingStopped', ['leap']);
     });
 
     if (options.stopRecordElement) {
@@ -207,29 +210,41 @@ function LeapRecorder(options) {
         });
     }
 
-    if (options.rawData && controller && controller.plugins && controller.plugins.playback.player) {
-        controller.plugins.playback.player.importFrameData(options.rawData, 'json', function () {
-            console.log('raw data imported successfully ');
-            leapRecorder.initializePlaybackControls(controller, options);
+    if (options.rawData) {
+        leapRecorder.importRawSensorData('json', function () {
+            leapRecorder.initializePlaybackControls(leapRecorder.options.controller, leapRecorder.options);
         });
     }
 }
 
+LeapRecorder.prototype.importRawSensorData = function (format, callback) {
+    if (leapRecorder.options.rawData && leapRecorder.options.controller && leapRecorder.options.controller.plugins && leapRecorder.options.controller.plugins.playback.player) {
+        leapRecorder.options.controller.plugins.playback.player.importFrameData(leapRecorder.options.rawData, format || 'json', callback);
+    }
+};
+
+LeapRecorder.prototype.crops = {};
 LeapRecorder.prototype.initializePlaybackControls = function (controller, options) {
     leapRecorder.resetPlaybackControls();
     var autoPlay = controller.plugins.playback.player.autoPlay;
+    leapRecorder.crops = {left: 0, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition - 1, 0)};
+
     function initPlaybackSlider(highlightRange) {
         var frameLength = Math.max(controller.plugins.playback.player.recording.frameData.length - 1, 0);
-        var crops = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition - 1, 0)};
+//        var crops = {left: controller.plugins.playback.player.recording.leftCropPosition, };
         var sliderOptions = {
             min: 0,
             max: frameLength,
             step: 1,
-            value: crops.left
+            value: leapRecorder.crops.left
         };
-        if (highlightRange === true && (crops.left > 0 || crops.right < frameLength)) {
-            sliderOptions.rangeHighlights = [{start: crops.left, end: crops.right, class: "isGesture"}];
+        if (highlightRange === true && (leapRecorder.crops.left > 0 || leapRecorder.crops.right < frameLength)) {
+            sliderOptions.rangeHighlights = [{start: leapRecorder.crops.left, end: leapRecorder.crops.right, class: "isGesture"}];
         }
+        
+        $(options.playbackSliderElement).unbind('change');
+        $(options.playbackSliderElement).slider(sliderOptions);
+        $(options.playbackSliderElement).slider('destroy');
         $(options.playbackSliderElement).slider(sliderOptions);
 
         $(options.playbackSliderElement).unbind('slide').bind('slide', function (event) {
@@ -275,10 +290,10 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
                     $(options.cropSliderElement).addClass('hidden');
                 }
 
-                var crops = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition - 1, 0)};
+//                var crops = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition - 1, 0)};
                 var currentFrame = controller.plugins.playback.player.recording.frameIndex;
-                if (currentFrame < crops.left || currentFrame > crops.right) {
-                    controller.plugins.playback.player.setFrameIndex(parseInt(crops.left, 10));
+                if (currentFrame < leapRecorder.crops.left || currentFrame > leapRecorder.crops.right) {
+                    controller.plugins.playback.player.setFrameIndex(parseInt(leapRecorder.crops.left, 10));
                 }
 
                 controller.plugins.playback.player.play();
@@ -326,28 +341,32 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
                             value: [cropPositions.left, cropPositions.right]
                         });
 
-                        $(options.cropSliderElement).unbind('slide').bind('slide', function (event) {
-                            var cropPositions = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition, 0)};
-                            updateCropping(cropPositions, event.value);
-                        });
+//                        $(options.cropSliderElement).unbind('slide').bind('slide', function (event) {
+//                            var cropPositions = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition, 0)};
+//                            updateCropping(cropPositions, event.value);
+//                        });
 
                         $(options.cropSliderElement).unbind('change').bind('change', function (event) {
-                            var cropPositions = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition, 0)};
-                            updateCropping(cropPositions, event.value.newValue);
+                            updateCropping(event.value.newValue);
+//                            updateCropping(controller.plugins.playback.player.recording.leftCropPosition, Math.max(controller.plugins.playback.player.recording.rightCropPosition, 0));
+//                            var cropPositions = {left: controller.plugins.playback.player.recording.leftCropPosition, right: };
+//                            updateCropping(cropPositions, event.value.newValue);
                         });
                     }
                 }
             }
         });
-    }
 
-    function updateCropping(cropPositions, newValues) {
-        if (parseInt(cropPositions.left) !== parseInt(newValues[0])) {
-            controller.plugins.playback.player.setFrameIndex(parseInt(newValues[0], 10));
-            controller.plugins.playback.player.recording.leftCrop();
-        } else if (parseInt(cropPositions.right) !== parseInt(newValues[1])) {
-            controller.plugins.playback.player.setFrameIndex(parseInt(newValues[1], 10));
-            controller.plugins.playback.player.recording.rightCrop();
+        function updateCropping(newValues) {
+            if (leapRecorder.crops.left !== newValues[0]) {
+                leapRecorder.crops.left = newValues[0];
+                controller.plugins.playback.player.recording.leftCrop();
+                controller.plugins.playback.player.setFrameIndex(parseInt(newValues[0], 10));
+            } else if (leapRecorder.crops.right !== newValues[1]) {
+                leapRecorder.crops.right = newValues[1];
+                controller.plugins.playback.player.setFrameIndex(parseInt(newValues[1], 10));
+                controller.plugins.playback.player.recording.rightCrop();
+            }
         }
     }
 
@@ -361,7 +380,7 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
             controller.plugins.playback.player.play();
         }
     }
-}
+};
 
 LeapRecorder.prototype.resetPlaybackControls = function () {
     var preview = $(leapRecorder.options.parent).find('.gr-playback #leap-preview');
@@ -397,38 +416,43 @@ LeapRecorder.prototype.stopRecord = function () {
 var recordedFrameData = null;
 var croppedRecordedFrameData = null;
 LeapRecorder.prototype.playback = function () {
-//    console.log('playback leap', recordedFrameData);
+    console.log('playback leap');
     leapRecorder.resetPlaybackControls();
     var currentOptions = leapRecorder.options;
-    leapRecorder.destroy();
+//    leapRecorder.destroy();
     var container = $(currentOptions.parent).find('.gr-playback #leap-preview');
 
     var options = {
-        offset: {x: 0, y: 200, z: 0},
+        controller: currentOptions.controller,
         parent: currentOptions.parent,
-        previewOnly: true,
-        pauseOnHands: false,
-        autoplay: true,
+//        previewOnly: true,
+//        pauseOnHands: false,
+//        autoplay: true,
         rawData: recordedFrameData,
-//        recordEmptyHands: true,
-//            recording: currentPreviewGesture.gesture.sensorData.url,
-//        overlays: $(container).find('#leap-alert-space'),
-        renderTarget: $(container).find('#renderArea'),
-//            recordElement: $(container).find('#btn-start-recording'),
-//            stopRecordElement: $(container).find('#btn-stop-recording'),
+////        recordEmptyHands: true,
+////            recording: currentPreviewGesture.gesture.sensorData.url,
+////        overlays: $(container).find('#leap-alert-space'),
+//        renderTarget: $(container).find('#renderArea'),
+////            recordElement: $(container).find('#btn-start-recording'),
+////            stopRecordElement: $(container).find('#btn-stop-recording'),
         playbackElement: $(container).find('#btn-toggle-playback'),
         downloadJsonElement: $(container).find('.btn-download-as-json'),
         downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
-//            loadRecordingElement: $(container).find('#btn-load-recording'),
-//            loadInputElement: $(container).find('#upload-leap-recording'),
+////            loadRecordingElement: $(container).find('#btn-load-recording'),
+////            loadInputElement: $(container).find('#upload-leap-recording'),
         playbackSliderElement: $(container).find('#leap-playback-slider'),
         cropRecordElement: $(container).find('#btn-toggle-cropping'),
         cropSliderElement: $(container).find('#leap-playback-crop-slider')
     };
-
-    leapRecorder = new LeapRecorder(options);
-    $(document).trigger('instanceUpdated', [TYPE_RECORD_LEAP, leapRecorder]);
-    $(leapRecorder).trigger('playbackReady', [TYPE_RECORD_LEAP]);
+    leapRecorder.options = options;
+//
+//    leapRecorder = new LeapRecorder(options);
+//    $(document).trigger('instanceUpdated', ['leap', leapRecorder]);
+    leapRecorder.importRawSensorData('json', function () {
+        leapRecorder.updateRenderTarget($(container).find('#renderArea'));
+        leapRecorder.initializePlaybackControls(options.controller, options);
+        $(leapRecorder).trigger('playbackReady', ['leap']);
+    });
 };
 
 var leapSaveGestureData = null;
@@ -439,13 +463,17 @@ LeapRecorder.prototype.extract = function () {
     var playbackVideo = $(preview).find('#renderArea');
     $(playbackVideo).css({borderRadius: "4px"});
 
+    var toggleCroppingButton = $(preview).find('#btn-toggle-cropping');
+    if ($(toggleCroppingButton).hasClass('cropping')) {
+        $(toggleCroppingButton).click();
+    }
+
     $(preview).find('.controls-container').addClass('hidden');
     $(preview).find('#playback-leap-slider-controls').addClass('hidden');
 
     croppedRecordedFrameData = leapRecorder.recording('json');
     leapSaveGestureData = {sensorData: leapRecorder.recording('lz')};
-//    console.log(leapSaveGestureData);
-    $(leapRecorder).trigger('dataExtracted', [TYPE_RECORD_LEAP]);
+    $(leapRecorder).trigger('dataExtracted', ['leap']);
 };
 
 var extractionStopped = false;
@@ -456,25 +484,22 @@ LeapRecorder.prototype.stopExtraction = function () {
 LeapRecorder.prototype.showSave = function () {
     leapRecorder.resetPlaybackControls();
     var currentOptions = leapRecorder.options;
-    leapRecorder.destroy();
     var container = $(currentOptions.parent).find('.gr-save #leap-save-preview');
 
     var options = {
-        offset: {x: 0, y: 200, z: 0},
+        controller: currentOptions.controller,
         parent: currentOptions.parent,
-        previewOnly: true,
-        pauseOnHands: false,
-        autoplay: true,
         rawData: croppedRecordedFrameData,
-        renderTarget: $(container).find('#renderArea'),
         playbackElement: $(container).find('#btn-toggle-playback'),
         downloadJsonElement: $(container).find('.btn-download-as-json'),
         downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
         playbackSliderElement: $(container).find('#leap-playback-slider')
     };
-
-    leapRecorder = new LeapRecorder(options);
-    $(document).trigger('instanceUpdated', [TYPE_RECORD_LEAP, leapRecorder]);
+    leapRecorder.options = options;
+    leapRecorder.importRawSensorData('json', function () {
+        leapRecorder.updateRenderTarget($(container).find('#renderArea'));
+        leapRecorder.initializePlaybackControls(options.controller, options);
+    });
 };
 
 LeapRecorder.prototype.attachSaveData = function (uploadFiles) {
@@ -483,16 +508,15 @@ LeapRecorder.prototype.attachSaveData = function (uploadFiles) {
         var uploadQueue = new UploadQueue();
         $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
             saveData.sensorData = {sensor: 'leap', url: uploadQueue.getUploadURLs()[0]};
-            $(leapRecorder).trigger('saveDataAttached', [TYPE_RECORD_LEAP, saveData]);
+            $(leapRecorder).trigger('saveDataAttached', ['leap', saveData]);
         });
 
-//console.log('upload lz file: ', leapSaveGestureData.sensorData);
         // upload leap motion data as compressed lz file
-        var filename = hex_sha512(new Date().getTime()) + ".lz";
+        var filename = hex_sha512(new Date().getTime().toString()) + ".lz";
         uploadQueue.upload([leapSaveGestureData.sensorData], filename);
     } else {
         saveData.sensorData = {sensor: 'leap', url: leapSaveGestureData.sensorData};
-        $(leapRecorder).trigger('saveDataAttached', [TYPE_RECORD_LEAP, saveData]);
+        $(leapRecorder).trigger('saveDataAttached', ['leap', saveData]);
     }
 
 };
@@ -504,21 +528,19 @@ LeapRecorder.prototype.showSaveSuccess = function () {
     var container = $(currentOptions.parent).find('.gr-save-success #leap-save-success-preview');
 
     var options = {
-        offset: {x: 0, y: 200, z: 0},
+        controller: currentOptions.controller,
         parent: currentOptions.parent,
-        previewOnly: true,
-        pauseOnHands: false,
-        autoplay: true,
         rawData: croppedRecordedFrameData,
-        renderTarget: $(container).find('#renderArea'),
         playbackElement: $(container).find('#btn-toggle-playback'),
         downloadJsonElement: $(container).find('.btn-download-as-json'),
         downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
         playbackSliderElement: $(container).find('#leap-playback-slider')
     };
-
-    leapRecorder = new LeapRecorder(options);
-    $(document).trigger('instanceUpdated', [TYPE_RECORD_LEAP, leapRecorder]);
+    leapRecorder.options = options;
+    leapRecorder.importRawSensorData('json', function () {
+        leapRecorder.updateRenderTarget($(container).find('#renderArea'));
+        leapRecorder.initializePlaybackControls(options.controller, options);
+    });
 };
 
 LeapRecorder.prototype.recording = function (format) {
@@ -534,16 +556,23 @@ LeapRecorder.prototype.recording = function (format) {
 
 LeapRecorder.prototype.updateRenderTarget = function (target) {
     var options = this.options;
+//    console.log(options.controller && options.controller.plugins.riggedHand);
     if (options.controller && options.controller.plugins.riggedHand) {
         options.controller.plugins.riggedHand.updateRenderTarget(target);
-        console.log(options.controller.plugins.riggedHand);
+//        console.log(options.controller.plugins.riggedHand);
     }
 };
 
-LeapRecorder.prototype.destroy = function () {
+LeapRecorder.prototype.destroy = function (destroyRecord) {
     var options = this.options;
 
+    if (destroyRecord && destroyRecord === true) {
+        leapSaveGestureData = null;
+        croppedRecordedFrameData = null;
+    }
+
     if (options.controller) {
+        options.controller.connection.removeAllListeners('frame');
         options.controller.removeAllListeners('connect');
         options.controller.removeAllListeners('deviceAttached');
         options.controller.removeAllListeners('deviceRemoved');
