@@ -27,6 +27,7 @@ var currentTriggeredSceneId = null;
 var currentIdentificationIndex = 0;
 var currentIdentificationScene = 0;
 var identificationPrototypeOpened = false;
+var identificationSensorInitialized = false;
 var identificationTriggered = false;
 var identificationStartTriggered = false;
 var identificationRecordingStartTriggered = false;
@@ -271,6 +272,7 @@ function resetConstraints() {
     identificationDone = false;
     identificationStartTriggered = false;
     identificationPrototypeOpened = false;
+    identificationSensorInitialized = false;
     identificationRecordingStartTriggered = false;
     identificationRecordingStopTriggered = false;
     identificationTriggerRequest = false;

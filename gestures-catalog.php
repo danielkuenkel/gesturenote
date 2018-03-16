@@ -62,7 +62,6 @@ if (login_check($mysqli) == true) {
         <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
 
          <!--gesture recorder--> 
-        <!--<script src="js/andyet/simplewebrtcbundle.js"></script>-->
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
@@ -457,7 +456,6 @@ if (login_check($mysqli) == true) {
         });
 
         $('#gesture-catalogs-nav-tab').on('hide.bs.tab', function (event) {
-//            console.log('hide', $(event.relatedTarget).attr('href'), $(event.target).attr('href'));
             closeGestureInfo($(event.target).attr('href'));
         });
 

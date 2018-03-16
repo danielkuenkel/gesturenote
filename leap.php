@@ -146,7 +146,7 @@ session_start();
                     autoplay: true,
                     initPlaybackControlsAfterRecord: true,
                     recordEmptyHands: true,
-//                    recording: 'uploads/c2b0952990889e8d3b41d070e3ffa519f29a8187a31c9f80b06069d605f084d853964161295c414197997a41577908dc1cedda5ddf04d624ac36fe400ecc10f9.json.lz',
+                    recording: 'uploads/000fbc0274032e4810b8801ee465a1306abece9fb3c5b001b283c0a385efc942a3af87d8c52bf6f7264e6a970aad99aa8cf99a765212d78cad701f129a40812b.lz',
                     overlays: $('#alert-hints'),
 //                    renderTarget: $('#renderArea'),
                     recordElement: $('#btn-start-recording'),

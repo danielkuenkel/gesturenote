@@ -1468,6 +1468,8 @@ include '../includes/language.php';
         <div class="" style="margin-top: 55px; padding: 20px">
             <div class="alert-space alert-please-wait"></div>
         </div>
+        
+        <div id="gesture-recorder-container" class="hidden"></div>
     </div>
 
     <div class="container" id="identificationUnmoderated" style="position: relative; top: 80px">

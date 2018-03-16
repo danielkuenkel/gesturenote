@@ -160,36 +160,41 @@ function renderGestureImages(container, images, preview, callback) {
     $(container).empty();
     $(container).addClass('text-center');
     TweenMax.set(container, {opacity: 0});
-    addLoadingIcon($(container).parent());
 
-    for (var i = 0; i < images.length; i++) {
-        var image = document.createElement('img');
-        $(image).addClass('gestureImage mirroredHorizontally embed-responsive-item');
-        $(image).css({borderBottomLeftRadius: '5px', borderBottomRightRadius: '5px'});
-        container.append(image);
-        if (i === parseInt(preview)) {
-            $(image).addClass('previewImage active');
-        } else {
-            $(image).addClass('hidden');
-        }
+    if (images && images.length > 0) {
+        addLoadingIcon($(container).parent());
 
-        image.onload = function () {
-            if (numImagesLoaded === images.length - 1) {
-                resetThumbnails(container);
-                removeLoadingIcon($(container).parent());
-                TweenMax.to(container, .3, {opacity: 1});
-
-                if ($(container).hasClass('autoplay')) {
-                    $(container).parent().find('#btn-stop-gesture').click();
-                    $(container).parent().find('#btn-play-gesture').click();
-                }
-                if (callback !== null && callback !== undefined) {
-                    callback();
-                }
+        for (var i = 0; i < images.length; i++) {
+            var image = document.createElement('img');
+            $(image).addClass('gestureImage mirroredHorizontally embed-responsive-item');
+            $(image).css({borderBottomLeftRadius: '5px', borderBottomRightRadius: '5px'});
+            container.append(image);
+            if (i === parseInt(preview)) {
+                $(image).addClass('previewImage active');
+            } else {
+                $(image).addClass('hidden');
             }
-            numImagesLoaded++;
-        };
-        image.src = images[i];
+
+            image.onload = function () {
+                if (numImagesLoaded === images.length - 1) {
+                    resetThumbnails(container);
+                    removeLoadingIcon($(container).parent());
+                    TweenMax.to(container, .3, {opacity: 1});
+
+                    if ($(container).hasClass('autoplay')) {
+                        $(container).parent().find('#btn-stop-gesture').click();
+                        $(container).parent().find('#btn-play-gesture').click();
+                    }
+                    if (callback !== null && callback !== undefined) {
+                        callback();
+                    }
+                }
+                numImagesLoaded++;
+            };
+            image.src = images[i];
+        }
+    } else {
+        addNoImageIcon($(container).parent());
     }
 }
 
@@ -244,7 +249,7 @@ function renderGesturePreview(container, gesture, callback) {
     if ($(container).hasClass('autoplay')) {
         if (togglePlaybackButton && $(togglePlaybackButton).attr('data-state') === 'paused') {
             $(togglePlaybackButton).click();
-        } else if(!togglePlaybackButton) {
+        } else if (!togglePlaybackButton) {
             playThroughThumbnails(imageContainer);
         }
     }
@@ -375,11 +380,31 @@ function addLoadingIcon(target) {
     $(embed).attr('id', 'loading-icon');
     $(embed).append(icon);
     $(target).append(embed);
-//    $(target).parent().addClass('text-center');
 }
 
 function removeLoadingIcon(target) {
     $(target).find('#loading-icon').remove();
+}
+
+function addNoImageIcon(target) {
+    var embed = document.createElement('div');
+    $(embed).addClass('embed-responsive-item');
+    $(embed).css({display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: '#eee', borderRadius: '0px 0px 5px 5px'});
+    $(embed).attr('id', 'no-image-icon');
+    $(target).append(embed);
+
+    var stack = document.createElement('span');
+    $(stack).addClass('fa-stack fa-lg');
+    $(stack).css({position: 'relative', margin: '0 auto'});
+    $(embed).append(stack);
+
+    var icon = document.createElement('i');
+    $(icon).addClass('fa fa-image fa-stack-1x');
+    $(stack).append(icon);
+
+    icon = document.createElement('i');
+    $(icon).addClass('fa fa-ban fa-stack-2x text-danger');
+    $(stack).append(icon);
 }
 
 function getGestureImagesData(source) {
@@ -387,7 +412,6 @@ function getGestureImagesData(source) {
     var srcArray = new Array();
     for (var i = 0; i < gestureImages.length; i++) {
         var url = $(gestureImages[i]).attr('src');
-//        srcArray.push(url.replace("data:image/jpeg;base64,/", ""));
         srcArray.push(url);
     }
 

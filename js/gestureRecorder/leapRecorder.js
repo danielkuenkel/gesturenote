@@ -20,7 +20,6 @@ function LeapRecorder(options) {
     var controller = new Leap.Controller({enableGestures: false});
     controller.use('playback', {
         recordEmptyHands: options.recordEmptyHands,
-        autoPlay: options.autoplay || false,
         recording: options.recording || false,
         requiredProtocolVersion: 6,
         pauseOnHand: options.pauseOnHand || false,
@@ -210,23 +209,33 @@ function LeapRecorder(options) {
         });
     }
 
+    console.log(options);
     if (options.rawData) {
-        leapRecorder.importRawSensorData('json', function () {
+        leapRecorder.importRawSensorData(options.rawData, 'json', function (frames) {
             leapRecorder.initializePlaybackControls(leapRecorder.options.controller, leapRecorder.options);
         });
     }
+
+//    if (options.compressedData) {
+//        console.log('import compressed sensor data');
+//        leapRecorder.importRawSensorData(options.compressedData, 'lz', function (frames) {
+//            console.log('compressed data imported successfully', frames);
+//            recordedFrameData = frames;
+//            leapRecorder.initializePlaybackControls(leapRecorder.options.controller, leapRecorder.options);
+//        });
+//    }
 }
 
-LeapRecorder.prototype.importRawSensorData = function (format, callback) {
-    if (leapRecorder.options.rawData && leapRecorder.options.controller && leapRecorder.options.controller.plugins && leapRecorder.options.controller.plugins.playback.player) {
-        leapRecorder.options.controller.plugins.playback.player.importFrameData(leapRecorder.options.rawData, format || 'json', callback);
+LeapRecorder.prototype.importRawSensorData = function (data, format, callback) {
+//    console.log('import sensor data: ', data, format);
+    if (leapRecorder.options.controller && leapRecorder.options.controller.plugins && leapRecorder.options.controller.plugins.playback.player) {
+        leapRecorder.options.controller.plugins.playback.player.importFrameData(data, format || 'json', callback);
     }
 };
 
 LeapRecorder.prototype.crops = {};
 LeapRecorder.prototype.initializePlaybackControls = function (controller, options) {
     leapRecorder.resetPlaybackControls();
-    var autoPlay = controller.plugins.playback.player.autoPlay;
     leapRecorder.crops = {left: 0, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition - 1, 0)};
 
     function initPlaybackSlider(highlightRange) {
@@ -241,19 +250,19 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
         if (highlightRange === true && (leapRecorder.crops.left > 0 || leapRecorder.crops.right < frameLength)) {
             sliderOptions.rangeHighlights = [{start: leapRecorder.crops.left, end: leapRecorder.crops.right, class: "isGesture"}];
         }
-        
+
         $(options.playbackSliderElement).unbind('change');
         $(options.playbackSliderElement).slider(sliderOptions);
         $(options.playbackSliderElement).slider('destroy');
         $(options.playbackSliderElement).slider(sliderOptions);
 
-        $(options.playbackSliderElement).unbind('slide').bind('slide', function (event) {
-            if (controller.plugins.playback.player.state === 'playing') {
+        $(options.playbackSliderElement).unbind('change').bind('change', function (event) {
+            if ($(options.playbackElement).attr('data-state') === 'playing') {
                 if (options.playbackElement) {
                     $(options.playbackElement).click();
                 }
             } else {
-                controller.plugins.playback.player.setFrameIndex(parseInt(event.value, 10));
+                controller.plugins.playback.player.setFrameIndex(parseInt(event.value.newValue, 10));
             }
         });
 
@@ -273,10 +282,12 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
                 $(options.cropRecordElement).click();
             }
 
-            if (controller.plugins.playback.player.state === 'playing') {
+            if ($(this).attr('data-state') === 'playing') {
+                $(this).attr('data-state', 'paused');
                 $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
                 controller.plugins.playback.player.pause();
-            } else if (controller.plugins.playback.player.state === 'idle') {
+            } else if ($(this).attr('data-state') === 'paused') {
+                $(this).attr('data-state', 'playing');
                 $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
 
                 if (options.cropRecordElement) {
@@ -307,7 +318,7 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
         $(options.cropRecordElement).unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
-                if (controller.plugins.playback.player.state === 'playing') {
+                if ($(options.playbackElement).attr('data-state') === 'playing') {
                     $(options.playbackElement).click();
                 }
 
@@ -334,11 +345,11 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
                         $(options.cropSliderElement).parent().removeClass('hidden disabled');
 
                         var frameLength = Math.max(controller.plugins.playback.player.recording.frameData.length, 0);
-                        var cropPositions = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition, 0)};
+//                        var cropPositions = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition, 0)};
                         $(options.cropSliderElement).slider({
                             min: 0,
                             max: frameLength,
-                            value: [cropPositions.left, cropPositions.right]
+                            value: [leapRecorder.crops.left, leapRecorder.crops.right]
                         });
 
 //                        $(options.cropSliderElement).unbind('slide').bind('slide', function (event) {
@@ -370,15 +381,8 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
         }
     }
 
-    if (options.playbackElement) {
-        var crops = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition - 1, 0)};
-        controller.plugins.playback.player.setFrameIndex(parseInt(crops.left, 10));
-        $(options.playbackElement).removeClass('disabled');
-
-        if (autoPlay) {
-            $(options.playbackElement).find('.fa').removeClass('fa-play').addClass('fa-pause');
-            controller.plugins.playback.player.play();
-        }
+    if (leapRecorder.options.autoplay && leapRecorder.options.autoplay === true) {
+        leapRecorder.play();
     }
 };
 
@@ -413,46 +417,66 @@ LeapRecorder.prototype.stopRecord = function () {
     }
 };
 
+
+LeapRecorder.prototype.play = function (container) {
+    var options = leapRecorder.options;
+    if (options.playbackElement && $(options.playbackElement).attr('data-state') === 'paused') {
+        $(options.playbackElement).click();
+    } else if (!options.playbackElement && options.controller.plugins.playback) {
+        options.controller.plugins.playback.player.play();
+    }
+};
+
+LeapRecorder.prototype.stop = function (container) {
+    if ($(container).find('#btn-toggle-playback').hasClass('playing')) {
+        $(container).find('#btn-toggle-playback').click();
+    }
+};
+
 var recordedFrameData = null;
 var croppedRecordedFrameData = null;
 LeapRecorder.prototype.playback = function () {
-    console.log('playback leap');
     leapRecorder.resetPlaybackControls();
     var currentOptions = leapRecorder.options;
-//    leapRecorder.destroy();
     var container = $(currentOptions.parent).find('.gr-playback #leap-preview');
 
-    var options = {
-        controller: currentOptions.controller,
-        parent: currentOptions.parent,
-//        previewOnly: true,
-//        pauseOnHands: false,
-//        autoplay: true,
-        rawData: recordedFrameData,
-////        recordEmptyHands: true,
-////            recording: currentPreviewGesture.gesture.sensorData.url,
-////        overlays: $(container).find('#leap-alert-space'),
-//        renderTarget: $(container).find('#renderArea'),
-////            recordElement: $(container).find('#btn-start-recording'),
-////            stopRecordElement: $(container).find('#btn-stop-recording'),
-        playbackElement: $(container).find('#btn-toggle-playback'),
-        downloadJsonElement: $(container).find('.btn-download-as-json'),
-        downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
-////            loadRecordingElement: $(container).find('#btn-load-recording'),
-////            loadInputElement: $(container).find('#upload-leap-recording'),
-        playbackSliderElement: $(container).find('#leap-playback-slider'),
-        cropRecordElement: $(container).find('#btn-toggle-cropping'),
-        cropSliderElement: $(container).find('#leap-playback-crop-slider')
-    };
-    leapRecorder.options = options;
-//
-//    leapRecorder = new LeapRecorder(options);
-//    $(document).trigger('instanceUpdated', ['leap', leapRecorder]);
-    leapRecorder.importRawSensorData('json', function () {
-        leapRecorder.updateRenderTarget($(container).find('#renderArea'));
-        leapRecorder.initializePlaybackControls(options.controller, options);
-        $(leapRecorder).trigger('playbackReady', ['leap']);
-    });
+    if (currentOptions.compressedData) {
+//        console.log('parse rawData');
+
+        leapRecorder.importRawSensorData(currentOptions.compressedData, 'lz', function (frames) {
+//            console.log('compressed data imported successfully', frames);
+            recordedFrameData = leapRecorder.recording('json');
+            initLeapPlayback();
+        });
+    } else {
+        initLeapPlayback();
+    }
+
+    function initLeapPlayback() {
+        var options = currentOptions;
+        options.autoplay = currentOptions.autoplayPlayback;
+        options.controller = currentOptions.controller;
+        options.parent = currentOptions.parent;
+        options.rawData = recordedFrameData;
+        options.playbackElement = $(container).find('#btn-toggle-playback');
+        options.downloadJsonElement = $(container).find('.btn-download-as-json');
+        options.downloadCompressedElement = $(container).find('.btn-download-as-compressed');
+        options.playbackSliderElement = $(container).find('#leap-playback-slider');
+        options.cropRecordElement = $(container).find('#btn-toggle-cropping');
+        options.cropSliderElement = $(container).find('#leap-playback-crop-slider');
+
+        leapRecorder.options = options;
+
+        leapRecorder.importRawSensorData(options.rawData, 'json', function () {
+            leapRecorder.updateRenderTarget($(container).find('#renderArea'));
+            leapRecorder.initializePlaybackControls(options.controller, options);
+            $(leapRecorder).trigger('playbackReady', ['leap']);
+        });
+    }
+};
+
+LeapRecorder.prototype.recordedData = function () {
+    return {type: TYPE_RECORD_LEAP, compressedData: leapRecorder.recording('lz')};
 };
 
 var leapSaveGestureData = null;
@@ -486,17 +510,18 @@ LeapRecorder.prototype.showSave = function () {
     var currentOptions = leapRecorder.options;
     var container = $(currentOptions.parent).find('.gr-save #leap-save-preview');
 
-    var options = {
-        controller: currentOptions.controller,
-        parent: currentOptions.parent,
-        rawData: croppedRecordedFrameData,
-        playbackElement: $(container).find('#btn-toggle-playback'),
-        downloadJsonElement: $(container).find('.btn-download-as-json'),
-        downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
-        playbackSliderElement: $(container).find('#leap-playback-slider')
-    };
+    var options = currentOptions;
+    options.autoplay = currentOptions.autoplaySave;
+    options.controller = currentOptions.controller;
+    options.parent = currentOptions.parent;
+    options.rawData = croppedRecordedFrameData;
+    options.playbackElement = $(container).find('#btn-toggle-playback');
+    options.downloadJsonElement = $(container).find('.btn-download-as-json');
+    options.downloadCompressedElement = $(container).find('.btn-download-as-compressed');
+    options.playbackSliderElement = $(container).find('#leap-playback-slider');
+
     leapRecorder.options = options;
-    leapRecorder.importRawSensorData('json', function () {
+    leapRecorder.importRawSensorData(options.rawData, 'json', function () {
         leapRecorder.updateRenderTarget($(container).find('#renderArea'));
         leapRecorder.initializePlaybackControls(options.controller, options);
     });
@@ -524,20 +549,20 @@ LeapRecorder.prototype.attachSaveData = function (uploadFiles) {
 LeapRecorder.prototype.showSaveSuccess = function () {
     leapRecorder.resetPlaybackControls();
     var currentOptions = leapRecorder.options;
-    leapRecorder.destroy();
     var container = $(currentOptions.parent).find('.gr-save-success #leap-save-success-preview');
 
-    var options = {
-        controller: currentOptions.controller,
-        parent: currentOptions.parent,
-        rawData: croppedRecordedFrameData,
-        playbackElement: $(container).find('#btn-toggle-playback'),
-        downloadJsonElement: $(container).find('.btn-download-as-json'),
-        downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
-        playbackSliderElement: $(container).find('#leap-playback-slider')
-    };
+    var options = currentOptions;
+    options.autoplay = currentOptions.autoplaySaveSuccess;
+    options.controller = currentOptions.controller;
+    options.parent = currentOptions.parent;
+    options.rawData = croppedRecordedFrameData;
+    options.playbackElement = $(container).find('#btn-toggle-playback');
+    options.downloadJsonElement = $(container).find('.btn-download-as-json');
+    options.downloadCompressedElement = $(container).find('.btn-download-as-compressed');
+    options.playbackSliderElement = $(container).find('#leap-playback-slider');
+
     leapRecorder.options = options;
-    leapRecorder.importRawSensorData('json', function () {
+    leapRecorder.importRawSensorData(options.rawData, 'json', function () {
         leapRecorder.updateRenderTarget($(container).find('#renderArea'));
         leapRecorder.initializePlaybackControls(options.controller, options);
     });
@@ -572,6 +597,10 @@ LeapRecorder.prototype.destroy = function (destroyRecord) {
     }
 
     if (options.controller) {
+        if (options.controller.plugins.playback) {
+            options.controller.plugins.playback.player.pause();
+        }
+
         options.controller.connection.removeAllListeners('frame');
         options.controller.removeAllListeners('connect');
         options.controller.removeAllListeners('deviceAttached');
@@ -582,6 +611,7 @@ LeapRecorder.prototype.destroy = function (destroyRecord) {
         options.controller.removeAllListeners('playback.beforeSendFrame');
         options.controller.stopUsing('playback');
         options.controller.stopUsing('riggedHand');
+
         options.controller = null;
     }
 

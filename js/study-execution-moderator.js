@@ -2091,7 +2091,7 @@ var Moderator = {
         return container;
     },
     renderIdentification: function renderIdentification(source, container, data) {
-        var recorder = null;
+        var gestureRecorder = null;
 
         renderIdentificationItem(source, container, data);
         function renderIdentificationItem(source, container, data) {
@@ -2162,54 +2162,75 @@ var Moderator = {
             }
         }
 
-        function renderGestureRecorder(videoURL) {
+        function renderGestureRecorder(recordedData) {
+//            console.log('render gesture recorder: ', recordedData);
 //            $(container).find('#file-transfer-loading-indicator').css({width: '0%'});
             $(container).find('#file-transfer-loader').addClass('hidden');
 
             if (!previewModeEnabled) {
+
                 $(container).find('#btn-done, #btn-next-trigger').addClass('disabled');
-                var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');
-                container.find('#gesture-recorder-container').empty().append(gestureRecorder).removeClass('hidden');
+                var gestureRecorderContent = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
+                $(gestureRecorderContent).find('#gesture-recorder-nav').remove();
+                container.find('#gesture-recorder-container').empty().append(gestureRecorderContent).removeClass('hidden');
+
                 var options = {
-                    alertTarget: container.find('#gesture-recorder-container'),
-                    recorderTarget: gestureRecorder,
-                    saveGestures: !previewModeEnabled,
-                    ownerId: getLocalItem(STUDY).studyOwner,
-                    context: data.identification[currentIdentificationIndex].context,
-                    checkType: true,
-                    checkInteractionType: true,
-                    startState: EVENT_GR_STATE_PLAYBACK,
-                    videoUrl: videoURL,
-                    initMediaStream: false,
-                    allowRerecordGesture: false,
-                    allowDeletingGesture: false
+                    recorderTarget: gestureRecorderContent,
+                    startState: GR_STATE_PLAYBACK,
+                    usedStates: [GR_STATE_PLAYBACK, GR_STATE_SAVE, GR_STATE_SAVE_SUCCESS, GR_STATE_DELETE_SUCCESS],
+                    initRecorders: []
                 };
-                recorder = new GestureRecorder(options);
-                renderBodyJoints(gestureRecorder.find('#human-body'));
-                initPopover();
 
-                $(gestureRecorder).unbind(EVENT_GR_SAVE_SUCCESS).bind(EVENT_GR_SAVE_SUCCESS, function (event, gesture) {
-                    $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
-                    event.preventDefault();
+                for (var i = 0; i < recordedData.length; i++) {
+                    var tempOptions = recordedData[i];
+                    tempOptions.autoplayPlayback = true;
+                    tempOptions.autoplaySave = true;
+                    tempOptions.autoplaySaveSuccess = true;
+                    if(recordedData[i].type === TYPE_RECORD_LEAP) {
+                        tempOptions.previewOnly = true;
+                    }
+                    options.initRecorders.push(tempOptions);
+                }
+                console.log('create recorder: ', options);
 
-                    var currentPhase = getCurrentPhase();
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    var triggerId = data.identification[currentIdentificationIndex].triggerId;
-                    tempData.gestures.push({id: gesture.id, triggerId: triggerId});
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                var options = {
+//                    recorderTarget: gestureRecorderContent,
+//                    startState: GR_STATE_PLAYBACK,
+//                    alertTarget: container.find('#gesture-recorder-container'),
+//                    saveGestures: !previewModeEnabled,
+//                    ownerId: getLocalItem(STUDY).studyOwner,
+//                    context: data.identification[currentIdentificationIndex].context,
+//                    checkType: true,
+//                    checkInteractionType: true,
+//                    videoUrl: videoURL,
+//                    initMediaStream: false,
+//                    allowRerecordGesture: false,
+//                    allowDeletingGesture: false
+//                };
+                gestureRecorder = new GestureRecorder(options);
 
-                    initRerecordingButton(gestureRecorder, gesture.id);
-                });
+//                $(gestureRecorder).unbind(EVENT_GR_SAVE_SUCCESS).bind(EVENT_GR_SAVE_SUCCESS, function (event, gesture) {
+//                    $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
+//                    event.preventDefault();
+//
+//                    var currentPhase = getCurrentPhase();
+//                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                    var triggerId = data.identification[currentIdentificationIndex].triggerId;
+//                    tempData.gestures.push({id: gesture.id, triggerId: triggerId});
+//                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//
+//                    initRerecordingButton(gestureRecorder, gesture.id);
+//                });
 
                 initRerecordingButton(gestureRecorder, null);
             } else {
                 $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
                 initRerecordingButton();
 
-                var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');
+                var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
                 container.find('#gesture-recorder-container').empty().append(gestureRecorder).removeClass('hidden');
-                container.find('#gesture-recorder-container #save-controls').removeClass('hidden');
-                container.find('#gesture-recorder-container .recorder').addClass('hidden');
+                container.find('#gesture-recorder-container .gr-playback').removeClass('hidden');
+                $(gestureRecorder).find('#gesture-recorder-nav').remove();
                 renderBodyJoints(gestureRecorder.find('#human-body'));
 
                 appendAlert(container, ALERT_PREVIEW_DUMMY);
@@ -2325,6 +2346,7 @@ var Moderator = {
         }
 
         function renderIdentificationForGesturesItem(item, container, data) {
+//            console.warn(data);
             renderSceneTriggerItems(item, container, data);
 
             $(container).find('#btn-start-gesture-recording').removeClass('hidden');
@@ -2350,12 +2372,13 @@ var Moderator = {
             if (identificationStartTriggered) {
                 $(container).find('#btn-start-gesture-recording').removeClass('hidden disabled');
 
-                if (identificationRecordingStartTriggered === true) {
+                if (data.sensor !== 'none' && !identificationSensorInitialized === true) {
+                    $(container).find('#btn-start-gesture-recording').addClass('hidden');
+                    $(container).find('#btn-stop-gesture-recording').addClass('hidden');
+                } else if (identificationRecordingStartTriggered === true) {
                     $(container).find('#btn-start-gesture-recording').addClass('hidden');
                     $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
-                }
-
-                if (identificationRecordingStopTriggered === true) {
+                } else if (identificationRecordingStopTriggered === true) {
                     $(container).find('#btn-start-gesture-recording').addClass('hidden');
                     $(container).find('#btn-start-gesture-rerecording').removeClass('hidden');
                     $(container).find('#btn-stop-gesture-recording').addClass('hidden');
@@ -2391,7 +2414,20 @@ var Moderator = {
                 }
             });
 
+            if (data.sensor !== 'none' && peerConnection) {
+                $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event) {
+                    event.preventDefault();
+                    $(container).find('#btn-start-gesture-recording').removeClass('disabled');
+                });
+
+                $(peerConnection).unbind(MESSAGE_RECORDER_LOST).bind(MESSAGE_RECORDER_LOST, function (event) {
+                    event.preventDefault();
+                    $(container).find('#btn-start-gesture-recording').addClass('disabled');
+                });
+            }
+
             $(item).find('#btn-stop-gesture-recording').unbind('click').bind('click', function (event) {
+                event.preventDefault();
                 $(this).addClass('hidden');
                 identificationRecordingStartTriggered = false;
                 identificationRecordingStopTriggered = true;
@@ -2399,19 +2435,11 @@ var Moderator = {
                 initRerecordingButton(null);
 
                 if (!previewModeEnabled && peerConnection) {
-//                    $(peerConnection).unbind(MESSAGE_GESTURE_IDENTIFIED).bind(MESSAGE_GESTURE_IDENTIFIED, function (event, payload) {
-//                        console.log('gesture identified');
-//                        
-////                        $(container).find('#file-transfer-loader').removeClass('hidden');
-////                        $(container).find('#btn-start-gesture-rerecording').removeClass('hidden');
-////                        if (currentIdentificationIndex < data.identification.length - 1) {
-////                            $(container).find('#btn-next-trigger').removeClass('hidden');
-////                        } else {
-////                            $(container).find('#btn-done').removeClass('hidden');
-////                        }
-//                    });
+                    var receivedGestureData = null;
+                    var receivedWebcamRecording = null;
 
                     $(peerConnection).unbind(EVENT_FILE_TRANSFER).bind(EVENT_FILE_TRANSFER, function (event, bytesReceived, size) {
+                        event.preventDefault();
                         $(container).find('#identified-gesture').removeClass('hidden');
 
                         var percent = Math.round(bytesReceived * 100 / size);
@@ -2421,7 +2449,8 @@ var Moderator = {
                     });
 
                     $(peerConnection).unbind(EVENT_RECEIVED_FILE).bind(EVENT_RECEIVED_FILE, function (event, file, metadata) {
-                        console.log('received video file', file, metadata);
+                        event.preventDefault();
+                        console.log('received video file', file, metadata, receivedGestureData);
                         $(container).find('#btn-start-gesture-rerecording').removeClass('hidden');
                         if (currentIdentificationIndex < data.identification.length - 1) {
                             $(container).find('#btn-next-trigger').removeClass('hidden');
@@ -2432,10 +2461,21 @@ var Moderator = {
                         $(container).find('#file-transfer-loader').addClass('hidden');
 
                         if (metadata.size > 0) {
-                            var blobUrl = URL.createObjectURL(file);
-                            renderGestureRecorder(blobUrl);
+                            receivedWebcamRecording = file;
+                            if (receivedWebcamRecording && receivedGestureData) {
+                                renderGestureRecorder(getGestureRecodingData());
+                            }
                         } else {
                             // error handling
+                        }
+                    });
+
+                    $(peerConnection).unbind(MESSAGE_GESTURE_DATA).bind(MESSAGE_GESTURE_DATA, function (event, payload) {
+                        event.preventDefault();
+                        console.log('gesture data received: ', receivedWebcamRecording, payload);
+                        receivedGestureData = payload;
+                        if (receivedWebcamRecording && receivedGestureData) {
+                            renderGestureRecorder(getGestureRecodingData());
                         }
                     });
 
@@ -2443,6 +2483,17 @@ var Moderator = {
                     $(container).find('#identified-gesture').removeClass('hidden');
                     $(container).find('#file-transfer-loader').removeClass('hidden');
                     peerConnection.sendMessage(MESSAGE_STOP_RECORDING_GESTURE);
+
+
+                    function getGestureRecodingData() {
+                        for (var i = 0; i < receivedGestureData.length; i++) {
+                            if (receivedGestureData[i].type === TYPE_RECORD_WEBCAM) {
+                                receivedGestureData[i].data = receivedWebcamRecording;
+                                break;
+                            }
+                        }
+                        return receivedGestureData;
+                    }
                 } else {
                     $(container).find('#file-transfer-loader').removeClass('hidden');
                     $(container).find('#identified-gesture').removeClass('hidden');
@@ -2578,6 +2629,9 @@ var Moderator = {
             event.preventDefault();
             $(this).remove();
             enableControls();
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);
+            }
         });
 
         $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
@@ -2620,7 +2674,18 @@ var Moderator = {
             identificationStartTriggered = true;
             wobble([container.find('#slides')]);
             $(container).find('.btn-trigger-scene, .btn-reset-scene, #btn-request-trigger').removeClass('disabled');
-            $(container).find('#btn-start-gesture-recording').removeClass('disabled');
+
+            if (data.sensor !== 'none') {
+                if (identificationSensorInitialized === false) {
+                    $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                    $(container).find('#btn-stop-screen-sharing').addClass('hidden');
+                } else  {
+                    $(container).find('#btn-start-screen-sharing').removeClass('hidden');
+                    $(container).find('#btn-stop-screen-sharing').addClass('hidden');
+                }
+            } else {
+                $(container).find('#btn-start-gesture-recording').removeClass('disabled');
+            }
 
             if (data.identification[currentIdentificationIndex].transitionScenes && data.identification[currentIdentificationIndex].transitionScenes.length > 0) {
                 $(container).find('#btn-start-screen-sharing').addClass('hidden');

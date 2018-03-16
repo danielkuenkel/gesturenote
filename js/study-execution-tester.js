@@ -984,6 +984,7 @@ var Tester = {
 
 
         // generic identification live events
+        var gestureRecorder = null;
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_START_IDENTIFICATION).bind(MESSAGE_START_IDENTIFICATION, function (event, payload) {
                 clearAlerts(container);
@@ -993,6 +994,37 @@ var Tester = {
                     $(container).find('#scene-description').removeClass('hidden');
                     $(container).find('#scene-container').removeClass('hidden');
                 }
+
+                var gestureRecorderContent = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
+                container.find('#gesture-recorder-container').empty().append(gestureRecorderContent);
+
+                var options = {
+                    recorderTarget: gestureRecorderContent,
+                    startState: GR_STATE_INITIALIZE,
+                    usedStates: [GR_STATE_INITIALIZE, GR_STATE_RECORD],
+                    record: [
+                        {type: 'webcam'}
+                    ],
+                    initRecorders: [
+                        {type: 'webcam'}
+                    ]
+                };
+
+                if (data.sensor !== 'none') {
+                    options.record.push({type: 'leap'});
+                    options.initRecorders.push({type: 'leap'});
+                }
+
+                gestureRecorder = new GestureRecorder(options);
+                $(gestureRecorder).unbind('recorderReady').bind('recorderReady', function (event) {
+                    event.preventDefault();
+                    peerConnection.sendMessage(MESSAGE_ALL_RECORDER_READY);
+                });
+
+                $(gestureRecorder).unbind('recorderDisconnected').bind('recorderDisconnected', function (event) {
+                    event.preventDefault();
+                    peerConnection.sendMessage(MESSAGE_RECORDER_LOST);
+                });
             });
 
             $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
@@ -1013,7 +1045,8 @@ var Tester = {
 
                 $(peerConnection).unbind(MESSAGE_START_RECORDING_GESTURE).bind(MESSAGE_START_RECORDING_GESTURE, function (event, payload) {
                     clearAlerts(container);
-                    peerConnection.startRecordSeparateChunks();
+                    gestureRecorder.record();
+//                    peerConnection.startRecordSeparateChunks();
                     animateLiveStream($(container).find('#fixed-rtc-preview'), true);
                     $(container).find('#fixed-rtc-preview').removeClass('hidden');
                     if (hasScences) {
@@ -1023,11 +1056,30 @@ var Tester = {
                 });
 
                 $(peerConnection).unbind(MESSAGE_STOP_RECORDING_GESTURE).bind(MESSAGE_STOP_RECORDING_GESTURE, function (event, payload) {
-                    var recordedChunks = peerConnection.stopRecordSeparateChunks();
-                    var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
-                    var file = new File(recordedChunks, filename, {type: "video/webm"});
-//                    peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED);
-                    peerConnection.transferFile(file);
+                    $(gestureRecorder).unbind('recorderStopped').bind('recorderStopped', function (event) {
+                        event.preventDefault();
+                        var recordedData = gestureRecorder.recordedData();
+                        console.log('recorder stopped: ', recordedData);
+                        for (var i = 0; i < recordedData.length; i++) {
+                            if(recordedData[i].type === TYPE_RECORD_WEBCAM) {
+                                peerConnection.transferFile(recordedData[i].data);
+                                recordedData[i].data = null;
+                                break;
+                            }
+                        }
+                        
+                        peerConnection.sendMessage(MESSAGE_GESTURE_DATA, recordedData);
+                    });
+                    gestureRecorder.stopRecord();
+
+//                    var recordedChunks = peerConnection.stopRecordSeparateChunks();
+//                    var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
+//                    var file = new File(recordedChunks, filename, {type: "video/webm"});
+//                    peerConnection.transferFile(file);
+
+                    // transfer json data from recorded leap controller
+                    // pre-check if leap sensor must recorded
+
                     animateLiveStream($(container).find('#fixed-rtc-preview'));
                     appendAlert($(container), ALERT_PLEASE_WAIT);
                     $(container).find('#fixed-rtc-preview').addClass('hidden');

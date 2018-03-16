@@ -878,16 +878,8 @@
                         continue;
                     }
 
-                    Leap.vec3.lerp(
-                            hand[prop],
-                            currentFrame.hands[i][prop],
-                            nextFrame.hands[i][prop],
-                            t
-                            );
-
-//        console.assert(hand[prop]);
+                    Leap.vec3.lerp(hand[prop],currentFrame.hands[i][prop],nextFrame.hands[i][prop],t);
                 }
-
             }
 
             for (i = 0; i < numPointables; i++) {
@@ -904,17 +896,8 @@
                         continue;
                     }
 
-                    Leap.vec3.lerp(
-                            pointable[prop],
-                            currentFrame.pointables[i][prop],
-                            nextFrame.pointables[i][prop],
-                            0
-                            );
-//          console.assert(t >= 0 && t <= 1);
-//          if (t > 0) debugger;
-
+                    Leap.vec3.lerp(pointable[prop], currentFrame.pointables[i][prop], nextFrame.pointables[i][prop], 0);
                 }
-
             }
 
             return frameData;
@@ -936,12 +919,12 @@
 
         // sets the crop-point of the current recording to the current position.
         leftCrop: function () {
-            this.leftCropPosition = this.frameIndex
+            this.leftCropPosition = this.frameIndex;
         },
 
         // sets the crop-point of the current recording to the current position.
         rightCrop: function () {
-            this.rightCropPosition = this.frameIndex
+            this.rightCropPosition = this.frameIndex;
         },
 
         // removes every other frame from the array
@@ -957,8 +940,8 @@
 
         // Returns the average frames per second of the recording
         frameRate: function () {
-            if (this.frameData.length == 0) {
-                return 0
+            if (this.frameData.length === 0) {
+                return 0;
             }
             return this.frameData.length / (this.frameData[this.frameData.length - 1].timestamp - this.frameData[0].timestamp) * 1000000;
         },
@@ -996,22 +979,14 @@
         // the first item is the keys of the following items
         // nested arrays are expected to have idententical siblings
         packedFrameData: function () {
-            var frameData = this.croppedFrameData(),
-                    packedFrames = [],
-                    frameDatum;
-
+            var frameData = this.croppedFrameData(), packedFrames = [], frameDatum;
             packedFrames.push(this.packingStructure);
 
             for (var i = 0, len = frameData.length; i < len; i++) {
                 frameDatum = frameData[i];
-
-                packedFrames.push(
-                        this.packArray(
-                                this.packingStructure,
-                                frameDatum
-                                )
-                        );
-
+//                if (frameDatum.hands && frameDatum.hands.length > 0) {
+                packedFrames.push(this.packArray(this.packingStructure, frameDatum));
+//                }
             }
 
             return packedFrames;
@@ -1024,48 +999,24 @@
             var out = [], nameOrHash;
 
             for (var i = 0, len1 = structure.length; i < len1; i++) {
-
                 // e.g., nameOrHash is either 'id' or {hand: [...]}
                 nameOrHash = structure[i];
 
                 if (typeof nameOrHash === 'string') {
-
-                    out.push(
-                            data[nameOrHash]
-                            );
-
-                } else if (Object.prototype.toString.call(nameOrHash) == "[object Array]") {
+                    out.push(data[nameOrHash]);
+                } else if (Object.prototype.toString.call(nameOrHash) === "[object Array]") {
                     // nested array, such as hands or fingers
-
                     for (var j = 0, len2 = data.length; j < len2; j++) {
-                        out.push(
-                                this.packArray(
-                                        nameOrHash,
-                                        data[j]
-                                        )
-                                );
+                        out.push(this.packArray(nameOrHash, data[j]));
                     }
-
                 } else { // key-value (nested object) such as interactionBox
-
-//        console.assert(nameOrHash);
 
                     for (var key in nameOrHash)
                         break;
 
-//        console.assert(key);
-//        console.assert(nameOrHash[key]);
-//        console.assert(data[key]);
-
-                    out.push(this.packArray(
-                            nameOrHash[key],
-                            data[key]
-                            ));
-
+                    out.push(this.packArray(nameOrHash[key], data[key]));
                 }
-
             }
-
             return out;
         },
 
@@ -1131,7 +1082,7 @@
 
                     out[nameOrHash] = data[i];
 
-                } else if (Object.prototype.toString.call(nameOrHash) == "[object Array]") {
+                } else if (Object.prototype.toString.call(nameOrHash) === "[object Array]") {
                     // nested array, such as hands or fingers
                     // nameOrHash ["id", "direction", "palmNormal", "palmPosition", "palmVelocity"]
                     // data [ [ 31, [vec3], [vec3], ...] ]
@@ -1214,11 +1165,13 @@
             if (typeof responseData === 'string' || responseData instanceof String) {
                 responseData = JSON.parse(responseData);
             }
+            
+//            console.log(responseData);
 
-            if (responseData.metadata.formatVersion == 2) {
+            if (responseData.metadata.formatVersion === 2) {
                 responseData.frames = this.unPackFrameData(responseData.frames);
             }
-            console.log(responseData);
+            
             this.metadata = responseData.metadata;
             this.setFrames(responseData.frames);
 
@@ -1228,7 +1181,7 @@
         },
 
         loaded: function () {
-            return !!(this.frameData && this.frameData.length)
+            return !!(this.frameData && this.frameData.length);
         },
 
         // optional callback once frames are loaded, will have a context of player
@@ -1278,7 +1231,7 @@
                 url = file.name;
             }
 
-            if (url && url.split('.')[url.split('.').length - 1] == 'lz') {
+            if (url && url.split('.')[url.split('.').length - 1] === 'lz') {
                 responseData = this.decompress(responseData);
             }
 
@@ -1286,7 +1239,7 @@
                 responseData = JSON.parse(responseData);
             }
 
-            if (responseData.metadata.formatVersion == 2) {
+            if (responseData.metadata.formatVersion === 2) {
                 responseData.frames = this.unPackFrameData(responseData.frames);
             }
 
@@ -1359,7 +1312,7 @@
 
                 // Loop with explicit frame timing
                 this.stepFrameLoop = function (timestamp) {
-                    if (player.state != 'playing')
+                    if (player.state !== 'playing')
                         return;
 
                     if (player.options.lockStep) {
@@ -1368,7 +1321,7 @@
                         if (!player.recording.advanceFrame()) {
                             player.pause();
                             player.controller.emit('playback.playbackFinished', player);
-                            return
+                            return;
                         }
 
                         player.sendFrame(player.recording.currentFrame());
@@ -1404,7 +1357,7 @@
                                 player.controller.emit('playback.userTakeControl');
                                 player.setGraphic();
                                 player.idle();
-                            } else if (data.hands.length == 0) {
+                            } else if (data.hands.length === 0) {
                                 if (player.userHasControl) {
                                     player.userHasControl = false;
                                     player.setGraphic('wave');
@@ -1434,14 +1387,14 @@
                 // Copy methods/properties from the default protocol over
                 for (var property in this.stopProtocol) {
                     if (this.stopProtocol.hasOwnProperty(property)) {
-                        this.playbackProtocol[property] = this.stopProtocol[property]
-                        this.recordProtocol[property] = this.stopProtocol[property]
+                        this.playbackProtocol[property] = this.stopProtocol[property];
+                        this.recordProtocol[property] = this.stopProtocol[property];
                     }
                 }
 
                 // todo: this is messy. Should cover all cases, not just active playback!
-                if (this.state == 'playing') {
-                    this.controller.connection.protocol = this.playbackProtocol
+                if (this.state === 'playing') {
+                    this.controller.connection.protocol = this.playbackProtocol;
                 }
             },
 
@@ -1473,7 +1426,7 @@
                     if (!this.recording.advanceFrame()) {
                         this.pause();
                         this.controller.emit('playback.playbackFinished', this);
-                        return
+                        return;
                     }
                 }
 
@@ -1495,7 +1448,7 @@
                 // this frame gets picked up by the controllers own animation loop.
 
                 this.controller.processFrame(frame);
-                return true
+                return true;
             },
 
             sendImmediateFrame: function (frameData) {
@@ -1507,11 +1460,11 @@
                 // sends an animation frame to the controller
 
                 this.controller.processFinishedFrame(frame);
-                return true
+                return true;
             },
 
             setFrameIndex: function (frameIndex) {
-                if (frameIndex != this.recording.frameIndex) {
+                if (frameIndex !== this.recording.frameIndex) {
                     if (frameIndex < 0)
                         frameIndex = this.recording.frameCount - 1;
                     this.recording.frameIndex = frameIndex % this.recording.frameCount;
@@ -1550,7 +1503,7 @@
             },
 
             toggle: function () {
-                if (this.state == 'playing') {
+                if (this.state === 'playing') {
                     this.pause();
                 } else {
                     // handle recording, etc.
@@ -1594,7 +1547,7 @@
             },
 
             importFrameData: function (data, format, callback) {
-//                console.log(data, format);
+
                 this.idle();
                 delete this.recording;
                 this.recording = new Recording({
@@ -1604,7 +1557,6 @@
 //                    serviceVersion: this.controller.connection.protocol.serviceVersion
                 });
 
-//                console.log('import', data);
                 this.recording.import(data, format, callback);
 
 
@@ -1649,11 +1601,11 @@
             },
 
             recordPending: function () {
-                return this.state == 'recording' && this.recording.blank()
+                return this.state === 'recording' && this.recording.blank();
             },
 
             isRecording: function () {
-                return this.state == 'recording' && !this.recording.blank()
+                return this.state === 'recording' && !this.recording.blank();
             },
 
             finishRecording: function () {
@@ -1745,8 +1697,8 @@
                 // this is called on the context of the recording
                 var loadComplete = function (frames) {
 
-                    if (player.recording != this) {
-                        return
+                    if (player.recording !== this) {
+                        return;
                     }
 
                     if (player.autoPlay) {
@@ -1814,7 +1766,7 @@
             setGraphic: function (graphicName) {
                 if (!this.overlay)
                     return;
-                if (this.graphicName == graphicName)
+                if (this.graphicName === graphicName)
                     return;
 
                 this.graphicName = graphicName;
@@ -1926,12 +1878,12 @@
                 if (scope.player.pauseOnHand && controller.connection.opts.requestProtocolVersion < scope.requiredProtocolVersion) {
                     console.log('Protocol Version too old (' + controller.connection.opts.requestProtocolVersion + '), disabling device interaction.');
                     scope.player.pauseOnHand = false;
-                    return
+                    return;
                 }
 
                 if (autoPlay) {
                     controller.on('streamingStarted', function () {
-                        if (scope.player.state == 'recording') {
+                        if (scope.player.state === 'recording') {
                             scope.player.pause();
                             scope.player.setGraphic('wave');
                         } else {
@@ -1950,18 +1902,18 @@
                 controller.on('streamingStopped', function () {
                     scope.player.setGraphic('connect');
                 });
-            }
+            };
 
             // ready happens before streamingStarted, allowing us to check the version before responding to streamingStart/Stop
             // we can't call this any earlier, or protcol version won't be available
             if (!!this.connection.connected) {
-                setupStreamingEvents()
+                setupStreamingEvents();
             } else {
-                this.on('ready', setupStreamingEvents)
+                this.on('ready', setupStreamingEvents);
             }
 
-            return {}
-        }
+            return {};
+        };
 
 
         if ((typeof Leap !== 'undefined') && Leap.Controller) {

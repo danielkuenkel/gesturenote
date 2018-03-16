@@ -21,7 +21,7 @@ include '../includes/language.php';
             <div class="row">
                 <div class="col-md-5 root">
                     <div class="sensor-content">
-                        <div data-sensor-source="webcam" id="webcam-preview" class="autoplay">
+                        <div data-sensor-source="webcam" id="webcam-preview" class="autoplay hidden">
                             <div class="root embed-responsive embed-responsive-4by3">
                                 <div id="" class="webcam-image-container"></div>
                                 <div class="controls-container embed-responsive-item">
@@ -57,9 +57,9 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div id="toggle-gesture-recording-source" class="hidden text-center" style="margin-top: 10px">
+                    <div id="toggle-gesture-recording-source" class="hidden text-center" style="margin-top: 0px">
                         <div class="btn-group btn-group-xs">
-                            <button type="button" class="btn btn-default btn-toggle-sensor-source active" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
+                            <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
                             <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
                             <!--<button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="kinect" id="btn-kinect"><i class="fa fa-code"></i> <?php echo $lang->sensors->kinect->title ?></button>-->
                         </div>
@@ -576,8 +576,14 @@ include '../includes/language.php';
                 container.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
             }
         }
+        
+        if (gesture.images && gesture.images.length > 0) {
+            renderGesturePreview(container.find('#webcam-preview'), gesture);
+            $(container).find('#toggle-gesture-recording-source #btn-webcam').removeClass('hidden');
+            $(container).find('.sensor-content [data-toggle-sensor=webcam]').removeClass('hidden');
+            $(container).find('.sensor-content [data-toggle-sensor=webcam]').click();
+        }
 
-        renderGesturePreview(container.find('#webcam-preview'), gesture);
 //        renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
         renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
 
@@ -1008,13 +1014,20 @@ include '../includes/language.php';
                     break;
             }
 
-            $('#custom-modal').find('#toggle-gesture-recording-source').removeClass('hidden');
+            if (currentPreviewGesture.gesture.images && currentPreviewGesture.gesture.images.length > 0) {
+                $('#custom-modal').find('#toggle-gesture-recording-source').removeClass('hidden');
+                $('#custom-modal').find('#toggle-gesture-recording-source [data-toggle-sensor=webcam]').click();
+            }
         }
     }
 
     function initializeLeapmotionPlayer() {
-        $('#custom-modal').find('#toggle-gesture-recording-source #btn-leap').removeClass('hidden');
-        $('#custom-modal').find('#toggle-gesture-recording-source #btn-kinect').remove();
+        if (currentPreviewGesture.gesture.images && currentPreviewGesture.gesture.images.length > 0) {
+            $('#custom-modal').find('#toggle-gesture-recording-source #btn-leap').removeClass('hidden');
+        } else {
+            $('#custom-modal').find('#toggle-gesture-recording-source #btn-leap').click();
+        }
+
 
         var container = $('#custom-modal').find('#leap-recording-container');
         var options = {

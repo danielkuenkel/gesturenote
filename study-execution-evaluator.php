@@ -42,6 +42,8 @@ if ($h && $token && $studyId) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
         <script src="resumable/resumable.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
+        <script src="js/color-thief/color-thief.js"></script> 
+        <script src="js/filesaver/FileSaver.min.js"></script>
 
         <script src="js/stomp/stomp.js"></script>
         <script src="js/websocket.js"></script>
@@ -71,8 +73,21 @@ if ($h && $token && $studyId) {
         <script src="js/andyet/simplewebrtcbundle.js"></script>
         <script src="js/peerConnection.js"></script>
 
-        <!-- gesture recorder sources -->
-        <script src="js/gestureRecorder/webcam.js"></script>
+        <!-- leap and plugins -->
+        <script src="js/leapjs/leap-0.6.4.min.js"></script>
+        <script src="js/leapjs/leap-plugins-0.1.12.min.js"></script>
+        <script src="js/three/three.min.js"></script>
+        <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
+        <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
+
+         <!--gesture recorder--> 
+        <script src="js/gestureRecorder/gestureRecorder.js"></script>
+        <script src="js/gestureRecorder/webcamRecorder.js"></script>
+        <script src="js/gestureRecorder/leapRecorder.js"></script>
+        
+        <!-- bootstrap slider -->
+        <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
+        <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 

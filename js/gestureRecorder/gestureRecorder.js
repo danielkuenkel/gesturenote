@@ -26,7 +26,16 @@ function GestureRecorder(options) {
     recorder = this;
     recorder.options = options;
     initRecorderEvents();
-    setState(GR_STATE_PRE_INITIALIZE);
+    if (options.startState) {
+        if (options.initRecorders && options.initRecorders.length > 0) {
+            initializeRecorders();
+            initInstancesEvents();
+            setState(options.startState);
+        }
+    } else {
+        setState(GR_STATE_PRE_INITIALIZE);
+    }
+
     initPopover();
 }
 
@@ -59,37 +68,54 @@ function setState(state) {
     $(recorder.options.recorderTarget).find('.recorder-contents .recorder-content').addClass('hidden');
     $(recorder.options.recorderTarget).find('.instruction-contents .instruction-content').addClass('hidden');
 
-    recorder.state = state;
-    recorder.currentRecorderContent = $(recorder.options.recorderTarget).find('.recorder-contents .' + state);
-    recorder.currentInstructionContent = $(recorder.options.recorderTarget).find('.instruction-contents .' + state);
+    if (nextStateAllowed(state)) {
+        recorder.state = state;
 
-    switch (state) {
-        case GR_STATE_PRE_INITIALIZE:
-            renderStatePreInitialize();
-            break;
-        case GR_STATE_INITIALIZE:
-            renderStateInitialize();
-            break;
-        case GR_STATE_RECORD:
-            renderStateRecord();
-            break;
-        case GR_STATE_PLAYBACK:
-            renderStatePlayback();
-            break;
-        case GR_STATE_SAVE:
-            renderStateSave();
-            break;
-        case GR_STATE_SAVE_SUCCESS:
-            renderStateSaveSuccess();
-            break;
-        case GR_STATE_DELETE_SUCCESS:
-            renderStateDeleteSuccess();
-            break;
+        recorder.currentRecorderContent = $(recorder.options.recorderTarget).find('.recorder-contents .' + state);
+        recorder.currentInstructionContent = $(recorder.options.recorderTarget).find('.instruction-contents .' + state);
+
+        switch (state) {
+            case GR_STATE_PRE_INITIALIZE:
+                renderStatePreInitialize();
+                break;
+            case GR_STATE_INITIALIZE:
+                renderStateInitialize();
+                break;
+            case GR_STATE_RECORD:
+                renderStateRecord();
+                break;
+            case GR_STATE_PLAYBACK:
+                renderStatePlayback();
+                break;
+            case GR_STATE_SAVE:
+                renderStateSave();
+                break;
+            case GR_STATE_SAVE_SUCCESS:
+                renderStateSaveSuccess();
+                break;
+            case GR_STATE_DELETE_SUCCESS:
+                renderStateDeleteSuccess();
+                break;
+        }
+
+        $(recorder.options.recorderTarget).find('.recorder-contents .' + state).removeClass('hidden');
+        $(recorder.options.recorderTarget).find('.instruction-contents .' + state).removeClass('hidden');
+        updateRecorderNavigation();
+    }
+}
+
+function nextStateAllowed(state) {
+    if (recorder.options.usedStates && recorder.options.usedStates.length > 0) {
+        for (var i = 0; i < recorder.options.usedStates.length; i++) {
+            if (recorder.options.usedStates[i] === state) {
+                return true;
+            }
+        }
+    } else {
+        return true;
     }
 
-    $(recorder.options.recorderTarget).find('.recorder-contents .' + state).removeClass('hidden');
-    $(recorder.options.recorderTarget).find('.instruction-contents .' + state).removeClass('hidden');
-    updateRecorderNavigation();
+    return false;
 }
 
 function updateRecorderNavigation() {
@@ -224,30 +250,33 @@ function renderStatePreInitialize() {
 function renderStateInitialize() {
     recorder.destroy();
 
-    var recordersList = $(recorder.currentRecorderContent).find('#initialize-recorders-list').empty();
-
     if (recorder.options.initRecorders && recorder.options.initRecorders.length > 0) {
-        for (var i = 0; i < recorder.options.initRecorders.length; i++) {
-            var recordType = recorder.options.initRecorders[i].type;
-            switch (recordType) {
-                case TYPE_RECORD_WEBCAM:
-                    initWebcamRecorder(recorder.options.initRecorders[i]);
-                    break;
-                case TYPE_RECORD_LEAP:
-                    initLeapRecorder(recorder.options.initRecorders[i]);
-                    break;
-            }
-            var recorderListItem = $('#item-container-gesture-recorder').find('#init-recorder-list-item').clone().removeAttr('id');
-            $(recorderListItem).attr('data-recorder-init-type', recordType);
-            $(recorderListItem).find('.sensor-title').text(translation.sensors[recordType].title);
-            $(recordersList).append(recorderListItem);
-            initInstancesEvents();
-        }
+        initializeRecorders();
+        initInstancesEvents();
     } else {
         console.warn('There are no recorder options for this GestureRecorder. Try option like: record:[{type:"webcam"}]');
     }
 
     $(recorder.options.recorderTarget).find('.gr-record #btn-record').addClass('disabled');
+}
+
+function initializeRecorders() {
+    var recordersList = $(recorder.currentRecorderContent).find('#initialize-recorders-list').empty();
+    for (var i = 0; i < recorder.options.initRecorders.length; i++) {
+        var recordType = recorder.options.initRecorders[i].type;
+        switch (recordType) {
+            case TYPE_RECORD_WEBCAM:
+                initWebcamRecorder(recorder.options.initRecorders[i]);
+                break;
+            case TYPE_RECORD_LEAP:
+                initLeapRecorder(recorder.options.initRecorders[i]);
+                break;
+        }
+        var recorderListItem = $('#item-container-gesture-recorder').find('#init-recorder-list-item').clone().removeAttr('id');
+        $(recorderListItem).attr('data-recorder-init-type', recordType);
+        $(recorderListItem).find('.sensor-title').text(translation.sensors[recordType].title);
+        $(recordersList).append(recorderListItem);
+    }
 }
 
 function initInstancesEvents() {
@@ -261,14 +290,38 @@ function initInstancesEvents() {
 }
 
 function initInstanceEvents(instance) {
-    $(instance).unbind('ready').bind('ready', onRecorderInstanceReady);
-    $(document).unbind('instanceUpdated').bind('instanceUpdated', onRecorderInstanceUpdated);
-    $(instance).unbind('disconnected').bind('disconnected', onRecorderInstanceDisconnected);
-    $(instance).unbind('recordingStopped').bind('recordingStopped', onRecorderInstanceRecordingStopped);
-    $(instance).unbind('playbackReady').bind('playbackReady', onRecorderInstancePlaybackReady);
-    $(instance).unbind(GR_EVENT_GESTURE_TOO_SHORT).bind(GR_EVENT_GESTURE_TOO_SHORT, onRecorderInstanceGestureTooShort);
-    $(instance).unbind('dataExtracted').bind('dataExtracted', onRecorderInstanceDataExtracted);
-    $(instance).unbind('saveDataAttached').bind('saveDataAttached', onRecorderInstanceSaveDataAttached);
+    if (recorder.options.usedStates && recorder.options.usedStates.length > 0) {
+        for (var i = 0; i < recorder.options.usedStates.length; i++) {
+            switch (recorder.options.usedStates[i]) {
+                case GR_STATE_INITIALIZE:
+                    $(instance).unbind('ready').bind('ready', onRecorderInstanceReady);
+                    $(instance).unbind('disconnected').bind('disconnected', onRecorderInstanceDisconnected);
+                    break;
+                case GR_STATE_RECORD:
+                    $(instance).unbind('recordingStopped').bind('recordingStopped', onRecorderInstanceRecordingStopped);
+                    $(instance).unbind('playbackReady').bind('playbackReady', onRecorderInstancePlaybackReady);
+                    break;
+                case GR_STATE_PLAYBACK:
+                    $(instance).unbind(GR_EVENT_GESTURE_TOO_SHORT).bind(GR_EVENT_GESTURE_TOO_SHORT, onRecorderInstanceGestureTooShort);
+                    $(instance).unbind('dataExtracted').bind('dataExtracted', onRecorderInstanceDataExtracted);
+                    break;
+                case GR_STATE_SAVE:
+                    $(instance).unbind('saveDataAttached').bind('saveDataAttached', onRecorderInstanceSaveDataAttached);
+                    break;
+            }
+            
+            $(document).unbind('instanceUpdated').bind('instanceUpdated', onRecorderInstanceUpdated);
+        }
+    } else {
+        $(instance).unbind('ready').bind('ready', onRecorderInstanceReady);
+        $(document).unbind('instanceUpdated').bind('instanceUpdated', onRecorderInstanceUpdated);
+        $(instance).unbind('disconnected').bind('disconnected', onRecorderInstanceDisconnected);
+        $(instance).unbind('recordingStopped').bind('recordingStopped', onRecorderInstanceRecordingStopped);
+        $(instance).unbind('playbackReady').bind('playbackReady', onRecorderInstancePlaybackReady);
+        $(instance).unbind(GR_EVENT_GESTURE_TOO_SHORT).bind(GR_EVENT_GESTURE_TOO_SHORT, onRecorderInstanceGestureTooShort);
+        $(instance).unbind('dataExtracted').bind('dataExtracted', onRecorderInstanceDataExtracted);
+        $(instance).unbind('saveDataAttached').bind('saveDataAttached', onRecorderInstanceSaveDataAttached);
+    }
 }
 
 function onRecorderInstanceUpdated(event, type, newInstance) {
@@ -291,7 +344,8 @@ function initWebcamRecorder(recorderOptions) {
         parent: recorder.options.recorderTarget,
         autoplayPlayback: recorderOptions.autoplayPlayback,
         autoplaySave: recorderOptions.autoplaySave,
-        autoplaySaveSuccess: recorderOptions.autoplaySaveSuccess
+        autoplaySaveSuccess: recorderOptions.autoplaySaveSuccess,
+        rawData: recorderOptions.data || null
     };
     var instance = new WebcamRecorder(options);
     recorderObject.instance = instance;
@@ -303,13 +357,14 @@ function initLeapRecorder(recorderOptions) {
     var options = {
         parent: recorder.options.recorderTarget,
         offset: {x: 0, y: 200, z: 0},
-        previewOnly: false,
+        previewOnly: recorderOptions.previewOnly || false,
         pauseOnHands: false,
         autoplay: true,
         recordEmptyHands: true,
-        autoplayPlayback: recorderOptions.autoplayPlayback,
-        autoplaySave: recorderOptions.autoplaySave,
-        autoplaySaveSuccess: recorderOptions.autoplaySaveSuccess
+        autoplayPlayback: recorderOptions.autoplayPlayback || false,
+        autoplaySave: recorderOptions.autoplaySave || false,
+        autoplaySaveSuccess: recorderOptions.autoplaySaveSuccess || false,
+        compressedData: recorderOptions.compressedData || null
     };
     var instance = new LeapRecorder(options);
     recorderObject.instance = instance;
@@ -337,6 +392,7 @@ function onRecorderInstanceReady(event, type) {
 
     if (instanceCount === recorders.length) {
         console.log('all recorders ready for recording');
+        $(recorder).trigger('recorderReady');
         instanceCount = 0;
         setState(GR_STATE_RECORD);
     }
@@ -350,6 +406,7 @@ function onRecorderInstanceDisconnected(event, type) {
     }
     instanceCount = 0;
     setState(GR_STATE_INITIALIZE);
+    $(recorder).trigger('recorderDisconnected');
 }
 
 
@@ -385,7 +442,7 @@ function renderStateRecord() {
             $(timerProgress).removeClass('hidden');
             $(progressBar).css({width: '100%'});
             recordDurationTween = TweenMax.to(progressBar, 20, {width: '0%', ease: Linear.easeNone, onComplete: onRecordingTimesUp});
-            record();
+            recorder.record();
         }
     });
 
@@ -396,7 +453,7 @@ function renderStateRecord() {
             recordDurationTween.kill();
         }
 
-        stopRecord();
+        recorder.stopRecord();
     });
 
     function onRecordingTimesUp() {
@@ -404,7 +461,7 @@ function renderStateRecord() {
     }
 }
 
-function record() {
+GestureRecorder.prototype.record = function () {
     if (recorders && recorders.length > 0) {
         for (var i = 0; i < recorders.length; i++) {
             if (recorders[i].instance && recorders[i].state === 'initialized') {
@@ -413,9 +470,9 @@ function record() {
             }
         }
     }
-}
+};
 
-function stopRecord() {
+GestureRecorder.prototype.stopRecord = function () {
     instanceCount = 0;
     if (recorders && recorders.length > 0) {
         for (var i = 0; i < recorders.length; i++) {
@@ -424,7 +481,15 @@ function stopRecord() {
             }
         }
     }
-}
+};
+
+GestureRecorder.prototype.recordedData = function () {
+    var recordedData = [];
+    for (var i = 0; i < recorders.length; i++) {
+        recordedData.push(recorders[i].instance.recordedData());
+    }
+    return recordedData;
+};
 
 function onRecorderInstanceRecordingStopped(event, type) {
     event.preventDefault();
@@ -433,8 +498,15 @@ function onRecorderInstanceRecordingStopped(event, type) {
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].type === type && recorders[i].state === 'recording') {
             recorders[i].state = 'recordingStopped';
-            recorders[i].instance.playback();
+            if (nextStateAllowed(recorders[i].state)) {
+                recorders[i].instance.playback();
+            }
+            instanceCount++;
         }
+    }
+
+    if (instanceCount === recorders.length) {
+        $(recorder).trigger('recorderStopped');
     }
 }
 
@@ -468,6 +540,7 @@ function onRecorderInstancePlaybackReady(event, type) {
 function renderStatePlayback() {
     resetInputs();
 
+    console.log('render playback: ', recorders);
     $(recorder.currentRecorderContent).find('.sensor-source-preview').addClass('hidden');
     for (var i = 0; i < recorders.length; i++) {
         $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
@@ -491,6 +564,10 @@ function renderStatePlayback() {
         if (!$(this).hasClass('disabled')) {
             clearAlerts($(recorder.options.recorderTarget));
             lockButton(extractButton, true, 'fa-arrow-right');
+
+            for (var i = 0; i < recorders.length; i++) {
+                recorders[i].instance.stop(recorder.currentRecorderContent);
+            }
 
             instanceCount = 0;
             if (recorders[instanceCount].state === 'playback') {
