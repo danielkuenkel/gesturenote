@@ -283,6 +283,11 @@ include '../includes/language.php';
                 <button class="btn btn-sm btn-default btn-shadow" id="btn-delete-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteGestureSet ?>"><span class="fa fa-trash"></span></button>
             </div>
             <span class="panel-heading-text"></span>
+            <div class="btn-group pull-right">
+                <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-download"></i></button>
+                <!--<button class="btn btn-sm btn-default btn-shadow" id="btn-mark-hole-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addAllGesturesToStudyGestureSet ?>"><i class="fa fa-plus"></i></button>-->
+            </div>
+            <div style="clear: both"></div>
         </div>
 
         <div class="panel-body" id="item-view" style="padding-bottom: 0px">

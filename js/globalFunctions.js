@@ -2326,13 +2326,8 @@ function getSimpleGestureListThumbnail(data, typeId, layout) {
 function getStudiesCatalogListThumbnail(data) {
     var clone = $('#studies-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
     if (data.data) {
-
         clone.attr('id', data.id);
         clone.find('.title-text').text(data.data.generalData.title);
-
-//        if (data.data.generalData.panelSurvey === 'yes') {
-//            $(clone).find('#panel-survey').removeClass('hidden');
-//        }
 
         if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
                 (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
@@ -2351,6 +2346,7 @@ function getStudiesCatalogListThumbnail(data) {
                 progress = daysExpired / totalDays * 100;
                 $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days + 1 === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
                 $(clone).find('.progress-bar').addClass('progress-bar-success');
+                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
             } else if (now < dateFrom) {
                 progress = 100;
                 var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
@@ -2361,6 +2357,11 @@ function getStudiesCatalogListThumbnail(data) {
                 $(clone).find('#study-range-days .address').text(translation.studyRuns + ": ");
                 $(clone).find('.study-ended').removeClass('hidden').find('.text').text(translation.studyEnded);
                 $(clone).find('.progress-bar').addClass('progress-bar-info');
+                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
+            }
+
+            if (parseInt(data.participants) > 0) {
+                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(parseInt(data.participants) === 1 ? data.participants + ' ' + translation.participation : data.participants + ' ' + translation.participations);
             }
 
             $(clone).find('.progress-bar').css({width: progress + "%"});
@@ -2458,7 +2459,6 @@ function getGestureSetPanel(data) {
         }
         var assembledGesturesLength = $(panel).find('#gestures-list-container .gesture-thumbnail.assembled').length;
         if (assembledGesturesLength === $(panel).find('#gestures-list-container .gesture-thumbnail').length) {
-            console.log(assembledGesturesLength);
             $(panel).find('#btn-mark-hole-set').addClass('marked');
             $(panel).find('#btn-mark-hole-set').find('.fa').removeClass('fa-plus').addClass('fa-minus');
 //            $(panel).find('#btn-unmark-hole-set').removeClass('hidden');
@@ -2554,6 +2554,7 @@ function getGestureCatalogGestureSetPanel(data, type, layout) {
         }
     } else {
         $(panel).find('#btn-mark-hole-set').addClass('hidden');
+        $(panel).find('#btn-download-as-json').addClass('hidden');
         appendAlert(panel, ALERT_EMPTY_GESTURE_SET);
     }
 
@@ -2574,6 +2575,12 @@ function getGestureCatalogGestureSetPanel(data, type, layout) {
                 }
             });
         }
+    });
+    
+    $(panel).find('#btn-download-as-json').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        $(this).popover('hide');
+        downloadGestureSetAsJSON($(panel).find('.gesture-thumbnail'), data.title);
     });
 
     return panel;
@@ -2961,6 +2968,7 @@ $(document).on('click', '.btn-toggle-sensor-source', function (event) {
     if (!$(this).hasClass('disabled') && !$(this).hasClass('active')) {
         $(this).parent().children().removeClass('active');
         $(this).addClass('active');
+        
         var showSensor = $(this).attr('data-toggle-sensor');
         $(this).closest('.root').find('.sensor-content').children().addClass('hidden');
         $(this).closest('.root').find('.sensor-content [data-sensor-source=' + showSensor + ']').removeClass('hidden');

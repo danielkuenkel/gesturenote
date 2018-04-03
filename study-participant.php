@@ -91,23 +91,43 @@ if (login_check($mysqli) == true) {
         <div class="container mainContent" style="margin-top: 0px;" id="general-view">
             <h2 id="main-headline" style="margin-top: 0"></h2>
             <hr>
-            <span class="text pull-right" id="execution-date"></span>
-            <span class="label label-default" id="user"><i class="fa fa-user"></i> <span class="label-text"></span></span>
-            <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs"></span></span>
-            <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs"></span></span>
+
+            <nav>
+                <ul class="pager"style="margin-bottom: 2px">
+                    <li class="btn-sm btn-prev-participant disabled pull-left" style="padding: 0"><a href="#"><span aria-hidden="true">&larr;</span> Vorheriger Teilnehmer</a></li>
+                    <li class="btn-sm btn-next-participant disabled pull-right" style="padding: 0"><a href="#">Nächster Teilnehmer <span aria-hidden="true">&rarr;</span></a></li>
+                </ul>
+            </nav>
+
         </div>
 
-        <div class="container" id="phase-results" style="margin-bottom: 60px;">
+        <div class="container" id="phase-results" style="margin-bottom: 0px;">
             <div class="row">
                 <div class="col-md-3" style="margin-bottom: 30px;">
-                    <div class="btn-group-vertical btn-block" id="phase-results-nav">
+                    <div class="" style="">
+                        <div class="text" id="execution-date"></div>
+                        <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text"></span></span>
+                        <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text"></span></span>
+                        <span class="label label-default hidden" id="execution-duration"><i class="fa fa-clock-o"></i> <span class="label-text"></span></span>
                     </div>
+
+                    <div class="btn-group-vertical btn-block" id="phase-results-nav" style="margin-top: 20px"></div>
                 </div>
                 <div class="col-md-9">
                     <div id="phase-result"></div>
                 </div>
             </div>
         </div>
+
+        <div class="container mainContent" style="margin-top: 0px;">
+            <nav>
+                <ul class="pager"style="margin-bottom: 2px">
+                    <li class="btn-sm btn-prev-participant disabled pull-left" style="padding: 0"><a href="#"><span aria-hidden="true">&larr;</span> Vorheriger Teilnehmer</a></li>
+                    <li class="btn-sm btn-next-participant disabled pull-right" style="padding: 0"><a href="#">Nächster Teilnehmer <span aria-hidden="true">&rarr;</span></a></li>
+                </ul>
+            </nav>
+        </div>
+
 
         <script>
             $(document).ready(function () {
@@ -156,21 +176,103 @@ if (login_check($mysqli) == true) {
                 // general data view
                 $('#execution-date').text(convertSQLTimestampToDate(resultData.created).toLocaleString());
                 $('#main-headline').text(studyData.generalData.title);
-                if (isNaN(resultData.userId)) {
-                    $('#general-view').find('#user .label-text').text(translation.userTypes.guest);
-                } else {
-                    $('#general-view').find('#user .label-text').text(translation.userTypes.registered);
-                }
+//                if (isNaN(resultData.userId)) {
+//                    $('#general-view').find('#user .label-text').text(translation.userTypes.guest);
+//                } else {
+//                    $('#general-view').find('#user .label-text').text(translation.userTypes.registered);
+//                }
 
                 if (results.aborted === 'no' && results.studySuccessfull === 'yes') {
-                    $('#general-view').find('.panel').addClass('panel-success');
-                    $('#general-view').find('#execution-success').removeClass('hidden');
-                    $('#general-view').find('#execution-success .label-text').text(translation.studySuccessful);
+//                    $('#phase-results').find('.panel').addClass('panel-success');
+                    $('#phase-results').find('#execution-success').removeClass('hidden');
+                    $('#phase-results').find('#execution-success .label-text').text(translation.studySuccessful);
+
+                    var start = null;
+                    var end = null;
+                    for (var j = 0; j < results.phases.length; j++) {
+                        if (results.phases[j].startTime) {
+                            if (results.phases[j].format === LETTER_OF_ACCEPTANCE) {
+                                start = parseInt(results.phases[j].startTime);
+                            } else if (results.phases[j].format === THANKS) {
+                                end = parseInt(results.phases[j-1].endTime);
+                            }
+                        }
+                    }
+
+                    if (start && end) {
+                        var duration = getTimeBetweenTimestamps(start, end);
+                        $('#phase-results').find('#execution-duration').removeClass('hidden');
+                        $('#phase-results').find('#execution-duration .label-text').text(getTimeString(duration, true));
+                    }
                 } else {
-                    $('#general-view').find('.panel').addClass('panel-danger');
-                    $('#general-view').find('#execution-fault').removeClass('hidden');
-                    $('#general-view').find('#execution-fault .label-text').text(translation.studyFault);
+//                    $('#phase-results').find('.panel').addClass('panel-danger');
+                    $('#phase-results').find('#execution-fault').removeClass('hidden');
+                    $('#phase-results').find('#execution-fault .label-text').text(translation.studyFault);
                 }
+
+                // participants navigation view
+                getStudyResults({studyId: data.id}, function (result) {
+                    if (result.status === RESULT_SUCCESS) {
+                        if (result.studyResults && result.studyResults.length > 0) { // check if there are study results
+//                            console.log(result.studyResults);
+                            var query = getQueryParams(document.location.search);
+                            var disablePrevButton = false;
+                            var disableNextButton = false;
+                            var nextParticipantId = null;
+                            var prevParticipantId = null;
+
+                            for (var i = 0; i < result.studyResults.length; i++) {
+//                                console.log(result.studyResults[i], query.participantId);
+                                if (query.participantId === result.studyResults[i].userId) {
+                                    if (i === 0) {
+                                        disablePrevButton = true;
+                                        nextParticipantId = result.studyResults[i + 1].userId;
+                                    } else if (i === result.studyResults.length - 1) {
+                                        disableNextButton = true;
+                                        prevParticipantId = result.studyResults[i - 1].userId;
+                                    } else {
+                                        nextParticipantId = result.studyResults[i + 1].userId;
+                                        prevParticipantId = result.studyResults[i - 1].userId;
+                                    }
+                                    break;
+                                }
+
+                            }
+//                            console.log(disablePrevButton, disableNextButton, query.participantId);
+
+                            $('#pageBody').find('.btn-prev-participant').removeClass('disabled').unbind('click');
+                            $('#pageBody').find('.btn-next-participant').removeClass('disabled').unbind('click');
+                            if (disablePrevButton) {
+                                $('#pageBody').find('.btn-prev-participant').addClass('disabled');
+                                $('#pageBody').find('.btn-next-participant').bind('click', function (event) {
+                                    event.preventDefault();
+                                    clearLocalItems();
+                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h);
+                                });
+                            } else if (disableNextButton) {
+                                $('#pageBody').find('.btn-next-participant').addClass('disabled');
+                                $('#pageBody').find('.btn-prev-participant').bind('click', function (event) {
+                                    event.preventDefault();
+                                    clearLocalItems();
+                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h);
+                                });
+                            } else {
+                                $('#pageBody').find('.btn-next-participant').bind('click', function (event) {
+                                    event.preventDefault();
+                                    clearLocalItems();
+                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h);
+                                });
+
+                                $('#pageBody').find('.btn-prev-participant').bind('click', function (event) {
+                                    event.preventDefault();
+                                    clearLocalItems();
+                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h);
+                                });
+                            }
+                        } else {
+                        }
+                    }
+                });
 
                 // phase nav view
                 if (studyData.phases && studyData.phases.length > 0) {

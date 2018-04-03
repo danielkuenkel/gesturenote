@@ -2337,7 +2337,7 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->rating->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -2373,7 +2373,7 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->dichotomousQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -2476,7 +2476,7 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->ueqItem->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-sm btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>

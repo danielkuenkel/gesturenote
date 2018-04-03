@@ -31,8 +31,7 @@ function renderData(data, hash, showTutorial) {
 
         getStudyResults({studyId: data.id}, function (result) {
             if (result.status === RESULT_SUCCESS) {
-                if (now > dateFrom && result.studyResults && result.studyResults.length > 0) { // check either if there are study results
-                    //                                $('#btn-edit-study, #btn-delete-study').remove();
+                if (now > dateFrom && result.studyResults && result.studyResults.length > 0) { // check if there are study results
                     renderStudyParticipants(result.studyResults, hash);
                 } else {
                     $('#tab-pane').find('#participants .badge').text('0');
@@ -59,7 +58,6 @@ function renderData(data, hash, showTutorial) {
         });
 
         // prepare study
-        console.log(now, dateFrom, dateTo, now > dateFrom && now < dateTo);
         if (now > dateFrom && now < dateTo) {
             if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
                 $('#btn-prepare-study, #btn-open-static-study-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
@@ -134,12 +132,14 @@ function renderData(data, hash, showTutorial) {
             goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash);
         }
     });
+
     $('#btn-preview-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
             goto("study-preview.php?studyId=" + event.data.studyId + "&h=" + hash);
         }
     });
+
     $('#btn-delete-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
         var button = $(this);
@@ -346,35 +346,38 @@ function renderStudyFeedback(feedback) {
 
 
 function renderStudyParticipants(data, hash) {
-    var guestUsers = 0;
-    var registeredUsers = 0;
-    var successfullStudies = 0;
+    $('#study-participants .list-container').empty();
     $('#tab-pane').find('#participants .badge').text(data.length);
+
     for (var i = 0; i < data.length; i++) {
         var result = data[i].data;
         var item = $('#template-study-container').find('#participant-thumbnail').clone().removeAttr('id');
-        $(item).find('.panel-heading').text(convertSQLTimestampToDate(data[i].created).toLocaleString());
-        //                    console.log($(item).find('.panel-heading').text('test'));
+        $(item).find('#heading-text').text(convertSQLTimestampToDate(data[i].created).toLocaleString());
         $('#study-participants .list-container').append(item);
-        if (isNaN(data[i].userId)) {
-            guestUsers++;
-            $(item).find('#user .label-text').text(translation.userTypes.guest);
-        } else {
-            registeredUsers++;
-            $(item).find('#user .label-text').text(translation.userTypes.registered);
-        }
 
         if (result.aborted === 'no' && result.studySuccessfull === 'yes') {
-            successfullStudies++;
             $(item).find('.panel').addClass('panel-success');
             $(item).find('#execution-success').removeClass('hidden');
             $(item).find('#execution-success .label-text').text(translation.studySuccessful);
+
+            var start = null;
+            var end = null;
+            for (var j = 0; j < result.phases.length; j++) {
+                if (result.phases[j].startTime) {
+                    if (result.phases[j].format === LETTER_OF_ACCEPTANCE) {
+                        start = parseInt(result.phases[j].startTime);
+                    } else if (result.phases[j].format === THANKS) {
+                        end = parseInt(result.phases[j-1].endTime);
+                    }
+                }
+            }
+
+            if (start && end) {
+                var duration = getTimeBetweenTimestamps(start, end);
+                $(item).find('#execution-duration').removeClass('hidden');
+                $(item).find('#execution-duration .label-text').text(getTimeString(duration, true));
+            }
         }
-//                    else if (result.aborted === 'no' && result.studySuccessfull === 'yes') {
-//                        $(item).find('.panel').addClass('panel-warning');
-//                        $(item).find('#execution-error').removeClass('hidden');
-//                        $(item).find('#execution-error .label-text').text(translation.studyFault);
-//                    }
         else {
             $(item).find('.panel').addClass('panel-danger');
             $(item).find('#execution-fault').removeClass('hidden');
@@ -387,8 +390,6 @@ function renderStudyParticipants(data, hash) {
             goto('study-participant.php?studyId=' + event.data.studyId + '&participantId=' + event.data.participantId + '&h=' + hash);
         });
     }
-
-    console.log('guests: ' + guestUsers + ', registered: ' + registeredUsers + ', success: ' + successfullStudies);
 }
 
 
@@ -651,8 +652,8 @@ function renderElicitationStatistics(container, statistics, prependContainer, he
     $(statisticsContainer).find('#amount-static-gestures').text(translation.gestureTypes.poses + ': ' + statistics.staticGestures);
     $(statisticsContainer).find('#amount-dynamic-gestures').text(translation.gestureTypes.dynamics + ': ' + statistics.dynamicGestures);
 
-    $(statisticsContainer).find('#amount-discrete-gestures').text(translation.gestureInteractionTypes.discretes + ': ' + statistics.discreteInteractions);
-    $(statisticsContainer).find('#amount-continuous-gestures').text(translation.gestureInteractionTypes.continuouss + ': ' + statistics.continuousInteractions);
+    $(statisticsContainer).find('#amount-discrete-gestures').text(translation.gestureInteractionTypes.discrete + ': ' + statistics.discreteInteractions);
+    $(statisticsContainer).find('#amount-continuous-gestures').text(translation.gestureInteractionTypes.continuous + ': ' + statistics.continuousInteractions);
 
     $(statisticsContainer).css({marginBottom: '40px'});
 
@@ -2041,7 +2042,7 @@ function renderTriggerClassification() {
                 $('#trigger-classification').removeClass('hidden');
                 updateTriggerMatchingView();
             } else {
-                appendAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_TRIGGER_FOR_CLASSIFICATION);
+                appendAlert($('#content-btn-trigger-classification'), ALERT_NO_MORE_TRIGGER_FOR_CLASSIFICATION);
             }
             renderClassifiedTrigger($('#classified-trigger'));
         } else {

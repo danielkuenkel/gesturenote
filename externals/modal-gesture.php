@@ -577,10 +577,12 @@ include '../includes/language.php';
             }
         }
         
+        
         if (gesture.images && gesture.images.length > 0) {
             renderGesturePreview(container.find('#webcam-preview'), gesture);
-            $(container).find('#toggle-gesture-recording-source #btn-webcam').removeClass('hidden');
-            $(container).find('.sensor-content [data-toggle-sensor=webcam]').removeClass('hidden');
+//            $(container).find('#toggle-gesture-recording-source #btn-webcam').removeClass('hidden');
+            console.log('render Gesture preview', $(container).find('.sensor-content [data-toggle-sensor=webcam]'));
+            $(container).find('.sensor-content [data-sensor-source=webcam]').removeClass('hidden');
             $(container).find('.sensor-content [data-toggle-sensor=webcam]').click();
         }
 
@@ -1016,6 +1018,7 @@ include '../includes/language.php';
 
             if (currentPreviewGesture.gesture.images && currentPreviewGesture.gesture.images.length > 0) {
                 $('#custom-modal').find('#toggle-gesture-recording-source').removeClass('hidden');
+                $('#custom-modal').find('#toggle-gesture-recording-source [data-toggle-sensor=webcam]').removeClass('hidden');
                 $('#custom-modal').find('#toggle-gesture-recording-source [data-toggle-sensor=webcam]').click();
             }
         }

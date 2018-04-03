@@ -54,14 +54,18 @@ include '../includes/language.php';
 
     <div class="root col-xs-6 col-sm-4 col-lg-3" id="participant-thumbnail">
         <div class="panel panel-default btn-shadow">
-            <div class="panel-heading"></div>
-
             <div class="panel-body">
-                <span class="label label-default" id="user"><i class="fa fa-user"></i> <span class="label-text"></span></span>
+                <div id="heading-text"></div>
                 <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
                 <span class="label label-warning hidden" id="execution-error"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
                 <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
+                <span class="label label-default hidden" id="execution-duration"><i class="fa fa-clock-o"></i> <span class="label-text"></span></span>
             </div>
+
+            <!--<div class="panel-body">-->
+                <!--<span class="label label-default" id="user"><i class="fa fa-user"></i> <span class="label-text"></span></span>-->
+                
+            <!--</div>-->
         </div>
     </div>
 
@@ -1305,12 +1309,17 @@ include '../includes/language.php';
 
 
 
-    <div class="panel panel-default" id="panel-gesture-set">
+<!--    <div class="panel panel-default" id="panel-gesture-set">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow" id="btn-delete-gesture-set"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
             <span class="panel-heading-text"></span>
+            <div class="btn-group pull-right">
+                <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-download"></i></button>
+                <button class="btn btn-sm btn-default btn-shadow" id="btn-mark-hole-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addAllGesturesToStudyGestureSet ?>"><i class="fa fa-plus"></i></button>
+            </div>
+            <div style="clear: both"></div>
         </div>
 
         <div class="panel-body" id="item-view">
@@ -1318,7 +1327,7 @@ include '../includes/language.php';
 
             </div>
         </div>
-    </div>
+    </div>-->
 
 </div>
 

@@ -32,6 +32,7 @@ if (login_check($mysqli) == true) {
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
 
+        <script src="js/filesaver/FileSaver.min.js"></script>
         <script src="js/refreshSession.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/alert.js"></script>
@@ -50,6 +51,22 @@ if (login_check($mysqli) == true) {
         <script src="js/sha512.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/study.js"></script>
+        
+        <!-- leap and plugins -->
+        <script src="js/leapjs/leap-0.6.4.min.js"></script>
+        <script src="js/leapjs/leap-plugins-0.1.12.min.js"></script>
+        <script src="js/three/three.min.js"></script>
+        <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
+        <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
+
+         <!--gesture recorder--> 
+        <script src="js/gestureRecorder/gestureRecorder.js"></script>
+        <script src="js/gestureRecorder/webcamRecorder.js"></script>
+        <script src="js/gestureRecorder/leapRecorder.js"></script>
+
+        <!-- bootstrap slider -->
+        <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
+        <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -240,7 +257,7 @@ if (login_check($mysqli) == true) {
                                 </div>
                                 <div class="btn-group-vertical">
                                     <!--<button type="button" class="btn btn-default btn-shadow" id="btn-help-classification"><i class="fa fa-question-circle"></i> <span class="btn-text">Mehr Infos zur Klassifizierung</span></button>-->
-                                    <button type="button" class="btn btn-primary btn-shadow" id="btn-start-classification"><i class="fa fa-archive"></i> <span class="btn-text"><?php echo $lang->extractionContent->startClassification ?></span></button>
+                                    <button type="button" class="btn btn-default btn-shadow" id="btn-start-classification"><i class="fa fa-archive"></i> <span class="btn-text"><?php echo $lang->extractionContent->startClassification ?></span></button>
                                 </div>
                             </div>
 
@@ -377,7 +394,7 @@ if (login_check($mysqli) == true) {
                                 </div>
                                 <div class="btn-group-vertical">
                                     <!--<button type="button" class="btn btn-default btn-shadow" id="btn-help-classification"><i class="fa fa-question-circle"></i> <span class="btn-text">Mehr Infos zur Klassifizierung</span></button>-->
-                                    <button type="button" class="btn btn-primary btn-shadow" id="btn-start-trigger-classification"><i class="fa fa-archive"></i> <span class="btn-text"><?php echo $lang->extractionContent->startClassification ?></span></button>
+                                    <button type="button" class="btn btn-default btn-shadow" id="btn-start-trigger-classification"><i class="fa fa-archive"></i> <span class="btn-text"><?php echo $lang->extractionContent->startClassification ?></span></button>
                                 </div>
                             </div>
 
@@ -572,7 +589,6 @@ if (login_check($mysqli) == true) {
                             break;
                     }
                 }
-                console.log(activeTab);
 
                 $('#custom-modal').attr('data-help-items-key', 'introductionStudy');
                 $('#custom-modal').attr('data-help-context', 'study');

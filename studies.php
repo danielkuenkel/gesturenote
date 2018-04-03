@@ -67,7 +67,7 @@ if (login_check($mysqli) == true) {
                     <div>
                         <div class="label label-default" id="type-phase"></div>
                         <div class="label label-default" id="type-survey"></div>
-                        <!--<div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>-->
+                        <div class="label label-default hidden" id="participant-count"><i class="fa fa-users"></i> <span class="label-text"></span></div>
                     </div>
 
                     <div>

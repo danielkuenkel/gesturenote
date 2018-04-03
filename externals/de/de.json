@@ -203,7 +203,9 @@
         "phases": "Leitfaden",
         "panel": "Wen, Was & Wann?"
     },
+    "participation": "Teilnahme",
     "participations": "Teilnahmen",
+    "noParticipations": "Keine Teilnahmen",
     "editStudy": "Studie bearbeiten",
     "previewStudy": "Vorschau der Studie",
     "deleteStudy": "Studie löschen",
@@ -4212,10 +4214,10 @@
             "description": 
                     [
                         "<h4>Bereiche</h4><hr>",
-                        "<img class='img-image' src='img/de/introduction/study-create/carousel-01-01.jpg' style='width:350px' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-01-01.jpg' style='max-width:350px' />",
                         "<p>Die Erstellung einer Studie ist in drei Bereiche unterteilt: Allgemeines, Kataloge und Leitfaden. Die Kataloge und der Leitfaden können erst angelegt werden, wenn die allgemeinen Daten für die Studie hinterlegt wurden.</p>",
                         "<h4>Info-Symbole</h4><hr>",
-                        "<img class='img-image' src='img/de/introduction/study-create/carousel-01-02.jpg' style='width:458px' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-01-02.jpg' style='max-width:458px' />",
                         "<p>Hinter jedem Info-Symbol <i class='fa fa-info-circle'></i> sind weitere hilfreiche Informationen hinterlegt. Bewegen Sie die Maus über diese Symbole und die Informationen werden angezeigt.</p>",
                         "<h4>Speichern</h4><hr>",
                         "<p>Eine Studie wird erst final gespeichert und erstellt, wenn Sie den grünen Button <button type='button' class='btn btn-success btn-shadow btn-xs'><i class='fa fa-save'></i> Speichern & Schließen</button> klicken. Sie können die Seite neu laden, ohne das Ihre Daten verloren gehen. Laden Sie jedoch die Seite neu, wenn ein Dialog geöffnet ist, werden die Eignaben im Dialog nicht gespeichert. Dialogdaten werden erst gespeichert, wenn ein Dialog geschlossen wird. <br/><br/>Wird eine Studie gespeichert, gelangt man zur Studien-Übersicht. Für die Akquirierung von Probanden stellt GestureNote eine URL bereit, die dann z.B. in sozialen Netzwerken oder per E-Mail geteilt werden kann.</p>"
@@ -4245,7 +4247,7 @@
             "description": 
                     [
                         "<p>Kataloge dienen als Grundlage für die Erstellung eines Leitfadens. Hierbei kommt es auch darauf an, in welcher Gesten-Design-Phase man sich befindet (Ermittlung, Extraktion, Evaluierung) und welche Methoden/Vorgehensweisen (Fragebogen, GUS, Szenario, Physischer Belastungstest, etc.) genutzt werden sollen. Sollen z.B. Gesten für vorhandene Funktionen ermittelt werden (Bottom-Up), genügt es für die Durchführung einen Funktionen- und einen Zustands-Katalog anzulegen. Ein Studien-Gesten-Set wird in diesem Fall nicht benötigt.<p/><p> Sollen dagegen in einer Ermittlung Funktionen für vorhandene Gesten ermittelt werden (Top-Down), reicht das Anlegen eines Studien-Gesten-Sets.<p/>",
-                        "<table class='table table-bordered' style='width:100%'><thead><tr><th>Methode</th><th class='text-center'>Studien-Gesten</th><th class='text-center'>Funktionen</th><th class='text-center'>Feedback</th><th class='text-center'>Zustände</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>GUS</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Ermittlung</td><td class='text-center'><i class='fa fa-check'></i> Top-Down</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Exploration</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Gesten-Training</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Szenario</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Gesten erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Funktionen erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr></tbody></table>",
+                        "<table class='table table-bordered' style='max-width:100%'><thead><tr><th>Methode</th><th class='text-center'>Studien-Gesten</th><th class='text-center'>Funktionen</th><th class='text-center'>Feedback</th><th class='text-center'>Zustände</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>GUS</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Ermittlung</td><td class='text-center'><i class='fa fa-check'></i> Top-Down</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Exploration</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Gesten-Training</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Szenario</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Gesten erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Funktionen erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr></tbody></table>",
                         "<p>Für einen besseren Überblick wurden in der Tabelle die möglichen Vorgehensweisen und den benötigten Katalogen zusammengefasst. Optionale Kataloge sind mit <em>opt.</em> gekennzeichnet.</p>",
                         "<h4>Studien-Gesten</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-03-01.jpg' />",
@@ -4272,7 +4274,7 @@
             "description": 
                     [
                         "<p>Der Leitfaden ist das Kernstück einer nutzerzentrierten Befragung. In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Danksagung. Diese Schritte sind vorausgewählt und können nicht gelöscht werden. Um weitere Abschnitte hinzuzufügen, klicken Sie einfach auf das entsprechende Format wie z.B. Fragebogen. Um die Abschnitte zu bearbeiten, klicken Sie in der Leitfadenliste auf den Titel des jeweiligen Abschnitts.</p>",
-                        "<table class='table table-bordered' style='width:100%'><thead><tr><th>Methode</th><th class='text-center'>Ermittlung</th><th class='text-center'>Extraktion</th><th class='text-center'>Evaluierung</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td></tr><tr><td>Interview</td><td class='text-center'>M</td><td class='text-center'>M</td><td class='text-center'>M</td></tr><tr><td>GUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>UEQ</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>Ermittlung</td><td class='text-center'>M<td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Exploration</td><td class='text-center'>-</td><td class='text-center'>M</td><td class='text-center'>-</td></tr><tr><td>Gesten-Training</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Szenario</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Gesten erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Funktionen erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr></tbody></table>",
+                        "<table class='table table-bordered' style='max-width:100%'><thead><tr><th>Methode</th><th class='text-center'>Ermittlung</th><th class='text-center'>Extraktion</th><th class='text-center'>Evaluierung</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td></tr><tr><td>Interview</td><td class='text-center'>M</td><td class='text-center'>M</td><td class='text-center'>M</td></tr><tr><td>GUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>UEQ</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>Ermittlung</td><td class='text-center'>M<td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Exploration</td><td class='text-center'>-</td><td class='text-center'>M</td><td class='text-center'>-</td></tr><tr><td>Gesten-Training</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Szenario</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Gesten erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Funktionen erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr></tbody></table>",
                         "<div class='text-center' style='font-size:10pt'>M = Moderierte Durchführung, UM = Unmoderierte Durchführung</div>",
                         "<p style='margin-top:10px'>In der oberen Tabelle sind für eine bessere Übersicht alle Design-Phasen und die Methoden, welche mit GestureNote dort unterstützt werden dargestellt. Zusätzlich ist die unterstützte Befragungsart (moderiert oder unmoderiert) hinterlegt.</p>",
                         "<h4>Einverständniserklärung</h4><hr>",
@@ -4337,7 +4339,7 @@
                         "<p>Die Durchführungsseite ist das Äquivalent zur Studien-Vorschau, mit dem Unterschied, dass in der Vorschau zwischen den beiden Rollen (Moderator, Tester) gewechselt werden kann (wenn moderierte Befragung gewählt wurde). </p>",
                         "<img class='img-image' src='img/de/introduction/study-preview/carousel-01-02.jpg' />",
                         "<p>Ein weiterer Unterschied betrifft die oberere Navigationsleiste. Mit dieser kann in der Vorschau frei zwischen den einzelnen Leitfadenschritten gewählt werden. In der eigentlichen Durchführung ist diese Leiste nicht vorhanden. Der Abbrechen-Button und die Fortschrittsanzeige sind hingegen in der Vorschau wie auch in der Durchführung vorhanden.</p>",
-                        "<img class='img-image' src='img/de/introduction/study-preview/carousel-01-03.jpg' style='width:791px'/>",
+                        "<img class='img-image' src='img/de/introduction/study-preview/carousel-01-03.jpg' style='max-width:791px'/>",
                         "<p>In der Durchführung wird der WebRTC Platzhalter (links) durch den eigentlichen Stream (rechts) ersetzt, sodass der Moderator den Tester sieht. Bei einigen Abschnitten kann auch der Tester den Moderator sehen (z.B. beim Ausfüllen eines Fragebogens oder bei der Danksagung). Die Funktionalität gleicht einem Videoanruf, nur dass dieser in einem Browser statt findet.</p>",
                         "<p>In der Duruchführung werden alle Daten gespeichert (außer beim Neu laden), für die Vorschau hingegen nicht.</p>",
                         "<h4>Neu laden bei Durchführung</h4><hr>",
@@ -4393,13 +4395,13 @@
             "popover": "Allgemeines",
             "description": [
                 "<h4>Bereiche</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/study-create/carousel-01-01.jpg' style='width:486px' />",
-                "<p>Die Studien-Seite teilt sich in die Bereiche <em>Allgemeines</em>, <em>Kataloge</em> und <em>Teilnahmen</em> auf. Falls eine Extraktion durchgeführt, wird zusätzlich der Bereich <em>Exktraktion</em> in der Navigation eingeblendet.</p>",
-                "<h4>Info-Symbole</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/study-create/carousel-01-02.jpg' style='width:625px' />",
-                "<p>Hinter jedem Info-Symbol <i class='fa fa-info-circle'></i> sind weitere hilfreiche Informationen hinterlegt. Bewegen Sie die Maus über diese Symbole und die Informationen werden angezeigt.</p>",
-                "<h4>Speichern</h4><hr>",
-                "<p>Eine Studie wird erst final gespeichert und erstellt, wenn Sie den grünen Button <button type='button' class='btn btn-success btn-shadow btn-xs'><i class='fa fa-save'></i> Speichern & Schließen</button> klicken. Sie können die Seite neu laden, ohne das Ihre Daten verloren gehen. Laden Sie jedoch die Seite neu, wenn ein Dialog geöffnet ist, werden die Eignaben im Dialog nicht gespeichert. Dialogdaten werden erst gespeichert, wenn ein Dialog geschlossen wird. <br/><br/>Wird eine Studie gespeichert, gelangt man zur Studien-Übersicht. Für die Akquirierung von Probanden stellt GestureNote eine URL bereit, die dann z.B. in sozialen Netzwerken oder per E-Mail geteilt werden kann.</p>"
+                "<img class='img-image' src='img/de/introduction/study/carousel-01-01.png' style='max-width:456px' />",
+                "<p>Die Studien-Seite teilt sich in die Bereiche <em>Allgemeines</em>, <em>Kataloge</em> und <em>Teilnahmen</em> auf. Falls eine Extraktion durchgeführt wurde, erscheint zusätzlich der Bereich <em>Exktraktion</em> in der Navigation.</p>",
+                "<h4>Studien-URL & Infos</h4><hr>",
+                "<p>Um eine Studie aufzurufen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet.</p>",
+                "<h4>Leitfaden</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/study/carousel-01-03.png' style='max-width:390px' />",
+                "<p>Auf der rechten Seite wird nochmals der Leitfaden angezeigt. Zusätzlich kann die Studie bearbeitet, die Vorschau aufgerufen oder die Studie gelöscht werden.</p>"
             ]
         },
         {
@@ -4409,6 +4411,8 @@
             "text": "Dies ist ein Infotext …",
             "popover": "Kataloge",
             "description": [
+                "<p>Zusammenfassend werden in diesem Bereich alle hinterlegten Studien-Katalog-Daten angezeigt. Dies umfasst das Studien-Gesten-Set, Funktionen, Feedback sowie Zustände. Die Darstellung kann aufgrund der hinterlegten Daten variieren.</p>",
+                "<p>Um diese Daten zu arbeiten, klicken Sie unter <em>Allgemeines</em> auf <button class='btn btn-xs btn-default'><i class='fa fa-pencil'></i> Studie bearbeiten</button>.</p>"
             ]
         },
         {
@@ -4418,6 +4422,8 @@
             "text": "Dies ist ein Infotext …",
             "popover": "Teilnahmen",
             "description": [
+                "<p>Falls bereits Probanden an einer Studie teilgenommen haben, werden diese hier angezeigt. Um die erhobenen Daten zu sichten, klicken Sie auf eine Teilnahme. Darüber hinaus wird für jede Teilnahme der Erfolg und die Durchführungsdauer angzeigt (falls erfolgreich).</p>",
+                "<p>Im Falle eines Abbruchs liegen nur die erhobenen Daten bis zum Zeitpunkt des Abbruchs vor. Möglicherweise gab es Probleme mit der Technik, oder der Proband/Moderator musste die Befragung abbrechen.</p>"
             ]
         },
         {
@@ -4427,6 +4433,26 @@
             "text": "Dies ist ein Infotext …",
             "popover": "Extraktion",
             "description": [
+                "Wurde eine Gesten- oder Funktionen-Ermittlung durchgeführt, können die erhobenen Daten unter diesem Bereich gesichtet, klassifiziert, bewertet und sortiert werden.",
+                "<h4>Alle ermittelten Gesten oder Funktionen</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/study/carousel-04-01.png' style='max-width:878px' />",
+                "<p>Je nachdem was ermittelt wurde (Gesten oder Funktionen), werden unter diesem Punkt alle Daten dargestellt, inkl. Zuordnung. Wurden z.B. Gesten für Funktionen ermittelt, sind hier für jede Funktion die aufgezeichneten Gesten aufgelistet. Darüber hinaus wird die Verteilung von Gesten-Typen und Gesten-Interaktions-Typen als Balken dargestellt.</p>",
+                "<h4>Klassifizierung</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/study/carousel-04-02.png' style='max-width:802px' />",
+                "<p>Bei der Klassifzierung werden gleiche Gesten oder Funktionen zusammengefasst.</p>",
+                "<img class='img-image' src='img/de/introduction/study/carousel-04-03.png' style='max-width:730px' />",
+                "<p>Bei einer Gesten-Klassifizierung kann zwischen zwei Modi gewählt werden. Eine Klassifizierung nach <em>Geste</em> oder <em>Gesten + Funktion</em>. </p>",
+                "<img class='img-image' src='img/de/introduction/study/carousel-04-04.png' style='max-width:718px' />",
+                "<p>Bei einer Funktions-Klassifizierung kann ebenfalls zwischen zwei Modi gewählt werden. Eine Klassifizierung nach <em>Funktion</em> oder <em>Funktion + Geste</em></p>",
+                "<h4>Checkliste</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/study/carousel-04-05.png' style='max-width:486px' />",
+                "<p>Bei einer Funktions-Klassifizierung kann ebenfalls zwischen zwei Modi gewählt werden. Eine Klassifizierung nach <em>Funktion</em> oder <em>Funktion + Geste</em></p>",
+                "<h4>Potentielle Gesten oder Funktionen</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/study/carousel-04-06.png' style='max-width:493px' />",
+                "<p>Bei einer Funktions-Klassifizierung kann ebenfalls zwischen zwei Modi gewählt werden. Eine Klassifizierung nach <em>Funktion</em> oder <em>Funktion + Geste</em></p>",
+                "<h4>Gesten-Sets</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/study/carousel-04-07.png' style='max-width:472px' />",
+                "<p>Potentielle Gesten lassen sich zu einem Gesten-Set zusammenfassen. Das Gesten-Set kann dann z.B. in einer darauffolgenden Studie zur Evaluierung wiederverwenden werden. Oder es kann als JSON-Datei heruntergeladen werden, um es in einem Pidoco-Projekt zu verwenden.</em></p>"
             ]
         }
     ],
