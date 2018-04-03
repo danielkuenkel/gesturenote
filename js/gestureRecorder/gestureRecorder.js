@@ -51,6 +51,13 @@ GestureRecorder.prototype.destroy = function () {
     }
 };
 
+
+function resetRecorder() {
+    if (recorder) {
+        recorder.destroy();
+    }
+}
+
 function getRecorderOptionsByType(type) {
     if (recorder.options.record && recorder.options.record.length > 0) {
         for (var i = 0; i < recorder.options.record.length; i++) {
@@ -309,7 +316,7 @@ function initInstanceEvents(instance) {
                     $(instance).unbind('saveDataAttached').bind('saveDataAttached', onRecorderInstanceSaveDataAttached);
                     break;
             }
-            
+
             $(document).unbind('instanceUpdated').bind('instanceUpdated', onRecorderInstanceUpdated);
         }
     } else {
@@ -373,6 +380,7 @@ function initLeapRecorder(recorderOptions) {
 }
 
 var instanceCount = 0;
+var playbackCount = 0;
 function onRecorderInstanceReady(event, type) {
     event.preventDefault();
 
@@ -474,6 +482,8 @@ GestureRecorder.prototype.record = function () {
 
 GestureRecorder.prototype.stopRecord = function () {
     instanceCount = 0;
+    playbackCount = 0;
+    
     if (recorders && recorders.length > 0) {
         for (var i = 0; i < recorders.length; i++) {
             if (recorders[i].instance && recorders[i].state === 'recording') {
@@ -512,17 +522,18 @@ function onRecorderInstanceRecordingStopped(event, type) {
 
 function onRecorderInstancePlaybackReady(event, type) {
     event.preventDefault();
-    console.log('on recorder instance playback ready: ', type);
+    console.log('on recorder instance playback ready: ', type, playbackCount);
 
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].type === type && recorders[i].state === 'recordingStopped') {
             recorders[i].state = 'playback';
-            instanceCount++;
+            playbackCount++;
         }
     }
 
-    if (instanceCount === recorders.length) {
+    if (playbackCount === recorders.length) {
         console.log('all recorders ready for playback');
+        playbackCount = 0;
         instanceCount = 0;
         setState(GR_STATE_PLAYBACK);
     }
@@ -858,6 +869,7 @@ function saveGesture() {
         if (result.status === RESULT_SUCCESS) {
             resetInputs(true);
             gestureSaveData.id = result.gestureId;
+            $(recorder).trigger(GR_EVENT_SAVE_SUCCESS, [gestureSaveData]);
             setState(GR_STATE_SAVE_SUCCESS);
         } else {
             resetInputs();
@@ -901,16 +913,18 @@ function renderStateSaveSuccess() {
 
     var deleteButton = $(recorder.currentRecorderContent).find('#btn-delete-saved-gesture');
     if (recorder.options.allowDeletingGesture === false) {
-        $(deleteButton).addClass('hidden');
+        $(deleteButton).remove();
     } else {
         $(deleteButton).unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 lockButton(deleteButton, true, 'fa-trash');
+                var gestureId = gestureSaveData.id;
 
-                deleteGesture({gestureId: gestureSaveData.id}, function (result) {
+                deleteGesture({gestureId: gestureId}, function (result) {
                     resetInputs();
                     if (result.status === RESULT_SUCCESS) {
+                        $(recorder).trigger(GR_EVENT_DELETE_SUCCESS, [gestureId]);
                         setState(GR_STATE_DELETE_SUCCESS);
                     } else {
                         appendAlert($(recorder.currentRecorderContent), ALERT_GENERAL_ERROR);

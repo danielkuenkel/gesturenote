@@ -2609,27 +2609,50 @@ function initCatalogGesturesOverlay(formatClone) {
     }
 
     function getWholeGestureRecorder() {
-        var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');
-        $(formatClone).find('#gesture-recorder-container').empty().append(recorder);
-        renderBodyJoints($(recorder).find('#human-body'));
-        var options = {
-            alertTarget: $(formatClone).find('#gesture-recorder-container'),
-            recorderTarget: recorder,
-            saveGestures: true,
-            checkType: true,
-            checkInteractionType: true
-        };
-        new GestureRecorder(options);
-        var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
-        formatClone.find('#recorder-description').empty().append(recorderDescription);
-        $(recorder).unbind(EVENT_GR_UPDATE_STATE).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
-            var descriptions = $('#item-container-gesture-recorder').find('#' + type).clone();
-            recorderDescription.empty().append(descriptions);
-            TweenMax.from(descriptions, .3, {y: -20, opacity: 0, clearProps: 'all'});
-        });
-        $(recorder).unbind(EVENT_GR_SAVE_SUCCESS).bind(EVENT_GR_SAVE_SUCCESS, function (event, gesture) {
-            if (gesture) {
-                assembleGesture(gesture.id);
+        var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-with-introductions').clone().removeAttr('id');
+            $(formatClone).find('#gesture-recorder-container').empty().append(recorder);
+            renderBodyJoints($(recorder).find('#human-body'));
+
+            var options = {
+                recorderTarget: recorder,
+                alertTarget: $(formatClone).find('#gesture-recorder-container'),
+                saveGesture: true,
+                checkType: true,
+                checkInteractionType: true,
+                showIntroduction: true,
+                record: [
+                    {type: 'webcam', autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true},
+                    {type: 'leap', autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true}
+                ]
+            };
+
+            gestureRecorder = new GestureRecorder(options);
+        
+//        var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');
+//        $(formatClone).find('#gesture-recorder-container').empty().append(recorder);
+//        renderBodyJoints($(recorder).find('#human-body'));
+//        var options = {
+//            alertTarget: $(formatClone).find('#gesture-recorder-container'),
+//            recorderTarget: recorder,
+//            saveGestures: true,
+//            checkType: true,
+//            checkInteractionType: true
+//        };
+//        new GestureRecorder(options);
+        
+//        var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
+//        formatClone.find('#recorder-description').empty().append(recorderDescription);
+//        $(gestureRecorder).unbind(EVENT_GR_UPDATE_STATE).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
+//            var descriptions = $('#item-container-gesture-recorder').find('#' + type).clone();
+//            recorderDescription.empty().append(descriptions);
+//            TweenMax.from(descriptions, .3, {y: -20, opacity: 0, clearProps: 'all'});
+//        });
+        
+        $(gestureRecorder).unbind(GR_EVENT_SAVE_SUCCESS).bind(GR_EVENT_SAVE_SUCCESS, function (event, savedGesture) {
+            event.preventDefault();
+            if (savedGesture) {
+//                console.log(savedGesture);
+                assembleGesture(savedGesture.id);
                 getGestureCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         setLocalItem(GESTURE_CATALOG, result.gestures);
@@ -2639,7 +2662,10 @@ function initCatalogGesturesOverlay(formatClone) {
                 updateCatalogButtons();
             }
         });
-        $(recorder).unbind(EVENT_GR_DELETE_SUCCESS).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
+        
+        $(gestureRecorder).unbind(GR_EVENT_DELETE_SUCCESS).bind(GR_EVENT_DELETE_SUCCESS, function (event, gestureId) {
+//            console.log(GR_EVENT_DELETE_SUCCESS, gestureId);
+            event.preventDefault();
             reassembleGesture(gestureId);
             getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {

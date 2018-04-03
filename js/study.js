@@ -241,6 +241,8 @@ function renderData(data, hash, showTutorial) {
                     }
 
                     renderTriggerExtraction();
+                } else {
+                    appendAlert($('#gesture-extraction'), ALERT_NO_PHASE_DATA);
                 }
             }
         });

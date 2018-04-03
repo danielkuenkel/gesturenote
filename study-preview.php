@@ -65,11 +65,10 @@ if (login_check($mysqli) == true) {
         <script src="muaz-khan/screen.js"></script>
         <script src="//cdn.webrtc-experiment.com/firebase.js"></script>-->
 
-        <!-- gesture recorder sources -->
-        <script src="js/gestureRecorder/webcam.js"></script>
-        <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
-        <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
-        <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
+        <!--gesture recorder--> 
+        <script src="js/gestureRecorder/gestureRecorder.js"></script>
+        <script src="js/gestureRecorder/webcamRecorder.js"></script>
+        <script src="js/gestureRecorder/leapRecorder.js"></script>
         
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">

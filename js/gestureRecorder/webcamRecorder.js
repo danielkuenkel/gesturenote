@@ -149,12 +149,12 @@ WebcamRecorder.prototype.stopRecord = function (callback) {
 WebcamRecorder.prototype.playback = function () {
     var video = $(webcamRecorder.options.parent).find('.gr-playback .playback-webcam-video');
     var file;
-    
-    if(webcamRecorder.options.startRecordingTime) {
+
+    if (webcamRecorder.options.startRecordingTime) {
         webcamRecorder.startRecordingTime = parseInt(webcamRecorder.options.startRecordingTime);
     }
-    
-    if(webcamRecorder.options.endRecordingTime) {
+
+    if (webcamRecorder.options.endRecordingTime) {
         webcamRecorder.endRecordingTime = parseInt(webcamRecorder.options.endRecordingTime);
     }
 
@@ -355,7 +355,7 @@ WebcamRecorder.prototype.resetPlaybackControls = function () {
 };
 
 WebcamRecorder.prototype.recordedData = function () {
-    return {type:TYPE_RECORD_WEBCAM, data: new File(webcamRecorder.recordingChunks, 'webcam', {type: "video/webm"}), startRecordingTime: webcamRecorder.startRecordingTime, endRecordingTime: webcamRecorder.endRecordingTime};
+    return {type: TYPE_RECORD_WEBCAM, data: new File(webcamRecorder.recordingChunks, 'webcam', {type: "video/webm"}), startRecordingTime: webcamRecorder.startRecordingTime, endRecordingTime: webcamRecorder.endRecordingTime};
 };
 
 var draw_interval = null;
@@ -524,6 +524,3 @@ WebcamRecorder.prototype.destroy = function () {
         webcamRecorder = null;
     }
 };
-function resetRecorder() {
-    webcamRecorder.destroy();
-}

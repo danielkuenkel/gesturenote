@@ -2429,14 +2429,14 @@ include '../includes/language.php';
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="tab-gesture-recorder-content">
-                        <div class="row">
-                            <div class="col-sm-6">
+                        <!--<div class="row">-->
+<!--                            <div class="col-sm-6">
                                 <div id="recorder-description"></div>
-                            </div>
-                            <div class="col-sm-6" id="gesture-recorder-container">
+                            </div>-->
+                            <div class="" id="gesture-recorder-container">
 
                             </div>
-                        </div>
+                        <!--</div>-->
                     </div>
                 </div>
             </div>

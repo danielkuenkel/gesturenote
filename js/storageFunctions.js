@@ -91,10 +91,12 @@ function reassembleGesture(id) {
         for (var i = 0; i < aGestures.length; i++) {
             if (parseInt(aGestures[i]) === parseInt(id)) {
                 aGestures.splice(i, 1);
+                break;
+
             }
         }
+        setLocalItem(ASSEMBLED_GESTURE_SET, aGestures);
     }
-    setLocalItem(ASSEMBLED_GESTURE_SET, aGestures);
 }
 
 function removeAssembledGestures() {
@@ -123,7 +125,7 @@ function checkAssembledGestures(gestures, gestureCatalog) {
     }
 }
 
-    function updateGestureById(catalog, id, parameters) {
+function updateGestureById(catalog, id, parameters) {
     var gestureCatalog = getLocalItem(catalog);
 
     var gesture;
@@ -150,10 +152,10 @@ function checkAssembledGestures(gestures, gestureCatalog) {
 
 function getTriggerById(id, source) {
     var triggers = getLocalItem(ASSEMBLED_TRIGGER);
-    if(source) {
+    if (source) {
         triggers = getLocalItem(source);
     }
-    
+
     if (triggers) {
         for (var i = 0; i < triggers.length; i++) {
             if (parseInt(triggers[i].id) === parseInt(id)) {
@@ -377,8 +379,8 @@ function setStudyData(data) {
         if (data.resultData.elicitedGestures && data.resultData.elicitedGestures.length > 0) {
             setLocalItem(GESTURE_CATALOG, data.resultData.elicitedGestures);
         }
-        
-        if(data.resultData.elicitedTrigger && data.resultData.elicitedTrigger.length > 0) {
+
+        if (data.resultData.elicitedTrigger && data.resultData.elicitedTrigger.length > 0) {
             setLocalItem(ELICITED_TRIGGER, data.resultData.elicitedTrigger);
         }
     }
@@ -403,8 +405,8 @@ function setStudyData(data) {
         if (data.evaluatorData.elicitedGestures && data.evaluatorData.elicitedGestures.length > 0) {
             setLocalItem(GESTURE_CATALOG, data.evaluatorData.elicitedGestures);
         }
-        
-        if(data.resultData.elicitedTrigger && data.resultData.elicitedTrigger.length > 0) {
+
+        if (data.resultData.elicitedTrigger && data.resultData.elicitedTrigger.length > 0) {
             setLocalItem(ELICITED_TRIGGER, data.resultData.elicitedTrigger);
         }
 
