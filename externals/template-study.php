@@ -1065,16 +1065,16 @@ include '../includes/language.php';
             <span class="text" id="justification"></span>
             <br/>
             <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
-            <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->neitherNor ?></span></span>
+            <span class="hidden warning" id="even"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notEnoughData ?></span></span>
             <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
         </div>
         <div id="parameters-agreement-measures" style="margin-top: 20px">
             <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> <?php echo $lang->measureOfGuess ?></h4></div>
-            <div id="agreement"><span id="label"><?php echo $lang->estimability ?>:</span> <span class="text"></span></div>
+            <div id="agreement"><span id="label"><span class="text"></span></div>
         </div>
         <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
             <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
-            <div id="accordance"><span id="label"><?php echo $lang->approval ?>:</span> <span class="text"></span></div>
+            <span id="accordance" style="margin-right: 4px"><span class="text"></span>:</span>
             <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
             <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
             <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
@@ -1122,7 +1122,7 @@ include '../includes/language.php';
         <span class="text" id="justification"></span>
         <br/>
         <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
-        <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->neitherNor ?></span></span>
+        <span class="hidden warning" id="even"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notEnoughData ?></span></span>
         <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
     </div>
 
@@ -1210,16 +1210,16 @@ include '../includes/language.php';
             <span class="text" id="justification"></span>
             <br/>
             <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
-            <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->neitherNor ?></span></span>
+            <span class="hidden warning" id="even"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notEnoughData ?></span></span>
             <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
         </div>
         <div id="parameters-agreement-measures" style="margin-top: 20px">
             <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> <?php echo $lang->measureOfGuess ?></h4></div>
-            <div id="agreement"><span id="label"><?php echo $lang->estimability ?>:</span> <span class="text"></span></div>
+            <div id="agreement"><span id="label"><span class="text"></span></div>
         </div>
         <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
             <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
-            <div id="accordance"><span id="label"><?php echo $lang->approval ?>:</span> <span class="text"></span></div>
+            <span id="accordance" style="margin-right: 4px"><span class="text"></span>:</span>
             <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
             <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
             <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
@@ -1262,7 +1262,7 @@ include '../includes/language.php';
         <span class="text" id="justification"></span>
         <br/>
         <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
-        <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->neitherNor ?></span></span>
+        <span class="hidden warning" id="even"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notEnoughData ?></span></span>
         <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
     </div>
 

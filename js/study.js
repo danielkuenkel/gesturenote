@@ -367,7 +367,7 @@ function renderStudyParticipants(data, hash) {
                     if (result.phases[j].format === LETTER_OF_ACCEPTANCE) {
                         start = parseInt(result.phases[j].startTime);
                     } else if (result.phases[j].format === THANKS) {
-                        end = parseInt(result.phases[j-1].endTime);
+                        end = parseInt(result.phases[j - 1].endTime);
                     }
                 }
             }
@@ -377,8 +377,7 @@ function renderStudyParticipants(data, hash) {
                 $(item).find('#execution-duration').removeClass('hidden');
                 $(item).find('#execution-duration .label-text').text(getTimeString(duration, true));
             }
-        }
-        else {
+        } else {
             $(item).find('.panel').addClass('panel-danger');
             $(item).find('#execution-fault').removeClass('hidden');
             $(item).find('#execution-fault .label-text').text(translation.studyFault);
@@ -771,7 +770,9 @@ function updateMatchingView() {
         var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
 
         var leftItem = getGestureCatalogListThumbnail(leftGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
+        $(leftItem).removeClass('deleteable');
         var rightItem = getGestureCatalogListThumbnail(rightGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
+        $(rightItem).removeClass('deleteable');
         $('#gesture-left').empty().append(leftItem);
         $('#gesture-right').empty().append(rightItem);
         renderClassifiedGestures($('#classified-gestures'));
@@ -1366,17 +1367,15 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
         var triggerId = assignment.triggerId;
         var amountRange = getAmountRange(triggerId);
         $(target).find('#parameters-amount #justification').text(translation.Minimal + ': ' + amountRange.min + ', ' + translation.maximal + ': ' + amountRange.max + ', ' + assignment.gestures.length + ' ' + (assignment.gestures.length === 1 ? translation.classifiedGesture : translation.classifiedGestures));
-
         if (amountRange.max > amountRange.min) {
             if (assignment.gestures.length === amountRange.max) {
                 target.find('#parameters-amount #well').removeClass('hidden');
             } else if (assignment.gestures.length === amountRange.min) {
                 target.find('#parameters-amount #less-well').removeClass('hidden');
-            } else {
-                target.find('#parameters-amount #even').removeClass('hidden');
             }
         } else {
             // can't found best gesture for these trigger, because every gesture are demonstrated the same amount
+            target.find('#parameters-amount #even').removeClass('hidden');
         }
 
         // agreement measures
@@ -1394,7 +1393,7 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
         // guessability / accordance
         var accordance = parseFloat(getAccordance(triggerId).toFixed(2));
         $(target).find('#parameters-guessability').removeClass('hidden');
-        $(target).find('#accordance .text').text(accordance);
+        $(target).find('#accordance .text').text(accordance === 1 ? '1.00' : accordance);
 
         if (accordance <= 0) {
             $(target).find('#parameters-guessability .lowAgreement').removeClass('hidden');
@@ -2469,7 +2468,7 @@ function renderPotentialTriggerParameters(target, assignment, mainTrigger) {
         // guessability / accordance
         var accordance = getTriggerAccordance(gestureId).toFixed(2);
         $(target).find('#parameters-guessability').removeClass('hidden');
-        $(target).find('#accordance .text').text(accordance);
+        $(target).find('#accordance .text').text(accordance === 1 ? '1.00' : accordance);
 
         if (accordance <= 0) {
             $(target).find('#parameters-guessability .lowAgreement').removeClass('hidden');
