@@ -1160,15 +1160,21 @@ function renderChecklist() {
     var useChecklistSwitch = classificationType === ELICITED_TRIGGER ? $('#trigger-extraction-content').find('#use-checklist-switch') : $('#gesture-extraction-content').find('#use-checklist-switch');
     var alertContainer = classificationType === ELICITED_TRIGGER ? $('#trigger-extraction-content').find('#content-btn-checklist') : $('#gesture-extraction-content').find('#content-btn-checklist');
 
+    var predefinedItems = null;
+    if (classificationType === ELICITED_GESTURES) {
+        predefinedItems = translation.extractionChecklistItems;
+    }
+
     if (classification && classification.checklist && classification.checklist.items !== '' && classification.checklist.items !== null) {
         $(useChecklistSwitch).find('#' + classification.checklist.used).click();
     } else {
         if (!classification) {
             classification = {};
         }
-        classification.checklist = {used: 'no', items: null};
+        classification.checklist = {used: 'no', items: predefinedItems};
         setLocalItem(CLASSIFICATION, classification);
     }
+    console.log(classification.checklist);
 
     var listContainer = classificationType === ELICITED_TRIGGER ? $('#trigger-extraction-content').find('#checklist-container') : $('#gesture-extraction-content').find('#checklist-container');
     $(listContainer).empty();
@@ -1404,8 +1410,8 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
         }
 
         // agreement measures
-        var agreementMeasures = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
-        $(target).find('#agreement .text').text(agreementMeasures + '%');
+//        var agreementMeasures = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
+//        $(target).find('#agreement .text').text(agreementMeasures + '%');
 //        if (amountRange.max > 1) {
 //            var agreementMeasures = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
 //            if (agreementMeasures) {
@@ -1550,6 +1556,8 @@ function renderGestureGuessabilityTable(target, assignments) {
     $(target).append(table);
 
     var trigger = getLocalItem(ASSEMBLED_TRIGGER);
+    var amountAccordance = 0.00;
+
     for (var i = 0; i < trigger.length; i++) {
         for (var j = 0; j < assignments.length; j++) {
             var assignment = assignments[j];
@@ -1589,11 +1597,11 @@ function renderGestureGuessabilityTable(target, assignments) {
                 });
 
                 // agreement score
-                var agreementScore = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
+//                var agreementScore = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
 
-                var col = document.createElement('td');
-                $(col).text(agreementScore + '%');
-                $(row).append(col);
+//                var col = document.createElement('td');
+//                $(col).text(agreementScore + '%');
+//                $(row).append(col);
 
                 if (mainRowExists) {
                     var currentRowSpan = parseInt($($(mainRow).find('td')[0]).attr('rowspan'));
@@ -1601,6 +1609,7 @@ function renderGestureGuessabilityTable(target, assignments) {
                 } else {
                     // guessability / accordance
                     var accordance = getAccordance(trigger[i].id).toFixed(2);
+                    amountAccordance += parseFloat(accordance);
 
                     var col = document.createElement('td');
                     $(col).attr('rowspan', 1);
@@ -1609,6 +1618,21 @@ function renderGestureGuessabilityTable(target, assignments) {
                 }
             }
         }
+    }
+
+    var meanAccordance = (amountAccordance / trigger.length).toFixed(2);
+    var meanAccordanceItem = $('#template-study-container').find('#mean-accordance-gestures').clone();
+    $(meanAccordanceItem).find('#accordance-amount').text(meanAccordance);
+    $(target).append(meanAccordanceItem);
+
+    if (meanAccordance <= .1) {
+        $(meanAccordanceItem).find('.lowAgreement').removeClass('hidden');
+    } else if (meanAccordance <= .3) {
+        $(meanAccordanceItem).find('.mediumAgreement').removeClass('hidden');
+    } else if (meanAccordance <= .5) {
+        $(meanAccordanceItem).find('.highAgreement').removeClass('hidden');
+    } else {
+        $(meanAccordanceItem).find('.veryHighAgreement').removeClass('hidden');
     }
 }
 
@@ -1619,8 +1643,10 @@ function renderTriggerGuessabilityTable(target, assignments) {
 
     $(table).find('.table-head-row .basic').text(translation.gesture);
     $(table).find('.table-head-row .effect').text(translation.trigger);
-
+    
     var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
+    var amountAccordance = 0.00;
+    
     for (var i = 0; i < gestures.length; i++) {
         for (var j = 0; j < assignments.length; j++) {
             var assignment = assignments[j];
@@ -1662,11 +1688,11 @@ function renderTriggerGuessabilityTable(target, assignments) {
                 });
 
                 // agreement score
-                var agreementScore = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_GESTURE);
+//                var agreementScore = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_GESTURE);
 
-                var col = document.createElement('td');
-                $(col).text(agreementScore + '%');
-                $(row).append(col);
+//                var col = document.createElement('td');
+//                $(col).text(agreementScore + '%');
+//                $(row).append(col);
 
                 if (mainRowExists) {
                     var currentRowSpan = parseInt($($(mainRow).find('td')[0]).attr('rowspan'));
@@ -1674,6 +1700,7 @@ function renderTriggerGuessabilityTable(target, assignments) {
                 } else {
                     // guessability / accordance
                     var accordance = getTriggerAccordance(gesture.id).toFixed(2);
+                    amountAccordance += parseFloat(accordance);
 
                     var col = document.createElement('td');
                     $(col).attr('rowspan', 1);
@@ -1682,6 +1709,21 @@ function renderTriggerGuessabilityTable(target, assignments) {
                 }
             }
         }
+    }
+    
+    var meanAccordance = (amountAccordance / gestures.length).toFixed(2);
+    var meanAccordanceItem = $('#template-study-container').find('#mean-accordance-trigger').clone();
+    $(meanAccordanceItem).find('#accordance-amount').text(meanAccordance);
+    $(target).append(meanAccordanceItem);
+
+    if (meanAccordance <= .1) {
+        $(meanAccordanceItem).find('.lowAgreement').removeClass('hidden');
+    } else if (meanAccordance <= .3) {
+        $(meanAccordanceItem).find('.mediumAgreement').removeClass('hidden');
+    } else if (meanAccordance <= .5) {
+        $(meanAccordanceItem).find('.highAgreement').removeClass('hidden');
+    } else {
+        $(meanAccordanceItem).find('.veryHighAgreement').removeClass('hidden');
     }
 }
 

@@ -64,7 +64,7 @@ include '../includes/language.php';
 
             <!--<div class="panel-body">-->
                 <!--<span class="label label-default" id="user"><i class="fa fa-user"></i> <span class="label-text"></span></span>-->
-                
+
             <!--</div>-->
         </div>
     </div>
@@ -709,13 +709,15 @@ include '../includes/language.php';
                 <div class="row" style="margin-top: 20px;" id="timeline-content">
                     <div class="col-xs-12">
                         <button type="button" id="btn-toggle-timeline" class="btn btn-default btn-xs btn-shadow present"><i class="fa fa-eye-slash"></i> <span class="text"><?php echo $lang->hideTimeline ?></span></button>
+                        <div class="alert-space alert-no-annotations" style="margin-top: 5px"></div>
                         <div id="results-timeline" style="margin-top: 5px"></div>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 20px;" id="link-list-content">
                     <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8" style="margin-bottom: 20px">
-                        <button type="button" id="btn-toggle-link-list" class="btn btn-default btn-xs btn-shadow present"><i class="fa fa-eye-slash"></i> <span class="text"><?php echo $lang->hideLinklist ?></span></button>
-                        <div id="link-list-container" style="margin-top: 5px"></div>
+                        <button type="button" id="btn-toggle-link-list" class="btn btn-default btn-xs btn-shadow"><i class="fa fa-eye"></i> <span class="text"><?php echo $lang->showLinklist ?></span></button>
+                        <div class="alert-space alert-no-annotations" style="margin-top: 5px"></div>
+                        <div class="hidden" id="link-list-container" style="margin-top: 5px"></div>
                     </div>
                     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4" id="add-annotation-container" style="">
                         <div class="bs-example">
@@ -1020,12 +1022,34 @@ include '../includes/language.php';
                 <tr class="table-head-row">
                     <th scope="col" class="basic"><?php echo $lang->trigger ?></th>
                     <th scope="col" class="effect"><?php echo $lang->gesture ?></th>
-                    <th scope="col"><?php echo $lang->estimability ?></th>
+                    <!--<th scope="col"><?php echo $lang->estimability ?></th>-->
                     <th scope="col"><?php echo $lang->approval ?></th>
                 </tr>
             </thead>
             <tbody class="table-body"></tbody>
         </table>
+    </div>
+
+    <div id="mean-accordance-gestures" class="text-center" style="margin-bottom: 40px">
+        <div><?php echo $lang->gestureSetAgreement ?></div>
+        <div id="accordance-amount" style="font-size: 100pt; line-height: 100pt; margin-top: -10px; color: #000"></div>
+        <div>
+            <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
+            <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
+            <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
+            <span class="hidden danger lowAgreement"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->lowAgreement ?></span></span>
+        </div>
+    </div>
+
+    <div id="mean-accordance-trigger" class="text-center" style="margin-bottom: 40px">
+        <div><?php echo $lang->triggerSetAgreement ?></div>
+        <div id="accordance-amount" style="font-size: 100pt; line-height: 100pt; margin-top: -10px; color: #000"></div>
+        <div>
+            <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
+            <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
+            <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
+            <span class="hidden danger lowAgreement"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->lowAgreement ?></span></span>
+        </div>
     </div>
 
 
@@ -1068,18 +1092,18 @@ include '../includes/language.php';
             <span class="hidden warning" id="even"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notEnoughData ?></span></span>
             <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
         </div>
-        <div id="parameters-agreement-measures" style="margin-top: 20px">
-            <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> <?php echo $lang->measureOfGuess ?></h4></div>
-            <div id="agreement"><span id="label"><span class="text"></span></div>
-        </div>
-        <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
+        <!--        <div id="parameters-agreement-measures" style="margin-top: 20px">
+                    <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> <?php echo $lang->measureOfGuess ?></h4></div>
+                    <div id="agreement"><span id="label"><span class="text"></span></div>
+                </div>-->
+<!--        <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
             <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
-            <span id="accordance" style="margin-right: 4px"><span class="text"></span>:</span>
+            <span id="accordance" style="margin-right: 4px"><span class="text"></span></span>
             <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
             <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
             <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
             <span class="hidden danger lowAgreement"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->lowAgreement ?></span></span>
-        </div>
+        </div>-->
         <div id="parameters-cognitive-relationships" style="margin-top: 20px">
             <div>
                 <h4 style="margin: 0; float: left; "><i class="fa fa-puzzle-piece" aria-hidden="true"></i> <?php echo $lang->cognitiveRelations ?></h4>
@@ -1213,18 +1237,18 @@ include '../includes/language.php';
             <span class="hidden warning" id="even"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notEnoughData ?></span></span>
             <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
         </div>
-        <div id="parameters-agreement-measures" style="margin-top: 20px">
-            <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> <?php echo $lang->measureOfGuess ?></h4></div>
-            <div id="agreement"><span id="label"><span class="text"></span></div>
-        </div>
-        <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
+        <!--        <div id="parameters-agreement-measures" style="margin-top: 20px">
+                    <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> <?php echo $lang->measureOfGuess ?></h4></div>
+                    <div id="agreement"><span id="label"><span class="text"></span></div>
+                </div>-->
+<!--        <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
             <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
-            <span id="accordance" style="margin-right: 4px"><span class="text"></span>:</span>
+            <span id="accordance" style="margin-right: 4px"><span class="text"></span></span>
             <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
             <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
             <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
             <span class="hidden danger lowAgreement"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->lowAgreement ?></span></span>
-        </div>
+        </div>-->
         <div id="parameters-cognitive-relationships" style="margin-top: 20px">
             <div>
                 <h4 style="margin: 0; float: left; "><i class="fa fa-puzzle-piece" aria-hidden="true"></i> <?php echo $lang->cognitiveRelations ?></h4>
@@ -1309,25 +1333,25 @@ include '../includes/language.php';
 
 
 
-<!--    <div class="panel panel-default" id="panel-gesture-set">
-        <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
-                <button class="btn btn-default btn-shadow" id="btn-delete-gesture-set"><span class="glyphicon glyphicon-trash"></span></button>
+    <!--    <div class="panel panel-default" id="panel-gesture-set">
+            <div class="panel-heading">
+                <div class="btn-group" style="margin-right: 10px">
+                    <button class="btn btn-default btn-shadow" id="btn-delete-gesture-set"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+                <span class="panel-heading-text"></span>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-download"></i></button>
+                    <button class="btn btn-sm btn-default btn-shadow" id="btn-mark-hole-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addAllGesturesToStudyGestureSet ?>"><i class="fa fa-plus"></i></button>
+                </div>
+                <div style="clear: both"></div>
             </div>
-            <span class="panel-heading-text"></span>
-            <div class="btn-group pull-right">
-                <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-download"></i></button>
-                <button class="btn btn-sm btn-default btn-shadow" id="btn-mark-hole-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addAllGesturesToStudyGestureSet ?>"><i class="fa fa-plus"></i></button>
+    
+            <div class="panel-body" id="item-view">
+                <div class="row" id="gestures-list-container">
+    
+                </div>
             </div>
-            <div style="clear: both"></div>
-        </div>
-
-        <div class="panel-body" id="item-view">
-            <div class="row" id="gestures-list-container">
-
-            </div>
-        </div>
-    </div>-->
+        </div>-->
 
 </div>
 

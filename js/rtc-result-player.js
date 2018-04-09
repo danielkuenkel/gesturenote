@@ -563,6 +563,33 @@ function initializeTimeline(timelineData, content) {
     if (timelineData) {
         // Create a Timeline
         var data = getVisDataSet(timelineData);
+
+        // for removing unused timeline
+        $(content).find('#btn-toggle-timeline').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if ($(this).hasClass('present')) {
+                removeAlert($(content).find('#timeline-content'), ALERT_NO_ANNOTATIONS);
+                $(this).removeClass('present');
+                $(content).find('#results-timeline').addClass('hidden');
+                $(this).find('.text').text(translation.showTimeline);
+                $(this).find('.fa').removeClass('fa-eye-slash').addClass('fa-eye');
+            } else {
+                $(this).addClass('present');
+                $(this).find('.text').text(translation.hideTimeline);
+                $(this).find('.fa').removeClass('fa-eye').addClass('fa-eye-slash');
+//                console.log(data);
+                var tempData = getLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource);
+                console.log(tempData.annotations);
+                if ((tempData && tempData.annotations && tempData.annotations.length > 0) || (data && data.length > 2)) {
+                    clearAlerts();
+                    $(content).find('#results-timeline').removeClass('hidden');
+                    updateTimeline(timelineData.checkedVideos.mainVideo[0].currentTime, content);
+                } else {
+                    appendAlert($(content).find('#timeline-content'), ALERT_NO_ANNOTATIONS);
+                }
+            }
+        });
+
         if (data && data.length > 2) {
             itemRange = {min: new Date(parseInt(timelineData.phaseResults.startTime)), max: new Date(parseInt(timelineData.phaseResults.endTime)), gap: getTimeBetweenTimestamps(parseInt(timelineData.phaseResults.startTime), parseInt(timelineData.phaseResults.startRecordingTime)), startRecording: data[0].timestamp, endRecording: data[1].timestamp};//timeline.getItemRange();
             var options = {
@@ -573,43 +600,40 @@ function initializeTimeline(timelineData, content) {
                 max: itemRange.max,
                 showMajorLabels: false,
                 showMinorLabels: false,
-                zoomMax: 10000,
-                selectable: true,
+                zoomMax: 20000,
+                selectable: false,
                 autoResize: true
             };
 
-            timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline').empty()[0]);
-            timeline.setOptions(options);
-            timeline.setItems(new vis.DataSet(data));
+            timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline').empty()[0], new vis.DataSet(data), options);
             timeline.addCustomTime(itemRange.min);
-            timeline.moveTo(itemRange.min);
+//            timeline.moveTo(itemRange.min);
+//            $(content).find('#results-timeline').css({opacity: 0});
+//            setTimeout(function () {
+//                updateTimeline(timelineData.checkedVideos.mainVideo[0].duration, content);
+//                setTimeout(function () {
+//                    updateTimeline(0, content);
+//                    $(content).find('#results-timeline').css({opacity: 1});
+////                    $(content).find('#results-timeline').removeClass('hidden');
+//                }, 500);
+//            }, 500);
+
             renderSeekbarData(data, timelineData, content);
             renderListData(data, timelineData, content);
 
-            // for removing unused timeline
-            $(content).find('#btn-toggle-timeline').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                console.log('toggle timeline');
-                if ($(this).hasClass('present')) {
-                    $(this).removeClass('present');
-                    $(content).find('#results-timeline').addClass('hidden');
-                    $(this).find('.text').text(translation.showTimeline);
-                    $(this).find('.fa').removeClass('fa-eye-slash').addClass('fa-eye');
-                } else {
-                    $(this).addClass('present');
-                    $(content).find('#results-timeline').removeClass('hidden');
-                    $(this).find('.text').text(translation.hideTimeline);
-                    $(this).find('.fa').removeClass('fa-eye').addClass('fa-eye-slash');
-                    updateTimeline(timelineData.checkedVideos.mainVideo[0].currentTime, content);
-                }
-            });
+            if (!$(content).find('#btn-toggle-timeline').hasClass('present')) {
+                $(content).find('#btn-toggle-timeline').click();
+            }
         } else {
             console.warn('no timeline data extracted');
+            $(content).find('#btn-toggle-timeline').click();
+            renderListData(data, null, content);
 //            $(resultsPlayer).find('#timeline-content').remove();
 //            $(resultsPlayer).find('#timeline-content').remove();
         }
     } else {
         console.warn('no timeline data');
+        $(content).find('#btn-toggle-timeline').click();
 //        $(resultsPlayer).find('#timeline-content').remove();
     }
 }
@@ -623,7 +647,7 @@ function updateTimeline(currentTime, content) {
 //        min.setSeconds(min.getSeconds() + Math.ceil(Math.max(0, currentTime)));
 //        min.setMilliseconds(min.getMilliseconds() + Math.round(currentTime % 1 * 1000) - 1000); // -1000 because of the recording start lack
         timeline.setCustomTime(customTime);
-        timeline.moveTo(customTime, {animation: false});
+        timeline.moveTo(customTime, {animation:false});
     }
 }
 
@@ -732,7 +756,7 @@ function renderSeekbarData(visData, timelineData, content) {
 
     if (visData && visData.length > 0) {
         var lastTime = 0;
-        console.log('render seekbar data', visData, seekbar);
+//        console.log('render seekbar data', visData, seekbar);
         for (var i = 0; i < visData.length; i++) {
             if (visData[i].className !== 'invisible' && visData[i].timestamp) {
                 var gap = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime, visData[i].timestamp), true);
@@ -760,55 +784,73 @@ function renderSeekbarData(visData, timelineData, content) {
 }
 
 function renderListData(visData, timelineData, content) {
-    visData = sortByKey(visData, 'start');
-    var container = $(content).find('#link-list-container');
-    $(container).empty();
-    if (visData && visData.length > 0) {
-        console.log(visData);
+    $(content).find('#btn-toggle-link-list').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+//        console.log('btn toggle link list clicked ', $(this).hasClass('present'));
+        if ($(this).hasClass('present')) {
+            removeAlert($(content).find('#link-list-content'), ALERT_NO_ANNOTATIONS);
+            $(this).removeClass('present');
+            $(content).find('#link-list-container').addClass('hidden');
+            $(this).find('.fa').removeClass('fa-eye-slash').addClass('fa-eye');
+            $(this).find('.text').text(translation.showLinklist);
+        } else {
+            $(this).addClass('present');
+            $(content).find('#link-list-container').removeClass('hidden');
+            $(this).find('.fa').removeClass('fa-eye').addClass('fa-eye-slash');
+            $(this).find('.text').text(translation.hideLinklist);
 
-        for (var i = 0; i < visData.length; i++) {
-            if (visData[i].className !== 'invisible' && visData[i].timestamp) {
-                var seconds = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime, visData[i].timestamp), true);
-                var linkListItem = $('#template-study-container').find('#link-list-item').clone().removeAttr('id');
-                $(linkListItem).find('.link-list-item-url').attr('data-jumpto', seconds);
-                $(linkListItem).find('.btn-delete-annotation').attr('data-id', visData[i].id);
-                $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)));
-                $(linkListItem).find('.link-list-item-title').text(visData[i].content);
-                $(linkListItem).find('.link-list-item-title').addClass(visData[i].className);
-
-                $(container).append(linkListItem);
-                $(linkListItem).find('.link-list-item-url').on('click', function (event) {
-                    event.preventDefault();
-                    var jumpTo = parseFloat($(this).attr('data-jumpto'));
-                    var video = timelineData.checkedVideos.mainVideo[0];
-                    $(video).trigger('jumpTo', [jumpTo]);
-                });
-
-                $(linkListItem).find('.btn-delete-annotation').on('click', function (event) {
-                    event.preventDefault();
-//                    console.log('delete annotation', $(this).attr('data-id'), checkedVideos.secondVideo);
-                    deleteAnnotation($(this).attr('data-id'), timelineData, content);
-                });
+            if (visData && visData.length > 2) {
+                clearAlerts();
+                updateLinkList(timelineData.checkedVideos.mainVideo[0].currentTime, content);
+            } else {
+                appendAlert($(content).find('#link-list-content'), ALERT_NO_ANNOTATIONS);
             }
         }
+    });
 
-        $(content).find('#btn-toggle-link-list').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if ($(this).hasClass('present')) {
-                $(this).removeClass('present');
-                $(content).find('#link-list-container').addClass('hidden');
-                $(this).find('.fa').removeClass('fa-eye-slash').addClass('fa-eye');
-                $(this).find('.text').text(translation.showLinklist);
-            } else {
-                $(this).addClass('present');
-                $(content).find('#link-list-container').removeClass('hidden');
-                $(this).find('.fa').removeClass('fa-eye').addClass('fa-eye-slash');
-                $(this).find('.text').text(translation.hideLinklist);
-                updateLinkList(timelineData.checkedVideos.mainVideo[0].currentTime, content);
+    if (timelineData) {
+        visData = sortByKey(visData, 'start');
+        var container = $(content).find('#link-list-container');
+        $(container).empty();
+        if (visData && visData.length > 2) {
+
+            if (!$(content).find('#btn-toggle-link-list').hasClass('present')) {
+                $(content).find('#btn-toggle-link-list').click();
             }
-        });
+
+            for (var i = 0; i < visData.length; i++) {
+                if (visData[i].className !== 'invisible' && visData[i].timestamp) {
+                    var seconds = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime, visData[i].timestamp), true);
+                    var linkListItem = $('#template-study-container').find('#link-list-item').clone().removeAttr('id');
+                    $(linkListItem).find('.link-list-item-url').attr('data-jumpto', seconds);
+                    $(linkListItem).find('.btn-delete-annotation').attr('data-id', visData[i].id);
+                    $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)));
+                    $(linkListItem).find('.link-list-item-title').text(visData[i].content);
+                    $(linkListItem).find('.link-list-item-title').addClass(visData[i].className);
+
+                    $(container).append(linkListItem);
+                    $(linkListItem).find('.link-list-item-url').on('click', function (event) {
+                        event.preventDefault();
+                        var jumpTo = parseFloat($(this).attr('data-jumpto'));
+                        var video = timelineData.checkedVideos.mainVideo[0];
+                        $(video).trigger('jumpTo', [jumpTo]);
+                    });
+
+                    $(linkListItem).find('.btn-delete-annotation').on('click', function (event) {
+                        event.preventDefault();
+//                    console.log('delete annotation', $(this).attr('data-id'), checkedVideos.secondVideo);
+                        deleteAnnotation($(this).attr('data-id'), timelineData, content);
+                    });
+                }
+            }
+
+
+        } else {
+//        $(content).find('#btn-toggle-link-list').click();
+//        $(content).find('#link-list-content').addClass('hidden');
+        }
     } else {
-        $(content).find('#link-list-content').addClass('hidden');
+
     }
 }
 
@@ -828,8 +870,8 @@ function updateLinkList(currentTime, content) {
 
 function deleteAnnotation(annotationId, timelineData, content) {
 //    console.log(annotationId, timelineData);
-    if (timelineData.phaseResults) {
-    }
+//    if (timelineData.phaseResults) {
+//    }
 
     var tempData = null;
     tempData = getLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource);
@@ -839,13 +881,19 @@ function deleteAnnotation(annotationId, timelineData, content) {
                 tempData.annotations.splice(i, 1);
             }
         }
-        console.log(tempData.annotations);
+//        console.log(tempData.annotations);
         timelineData.phaseResults = tempData;
         setLocalItem(tempData.id + '.' + timelineData.resultSource, tempData);
         saveUpdatedPhaseResults(timelineData);
 
-        if (tempData.annotations.length === 0 && $(content).find('#btn-toggle-timeline').hasClass('present')) {
-            $(content).find('#btn-toggle-timeline').click();
+        if (tempData.annotations.length === 0) {
+            if ($(content).find('#btn-toggle-timeline').hasClass('present')) {
+                $(content).find('#btn-toggle-timeline').click();
+            }
+
+            if ($(content).find('#btn-toggle-link-list').hasClass('present')) {
+                $(content).find('#btn-toggle-link-list').click();
+            }
         }
 
         // render timeline and other elements
@@ -887,6 +935,10 @@ function initializeAnnotationHandling(timelineData, content) {
                     timeline.redraw();
                     renderSeekbarData(visData, timelineData, content);
                     renderListData(visData, timelineData, content);
+
+                    if (!$(content).find('#btn-toggle-timeline').hasClass('present')) {
+                        $(content).find('#btn-toggle-timeline').click();
+                    }
                 }
                 updateLinkList(mainVideo.currentTime, content);
 
@@ -926,5 +978,5 @@ function saveUpdatedPhaseResults(timelineData) {
         });
     }
 
-    console.log('saveData', saveData);
+//    console.log('saveData', saveData);
 }

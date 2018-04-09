@@ -104,6 +104,7 @@ var ALERT_NO_DATA_QUESTIONNAIRE = 'no-data-questionnaire';
 var ALERT_NO_DATA_GUS = 'no-data-gus';
 var ALERT_NO_DATA_GUS_QUESTIONNAIRE = 'no-data-gus-questionnaire';
 var ALERT_NO_DATA_UEQ_QUESTIONNAIRE = 'no-data-ueq-questionnaire';
+var ALERT_NO_ANNOTATIONS = 'no-annotations';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);

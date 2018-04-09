@@ -222,7 +222,7 @@ if (login_check($mysqli) == true) {
                 // participants navigation view
                 getStudyResults({studyId: data.id}, function (result) {
                     if (result.status === RESULT_SUCCESS) {
-                        if (result.studyResults && result.studyResults.length > 0) { // check if there are study results
+                        if (result.studyResults && result.studyResults.length > 1) { // check if there are study results
 //                            console.log(result.studyResults);
                             var query = getQueryParams(document.location.search);
                             var disablePrevButton = false;
@@ -247,6 +247,17 @@ if (login_check($mysqli) == true) {
                                 }
 
                             }
+
+                            function getParticipantStatusHash() {
+                                var status = window.location.hash.substr(1);
+                                var statusAddressMatch = statusAddressMatchIndex(status);
+                                var statusHash = '';
+                                if (status !== '' && statusAddressMatch !== null) {
+                                    statusHash = statusAddressMatch.id;
+                                }
+                                return statusHash;
+                            }
+
 //                            console.log(disablePrevButton, disableNextButton, query.participantId);
 
                             $('#pageBody').find('.btn-prev-participant').removeClass('disabled').unbind('click');
@@ -254,28 +265,32 @@ if (login_check($mysqli) == true) {
                             if (disablePrevButton) {
                                 $('#pageBody').find('.btn-prev-participant').addClass('disabled');
                                 $('#pageBody').find('.btn-next-participant').bind('click', function (event) {
-                                    event.preventDefault();
+                                    event.preventDefault(); 
+                                    var status = getParticipantStatusHash();
                                     clearLocalItems();
-                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h);
+                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '#' + status);
                                 });
                             } else if (disableNextButton) {
                                 $('#pageBody').find('.btn-next-participant').addClass('disabled');
                                 $('#pageBody').find('.btn-prev-participant').bind('click', function (event) {
                                     event.preventDefault();
+                                    var status = getParticipantStatusHash();
                                     clearLocalItems();
-                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h);
+                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '#' + status);
                                 });
                             } else {
                                 $('#pageBody').find('.btn-next-participant').bind('click', function (event) {
                                     event.preventDefault();
+                                    var status = getParticipantStatusHash();
                                     clearLocalItems();
-                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h);
+                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '#' + status);
                                 });
 
                                 $('#pageBody').find('.btn-prev-participant').bind('click', function (event) {
                                     event.preventDefault();
+                                    var status = getParticipantStatusHash();
                                     clearLocalItems();
-                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h);
+                                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '#' + status);
                                 });
                             }
                         } else {

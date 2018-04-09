@@ -341,12 +341,14 @@
     "suitable": "geeignet",
     "notSuitable": "nicht geeignet",
     "dontKnow": "Weiß nicht",
-    "notEnoughData":"Zu wenig Daten",
+    "notEnoughData": "Zu wenig Daten",
     "neitherNor": "weder noch",
-    "lowAgreement": "geringe Zustimmung",
-    "mediumAgreement": "mittlere Zustimmung",
-    "highAgreement": "hohe Zustimmung",
-    "veryHighAgreement": "sehr hohe Zustimmung",
+    "lowAgreement": "geringe Übereinstimmung",
+    "mediumAgreement": "mittlere Übereinstimmung",
+    "highAgreement": "hohe Übereinstimmung",
+    "veryHighAgreement": "sehr hohe Übereinstimmung",
+    "gestureSetAgreement": "Übereinstimmung für das Gesten-Set",
+    "triggerSetAgreement": "Übereinstimmung für das Systeminteraktions-Set",
     "always": "Immer",
     "cognitiveRelations": "Sinnzusammenhänge",
     "cognitiveRelationsForGesture": "Sinnzusammenhänge für Geste",
@@ -1205,8 +1207,8 @@
     "potentialGesturesOverviewTable": "Tabellarischer Überblick",
     "measureOfGuess": "Schätzbarkeit",
     "estimability": "Schätzbarkeit",
-    "measureOfApproval": "Zustimmung",
-    "approval": "Zustimmung",
+    "measureOfApproval": "Maß der Übereinstimmung",
+    "approval": "Übereinstimmung",
     "studyCatalogs": {
         "gestures": "Gesten-Katalog",
         "scenes": "Zustands-Katalog",
@@ -1850,7 +1852,7 @@
     "extractionChecklistItems": [
         {
             "format": "dichotomousQuestionGUS",
-            "dimension": "uxSatisfactionOfUse",
+            "dimension": "any",
             "question": "Könnte die Geste dem Nutzer peinlich sein?",
             "parameters": {
                 "used": "used",
@@ -1860,7 +1862,7 @@
         },
         {
             "format": "dichotomousQuestionGUS",
-            "dimension": "uxSatisfactionOfUse",
+            "dimension": "any",
             "question": "Könnte die Geste dem Nutzer unangenehm sein?",
             "parameters": {
                 "used": "used",
@@ -4204,6 +4206,11 @@
             "id": "no-more-tasks",
             "type": "warning",
             "text": "Für dieses Szenario gibt es keine weiteren Aufgaben. Beenden Sie bitte das Screensharing. Falls vorhanden, können sie danach noch letzte Eingaben in ihrem Beobachtungsbogen tätigen."
+        },
+        "noAnnotations": {
+            "id": "no-annotations",
+            "type": "warning",
+            "text": "Es sind keine Annotationen vorhanden."
         }
     },
     "introductionCreateStudy": [
@@ -4276,7 +4283,7 @@
             "description": 
                     [
                         "<p>Der Leitfaden ist das Kernstück einer nutzerzentrierten Befragung. In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Danksagung. Diese Schritte sind vorausgewählt und können nicht gelöscht werden. Um weitere Abschnitte hinzuzufügen, klicken Sie einfach auf das entsprechende Format wie z.B. Fragebogen. Um die Abschnitte zu bearbeiten, klicken Sie in der Leitfadenliste auf den Titel des jeweiligen Abschnitts.</p>",
-                        "<table class='table table-bordered' style='max-width:100%'><thead><tr><th>Methode</th><th class='text-center'>Ermittlung</th><th class='text-center'>Extraktion</th><th class='text-center'>Evaluierung</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td></tr><tr><td>Interview</td><td class='text-center'>M</td><td class='text-center'>M</td><td class='text-center'>M</td></tr><tr><td>GUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>UEQ</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>Ermittlung</td><td class='text-center'>M<td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Exploration</td><td class='text-center'>-</td><td class='text-center'>M</td><td class='text-center'>-</td></tr><tr><td>Gesten-Training</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Szenario</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Gesten erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Funktionen erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr></tbody></table>",
+                        "<table class='table table-bordered' style='max-width:100%'><thead><tr><th>Methode</th><th class='text-center'>Ermittlung</th><th class='text-center'>Extraktion</th><th class='text-center'>Evaluierung</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>M & UM</td><td class='text-center'>M & UM</td><td class='text-center'>M & UM</td></tr><tr><td>Interview</td><td class='text-center'>M</td><td class='text-center'>M</td><td class='text-center'>M</td></tr><tr><td>GUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr><tr><td>UEQ</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr><tr><td>Ermittlung</td><td class='text-center'>M<td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Exploration</td><td class='text-center'>-</td><td class='text-center'>M</td><td class='text-center'>-</td></tr><tr><td>Gesten-Training</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Szenario</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Gesten erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Funktionen erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr></tbody></table>",
                         "<div class='text-center' style='font-size:10pt'>M = Moderierte Durchführung, UM = Unmoderierte Durchführung</div>",
                         "<p style='margin-top:10px'>In der oberen Tabelle sind für eine bessere Übersicht alle Design-Phasen und die Methoden, welche mit GestureNote dort unterstützt werden dargestellt. Zusätzlich ist die unterstützte Befragungsart (moderiert oder unmoderiert) hinterlegt.</p>",
                         "<h4>Einverständniserklärung</h4><hr>",
@@ -4441,11 +4448,11 @@
                 "<p>Je nachdem was ermittelt wurde (Gesten oder Funktionen), werden unter diesem Punkt alle Daten dargestellt, inkl. Zuordnung. Wurden z.B. Gesten für Funktionen ermittelt, sind hier für jede Funktion die aufgezeichneten Gesten aufgelistet. Darüber hinaus wird die Verteilung von Gesten-Typen und Gesten-Interaktions-Typen als Balken dargestellt (siehe obere Abbildung).</p>",
                 "<h4>Klassifizierung</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/study/carousel-04-02.png' style='max-width:802px' />",
-                "<p>Bei der Klassifzierung werden gleiche Gesten oder Funktionen zusammengefasst. Dies ist wichtig, um statistische Aussagen über die Verteilung zu treffen. Eine Klassifzierung kann bereits nach dem Erhalt der ersten erhobenen Studien-Daten durchgeführt und zu einem späteren Zeitpunkt (z.B. bei Erhalt weiterer Daten) fortgesetzt werden. Vergessen Sie nicht, dass eine Klassifizierung subjektiv ist. Führt eine andere Person eine Klassifizierung mit den gleichen Daten durch, können andere Ergebnisse daraus resultieren. Versuchen Sie die Klassifizierung mit mehreren Experten während einer Diskussion durchzuführen.</p>",
+                "<p>Bei der Klassifzierung werden gleiche Gesten oder Funktionen zusammengefasst. Dies ist wichtig, um statistische Aussagen über die Verteilung zu treffen. Eine Klassifzierung kann bereits nach dem Erhalt der ersten erhobenen Studien-Daten durchgeführt und zu einem späteren Zeitpunkt (z.B. bei Erhalt weiterer Daten) fortgesetzt werden. Um einen Effekt bei der Kodierung (d.h. Coder Bias) zu vermindern, versuchen Sie die Klassifizierung mit mehreren Experten durchzuführen.</p>",
                 "<h4>Gesten-Klassifizierung</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/study/carousel-04-03.png' style='max-width:701px' />",
                 "<p>Bei einer Gesten-Klassifizierung kann zwischen zwei Arten gewählt werden: <em>Aussehen</em> oder <em>Aussehen + Funktion</em> (Standard). Nach der Wahl beginnt die eigentliche Klassifizierung. Dabei vergleichen Sie die linke mit der rechten Geste und wählen <button class='btn btn-xs btn-danger'><i class='fa fa-thumbs-down'></i> Nein</button> bei Ablehnung oder <button class='btn btn-xs btn-success'><i class='fa fa-thumbs-up'></i> Ja</button> bei Zustimmung.</p>",
-                "<p>Bei einer Klassifizierung nach <em>Aussehen</em> werden gleiche Gesten ohne Berücksichtigung von Funktionen gruppiert. Hierbei kann die Schätzbarkeit und Zustimmung nach Wobbrock et. al nicht berechnet werden (die Verknüpfung zur jeweiligen Funktion fehlt).</p>",
+                "<p>Bei einer Klassifizierung nach <em>Aussehen</em> werden gleiche Gesten ohne Berücksichtigung von Funktionen gruppiert. Hierbei kann die Übereinstimmung nach Wobbrock et. al nicht berechnet werden (die Verknüpfung zur jeweiligen Funktion fehlt).</p>",
                 "<p>Dagegen findet eine Verknüpfung zwischen Geste und Funktion bei der Klassifizierung nach <em>Aussehen + Funktion</em> statt. Klassifizierte Gesten werden dann unter dem jeweiligen Funktionsnamen, für die sie ermittelt wurden, aufgelistet.</p>",
                 "<p>Wurden Gesten klassifiziert und liegt eine Gruppe von Gesten vor, kann aus der Gruppe eine Stellvertreter-Geste gewählt werden. Klicken Sie dazu auf das Symbol <i class='fa fa-tag'></i>. Stellvertreter-Gesten werden mit einem blauen Rahmen versehen.</p>",
                 "<h4>Funktions-Klassifizierung</h4><hr>",
@@ -4457,15 +4464,16 @@
                 "<img class='img-image' src='img/de/introduction/study/carousel-04-05.png' style='max-width:493px' />",
                 "<p></p>",
                 "<h4>Potentielle Gesten oder Funktionen</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/study/carousel-04-06.png' style='max-width:700px' />",
-                "<p>Der Bereich <em>Potentielle Gesten</em> bzw. <em>Potentielle Funktionen</em> stellt Daten und Hilfsmittel bereit, um z.B. eine Auswahl von Gesten für eine Evaluierung zu treffen. Falls die Standard-Klassifizierungs-Art gewählt wurde, fasst eine Tabelle die wichtigsten Daten zusammen und bietet einen Schnellzugriff auf die jeweiligen Gesten oder Funktionen. Darunter stehen die einzeln Gesten oder Funktionen samt Informationen über Anzahl, Schätzbarkeit, Zustimmung, Sinnzusammenhänge, Checklisten und Gesten-Set-Zuweisungen bereit. Je nach gewählter Klassifizierungsart und ermittelten Daten (Gesten oder Funktionen) kann diese Darstellung variieren.</p>",
+                "<img class='img-image' src='img/de/introduction/study/carousel-04-06.png' style='max-width:701px' />",
+                "<p>Der Bereich <em>Potentielle Gesten</em> bzw. <em>Potentielle Funktionen</em> stellt Daten und Hilfsmittel bereit, um z.B. eine Auswahl von Gesten für eine Evaluierung zu treffen. Falls die Standard-Klassifizierungs-Art gewählt wurde, fasst eine Tabelle die wichtigsten Daten zusammen und bietet einen Schnellzugriff auf die jeweiligen Gesten oder Funktionen. Darunter stehen die einzeln Gesten oder Funktionen samt Informationen über Anzahl, Sinnzusammenhänge, Checklisten und Gesten-Set-Zuweisungen bereit. Je nach gewählter Klassifizierungsart und ermittelten Daten (Gesten oder Funktionen) kann diese Darstellung variieren.</p>",
+                "<p><span class='font-bold'>Erratbarkeits-Studie:</span> GestureNote bietet die Berechnung des sog. Maß der Übereinstimmung nach Wobbrock et al. an (nur bei Klassifizierung nach <em>Aussehen + Funktion</em>). Hierfür wird ein strikter statistischer Wert für jede einzelne Systeminteraktion, sowie ein Durchschnittswert über alle Übereinstimmungen berechnet. Das Ziel der Methode ist, Gestensets zu entwickeln, die von möglichst vielen Personen intuitiv benutzt werden können. Die Methode ist darauf ausgelegt, Gestensets zu kreieren für welche die Wahrscheinlichkeit die richtigen Gesten zu erraten, maximiert ist. Die Erratbarkeit ist dabei ein Kriterium für die Erlernbarkeit von Systemen.</p>",
+                "<img class='img-image' src='img/de/introduction/study/carousel-04-07.png' style='max-width:700px; margin-top:50px' />",
                 "<p><span class='font-bold'>Anzahl:</span> Gibt eine Empfehlung, ob eine Geste oder Funktion aufgrund ihrer Anzahl in Verbindung mit der Funktion für ein Set geeignet ist. Ein Beispiel: Für die Funkion <em>System aktivieren</em> wurden insgesamt 6 Gesten demonstriert. Nach der Klassifizierung ergeben sich 3 Gesten (Eine Geste kommt einmal vor, die zweite Geste zweimal und die dritte Geste dreimal). Die Geste, die dreimal vorkommt wird von GestureNote als geeignet angesehen, während die Geste, welche nur einmal vorkommt als ungeeignet gilt. Es ergeben sich folgende Werte für die Funktion <em>Sytem aktivieren</em>. <em>Minimal:</em> 1 (Mindestgruppengröße), <em>maximal:</em> 3 (Maximalgruppengröße). Der letzte Wert (Gruppengröße) variiert für alle 3 potentiellen Gesten (Gesten-Gruppengröße von 1,2 und 3).</p>",
-                "<p><span class='font-bold'>Schätzbarkeit:</span> </p>",
-                "<p><span class='font-bold'>Zustimmung:</span> </p>",
                 "<p><span class='font-bold'>Sinnzusammenhänge:</span> Hier können hinterlegte Sinnzusammenhänge vom Probanden überprüft werden. Eine Eignung der Geste oder Funktion kann manuell festgelegt werden.</p>",
                 "<p><span class='font-bold'>Checkliste:</span> Wird eine Checkliste verwendet, kann diese für jede potientielle Geste oder Funktion beantwortet werden. Die Eignung einer Geste oder Funktion muss - wie auch bei den Sinnzusammenhängen - manuell festgelegt werden.</p>",
+                "<p><span class='font-bold'>Zuweisung zu Gesten-Sets:</span> Ist eine Geste für ein Gesten-Set geeignet, kann diese einem solchen zugeordnet werden. Klicken Sie dazu auf das Symbol <i class='fa fa-paperclip'></i>. Es öffnet sich die <em>Gesten-Sets</em>-Rubrik in den Gesten-Informationen. Dort haben Sie nun die Möglichkeit ein neues Gesten-Set zu erstellen oder die Geste einem bereits vorhandenem Gesten-Set zuzuordnen.</p>",
                 "<h4>Gesten-Sets</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/study/carousel-04-07.png' style='max-width:473px' />",
+                "<img class='img-image' src='img/de/introduction/study/carousel-04-08.png' style='max-width:473px' />",
                 "<p>Potentielle Gesten lassen sich zu einem Gesten-Set zusammenfassen. Das Gesten-Set kann dann z.B. in einer darauffolgenden Studie zur Evaluierung wiederverwenden werden. Oder es kann als JSON-Datei heruntergeladen werden, um es in einem Pidoco-Projekt zu importieren.</em></p>"
             ]
         }
@@ -4478,14 +4486,23 @@
             "text": "Allgemeine Informationen über die Studien-Seite.",
             "popover": "Allgemeines",
             "description": [
-                "<h4>Bereiche</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/participant/carousel-01-01.png' style='max-width:456px' />",
-                "<p>Die Studien-Seite teilt sich in die Bereiche <em>Allgemeines</em>, <em>Kataloge</em> und <em>Teilnahmen</em> auf. Falls eine Extraktion durchgeführt wurde, erscheint zusätzlich der Bereich <em>Exktraktion</em> in der Navigation.</p>",
-                "<h4>Studien-URL & Infos</h4><hr>",
-                "<p>Um eine Studie aufzurufen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet.</p>",
-                "<h4>Leitfaden</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/participant/carousel-01-03.png' style='max-width:390px' />",
-                "<p>Auf der rechten Seite wird nochmals der Leitfaden angezeigt. Zusätzlich kann die Studie bearbeitet, die Vorschau aufgerufen oder die Studie gelöscht werden. Beim Löschen einer Studie gehen alle Daten verloren. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.</p>"
+                "Hier können alle erhobenen Studien-Daten von einer Befragung für die einzelnen Leitfadenformate abgerufen werden. Klicken Sie auf den gewünschten Leitfadenabschnitt, um die erhobenen Daten zu sichten. Ein schneller Wechsel zu einem vorherigen oder nachfolgenden Teilnehmer ist ebenfalls möglich.",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-01-01.png' style='max-width:268px' />",
+                "<p>Neben der Information, ob eine Studie erfolgreich durchgeführt wurde, ist die Gesamtdauer der Befragung hinterlegt. Eine Dauer der einzelnen Leitfadenabschnitte wird ebenfalls angezeigt (rechts neben dem Leitfadentitel).</p>",
+                "<h4>Videovorschau</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-01-02.png' style='max-width:702px' />",
+                "<p>Während der Durchführung einer Studie werden Videodaten aufgezeichnet. Diese Videodaten (Proband, Moderator und Prototyp) können für die einzelnen Leitfadenformate abgerufen werden. Je nach Leitfadenformat (Gesten-Training, Physischer Belastungstest, etc.) und Durchführungsart (moderiert, unmoderiert) kann die Anzeige der Videodaten variieren. Eine Liste zeigt nachfolgend, welche Daten Ihnen nach einer Durchführung für die einzelnen Formate zur Verfügung stehen.</p>",
+                "<table class='table table-bordered' style='max-width:100%'><thead><tr><th>Methode</th><th class='text-center'>Moderiert</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>-</td></tr><tr><td>Interview</td><td class='text-center'>Proband, Moderator</td></tr><tr><td>GUS</td><td class='text-center'>-</td></tr><tr><td>SUS</td><td class='text-center'>-</td></tr><tr><td>UEQ</td><td class='text-center'>-</td></tr><tr><td>Ermittlung</td><td class='text-center'>Proband, Moderator, Prototyp (falls hinterlegt)</td></tr><tr><td>Exploration</td><td class='text-center'>Proband, Moderator, Prototyp (falls hinterlegt)</td></tr><tr><td>Gesten-Training</td><td class='text-center'>Proband, Moderator, Prototyp (falls hinterlegt)</td></tr><tr><td>Szenario</td><td class='text-center'>Proband, Moderator, Prototyp</td></tr><tr><td>Gesten erraten</td><td class='text-center'>Proband</td></tr><tr><td>Funktionen erraten</td><td class='text-center'>-</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>Proband</td></tr></tbody></table>",
+                "<p>Der Videoplayer besteht maximal aus der Vorschau für den Probanden, den Moderator und den Prototyp. Der Proband wird immer links angezeigt, der Moderator rechts und der Prototyp oberhalb der Aktuere. Für eine kompaktere Darstellung, lassen sich die Teilnehmer auch über die Aufzeichnung des Prototypen legen. Klicken Sie dazu in der Prototyp-Vorschau unten rechts auf das Symbol <i class='fa fa-window-maximize'></i>. Die Videos überlappen sich und die Akteure sind durchsichtig. Fahren Sie mit der Maus über einen Aktuer, um diesen besser zu erkennen.</p>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-01-03.png' style='max-width:700px' />",
+                "<p>GestureNote synchronisert auf Grundlage der gespeicherten Videometadaten die einzelnen Videos. In Einzelfällen kann es jedoch zu Problemen kommen, weshalb auch eine manuelle Justierung der Synchroniserung möglich ist. Klicken Sie dazu auf das Symbol <button class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></button>, ändern Sie die Eingabe auf den gewünschten Wert und bestätigen Sie abschließend mit einem Klick auf <button class='btn btn-xs btn-success'><i class='fa fa-check'></i></button>.</p>",
+                "<p>Um ein die Wiedergabe zu starten oder zu pausieren können Sie auf den Button <button class='btn btn-xs btn-default'><i class='fa fa-play'></i></button> oder auf die Videoelemente klicken. Um an eine bestimmte Abspielposition zu gelangen, klicken Sie auf die Videosteuerleiste oder halten Sie die Maustaste gedrückt und bewegen den Mauszeiger über die Videosteuerleiste. Farbige Balken unterhalb der Videosteuerleiste visualisieren Annotationen an der jeweiligen Abspielposition.",
+                "<h4>Zeitleiste & Zeitlinks</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-01-04.png' style='max-width:700px' />",
+                "<p>Die Zeitleiste ist mit den Videodaten synchronisiert. Sie visualiert die hinterlegten Annotation auf einer Zeitachse. GestureNote annotiert bereits während der Durchführung wichtige Ereignisse.</p>",
+                "<p>Zeitlinks repräsentieren einzelne Annotationen, deren genauen Timecode und springen bei einem Klick an die jeweilige Stelle der Videodaten. Es können zusätzliche Zeitlinks in Form von Annotationen hinzugefügt werden. Diese werden immer an der aktuellen Abspielposition in den Videodaten eingefügt.</p>",
+                "<h4>Notizen</h4><hr>",
+                "<p>Die Zeitleiste ist mit de</p>"
             ]
         },
         {
@@ -4497,15 +4514,10 @@
             "description": [
                 "<h4>Fragebogen</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/participant/carousel-02-01.png' style='max-width:853px' />",
-                "<p></p>",
-                "<h4>Gesture Usability Scale (GUS)</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/participant/carousel-02-02.png' style='max-width:853px' />",
-                "<p></p>",
+                "<p>Die Darstellung von Fragebögen und deren Antworten ist überall identisch. Für jede Frage werden die allgemeinen Informationen und die gegebenen Antworten angezeigt. Hinweise erleichtern eine schnelle Übersicht, ob z.B. eine Frage unbeantwortet blieb oder ob eine Rating gut oder schlecht ausfällt. Dies umfasst die Leitfadenformate <em>Fragebogen</em>, <em>Interview</em>, <em>Gesture Usability Scale</em>, <em>User Experience Questionnaire</em> und <em>System Usability Scale</em>.</p>",
                 "<h4>Systen Usabilty Scale</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/participant/carousel-02-03.png' style='max-width:390px' />",
-                "<p></p>",
-                "<h4>User Experience Questionnaire</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/participant/carousel-02-04.png' style='max-width:390px' />",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-03.png' style='max-width:701px' />",
+                "<p>Eine Besonderheit beim System Usability Scale ist die Punkteskala, die erscheint, wenn dieser Leitfadenschritt ausgewählt wurde. Diese visualiert, wie das System vom Probanden insgesamt bewertet wurde. Dazu müssen jedoch alle Fragen des SUS beantwortet werden.</p>",
                 "<p></p>",
                 "<h4>Ermittlung</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/participant/carousel-02-05.png' style='max-width:390px' />",
@@ -4520,15 +4532,15 @@
                 "<img class='img-image' src='img/de/introduction/participant/carousel-02-08.png' style='max-width:390px' />",
                 "<p></p>",
                 "<h4>Gesten erraten</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/participant/carousel-02-09.png' style='max-width:390px' />",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-09.png' style='max-width:700px' />",
                 "<p></p>",
                 "<h4>Funktionen erraten</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/participant/carousel-02-10.png' style='max-width:390px' />",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-10.png' style='max-width:700px' />",
                 "<p></p>",
                 "<h4>Physischer Belastungstest</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/participant/carousel-02-11.png' style='max-width:390px' />",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-11.png' style='max-width:702px' />",
                 "<p></p>"
-                
+
             ]
         }
     ],
