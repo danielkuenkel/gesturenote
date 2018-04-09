@@ -202,6 +202,31 @@ if (login_check($mysqli) == true) {
                                 </button>
                             </div>
                         </div>
+                        
+                        <div class="form-group root" id="tutorialParticipant" data-help-context="participant">
+                            <label><?php echo $lang->tutorialParticipantQuestion ?></label><br/>
+
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="no">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->no ?></span>
+                                </button>
+                            </div>
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->yes ?></span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-5">
@@ -274,6 +299,7 @@ if (login_check($mysqli) == true) {
                         $('#tutorialStudyCreation').find(parseInt(user.tutorialStudyCreation) === 0 ? '#no' : '#yes').click();
                         $('#tutorialStudyPreview').find(parseInt(user.tutorialStudyPreview) === 0 ? '#no' : '#yes').click();
                         $('#tutorialStudy').find(parseInt(user.tutorialStudy) === 0 ? '#no' : '#yes').click();
+                        $('#tutorialParticipant').find(parseInt(user.tutorialParticipant) === 0 ? '#no' : '#yes').click();
 
                         // render statistics
                         $('#stats-studies .amount').text(user.statistics.totalStudies);
@@ -363,7 +389,7 @@ if (login_check($mysqli) == true) {
                 }
             });
 
-            $('#tutorialStudyCreation, #tutorialStudyPreview, #tutorialStudy').unbind('change').bind('change', function (event) {
+            $('#tutorialStudyCreation, #tutorialStudyPreview, #tutorialStudy, #tutorialParticipant').unbind('change').bind('change', function (event) {
                 event.preventDefault();
                 var context = $(this).attr('data-help-context');
                 var showTutorial = $(this).find('.btn-option-checked').attr('id') === 'yes' ? 1 : 0;

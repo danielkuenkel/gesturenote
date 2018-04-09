@@ -1507,6 +1507,7 @@
     "tutorialStudyCreationQuestion": "Hilfe bei Studien-Erstellung automatisch einblenden?",
     "tutorialStudyPreviewQuestion": "Hilfe bei Studien-Vorschau automatisch einblenden?",
     "tutorialStudyQuestion": "Hilfe bei Studie automatisch einblenden?",
+    "tutorialParticipantQuestion": "Hilfe bei Teilnehmer automatisch einblenden?",
     "gus": "GUS (Gesture Usability Scale)",
     "sus": "SUS (System Usability Scale)",
     "gusForSingleGesture": "GUS für einzelne Gesten",
@@ -4469,9 +4470,78 @@
             ]
         }
     ],
+    "introductionParticipant": [
+        {
+            "tabId": "general-infos",
+            "imgSrc": "img/de/introduction/participant/carousel-01.jpg",
+            "title": "Allgemeines",
+            "text": "Allgemeine Informationen über die Studien-Seite.",
+            "popover": "Allgemeines",
+            "description": [
+                "<h4>Bereiche</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-01-01.png' style='max-width:456px' />",
+                "<p>Die Studien-Seite teilt sich in die Bereiche <em>Allgemeines</em>, <em>Kataloge</em> und <em>Teilnahmen</em> auf. Falls eine Extraktion durchgeführt wurde, erscheint zusätzlich der Bereich <em>Exktraktion</em> in der Navigation.</p>",
+                "<h4>Studien-URL & Infos</h4><hr>",
+                "<p>Um eine Studie aufzurufen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet.</p>",
+                "<h4>Leitfaden</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-01-03.png' style='max-width:390px' />",
+                "<p>Auf der rechten Seite wird nochmals der Leitfaden angezeigt. Zusätzlich kann die Studie bearbeitet, die Vorschau aufgerufen oder die Studie gelöscht werden. Beim Löschen einer Studie gehen alle Daten verloren. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.</p>"
+            ]
+        },
+        {
+            "tabId": "general-usage",
+            "imgSrc": "img/de/introduction/participant/carousel-02.jpg",
+            "title": "Einzelne Bereiche",
+            "text": "Allgemeine Informationen über die einzelnen Bereiche.",
+            "popover": "Einzelne Bereiche",
+            "description": [
+                "<h4>Fragebogen</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-01.png' style='max-width:853px' />",
+                "<p></p>",
+                "<h4>Gesture Usability Scale (GUS)</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-02.png' style='max-width:853px' />",
+                "<p></p>",
+                "<h4>Systen Usabilty Scale</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-03.png' style='max-width:390px' />",
+                "<p></p>",
+                "<h4>User Experience Questionnaire</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-04.png' style='max-width:390px' />",
+                "<p></p>",
+                "<h4>Ermittlung</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-05.png' style='max-width:390px' />",
+                "<p></p>",
+                "<h4>Exploration</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-06.png' style='max-width:390px' />",
+                "<p></p>",
+                "<h4>Gesten-Training</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-07.png' style='max-width:390px' />",
+                "<p></p>",
+                "<h4>Szenario</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-08.png' style='max-width:390px' />",
+                "<p></p>",
+                "<h4>Gesten erraten</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-09.png' style='max-width:390px' />",
+                "<p></p>",
+                "<h4>Funktionen erraten</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-10.png' style='max-width:390px' />",
+                "<p></p>",
+                "<h4>Physischer Belastungstest</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/participant/carousel-02-11.png' style='max-width:390px' />",
+                "<p></p>"
+                
+            ]
+        }
+    ],
     "news": "Aktuelles",
     "moreNews": "Alle News abrufen",
     "allNews": [
+        {
+            "title": "Unterstützung für Leap Motion Controller",
+            "date": "4/6/2018",
+            "content": [
+                "<p>GestureNote unterstützt den Leap Motion Controller. Dies beinhaltet das Aufzeichnen und Anzeigen von Gesten. Eine Erkennung z.B. während einer Gesten-Evaluierung wird derzeit nicht unterstützt.</p>"
+            ]
+        },
         {
             "title": "Testphase gestartet",
             "date": "1/22/2018",

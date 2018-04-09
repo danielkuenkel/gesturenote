@@ -167,48 +167,93 @@ function renderData(data, hash, showTutorial) {
         }
     });
 
-    // catalogs view
-    // check if there are study catalog data
-    var studyGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
-    var studyFeedback = getLocalItem(ASSEMBLED_FEEDBACK);
-    var studyScenes = getLocalItem(ASSEMBLED_SCENES);
-    var studyTrigger = getLocalItem(ASSEMBLED_TRIGGER);
-    var noCatalogData = true;
-    if (studyGestures && studyGestures.length > 0) {
-        renderStudyGestures(getStudyCatalogGestures());
-        noCatalogData = false;
-    }
-
-    if (studyScenes && studyScenes.length > 0) {
-        renderStudyScenes(studyScenes);
-        noCatalogData = false;
-    }
-
-    if (studyTrigger && studyTrigger.length > 0) {
-        renderStudyTrigger(studyTrigger);
-        noCatalogData = false;
-    }
-
-    if (studyFeedback && studyFeedback.length > 0) {
-        renderStudyFeedback(studyFeedback);
-        noCatalogData = false;
-    }
-
-    if (noCatalogData) {
-        appendAlert($('#study-catalogs'), ALERT_NO_PHASE_DATA);
-    }
-
 
     // gesture/trigger extraction view
     if (studyData.generalData.phase === TYPE_PHASE_ELICITATION) {
         $('#extraction').removeClass('hidden');
+    }
+
+    $('#tab-pane li a').on('click', function (event) {
+        event.preventDefault();
+        $(this).trigger('change', [$(this).closest('li').attr('id')]);
+    });
+
+    $('#tab-pane').on('change', function (event, activeId) {
+        event.preventDefault();
+        if (activeId !== 'tab-introduction') {
+            console.log(activeId);
+            switch (activeId) {
+                case 'catalogs':
+                    renderCatalogs();
+                    break;
+                case 'participants':
+                    renderParticipants();
+                    break;
+                case 'extraction':
+                    renderExtraction();
+                    break;
+            }
+
+            window.location.hash = activeId;
+            TweenMax.from($('#main-content'), .2, {y: -10, opacity: 0.0, clearProps: 'all'});
+        }
+    });
+
+    var status = window.location.hash.substr(1);
+    if (status !== '') {
+        $('#tab-pane').find('#' + status + " a").click();
+    } else {
+        $('#tab-pane').find('#general a').click();
+    }
+
+    if (showTutorial === 1) {
+        $('#tab-introduction a').click();
+    }
+
+    function renderCatalogs() {
+        // catalogs view
+        // check if there are study catalog data
+        var studyGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
+        var studyFeedback = getLocalItem(ASSEMBLED_FEEDBACK);
+        var studyScenes = getLocalItem(ASSEMBLED_SCENES);
+        var studyTrigger = getLocalItem(ASSEMBLED_TRIGGER);
+        var noCatalogData = true;
+        if (studyGestures && studyGestures.length > 0) {
+            renderStudyGestures(getStudyCatalogGestures());
+            noCatalogData = false;
+        }
+
+        if (studyScenes && studyScenes.length > 0) {
+            renderStudyScenes(studyScenes);
+            noCatalogData = false;
+        }
+
+        if (studyTrigger && studyTrigger.length > 0) {
+            renderStudyTrigger(studyTrigger);
+            noCatalogData = false;
+        }
+
+        if (studyFeedback && studyFeedback.length > 0) {
+            renderStudyFeedback(studyFeedback);
+            noCatalogData = false;
+        }
+
+        if (noCatalogData) {
+            appendAlert($('#study-catalogs'), ALERT_NO_PHASE_DATA);
+        }
+    }
+
+    function renderParticipants() {
+
+    }
+
+    function renderExtraction() {
         var trigger = false;
         var gestures = false;
-        //                    console.log(data.studyData.phases);
+
         for (var i = 0; i < data.studyData.phases.length; i++) {
             if (data.studyData.phases[i].format === IDENTIFICATION) {
                 var phaseData = getLocalItem(data.studyData.phases[i].id + '.data');
-                console.log(phaseData);
                 if (phaseData.identificationFor === 'gestures') {
                     gestures = true;
                 } else {
@@ -217,7 +262,6 @@ function renderData(data, hash, showTutorial) {
             }
         }
 
-//        console.log('getExtractionData', gestures, trigger);
         getExtractionData({studyId: data.id, surveyType: studyData.generalData.surveyType}, function (result) {
             if (result.status === RESULT_SUCCESS) {
                 console.log('getExtractionData', result);
@@ -246,30 +290,6 @@ function renderData(data, hash, showTutorial) {
                 }
             }
         });
-    }
-
-    $('#tab-pane li a').on('click', function (event) {
-        event.preventDefault();
-        $(this).trigger('change', [$(this).closest('li').attr('id')]);
-    });
-
-    $('#tab-pane').on('change', function (event, activeId) {
-        event.preventDefault();
-        if (activeId !== 'tab-introduction') {
-            window.location.hash = activeId;
-            TweenMax.from($('#main-content'), .2, {y: -10, opacity: 0.0, clearProps: 'all'});
-        }
-    });
-
-    var status = window.location.hash.substr(1);
-    if (status !== '') {
-        $('#tab-pane').find('#' + status + " a").click();
-    } else {
-        $('#tab-pane').find('#general a').click();
-    }
-
-    if (showTutorial === 1) {
-        $('#tab-introduction a').click();
     }
 }
 
@@ -405,11 +425,13 @@ function renderGestureExtraction() {
                 appendAlert($('#gesture-extraction'), ALERT_NO_PHASE_DATA);
             }
 
-            $('#btn-all-gestures').click();
+            if ($('#gesture-extraction-navigation').find('.active').length === 0) {
+                $('#btn-all-gestures').click();
+            }
         }
-    });
 
-    initDynamicAffixScrolling($('#gesture-extraction-navigation'));
+        initDynamicAffixScrolling($('#gesture-extraction-navigation'));
+    });
 }
 
 function renderTriggerExtraction() {
@@ -421,7 +443,10 @@ function renderTriggerExtraction() {
         appendAlert($('#gesture-extraction'), ALERT_NO_PHASE_DATA);
     }
 
-    $('#btn-all-trigger').click();
+    if ($('#trigger-extraction-navigation').find('.active').length === 0) {
+        $('#btn-all-trigger').click();
+    }
+
     initDynamicAffixScrolling($('#trigger-extraction-navigation'));
 }
 
@@ -2574,7 +2599,9 @@ function initDynamicAffixScrolling(target) {
     });
 
     function setAffixContainerSize(target) {
-        $(target).width($(target).parent().innerWidth() - 30);
+        var newWidth = $(target).parent().innerWidth() - 30;
+//        console.log(newWidth);
+        $(target).width(newWidth);
     }
 
     $(window).unbind('scroll resize').bind('scroll resize', function (event) {
@@ -2590,6 +2617,8 @@ function initDynamicAffixScrolling(target) {
             $(target).removeAttr('data-offset-top');
         }
     });
+
+
 
     setAffixContainerSize($(target));
 }

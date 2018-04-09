@@ -89,7 +89,11 @@ if (login_check($mysqli) == true) {
 
         <!-- main content -->
         <div class="container mainContent" style="margin-top: 0px;" id="general-view">
-            <h2 id="main-headline" style="margin-top: 0"></h2>
+            <div>
+                <h2 id="main-headline" style="margin-top: 0; display: inline"></h2>
+                <a role="button" class="pull-right" id="btn-introduction"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
+            </div>
+
             <hr>
 
             <nav>
@@ -151,6 +155,11 @@ if (login_check($mysqli) == true) {
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
 
+                var showTutorial = parseInt(<?php echo $_SESSION['tutorialParticipant'] ?>);
+                if (showTutorial === 1) {
+                    $('#btn-introduction').click();
+                }
+
                 if (query.studyId && query.participantId && query.h === hash) {
                     $('.breadcrumb #btn-study').on('click', function (event) {
                         event.preventDefault();
@@ -194,7 +203,7 @@ if (login_check($mysqli) == true) {
                             if (results.phases[j].format === LETTER_OF_ACCEPTANCE) {
                                 start = parseInt(results.phases[j].startTime);
                             } else if (results.phases[j].format === THANKS) {
-                                end = parseInt(results.phases[j-1].endTime);
+                                end = parseInt(results.phases[j - 1].endTime);
                             }
                         }
                     }
@@ -1053,6 +1062,30 @@ if (login_check($mysqli) == true) {
                     }
                 });
             }
+
+
+            $('#btn-introduction').on('click', function (event) {
+                event.preventDefault();
+//                var activeTab = $('#tab-pane').find('.active a').attr('href');
+//                if (activeTab !== '#generalData') {
+//                    switch (activeTab) {
+//                        case '#study-catalogs':
+//                            $('#custom-modal').attr('data-start-tab-id', 'study-catalogs');
+//                            break;
+//                        case '#study-participants':
+//                            $('#custom-modal').attr('data-start-tab-id', 'study-participants');
+//                            break;
+//                        case '#gesture-extraction':
+//                            $('#custom-modal').attr('data-start-tab-id', 'gesture-extraction');
+//                            break;
+//                    }
+//                }
+
+                $('#custom-modal').attr('data-help-items-key', 'introductionParticipant');
+                $('#custom-modal').attr('data-help-context', 'participant');
+                $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialParticipant'] ?>));
+                loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
+            });
 
         </script>
     </body>

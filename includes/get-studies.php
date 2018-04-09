@@ -11,7 +11,7 @@ session_start();
 if (isset($_SESSION['user_id'])) {
     $sessionUserId = $_SESSION['user_id'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT studies.*, COUNT(study_results_tester.id) AS Total FROM studies LEFT JOIN study_results_tester ON studies.id = study_results_tester.study_id GROUP BY studies.id")) {
+    if ($select_stmt = $mysqli->prepare("SELECT studies.*, COUNT(study_results_tester.id) AS Total FROM studies LEFT JOIN study_results_tester ON studies.id = study_results_tester.study_id WHERE studies.user_id = '$sessionUserId' GROUP BY studies.id")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();
@@ -19,7 +19,6 @@ if (isset($_SESSION['user_id'])) {
             $select_stmt->bind_result($id, $userId, $data, $urlToken, $created, $results);
             $studies = null;
             while ($select_stmt->fetch()) {
-
                 $studies[] = array('id' => $id,
                     'userId' => $userId,
                     'data' => json_decode_nice($data),
