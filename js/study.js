@@ -580,6 +580,13 @@ function getElicitedGestures(elicitedGestures) {
 function renderAllGestures() {
     $('#content-btn-all-gestures').empty();
     var gestures = getLocalItem(ELICITED_GESTURES);
+
+    // load only the triggers which are used in the elicitation format data
+//    var trigger = [];
+//    for (var i = 0; i < max; i++) {
+//        
+//    }
+
     var trigger = getLocalItem(ASSEMBLED_TRIGGER);
     if (trigger && trigger.length > 0 && gestures && gestures.length > 0) {
 
@@ -599,7 +606,6 @@ function renderAllGestures() {
         statistics.totalAmount = 0;
 
         for (var i = 0; i < trigger.length; i++) {
-
             var singleStatistics = {};
             singleStatistics.staticGestures = 0;
             singleStatistics.dynamicGestures = 0;
@@ -610,13 +616,10 @@ function renderAllGestures() {
             var triggerTitle = document.createElement('div');
             $(triggerTitle).addClass('text');
             $(triggerTitle).text(translation.trigger + ": " + trigger[i].title);
-            $(gesturesListContainer).append(triggerTitle);
-            $(gesturesListContainer).append(document.createElement('hr'));
 
             var listContainer = document.createElement('div');
             $(listContainer).addClass('container-root row root');
             $(listContainer).css({marginTop: '20px', marginBottom: '30px'});
-            $(gesturesListContainer).append(listContainer);
 
             var gestureCount = 0;
             for (var j = 0; j < gestures.length; j++) {
@@ -643,6 +646,12 @@ function renderAllGestures() {
                         singleStatistics.continuousInteractions++;
                     }
                 }
+            }
+
+            if (gestureCount > 0) {
+                $(gesturesListContainer).append(triggerTitle);
+                $(gesturesListContainer).append(document.createElement('hr'));
+                $(gesturesListContainer).append(listContainer);
             }
 
             statistics.totalAmount += gestureCount;
@@ -701,7 +710,7 @@ function renderGestureClassification() {
     gesturesRightIndex = 0;
     var classification = getLocalItem(CLASSIFICATION);
     var elicitedGestures = getLocalItem(ELICITED_GESTURES);
-    console.log("classification: ", classification, "elicited gestures: ", elicitedGestures);
+//    console.log("classification: ", classification, "elicited gestures: ", elicitedGestures);
     if (elicitedGestures && elicitedGestures.length > 0) {
         if (classification && classification.assignments && classification.assignments.length > 0) {
             // check classified gestures and render them. gesturesLeft must be the matched unclassified gestures
@@ -899,7 +908,6 @@ function renderClassifiedGestures(target, type) {
                     var counter = 0;
                     var container = $('#template-study-container').find('#amount-container-appearance-trigger').clone();
                     TweenMax.from(container, .2, {delay: .2 + (i * .1), opacity: 0, y: -20});
-                    $(target).append(container);
 
                     container.find('#headline .text').text(translation.gesturesForTrigger + ': ' + trigger[i].title);
 
@@ -919,6 +927,10 @@ function renderClassifiedGestures(target, type) {
                             container.find('#item-view').append(appearanceTriggerGesture);
                             updateGestureAssignmentInfos(container, type, assignment.mainGestureId, assignment);
                         }
+                    }
+
+                    if (counter > 0) {
+                        $(target).append(container);
                     }
                 }
             } else if (classification.type === TYPE_CLASSIFICATION_APPEARANCE) {
@@ -1005,7 +1017,7 @@ function updateGestureAssignmentInfos(container, type, updateId, assignment) {
             gestureType = 'potential-gestures-catalog-thumbnail';
         }
 
-        var involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-6 col-lg-4', ELICITED_GESTURES);
+        var involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-6 col-md-4 col-lg-4', ELICITED_GESTURES);
         if ((type === POTENTIAL_GESTURES && parseInt(assignment.mainGestureId) !== parseInt(gesture.id)) || type !== POTENTIAL_GESTURES) {
             $(target).find('#gestures-list-container').append(involvedGesture);
 
@@ -1389,7 +1401,6 @@ function renderGestureSets() {
 
 var currentAssignment = null;
 function renderPotentialGesturesParameters(target, assignment, mainGesture) {
-
     var classification = getLocalItem(CLASSIFICATION);
     if (classification.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER) {
         $(target).find('#potential-parameters').empty().append($('#potential-gesture-parameters-appearance-trigger').clone());
@@ -1557,12 +1568,13 @@ function renderGestureGuessabilityTable(target, assignments) {
 
     var trigger = getLocalItem(ASSEMBLED_TRIGGER);
     var amountAccordance = 0.00;
+    var triggerCount = 0;
 
     for (var i = 0; i < trigger.length; i++) {
         for (var j = 0; j < assignments.length; j++) {
             var assignment = assignments[j];
             if (parseInt(assignment.triggerId) === parseInt(trigger[i].id)) {
-
+                triggerCount++;
                 var gesture = getGestureById(assignment.mainGestureId);
 
                 var row = document.createElement('tr');
@@ -1610,6 +1622,7 @@ function renderGestureGuessabilityTable(target, assignments) {
                     // guessability / accordance
                     var accordance = getAccordance(trigger[i].id).toFixed(2);
                     amountAccordance += parseFloat(accordance);
+//                    console.log(accordance);
 
                     var col = document.createElement('td');
                     $(col).attr('rowspan', 1);
@@ -1620,7 +1633,7 @@ function renderGestureGuessabilityTable(target, assignments) {
         }
     }
 
-    var meanAccordance = (amountAccordance / trigger.length).toFixed(2);
+    var meanAccordance = (amountAccordance / triggerCount).toFixed(2);
     var meanAccordanceItem = $('#template-study-container').find('#mean-accordance-gestures').clone();
     $(meanAccordanceItem).find('#accordance-amount').text(meanAccordance);
     $(target).append(meanAccordanceItem);
@@ -1643,14 +1656,16 @@ function renderTriggerGuessabilityTable(target, assignments) {
 
     $(table).find('.table-head-row .basic').text(translation.gesture);
     $(table).find('.table-head-row .effect').text(translation.trigger);
-    
+
     var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
     var amountAccordance = 0.00;
-    
+    var gestureCount = 0;
+
     for (var i = 0; i < gestures.length; i++) {
         for (var j = 0; j < assignments.length; j++) {
             var assignment = assignments[j];
             if (parseInt(assignment.gestureId) === parseInt(gestures[i])) {
+                gestureCount++;
 
                 var trigger = getTriggerById(assignment.mainTriggerId, ELICITED_TRIGGER);
                 var gesture = getGestureById(gestures[i]);
@@ -1710,8 +1725,8 @@ function renderTriggerGuessabilityTable(target, assignments) {
             }
         }
     }
-    
-    var meanAccordance = (amountAccordance / gestures.length).toFixed(2);
+
+    var meanAccordance = (amountAccordance / gestureCount).toFixed(2);
     var meanAccordanceItem = $('#template-study-container').find('#mean-accordance-trigger').clone();
     $(meanAccordanceItem).find('#accordance-amount').text(meanAccordance);
     $(target).append(meanAccordanceItem);
@@ -1753,6 +1768,14 @@ function getAmountRange(id, type) {
     var classification = getLocalItem(CLASSIFICATION);
     var min = 1;
     var max = 0;
+
+    if (classification.assignments.length === 1) {
+        if (classificationType === ELICITED_GESTURES) {
+            min = classification.assignments[0].gestures.length;
+        } else if (classificationType === ELICITED_TRIGGER) {
+            min = classification.assignments[0].trigger.length;
+        }
+    }
 
     for (var i = 0; i < classification.assignments.length; i++) {
         if (classificationType === ELICITED_GESTURES) {
@@ -1797,6 +1820,7 @@ function getAccordance(triggerId) {
     var classification = getLocalItem(CLASSIFICATION);
     var accordance = 0;
     var effectAmount = getGestureEffectAmount(triggerId);
+//    console.log(effectAmount, triggerId, classification);
     if (effectAmount === 1) {
         return 1.0;
     }
@@ -1826,7 +1850,7 @@ function getTriggerAccordance(gestureId) {
         }
     }
 
-    console.log(effectAmount, accordance);
+//    console.log(effectAmount, accordance);
     accordance = ((effectAmount / (effectAmount - 1)) * accordance) - (1 / (effectAmount - 1));
     return accordance;
 }

@@ -570,7 +570,7 @@ if (login_check($mysqli) == true) {
         function getWholeGestureRecorder() {
             var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-with-introductions').clone().removeAttr('id');
             $('#gesture-recorder').empty().append(recorder);
-            renderBodyJoints($(recorder).find('#human-body'));
+//            renderBodyJoints($(recorder).find('#human-body'));
 
             var options = {
                 recorderTarget: recorder,

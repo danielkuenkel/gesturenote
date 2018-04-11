@@ -59,7 +59,7 @@ if (login_check($mysqli) == true) {
         <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
         <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
 
-         <!--gesture recorder--> 
+        <!--gesture recorder--> 
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>

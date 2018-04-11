@@ -918,6 +918,7 @@ var Tester = {
             if (!previewModeEnabled) {
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                tempData.annotations = [];
                 if (data.identificationFor === 'gestures') {
                     tempData.gestures = [];
                 } else if (data.identificationFor === 'trigger') {
@@ -1011,8 +1012,8 @@ var Tester = {
                 };
 
                 if (data.sensor !== 'none') {
-                    options.record.push({type: 'leap'});
-                    options.initRecorders.push({type: 'leap'});
+                    options.record.push({type: data.sensor});
+                    options.initRecorders.push({type: data.sensor});
                 }
 
                 gestureRecorder = new GestureRecorder(options);
@@ -1046,7 +1047,6 @@ var Tester = {
                 $(peerConnection).unbind(MESSAGE_START_RECORDING_GESTURE).bind(MESSAGE_START_RECORDING_GESTURE, function (event, payload) {
                     clearAlerts(container);
                     gestureRecorder.record();
-//                    peerConnection.startRecordSeparateChunks();
                     animateLiveStream($(container).find('#fixed-rtc-preview'), true);
                     $(container).find('#fixed-rtc-preview').removeClass('hidden');
                     if (hasScences) {
@@ -1061,13 +1061,13 @@ var Tester = {
                         var recordedData = gestureRecorder.recordedData();
                         console.log('recorder stopped: ', recordedData);
                         for (var i = 0; i < recordedData.length; i++) {
-                            if(recordedData[i].type === TYPE_RECORD_WEBCAM) {
+                            if (recordedData[i].type === TYPE_RECORD_WEBCAM) {
                                 peerConnection.transferFile(recordedData[i].data);
                                 recordedData[i].data = null;
                                 break;
                             }
                         }
-                        
+
                         peerConnection.sendMessage(MESSAGE_GESTURE_DATA, recordedData);
                     });
                     gestureRecorder.stopRecord();

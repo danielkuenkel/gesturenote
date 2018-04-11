@@ -391,7 +391,7 @@ function dragRTC() {
     $('#pinnedRTC').addClass('hidden');
 
     $(video).appendTo("#draggableRTC");
-    $('#draggableRTC').find('#resize-sign').css({zIndex: 1000});
+    $(video).find('#resize-sign').removeClass('hidden').css({zIndex: 1000});
 
     keepStreamsAlive(video);
 
@@ -402,7 +402,7 @@ function dragRTC() {
         var y = event.pageY - $(this).offset().top;
 
         if (!resizing) {
-            if (x > $(this).innerWidth() - 20 && y > $(this).innerHeight() - 20) {
+            if (x > this.scrollWidth - 20 && y > this.scrollHeight - 20) {
                 showCursor($(this), CURSOR_NWSE_RESIZE);
                 resizable = true;
             } else {
@@ -462,7 +462,8 @@ function pinRTC() {
     if (previewModeEnabled !== true) {
         video = $('#video-caller');
     }
-
+    
+    $(video).find('#resize-sign').addClass('hidden');
     $('#pinnedRTC').removeClass('hidden');
     $('#draggableRTC').addClass('hidden');
     $(video).removeClass('shadow');

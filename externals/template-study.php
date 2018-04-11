@@ -787,8 +787,8 @@ include '../includes/language.php';
         <div class="col-sm-6">
             <div id="gesture"><span class="address"></span> <span class="text"></span></div>
             <div id="trigger"><span class="address"></span> <span class="text"></span></div>
-            <div id="feedback"><span class="address"></span> <span class="content" style="display: inline-block"></span></div>
-            <div id="recognition-time"><span class="address"></span> <span class="text"></span></div>
+            <div id="feedback"><span class="address"></span> <span class="text" style="display: inline-block"></span></div>
+            <!--<div id="recognition-time"><span class="address"></span> <span class="text"></span></div>-->
             <div id="repeats"><span class="address"></span> <span class="text"></span></div>
             <div id="training-time"><span class="address"></span> <span class="text"></span></div>
         </div>

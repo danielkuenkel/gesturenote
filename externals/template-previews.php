@@ -4,11 +4,12 @@ include '../includes/language.php';
 
 <div id="item-container-moderator" class="hidden">
 
-    <div id="moderator-web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
-        <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
+    <div id="moderator-web-rtc-placeholder" class="web-rtc-placeholder embed-responsive embed-responsive-4by3" style="position: absolute">
+        <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
         <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; right: 0;">
             <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow btn-toggle-rtc-fixed"><i class="glyphicon glyphicon-new-window"></i></button>
         </div>
+        <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
     </div>
 
     <!-- alerts -->
@@ -827,6 +828,7 @@ include '../includes/language.php';
     <div id="identificationItem-gestures">
         <div id="search-for"><span class="address"></span> <span class="text"></span></div>
         <div id="transition-scenes" class="root"></div>
+        <div id="waiting-for-sensor"><i class="fa fa-spin fa-circle-o-notch"></i> Auf Sensordaten warten</div>
         <div style="margin-top: 10px">
             <button class="btn btn-block btn-success btn-shadow disabled" id="btn-start-gesture-recording" name="btn-success"><i class="glyphicon glyphicon-record"></i> <?php echo $lang->recordGesture ?></button>
             <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success"><i class="glyphicon glyphicon-record"></i> <?php echo $lang->rerecordGesture ?></button>

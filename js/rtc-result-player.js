@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var resultsPlayer = null;
+var resultsPlayer, player = null;
 function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionTime, content) {
 //    getTime('GMT', function (time) {
 //        // This is where you do whatever you want with the time:
@@ -22,6 +22,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
     var screenSharingEndGap = 0;
     var videoCount = 0;
     var videosLoadedSuccessfully = 0;
+    player = this;
 
     if (getBrowser() !== 'Safari') {
         resultsPlayer = $('#template-study-container').find('#rtc-video-result').clone().removeAttr('id');
@@ -52,9 +53,13 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
             initTesterVideoPlayer();
         }
 
+
+
+
+        // screen share video player
+
         function initScreenSharingVideoPlayer() {
             var screenRecordingFileExist = true;
-//            console.log('init screen sharing video player', evaluatorResults);
 
             $.get(UPLOADS + evaluatorResults.screenRecordUrl)
                     .fail(function () {
@@ -86,14 +91,12 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                             screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
                         }
 
-//                        console.log(screenSharingStartGap, screenSharingEndGap);
                         console.log('total screen duration:', duration);
                         screenShareVideoHolder[0].currentTime = duration - 2;
                         screenShareVideoHolder[0].playbackRate = 10;
                         screenShareVideoHolder[0].muted = true;
 
                         $(screenShareVideoHolder).on('ended', function () {
-//                            console.log('on screen record ended');
                             $(screenShareVideoHolder).unbind('ended');
                             screenShareVideoHolder[0].playbackRate = 1;
                             screenShareVideoHolder[0].muted = false;
@@ -107,11 +110,6 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     } else {
                         showScreenPlayer();
                     }
-                });
-
-                $(screenShareVideoHolder).unbind('click').bind('click', function (event) {
-                    event.preventDefault();
-                    $(resultsPlayer).find('#btn-play-pause').click();
                 });
 
                 $(screenShareVideoHolder).parent().find('#toggle-shrink-videos').unbind('click').bind('click', function (event) {
@@ -137,15 +135,23 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
         }
 
         function showScreenPlayer() {
-            $(resultsPlayer).find('#screen-share-video-container').removeClass('hidden');
-            $(resultsPlayer).find('#webcam-video-container').css({marginTop: '10px'});
-            $(resultsPlayer).find('#screen-share-video-container .video-time-code-duration').text(secondsToHms(screenShareVideoHolder[0].duration));
+            $(resultsPlayer.domElement).find('#screen-share-video-container').removeClass('hidden');
+            $(resultsPlayer.domElement).find('#webcam-video-container').css({marginTop: '10px'});
+            $(resultsPlayer.domElement).find('#screen-share-video-container .video-time-code-duration').text(secondsToHms(screenShareVideoHolder[0].duration));
+
+            $(screenShareVideoHolder).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(resultsPlayer.domElement).find('#btn-play-pause').click();
+            });
 
             videosLoadedSuccessfully++;
             checkMainVideoPlayer();
         }
 
 
+
+
+        // moderator video player 
 
         function initModeratorVideoPlayer() {
             var moderatorRecordingFileExist = true;
@@ -167,19 +173,14 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
                 $(moderatorVideoHolder).on('loadedmetadata', function () {
                     // google chrome no-duration workaround
-//                    console.log(moderatorVideoHolder, $(resultsPlayer).find('#moderator-video-holder'));
                     if (moderatorVideoHolder[0].duration === Infinity) {
                         var duration = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, evaluatorResults.endRecordingTime), true);
-//                        screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.startTime), true);
-//                        screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
-//                        console.log(screenSharingStartGap, screenSharingEndGap);
                         console.log('total moderator duration:', duration);
                         moderatorVideoHolder[0].currentTime = duration - 2;
                         moderatorVideoHolder[0].playbackRate = 10;
                         moderatorVideoHolder[0].muted = true;
 
                         $(moderatorVideoHolder).on('ended', function () {
-//                            console.log('on moderator record ended');
                             $(moderatorVideoHolder).unbind('ended');
                             moderatorVideoHolder[0].playbackRate = 1;
                             moderatorVideoHolder[0].muted = false;
@@ -198,15 +199,15 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
         }
 
         function showModeratorPlayer() {
-            $(resultsPlayer).find('#moderator-video-container').removeClass('hidden');
-            $(resultsPlayer).find('#moderator-video-container .video-time-code-duration').text(secondsToHms(moderatorVideoHolder[0].duration));
+            $(resultsPlayer.domElement).find('#moderator-video-container').removeClass('hidden');
+            $(resultsPlayer.domElement).find('#moderator-video-container .video-time-code-duration').text(secondsToHms(moderatorVideoHolder[0].duration));
 
             $(moderatorVideoHolder).unbind('click').bind('click', function (event) {
                 event.preventDefault();
-                $(resultsPlayer).find('#btn-play-pause').click();
+                $(resultsPlayer.domElement).find('#btn-play-pause').click();
             });
 
-            var muteButton = $(resultsPlayer).find('#moderator-video-container .btn-toggle-mute');
+            var muteButton = $(resultsPlayer.domElement).find('#moderator-video-container .btn-toggle-mute');
             $(muteButton).unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 $(muteButton).popover('hide');
@@ -225,6 +226,11 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
             checkMainVideoPlayer();
         }
 
+
+
+
+        // tester video player
+
         function initTesterVideoPlayer() {
             var testerRecordingFileExist = true;
 
@@ -241,7 +247,6 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
             testerVideoHolder = $(resultsPlayer).find('#tester-video-holder');
             if (testerRecordingFileExist) {
-//                initializeTimeline(timelineData);
 
                 $(testerVideoHolder).attr('src', UPLOADS + testerResults.recordUrl);
                 $(testerVideoHolder).on('loadedmetadata', function () {
@@ -254,7 +259,6 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         testerVideoHolder[0].muted = true;
 
                         $(testerVideoHolder).on('ended', function () {
-//                            console.log('on tester record ended');
                             $(testerVideoHolder).unbind('ended');
                             testerVideoHolder[0].playbackRate = 1;
                             testerVideoHolder[0].muted = false;
@@ -273,15 +277,15 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
         }
 
         function showTesterPlayer() {
-            $(resultsPlayer).find('#tester-video-container').removeClass('hidden');
-            $(resultsPlayer).find('#tester-video-container .video-time-code-duration').text(secondsToHms(testerVideoHolder[0].duration));
+            $(resultsPlayer.domElement).find('#tester-video-container').removeClass('hidden');
+            $(resultsPlayer.domElement).find('#tester-video-container .video-time-code-duration').text(secondsToHms(testerVideoHolder[0].duration));
 
             $(testerVideoHolder).unbind('click').bind('click', function (event) {
                 event.preventDefault();
-                $(resultsPlayer).find('#btn-play-pause').click();
+                $(resultsPlayer.domElement).find('#btn-play-pause').click();
             });
 
-            var muteButton = $(resultsPlayer).find('#tester-video-container .btn-toggle-mute');
+            var muteButton = $(resultsPlayer.domElement).find('#tester-video-container .btn-toggle-mute');
             $(muteButton).unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 $(muteButton).popover('hide');
@@ -300,8 +304,14 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
             checkMainVideoPlayer();
         }
 
+
+
+
+        // main video player functionalitities
+
         function checkMainVideoPlayer() {
             if (videosLoadedSuccessfully >= videoCount) {
+
                 var checkedVideos = getMainVideoPlayer();
                 var mainVideo = null;
                 var secondVideo = null;
@@ -316,13 +326,14 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                 }
 
                 if (mainVideo) {
-                    resultsPlayer.find('#video-timeline').removeClass('hidden');
-                    resultsPlayer.find('#loader').addClass('hidden');
+                    $(resultsPlayer.domElement).find('#video-timeline').removeClass('hidden');
+                    $(resultsPlayer.domElement).find('#loader').addClass('hidden');
 
-
+                    if (!secondVideo) {
+                        $(mainVideo).parent().removeClass('col-xs-6').addClass('col-xs-12');
+                    }
 
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
-//                        console.log('timeupdate', secondVideo);
                         updateTimeline(this.currentTime, content);
                         updateLinkList(this.currentTime, content);
 
@@ -446,9 +457,9 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                             mainVideo[0].currentTime = gap.start * -1;
                         }
 
-                        $(resultsPlayer).find('#video-controls #gap-input').val(gap.start);
+                        $(resultsPlayer.domElement).find('#video-controls #gap-input').val(gap.start);
 
-                        $(resultsPlayer).find('#btn-lock-unlock-gap-input').unbind('click').bind('click', function (event) {
+                        $(resultsPlayer.domElement).find('#btn-lock-unlock-gap-input').unbind('click').bind('click', function (event) {
                             event.preventDefault();
                             if ($(this).find('.fa').hasClass('fa-pencil')) {
                                 if (mainVideo[0].paused === false) {
@@ -457,16 +468,16 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
                                 $(this).find('.fa').removeClass('fa-pencil').addClass('fa-check');
                                 $(this).addClass('btn-success');
-                                $(resultsPlayer).find('#gap-input').removeAttr('readonly');
+                                $(resultsPlayer.domElement).find('#gap-input').removeAttr('readonly');
 
-                                $(resultsPlayer).find('#gap-input').bind('change input', function (event) {
+                                $(resultsPlayer.domElement).find('#gap-input').bind('change input', function (event) {
                                     readGapInput();
                                 });
                             } else {
                                 $(this).find('.fa').removeClass('fa-check').addClass('fa-pencil');
                                 $(this).removeClass('btn-success');
-                                $(resultsPlayer).find('#gap-input').attr('readonly', 'true');
-                                $(resultsPlayer).find('#gap-input').unbind('change input');
+                                $(resultsPlayer.domElement).find('#gap-input').attr('readonly', 'true');
+                                $(resultsPlayer.domElement).find('#gap-input').unbind('change input');
                                 readGapInput();
                             }
                         });
@@ -480,7 +491,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                 }
 
                 function readGapInput() {
-                    var gapInput = parseFloat($(resultsPlayer).find('#video-controls #gap-input').val());
+                    var gapInput = parseFloat($(resultsPlayer.domElement).find('#video-controls #gap-input').val());
                     if (isFinite(gapInput)) {
                         if (secondVideo) {
                             if (gapInput < 0 && mainVideo[0].currentTime < gapInput * -1) {
@@ -494,7 +505,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                             $(secondVideo).parent().find('.video-time-code-current-time').text(secondsToHms(secondVideo[0].currentTime));
                         }
                     } else {
-                        $(resultsPlayer).find('#video-controls #gap-input').val(0.00);
+                        $(resultsPlayer.domElement).find('#video-controls #gap-input').val(0.00);
                     }
                 }
 
@@ -510,8 +521,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         }
 
                         var percent = screenVideo.currentTime / screenVideo.duration * 100;
-                        $(resultsPlayer).find('#screen-share-video-container .progress-bar').css({width: percent + '%'});
-                        $(resultsPlayer).find('#screen-share-video-container .video-time-code-current-time').text(secondsToHms(screenVideo.currentTime));
+                        $(resultsPlayer.domElement).find('#screen-share-video-container .progress-bar').css({width: percent + '%'});
+                        $(resultsPlayer.domElement).find('#screen-share-video-container .video-time-code-current-time').text(secondsToHms(screenVideo.currentTime));
                     }
                 }
             }
@@ -526,7 +537,6 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     if (evaluatorResults.startRecordingTime < testerResults.startRecordingTime) {
                         start *= -1;
                     }
-//                    console.log('webcam gap: ', start, end);
 
                     return {mainVideo: moderatorVideoHolder, secondVideo: testerVideoHolder, gap: {start: start, end: end}};
                 } else if (moderatorVideoHolder && !testerVideoHolder) {
@@ -544,25 +554,28 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
                 return {mainVideo: moderatorVideoHolder, secondVideo: testerVideoHolder, gap: {start: start, end: end}};
             } else {
-                $(resultsPlayer).find('#gap-input-container').remove();
-                $(resultsPlayer).find('#seek-bar-container').removeClass('col-xs-7 col-sm-8 col-lg-9').addClass('col-xs-10 col-lg-11');
+                $(resultsPlayer.domElement).find('#gap-input-container').remove();
+                $(resultsPlayer.domElement).find('#seek-bar-container').removeClass('col-xs-7 col-sm-8 col-lg-9').addClass('col-xs-10 col-lg-11');
                 return {mainVideo: testerVideoHolder, secondVideo: null, gap: null};
             }
 
             return null;
         }
 
-        return resultsPlayer;
+        return {domElement: resultsPlayer, player: player};
     }
 
     return null;
 }
 
-var timeline, itemRange = null;
+var timeline, itemRange, currentVisData = null;
 function initializeTimeline(timelineData, content) {
     if (timelineData) {
         // Create a Timeline
         var data = getVisDataSet(timelineData);
+        currentVisData = data;
+
+        $(player).trigger('initialized');
 
         // for removing unused timeline
         $(content).find('#btn-toggle-timeline').unbind('click').bind('click', function (event) {
@@ -597,26 +610,18 @@ function initializeTimeline(timelineData, content) {
                 showCurrentTime: false,
                 orientation: 'top',
                 min: itemRange.min,
+                start: itemRange.min,
                 max: itemRange.max,
+                end: itemRange.max,
                 showMajorLabels: false,
                 showMinorLabels: false,
-                zoomMax: 20000,
+                zoomMax: 10000,
                 selectable: false,
                 autoResize: true
             };
 
-            timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline').empty()[0], new vis.DataSet(data), options);
+            timeline = new vis.Timeline($(resultsPlayer.domElement).find('#results-timeline').empty()[0], new vis.DataSet(data), options);
             timeline.addCustomTime(itemRange.min);
-//            timeline.moveTo(itemRange.min);
-//            $(content).find('#results-timeline').css({opacity: 0});
-//            setTimeout(function () {
-//                updateTimeline(timelineData.checkedVideos.mainVideo[0].duration, content);
-//                setTimeout(function () {
-//                    updateTimeline(0, content);
-//                    $(content).find('#results-timeline').css({opacity: 1});
-////                    $(content).find('#results-timeline').removeClass('hidden');
-//                }, 500);
-//            }, 500);
 
             renderSeekbarData(data, timelineData, content);
             renderListData(data, timelineData, content);
@@ -628,13 +633,10 @@ function initializeTimeline(timelineData, content) {
             console.warn('no timeline data extracted');
             $(content).find('#btn-toggle-timeline').click();
             renderListData(data, null, content);
-//            $(resultsPlayer).find('#timeline-content').remove();
-//            $(resultsPlayer).find('#timeline-content').remove();
         }
     } else {
         console.warn('no timeline data');
         $(content).find('#btn-toggle-timeline').click();
-//        $(resultsPlayer).find('#timeline-content').remove();
     }
 }
 
@@ -647,9 +649,13 @@ function updateTimeline(currentTime, content) {
 //        min.setSeconds(min.getSeconds() + Math.ceil(Math.max(0, currentTime)));
 //        min.setMilliseconds(min.getMilliseconds() + Math.round(currentTime % 1 * 1000) - 1000); // -1000 because of the recording start lack
         timeline.setCustomTime(customTime);
-        timeline.moveTo(customTime, {animation:false});
+        timeline.moveTo(customTime, {animation: false});
     }
 }
+
+RTCResultsPlayer.prototype.visData = function () {
+    return currentVisData;
+};
 
 // Create a DataSet (allows two way data-binding)
 function getVisDataSet(timelineData) {
@@ -674,13 +680,24 @@ function getVisDataSet(timelineData) {
                     contentText = translation.scene + ': ' + scene.title;
                     break;
                 case ACTION_START_GESTURE_TRAINING:
-                    var gesture = getGestureById(annotations[i].gestureId);
-                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
-                    break;
                 case ACTION_START_PERFORM_GESTURE:
+                case ACTION_START_PERFORM_TRIGGER_IDENTIFICATION:
+                case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
                     var gesture = getGestureById(annotations[i].gestureId);
                     contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
                     break;
+//                case ACTION_START_PERFORM_GESTURE:
+//                    var gesture = getGestureById(annotations[i].gestureId);
+//                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+//                    break;
+                case ACTION_START_PERFORM_GESTURE_IDENTIFICATION:
+                    var trigger = getTriggerById(annotations[i].triggerId);
+                    contentText = translation.annotations[annotations[i].action] + ': ' + trigger.title;
+                    break;
+//                case ACTION_START_PERFORM_TRIGGER_IDENTIFICATION:
+//                    var gesture = getGestureById(annotations[i].gestureId);
+//                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+//                    break;
                 case ACTION_SELECT_GESTURE:
                     var gesture = getGestureById(annotations[i].selectedGestureId);
                     className = 'item-success-full';
@@ -690,10 +707,10 @@ function getVisDataSet(timelineData) {
                 case ACTION_NO_GESTURE_FIT_FOUND:
                     className = 'item-warning-full';
                     break;
-                case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
-                    var gesture = getGestureById(annotations[i].gestureId);
-                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
-                    break;
+//                case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
+//                    var gesture = getGestureById(annotations[i].gestureId);
+//                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+//                    break;
                 case ACTION_START_TASK:
                     var task = getTaskById(annotations[i].taskId);
                     contentText = translation.task + ': ' + task.title;

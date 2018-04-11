@@ -34,7 +34,7 @@ if (login_check($mysqli) == true) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
-        
+
         <script src="js/stomp/stomp.js"></script>
         <script src="js/websocket.js"></script>
         <script src="js/chance.min.js"></script>
@@ -69,7 +69,7 @@ if (login_check($mysqli) == true) {
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
-        
+
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
@@ -129,7 +129,6 @@ if (login_check($mysqli) == true) {
         </div>
 
         <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 99; top: 150px; left:100px; display: block">
-            <img src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
         </div>
 
         <!-- main content -->
@@ -163,6 +162,7 @@ if (login_check($mysqli) == true) {
                 });
             });
 
+            // resize rtc placeholder functionalities
             $(window).on('resize', function () {
                 if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
                     updateRTCHeight($('#viewModerator #column-left').width());
@@ -171,35 +171,27 @@ if (login_check($mysqli) == true) {
 
             function updateRTCHeight(newWidth) {
                 var height = newWidth * 3 / 4;
-                TweenMax.to($('#web-rtc-placeholder'), .1, {width: newWidth, height: height, onComplete: onResizeComplete});
+                $('#web-rtc-placeholder').height(height);
+                $('#web-rtc-placeholder').width(newWidth);
+                TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: height + 20, opacity: 1.0}});
             }
 
-            function onResizeComplete() {
-                TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: $('#web-rtc-placeholder').height() + 20, opacity: 1.0}});
-            }
-
-            var resetRTCTimeout;
             $(window).scroll(function () {
-                if ($('#viewModerator #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
-                    if ($(document).scrollTop() <= 0 && ($('#viewModerator #column-left').width() !== $('#web-rtc-placeholder').width() || $('#web-rtc-placeholder').height() !== $('#viewModerator #column-left').offset().top - 40)) {
-                        resetRTCTimeout = setTimeout(resetRTC(), 100);
-                        return false;
-                    } else {
-                        clearTimeout(resetRTCTimeout);
-                    }
-
-                    var ratio = 4 / 3;
-                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 95 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 95 - parseInt($('#mainContent').css('padding-top')), 170));
-                    $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
+                var scrollTop = $(document).scrollTop();
+                var columnWidth = $('#viewModerator #column-left').width();
+                var newHeight = 3 / 4 * columnWidth - scrollTop;
+                var newWidth = 4 / 3 * newHeight;
+                if (newWidth > 170) {
                     $('#web-rtc-placeholder').height(newHeight);
+                    $('#web-rtc-placeholder').width(newWidth);
                 }
             });
 
             function resetRTC() {
-                clearTimeout(resetRTCTimeout);
                 $(window).resize();
             }
-
+            
+            // render data if all templates where loaded
             function onAllExternalsLoadedSuccessfully() {
                 var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyPreview'] ?>);
                 if (showTutorial === 1) {

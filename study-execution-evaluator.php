@@ -84,7 +84,7 @@ if ($h && $token && $studyId) {
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
-        
+
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
@@ -138,30 +138,54 @@ if ($h && $token && $studyId) {
         </div>
 
         <div id="video-caller-holder" class="hidden">
-            <div id="video-caller" style="width: 100%">
-                <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
-                <div class="rtc-local-container" style="position: absolute">
-                    <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
+            <div class="embed-responsive embed-responsive-4by3" id="video-caller">
+                <div class="embed-responsive-item" style="border-radius: 4px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
                 </div>
-                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 11px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                <div id="remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 4px;"></div>
+                <div class="rtc-local-container embed-responsive-item">
+                    <video autoplay id="local-stream" class="rtc-stream" style="display:block;"></video>
+                </div>
+                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
                     <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
                     <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
                     <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
                 </div>
                 <div id="stream-control-indicator">
-                    <div style="position: absolute; top: 2px; display: block; left: 10px; opacity: 1; color: white">
+                    <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
                         <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
                         <i id="pause-local-stream" class="hidden fa fa-pause"></i>
                     </div>
-                    <div style="position: absolute; top: 2px; display: block; right:45px; opacity: 1; color: white">
+                    <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
                         <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
                         <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
                     </div>
                 </div>
-                <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; right: 0;">
-                    <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
-                </div>
             </div>
+            <!--            <div id="video-caller" style="width: 100%">
+                            <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
+                            <div class="rtc-local-container" style="position: absolute">
+                                <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
+                            </div>
+                            <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 11px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                                <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                                <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                                <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                            </div>
+                            <div id="stream-control-indicator">
+                                <div style="position: absolute; top: 2px; display: block; left: 10px; opacity: 1; color: white">
+                                    <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                                    <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+                                </div>
+                                <div style="position: absolute; top: 2px; display: block; right:45px; opacity: 1; color: white">
+                                    <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                                    <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                                </div>
+                            </div>
+                            <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; right: 0;">
+                                <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
+                            </div>
+                        </div>-->
         </div>
 
 
@@ -231,59 +255,53 @@ if ($h && $token && $studyId) {
                     checkStorage();
                 });
             }
-
+            
+            
+            // resize rtc placeholder functionalities
             $(window).on('resize', function () {
-                if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
+                if (!$('#viewModerator #pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
                     updateRTCHeight($('#viewModerator #column-left').width());
                 }
             });
 
             function updateRTCHeight(newWidth) {
                 var height = newWidth * 3 / 4;
-                TweenMax.to($('#video-caller'), .1, {width: newWidth, height: height, onComplete: onResizeComplete});
+                $('#viewModerator #video-caller').height(height);
+                $('#viewModerator #video-caller').width(newWidth);
+                TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: height + 20, opacity: 1.0}});
             }
 
-            function onResizeComplete() {
-                TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: $('#video-caller').height() + 20, opacity: 1.0}});
-            }
-
-            var resetRTCTimeout;
             $(window).scroll(function () {
-//                return null;
-                if ($('#viewModerator #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
-                    if ($(document).scrollTop() <= 0 && ($('#viewModerator #column-left').width() !== $('#video-caller').width() || $('#video-caller').height() !== $('#viewModerator #column-left').offset().top - 40)) {
-                        resetRTCTimeout = setTimeout(resetRTC(), 100);
-                        return false;
-                    } else {
-                        clearTimeout(resetRTCTimeout);
-                    }
-
-                    var ratio = 4 / 3;
-                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 75 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 75 - parseInt($('#mainContent').css('padding-top')), 170));
-                    $('#video-caller').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
-                    $('#video-caller').height(newHeight);
+                var scrollTop = $(document).scrollTop();
+                var columnWidth = $('#viewModerator #column-left').width();
+                var newHeight = 3 / 4 * columnWidth - scrollTop;
+                var newWidth = 4 / 3 * newHeight;
+                console.log(scrollTop, columnWidth, newHeight, newWidth);
+                if (newWidth > 170) {
+                    $('#viewModerator #video-caller').height(newHeight);
+                    $('#viewModerator #video-caller').width(newWidth);
                 }
             });
 
             function resetRTC() {
-                clearTimeout(resetRTCTimeout);
                 $(window).resize();
             }
+            
 
-            $('#btn-toggle-rtc-fixed').on('click', function (event) {
-                event.preventDefault();
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                    $(this).find('.glyphicon').removeClass('glyphicon-pushpin');
-                    $(this).find('.glyphicon').addClass('glyphicon-new-window');
-                    pinRTC();
-                } else {
-                    $(this).addClass('selected');
-                    $(this).find('.glyphicon').removeClass('glyphicon-new-window');
-                    $(this).find('.glyphicon').addClass('glyphicon-pushpin');
-                    dragRTC();
-                }
-            });
+//            $('#btn-toggle-rtc-fixed').on('click', function (event) {
+//                event.preventDefault();
+//                if ($(this).hasClass('selected')) {
+//                    $(this).removeClass('selected');
+//                    $(this).find('.glyphicon').removeClass('glyphicon-pushpin');
+//                    $(this).find('.glyphicon').addClass('glyphicon-new-window');
+//                    pinRTC();
+//                } else {
+//                    $(this).addClass('selected');
+//                    $(this).find('.glyphicon').removeClass('glyphicon-new-window');
+//                    $(this).find('.glyphicon').addClass('glyphicon-pushpin');
+//                    dragRTC();
+//                }
+//            });
 
 
             function renderPhaseStep() {

@@ -170,6 +170,7 @@ function getIdentificationFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
+//        data.annotations = tempData.annotations;
 
         var phaseData = getLocalItem(data.id + '.data');
         if (phaseData.identificationFor === 'gestures') {
@@ -177,8 +178,6 @@ function getIdentificationFormData(data) {
         } else {
             data.trigger = tempData.trigger;
         }
-
-//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }

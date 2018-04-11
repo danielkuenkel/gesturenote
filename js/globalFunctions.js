@@ -1930,9 +1930,9 @@ function getTimeString(object, short, milliseconds) {
                 timeString += object[key] + '' + translation.timesShort[key] + ' ';
             } else {
                 if (parseInt(object[key]) === 1) {
-                    timeString += object[key] + '' + translation.timesSingular[key] + ' ';
+                    timeString += object[key] + ' ' + translation.timesSingular[key] + ' ';
                 } else {
-                    timeString += object[key] + '' + translation.times[key] + ' ';
+                    timeString += object[key] + ' ' + translation.times[key] + ' ';
                 }
             }
         }
@@ -2751,6 +2751,16 @@ function isWebRTCNeededForPhaseStep(phaseStep) {
     return false;
 }
 
+function isWebRTCPlaybackNeededForPhaseStep(phaseStep) {
+    if (phaseStep) {
+        var options = getPhaseStepOptions(phaseStep.format);
+        if (options.tester.recordStream === 'yes' || options.moderator.recordStream === 'yes') {
+            return true;
+        }
+    }
+    return false;
+}
+
 function isUploadRecordingNeeded() {
     var phaseSteps = getContextualPhaseSteps();
     if (phaseSteps && phaseSteps.length > 0) {
@@ -2943,12 +2953,8 @@ function unlockButton(button, hideLoadingIndicator, originalIcon) {
  * 
  */
 function getGesturePreviewIndex(source) {
-    var gestureImages = $(source).find('.gestureImage');
-    for (var i = 0; i < gestureImages.length; i++) {
-        if ($(gestureImages[i]).hasClass('previewImage')) {
-            return i;
-        }
-    }
+    console.log(source);
+    return $(source).find('.previewImage').attr('data-index');
 }
 
 /*

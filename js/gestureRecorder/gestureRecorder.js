@@ -644,7 +644,8 @@ function renderStateSave() {
     var associationInput = $(recorder.currentRecorderContent).find('#gestureAssociation');
     var descriptionInput = $(recorder.currentRecorderContent).find('#gestureDescription');
     var jointsInput = $(recorder.currentRecorderContent).find('#gesture-save-form #human-body #joint-container');
-
+    renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
+    
     $(recorder.currentRecorderContent).find('.sensor-source-save').addClass('hidden');
     for (var i = 0; i < recorders.length; i++) {
         $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
@@ -933,6 +934,11 @@ function renderStateSaveSuccess() {
             }
         });
     }
+    
+    var repeatRecordingButton = $(recorder.options.recorderTarget).find('.btn-repeat-recording');
+    if(recorder.options.allowRerecordGesture === false){
+        $(repeatRecordingButton).remove();
+    } 
 }
 
 function renderStateDeleteSuccess() {

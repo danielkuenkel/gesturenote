@@ -2611,7 +2611,7 @@ function initCatalogGesturesOverlay(formatClone) {
     function getWholeGestureRecorder() {
         var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-with-introductions').clone().removeAttr('id');
             $(formatClone).find('#gesture-recorder-container').empty().append(recorder);
-            renderBodyJoints($(recorder).find('#human-body'));
+//            renderBodyJoints($(recorder).find('#human-body'));
 
             var options = {
                 recorderTarget: recorder,

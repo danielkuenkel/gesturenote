@@ -314,7 +314,7 @@ PeerConnection.prototype.initialize = function (options) {
                 $(connection).trigger('localScreenRemoved', [video]);
             } else if (peer && peer.type === TYPE_PEER_VIDEO) {
                 $(connection).trigger('videoRemoved');
-                $('#local-stream').removeClass('rtc-shadow');
+
                 if (options.indicator) {
                     $(options.indicator).find('#mute-remote-audio').addClass('hidden');
                     $(options.indicator).find('#pause-remote-stream').addClass('hidden');
@@ -404,21 +404,21 @@ PeerConnection.prototype.initialize = function (options) {
     }
 };
 
-$(window).on('resize', function () {
-    onTweenComplete();
-});
-
+//$(window).on('resize', function () {
+//    onTweenComplete();
+//});
+//
 function onTweenComplete() {
-    var remoteHeight = $('.rtc-remote-container').find('video').height();
-    var offset = 0;
-    if (remoteHeight > 0) {
-        offset = remoteHeight - $('#local-stream').height() - 5;
-    }
-    $('#local-stream').css({marginBottom: offset + 'px'});
+//    var remoteHeight = $('.rtc-remote-container').find('video').height();
+//    var offset = 0;
+//    if (remoteHeight > 0) {
+//        offset = remoteHeight - $('#local-stream').height() - 5;
+//    }
+//    $('#local-stream').css({marginBottom: offset + 'px'});
 }
 
 function onLocalTweenComplete() {
-    $('#local-stream').css({width: '30%', height: 'auto'});
+//    $('#local-stream').css({width: '30%', height: 'auto'});
 }
 
 PeerConnection.prototype.update = function (options) {
@@ -434,19 +434,19 @@ PeerConnection.prototype.update = function (options) {
                 connection.showLocalStream();
                 if (currentOptions.remoteStream.video === 'yes') {
                     $('#' + currentOptions.remoteVideoElement).removeClass('hidden');
-                    $('#' + currentOptions.localVideoElement).addClass('rtc-shadow');
+//                    $('#' + currentOptions.localVideoElement).addClass('rtc-shadow');
                     connection.showRemoteStream();
                 } else {
                     $('#' + currentOptions.remoteVideoElement).addClass('hidden');
-                    $('#' + currentOptions.localVideoElement).removeClass('rtc-shadow');
+
                     connection.hideRemoteStream();
                 }
             } else {
                 connection.hideLocalStream();
                 if (currentOptions.remoteStream.video === 'yes') {
-                    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 1.0, onComplete: onTweenComplete});
+                    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 1.0});
                 } else {
-                    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0, onComplete: onTweenComplete});
+                    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0});
                 }
             }
 
@@ -494,19 +494,21 @@ PeerConnection.prototype.hideLocalStream = function () {
 };
 
 PeerConnection.prototype.showRemoteStream = function () {
-    setTimeout(function () {
-        var currentOptions = connection.options;
-        var width = Math.floor($('#' + currentOptions.remoteVideoElement).width() * .3);
-        var height = Math.floor(width * 3 / 4);
-        TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: .6, width: width, height: height, left: 5, top: 5, ease: Quad.easeIn, onComplete: onLocalTweenComplete});
-        TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: .6, opacity: 1.0, onComplete: onTweenComplete});
-    }, 500);
+//    setTimeout(function () {
+    var currentOptions = connection.options;
+//        var width = Math.floor($('#' + currentOptions.remoteVideoElement).width() * .3);
+//        var height = Math.floor(width * 3 / 4);
+    $('#' + currentOptions.localVideoElement).addClass('rtc-shadow');
+    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {css: {width: '30%', height: 'auto', left: 5, top: 5}, ease: Quad.easeIn});
+    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: .2, opacity: 1.0});
+//    }, 500);
 };
 
 PeerConnection.prototype.hideRemoteStream = function () {
     var currentOptions = this.options;
-    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {width: '100%', height: 'auto', left: 0, top: 0, ease: Quad.easeIn});
-    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0, onComplete: onTweenComplete});
+    $('#' + currentOptions.localVideoElement).removeClass('rtc-shadow');
+    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: .2, css: {width: '100%', height: 'auto', left: 0, top: 0}, ease: Quad.easeIn, clearProps: 'all'});
+    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0});
 };
 
 
@@ -738,7 +740,7 @@ PeerConnection.prototype.stopRecordSeparateChunks = function () {
 var screenChunks = [];
 var screenMediaRecorder = null;
 PeerConnection.prototype.initScreenRecording = function () {
-    
+
     var localScreenStream = webrtc.getLocalScreen();
     console.log('initScreenRecording', localScreenStream, webrtc.webrtc.localScreens);
     screenMediaRecorder = new MediaRecorder(localScreenStream);
@@ -782,7 +784,7 @@ PeerConnection.prototype.initScreenRecording = function () {
                 if (stopScreenRecordingCallback) {
                     stopScreenRecordingCallback();
                 }
-                
+
                 webrtc.webrtc.localScreens = [];
             });
         } else {
@@ -856,7 +858,7 @@ PeerConnection.prototype.stopShareScreen = function (save, callback) {
 };
 
 PeerConnection.prototype.reset = function () {
-    if(screenMediaRecorder) {
+    if (screenMediaRecorder) {
         screenMediaRecorder = null;
     }
 };

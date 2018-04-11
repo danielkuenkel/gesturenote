@@ -603,7 +603,7 @@ include '../includes/language.php';
 
                     lockButton(button, true, 'fa-pencil');
                     showCursor($('body'), CURSOR_PROGRESS);
-                    var previewImageIndex = getGesturePreviewIndex($('#modal-body').find('.previewGesture'));
+                    var previewImageIndex = getGesturePreviewIndex($('#modal-body').find('.webcam-image-container'));
                     var title = $('#gesture-name-input').val().trim();
                     var type = $(container).find('#gestureTypeSelect .btn-option-checked').attr('id');
                     var interactionType = $(container).find('#gestureInteractionTypeSelect .btn-option-checked').attr('id');
@@ -611,6 +611,7 @@ include '../includes/language.php';
                     var association = $('#gesture-association-input').val().trim();
                     var description = $('#gesture-description-input').val().trim();
                     var joints = getSelectedJoints($('#select-joints-human-body #joint-container'));
+                    console.log(previewImageIndex, title, type, interactionType, context, association, description, joints);
 
                     updateGesture({gestureId: gesture.id, title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints, previewImageIndex: previewImageIndex}, function (result) {
                         showCursor($('body'), CURSOR_DEFAULT);

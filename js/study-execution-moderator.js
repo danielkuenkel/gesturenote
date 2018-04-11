@@ -2075,6 +2075,7 @@ var Moderator = {
         if (!previewModeEnabled) {
             var currentPhase = getCurrentPhase();
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.annotations = [];
             if (data.identificationFor === 'gestures') {
                 tempData.gestures = [];
             } else if (data.identificationFor === 'trigger') {
@@ -2176,6 +2177,13 @@ var Moderator = {
 
                 var options = {
                     recorderTarget: gestureRecorderContent,
+                    saveGesture: !previewModeEnabled,
+                    allowRerecordGesture: false,
+                    allowDeletingGesture: false,
+                    ownerId: getLocalItem(STUDY).studyOwner,
+                    context: data.identification[currentIdentificationIndex].context,
+                    checkType: true,
+                    checkInteractionType: true,
                     startState: GR_STATE_PLAYBACK,
                     usedStates: [GR_STATE_PLAYBACK, GR_STATE_SAVE, GR_STATE_SAVE_SUCCESS, GR_STATE_DELETE_SUCCESS],
                     initRecorders: []
@@ -2186,7 +2194,7 @@ var Moderator = {
                     tempOptions.autoplayPlayback = true;
                     tempOptions.autoplaySave = true;
                     tempOptions.autoplaySaveSuccess = true;
-                    if(recordedData[i].type === TYPE_RECORD_LEAP) {
+                    if (recordedData[i].type === TYPE_RECORD_LEAP) {
                         tempOptions.previewOnly = true;
                     }
                     options.initRecorders.push(tempOptions);
@@ -2209,18 +2217,18 @@ var Moderator = {
 //                };
                 gestureRecorder = new GestureRecorder(options);
 
-//                $(gestureRecorder).unbind(EVENT_GR_SAVE_SUCCESS).bind(EVENT_GR_SAVE_SUCCESS, function (event, gesture) {
-//                    $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
-//                    event.preventDefault();
-//
-//                    var currentPhase = getCurrentPhase();
-//                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-//                    var triggerId = data.identification[currentIdentificationIndex].triggerId;
-//                    tempData.gestures.push({id: gesture.id, triggerId: triggerId});
-//                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-//
-//                    initRerecordingButton(gestureRecorder, gesture.id);
-//                });
+                $(gestureRecorder).unbind(GR_EVENT_SAVE_SUCCESS).bind(GR_EVENT_SAVE_SUCCESS, function (event, gesture) {
+                    $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
+                    event.preventDefault();
+
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    var triggerId = data.identification[currentIdentificationIndex].triggerId;
+                    tempData.gestures.push({id: gesture.id, triggerId: triggerId});
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+
+                    initRerecordingButton(gestureRecorder, gesture.id);
+                });
 
                 initRerecordingButton(gestureRecorder, null);
             } else {
@@ -2237,13 +2245,23 @@ var Moderator = {
             }
         }
 
+        function startGestureRecording() {
+            getGMT(function (timestamp) {
+                var identificationData = data.identification[currentIdentificationIndex];
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_GESTURE_IDENTIFICATION, triggerId: identificationData.triggerId, time: timestamp});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                peerConnection.sendMessage(MESSAGE_START_RECORDING_GESTURE);
+            });
+        }
+
         function initRerecordingButton(gestureRecorder, gestureId) {
             $(container).find('#btn-start-gesture-rerecording').unbind('click').bind('click', function (event) {
                 if (!$(this).hasClass('disabled')) {
                     $(this).addClass('hidden');
                     if (gestureRecorder) {
                         if (gestureId) {
-                            $(gestureRecorder).unbind(EVENT_GR_DELETE_SUCCESS).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
+                            $(gestureRecorder).unbind(GR_EVENT_DELETE_SUCCESS).bind(GR_EVENT_DELETE_SUCCESS, function (event, gestureId) {
                                 event.preventDefault();
                                 console.log('delete success');
 
@@ -2266,7 +2284,7 @@ var Moderator = {
                                 $(container).find('#btn-next-trigger, #btn-done').addClass('hidden');
 
                                 if (peerConnection) {
-                                    peerConnection.sendMessage(MESSAGE_START_RECORDING_GESTURE);
+                                    startGestureRecording();
                                 }
                             });
 
@@ -2278,9 +2296,10 @@ var Moderator = {
                             $(container).find('#gesture-recorder-container').addClass('hidden');
                             $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
                             $(container).find('#btn-next-trigger, #btn-done').addClass('hidden');
-
+                            
+                            
                             if (peerConnection) {
-                                peerConnection.sendMessage(MESSAGE_START_RECORDING_GESTURE);
+                                startGestureRecording();
                             }
                         }
                     } else {
@@ -2295,7 +2314,7 @@ var Moderator = {
                         identificationRecordingStopTriggered = false;
 
                         if (peerConnection) {
-                            peerConnection.sendMessage(MESSAGE_START_RECORDING_GESTURE);
+                            startGestureRecording();
                         }
                     }
                 } else {
@@ -2375,6 +2394,7 @@ var Moderator = {
                 if (data.sensor !== 'none' && !identificationSensorInitialized === true) {
                     $(container).find('#btn-start-gesture-recording').addClass('hidden');
                     $(container).find('#btn-stop-gesture-recording').addClass('hidden');
+                    $(container).find('#waiting-for-sensor').removeClass('hidden');
                 } else if (identificationRecordingStartTriggered === true) {
                     $(container).find('#btn-start-gesture-recording').addClass('hidden');
                     $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
@@ -2406,7 +2426,7 @@ var Moderator = {
                     identificationRecordingStopTriggered = false;
 
                     if (peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_START_RECORDING_GESTURE);
+                        startGestureRecording();
                     }
                 } else {
                     $(document).scrollTop(0);
@@ -2418,11 +2438,13 @@ var Moderator = {
                 $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event) {
                     event.preventDefault();
                     $(container).find('#btn-start-gesture-recording').removeClass('disabled');
+                    $(container).find('#waiting-for-sensor').addClass('hidden');
                 });
 
                 $(peerConnection).unbind(MESSAGE_RECORDER_LOST).bind(MESSAGE_RECORDER_LOST, function (event) {
                     event.preventDefault();
                     $(container).find('#btn-start-gesture-recording').addClass('disabled');
+                    $(container).find('#waiting-for-sensor').removeClass('hidden');
                 });
             }
 
@@ -2531,6 +2553,16 @@ var Moderator = {
                 }
             });
         }
+        
+        function startTriggerRecording() {
+            getGMT(function (timestamp) {
+                var identificationData = data.identification[currentIdentificationIndex];
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_TRIGGER_IDENTIFICATION, gestureId: identificationData.gestureId, time: timestamp});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                peerConnection.sendMessage(MESSAGE_REQUEST_TRIGGER, {currentIdentificationIndex: currentIdentificationIndex});
+            });
+        }
 
         function renderIdentificationForTriggerItem(item, container, data) {
             console.log(data);
@@ -2563,7 +2595,7 @@ var Moderator = {
                     identificationTriggerRequest = true;
                     console.log('request trigger', currentIdentificationIndex);
                     if (peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_REQUEST_TRIGGER, {currentIdentificationIndex: currentIdentificationIndex});
+                        startTriggerRecording();
                     }
                 } else if (!identificationStartTriggered) {
                     wobble([$(container).find('#general')]);

@@ -25,11 +25,13 @@ function LeapRecorder(options) {
         pauseOnHand: options.pauseOnHand || false,
         overlay: false
     });
+
     controller.use('riggedHand', {
         checkWebGL: false,
         offset: options.offset || null,
         renderTarget: options.renderTarget || null
     });
+
     controller.connect();
     this.options.controller = controller;
 
@@ -601,6 +603,7 @@ LeapRecorder.prototype.destroy = function (destroyRecord) {
             options.controller.plugins.playback.player.pause();
         }
 
+        options.controller.removeAllListeners('playback.beforeSendFrame');
         options.controller.connection.removeAllListeners('frame');
         options.controller.removeAllListeners('connect');
         options.controller.removeAllListeners('deviceAttached');
@@ -608,7 +611,6 @@ LeapRecorder.prototype.destroy = function (destroyRecord) {
         options.controller.removeAllListeners('deviceStreaming');
         options.controller.removeAllListeners('deviceStopped');
         options.controller.removeAllListeners('blur');
-        options.controller.removeAllListeners('playback.beforeSendFrame');
         options.controller.stopUsing('playback');
         options.controller.stopUsing('riggedHand');
 
