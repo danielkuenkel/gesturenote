@@ -903,7 +903,7 @@ function renderClassifiedGestures(target, type) {
                     renderGestureGuessabilityTable(target, classification.assignments);
                 }
 
-                var trigger = getLocalItem(ASSEMBLED_TRIGGER);
+                var trigger = getUniqueTrigger();
                 for (var i = 0; i < trigger.length; i++) {
                     var counter = 0;
                     var container = $('#template-study-container').find('#amount-container-appearance-trigger').clone();
@@ -1061,7 +1061,7 @@ $(document).on('click', '#btn-gesture-yes', function (event) {
     gesturesLeftIndex++;
     gesturesRightIndex = 0;
 
-    console.log(gesturesLeft.length, gesturesLeftIndex);
+//    console.log(gesturesLeft.length, gesturesLeftIndex);
     if (gesturesLeft.length > 0 && gesturesLeftIndex < gesturesLeft.length) {
 
         updateMatchingView();
@@ -1456,25 +1456,26 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
         $(target).find('#potential-parameters').empty().append($('#potential-gesture-parameters-appearance').clone());
 
         // amount
-        var trigger = getLocalItem(ASSEMBLED_TRIGGER);
-        var usedTrigger = new Array();
-        for (var i = 0; i < trigger.length; i++) {
-            for (var j = 0; j < assignment.gestures.length; j++) {
-                var gesture = getGestureById(assignment.gestures[j], ELICITED_GESTURES);
-                if (parseInt(gesture.triggerId) === parseInt(trigger[i].id)) {
-                    usedTrigger.push(trigger[i].id);
-                }
-            }
-        }
-        usedTrigger = unique(usedTrigger);
+        var trigger = getUniqueTrigger();
+//        var trigger = getLocalItem(ASSEMBLED_TRIGGER);
+//        var usedTrigger = new Array();
+//        for (var i = 0; i < trigger.length; i++) {
+//            for (var j = 0; j < assignment.gestures.length; j++) {
+//                var gesture = getGestureById(assignment.gestures[j], ELICITED_GESTURES);
+//                if (parseInt(gesture.triggerId) === parseInt(trigger[i].id)) {
+//                    usedTrigger.push(trigger[i].id);
+//                }
+//            }
+//        }
+//        usedTrigger = unique(usedTrigger);
 //        console.log(usedTrigger);
 
-        for (var i = 0; i < usedTrigger.length; i++) {
-            trigger = getTriggerById(usedTrigger[i]);
+        for (var i = 0; i < trigger.length; i++) {
+//            trigger = getTriggerById(usedTrigger[i]);
 //            
 //            console.log(amountRange);
             var item = $('#potential-gesture-parameters-appearance-trigger-amount-item').clone().removeAttr('id');
-            $(item).find('#trigger-title').text(trigger.title);
+            $(item).find('#trigger-title').text(trigger[i].title);
             $(target).find('#potential-parameters #parameters-amount #trigger-container').append(item);
 
             if (i > 0) {
@@ -1484,7 +1485,7 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
             var count = 0;
             for (var j = 0; j < assignment.gestures.length; j++) {
                 var gesture = getGestureById(assignment.gestures[j], ELICITED_GESTURES);
-                if (parseInt(gesture.triggerId) === parseInt(trigger.id)) {
+                if (parseInt(gesture.triggerId) === parseInt(trigger[i].id)) {
                     count++;
                 }
             }
@@ -1565,16 +1566,14 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
 function renderGestureGuessabilityTable(target, assignments) {
     var table = $('#template-study-container').find('#guessability-table').clone();
     $(target).append(table);
-
-    var trigger = getLocalItem(ASSEMBLED_TRIGGER);
+    var trigger = getUniqueTrigger();
     var amountAccordance = 0.00;
-    var triggerCount = 0;
 
     for (var i = 0; i < trigger.length; i++) {
         for (var j = 0; j < assignments.length; j++) {
             var assignment = assignments[j];
             if (parseInt(assignment.triggerId) === parseInt(trigger[i].id)) {
-                triggerCount++;
+//                console.log('render gesture for trigger: ', assignment);
                 var gesture = getGestureById(assignment.mainGestureId);
 
                 var row = document.createElement('tr');
@@ -1622,7 +1621,6 @@ function renderGestureGuessabilityTable(target, assignments) {
                     // guessability / accordance
                     var accordance = getAccordance(trigger[i].id).toFixed(2);
                     amountAccordance += parseFloat(accordance);
-//                    console.log(accordance);
 
                     var col = document.createElement('td');
                     $(col).attr('rowspan', 1);
@@ -1633,7 +1631,8 @@ function renderGestureGuessabilityTable(target, assignments) {
         }
     }
 
-    var meanAccordance = (amountAccordance / triggerCount).toFixed(2);
+//    console.log(trigger.length, amountAccordance);
+    var meanAccordance = (amountAccordance / trigger.length).toFixed(2);
     var meanAccordanceItem = $('#template-study-container').find('#mean-accordance-gestures').clone();
     $(meanAccordanceItem).find('#accordance-amount').text(meanAccordance);
     $(target).append(meanAccordanceItem);
@@ -1649,6 +1648,21 @@ function renderGestureGuessabilityTable(target, assignments) {
     }
 }
 
+function getUniqueTrigger() {
+    var trigger = [];
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+    for (var i = 0; i < phaseSteps.length; i++) {
+        if (phaseSteps[i].format === IDENTIFICATION) {
+            var phaseStepData = getLocalItem(phaseSteps[i].id + '.data');
+            for (var j = 0; j < phaseStepData.identification.length; j++) {
+                trigger.push(getTriggerById(phaseStepData.identification[j].triggerId));
+            }
+        }
+    }
+    trigger = trigger.filter((v, i, a) => a.indexOf(v) === i);
+    return trigger;
+}
+
 function renderTriggerGuessabilityTable(target, assignments) {
     var table = $('#template-study-container').find('#guessability-table').clone();
     $(target).append(table);
@@ -1657,19 +1671,34 @@ function renderTriggerGuessabilityTable(target, assignments) {
     $(table).find('.table-head-row .basic').text(translation.gesture);
     $(table).find('.table-head-row .effect').text(translation.trigger);
 
-    var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
+    var gestures = [];
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+    for (var i = 0; i < phaseSteps.length; i++) {
+        if (phaseSteps[i].format === IDENTIFICATION) {
+            var phaseStepData = getLocalItem(phaseSteps[i].id + '.data');
+            for (var j = 0; j < phaseStepData.identification.length; j++) {
+                gestures.push(getTriggerById(phaseStepData.identification[j].gestureId));
+            }
+        }
+    }
+
+
+    gestures = gestures.filter((v, i, a) => a.indexOf(v) === i);
+
+
+//    var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
     var amountAccordance = 0.00;
-    var gestureCount = 0;
+//    var gestureCount = 0;
 
     for (var i = 0; i < gestures.length; i++) {
         for (var j = 0; j < assignments.length; j++) {
             var assignment = assignments[j];
             if (parseInt(assignment.gestureId) === parseInt(gestures[i])) {
-                gestureCount++;
+//                gestureCount++;
 
                 var trigger = getTriggerById(assignment.mainTriggerId, ELICITED_TRIGGER);
                 var gesture = getGestureById(gestures[i]);
-                console.log(trigger, gesture);
+//                console.log(trigger, gesture);
 
                 var row = document.createElement('tr');
                 $(table).find('.table-body').append(row);
@@ -1726,7 +1755,7 @@ function renderTriggerGuessabilityTable(target, assignments) {
         }
     }
 
-    var meanAccordance = (amountAccordance / gestureCount).toFixed(2);
+    var meanAccordance = (amountAccordance / gestures.length).toFixed(2);
     var meanAccordanceItem = $('#template-study-container').find('#mean-accordance-trigger').clone();
     $(meanAccordanceItem).find('#accordance-amount').text(meanAccordance);
     $(target).append(meanAccordanceItem);
@@ -1780,13 +1809,23 @@ function getAmountRange(id, type) {
     for (var i = 0; i < classification.assignments.length; i++) {
         if (classificationType === ELICITED_GESTURES) {
             if (parseInt(classification.assignments[i].triggerId) === parseInt(id)) {
-                min = Math.min(classification.assignments[i].gestures.length, min);
-                max = Math.max(classification.assignments[i].gestures.length, max);
+                if (i === 0) {
+                    min = classification.assignments[i].gestures.length;
+                    max = classification.assignments[i].gestures.length;
+                } else {
+                    min = Math.min(classification.assignments[i].gestures.length, min);
+                    max = Math.max(classification.assignments[i].gestures.length, max);
+                }
             }
         } else if (classificationType === ELICITED_TRIGGER) {
             if (parseInt(classification.assignments[i].gestureId) === parseInt(id)) {
-                min = Math.min(classification.assignments[i].trigger.length, min);
-                max = Math.max(classification.assignments[i].trigger.length, max);
+                if (i === 0) {
+                    min = classification.assignments[i].trigger.length;
+                    max = classification.assignments[i].trigger.length;
+                } else {
+                    min = Math.min(classification.assignments[i].trigger.length, min);
+                    max = Math.max(classification.assignments[i].trigger.length, max);
+                }
             }
         }
     }
@@ -1805,16 +1844,6 @@ function getGestureEffectAmount(triggerId) {
     return amount;
 }
 
-function getTriggerEffectAmount(gestureId) {
-    var classification = getLocalItem(CLASSIFICATION);
-    var amount = 0;
-    for (var i = 0; i < classification.assignments.length; i++) {
-        if (parseInt(classification.assignments[i].gestureId) === parseInt(gestureId)) {
-            amount += classification.assignments[i].trigger.length;
-        }
-    }
-    return amount;
-}
 
 function getAccordance(triggerId) {
     var classification = getLocalItem(CLASSIFICATION);
@@ -1824,7 +1853,7 @@ function getAccordance(triggerId) {
     if (effectAmount === 1) {
         return 1.0;
     }
-
+    
     for (var i = 0; i < classification.assignments.length; i++) {
         if (parseInt(classification.assignments[i].triggerId) === parseInt(triggerId)) {
             accordance += Math.pow((classification.assignments[i].gestures.length / effectAmount), 2);
@@ -1834,6 +1863,18 @@ function getAccordance(triggerId) {
 //    console.log(effectAmount, accordance);
     accordance = ((effectAmount / (effectAmount - 1)) * accordance) - (1 / (effectAmount - 1));
     return accordance;
+}
+
+
+function getTriggerEffectAmount(gestureId) {
+    var classification = getLocalItem(CLASSIFICATION);
+    var amount = 0;
+    for (var i = 0; i < classification.assignments.length; i++) {
+        if (parseInt(classification.assignments[i].gestureId) === parseInt(gestureId)) {
+            amount += classification.assignments[i].trigger.length;
+        }
+    }
+    return amount;
 }
 
 function getTriggerAccordance(gestureId) {

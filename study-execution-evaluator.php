@@ -150,6 +150,7 @@ if ($h && $token && $studyId) {
                     <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
                     <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
                     <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                    <button type="button" class="btn stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
                 </div>
                 <div id="stream-control-indicator">
                     <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
@@ -190,10 +191,10 @@ if ($h && $token && $studyId) {
 
 
         <script>
-            window.onerror = function (msg, url, lineNo, columnNo, error) {
-                console.log(msg, url, lineNo, columnNo, error);
-                return false;
-            };
+//            window.onerror = function (msg, url, lineNo, columnNo, error) {
+//                console.log(msg, url, lineNo, columnNo, error);
+//                return false;
+//            };
 
             $(document).ready(function () {
                 checkDomain();
@@ -221,8 +222,7 @@ if ($h && $token && $studyId) {
                     var status = window.location.hash.substr(1);
                     var statusAddressMatch = statusAddressMatchIndex(status);
 
-                    // check if there was a page reload
-//                    status = ''; // for debugging
+                    // check if there was a page reload, status = '' for debugging
                     if (status !== '' && statusAddressMatch !== null) {
                         currentPhaseStepIndex = statusAddressMatch.index;
                         syncPhaseStep = true;
@@ -255,58 +255,45 @@ if ($h && $token && $studyId) {
                     checkStorage();
                 });
             }
-            
-            
+
+
             // resize rtc placeholder functionalities
             $(window).on('resize', function () {
-                if (!$('#viewModerator #pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
-                    updateRTCHeight($('#viewModerator #column-left').width());
+                if (!$('#viewModerator #pinnedRTC').hasClass('hidden') && !$('#viewModerator #column-left').hasClass('rtc-scalable')) {
+                    if ($(document).scrollTop() === 0) {
+                        updateRTCHeight($('#viewModerator #column-left').width(), true);
+                    } else {
+                        $(document).scrollTop(0);
+                    }
                 }
             });
 
-            function updateRTCHeight(newWidth) {
-                var height = newWidth * 3 / 4;
-                $('#viewModerator #video-caller').height(height);
-                $('#viewModerator #video-caller').width(newWidth);
-                TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: height + 20, opacity: 1.0}});
-            }
-
             $(window).scroll(function () {
-                var scrollTop = $(document).scrollTop();
-                var columnWidth = $('#viewModerator #column-left').width();
-                var newHeight = 3 / 4 * columnWidth - scrollTop;
-                var newWidth = 4 / 3 * newHeight;
-                console.log(scrollTop, columnWidth, newHeight, newWidth);
-                if (newWidth > 170) {
-                    $('#viewModerator #video-caller').height(newHeight);
-                    $('#viewModerator #video-caller').width(newWidth);
-                }
+                updateRTCHeight($('#viewModerator #column-left').width());
             });
 
             function resetRTC() {
                 $(window).resize();
             }
-            
 
-//            $('#btn-toggle-rtc-fixed').on('click', function (event) {
-//                event.preventDefault();
-//                if ($(this).hasClass('selected')) {
-//                    $(this).removeClass('selected');
-//                    $(this).find('.glyphicon').removeClass('glyphicon-pushpin');
-//                    $(this).find('.glyphicon').addClass('glyphicon-new-window');
-//                    pinRTC();
-//                } else {
-//                    $(this).addClass('selected');
-//                    $(this).find('.glyphicon').removeClass('glyphicon-new-window');
-//                    $(this).find('.glyphicon').addClass('glyphicon-pushpin');
-//                    dragRTC();
-//                }
-//            });
+            function updateRTCHeight(updateWidth, updateColumn) {
+                var scrollTop = $(document).scrollTop();
+                var newHeight = 3 / 4 * updateWidth - scrollTop;
+                var newWidth = 4 / 3 * newHeight;
+                if (newWidth > DRAGGABLE_MIN_WIDTH) {
+                    $('#viewModerator #video-caller').css({height: newHeight + 'px', width: newWidth + 'px'});
+                }
 
+                if (updateColumn) {
+                    TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: newHeight + 20, opacity: 1.0}});
+                }
+            }
 
             function renderPhaseStep() {
+                var preparedSensors = JSON.parse('<?php echo json_encode($_SESSION['preparedSensors']) ?>');
+                setLocalItem('preparedSensors', preparedSensors || null);
+
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-//                rescueVideoCaller();
                 $('#viewModerator').find('#phase-content').empty();
                 Moderator.renderView();
                 window.location.hash = getCurrentPhase().id;

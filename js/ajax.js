@@ -1053,6 +1053,24 @@ function requestParticipation(data, callback) {
     });
 }
 
+function savePreparedSensors(data, callback) {
+    $.ajax({
+        url: 'includes/save-prepared-sensors.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 /*
  * tester execution save
  */

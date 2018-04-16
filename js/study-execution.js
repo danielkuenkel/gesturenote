@@ -377,14 +377,14 @@ var draggable = null;
 var resizable = false;
 var resizing = false;
 var DRAGGABLE_MAX_WIDTH = 1250;
-var DRAGGABLE_MIN_WIDTH = 250;
+var DRAGGABLE_MIN_WIDTH = 296;
 function dragRTC() {
     var video = $('#web-rtc-placeholder');
     if (previewModeEnabled !== true) {
-        video = $('#video-caller');
+        video = $(getMainContent()).find('#video-caller');
     }
-    $(video).width(DRAGGABLE_MIN_WIDTH + 50);
-    $(video).height((DRAGGABLE_MIN_WIDTH + 50) * 3 / 4);
+    $(video).css({width: (DRAGGABLE_MIN_WIDTH + 50) + 'px', height: ((DRAGGABLE_MIN_WIDTH + 50) * 3 / 4) + 'px'});
+//    $(video).height((DRAGGABLE_MIN_WIDTH + 50) * 3 / 4);
 
     $(video).addClass('shadow');
     $('#draggableRTC').removeClass('hidden');
@@ -417,8 +417,9 @@ function dragRTC() {
         if (draggable) {
             if (resizable) {
                 var newWidth = Math.min(Math.max(event.pageX - $('#draggableRTC').offset().left, DRAGGABLE_MIN_WIDTH), DRAGGABLE_MAX_WIDTH);
-                $(video).width(newWidth);
-                $(video).height(newWidth * 3 / 4);
+//                $(video).width(newWidth);
+//                $(video).height(newWidth * 3 / 4);
+                $(video).css({width: newWidth + 'px', height: (newWidth * 3 / 4) + 'px'});
             } else {
                 var x = event.pageX - draggable.offsetLeft;
                 var y = event.pageY - draggable.offsetTop;
@@ -462,7 +463,7 @@ function pinRTC() {
     if (previewModeEnabled !== true) {
         video = $('#video-caller');
     }
-    
+
     $(video).find('#resize-sign').addClass('hidden');
     $('#pinnedRTC').removeClass('hidden');
     $('#draggableRTC').addClass('hidden');
@@ -534,4 +535,16 @@ function areThereScenes(array) {
         }
     }
     return false;
+}
+
+function sensorTypeBanned(type) {
+    var preparedSensors = getLocalItem('preparedSensors');
+    if(preparedSensors && preparedSensors.length > 0) {
+        for (var i = 0; i < preparedSensors.length; i++) {
+            if(preparedSensors[i].type === type) {
+                return preparedSensors[i].banned === 'true' || preparedSensors[i].banned === true;
+            }
+        }
+    }
+    return true;
 }

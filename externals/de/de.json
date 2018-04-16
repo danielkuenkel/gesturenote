@@ -234,6 +234,8 @@
     "studySurveyType": "Befragungsart",
     "whatShouldBeIdentified": "Was soll identifiziert werden?",
     "shouldUseWebcam": "Soll eine Webcam aufgezeichnet werden?",
+    "banSensor": "Nicht verwenden",
+    "unbanSensor": "Verwenden",
     "whatSensorShouldBeUsed": "Welche Sensordaten sollen aufgezeichnet werden?",
     "whatShouldBeExtracted": "Was soll extrahiert werden?",
     "queryPreferredGestureDirectly": "Favorisierte Geste(n) direkt abfragen?",
@@ -314,6 +316,8 @@
     "resumeOwnWebRTC": "Übertragung fortsetzen",
     "pauseOtherWebRTC": "Gesprächspartner stummschalten",
     "resumeOtherWebRTC": "Gesprächspartner anschalten",
+    "dragRTC": "Übertragung entkoppeln",
+    "pinRTC": "Übertragung ankoppeln",
     "alreadyParticipatedHeadline": "Schon wieder hier?",
     "alreadyParticipated": "Sie haben bereits an dieser Studie teilgenommen.",
     "waiting": "wartet",
@@ -4586,13 +4590,16 @@
     ],
     "sensors": {
         "webcam": {
-            "title": "Webcam"
+            "title": "Webcam",
+            "initialize": "Webcam initialisieren"
         },
         "leap": {
-            "title": "Leap Motion Controller"
+            "title": "Leap Motion Controller",
+            "initialize": "Leap Motion Controller initialisieren"
         },
         "kinect": {
-            "title": "Kinect"
+            "title": "Kinect",
+            "initialize": "Kinect initialisieren"
         }
     },
     "languages": {

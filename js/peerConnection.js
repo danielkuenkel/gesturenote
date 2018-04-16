@@ -77,7 +77,6 @@ PeerConnection.prototype.initialize = function (options) {
 
         if (options.localMuteElement && options.callerElement) {
             var tween = new TweenMax(options.streamControls, .3, {opacity: 1.0, paused: true});
-            console.log(options.callerElement);
             $(options.callerElement).on('mouseenter', function (event) {
                 event.preventDefault();
                 tween.play();
@@ -99,10 +98,6 @@ PeerConnection.prototype.initialize = function (options) {
                     $('#' + options.localVideoElement).attr('volume', 0);
 
                     $(this).attr('data-content', translation.unmuteMicrofone).data('bs.popover').setContent();
-//                    $(this).attr('data', 'Mikrofon anschalten')
-//                            .tooltip('fixTitle')
-//                            .tooltip('setContent')
-//                            .tooltip('show');
                     webrtc.mute();
                     if (options.indicator) {
                         $(options.indicator).find('#mute-local-audio').removeClass('hidden');
@@ -112,10 +107,6 @@ PeerConnection.prototype.initialize = function (options) {
                     $(this).find('.fa').removeClass('fa fa-microphone').addClass('fa fa-microphone-slash');
                     $('#' + options.localVideoElement).attr('volume', 1);
                     $(this).attr('data-content', translation.muteMicrofone).data('bs.popover').setContent();
-//                    $(this).attr('title', 'Mikrofon stummschalten')
-//                            .tooltip('fixTitle')
-//                            .tooltip('setContent')
-//                            .tooltip('show');
                     webrtc.unmute();
                     if (options.indicator) {
                         $(options.indicator).find('#mute-local-audio').addClass('hidden');
@@ -126,16 +117,11 @@ PeerConnection.prototype.initialize = function (options) {
 
             $(options.pauseStreamElement).on('click', function (event) {
                 event.preventDefault();
-//                console.log('pause/resume stream');
                 $(this).popover('hide');
                 if (!$(this).hasClass('paused')) {
                     $(this).addClass('paused');
                     $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
                     $(this).attr('data-content', translation.resumeOwnWebRTC).data('bs.popover').setContent();
-//                    $(this).attr('title', 'Übertragung fortsetzen')
-//                            .tooltip('fixTitle')
-//                            .tooltip('setContent')
-//                            .tooltip('show');
                     webrtc.pause();
 
                     if (options.localMuteElement) {
@@ -144,18 +130,11 @@ PeerConnection.prototype.initialize = function (options) {
                         $(options.localMuteElement).removeClass('muted');
                         $(options.localMuteElement).find('.fa').removeClass('fa fa-microphone').addClass('fa fa-microphone-slash');
                         $(options.localMuteElement).attr('data-content', translation.muteMicrofone).data('bs.popover').setContent();
-//                        $(options.localMuteElement).attr('title', 'Mikrofon stummschalten')
-//                                .tooltip('fixTitle')
-//                                .tooltip('setContent');
                     }
                 } else {
                     $(this).removeClass('paused');
                     $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
                     $(this).attr('data-content', translation.pauseOwnWebRTC).data('bs.popover').setContent();
-//                    $(this).attr('title', 'Übertragung pausieren')
-//                            .tooltip('fixTitle')
-//                            .tooltip('setContent')
-//                            .tooltip('show');
                     webrtc.resume();
 
                     if (options.localMuteElement) {
@@ -175,23 +154,36 @@ PeerConnection.prototype.initialize = function (options) {
                         $(this).find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
                         $('#' + options.remoteVideoElement).find('video').attr('volume', 0);
                         $(this).attr('data-content', translation.resumeOtherWebRTC).data('bs.popover').setContent();
-//                        $(this).attr('title', 'Gesprächspartner anschalten')
-//                                .tooltip('fixTitle')
-//                                .tooltip('setContent')
-//                                .tooltip('show');
                     } else {
                         $(this).removeClass('muted');
                         $(this).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
                         $('#' + options.remoteVideoElement).find('video').attr('volume', 1);
                         $(this).attr('data-content', translation.pauseOtherWebRTC).data('bs.popover').setContent();
-//                        $(this).attr('title', 'Gesprächspartner stummschalten')
-//                                .tooltip('fixTitle')
-//                                .tooltip('setContent')
-//                                .tooltip('show');
                     }
                 }
                 $(this).blur();
             });
+
+            if (options.togglePinnedElement) {
+                $(options.togglePinnedElement).on('click', function (event) {
+                    event.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
+                        $(this).popover('hide');
+                        if ($(this).hasClass('pinned')) {
+                            $(this).removeClass('pinned');
+                            $(this).find('.fa').removeClass('fa-window-restore').addClass('fa-window-maximize');
+                            $(this).attr('data-content', translation.pinRTC).data('bs.popover').setContent();
+                            dragRTC();
+                        } else {
+                            $(this).addClass('pinned');
+                            $(this).find('.fa').removeClass('fa-window-maximize').addClass('fa-window-restore');
+                            $(this).attr('data-content', translation.dragRTC).data('bs.popover').setContent();
+                            pinRTC();
+                        }
+                    }
+                    $(this).blur();
+                });
+            }
         }
 
         // we have to wait until it's ready
@@ -658,12 +650,12 @@ PeerConnection.prototype.initSeparateRecording = function (startRecording) {
         }
 
         // set user media for specific browsers
-//        navigator.getUserMedia = (navigator.getUserMedia ||
-//                navigator.mozGetUserMedia ||
-//                navigator.msGetUserMedia ||
-//                navigator.webkitGetUserMedia);
-        if (MediaDevices.getUserMedia) {
-            MediaDevices.getUserMedia(constraints)
+        navigator.getUserMedia = (navigator.getUserMedia ||
+                navigator.mozGetUserMedia ||
+                navigator.msGetUserMedia ||
+                navigator.webkitGetUserMedia);
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia(constraints)
                     .then(function (stream) {
                         onSuccess(stream);
                     })

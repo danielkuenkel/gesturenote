@@ -208,8 +208,7 @@ if ($h && $token && $studyId) {
                     var status = window.location.hash.substr(1);
                     var statusAddressMatch = statusAddressMatchIndex(status);
 
-                    // check if there was a page reload
-//                    status = ''; // for testing
+                    // check if there was a page reload, status = '' for debugging
                     if (status !== '' && statusAddressMatch !== null) {
                         currentPhaseStepIndex = statusAddressMatch.index;
                         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
@@ -229,38 +228,49 @@ if ($h && $token && $studyId) {
             }
 
             function renderPhaseStep() {
+                var preparedSensors = JSON.parse('<?php echo json_encode($_SESSION['preparedSensors']) ?>');
+                console.log(preparedSensors);
+                setLocalItem('preparedSensors', preparedSensors || null);
+
                 rescueVideoCaller();
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
                 $('#viewTester').find('#phase-content').empty();
                 Tester.renderView();
                 window.location.hash = getCurrentPhase().id;
             }
-            
-            
+
+
             // resize rtc placeholder functionalities
             $(window).on('resize', function () {
-                if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewTester #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
-                    updateRTCHeight($('#viewTester #column-left').width());
+                if (!$('#pinnedRTC').hasClass('hidden') && !$('#viewTester #column-left').hasClass('rtc-scalable')) {
+                    if ($(document).scrollTop() === 0) {
+                        updateRTCHeight($('#viewTester #column-left').width(), true);
+                    } else {
+                        $(document).scrollTop(0);
+                    }
                 }
             });
-
-            function updateRTCHeight(newWidth) {
-                var height = newWidth * 3 / 4;
-                $('#video-caller').height(height);
-                $('#video-caller').width(newWidth);
-                TweenMax.to($('#viewTester #column-left'), .2, {css: {marginTop: height + 20, opacity: 1.0}});
-            }
 
             $(window).scroll(function () {
-                var scrollTop = $(document).scrollTop();
-                var columnWidth = $('#viewTester #column-left').width();
-                var newHeight = 3 / 4 * columnWidth - scrollTop;
-                var newWidth = 4 / 3 * newHeight;
-                if (newWidth > 170) {
-                    $('#video-caller').height(newHeight);
-                    $('#video-caller').width(newWidth);
-                }
+                updateRTCHeight($('#viewTester #column-left').width());
             });
+
+            function resetRTC() {
+                $(window).resize();
+            }
+
+            function updateRTCHeight(updateWidth, updateColumn) {
+                var scrollTop = $(document).scrollTop();
+                var newHeight = 3 / 4 * updateWidth - scrollTop;
+                var newWidth = 4 / 3 * newHeight;
+                if (newWidth > DRAGGABLE_MIN_WIDTH) {
+                    $('#viewTester #video-caller').css({height: newHeight + 'px', width: newWidth + 'px'});
+                }
+
+                if (updateColumn) {
+                    TweenMax.to($('#viewTester #column-left'), .2, {css: {marginTop: newHeight + 20, opacity: 1.0}});
+                }
+            }
 
             function resetRTC() {
                 $(window).resize();

@@ -6,9 +6,16 @@ include '../includes/language.php';
 
     <div id="moderator-web-rtc-placeholder" class="web-rtc-placeholder embed-responsive embed-responsive-4by3" style="position: absolute">
         <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
-        <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; right: 0;">
-            <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow btn-toggle-rtc-fixed"><i class="glyphicon glyphicon-new-window"></i></button>
+        <div class="btn-group stream-controls" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
+            <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+            <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+            <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+            <button type="button" class="btn stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
         </div>
+
+        <!--        <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; right: 0;">
+                    <button type="button" class="btn btn-link btn-no-shadow btn-toggle-rtc-fixed pinned" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
+                </div>-->
         <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
     </div>
 
@@ -337,7 +344,7 @@ include '../includes/language.php';
 
     <div class="row root" id="thanks">
 
-        <div class="col-sm-5 col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-sm-5 col-md-4 rtc-scalable" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 80px;">
             <h3 class="headline" style="margin: 0"><?php echo $lang->thanksHeadline ?></h3>
             <div class="row " style="margin-top: 20px">
@@ -828,7 +835,7 @@ include '../includes/language.php';
     <div id="identificationItem-gestures">
         <div id="search-for"><span class="address"></span> <span class="text"></span></div>
         <div id="transition-scenes" class="root"></div>
-        <div id="waiting-for-sensor"><i class="fa fa-spin fa-circle-o-notch"></i> Auf Sensordaten warten</div>
+        <div id="waiting-for-sensor" class="hidden"><i class="fa fa-spin fa-circle-o-notch"></i> Auf Sensordaten warten</div>
         <div style="margin-top: 10px">
             <button class="btn btn-block btn-success btn-shadow disabled" id="btn-start-gesture-recording" name="btn-success"><i class="glyphicon glyphicon-record"></i> <?php echo $lang->recordGesture ?></button>
             <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success"><i class="glyphicon glyphicon-record"></i> <?php echo $lang->rerecordGesture ?></button>
@@ -1470,7 +1477,7 @@ include '../includes/language.php';
         <div class="" style="margin-top: 55px; padding: 20px">
             <div class="alert-space alert-please-wait"></div>
         </div>
-        
+
         <div id="gesture-recorder-container" class="hidden"></div>
     </div>
 
@@ -2214,4 +2221,23 @@ include '../includes/language.php';
 
     <button type="button" class="btn btn-default btn-popover-gesture-preview" id="btn-show-gesture" style="border: none; height: 34px;"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
 
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="item-container-prepare" class="hidden">
+    
+    <div id="initialize-recorders-list-item">
+        <i class="init-icon fa fa-spin fa-circle-o-notch"></i> <span class="text" style="margin-right: 10px"></span> <span class="btn btn-danger btn-shadow btn-xs btn-ban-sensor"><i class="fa fa-ban"></i> <span class="btn-text"><?php echo $lang->banSensor ?></span></span>
+    </div>
+    
 </div>

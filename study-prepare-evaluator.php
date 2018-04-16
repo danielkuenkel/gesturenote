@@ -62,6 +62,7 @@ if ($h && $token && $studyId) {
         <!-- externals -->
         <div id="alerts"></div>
         <div id="template-subpages"></div>
+        <div id="template-previews"></div>
 
         <!-- Container (Breadcrump) --> 
         <div class="container" id="breadcrumb" style="padding-top: 40px">
@@ -89,7 +90,7 @@ if ($h && $token && $studyId) {
             </div>
 
             <div class="row hidden" id="study-details">
-                <div class="col-sm-7" style="margin-bottom: 20px">
+                <div class="col-sm-5 col-md-7" style="margin-bottom: 20px">
                     <div id="study-description">
                         <h3 class="address"></h3>
                         <p class="text"></p>
@@ -98,7 +99,7 @@ if ($h && $token && $studyId) {
                     <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
                 </div>
 
-                <div class="col-sm-5">
+                <div class="col-sm-7 col-md-5">
 
                     <div id="alert-hints" class="">
                         <div class="alert-space alert-study-over-range"></div>
@@ -143,6 +144,9 @@ if ($h && $token && $studyId) {
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xs-12 hidden" id="technical-check" style="margin-top: 10px">
+                            <div id="initialize-recorders-list" class="text-center"></div>
+                        </div>
                         <div class="col-xs-12 text-center" style="margin-top: 10px;">
                             <div class="btn-group">
                                 <button class="btn btn-danger btn-shadow" id="btn-close-call"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
@@ -176,6 +180,7 @@ if ($h && $token && $studyId) {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     loadExternals(externals);
                 });
             });
@@ -374,15 +379,16 @@ if ($h && $token && $studyId) {
                 if (peerConnection !== null) {
                     peerConnection.joinRoom(rtcToken);
                 } else {
+                    var mainElement = $('#video-caller');
                     var callerOptions = {
-                        callerElement: $('#video-caller'),
+                        callerElement: mainElement,
                         localVideoElement: 'local-stream',
                         remoteVideoElement: 'remote-stream',
-                        streamControls: $('#stream-controls'),
-                        localMuteElement: $('#btn-stream-local-mute'),
-                        pauseStreamElement: $('#btn-pause-stream'),
-                        remoteMuteElement: $('#btn-stream-remote-mute'),
-                        indicator: $('#stream-control-indicator'),
+                        streamControls: $(mainElement).find('#stream-controls'),
+                        localMuteElement: $(mainElement).find('#btn-stream-local-mute'),
+                        pauseStreamElement: $(mainElement).find('#btn-pause-stream'),
+                        remoteMuteElement: $(mainElement).find('#btn-stream-remote-mute'),
+                        indicator: $(mainElement).find('#stream-control-indicator'),
                         enableWebcamStream: true,
                         enableDataChannels: true,
                         autoRequestMedia: true,
@@ -397,16 +403,119 @@ if ($h && $token && $studyId) {
                     // a peer video has been added
                     $(peerConnection).on('videoAdded', function () {
                         clearAlerts($('#study-participation'));
-                        $('#btn-enter-study').removeClass('disabled');
-                        $('#btn-start-screen-sharing').removeClass('disabled');
+                        $('#study-details #initialize-recorders-list').empty();
+
+                        // check if sensor has be connected
+                        var studyData = getLocalItem(STUDY);
+                        if (studyData.phase === TYPE_PHASE_ELICITATION) {
+                            var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+                            var sensorCount = 0;
+                            var options = {
+                                record: []
+                            };
+
+                            for (var i = 0; i < phaseSteps.length; i++) {
+
+                                if (phaseSteps[i].format === IDENTIFICATION) {
+                                    var stepData = getLocalItem(phaseSteps[i].id + '.data');
+                                    if (stepData.identificationFor === 'gestures' && stepData.sensor !== 'none') {
+                                        sensorCount++;
+
+                                        if (!sensorArrayHasType(options.record, stepData.sensor)) {
+                                            options.record.push({type: stepData.sensor, banned: false, initialized: false});
+
+                                            var listItem = $('#item-container-prepare').find('#initialize-recorders-list-item').clone();
+                                            $(listItem).attr('data-sensor', stepData.sensor);
+                                            $(listItem).find('.text').text(translation.sensors[stepData.sensor].initialize);
+                                            $('#study-details #technical-check').removeClass('hidden');
+                                            $('#study-details #initialize-recorders-list').append(listItem);
+
+                                            $(listItem).find('.btn-ban-sensor').unbind('click').bind('click', {type: stepData.sensor}, function (event) {
+                                                event.preventDefault();
+                                                if (sensorBanned(options.record, event.data.type)) {
+                                                    $(this).removeClass('btn-success').addClass('btn-danger');
+                                                    $(this).find('.fa').removeClass('fa-check').addClass('fa-ban');
+                                                    $(this).find('.btn-text').text(translation.banSensor);
+                                                    unbanSensor(options.record, event.data.type);
+                                                } else {
+                                                    $(this).removeClass('btn-danger').addClass('btn-success');
+                                                    $(this).find('.fa').removeClass('fa-ban').addClass('fa-check');
+                                                    $(this).find('.btn-text').text(translation.unbanSensor);
+                                                    banSensor(options.record, event.data.type);
+                                                }
+                                                
+                                                saveSensors(options.record);
+                                                checkSensorStates(options.record);
+                                                peerConnection.sendMessage(MESSAGE_SYNC_SENSORS, {sensors: options.record});
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (sensorCount > 0) {
+                                $(peerConnection).unbind(MESSAGE_RECORDER_READY).bind(MESSAGE_RECORDER_READY, function (event, payload) {
+                                    console.log(MESSAGE_RECORDER_READY, payload);
+                                    event.preventDefault();
+                                    var listItem = $('#study-details #initialize-recorders-list').find('[data-sensor=' + payload.type + ']');
+                                    $(listItem).find('.init-icon').removeClass('fa-spin fa-circle-o-notch').addClass('fa-check success');
+                                    $(listItem).find('.text').text(translation.sensors[payload.type].title);
+                                });
+
+                                $(peerConnection).unbind(MESSAGE_RECORDER_LOST).bind(MESSAGE_RECORDER_LOST, function (event, payload) {
+                                    console.log(MESSAGE_RECORDER_LOST, payload);
+                                    event.preventDefault();
+                                    var listItem = $('#study-details #initialize-recorders-list').find('[data-sensor=' + payload.type + ']');
+                                    $(listItem).find('.init-icon').removeClass('fa-check success').addClass('fa-spin fa-circle-o-notch');
+                                    $(listItem).find('.text').text(translation.sensors[payload.type].initialize);
+                                    $('#btn-enter-study').addClass('disabled');
+                                    saveSensors(null)
+                                });
+
+                                $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event, payload) {
+                                    event.preventDefault();
+                                    console.log(MESSAGE_ALL_RECORDER_READY, payload);
+                                    $('#btn-enter-study').removeClass('disabled');
+                                    options.record = payload.sensors;
+                                    saveSensors(options.record);
+                                });
+
+                                $(peerConnection).unbind(MESSAGE_SYNC_SENSORS).bind(MESSAGE_SYNC_SENSORS, function (event, payload) {
+                                    event.preventDefault();
+                                    options.record = payload.sensors;
+                                    for (var i = 0; i < options.record.length; i++) {
+                                        var button = $('#study-details #initialize-recorders-list').find('[data-sensor=' + options.record[i].type + '] .btn-ban-sensor');
+                                        if (options.record[i].banned === true) {
+                                            $(button).removeClass('btn-danger').addClass('btn-success');
+                                            $(button).find('.fa').removeClass('fa-ban').addClass('fa-check');
+                                            $(button).find('.btn-text').text(translation.unbanSensor);
+                                        } else {
+                                            $(button).removeClass('btn-success').addClass('btn-danger');
+                                            $(button).find('.fa').removeClass('fa-check').addClass('fa-ban');
+                                            $(button).find('.btn-text').text(translation.banSensor);
+                                        }
+                                    }
+                                    saveSensors(options.record);
+                                });
+
+                                peerConnection.sendMessage(MESSAGE_REQUEST_SENSOR_STATUS);
+                            } else {
+                                $('#btn-enter-study').removeClass('disabled');
+                            }
+                        } else {
+                            $('#btn-enter-study').removeClass('disabled');
+                        }
                     });
 
                     // a peer video has been removed
                     $(peerConnection).on('videoRemoved', function () {
                         clearAlerts($('#study-participation'));
+                        $('#study-details #technical-check').addClass('hidden');
                         $('#btn-enter-study').addClass('disabled');
                         $('#btn-start-screen-sharing').addClass('disabled');
                     });
+
+
 
 //                    $('#btn-start-screen-sharing').on('click', function (event) {
 //                        event.preventDefault();
@@ -423,6 +532,75 @@ if ($h && $token && $studyId) {
 //                            peerConnection.stopShareScreen();
 //                        }
 //                    });
+                }
+            }
+
+            function sensorArrayHasType(sensors, type) {
+                if (sensors && sensors.length > 0) {
+                    for (var i = 0; i < sensors.length; i++) {
+                        if (sensors[i].type === type) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            function sensorBanned(sensors, type) {
+                if (sensors && sensors.length > 0) {
+                    for (var i = 0; i < sensors.length; i++) {
+                        if (sensors[i].type === type) {
+                            return sensors[i].banned;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            function banSensor(sensors, type) {
+                if (sensors && sensors.length > 0) {
+                    for (var i = 0; i < sensors.length; i++) {
+                        if (sensors[i].type === type) {
+                            sensors[i].banned = true;
+
+                            break;
+                        }
+                    }
+                }
+            }
+
+            function unbanSensor(sensors, type) {
+                if (sensors && sensors.length > 0) {
+                    for (var i = 0; i < sensors.length; i++) {
+                        if (sensors[i].type === type) {
+                            sensors[i].banned = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            function saveSensors(sensors) {
+                savePreparedSensors({preparedSensors: sensors}, function (result) {
+                    console.log(result);
+                });
+            }
+            
+            function checkSensorStates(sensors) {
+                var readyForExecution = true;
+                if (sensors && sensors.length > 0) {
+                    for (var i = 0; i < sensors.length; i++) {
+                        if (sensors[i].banned === false && sensors[i].initialized === false) {
+                            readyForExecution = false;
+                            break;
+                        }
+                    }
+                }
+                
+                if(readyForExecution) {
+                    $('#btn-enter-study').removeClass('disabled');
+                } else {
+                    $('#btn-enter-study').addClass('disabled');
                 }
             }
         </script>

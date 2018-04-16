@@ -20,8 +20,8 @@ include '../includes/language.php';
     </div>
 </div>
 
-<script src="../js/gestureRecorder/webcam.js"></script>
-<script src="../js/upload-queue.js"></script>
+<!--<script src="../js/gestureRecorder/webcam.js"></script>
+<script src="../js/upload-queue.js"></script>-->
 <script>
     $(document).ready(function () {
         $('#btn-cancel-survey').click(function (event) {
@@ -33,32 +33,31 @@ include '../includes/language.php';
                     peerConnection.sendMessage(MESSAGE_CANCEL_SURVEY);
                 }
 
-                if (currentView === VIEW_TESTER) {
-                    study.aborted = 'yes';
-                    setLocalItem(STUDY, study);
-                    saveCurrentStatus(false);
+                study.aborted = 'yes';
+                setLocalItem(STUDY, study);
+                saveCurrentStatus(false);
 
-                    if (isUploadRecordingNeededForPhaseStep(getCurrentPhase())) {
-                        if (peerConnection) {
-                            peerConnection.stopRecording(function () {
-                                gotoThanksScreen();
-                            }, true);
-                        } else {
-                            gotoThanksScreen();
-                        }
+                if (isUploadRecordingNeededForPhaseStep(getCurrentPhase())) {
+                    if (peerConnection) {
+                        peerConnection.stopRecording(function () {
+                            abortStudy();
+                        }, true);
                     } else {
-                        gotoThanksScreen();
+                        abortStudy();
                     }
                 } else {
-                    gotoThanksScreen();
+                    abortStudy();
                 }
             } else {
-                gotoThanksScreen();
+                abortStudy();
             }
+        });
 
+        function abortStudy() {
+            gotoThanksScreen();
             resetConstraints();
             $('#custom-modal').modal('hide');
-        });
+        }
 
         $('#btn-continue-survey').click(function (event) {
             event.preventDefault();

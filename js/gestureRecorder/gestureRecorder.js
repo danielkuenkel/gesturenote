@@ -394,13 +394,14 @@ function onRecorderInstanceReady(event, type) {
             $(listItem).find('.init-wait').addClass('hidden');
             $(listItem).find('.init-done').removeClass('hidden');
             $(listItem).css({color: '#5cb85c'});
+            $(recorder).trigger('recorderReady', [type]);
             instanceCount++;
         }
     }
 
     if (instanceCount === recorders.length) {
         console.log('all recorders ready for recording');
-        $(recorder).trigger('recorderReady');
+        $(recorder).trigger('allRecorderReady');
         instanceCount = 0;
         setState(GR_STATE_RECORD);
     }
@@ -414,7 +415,7 @@ function onRecorderInstanceDisconnected(event, type) {
     }
     instanceCount = 0;
     setState(GR_STATE_INITIALIZE);
-    $(recorder).trigger('recorderDisconnected');
+    $(recorder).trigger('recorderDisconnected', [type]);
 }
 
 

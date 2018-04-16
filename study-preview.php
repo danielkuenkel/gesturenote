@@ -164,39 +164,41 @@ if (login_check($mysqli) == true) {
 
             // resize rtc placeholder functionalities
             $(window).on('resize', function () {
-                if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
-                    updateRTCHeight($('#viewModerator #column-left').width());
+                if (!$('#viewModerator #pinnedRTC').hasClass('hidden') && $('#viewModerator #column-left').hasClass('rtc-scalable')) {
+                    if ($(document).scrollTop() === 0) {
+                        updateRTCHeight($('#viewModerator #column-left').width(), true);
+                    } else {
+                        $(document).scrollTop(0);
+                    }
                 }
             });
 
-            function updateRTCHeight(newWidth) {
-                var height = newWidth * 3 / 4;
-                $('#web-rtc-placeholder').height(height);
-                $('#web-rtc-placeholder').width(newWidth);
-                TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: height + 20, opacity: 1.0}});
-            }
-
             $(window).scroll(function () {
-                var scrollTop = $(document).scrollTop();
-                var columnWidth = $('#viewModerator #column-left').width();
-                var newHeight = 3 / 4 * columnWidth - scrollTop;
-                var newWidth = 4 / 3 * newHeight;
-                if (newWidth > 170) {
-                    $('#web-rtc-placeholder').height(newHeight);
-                    $('#web-rtc-placeholder').width(newWidth);
-                }
+                updateRTCHeight($('#viewModerator #column-left').width());
             });
 
             function resetRTC() {
                 $(window).resize();
             }
-            
+
+            function updateRTCHeight(updateWidth, updateColumn) {
+                var scrollTop = $(document).scrollTop();
+                var newHeight = 3 / 4 * updateWidth - scrollTop;
+                var newWidth = 4 / 3 * newHeight;
+                if (newWidth > DRAGGABLE_MIN_WIDTH) {
+                    $('#viewModerator #web-rtc-placeholder').css({height: newHeight + 'px', width: newWidth + 'px'});
+                }
+
+                if (updateColumn) {
+                    TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: newHeight + 20, opacity: 1.0}});
+                }
+            }
+
             // render data if all templates where loaded
             function onAllExternalsLoadedSuccessfully() {
                 var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyPreview'] ?>);
                 if (showTutorial === 1) {
                     $('#btn-introduction').click();
-//                    loadHTMLintoModal('custom-modal', 'externals/modal-introduction-study-preview.php', 'modal-lg');
                 }
 
                 previewModeEnabled = true;
@@ -229,7 +231,6 @@ if (login_check($mysqli) == true) {
 
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
-//                        clearLocalItems();
                         var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                         goto("study.php?studyId=" + query.studyId + "&h=" + hash);
                     });
@@ -240,6 +241,17 @@ if (login_check($mysqli) == true) {
                         goto('study-create.php');
                     });
                 }
+
+                var tween = new TweenMax($('#web-rtc-placeholder').find('#stream-controls'), .3, {opacity: 1.0, paused: true});
+                $(document).find('#viewModerator #web-rtc-placeholder').on('mouseenter', function (event) {
+                    event.preventDefault();
+                    tween.play();
+                });
+
+                $('#viewModerator #web-rtc-placeholder').on('mouseleave', function (event) {
+                    event.preventDefault();
+                    tween.reverse();
+                });
             }
 
             $('.previous').on('click', function (event) {
@@ -308,26 +320,32 @@ if (login_check($mysqli) == true) {
             function renderPhaseStepForModerator() {
                 resetRenderedContent();
                 Moderator.renderView();
+                initPopover();
             }
 
             function renderPhaseStepForTester() {
                 resetRenderedContent();
                 Tester.renderView();
             }
-
-            $(document).on('click', '.btn-toggle-rtc-fixed', function (event) {
+            
+            
+            $(document).on('click', '#btn-toggle-rtc-fixed', function (event) {
                 event.preventDefault();
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                    $(this).find('.glyphicon').removeClass('glyphicon-pushpin');
-                    $(this).find('.glyphicon').addClass('glyphicon-new-window');
-                    pinRTC();
-                } else {
-                    $(this).addClass('selected');
-                    $(this).find('.glyphicon').removeClass('glyphicon-new-window');
-                    $(this).find('.glyphicon').addClass('glyphicon-pushpin');
-                    dragRTC();
+                if (!$(this).hasClass('disabled')) {
+                    $(this).popover('hide');
+                    if ($(this).hasClass('pinned')) {
+                        $(this).removeClass('pinned');
+                        $(this).find('.fa').removeClass('fa-window-restore').addClass('fa-window-maximize');
+                        $(this).attr('data-content', translation.pinRTC).data('bs.popover').setContent();
+                        dragRTC();
+                    } else {
+                        $(this).addClass('pinned');
+                        $(this).find('.fa').removeClass('fa-window-maximize').addClass('fa-window-restore');
+                        $(this).attr('data-content', translation.dragRTC).data('bs.popover').setContent();
+                        pinRTC();
+                    }
                 }
+                $(this).blur();
             });
 
             $('#btn-introduction').on('click', function (event) {

@@ -99,7 +99,7 @@ var Moderator = {
             $(document).scrollTop(0);
         }
 
-        updateRTCHeight($('#phase-content #column-left').width());
+        updateRTCHeight($('#phase-content #column-left').width(), true);
 
         if (isPidocoSocketNeeded()) {
             console.log('pidoco socket needed');
@@ -2296,8 +2296,8 @@ var Moderator = {
                             $(container).find('#gesture-recorder-container').addClass('hidden');
                             $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
                             $(container).find('#btn-next-trigger, #btn-done').addClass('hidden');
-                            
-                            
+
+
                             if (peerConnection) {
                                 startGestureRecording();
                             }
@@ -2391,7 +2391,7 @@ var Moderator = {
             if (identificationStartTriggered) {
                 $(container).find('#btn-start-gesture-recording').removeClass('hidden disabled');
 
-                if (data.sensor !== 'none' && !identificationSensorInitialized === true) {
+                if (data.sensor !== 'none' && !sensorTypeBanned(data.sensor) && !identificationSensorInitialized === true) {
                     $(container).find('#btn-start-gesture-recording').addClass('hidden');
                     $(container).find('#btn-stop-gesture-recording').addClass('hidden');
                     $(container).find('#waiting-for-sensor').removeClass('hidden');
@@ -2434,7 +2434,7 @@ var Moderator = {
                 }
             });
 
-            if (data.sensor !== 'none' && peerConnection) {
+            if (data.sensor !== 'none' && !sensorTypeBanned(data.sensor) && peerConnection) {
                 $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event) {
                     event.preventDefault();
                     $(container).find('#btn-start-gesture-recording').removeClass('disabled');
@@ -2553,7 +2553,7 @@ var Moderator = {
                 }
             });
         }
-        
+
         function startTriggerRecording() {
             getGMT(function (timestamp) {
                 var identificationData = data.identification[currentIdentificationIndex];
@@ -2707,7 +2707,7 @@ var Moderator = {
             wobble([container.find('#slides')]);
             $(container).find('.btn-trigger-scene, .btn-reset-scene, #btn-request-trigger').removeClass('disabled');
 
-            if (data.sensor !== 'none') {
+            if (data.sensor !== 'none' && !sensorTypeBanned(data.sensor)) {
                 if (identificationSensorInitialized === false) {
                     $(container).find('#btn-start-screen-sharing').addClass('hidden');
                     $(container).find('#btn-stop-screen-sharing').addClass('hidden');
@@ -3439,18 +3439,20 @@ var Moderator = {
         var currentPhase = getCurrentPhase();
         var options = getPhaseStepOptions(currentPhase.format);
         var query = getQueryParams(document.location.search);
-//        var enableDataChannels = options.enableDataChannels && enableDataChannels === 'yes' || false;
+        var mainElement = $('#video-caller');
+        
         var callerOptions = {
             target: $('#viewModerator').find('#pinnedRTC'),
-            callerElement: $('#video-caller'),
+            callerElement: mainElement,
             localVideoElement: 'local-stream',
             remoteVideoElement: 'remote-stream',
             sharingVideoElement: '#screen-stream',
-            streamControls: $('#stream-controls'),
-            localMuteElement: $('#btn-stream-local-mute'),
-            pauseStreamElement: $('#btn-pause-stream'),
-            remoteMuteElement: $('#btn-stream-remote-mute'),
-            indicator: $('#stream-control-indicator'),
+            streamControls: $(mainElement).find('#stream-controls'),
+            localMuteElement: $(mainElement).find('#btn-stream-local-mute'),
+            pauseStreamElement: $(mainElement).find('#btn-pause-stream'),
+            remoteMuteElement: $(mainElement).find('#btn-stream-remote-mute'),
+            togglePinnedElement: $(mainElement).find('#btn-toggle-rtc-fixed'),
+            indicator: $(mainElement).find('#stream-control-indicator'),
             enableWebcamStream: true,
             enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
             autoRequestMedia: true,

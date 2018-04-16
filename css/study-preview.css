@@ -98,14 +98,14 @@ and open the template in the editor.
     animation: initial !important;
 }
 
-#btn-toggle-rtc-fixed {
+.btn-toggle-rtc-fixed {
     border-top-right-radius: 3px;
     border-bottom-left-radius: 7px;
     color: white;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
     background-color: rgba(0,0,0,.3);
 }
-#btn-toggle-rtc-fixed:hover {
+.btn-toggle-rtc-fixed:hover {
     background-color: rgba(0,0,0,.6);
     color: white;
 }
@@ -181,3 +181,11 @@ and open the template in the editor.
     padding-right: 7px;
     border: solid 2px #337ab7;
 }
+
+/*.btn-ban-sensor {
+    color: #303030;
+    cursor: pointer;
+}
+.btn-ban-sensor:hover {
+    color: #d9534f;
+}*/

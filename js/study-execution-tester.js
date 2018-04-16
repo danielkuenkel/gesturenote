@@ -107,7 +107,7 @@ var Tester = {
             $(document).scrollTop(0);
         }
 
-        updateRTCHeight($('#phase-content #column-left').width());
+        updateRTCHeight($('#phase-content #column-left').width(), true);
     },
 //    checkPositioning: function checkPositioning(format) {
 //        var posY = '0px';
@@ -982,7 +982,7 @@ var Tester = {
             $(container).find('#scene-container').addClass('hidden');
         }
 
-
+        
 
         // generic identification live events
         var gestureRecorder = null;
@@ -1011,13 +1011,13 @@ var Tester = {
                     ]
                 };
 
-                if (data.sensor !== 'none') {
+                if (data.sensor !== 'none' && !sensorTypeBanned(data.sensor)) {
                     options.record.push({type: data.sensor});
                     options.initRecorders.push({type: data.sensor});
                 }
 
                 gestureRecorder = new GestureRecorder(options);
-                $(gestureRecorder).unbind('recorderReady').bind('recorderReady', function (event) {
+                $(gestureRecorder).unbind('allRecorderReady').bind('allRecorderReady', function (event) {
                     event.preventDefault();
                     peerConnection.sendMessage(MESSAGE_ALL_RECORDER_READY);
                 });
@@ -1042,7 +1042,7 @@ var Tester = {
         // handle live mode
         if (data.identificationFor === 'gestures') {
             if (!previewModeEnabled && peerConnection) {
-                peerConnection.initSeparateChunksRecording();
+//                peerConnection.initSeparateChunksRecording();
 
                 $(peerConnection).unbind(MESSAGE_START_RECORDING_GESTURE).bind(MESSAGE_START_RECORDING_GESTURE, function (event, payload) {
                     clearAlerts(container);
@@ -2225,16 +2225,17 @@ var Tester = {
 
         var options = getPhaseStepOptions(currentPhase.format);
         var query = getQueryParams(document.location.search);
+        var mainElement = $('#video-caller');
         var callerOptions = {
             target: target,
-            callerElement: $('#video-caller'),
+            callerElement: mainElement,
             localVideoElement: 'local-stream',
             remoteVideoElement: 'remote-stream',
-            streamControls: $('#stream-controls'),
-            localMuteElement: $('#btn-stream-local-mute'),
-            pauseStreamElement: $('#btn-pause-stream'),
-            remoteMuteElement: $('#btn-stream-remote-mute'),
-            indicator: $('#stream-control-indicator'),
+            streamControls: $(mainElement).find('#stream-controls'),
+            localMuteElement: $(mainElement).find('#btn-stream-local-mute'),
+            pauseStreamElement: $(mainElement).find('#btn-pause-stream'),
+            remoteMuteElement: $(mainElement).find('#btn-stream-remote-mute'),
+            indicator: $(mainElement).find('#stream-control-indicator'),
             enableWebcamStream: true,
             enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
             autoRequestMedia: true,
