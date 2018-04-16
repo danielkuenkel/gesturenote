@@ -23,17 +23,12 @@ function WebcamRecorder(options) {
         navigator.mediaDevices.enumerateDevices()
                 .then(gotDevices)
                 .catch(errorCallback);
-
-//        console.log('init video stream,');
-//            var constraints = {deviceId: videoSource, video: true, audio: false};
-
     } else {
         console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
     }
 
     function gotDevices(deviceInfos) {
         var videoSource = null;
-//        console.log('got devices: ', deviceInfos)
         for (var i = 0; i < deviceInfos.length; i++) {
             if (deviceInfos[i].kind === 'videoinput') {
                 videoSource = deviceInfos[i].deviceId;
@@ -43,10 +38,16 @@ function WebcamRecorder(options) {
 
 //        console.log('got devices', deviceInfos, videoSource);
 
-        var constraints = {video: {
-                deviceId: {exact: videoSource}
-            },
-            audio: false};
+        if (getBrowser() === "Chrome") {
+            var constraints = {audio: false,
+                video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}
+                }};
+        } else if (getBrowser() === "Firefox") {
+            var constraints = {audio: false,
+                video: {deviceId: {exact: videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
+                }};
+        }
+
 //        if (getBrowser() === "Chrome") {
 //            var constraints = {deviceId: videoSource, "audio": false, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
 //        } else if (getBrowser() === "Firefox") {
@@ -169,6 +170,7 @@ WebcamRecorder.prototype.playback = function () {
     var obj_url = window.URL.createObjectURL(file);
     $(video).attr('src', obj_url);
     var duration = getSeconds(getTimeBetweenTimestamps(webcamRecorder.startRecordingTime, webcamRecorder.endRecordingTime), true);
+    console.log('duration', duration);
 
     $(video)[0].onloadedmetadata = function () {
         if (video[0].duration === Infinity) {
@@ -213,6 +215,7 @@ WebcamRecorder.prototype.stop = function (container) {
 
 WebcamRecorder.prototype.crops = {};
 WebcamRecorder.prototype.initializePlaybackControls = function () {
+    console.log('initialize playback controls');
     webcamRecorder.resetPlaybackControls();
     var togglePlaybackButton = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #btn-toggle-playback');
     var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
@@ -234,7 +237,6 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
             sliderOptions.rangeHighlights = [{start: webcamRecorder.crops.left, end: webcamRecorder.crops.right, class: "isGesture"}];
         }
 
-        $(playbackVideo).unbind('timeupdate');
         $(playbackSlider).unbind('change');
         $(playbackSlider).slider(sliderOptions);
         $(playbackSlider).slider('destroy');
@@ -345,6 +347,7 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
 
 WebcamRecorder.prototype.resetPlaybackControls = function () {
     var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
+    $(playbackVideo).unbind('timeupdate');
     $(playbackVideo).attr('loop', 'loop');
     $(playbackVideo).css({borderBottomLeftRadius: "0px", borderBottomRightRadius: "0px"});
 
@@ -504,22 +507,27 @@ WebcamRecorder.prototype.showSaveSuccess = function (saveData) {
 
 WebcamRecorder.prototype.destroy = function () {
     webcamSaveGestureData = null;
-    webcamRecorder.crops = {};
 
-    if (webcamRecorder.mediaStream) {
-        if (webcamRecorder.mediaStream.getAudioTracks()[0])
-            webcamRecorder.mediaStream.getAudioTracks()[0].stop();
-        if (webcamRecorder.mediaStream.getVideoTracks()[0])
-            webcamRecorder.mediaStream.getVideoTracks()[0].stop();
-    }
-
-    var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
-    if (playbackVideo) {
-        $(playbackVideo).stop();
-        $(playbackVideo).removeAttr('src');
-    }
 
     if (webcamRecorder) {
+        var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
+        if (playbackVideo) {
+            $(playbackVideo).unbind('timeupdate');
+            $(playbackVideo).stop();
+            $(playbackVideo).removeAttr('src');
+        }
+
+        if (webcamRecorder.crops) {
+            webcamRecorder.crops = {};
+        }
+
+        if (webcamRecorder.mediaStream) {
+            if (webcamRecorder.mediaStream.getAudioTracks()[0])
+                webcamRecorder.mediaStream.getAudioTracks()[0].stop();
+            if (webcamRecorder.mediaStream.getVideoTracks()[0])
+                webcamRecorder.mediaStream.getVideoTracks()[0].stop();
+        }
+
         webcamRecorder.recordingChunks = [];
         webcamRecorder = null;
     }

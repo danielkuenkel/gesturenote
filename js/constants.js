@@ -185,6 +185,8 @@ var ACTION_RENDER_SCENE = 'renderScene';
 var ACTION_SHOW_FEEDBACK = 'showFeedback';
 var ACTION_HIDE_FEEDBACK = 'hideFeedback';
 var ACTION_ASSESSMENT = 'assessment';
+var ACTION_ALL_RECORDER_READY = 'allRecorderReady';
+var ACTION_RECORDER_LOST = 'recorderLost';
 
 // cursors
 var CURSOR_AUTO = 'auto';

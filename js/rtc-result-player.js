@@ -105,7 +105,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         });
 
                         setTimeout(function () {
-                            screenShareVideoHolder[0].play();
+                            screenSharePlayPromise = screenShareVideoHolder[0].play();
                         }, 150);
                     } else {
                         showScreenPlayer();
@@ -189,7 +189,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         });
 
                         setTimeout(function () {
-                            moderatorVideoHolder[0].play();
+                            moderatorPlayPromise = moderatorVideoHolder[0].play();
                         }, 150);
                     } else {
                         showModeratorPlayer();
@@ -267,7 +267,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         });
 
                         setTimeout(function () {
-                            testerVideoHolder[0].play();
+                            testerPlayPromise = testerVideoHolder[0].play();
                         }, 150);
                     } else {
                         showTesterPlayer();
@@ -739,6 +739,14 @@ function getVisDataSet(timelineData) {
                     }
                     break;
                 case ACTION_HIDE_FEEDBACK:
+                    break;
+                case ACTION_ALL_RECORDER_READY:
+                    contentText = translation.annotations[annotations[i].action];
+                    className = 'item-success-full';
+                    break;
+                case ACTION_RECORDER_LOST:
+                    contentText = translation.annotations[annotations[i].action];
+                    className = 'item-danger-full';
                     break;
             }
 

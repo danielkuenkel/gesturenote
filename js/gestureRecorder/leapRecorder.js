@@ -268,9 +268,10 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
             }
         });
 
-        controller.removeAllListeners('playback.beforeSendFrame');
-        controller.on('playback.beforeSendFrame', function () {
-            $(options.playbackSliderElement).slider('setValue', controller.plugins.playback.player.recording.frameIndex);
+        leapRecorder.options.controller.removeAllListeners('playback.beforeSendFrame');
+        leapRecorder.options.controller.on('playback.beforeSendFrame', function () {
+//            console.log(options.playbackSliderElement);
+            $(options.playbackSliderElement).slider('setValue', leapRecorder.options.controller.plugins.playback.player.recording.frameIndex);
         });
     }
 
@@ -592,6 +593,8 @@ LeapRecorder.prototype.updateRenderTarget = function (target) {
 
 LeapRecorder.prototype.destroy = function (destroyRecord) {
     var options = this.options;
+    
+    console.log('destroy leap recorder');
 
     if (destroyRecord && destroyRecord === true) {
         leapSaveGestureData = null;

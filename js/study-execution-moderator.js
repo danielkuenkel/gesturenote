@@ -2092,7 +2092,7 @@ var Moderator = {
         return container;
     },
     renderIdentification: function renderIdentification(source, container, data) {
-        var gestureRecorder = null;
+        gestureRecorder = null;
 
         renderIdentificationItem(source, container, data);
         function renderIdentificationItem(source, container, data) {
@@ -2164,8 +2164,6 @@ var Moderator = {
         }
 
         function renderGestureRecorder(recordedData) {
-//            console.log('render gesture recorder: ', recordedData);
-//            $(container).find('#file-transfer-loading-indicator').css({width: '0%'});
             $(container).find('#file-transfer-loader').addClass('hidden');
 
             if (!previewModeEnabled) {
@@ -2186,7 +2184,8 @@ var Moderator = {
                     checkInteractionType: true,
                     startState: GR_STATE_PLAYBACK,
                     usedStates: [GR_STATE_PLAYBACK, GR_STATE_SAVE, GR_STATE_SAVE_SUCCESS, GR_STATE_DELETE_SUCCESS],
-                    initRecorders: []
+                    initRecorders: [],
+                    showRecutButton: true
                 };
 
                 for (var i = 0; i < recordedData.length; i++) {
@@ -2199,22 +2198,7 @@ var Moderator = {
                     }
                     options.initRecorders.push(tempOptions);
                 }
-                console.log('create recorder: ', options);
 
-//                var options = {
-//                    recorderTarget: gestureRecorderContent,
-//                    startState: GR_STATE_PLAYBACK,
-//                    alertTarget: container.find('#gesture-recorder-container'),
-//                    saveGestures: !previewModeEnabled,
-//                    ownerId: getLocalItem(STUDY).studyOwner,
-//                    context: data.identification[currentIdentificationIndex].context,
-//                    checkType: true,
-//                    checkInteractionType: true,
-//                    videoUrl: videoURL,
-//                    initMediaStream: false,
-//                    allowRerecordGesture: false,
-//                    allowDeletingGesture: false
-//                };
                 gestureRecorder = new GestureRecorder(options);
 
                 $(gestureRecorder).unbind(GR_EVENT_SAVE_SUCCESS).bind(GR_EVENT_SAVE_SUCCESS, function (event, gesture) {
@@ -2235,11 +2219,11 @@ var Moderator = {
                 $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
                 initRerecordingButton();
 
-                var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
-                container.find('#gesture-recorder-container').empty().append(gestureRecorder).removeClass('hidden');
+                var gestureRecorderPlaceholder = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
+                container.find('#gesture-recorder-container').empty().append(gestureRecorderPlaceholder).removeClass('hidden');
                 container.find('#gesture-recorder-container .gr-playback').removeClass('hidden');
-                $(gestureRecorder).find('#gesture-recorder-nav').remove();
-                renderBodyJoints(gestureRecorder.find('#human-body'));
+                $(gestureRecorderPlaceholder).find('#gesture-recorder-nav').remove();
+                renderBodyJoints(gestureRecorderPlaceholder.find('#human-body'));
 
                 appendAlert(container, ALERT_PREVIEW_DUMMY);
             }
@@ -2264,6 +2248,8 @@ var Moderator = {
                             $(gestureRecorder).unbind(GR_EVENT_DELETE_SUCCESS).bind(GR_EVENT_DELETE_SUCCESS, function (event, gestureId) {
                                 event.preventDefault();
                                 console.log('delete success');
+                                gestureRecorder.destroy();
+                                gestureRecorder = null;
 
                                 var currentPhase = getCurrentPhase();
                                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -2290,6 +2276,9 @@ var Moderator = {
 
                             deleteLastRecordedGesture(gestureId);
                         } else {
+                            gestureRecorder.destroy();
+                            gestureRecorder = null;
+
                             $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
                             $(container).find('#file-transfer-loader').addClass('hidden');
                             $(container).find('#identified-gesture').addClass('hidden');
@@ -2391,10 +2380,15 @@ var Moderator = {
             if (identificationStartTriggered) {
                 $(container).find('#btn-start-gesture-recording').removeClass('hidden disabled');
 
-                if (data.sensor !== 'none' && !sensorTypeBanned(data.sensor) && !identificationSensorInitialized === true) {
-                    $(container).find('#btn-start-gesture-recording').addClass('hidden');
-                    $(container).find('#btn-stop-gesture-recording').addClass('hidden');
+                if (data.sensor !== 'none' && !sensorTypeBanned(data.sensor)) {
                     $(container).find('#waiting-for-sensor').removeClass('hidden');
+                    $(container).find('#btn-stop-gesture-recording').addClass('hidden');
+                    if (identificationSensorInitialized === true) {
+                        $(container).find('#btn-start-gesture-recording').removeClass('hidden');
+                        $(container).find('#waiting-for-sensor').addClass('hidden');
+                    } else {
+                        $(container).find('#btn-start-gesture-recording').addClass('hidden');
+                    }
                 } else if (identificationRecordingStartTriggered === true) {
                     $(container).find('#btn-start-gesture-recording').addClass('hidden');
                     $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
@@ -2437,14 +2431,29 @@ var Moderator = {
             if (data.sensor !== 'none' && !sensorTypeBanned(data.sensor) && peerConnection) {
                 $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event) {
                     event.preventDefault();
+                    console.log('all recorder ready');
+                    identificationSensorInitialized = true;
                     $(container).find('#btn-start-gesture-recording').removeClass('disabled');
                     $(container).find('#waiting-for-sensor').addClass('hidden');
+
+                    getGMT(function (timestamp) {
+                        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ALL_RECORDER_READY, time: timestamp});
+                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    });
                 });
 
                 $(peerConnection).unbind(MESSAGE_RECORDER_LOST).bind(MESSAGE_RECORDER_LOST, function (event) {
                     event.preventDefault();
+                    identificationSensorInitialized = false;
                     $(container).find('#btn-start-gesture-recording').addClass('disabled');
                     $(container).find('#waiting-for-sensor').removeClass('hidden');
+
+                    getGMT(function (timestamp) {
+                        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RECORDER_LOST, time: timestamp});
+                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    });
                 });
             }
 
@@ -2543,6 +2552,7 @@ var Moderator = {
                     identificationRecordingStopTriggered = false;
                     currentIdentificationIndex++;
                     currentIdentificationScene = 0;
+                    resetRecorder();
                     renderIdentificationItem(source, container, data);
                     if (peerConnection) {
                         peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);
@@ -2708,11 +2718,13 @@ var Moderator = {
             $(container).find('.btn-trigger-scene, .btn-reset-scene, #btn-request-trigger').removeClass('disabled');
 
             if (data.sensor !== 'none' && !sensorTypeBanned(data.sensor)) {
-                if (identificationSensorInitialized === false) {
-                    $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                if (identificationSensorInitialized === true) {
+                    $(container).find('#waiting-for-sensor').addClass('hidden');
+                    $(container).find('#btn-start-screen-sharing').removeClass('hidden');
                     $(container).find('#btn-stop-screen-sharing').addClass('hidden');
                 } else  {
-                    $(container).find('#btn-start-screen-sharing').removeClass('hidden');
+                    $(container).find('#waiting-for-sensor').removeClass('hidden');
+                    $(container).find('#btn-start-screen-sharing').addClass('hidden');
                     $(container).find('#btn-stop-screen-sharing').addClass('hidden');
                 }
             } else {
@@ -3440,7 +3452,7 @@ var Moderator = {
         var options = getPhaseStepOptions(currentPhase.format);
         var query = getQueryParams(document.location.search);
         var mainElement = $('#video-caller');
-        
+
         var callerOptions = {
             target: $('#viewModerator').find('#pinnedRTC'),
             callerElement: mainElement,

@@ -23,6 +23,11 @@ var recorders = [];
 var recorder = null;
 GestureRecorder.prototype.state = null;
 function GestureRecorder(options) {
+    if (recorder) {
+        recorder.destroy();
+        recorder = null;
+    }
+
     recorder = this;
     recorder.options = options;
     initRecorderEvents();
@@ -256,6 +261,7 @@ function renderStatePreInitialize() {
 
 function renderStateInitialize() {
     recorder.destroy();
+    instanceCount = 0;
 
     if (recorder.options.initRecorders && recorder.options.initRecorders.length > 0) {
         initializeRecorders();
@@ -352,7 +358,9 @@ function initWebcamRecorder(recorderOptions) {
         autoplayPlayback: recorderOptions.autoplayPlayback,
         autoplaySave: recorderOptions.autoplaySave,
         autoplaySaveSuccess: recorderOptions.autoplaySaveSuccess,
-        rawData: recorderOptions.data || null
+        rawData: recorderOptions.data || null,
+        startRecordingTime: recorderOptions.startRecordingTime || null,
+        endRecordingTime: recorderOptions.endRecordingTime || null
     };
     var instance = new WebcamRecorder(options);
     recorderObject.instance = instance;
@@ -473,7 +481,7 @@ function renderStateRecord() {
 GestureRecorder.prototype.record = function () {
     if (recorders && recorders.length > 0) {
         for (var i = 0; i < recorders.length; i++) {
-            if (recorders[i].instance && recorders[i].state === 'initialized') {
+            if (recorders[i].instance && recorders[i].state !== 'recording') {
                 recorders[i].state = 'recording';
                 recorders[i].instance.record();
             }
@@ -484,7 +492,7 @@ GestureRecorder.prototype.record = function () {
 GestureRecorder.prototype.stopRecord = function () {
     instanceCount = 0;
     playbackCount = 0;
-    
+
     if (recorders && recorders.length > 0) {
         for (var i = 0; i < recorders.length; i++) {
             if (recorders[i].instance && recorders[i].state === 'recording') {
@@ -561,6 +569,7 @@ function renderStatePlayback() {
             $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').click();
         }
 
+        console.log('instance state: ', recorders[i].state, recorders[i].type)
         if (recorders[i].state !== 'playback') {
             recorders[i].state = 'playback';
             recorders[i].instance.playback();
@@ -646,7 +655,7 @@ function renderStateSave() {
     var descriptionInput = $(recorder.currentRecorderContent).find('#gestureDescription');
     var jointsInput = $(recorder.currentRecorderContent).find('#gesture-save-form #human-body #joint-container');
     renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
-    
+
     $(recorder.currentRecorderContent).find('.sensor-source-save').addClass('hidden');
     for (var i = 0; i < recorders.length; i++) {
         $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
@@ -654,6 +663,17 @@ function renderStateSave() {
             $(recorder.currentRecorderContent).find('[data-sensor-source=' + recorders[i].type + ']').removeClass('hidden');
             $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').click();
         }
+    }
+
+    if (recorder.options.showRecutButton && recorder.options.showRecutButton === true) {
+        var recutButton = $(recorder.currentRecorderContent).find('#btn-recut-recording');
+        $(recutButton).removeClass('hidden disabled');
+        $(recutButton).unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                setState(GR_STATE_PLAYBACK);
+            }
+        });
     }
 
     if (recorders.length > 1) {
@@ -676,6 +696,11 @@ function renderStateSave() {
             $(saveButton).addClass('disabled');
         }
     });
+
+    console.log('gesture contenxt', recorder.options.context);
+    if (recorder.options.context) {
+        $(contextInput).val(recorder.options.context);
+    }
 
     $(saveButton).unbind('click').bind('click', function (event) {
         event.preventDefault();
@@ -935,11 +960,11 @@ function renderStateSaveSuccess() {
             }
         });
     }
-    
+
     var repeatRecordingButton = $(recorder.options.recorderTarget).find('.btn-repeat-recording');
-    if(recorder.options.allowRerecordGesture === false){
+    if (recorder.options.allowRerecordGesture === false) {
         $(repeatRecordingButton).remove();
-    } 
+    }
 }
 
 function renderStateDeleteSuccess() {

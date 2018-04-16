@@ -1555,8 +1555,8 @@
     "startRecording": "Aufzeichnung starten",
     "stopRecording": "Aufzeichnung beenden",
     "videoDataLoading": "Einen Moment bitte... Videodaten werden geladen.",
-    "preview": "Vorschau",
-    "recut": "Neu schneiden",
+    "preview": "Vorschau", 
+    "recut": "Geste neu schneiden",
     "reRecord": "Neue Aufzeichnung",
     "recordGesture": "Geste aufzeichnen",
     "recordGestures": "Gesten aufzeichnen",
@@ -1685,7 +1685,9 @@
         "noGestureFitFound": "Andere Geste demonstriert",
         "renderScene": "Zustand zeigen",
         "showFeedback": "Feedback zeigen",
-        "hideFeedback": "Feedback ausblenden"
+        "hideFeedback": "Feedback ausblenden",
+        "allRecorderReady":"Alle Sensoren bereit",
+        "recorderLost":"Sensoren nicht verbunden"
     },
     "manual": "Handbuch",
     "moreInfos": "Mehr Informationen",

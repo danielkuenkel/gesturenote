@@ -839,7 +839,7 @@ include '../includes/language.php';
         <div style="margin-top: 10px">
             <button class="btn btn-block btn-success btn-shadow disabled" id="btn-start-gesture-recording" name="btn-success"><i class="glyphicon glyphicon-record"></i> <?php echo $lang->recordGesture ?></button>
             <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success"><i class="glyphicon glyphicon-record"></i> <?php echo $lang->rerecordGesture ?></button>
-            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-stop-gesture-recording" name="btn-success"><i class="glyphicon glyphicon-stop"></i> <?php echo $lang->stopRecordGesture ?></span></button>
+            <button class="btn btn-block btn-danger btn-shadow hidden" id="btn-stop-gesture-recording" name="btn-success"><i class="glyphicon glyphicon-stop"></i> <?php echo $lang->stopRecordGesture ?></span></button>
             <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
             <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>

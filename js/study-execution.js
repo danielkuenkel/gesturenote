@@ -26,6 +26,7 @@ var scenarioDone = false;
 var currentTriggeredSceneId = null;
 var currentIdentificationIndex = 0;
 var currentIdentificationScene = 0;
+var gestureRecorder = null;
 var identificationPrototypeOpened = false;
 var identificationSensorInitialized = false;
 var identificationTriggered = false;
@@ -292,6 +293,11 @@ function resetConstraints() {
     currentQuestionnaireAnswers = null;
     currentPhaseStepDone = false;
     screenSharingStopped = false;
+
+    if (gestureRecorder) {
+        gestureRecorder.destroy();
+        gestureRecorder = null;
+    }
 }
 
 function rescueVideoCaller() {
@@ -539,9 +545,9 @@ function areThereScenes(array) {
 
 function sensorTypeBanned(type) {
     var preparedSensors = getLocalItem('preparedSensors');
-    if(preparedSensors && preparedSensors.length > 0) {
+    if (preparedSensors && preparedSensors.length > 0) {
         for (var i = 0; i < preparedSensors.length; i++) {
-            if(preparedSensors[i].type === type) {
+            if (preparedSensors[i].type === type) {
                 return preparedSensors[i].banned === 'true' || preparedSensors[i].banned === true;
             }
         }

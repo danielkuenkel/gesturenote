@@ -750,6 +750,8 @@ include '../includes/language.php';
 
                     </div>
                 </div>
+                
+                <button class="btn btn-block btn-default btn-shadow disabled hidden" id="btn-recut-recording"><i class="fa fa-crop"></i> <?php echo $lang->recut ?></button>
 
                 <div id="gesture-save-form">
                     <div class="alert-space alert-general-error"></div>

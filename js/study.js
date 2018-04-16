@@ -175,7 +175,9 @@ function renderData(data, hash, showTutorial) {
 
     $('#tab-pane li a').on('click', function (event) {
         event.preventDefault();
-        $(this).trigger('change', [$(this).closest('li').attr('id')]);
+        if (!$(this).parent().hasClass('active')) {
+            $(this).trigger('change', [$(this).closest('li').attr('id')]);
+        }
     });
 
     $('#tab-pane').on('change', function (event, activeId) {
@@ -195,6 +197,7 @@ function renderData(data, hash, showTutorial) {
             }
 
             window.location.hash = activeId;
+            $(document).scrollTop(0);
             TweenMax.from($('#main-content'), .2, {y: -10, opacity: 0.0, clearProps: 'all'});
         }
     });
@@ -315,6 +318,7 @@ function getStudyCatalogGestures() {
 
 function renderStudyGestures(gestures) {
     $('#study-gestures-catalog').removeClass('hidden');
+    $('#study-gestures-catalog').find('.list-container').empty();
     for (var i = 0; i < gestures.length; i++) {
         var item = getGestureCatalogListThumbnail(gestures[i]);
         $('#study-gestures-catalog .list-container').append(item);
@@ -324,6 +328,7 @@ function renderStudyGestures(gestures) {
 
 function renderStudyScenes(scenes) {
     $('#study-scenes-catalog').removeClass('hidden');
+    $('#study-scenes-catalog').find('.list-container').empty();
     setLocalItem(ASSEMBLED_SCENES, scenes);
     for (var i = 0; i < scenes.length; i++) {
         var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
@@ -342,6 +347,7 @@ function renderStudyScenes(scenes) {
 
 function renderStudyTrigger(trigger) {
     $('#study-trigger-catalog').removeClass('hidden');
+    $('#study-trigger-catalog').find('.list-container').empty();
     for (var i = 0; i < trigger.length; i++) {
         var item = $('#template-study-container').find('#trigger-catalog-thumbnail').clone().removeAttr('id');
         item.text(trigger[i].title);
@@ -352,6 +358,7 @@ function renderStudyTrigger(trigger) {
 
 function renderStudyFeedback(feedback) {
     $('#study-feedback-catalog').removeClass('hidden');
+    $('#study-feedback-catalog').find('.list-container').empty();
     for (var i = 0; i < feedback.length; i++) {
         var item = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
         item.find('.text').text(feedback[i].title);
@@ -1433,25 +1440,25 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
 //        }
 
         // guessability / accordance
-        var accordance = parseFloat(getAccordance(triggerId).toFixed(2));
-        $(target).find('#parameters-guessability').removeClass('hidden');
-        $(target).find('#accordance .text').text(accordance === 1 ? '1.00' : accordance);
-
-        if (accordance <= 0) {
-            $(target).find('#parameters-guessability .lowAgreement').removeClass('hidden');
-        } else if (accordance >= 1) {
-            $(target).find('#parameters-guessability .veryHighAgreement').removeClass('hidden');
-        } else {
-            var agreementMargins = AGREEMENT_MARGINS;
-            for (var i = 0; i < agreementMargins.length; i++) {
-                var min = i > 0 ? agreementMargins[i - 1].max : 0;
-                var max = agreementMargins[i].max;
-                if (accordance > min && accordance <= max) {
-                    $(target).find('#parameters-guessability .' + agreementMargins[i].interpretation).removeClass('hidden');
-                    break;
-                }
-            }
-        }
+//        var accordance = parseFloat(getAccordance(triggerId).toFixed(2));
+//        $(target).find('#parameters-guessability').removeClass('hidden');
+//        $(target).find('#accordance .text').text(accordance === 1 ? '1.00' : accordance);
+//
+//        if (accordance <= 0) {
+//            $(target).find('#parameters-guessability .lowAgreement').removeClass('hidden');
+//        } else if (accordance >= 1) {
+//            $(target).find('#parameters-guessability .veryHighAgreement').removeClass('hidden');
+//        } else {
+//            var agreementMargins = AGREEMENT_MARGINS;
+//            for (var i = 0; i < agreementMargins.length; i++) {
+//                var min = i > 0 ? agreementMargins[i - 1].max : 0;
+//                var max = agreementMargins[i].max;
+//                if (accordance > min && accordance <= max) {
+//                    $(target).find('#parameters-guessability .' + agreementMargins[i].interpretation).removeClass('hidden');
+//                    break;
+//                }
+//            }
+//        }
     } else if (classification.type === TYPE_CLASSIFICATION_APPEARANCE) {
         $(target).find('#potential-parameters').empty().append($('#potential-gesture-parameters-appearance').clone());
 
@@ -1526,8 +1533,9 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
 
     // attached gesture sets
     function updateAttachtedGestureSets(mainGestureId, getLocalGestureSets) {
-        var thumbnail = $('[data-main-gesture-id=' + mainGestureId + ']');
+        var thumbnail = $('#content-btn-potential-gestures').find('[data-main-gesture-id=' + mainGestureId + ']');
         $(thumbnail).find('#attached-gesture-sets-container').empty();
+        console.log($('#content-btn-potential-gestures'), thumbnail);
 
         if (getLocalGestureSets && getLocalGestureSets === true) {
             renderAttachedSets(getAttachedGestureSets(mainGestureId), thumbnail);
@@ -1555,7 +1563,10 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
         }
     }
 
-    updateAttachtedGestureSets(assignment.mainGestureId, true);
+    setTimeout(function () {
+        updateAttachtedGestureSets(assignment.mainGestureId, true);
+    }, 100);
+
 
     $('#custom-modal').unbind('gestureSetsUpdated').bind('gestureSetsUpdated', function (event, gestureId) {
         event.preventDefault();
@@ -1620,6 +1631,7 @@ function renderGestureGuessabilityTable(target, assignments) {
                 } else {
                     // guessability / accordance
                     var accordance = getAccordance(trigger[i].id).toFixed(2);
+                    console.log(accordance, trigger[i].id);
                     amountAccordance += parseFloat(accordance);
 
                     var col = document.createElement('td');
@@ -1853,7 +1865,7 @@ function getAccordance(triggerId) {
     if (effectAmount === 1) {
         return 1.0;
     }
-    
+
     for (var i = 0; i < classification.assignments.length; i++) {
         if (parseInt(classification.assignments[i].triggerId) === parseInt(triggerId)) {
             accordance += Math.pow((classification.assignments[i].gestures.length / effectAmount), 2);

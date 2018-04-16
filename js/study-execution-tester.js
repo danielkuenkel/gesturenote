@@ -1070,15 +1070,8 @@ var Tester = {
 
                         peerConnection.sendMessage(MESSAGE_GESTURE_DATA, recordedData);
                     });
+                    console.log('stop record gesture');
                     gestureRecorder.stopRecord();
-
-//                    var recordedChunks = peerConnection.stopRecordSeparateChunks();
-//                    var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
-//                    var file = new File(recordedChunks, filename, {type: "video/webm"});
-//                    peerConnection.transferFile(file);
-
-                    // transfer json data from recorded leap controller
-                    // pre-check if leap sensor must recorded
 
                     animateLiveStream($(container).find('#fixed-rtc-preview'));
                     appendAlert($(container), ALERT_PLEASE_WAIT);

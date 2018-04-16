@@ -44,6 +44,7 @@ var TURN = {
 
 function PeerConnection(isRecordingNeeded) {
     connection = this;
+//    console.log('is recording needed:', isRecordingNeeded, isRecordingNeededInFuture());
     if (isRecordingNeeded === true && isRecordingNeededInFuture()) {
         connection.initRecording();
     }
@@ -512,23 +513,66 @@ var recordingStream = null;
 var mediaRecorder = null;
 PeerConnection.prototype.initRecording = function (startRecording) {
     if (!recordingStream) {
-        // check current browser for building constraints
-        if (getBrowser() == "Chrome") {
-            var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
-        } else if (getBrowser() == "Firefox") {
-            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
+        navigator.getUserMedia = navigator.getUserMedia ||
+                navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia;
+
+        if (navigator.getUserMedia) {
+            navigator.mediaDevices.enumerateDevices()
+                    .then(gotDevices)
+                    .catch(errorCallback);
+        } else {
+            console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
         }
 
-        // set user media for specifig browsers
-        navigator.getUserMedia = (navigator.getUserMedia ||
-                navigator.mozGetUserMedia ||
-                navigator.msGetUserMedia ||
-                navigator.webkitGetUserMedia);
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia(constraints, onSuccess, onError);
-        } else {
-            console.log('Sorry! This requires Firefox 30 and up or Chrome 47 and up.');
+        function gotDevices(deviceInfos) {
+            var videoSource = null;
+            for (var i = 0; i < deviceInfos.length; i++) {
+                if (deviceInfos[i].kind === 'videoinput') {
+                    videoSource = deviceInfos[i].deviceId;
+                    break;
+                }
+            }
+
+            if (getBrowser() === "Chrome") {
+                var constraints = {audio: true,
+                    video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}}
+                    }};
+            } else if (getBrowser() === "Firefox") {
+                var constraints = {audio: true,
+                    video: {deviceId: {exact: videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
+                    }};
+            }
+
+            navigator.mediaDevices.getUserMedia(constraints).then(onSuccess).catch(onError);
         }
+
+        function errorCallback(deviceInfos) {
+            console.error('error', deviceInfos);
+        }
+
+        // check current browser for building constraints
+//        if (getBrowser() == "Chrome") {
+//            var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
+//        } else if (getBrowser() == "Firefox") {
+//            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
+//        }
+//
+//        // set user media for specifig browsers
+//        navigator.getUserMedia = navigator.getUserMedia ||
+//                navigator.webkitGetUserMedia ||
+//                navigator.mozGetUserMedia;
+////        navigator.getUserMedia = (navigator.getUserMedia ||
+////                navigator.mozGetUserMedia ||
+////                navigator.msGetUserMedia ||
+////                navigator.webkitGetUserMedia);
+//        if (navigator.getUserMedia) {
+//            console.log(navigator.getUserMedia);
+//            navigator.mediaDevices.getUserMedia(constraints).then(onSuccess).catch(onError);
+////            navigator.getUserMedia(constraints, onSuccess, onError);
+//        } else {
+//            console.log('Sorry! This requires Firefox 30 and up or Chrome 47 and up.');
+//        }
 
         // media recorder functions
         function onError(error) {
