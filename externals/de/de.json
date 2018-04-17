@@ -1686,12 +1686,20 @@
         "renderScene": "Zustand zeigen",
         "showFeedback": "Feedback zeigen",
         "hideFeedback": "Feedback ausblenden",
-        "allRecorderReady":"Alle Sensoren bereit",
-        "recorderLost":"Sensoren nicht verbunden"
+        "allRecorderReady": "Alle Sensoren bereit",
+        "recorderLost": "Sensoren nicht verbunden"
     },
     "manual": "Handbuch",
     "moreInfos": "Mehr Informationen",
     "tooltips": {
+        "general": {
+            "moveUp": "Mit oberem Element tauschen",
+            "moveDown": "Mit unterem Element tauschen",
+            "delete": "Element löschen",
+            "dontUseQuestion": "Frage deaktivieren",
+            "useQuestion": "Frage aktivieren",
+            "editPhasestep": "Leitfadenschritt bearbeiten"
+        },
         "studyCreate": {
             "title": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Es können zwei Studien mit dem gleichen Namen angelegt werden, z.B. einmal für eine Ermittlung und einmal für eine Evaluierung.",
             "description": "Geben Sie den Probanden Informationen über ihre Studie. Diese Informationen werden zusammen mit dem Titel immer vor einer Studien-Teilnahme angezeigt.",

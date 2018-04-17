@@ -597,16 +597,16 @@ if (login_check($mysqli) == true) {
 
                     <div class="form-group-margin-top hidden root" id="phaseStepItem" style="">
                         <div class="btn-group">
-                            <button class="btn btn-default btn-shadow btn-up saveGeneralData" title="<?php echo $lang->furtherUp ?>">
-                                <i class="glyphicon glyphicon-arrow-up"></i>
+                            <button class="btn btn-default btn-shadow btn-up saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>">
+                                <i class="fa fa-arrow-up"></i>
                             </button>
-                            <button class="btn btn-default btn-shadow btn-down saveGeneralData" title="<?php echo $lang->furtherDown ?>">
-                                <i class="glyphicon glyphicon-arrow-down"></i>
+                            <button class="btn btn-default btn-shadow btn-down saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>">
+                                <i class="fa fa-arrow-down"></i>
                             </button>
-                            <button class="btn btn-default btn-shadow btn-delete saveGeneralData" title="<?php echo $lang->delete ?>">
-                                <i class="glyphicon glyphicon-trash"></i>
+                            <button class="btn btn-default btn-shadow btn-delete saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>">
+                                <i class="fa fa-trash"></i>
                             </button>
-                            <button class="btn btn-default btn-shadow btn-text-button btn-open-overlay">
+                            <button class="btn btn-default btn-shadow btn-text-button btn-open-overlay" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->editPhasestep ?>">
                                 <span class="phase-step-format"></span>
                             </button>
                         </div>
@@ -655,9 +655,6 @@ if (login_check($mysqli) == true) {
             var editableStudyId = null;
             var studyEditable = false;
             function onAllExternalsLoadedSuccessfully() {
-                initTooltips();
-                initPopover();
-
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -739,6 +736,9 @@ if (login_check($mysqli) == true) {
                 if (showTutorial === 1) {
                     $('#tab-introduction a').click();
                 }
+                
+                initTooltips();
+                initPopover();
             }
 
             function getStatusNavMatch(status) {
@@ -799,6 +799,7 @@ if (login_check($mysqli) == true) {
                 if (prependItem && prependItem === true) {
                     setTimeout(function () {
                         $(clone).insertBefore($('#phaseStepList').children().last());
+                        initPopover();
                         checkCurrentListState($('#phaseStepList'));
                         if (callback) {
                             callback();
@@ -806,6 +807,7 @@ if (login_check($mysqli) == true) {
                     }, 300);
                 } else {
                     $('#phaseStepList').append(clone);
+                    initPopover();
                     checkCurrentListState($('#phaseStepList'));
                     if (callback) {
                         callback();

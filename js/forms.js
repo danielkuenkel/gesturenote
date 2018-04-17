@@ -58,6 +58,7 @@ function renderFormatItem(target, data, currentPhaseFormat) {
     clone.attr('name', data.id || chance.natural());
     clone.attr('data-dimension', data.dimension);
     $(target).append(clone);
+    initPopover();
 
     var dimensions = translation.dimensions;
     var parameters = data.parameters;
@@ -71,6 +72,7 @@ function renderFormatItem(target, data, currentPhaseFormat) {
             $(clone).find('#counter-to .stepper-text').val(parameters.countTo);
             break;
         case OPEN_QUESTION_GUS:
+
             if (parameters.used === 'used') {
                 $(clone).find('.btn-use').click();
             } else {

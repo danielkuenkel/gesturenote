@@ -2142,8 +2142,8 @@ include '../includes/language.php';
 
     <div class="root" id="ranking-item" style="">
         <div class="btn-group form-group-margin-top">
-            <button class="btn btn-default btn-shadow btn-up"><i class="glyphicon glyphicon-arrow-up"></i></button>
-            <button class="btn btn-default btn-shadow btn-down"><i class="glyphicon glyphicon-arrow-down"></i></button> 
+            <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+            <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
         </div>
         <span class="option-text text" style="margin-left: 8px; position: relative; top: 7px"></span>
     </div>
@@ -2235,9 +2235,9 @@ include '../includes/language.php';
 
 
 <div id="item-container-prepare" class="hidden">
-    
+
     <div id="initialize-recorders-list-item">
         <i class="init-icon fa fa-spin fa-circle-o-notch"></i> <span class="text" style="margin-right: 10px"></span> <span class="btn btn-danger btn-shadow btn-xs btn-ban-sensor"><i class="fa fa-ban"></i> <span class="btn-text"><?php echo $lang->banSensor ?></span></span>
     </div>
-    
+
 </div>

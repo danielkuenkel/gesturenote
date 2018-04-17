@@ -162,17 +162,20 @@ $(document).on('click', '.btn-use', function (event) {
     event.preventDefault();
     if (!event.handled) {
         event.handled = true;
+        $(this).popover('hide');
         if ($(this).hasClass('used')) {
+            $(this).find('.fa').removeClass('fa-star').addClass('fa-star-o');
+            $(this).attr('data-content', translation.tooltips.general.useQuestion).data('bs.popover').setContent();
             $(this).removeClass('used btn-success').addClass('not-used');
-            $(this).closest('.root').removeClass('used');
-            $(this).closest('.root').addClass('not-used');
+            $(this).closest('.root').removeClass('used').addClass('not-used');
             if ($(this).closest('.root').find('.hide-when-unused').length > 0) {
                 $(this).closest('.root').find('.hide-when-unused').addClass('hidden');
             }
         } else {
+            $(this).find('.fa').removeClass('fa-star-o').addClass('fa-star');
+            $(this).attr('data-content', translation.tooltips.general.dontUseQuestion).data('bs.popover').setContent();
             $(this).removeClass('not-used').addClass('used btn-success');
-            $(this).closest('.root').removeClass('not-used');
-            $(this).closest('.root').addClass('used');
+            $(this).closest('.root').removeClass('not-used').addClass('used');
             if ($(this).closest('.root').find('.hide-when-unused').length > 0) {
                 $(this).closest('.root').find('.hide-when-unused').removeClass('hidden');
             }
@@ -184,7 +187,6 @@ $(document).on('click', '.btn-use', function (event) {
 
 function checkUsedItems(element) {
     var dimension = getDimensionByElement(element);
-//    var mainDimension = getMainDimensionForDimension(dimension);
     var usedDimensionElements = element.parent().children('[data-dimension=' + dimension + ']').find('.used');
     if (usedDimensionElements.length === 0) {
         $('#dimension-controls #' + dimension).click();

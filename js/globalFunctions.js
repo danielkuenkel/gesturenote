@@ -294,6 +294,7 @@ $(document).on('click', '.btn-delete', function (event) {
     event.preventDefault();
     var element = $(this).closest('.root');
     var parent = $(element).parent();
+    $(this).popover('hide');
 
     if ($(element).attr('id') === SCENE_IMAGE) {
         var url = ["../" + $(element).find('.imageAreaContent').attr('src')];
@@ -326,6 +327,7 @@ $(document).on('click', '.btn-up', function (event) {
     if (!event.handled) {
         event.handled = true;
         if (!$(this).hasClass('disabled')) {
+            $(this).popover('hide');
             moveElement("up", $(this), $(this).hasClass('saveGeneralData'));
         }
     }
@@ -337,6 +339,7 @@ $(document).on('click', '.btn-down', function (event) {
     if (!event.handled) {
         event.handled = true;
         if (!$(this).hasClass('disabled')) {
+            $(this).popover('hide');
             moveElement("down", $(this), $(this).hasClass('saveGeneralData'));
         }
     }
@@ -427,19 +430,33 @@ function checkCurrentListState(itemContainer) {
         var child = childList[i];
         var btnUp = $(child).find('.btn-up').first();
         var btnDown = btnUp.next();
-        btnUp.removeClass('disabled');
-        btnDown.removeClass('disabled');
+        initPopover();
+        $(btnUp).removeClass('disabled');
 
-        if (i === 0) {
-            btnUp.addClass('disabled');
-        } else if ($(child).prev().find('.btn-down').length === 0) {
-            btnUp.addClass('disabled');
+//        if ($(btnUp).length > 0) {
+//            console.log(btnUp, $(btnUp));
+//            $(btnUp).attr('data-content', translation.tooltips.general.moveUp).data('bs.popover').setContent();
+//        }
+
+//        if ($(btnDown).length > 0) {
+            $(btnDown).removeClass('disabled');
+//            $(btnDown).attr('data-content', translation.tooltips.general.moveDown).data('bs.popover').setContent();
+//        }
+
+        if (i === 0 || $(child).prev().find('.btn-down').length === 0) {
+            $(btnUp).addClass('disabled');
+
+//            if ($(btnUp).length > 0) {
+////                $(btnUp).attr('data-content', '').data('bs.popover').setContent();
+//            }
         }
 
-        if (i === childList.length - 1) {
-            btnDown.addClass('disabled');
-        } else if ($(child).next().find('.btn-up').length === 0) {
-            btnDown.addClass('disabled');
+        if (i === childList.length - 1 || $(child).next().find('.btn-up').length === 0) {
+            $(btnDown).addClass('disabled');
+
+//            if ($(btnDown).length > 0) {
+//                $(btnDown).attr('data-content', '').data('bs.popover').setContent();
+//            }
         }
     }
     initPopover();
@@ -2576,7 +2593,7 @@ function getGestureCatalogGestureSetPanel(data, type, layout) {
             });
         }
     });
-    
+
     $(panel).find('#btn-download-as-json').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(this).popover('hide');
@@ -2974,7 +2991,7 @@ $(document).on('click', '.btn-toggle-sensor-source', function (event) {
     if (!$(this).hasClass('disabled') && !$(this).hasClass('active')) {
         $(this).parent().children().removeClass('active');
         $(this).addClass('active');
-        
+
         var showSensor = $(this).attr('data-toggle-sensor');
         $(this).closest('.root').find('.sensor-content').children().addClass('hidden');
         $(this).closest('.root').find('.sensor-content [data-sensor-source=' + showSensor + ']').removeClass('hidden');
