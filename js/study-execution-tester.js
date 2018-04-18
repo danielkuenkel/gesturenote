@@ -2106,7 +2106,7 @@ var Tester = {
                 target = $(container).find('#fixed-rtc-preview');
                 break;
         }
-        console.log('appendRTCPreviewStream' + target);
+        console.log('appendRTCPreviewStream', target);
         $(target).empty().append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
 
 //        var source = getSourceContainer(currentView);
@@ -2213,8 +2213,11 @@ var Tester = {
             case GESTURE_TRAINING:
             case INTERVIEW:
                 target = $('#viewTester').find('#fixed-rtc-preview');
+                $(target).find('#video-caller').css({width:'100%'});
                 break;
         }
+        
+        console.log('append rtc live stream', target);
 
         var options = getPhaseStepOptions(currentPhase.format);
         var query = getQueryParams(document.location.search);

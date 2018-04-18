@@ -242,7 +242,7 @@ if ($h && $token && $studyId) {
 
             // resize rtc placeholder functionalities
             $(window).on('resize', function () {
-                if (!$('#pinnedRTC').hasClass('hidden') && !$('#viewTester #column-left').hasClass('rtc-scalable')) {
+                if (!$('#pinnedRTC').hasClass('hidden') && $('#viewTester #column-left').hasClass('rtc-scalable')) {
                     if ($(document).scrollTop() === 0) {
                         updateRTCHeight($('#viewTester #column-left').width(), true);
                     } else {
@@ -270,10 +270,6 @@ if ($h && $token && $studyId) {
                 if (updateColumn) {
                     TweenMax.to($('#viewTester #column-left'), .2, {css: {marginTop: newHeight + 20, opacity: 1.0}});
                 }
-            }
-
-            function resetRTC() {
-                $(window).resize();
             }
         </script>
     </body>

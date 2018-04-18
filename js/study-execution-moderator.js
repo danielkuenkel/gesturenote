@@ -2230,6 +2230,10 @@ var Moderator = {
         }
 
         function startGestureRecording() {
+            if (data.identification[currentIdentificationIndex].transitionScenes && data.identification[currentIdentificationIndex].transitionScenes.length > 0) {
+                $(container).find('#transition-scenes').addClass('hidden');
+            }
+
             getGMT(function (timestamp) {
                 var identificationData = data.identification[currentIdentificationIndex];
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
@@ -2338,6 +2342,17 @@ var Moderator = {
                             $(this).parent().parent().find('.scene-description').removeClass('hidden');
                             currentIdentificationScene = event.data.index;
                             openPrototypeScene(event.data.scene, data.identification.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+
+                            if (currentIdentificationScene && identificationStartTriggered) {
+                                getGMT(function (timestamp) {
+                                    var currentPhase = getCurrentPhase();
+                                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                    var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
+                                    console.log(scene);
+                                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: scene.id});
+                                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                                });
+                            }
                         }
 
                         if ($(this).hasClass('disabled')) {
@@ -2354,7 +2369,6 @@ var Moderator = {
         }
 
         function renderIdentificationForGesturesItem(item, container, data) {
-//            console.warn(data);
             renderSceneTriggerItems(item, container, data);
 
             $(container).find('#btn-start-gesture-recording').removeClass('hidden');
@@ -2370,6 +2384,15 @@ var Moderator = {
 
                 if (currentIdentificationIndex >= data.identification.length - 1) {
                     $(container).find('#btn-next-trigger').remove();
+                }
+
+                if (scene) {
+                    getGMT(function (timestamp) {
+                        var currentPhase = getCurrentPhase();
+                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: scene.id});
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                    });
                 }
             }
 
@@ -2705,6 +2728,16 @@ var Moderator = {
                             enableControls();
                         });
                         peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);
+
+                        var currentScene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
+                        if (currentScene) {
+                            getGMT(function (timestamp) {
+                                var currentPhase = getCurrentPhase();
+                                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: currentScene.id});
+                                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                            });
+                        }
                     });
                 } else {
                     enableControls();
@@ -3361,7 +3394,19 @@ var Moderator = {
     appendRTCPreviewStream: function appendRTCPreviewStream() {
         var source = getSourceContainer(currentView);
         var target = $('#viewModerator').find('#pinnedRTC');
-        $(target).empty().prepend($(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder'));
+        var callerElement = $(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
+        $(target).empty().prepend(callerElement);
+
+        var tween = new TweenMax($(callerElement).find('.stream-controls'), .3, {opacity: 1.0, paused: true});
+        $(callerElement).on('mouseenter', function (event) {
+            event.preventDefault();
+            tween.play();
+        });
+
+        $(callerElement).on('mouseleave', function (event) {
+            event.preventDefault();
+            tween.reverse();
+        });
     },
     initializePeerConnection: function initializePeerConnection() {
         if (!peerConnection && !previewModeEnabled) {

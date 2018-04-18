@@ -174,7 +174,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                 $(moderatorVideoHolder).on('loadedmetadata', function () {
                     // google chrome no-duration workaround
                     if (moderatorVideoHolder[0].duration === Infinity) {
-                        var duration = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, evaluatorResults.endRecordingTime), true);
+                        var duration = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startRecordingTime || evaluatorResults.startTime, evaluatorResults.endRecordingTime || evaluatorResults.endTime), true);
                         console.log('total moderator duration:', duration);
                         moderatorVideoHolder[0].currentTime = duration - 2;
                         moderatorVideoHolder[0].playbackRate = 10;
@@ -252,7 +252,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                 $(testerVideoHolder).on('loadedmetadata', function () {
                     // google chrome no-duration workaround
                     if (testerVideoHolder[0].duration === Infinity) {
-                        var duration = getSeconds(getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime), true);
+                        var duration = getSeconds(getTimeBetweenTimestamps(testerResults.startRecordingTime || testerResults.startTime, testerResults.endRecordingTime || testerResults.endTime), true);
                         console.log('total tester duration:', duration);
                         testerVideoHolder[0].currentTime = duration - 2;
                         testerVideoHolder[0].playbackRate = 10;
@@ -483,7 +483,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         });
                     }
 
-                    var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, resultSource: 'evaluator', executionTime: executionTime, duration: getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, evaluatorResults.endRecordingTime), checkedVideos: checkedVideos} : {phaseData: phaseData, phaseResults: testerResults, resultSource: 'results', executionTime: executionTime, duration: getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime), checkedVideos: checkedVideos};
+                    var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, resultSource: 'evaluator', executionTime: executionTime, duration: getTimeBetweenTimestamps(evaluatorResults.startRecordingTime || evaluatorResults.startTime, evaluatorResults.endRecordingTime || evaluatorResults.endTime), checkedVideos: checkedVideos} : {phaseData: phaseData, phaseResults: testerResults, resultSource: 'results', executionTime: executionTime, duration: getTimeBetweenTimestamps(testerResults.startRecordingTime || testerResults.startTime, testerResults.endRecordingTime || testerResults.endTime), checkedVideos: checkedVideos};
                     initializeTimeline(timelineData, content);
                     initializeAnnotationHandling(timelineData, content);
                 } else {
@@ -531,8 +531,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
         function getMainVideoPlayer() {
             if (screenShareVideoHolder) {
                 if (moderatorVideoHolder && testerVideoHolder) {
-                    var start = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, testerResults.startRecordingTime), true);
-                    var end = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endRecordingTime, testerResults.endRecordingTime), true);
+                    var start = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startRecordingTime || evaluatorResults.startTime, testerResults.startRecordingTime || testerResults.startTime), true);
+                    var end = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endRecordingTime || evaluatorResults.endTime, testerResults.endRecordingTime || testerResults.endTime), true);
 
                     if (evaluatorResults.startRecordingTime < testerResults.startRecordingTime) {
                         start *= -1;
@@ -660,8 +660,8 @@ RTCResultsPlayer.prototype.visData = function () {
 // Create a DataSet (allows two way data-binding)
 function getVisDataSet(timelineData) {
     var array = [];
-    array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.startRecordingTime)});
-    array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.endRecordingTime)});
+    array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.startRecordingTime || timelineData.phaseResults.startTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.startRecordingTime || timelineData.phaseResults.startTime)});
+    array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.endRecordingTime || timelineData.phaseResults.endTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.endRecordingTime || timelineData.phaseResults.endTime)});
 
     var className = 'item-primary-full';
     var annotations = timelineData.phaseResults.annotations;
@@ -784,7 +784,7 @@ function renderSeekbarData(visData, timelineData, content) {
 //        console.log('render seekbar data', visData, seekbar);
         for (var i = 0; i < visData.length; i++) {
             if (visData[i].className !== 'invisible' && visData[i].timestamp) {
-                var gap = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime, visData[i].timestamp), true);
+                var gap = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime || timelineData.phaseResults.startTime, visData[i].timestamp), true);
                 var xPercentage = gap / duration * 100;
                 var infoDataItem = document.createElement('div');
                 $(infoDataItem).addClass('seekbarInfoData');
@@ -845,7 +845,7 @@ function renderListData(visData, timelineData, content) {
 
             for (var i = 0; i < visData.length; i++) {
                 if (visData[i].className !== 'invisible' && visData[i].timestamp) {
-                    var seconds = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime, visData[i].timestamp), true);
+                    var seconds = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime || timelineData.phaseResults.startTime, visData[i].timestamp), true);
                     var linkListItem = $('#template-study-container').find('#link-list-item').clone().removeAttr('id');
                     $(linkListItem).find('.link-list-item-url').attr('data-jumpto', seconds);
                     $(linkListItem).find('.btn-delete-annotation').attr('data-id', visData[i].id);
@@ -940,7 +940,7 @@ function initializeAnnotationHandling(timelineData, content) {
             }
             var annotationLabel = $(content).find('.annotation-title-input').val().trim();
             if (annotationLabel !== '') {
-                var annotationTime = parseInt(timelineData.phaseResults.startRecordingTime) + Math.floor(mainVideo.currentTime * 1000);
+                var annotationTime = parseInt(timelineData.phaseResults.startRecordingTime || timelineData.phaseResults.startTime) + Math.floor(mainVideo.currentTime * 1000);
                 var annotation = {id: chance.natural(), action: ACTION_CUSTOM, content: annotationLabel, annotationColor: $(content).find('.color-selector .selected').attr('data-id'), time: annotationTime};
                 var firstInitializeTimeline = false;
 

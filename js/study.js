@@ -60,26 +60,31 @@ function renderData(data, hash, showTutorial) {
         // prepare study
         if (now > dateFrom && now < dateTo) {
             if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
-                $('#btn-prepare-study, #btn-open-static-study-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
-                    event.preventDefault();
-                    if (!$(this).hasClass('disabled')) {
-                        goto(event.data.url);
-                    }
-                });
+                if (studyData.phases && studyData.phases.length > 2) {
+                    $('#btn-prepare-study, #btn-open-static-study-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
+                        event.preventDefault();
+                        if (!$(this).hasClass('disabled')) {
+                            goto(event.data.url);
+                        }
+                    });
+                } else {
+                    $('#btn-open-static-study-url').addClass('disabled');
+                    $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLNoPhasesteps).data('.bs.popover').setContent();
+                }
             } else {
                 $('#btn-open-static-study-url').addClass('disabled');
-                $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLOnlyModerated);
+                $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLOnlyModerated).data('.bs.popover').setContent();
             }
         } else {
-            $('#btn-prepare-study').remove();
+//            $('#btn-prepare-study').remove();
             $('#btn-open-static-study-url').addClass('disabled');
-            $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck);
+            $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck).data('.bs.popover').setContent();
         }
     } else {
 //        $('#copy-to-clipboard').remove();
 //        $('#btn-prepare-study').remove();
         $('#btn-open-static-study-url').addClass('disabled');
-        $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck);
+        $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck).data('.bs.popover').setContent();
     }
 
 
@@ -761,7 +766,8 @@ function renderGestureClassification() {
                     gesturesRight = new Array();
                     gesturesRight.push({mainGestureId: elicitedGestures[0].id, gestures: [elicitedGestures[0]]});
                     gesturesLeft = elicitedGestures;
-                    updateMatchingView();
+                    updateMatchingView(true);
+                    $(document).find('#btn-gesture-yes').click();
                 }
             });
         }
@@ -793,12 +799,14 @@ function renderGestureClassification() {
                 gesturesRight.push({mainGestureId: elicitedGestures[0].id, gestures: [elicitedGestures[0]]});
             }
             saveClassification();
-            updateMatchingView();
+            updateMatchingView(true, true);
         }
     });
 }
 
-function updateMatchingView() {
+function updateMatchingView(scaleLeftItem, scaleRightItem) {
+    console.log('update matching view');
+    
     if (gesturesLeftIndex < gesturesLeft.length) {
 
         if (gesturesLeftIndex > 0) {
@@ -818,6 +826,14 @@ function updateMatchingView() {
         $('#gesture-right').empty().append(rightItem);
         renderClassifiedGestures($('#classified-gestures'));
         TweenMax.from($('#match-controls'), .3, {opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
+        
+        if (scaleLeftItem) {
+            TweenMax.from(leftItem, .3, {delay: .5, opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
+        }
+        
+        if(scaleRightItem) {
+            TweenMax.from(rightItem, .3, {delay: .5, opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
+        }
     }
 }
 
@@ -1070,8 +1086,7 @@ $(document).on('click', '#btn-gesture-yes', function (event) {
 
 //    console.log(gesturesLeft.length, gesturesLeftIndex);
     if (gesturesLeft.length > 0 && gesturesLeftIndex < gesturesLeft.length) {
-
-        updateMatchingView();
+        updateMatchingView(true, true);
         removeAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
     } else {
         checkGestureClassificationType();
@@ -1087,6 +1102,7 @@ $(document).on('click', '#btn-gesture-no', function (event) {
     var leftId = parseInt($('#gesture-left').children().attr('id'));
     var leftGesture = getGestureById(leftId, ELICITED_GESTURES);
     if (gesturesRightIndex < gesturesRight.length - 1) {
+        updateMatchingView(false, true);
         gesturesRightIndex++;
     } else {
         classifyGesture(leftGesture, false);
@@ -1095,8 +1111,9 @@ $(document).on('click', '#btn-gesture-no', function (event) {
         removeAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
     }
 
+    console.log(gesturesLeft.length, gesturesLeftIndex);
     if (gesturesLeft.length > 0 && gesturesLeftIndex < gesturesLeft.length) {
-        updateMatchingView();
+        updateMatchingView(false, true);
     } else {
         checkGestureClassificationType();
         renderClassifiedGestures($('#classified-gestures'));

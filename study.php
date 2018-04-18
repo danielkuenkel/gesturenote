@@ -567,6 +567,7 @@ if (login_check($mysqli) == true) {
                         if (result.status === RESULT_SUCCESS) {
                             setStudyData(result);
                             var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
+                            initPopover();
                             renderData(result, hash, showTutorial);
                         }
                     });

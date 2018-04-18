@@ -259,7 +259,7 @@ if ($h && $token && $studyId) {
 
             // resize rtc placeholder functionalities
             $(window).on('resize', function () {
-                if (!$('#viewModerator #pinnedRTC').hasClass('hidden') && !$('#viewModerator #column-left').hasClass('rtc-scalable')) {
+                if (!$('#viewModerator #pinnedRTC').hasClass('hidden') && $('#viewModerator #column-left').hasClass('rtc-scalable')) {
                     if ($(document).scrollTop() === 0) {
                         updateRTCHeight($('#viewModerator #column-left').width(), true);
                     } else {

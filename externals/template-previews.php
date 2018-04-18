@@ -13,9 +13,6 @@ include '../includes/language.php';
             <button type="button" class="btn stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
         </div>
 
-        <!--        <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; right: 0;">
-                    <button type="button" class="btn btn-link btn-no-shadow btn-toggle-rtc-fixed pinned" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
-                </div>-->
         <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
     </div>
 
