@@ -45,6 +45,7 @@ function renderData(data, hash, showTutorial) {
         $('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
     }
 
+    initPopover();
     if (studyData.phases && studyData.phases.length > 0 &&
             (studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
             (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
@@ -69,22 +70,19 @@ function renderData(data, hash, showTutorial) {
                     });
                 } else {
                     $('#btn-open-static-study-url').addClass('disabled');
-                    $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLNoPhasesteps).data('.bs.popover').setContent();
+                    $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLNoPhasesteps).data('bs.popover').setContent();
                 }
             } else {
                 $('#btn-open-static-study-url').addClass('disabled');
-                $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLOnlyModerated).data('.bs.popover').setContent();
+                $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLOnlyModerated).data('bs.popover').setContent();
             }
         } else {
-//            $('#btn-prepare-study').remove();
             $('#btn-open-static-study-url').addClass('disabled');
-            $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck).data('.bs.popover').setContent();
+            $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck).data('bs.popover').setContent();
         }
     } else {
-//        $('#copy-to-clipboard').remove();
-//        $('#btn-prepare-study').remove();
         $('#btn-open-static-study-url').addClass('disabled');
-        $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck).data('.bs.popover').setContent();
+        $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck).data('bs.popover').setContent();
     }
 
 
@@ -171,6 +169,15 @@ function renderData(data, hash, showTutorial) {
             });
         }
     });
+
+    // shared studie view
+    if (studyData.generalData.isOwner && studyData.generalData.isOwner === true) {
+        renderInvitedUsers();
+    } else {
+        $('#invited-users').remove();
+        $('#btn-delete-study').remove();
+        $('#btn-edit-study').remove();
+    }
 
 
     // gesture/trigger extraction view
@@ -300,6 +307,76 @@ function renderData(data, hash, showTutorial) {
         });
     }
 }
+
+function renderInvitedUsers() {
+    var invitedUsers = getLocalItem(INVITED_USERS);
+    $('#invited-users #shared-studies-list').empty();
+    clearAlerts($('#invited-users'));
+
+    if (invitedUsers && invitedUsers.length > 0) {
+        for (var i = 0; i < invitedUsers.length; i++) {
+            var listItem = $('#shared-list-item').clone().removeAttr('id');
+            $(listItem).find('.shared-study-item-email').text(invitedUsers[i].email);
+            $(listItem).find('.btn-uninvite-user').attr('data-invite-id', invitedUsers[i].id);
+            $('#invited-users #shared-studies-list').append(listItem);
+        }
+    } else {
+        appendAlert($('#invited-users'), ALERT_NO_USERS_INVITED);
+    }
+
+    $('#invited-users').find('#btn-invite-user').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        var button = $(this);
+        if (!$(button).hasClass('disabled')) {
+            lockButton(button, true, 'fa-paper-plane');
+
+            var email = $('#invited-users').find('#input-email');
+            if ($(email).val().trim() === '') {
+                appendAlert($('#invited-users'), ALERT_MISSING_EMAIL);
+                unlockButton(button, true, 'fa-paper-plane');
+                $(email).focus();
+                return false;
+            }
+
+            // validate email
+            if (!validateEmail($(email).val().trim())) {
+                appendAlert($('#invited-users'), ALERT_INVALID_EMAIL);
+                unlockButton(button, true, 'fa-paper-plane');
+                $(email).focus();
+                return false;
+            }
+
+            var study = getLocalItem(STUDY);
+            inviteUser({studyId: study.id, email: email.val().trim()}, function (result) {
+                unlockButton(button, true, 'fa-paper-plane');
+                if (result.status === RESULT_SUCCESS) {
+                    setLocalItem(INVITED_USERS, result.invitedUsers);
+                    $(email).val('');
+                    renderInvitedUsers();
+                } else if(result.status === 'userAlreadyInvited') {
+                    $(email).val('');
+                    appendAlert($('#invited-users'), ALERT_USER_ALREADY_INVITED);
+                }
+            });
+        }
+    });
+}
+
+$(document).on('click', '.btn-uninvite-user', function (event) {
+    event.preventDefault();
+    var study = getLocalItem(STUDY);
+    var button = $(this);
+    if (!$(button).hasClass('disabled')) {
+        lockButton(button, true, 'fa-trash');
+        uninviteUser({studyId: study.id, id: $(this).attr('data-invite-id')}, function (result) {
+            unlockButton(button, true, 'fa-trash');
+            if (result.status === RESULT_SUCCESS) {
+                setLocalItem(INVITED_USERS, result.invitedUsers);
+                renderInvitedUsers();
+            }
+        });
+    }
+});
 
 function getStudyCatalogGestures() {
     var gestures = getLocalItem(GESTURE_CATALOG);
@@ -733,7 +810,7 @@ function renderGestureClassification() {
             gesturesRight = classification.assignments;
             if (gesturesLeft && gesturesLeft.length > 0) {
                 $('#gesture-classification').removeClass('hidden');
-                updateMatchingView();
+                updateMatchingView(true, true);
             } else {
                 appendAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
             }
@@ -766,7 +843,7 @@ function renderGestureClassification() {
                     gesturesRight = new Array();
                     gesturesRight.push({mainGestureId: elicitedGestures[0].id, gestures: [elicitedGestures[0]]});
                     gesturesLeft = elicitedGestures;
-                    updateMatchingView(true);
+                    updateMatchingView(true, true);
                     $(document).find('#btn-gesture-yes').click();
                 }
             });
@@ -804,36 +881,31 @@ function renderGestureClassification() {
     });
 }
 
-function updateMatchingView(scaleLeftItem, scaleRightItem) {
-    console.log('update matching view');
-    
-    if (gesturesLeftIndex < gesturesLeft.length) {
+function updateMatchingView(updateLeft, updateRight) {
+    if (gesturesLeftIndex > 0) {
+        $('#btn-redo').removeClass('disabled');
+    } else {
+        $('#btn-redo').addClass('disabled');
+    }
 
-        if (gesturesLeftIndex > 0) {
-            $('#btn-redo').removeClass('disabled');
-        } else {
-            $('#btn-redo').addClass('disabled');
-        }
+    var leftGesture = gesturesLeft[gesturesLeftIndex];
+    var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
 
-        var leftGesture = gesturesLeft[gesturesLeftIndex];
-        var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
+    var leftItem = getGestureCatalogListThumbnail(leftGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
+    $(leftItem).removeClass('deleteable');
+    var rightItem = getGestureCatalogListThumbnail(rightGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
+    $(rightItem).removeClass('deleteable');
 
-        var leftItem = getGestureCatalogListThumbnail(leftGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
-        $(leftItem).removeClass('deleteable');
-        var rightItem = getGestureCatalogListThumbnail(rightGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
-        $(rightItem).removeClass('deleteable');
+    renderClassifiedGestures($('#classified-gestures'));
+
+    if (updateLeft) {
         $('#gesture-left').empty().append(leftItem);
+        TweenMax.from(leftItem, .3, {opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
+    }
+
+    if (updateRight) {
         $('#gesture-right').empty().append(rightItem);
-        renderClassifiedGestures($('#classified-gestures'));
-        TweenMax.from($('#match-controls'), .3, {opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
-        
-        if (scaleLeftItem) {
-            TweenMax.from(leftItem, .3, {delay: .5, opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
-        }
-        
-        if(scaleRightItem) {
-            TweenMax.from(rightItem, .3, {delay: .5, opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
-        }
+        TweenMax.from(rightItem, .3, {opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
     }
 }
 
@@ -1101,25 +1173,34 @@ $(document).on('click', '#btn-gesture-no', function (event) {
     event.stopImmediatePropagation();
     var leftId = parseInt($('#gesture-left').children().attr('id'));
     var leftGesture = getGestureById(leftId, ELICITED_GESTURES);
+
+
+
     if (gesturesRightIndex < gesturesRight.length - 1) {
-        updateMatchingView(false, true);
+        console.log('more rights');
         gesturesRightIndex++;
-    } else {
+        updateMatchingView(false, true);
+    } else if (gesturesLeftIndex < gesturesLeft.length - 1) {
+        console.log('no more rights, classify gesture');
         classifyGesture(leftGesture, false);
         gesturesLeftIndex++;
         gesturesRightIndex = 0;
+        updateMatchingView(true, true);
         removeAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
-    }
-
-    console.log(gesturesLeft.length, gesturesLeftIndex);
-    if (gesturesLeft.length > 0 && gesturesLeftIndex < gesturesLeft.length) {
-        updateMatchingView(false, true);
     } else {
+        console.log('no more gestures');
+        classifyGesture(leftGesture, false);
         checkGestureClassificationType();
         renderClassifiedGestures($('#classified-gestures'));
         $('#gesture-classification').addClass('hidden');
         appendAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
     }
+    console.log(gesturesLeft.length, gesturesLeftIndex, gesturesRightIndex);
+//    if (gesturesLeft.length > 0 && gesturesLeftIndex < gesturesLeft.length) {
+//        updateMatchingView(false, true);
+//    } else {
+//
+//    }
 });
 
 function classifyGesture(gesture, foundMatch) {

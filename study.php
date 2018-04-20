@@ -51,7 +51,7 @@ if (login_check($mysqli) == true) {
         <script src="js/sha512.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/study.js"></script>
-        
+
         <!-- leap and plugins -->
         <script src="js/leapjs/leap-0.6.4.min.js"></script>
         <script src="js/leapjs/leap-plugins-0.1.12.min.js"></script>
@@ -162,6 +162,32 @@ if (login_check($mysqli) == true) {
                         </div>
                     </div>
                 </div>
+
+                <div  style="margin-top: 20px" id="invited-users">
+                    <h3 class="address"><?php echo $lang->sharedStudies ?></h3>
+                    <div class="row">
+
+                        <div class="col-sm-6 col-lg-7">
+                            <div class="alert-space alert-no-users-invited"></div>
+                            <div id="shared-studies-list"></div>
+                        </div>
+                        <div class="col-sm-6 col-lg-5">
+                            <label class="text"><?php echo $lang->inviteUserViaMail ?></label>
+
+                            <div class="alert-space alert-missing-email"></div>
+                            <div class="alert-space alert-invalid-email"></div>
+                            <div class="alert-space alert-user-already-invited"></div>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="input-email" minlength="8" maxlength="50" placeholder="<?php echo $lang->email ?>">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info" type="button" id="btn-invite-user"><i class="fa fa-paper-plane"></i> <span class="btn-text"><?php echo $lang->invite ?></span></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div role="tabpanel" class="tab-pane" id="study-catalogs">

@@ -67,7 +67,8 @@ if (login_check($mysqli) == true) {
                     <div>
                         <div class="label label-default" id="type-phase"></div>
                         <div class="label label-default" id="type-survey"></div>
-                        <div class="label label-default hidden" id="participant-count"><i class="fa fa-users"></i> <span class="label-text"></span></div>
+                        <div class="label label-default hidden" id="participant-count" data-toggle="popover" data-trigger="hover" data-placement="auto"><i class="fa fa-users"></i> <span class="label-text"></span></div>
+                        <div class="label label-default hidden" id="shared-study" data-toggle="popover" data-trigger="hover" data-placement="auto"><i class="fa fa-share-alt"></i> <span class="label-text"></span></div>
                     </div>
 
                     <div>
@@ -210,7 +211,7 @@ if (login_check($mysqli) == true) {
                 getStudiesCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         if (result.studies && result.studies.length > 0) {
-                            originalFilterData = result.studies;
+                            originalFilterData = sortByKey(result.studies, 'created');
 
                             var data = {
                                 pager: {
@@ -254,11 +255,13 @@ if (login_check($mysqli) == true) {
 
                 if (currentFilterData.length > 0) {
                     clearAlerts($('#item-view'));
+                    initPopover();
+                    
                     for (var i = viewFromIndex; i < viewToIndex; i++) {
-                        var clone = getStudiesCatalogListThumbnail(currentFilterData[i]);
+                        var clone = getStudiesCatalogListThumbnail(currentFilterList, currentFilterData[i]);
 //                        var height = chance.natural({min: 50, max: 300});
 //                        $(clone).find('.panel-heading').css({height: height + 'px'});
-                        $(currentFilterList).append(clone);
+//                        $(currentFilterList).append(clone);
 
                         if (animate) {
                             TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});

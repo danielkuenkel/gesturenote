@@ -405,6 +405,44 @@ function deleteStudy(data, callback) {
     });
 }
 
+function inviteUser(data, callback) {
+    $.ajax({
+        ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
+        url: 'includes/invite-user.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function uninviteUser(data, callback) {
+    $.ajax({
+        ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
+        url: 'includes/uninvite-user.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getStudyResults(data, callback) {
     $.ajax({
         ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',

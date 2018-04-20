@@ -322,6 +322,10 @@ function setStudyData(data) {
     if (data.studyData) {
         setData = data.studyData;
         setData.generalData.studyOwner = data.userId;
+        
+        if (data.isOwner) {
+            setData.generalData.isOwner = data.isOwner;
+        }
         setData.generalData.id = data.id;
         setData.generalData.urlToken = data.urlToken;
         setLocalItem(STUDY, setData.generalData);
@@ -351,6 +355,10 @@ function setStudyData(data) {
         if (setData.assembledFeedback) {
             setLocalItem(ASSEMBLED_FEEDBACK, setData.assembledFeedback);
         }
+    }
+
+    if (data.invitedUsers) {
+        setLocalItem(INVITED_USERS, data.invitedUsers);
     }
 
     if (data.gestureCatalog) {

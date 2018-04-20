@@ -7,7 +7,7 @@ function loginFormhash(form, email, password) {
 
     // Add the new element to our form. 
     var passwordString = password.val() + '-' + $(email).val();
-    console.log(passwordString);
+//    console.log(passwordString);
     
     if ($(form).find('#p').length > 0) {
         $(form).find('#p').val(hex_sha512(passwordString));
@@ -422,9 +422,4 @@ function updateFormhash(form) {
 
     // Finally submit the form. 
     form.submit();
-}
-
-function validateEmail(email) {
-    var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-    return re.test(email);
 }

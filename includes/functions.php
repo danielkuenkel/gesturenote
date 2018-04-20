@@ -59,6 +59,7 @@ function login($email, $password, $mysqli) {
                     $_SESSION['user_id'] = $user_id;
                     $_SESSION['forename'] = $forename;
                     $_SESSION['surname'] = $surname;
+                    $_SESSION['email'] = $email;
                     $_SESSION['login_string'] = hash('sha512', $db_password . $user_browser);
 //                    $_SESSION['gender'] = $gender;
                     $_SESSION['usertype'] = $usertype;

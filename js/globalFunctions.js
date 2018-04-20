@@ -92,6 +92,18 @@ function getBrowser() {
 }
 
 /*
+ * check form
+ */
+
+function validateEmail(email) {
+    var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+    return re.test(email);
+}
+
+
+
+
+/*
  * language indicator
  */
 function updateLanguageIndicator(target) {
@@ -439,7 +451,7 @@ function checkCurrentListState(itemContainer) {
 //        }
 
 //        if ($(btnDown).length > 0) {
-            $(btnDown).removeClass('disabled');
+        $(btnDown).removeClass('disabled');
 //            $(btnDown).attr('data-content', translation.tooltips.general.moveDown).data('bs.popover').setContent();
 //        }
 
@@ -2340,11 +2352,14 @@ function getSimpleGestureListThumbnail(data, typeId, layout) {
  * study catalog list items
  */
 
-function getStudiesCatalogListThumbnail(data) {
+function getStudiesCatalogListThumbnail(target, data) {
     var clone = $('#studies-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
     if (data.data) {
         clone.attr('id', data.id);
         clone.find('.title-text').text(data.data.generalData.title);
+        $(target).append(clone);
+
+        initPopover();
 
         if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
                 (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
@@ -2374,12 +2389,23 @@ function getStudiesCatalogListThumbnail(data) {
                 $(clone).find('#study-range-days .address').text(translation.studyRuns + ": ");
                 $(clone).find('.study-ended').removeClass('hidden').find('.text').text(translation.studyEnded);
                 $(clone).find('.progress-bar').addClass('progress-bar-info');
-                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
+                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.none);
             }
 
             if (parseInt(data.participants) > 0) {
-                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(parseInt(data.participants) === 1 ? data.participants + ' ' + translation.participation : data.participants + ' ' + translation.participations);
+                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(data.participants);
+                $(clone).find('#participant-count').attr('data-content', data.participants + ' ' + translation.participants).data('bs.popover').setContent();
             }
+
+            console.log(data, data.isOwner);
+            if (data.isOwner === false) {
+                $(clone).find('#shared-study').removeClass('hidden');
+                $(clone).find('#shared-study').attr('data-content', translation.sharedStudy);
+            } else if (data.isOwner === true && parseInt(data.shared) > 0) {
+                $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.shared);
+                $(clone).find('#shared-study').attr('data-content', data.shared + ' ' + translation.sharedInfo);
+            }
+
 
             $(clone).find('.progress-bar').css({width: progress + "%"});
             $(clone).find('#study-range-days .text').text(totalDays + ' ' + (parseInt(totalDays) === 1 ? translation.day : translation.days));

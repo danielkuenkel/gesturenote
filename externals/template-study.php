@@ -756,6 +756,10 @@ include '../includes/language.php';
 
 
     </div>
+    
+    <div id="link-list-item" class="link-list-item"><span class="link-list-item-url"><span class="link-list-item-time" style="margin-right: 5px"></span> <span class="text link-list-item-title"></span></span> <span class="btn-delete-annotation"><i class="fa fa-trash"></i> <?php echo $lang->delete ?></span></div>
+    
+    <div id="shared-list-item" class="shared-list-item"><span class="shared-study-item-email text"></span> <span class="btn-uninvite-user"><i class="fa fa-trash"></i> <?php echo $lang->delete ?></span></div>
 
     <div class="root" id="gestureTraining">
         <h3 id="headline" style="margin-top: 0"></h3>
@@ -921,8 +925,6 @@ include '../includes/language.php';
             <div class="question-container"  id="observations-container"></div>
         </div>
     </div>
-
-    <div id="link-list-item" class="link-list-item"><span class="link-list-item-url"><span class="link-list-item-time" style="margin-right: 5px"></span> <span class="text link-list-item-title"></span></span> <span class="btn-delete-annotation"><i class="fa fa-trash"></i> <?php echo $lang->delete ?></span></div>
 
     <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
         <div class="col-sm-5 root">

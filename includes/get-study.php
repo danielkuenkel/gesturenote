@@ -27,7 +27,34 @@ if (isset($_POST['studyId'])) {
             $select_stmt->fetch();
             if ($select_stmt->num_rows == 1) {
                 $gestures = null;
+//                $temp = json_decode($json);
+//$temp[] = new data, whatever you want to add...;
+//$json = json_encode($temp);
+                
+                
                 $decodedData = json_decode_nice($studyData, false);
+//                array_push( $decodedData, array('isOwner' => $studyUserId) );
+//                $decodedData['isOwner'] = ;
+                
+
+                if ($select_invited_users_stmt = $mysqli->prepare("SELECT * FROM studies_shared WHERE study_id = '$studyId' AND owner_id = '$sessionUserId'")) {
+                    if (!$select_invited_users_stmt->execute()) {
+                        echo json_encode(array('status' => 'selectSharedStudiesError'));
+                    } else {
+                        $select_invited_users_stmt->store_result();
+                        $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedStudyId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited);
+
+                        while ($select_invited_users_stmt->fetch()) {
+                            $invitedUsers[] = array('id' => $sharedStudyRowId,
+                                'ownerId' => $sharedStudyId,
+                                'userId' => $invitedUserId,
+                                'email' => $invitedUserMail,
+                                'edit' => $sharedStudyEditable,
+                                'created' => $userInvited
+                            );
+                        }
+                    }
+                }
 
                 if ($select_gesture_stmt = $mysqli->prepare("SELECT * FROM gestures")) {
                     if (!$select_gesture_stmt->execute()) {
@@ -117,8 +144,9 @@ if (isset($_POST['studyId'])) {
                         }
                     }
                 }
-
-                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'studyData' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
+                
+                $isStudyOwner = intval($sessionUserId) === intval($studyUserId);
+                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'isOwner' => $isStudyOwner, 'studyData' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'invitedUsers' => $invitedUsers, 'gestureCatalog' => $gestures));
                 exit();
             } else {
                 echo json_encode(array('status' => 'rowsError'));

@@ -27,6 +27,7 @@ var STUDY_ORIGIN_SUS = 'study.originSUS';
 var STUDY_ORIGIN_FAVORITE_GESTURES = 'study.originFavoriteGestures';
 var STUDY_PHASE_STEPS = 'study.phaseSteps';
 //var PREDEFINED_GESTURE_SET = 'predefinedGestureSet';
+var INVITED_USERS = 'invitedUsers';
 var GESTURE_CATALOG = 'gestureCatalog';
 var ELICITED_GESTURES = 'elicitedGestures';
 var ELICITED_TRIGGER = 'elicitedTrigger';

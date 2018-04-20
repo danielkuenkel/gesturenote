@@ -203,6 +203,7 @@
         "phases": "Leitfaden",
         "panel": "Wen, Was & Wann?"
     },
+    "participants": "Teilnehmer",
     "participation": "Teilnahme",
     "participations": "Teilnahmen",
     "noParticipations": "Keine Teilnahmen",
@@ -1371,6 +1372,11 @@
     "nextTask": "nächste Aufgabe",
     "nextStep": "nächster Leitfadenschritt",
     "description": "Beschreibung",
+    "sharedStudies": "Studie teilen",
+    "sharedInfo": "Mal freigegeben",
+    "sharedStudy": "Ihnen freigegeben",
+    "invite": "Einladen",
+    "inviteUserViaMail": "Per E-Mail-Adresse einladen",
     "scale": "Skala",
     "url": "URL",
     "title": "Titel",
@@ -4228,6 +4234,16 @@
             "id": "no-annotations",
             "type": "warning",
             "text": "Es sind keine Annotationen vorhanden."
+        },
+        "noUsersInvited": {
+            "id": "no-users-invited",
+            "type": "warning",
+            "text": "Es wurden keine Nutzer zu dieser Studie eingeladen."
+        },
+        "userAlreadyInvited": {
+            "id": "user-already-invited",
+            "type": "warning",
+            "text": "Nutzer mit dieser E-Mail-Adress wurde bereits eingeladen."
         }
     },
     "introductionCreateStudy": [
@@ -4427,7 +4443,10 @@
                 "<p>Um eine Studie aufzurufen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet.</p>",
                 "<h4>Leitfaden</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/study/carousel-01-03.png' style='max-width:390px' />",
-                "<p>Auf der rechten Seite wird nochmals der Leitfaden angezeigt. Zusätzlich kann die Studie bearbeitet, die Vorschau aufgerufen oder die Studie gelöscht werden. Beim Löschen einer Studie gehen alle Daten verloren. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.</p>"
+                "<p>Auf der rechten Seite wird nochmals der Leitfaden angezeigt. Zusätzlich kann die Studie bearbeitet, die Vorschau aufgerufen oder die Studie gelöscht werden. Beim Löschen einer Studie gehen alle Daten verloren. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.</p>",
+                "<h4>Studie teilen</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/study/carousel-01-04.png' style='max-width:471px' />",
+                "<p>Geben Sie eine Studie für andere Gesten-Designer frei. Freigaben können mit einem Klick auf <span class='btn-uninvite-user'><i class='fa fa-trash'></i> löschen</span> rückgängig gemacht werden.</p>"
             ]
         },
         {
