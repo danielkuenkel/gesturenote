@@ -3,6 +3,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
+include_once './language.php';
 include_once 'db_connect.php';
 include_once 'psl-config.php';
 
@@ -56,16 +57,16 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['email'])) {
                                 }
 
                                 $to = $inviteMail;
-                                $subject = 'Freigabe Gesten-Design-Studie';
+                                $subject = $lang->inviteSubject;
                                 $message = '<html>
                                     <head>
-                                    <title>Sie wurden für eine Gesten-Design-Studie freigegeben</title>
+                                    <title>' . $lang->inviteTitle . '</title>
                                     </head>
                                     <body>
-                                        <p style="font-weight:bold">Hallo ' . $forename . ' ' . $surname . ',</p>
-                                        <p>ein anderer Gesten-Designer hat Ihnen eine Studie freigegeben. Diese Studie wird, solange diese freigegeben ist, in Ihrer Studien-Übersicht angezeigt. Sie gelangen über diesen <a href="https://gesturenote.de/studies.php">Link</a> direkt zur Übersicht.</p>
-                                        <p>Mit freundlichen Grüßen,</p>
-                                        <p style="font-weight:bold">Ihr GestureNote Team</p>
+                                        <p style="font-weight:bold">' . $lang->hello . ' ' . $forename . ' ' . $surname . ',</p>
+                                        <p>' . $lang->inviteText . '</p>
+                                        <p>' . $lang->inviteGreetings . ',</p>
+                                        <p style="font-weight:bold">' . $lang->inviteTeam . '</p>
                                     </body>
                                     </html>';
 

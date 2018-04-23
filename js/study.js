@@ -199,7 +199,7 @@ function renderData(data, hash, showTutorial) {
     $('#tab-pane').on('change', function (event, activeId) {
         event.preventDefault();
         if (activeId !== 'tab-introduction') {
-            console.log(activeId);
+//            console.log(activeId);
             switch (activeId) {
                 case 'catalogs':
                     renderCatalogs();
@@ -327,6 +327,11 @@ function renderInvitedUsers() {
     } else {
         appendAlert($('#invited-users'), ALERT_NO_USERS_INVITED);
     }
+    
+    $('#invited-users').find('#input-email').unbind('keyup').bind('keyup', function(event) {
+        event.preventDefault();
+        clearAlerts($('#invite-users-form'));
+    });
 
     $('#invited-users').find('#btn-invite-user').unbind('click').bind('click', function (event) {
         event.preventDefault();
@@ -359,7 +364,10 @@ function renderInvitedUsers() {
                     renderInvitedUsers();
                 } else if (result.status === 'userAlreadyInvited') {
                     $(email).val('');
-                    appendAlert($('#invited-users'), ALERT_USER_ALREADY_INVITED);
+                    appendAlert($('#invite-users-form'), ALERT_USER_ALREADY_INVITED);
+                } else if (result.status === 'notInviteYourself') {
+                    $(email).val('');
+                    appendAlert($('#invite-users-form'), ALERT_INVITE_YOURSELF);
                 }
             });
         }

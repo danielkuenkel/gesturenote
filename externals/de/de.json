@@ -1378,6 +1378,12 @@
     "sharedStudy": "Diese Studie wurde Ihnen freigegeben",
     "invite": "Einladen",
     "inviteUserViaMail": "Per E-Mail-Adresse einladen",
+    "hello": "Hallo",
+    "inviteSubject": "Freigabe einer Gesten-Design-Studie",
+    "inviteTitle": "Eine Gesten-Design-Studie wurde Ihnen freigegeben",
+    "inviteText": "ein anderer Gesten-Designer hat Ihnen eine Studie freigegeben. Diese Studie wird, solange diese freigegeben ist, in Ihrer Studien-Übersicht angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/studies.php'>Link</a> direkt zur Übersicht.",
+    "inviteGreetings": "Mit freundlichen Grüßen",
+    "inviteTeam": "Ihr GestureNote Team",
     "scale": "Skala",
     "url": "URL",
     "title": "Titel",
@@ -4245,6 +4251,11 @@
             "id": "user-already-invited",
             "type": "warning",
             "text": "Nutzer mit dieser E-Mail-Adress wurde bereits eingeladen."
+        },
+        "inviteYourself": {
+            "id": "invite-yourself",
+            "type": "warning",
+            "text": "Sie können sich nicht selbst einladen."
         }
     },
     "introductionCreateStudy": [

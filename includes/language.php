@@ -14,7 +14,7 @@ class language {
         $splitURI = explode("/", $_SERVER['REQUEST_URI']);
         $additionalPath = '';
         foreach ($splitURI as $value) {
-            if ($value === 'externals') {
+            if ($value === 'externals' || $value === 'includes') {
                 $additionalPath = '../';
                 break;
             }

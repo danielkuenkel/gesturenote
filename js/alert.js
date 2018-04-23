@@ -107,6 +107,7 @@ var ALERT_NO_DATA_UEQ_QUESTIONNAIRE = 'no-data-ueq-questionnaire';
 var ALERT_NO_ANNOTATIONS = 'no-annotations';
 var ALERT_NO_USERS_INVITED = 'no-users-invited';
 var ALERT_USER_ALREADY_INVITED = 'user-already-invited';
+var ALERT_INVITE_YOURSELF = 'invite-yourself';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);

@@ -92,4 +92,5 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-annotations" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noAnnotations->text ?></span></div>
     <div class="alert alert-warning" id="no-users-invited" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noUsersInvited->text ?></span></div>
     <div class="alert alert-warning" id="user-already-invited" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->userAlreadyInvited->text ?></span></div>
+    <div class="alert alert-warning" id="invite-yourself" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->inviteYourself->text ?></span></div>
 </div>

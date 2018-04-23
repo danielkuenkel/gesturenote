@@ -174,12 +174,13 @@ if (login_check($mysqli) == true) {
                             <div class="alert-space alert-no-users-invited"></div>
                             <div id="shared-studies-list"></div>
                         </div>
-                        <div class="col-sm-6 col-lg-5">
+                        <div class="col-sm-6 col-lg-5" id="invite-users-form">
                             <label class="text"><?php echo $lang->inviteUserViaMail ?></label>
 
                             <div class="alert-space alert-missing-email"></div>
                             <div class="alert-space alert-invalid-email"></div>
                             <div class="alert-space alert-user-already-invited"></div>
+                            <div class="alert-space alert-invite-yourself"></div>
 
                             <div class="input-group">
                                 <input type="text" class="form-control" id="input-email" minlength="8" maxlength="50" placeholder="<?php echo $lang->email ?>">
