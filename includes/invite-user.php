@@ -7,14 +7,12 @@ include_once './language.php';
 include_once 'db_connect.php';
 include_once 'psl-config.php';
 
-session_start();
 if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['email'])) {
     $sessionUserId = $_SESSION['user_id'];
     $sessionUserMail = $_SESSION['email'];
 
     $studyId = $_POST['studyId'];
     $inviteMail = $_POST['email'];
-    $inviteURL = $_POST['url'];
 
     if ($sessionUserMail === $inviteMail) {
         echo json_encode(array('status' => 'notInviteYourself'));
