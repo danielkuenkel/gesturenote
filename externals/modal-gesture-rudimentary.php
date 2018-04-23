@@ -25,44 +25,7 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            <!--            <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
-                        <div class="progress gesture-progress">
-                            <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                        </div>
-                        <div class="text-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
-                                <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
-                                <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
-                            </div><br/>
-                            <button type="button" class="btn btn-default hidden" id="btn-choose-preview-image" style="margin-top: 6px"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
-                        </div>-->
-            <!--<hr>-->
-            <!--            <div class="gesture-rating" id="gesture-rating" style="margin-top: 20px; margin-bottom: 30px">
-                            <h3><i class="fa fa-star-o"></i> Bewertung</h3>
-                            <div class="rating-container rating-physicalContext row" id="rating-physicalContext">
-                                <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
-                                <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Gestentyp für Kontext stimmig? (z.B. Ganzkörper-Geste für Arbeitsplatz stimmig?)</span></div>
-                            </div>
-                            <div class="rating-container rating-adaption row" id="rating-adaption">
-                                <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
-                                <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Kontext-Adaption (Könnte die Geste auch woanders eingesetzt werden?)</span></div>
-                            </div>
-                            <div class="rating-container rating-fittingTask row" id="rating-fittingTask">
-                                <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
-                                <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Passt die Geste zur beschriebenen Aufgabe?</span></div>
-                            </div>
-                            <div id="rating-infos">
-                                <span id="rated-by"></span> <span id="rating-users-count"></span> <span id="rated-by-users"></span>
-                                <div class="alert-space alert-rating-submitted" style="margin-top: 10px;"></div>
-                            </div>
-                            <button type="button" class="btn btn-block btn-warning" id="btn-rate-gesture" style="margin-top: 10px;">Geste bewerten</button>
-                            <div class="btn-group-vertical btn-block hidden" id="rating-submit-buttons" style="margin-top: 0px;">
-                                <button type="button" class="btn btn-success" id="btn-submit-gesture-rating">Bewertung abgeben</button>
-                                <button type="button" class="btn btn-danger" id="btn-cancel-gesture-rating">Abbrechen</button>
-                            </div>
-                        </div>-->
+            
         </div>
         <div class="col-md-7">
             <h3 style="margin-top: 0"><i class="fa fa-bookmark-o"></i> Allgemeines</h3>
@@ -74,9 +37,6 @@ include '../includes/language.php';
                 <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
                 <div id="association">Assoziation:<span class="address"></span> <span class="text"></span></div>
                 <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
-
-                <!--<span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>-->
-                <!--<span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>-->
 
                 <div class="preview-joints-humand-body" id="human-body" style="width: 350px; margin: auto; margin-top: 10px">
                     <div id="joint-container" style="position: absolute"></div>

@@ -7,7 +7,6 @@ include_once 'includes/functions.php';
 $h = getv('h');
 $studyId = getv('studyId');
 
-session_start();
 $loggedIn = login_check($mysqli) == true ? true : false;
 
 if ($h && $studyId) {

@@ -169,6 +169,7 @@
     "studyRunsTo": "Studie läuft bis",
     "startsAt": "startet in",
     "number": "Anzahl",
+    "zeroOClick": "00:00 Uhr",
     "summary": "Zusammenfassung",
     "from": "vom",
     "of": "von",
@@ -1374,7 +1375,7 @@
     "description": "Beschreibung",
     "sharedStudies": "Studie teilen",
     "sharedInfo": "Mal freigegeben",
-    "sharedStudy": "Ihnen freigegeben",
+    "sharedStudy": "Diese Studie wurde Ihnen freigegeben",
     "invite": "Einladen",
     "inviteUserViaMail": "Per E-Mail-Adresse einladen",
     "scale": "Skala",
@@ -4636,12 +4637,14 @@
         "de": {
             "countryCode": "de",
             "language": "Deutsch",
-            "short": "DE"
+            "short": "DE",
+            "locale": "de"
         },
         "en": {
             "countryCode": "en",
             "language": "English",
-            "short": "EN"
+            "short": "EN",
+            "locale": "en-gb"
         }
     }
 }

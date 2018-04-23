@@ -221,8 +221,8 @@ include '../includes/language.php';
                 <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center gestureControls hidden">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
                     </div>
                 </div>
             </div>
@@ -756,9 +756,9 @@ include '../includes/language.php';
 
 
     </div>
-    
+
     <div id="link-list-item" class="link-list-item"><span class="link-list-item-url"><span class="link-list-item-time" style="margin-right: 5px"></span> <span class="text link-list-item-title"></span></span> <span class="btn-delete-annotation"><i class="fa fa-trash"></i> <?php echo $lang->delete ?></span></div>
-    
+
     <div id="shared-list-item" class="shared-list-item"><span class="shared-study-item-email text"></span> <span class="btn-uninvite-user"><i class="fa fa-trash"></i> <?php echo $lang->delete ?></span></div>
 
     <div class="root" id="gestureTraining">
@@ -782,8 +782,8 @@ include '../includes/language.php';
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls hidden">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
                 </div>
             </div>
         </div>
@@ -835,8 +835,8 @@ include '../includes/language.php';
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls hidden">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
                 </div>
             </div>
         </div>
@@ -886,8 +886,8 @@ include '../includes/language.php';
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls hidden">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
                 </div>
             </div>
         </div>
@@ -931,8 +931,8 @@ include '../includes/language.php';
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls hidden">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
                 </div>
             </div>
         </div>
@@ -1098,14 +1098,14 @@ include '../includes/language.php';
                     <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> <?php echo $lang->measureOfGuess ?></h4></div>
                     <div id="agreement"><span id="label"><span class="text"></span></div>
                 </div>-->
-<!--        <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
-            <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
-            <span id="accordance" style="margin-right: 4px"><span class="text"></span></span>
-            <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
-            <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
-            <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
-            <span class="hidden danger lowAgreement"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->lowAgreement ?></span></span>
-        </div>-->
+        <!--        <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
+                    <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
+                    <span id="accordance" style="margin-right: 4px"><span class="text"></span></span>
+                    <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
+                    <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
+                    <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
+                    <span class="hidden danger lowAgreement"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->lowAgreement ?></span></span>
+                </div>-->
         <div id="parameters-cognitive-relationships" style="margin-top: 20px">
             <div>
                 <h4 style="margin: 0; float: left; "><i class="fa fa-puzzle-piece" aria-hidden="true"></i> <?php echo $lang->cognitiveRelations ?></h4>
@@ -1243,14 +1243,14 @@ include '../includes/language.php';
                     <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> <?php echo $lang->measureOfGuess ?></h4></div>
                     <div id="agreement"><span id="label"><span class="text"></span></div>
                 </div>-->
-<!--        <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
-            <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
-            <span id="accordance" style="margin-right: 4px"><span class="text"></span></span>
-            <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
-            <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
-            <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
-            <span class="hidden danger lowAgreement"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->lowAgreement ?></span></span>
-        </div>-->
+        <!--        <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
+                    <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
+                    <span id="accordance" style="margin-right: 4px"><span class="text"></span></span>
+                    <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
+                    <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
+                    <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
+                    <span class="hidden danger lowAgreement"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->lowAgreement ?></span></span>
+                </div>-->
         <div id="parameters-cognitive-relationships" style="margin-top: 20px">
             <div>
                 <h4 style="margin: 0; float: left; "><i class="fa fa-puzzle-piece" aria-hidden="true"></i> <?php echo $lang->cognitiveRelations ?></h4>

@@ -3,7 +3,6 @@ include './includes/language.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
-session_start();
 if (login_check($mysqli) == true) {
     if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'tester') {
         header('Location: index.php');
@@ -19,32 +18,34 @@ if (login_check($mysqli) == true) {
         <title><?php echo $lang->gestureNoteCreateStudy ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/generalSubPages.css">
-        <link rel="stylesheet" href="css/study-create.css">
-        <link rel="stylesheet" href="css/gesture.css">
-        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" href="js/bootstrap-datepicker/css/bootstrap-datepicker3.css">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
-        <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
+        <!-- third party sources -->
+        <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+        <script src="js/jquery/jquery.min.js"></script>
+        <script src="js/bootstrap/js/bootstrap.min.js"></script>
+        <script src="js/greensock/TweenMax.min.js"></script>
+
         <script src="js/chance.min.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script> 
+        <script src="js/randomColor/randomColor.js"></script>
 
-        <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
-        <script src="js/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.ar.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.az.min.js" charset="UTF-8"></script>
+        <!-- gesturenote specific sources -->
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/generalSubPages.css">
+        <link rel="stylesheet" href="css/study-create.css">
+        <link rel="stylesheet" href="css/gesture.css">
+
+        <script src="js/moment/moment.js"></script>
+        <link rel="stylesheet" href="js/bootstrap-datepicker/css/bootstrap-datetimepicker.min.css">
+        <script src="js/bootstrap-datepicker/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="js/moment/locale/de.js" charset="UTF-8"></script>
+        <script src="js/moment/locale/en-gb.js" charset="UTF-8"></script>
+<!--        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.az.min.js" charset="UTF-8"></script>
         <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.bg.min.js" charset="UTF-8"></script>
         <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.bs.min.js" charset="UTF-8"></script>
         <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.ca.min.js" charset="UTF-8"></script>
@@ -102,7 +103,7 @@ if (login_check($mysqli) == true) {
         <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.uk.min.js" charset="UTF-8"></script>
         <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.min.js" charset="UTF-8"></script>
         <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-TW.min.js" charset="UTF-8"></script>
+        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-TW.min.js" charset="UTF-8"></script>-->
 
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
@@ -296,33 +297,54 @@ if (login_check($mysqli) == true) {
                     </div>
 
                     <div id="from-To-datepicker" style="margin-top: 15px">
-                        <div class="input-daterange row" id="datepicker">
-                            <div class="col-sm-6">
+                        <div class="row">
+                            <div class='col-sm-6'>
                                 <div class="form-group">
                                     <label><?php echo $lang->studyRunsFrom ?></label>
-                                    <div class="input-group">
-                                        <input type="text" class="input form-control readonly" id="start" name="start" />
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" id="btn-show-datepicker-from" type="button"><i class="fa fa-calendar"></i></button>
-                                        </span>
+                                    <div class='input-group date' id='from-date-picker' style="width: 100%; background-color: #F8F8F8; padding: 10px; border-radius: 5px">
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-sm-6">
+                            <div class='col-sm-6'>
                                 <div class="form-group">
                                     <label><?php echo $lang->studyRunsTo ?></label>
-                                    <div class="input-group">
-                                        <input type="text" class="input form-control readonly" id="end" name="end" />
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" id="btn-show-datepicker-to" type="button"><i class="fa fa-calendar"></i></button>
-                                        </span>
+                                    <div class='input-group date' id='to-date-picker' style="width: 100%; background-color: #F8F8F8; padding: 10px; border-radius: 5px">
                                     </div>
                                 </div>
-
                             </div>
                         </div>
+                        <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
                     </div>
+
+
+                    <!--                    <div id="from-To-datepicker" style="margin-top: 15px">
+                                            <div class="input-daterange row" id="datepicker">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label><?php echo $lang->studyRunsFrom ?></label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="input form-control readonly" id="start" name="start" />
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" id="btn-show-datepicker-from" type="button"><i class="fa fa-calendar"></i></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                    
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label><?php echo $lang->studyRunsTo ?></label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="input form-control readonly" id="end" name="end" />
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" id="btn-show-datepicker-to" type="button"><i class="fa fa-calendar"></i></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                    
+                                                </div>
+                                            </div>
+                                        </div>-->
 
                     <!--                    <div class="panel panel-default">
                     
@@ -688,39 +710,36 @@ if (login_check($mysqli) == true) {
             }
 
             function init() {
-                $('#from-To-datepicker .input-daterange').datepicker({
-                    calendarWeeks: true,
-                    todayHighlight: true,
-                    todayBtn: true,
-                    clearBtn: true,
-                    daysOfWeekHighlighted: "0,6",
-                    language: currentLanguage
-
-
+                var study = getLocalItem(STUDY);
+                $('#from-date-picker').datetimepicker({
+                    format: 'DD/MM/YYYY',
+                    inline: true,
+                    useCurrent: !study,
+                    defaultDate: study && study.dateFrom ? new Date(study.dateFrom * 1000) : null,
+                    locale: translation.languages[currentLanguage].locale
                 });
-                $('#from-To-datepicker .input-daterange').on("changeDate", function () {
+
+                $('#to-date-picker').datetimepicker({
+                    format: 'DD/MM/YYYY',
+                    inline: true,
+                    useCurrent: false, //Important! See issue #1075
+                    defaultDate: study && study.dateTo ? new Date(study.dateTo * 1000) : null,
+                    locale: translation.languages[currentLanguage].locale
+                });
+
+                $("#from-date-picker").on("dp.change", function (e) {
+                    $('#to-date-picker').data("DateTimePicker").minDate(e.date);
+                    updateScheduleInfo();
                     saveGeneralData();
                 });
-                $('#from-To-datepicker .input-daterange input').on("clearDate", function () {
+
+                $("#to-date-picker").on("dp.change", function (e) {
+                    $('#from-date-picker').data("DateTimePicker").maxDate(e.date);
+                    updateScheduleInfo();
                     saveGeneralData();
                 });
-//                getAgeRange(function (result) {
-//                    if (result.status === RESULT_SUCCESS) {
-//                        if (result.tester && result.tester.length > 0) {
-//                            var ageRange = calculateAgeRangeForGender(result.tester, 'identical');
-//                            var data = {min: ageRange.min, max: ageRange.max, raw: result.tester};
-//                            data.availableGender = getAvailableGender(result.tester);
-//                            setLocalItem(STUDY_PANEL, data);
-//                        }
-//
-//                        initAfterAgeRange();
-//                    } else {
-//                        // error handling
-//                        initAfterAgeRange();
-//                    }
-//                });
-//
-//                function initAfterAgeRange() {
+
+                updateScheduleInfo();
                 checkSessionStorage();
 
                 var status = window.location.hash.substr(1);
@@ -736,9 +755,21 @@ if (login_check($mysqli) == true) {
                 if (showTutorial === 1) {
                     $('#tab-introduction a').click();
                 }
-                
+
                 initTooltips();
                 initPopover();
+            }
+
+            function updateScheduleInfo() {
+                var dateFromInput = $('#from-date-picker').data("DateTimePicker").viewDate();
+                var dateFrom = new Date(new Date(dateFromInput._d).toDateString());
+                var dateToInput = $('#to-date-picker').data("DateTimePicker").viewDate();
+                var dateTo = addDays(new Date(new Date(dateToInput._d).toDateString()), 1);
+                var totalDays = rangeDays(dateFrom.getTime(), dateTo.getTime());
+
+                $('.study-plan').find('.address').text(translation.studyRun + ": ");
+                $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + translation.from + ' ' + dateFrom.toLocaleDateString() + ' (' + translation.zeroOClick + ') ' + translation.to + " " + dateTo.toLocaleDateString() + ' (' + translation.zeroOClick + ')');
+                $('.study-plan').removeClass('hidden');
             }
 
             function getStatusNavMatch(status) {

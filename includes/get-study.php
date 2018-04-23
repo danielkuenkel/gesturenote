@@ -47,7 +47,6 @@ if (isset($_POST['studyId'])) {
                         while ($select_invited_users_stmt->fetch()) {
                             $invitedUsers[] = array('id' => $sharedStudyRowId,
                                 'ownerId' => $sharedStudyId,
-                                'userId' => $invitedUserId,
                                 'email' => $invitedUserMail,
                                 'edit' => $sharedStudyEditable,
                                 'created' => $userInvited
@@ -134,7 +133,6 @@ if (isset($_POST['studyId'])) {
                                 'sensorData' => json_decode($sensorData),
                                 'created' => $gestureCreated,
                                 'isOwner' => $sessionUserId == $gestureOwnerId,
-                                'triggerId' => $triggerId,
                                 'commentAmount' => $commentCount,
                                 'hasCommented' => $hasCommented,
                                 'likeAmount' => $likeCount,

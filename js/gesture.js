@@ -6,136 +6,135 @@
 
 var GESTURE_THUMBNAIL_SCROLLING_SPEED = 100;
 var popoverVisible = false;
-$(window).load(function () {
-    $('body').on('mouseenter', '.previewGesture', function (event) {
-        event.preventDefault();
-        if ($(this).hasClass('mousePlayable')) {
-            $(this).parent().find('#btn-play-gesture').click();
+
+$(document).on('mouseenter', '.previewGesture', function (event) {
+    event.preventDefault();
+    if ($(this).hasClass('mousePlayable')) {
+        $(this).parent().find('#btn-play-gesture').click();
+    }
+});
+
+$(document).on('mouseleave', '.previewGesture', function (event) {
+    event.preventDefault();
+    if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
+        $(this).parent().find('#btn-stop-gesture').click();
+    }
+});
+
+var currentSlide, prevSlide;
+$(document).on('mousemove', '.mouseScrollable', function (event) {
+    clearTimer();
+    resetPlayButton($(this));
+    var innerWidth = $(this).innerWidth();
+    var numslides = $(this).children().length;
+
+    if (event.type === 'mousemove') {
+        var x = event.pageX - $(this).offset().left;
+        currentSlide = Math.floor(x / (innerWidth / numslides)) + 1;
+
+        if (currentSlide !== prevSlide) {
+            $(this).children('.active').addClass('hidden');
+            $(this).children('.active').removeClass('active');
+            $(this).find(':nth-child(' + currentSlide + ')').removeClass('hidden');
+            $(this).find(':nth-child(' + currentSlide + ')').addClass('active');
+            prevSlide = currentSlide;
+            updateModalProgress($(this));
         }
-    });
+        return false;
+    }
+});
 
-    $('body').on('mouseleave', '.previewGesture', function (event) {
-        event.preventDefault();
-        if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
-            $(this).parent().find('#btn-stop-gesture').click();
-        }
-    });
+$(document).on('click', '.btn-play-gesture', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    if (!$(this).hasClass('active')) {
+        $(this).addClass('active');
+        playThroughThumbnails($(this).closest('.root').find('.previewGesture'), 0);
+    }
+});
 
-    var currentSlide, prevSlide;
-    $('body').on('mousemove', '.mouseScrollable', function (event) {
-        clearTimer();
-        resetPlayButton($(this));
-        var innerWidth = $(this).innerWidth();
-        var numslides = $(this).children().length;
+$(document).on('click', '.btn-pause-gesture', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    resetPlayButton($(this));
+    resetThumbnails($(this).closest('.root').find('.previewGesture'));
+});
 
-        if (event.type === 'mousemove') {
-            var x = event.pageX - $(this).offset().left;
-            currentSlide = Math.floor(x / (innerWidth / numslides)) + 1;
+$(document).on('click', '.btn-step-forward-gesture', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    clearTimer();
+    resetPlayButton($(this));
+    stepForward($(this).closest('.root').find('.previewGesture'));
+});
 
-            if (currentSlide !== prevSlide) {
-                $(this).children('.active').addClass('hidden');
-                $(this).children('.active').removeClass('active');
-                $(this).find(':nth-child(' + currentSlide + ')').removeClass('hidden');
-                $(this).find(':nth-child(' + currentSlide + ')').addClass('active');
-                prevSlide = currentSlide;
-                updateModalProgress($(this));
-            }
-            return false;
-        }
-    });
+var mouseDownInterval;
+$(document).on('mousedown', '.btn-step-forward-gesture', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    clearTimer();
+    resetPlayButton($(this));
+    mouseDownInterval = setInterval(function (container) {
+        stepForward(container);
+    }, 200, $(this).closest('.root').find('.previewGesture'));
+});
 
-    $('body').on('click', '#btn-play-gesture', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-        if (!$(this).hasClass('active')) {
-            $(this).addClass('active');
-            playThroughThumbnails($(this).closest('.root').find('.previewGesture'), 0);
-        }
-    });
+$(document).on('mouseup', '.btn-step-forward-gesture, .btn-step-backward-gesture', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    clearTimer();
+    resetPlayButton($(this));
+    clearInterval(mouseDownInterval);
+});
 
-    $('body').on('click', '#btn-stop-gesture', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-        resetPlayButton($(this));
-        resetThumbnails($(this).closest('.root').find('.previewGesture'));
-    });
+$(document).on('click', '.btn-step-backward-gesture', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    resetPlayButton($(this));
+    stepBackward($(this).closest('.root').find('.previewGesture'));
+});
 
-    $('body').on('click', '#btn-step-forward-gesture', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        clearTimer();
-        resetPlayButton($(this));
-        stepForward($(this).closest('.root').find('.previewGesture'));
-    });
+$(document).on('mousedown', '.btn-step-backward-gesture', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    clearTimer();
+    mouseDownInterval = setInterval(function (container) {
+        console.log(container);
+        stepBackward(container);
+    }, 200, $(this).closest('.root').find('.previewGesture'));
+});
 
-    var mouseDownInterval;
-    $('body').on('mousedown', '#btn-step-forward-gesture', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        clearTimer();
-        resetPlayButton($(this));
-        mouseDownInterval = setInterval(function (container) {
-            stepForward(container);
-        }, 200, $(this).closest('.root').find('.previewGesture'));
-    });
+$(document).on('click', '.btn-popover-gesture-preview', function (event) {
+    event.preventDefault();
+    var gesture = getGestureById($(this).attr('name'));
 
-    $('body').on('mouseup', '#btn-step-forward-gesture, #btn-step-backward-gesture', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        clearTimer();
-        resetPlayButton($(this));
-        clearInterval(mouseDownInterval);
-    });
+    if (!popoverVisible && !$(this).hasClass('disabled')) {
+        showCursor($(this), CURSOR_PROGRESS);
+        popoverVisible = true;
+        $(this).addClass('active');
+        var btn = $(this);
 
-    $('body').on('click', '#btn-step-backward-gesture', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        resetPlayButton($(this));
-        stepBackward($(this).closest('.root').find('.previewGesture'));
-    });
-
-    $('body').on('mousedown', '#btn-step-backward-gesture', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        clearTimer();
-        mouseDownInterval = setInterval(function (container) {
-            console.log(container);
-            stepBackward(container);
-        }, 200, $(this).closest('.root').find('.previewGesture'));
-    });
-
-    $('body').on('click', '.btn-popover-gesture-preview', function (event) {
-        event.preventDefault();
-        var gesture = getGestureById($(this).attr('name'));
-
-        if (!popoverVisible && !$(this).hasClass('disabled')) {
-            showCursor($(this), CURSOR_PROGRESS);
-            popoverVisible = true;
-            $(this).addClass('active');
-            var btn = $(this);
-
-            renderGesturePopoverPreview(gesture, function () {
-                var popover = $('#popover-gesture');
-                var top = btn.offset().top - (popover.height()) + 0;
-                var left = btn.offset().left + (btn.width() / 2) - ((popover.width() - 27) / 2);
-                popover.css({left: left, top: top, zIndex: 10000});
-                playThroughThumbnails(popover.find('.previewGesture'));
-                TweenMax.to(popover, .2, {autoAlpha: 1});
-                showCursor(btn, CURSOR_POINTER);
-            });
-        } else {
-            resetPopover();
-            $(this).removeClass('active');
-        }
-    });
-
-    $('body').on('mouseleave', '.btn-popover-gesture-preview', function (event) {
-        event.preventDefault();
-        $(this).removeClass('active');
+        renderGesturePopoverPreview(gesture, function () {
+            var popover = $('#popover-gesture');
+            var top = btn.offset().top - (popover.height()) + 0;
+            var left = btn.offset().left + (btn.width() / 2) - ((popover.width() - 27) / 2);
+            popover.css({left: left, top: top, zIndex: 10000});
+            playThroughThumbnails(popover.find('.previewGesture'));
+            TweenMax.to(popover, .2, {autoAlpha: 1});
+            showCursor(btn, CURSOR_POINTER);
+        });
+    } else {
         resetPopover();
-    });
+        $(this).removeClass('active');
+    }
+});
+
+$('body').on('mouseleave', '.btn-popover-gesture-preview', function (event) {
+    event.preventDefault();
+    $(this).removeClass('active');
+    resetPopover();
 });
 
 function resetPopover() {

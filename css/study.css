@@ -233,7 +233,7 @@ and open the template in the editor.
 
 
 .shared-list-item {
-    display: inline;
+    /*display: inline;*/
     /*font-size: 10pt;*/
 }
 .shared-study-item-email {

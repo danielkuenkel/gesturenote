@@ -13,8 +13,8 @@ include '../includes/language.php';
         </div>
         <div class="text-center gestureControls">
             <div class="btn-group">
-                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
             </div>
         </div>
     </div>

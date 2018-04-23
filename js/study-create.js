@@ -25,7 +25,7 @@ function createOriginPhases() {
         phases.push({id: chance.natural(), format: LETTER_OF_ACCEPTANCE});//new PhaseItem(chance.natural(), LETTER_OF_ACCEPTANCE, colors.pop()));
         phases.push({id: chance.natural(), format: THANKS});//new PhaseItem(chance.natural(), THANKS, colors.pop()));
         setLocalItem(STUDY_PHASE_STEPS, phases);
-        
+
         setLocalItem(phases[0].id + '.data', translation.placeholderLetterOfAcceptance);
         setLocalItem(phases[1].id + '.data', translation.placeholderThanks);
     }
@@ -91,15 +91,24 @@ function renderSessionStorageData() {
 //            $('#recordSelect').find('#' + study.recordType).click();
 //        }
 
-        $('#from-To-datepicker .input-daterange input').each(function () {
-            if ($(this).attr('id') === 'start' && study.dateFrom !== null && study.dateFrom !== "0" && study.dateFrom !== "") {
-                var dateFrom = new Date(study.dateFrom * 1000);
-                $(this).datepicker('setDate', dateFrom);
-            } else if ($(this).attr('id') === 'end' && study.dateTo !== null && study.dateTo !== "0" && study.dateTo !== "") {
-                var dateTo = new Date(study.dateTo * 1000);
-                $(this).datepicker('setDate', dateTo);
-            }
-        });
+//        if (study.dateFrom) {
+//            $('#from-date-picker').data("DateTimePicker").date(new Date(study.dateFrom));
+//        }
+//        
+//        if(study.dateTo) {
+//            $('#to-date-picker').data("DateTimePicker").date(new Date(study.dateTo));
+//        }
+
+        
+//        $('#from-To-datepicker .input-daterange input').each(function () {
+//            if ($(this).attr('id') === 'start' && study.dateFrom !== null && study.dateFrom !== "0" && study.dateFrom !== "") {
+//                var dateFrom = new Date(study.dateFrom * 1000);
+//                $(this).datepicker('setDate', dateFrom);
+//            } else if ($(this).attr('id') === 'end' && study.dateTo !== null && study.dateTo !== "0" && study.dateTo !== "") {
+//                var dateTo = new Date(study.dateTo * 1000);
+//                $(this).datepicker('setDate', dateTo);
+//            }
+//        });
     }
     updateCatalogButtons();
     renderCatalogOverview();
@@ -127,7 +136,7 @@ function renderAgeRanges() {
         ranges.max = parseInt(studyPanel.max);
 //        $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [parseInt(ranges[0]), parseInt(ranges[1])], tooltip: 'hide'});
     }
-    
+
     var slider = new Slider('#ageSlider .custom-range-slider', {
         formatter: function (value) {
             return 'Current value: ' + value;
@@ -292,7 +301,7 @@ function renderStudyGestures(gestures, animate) {
         for (var i = 0; i < gestures.length; i++) {
             var gesture = getGestureById(gestures[i]);
             var clone = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-4 col-lg-3');
-            
+
             $('#gestures-catalog').find('#gestures-list-container').append(clone);
             if (animate && animate === true) {
                 TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
@@ -311,7 +320,7 @@ function renderStudyGestures(gestures, animate) {
             }
         });
     });
-    
+
     initPopover();
     initTooltips();
 }
@@ -461,22 +470,30 @@ function saveGeneralData() {
 ////        var ageRange = $('#ageSlider .custom-range-slider').attr('value');
 ////        study.ageRange = {min: ageRange.split(',')[0], max: ageRange.split(',')[1]};
 ////    }
-//
-    $('#from-To-datepicker .input-daterange input').each(function () {
-        var formattedDate = $(this).datepicker('getDate');
-        var saveDate;
-        if (formattedDate !== null) {
-            saveDate = new Date(formattedDate).getTime() / 1000;
-        } else {
-            saveDate = null;
-        }
 
-        if ($(this).attr('id') === 'start') {
-            study.dateFrom = saveDate;
-        } else {
-            study.dateTo = saveDate;
-        }
-    });
+    var dateFromInput = $('#from-date-picker').data("DateTimePicker").viewDate();
+    var dateFrom = new Date(new Date(dateFromInput._d).toDateString());
+    var dateToInput = $('#to-date-picker').data("DateTimePicker").viewDate();
+    var dateTo = new Date(new Date(dateToInput._d).toDateString());
+    console.log(dateFrom, dateTo);
+    study.dateFrom = dateFrom.getTime() / 1000;
+    study.dateTo = dateTo.getTime() / 1000;
+
+//    $('#from-To-datepicker .input-daterange input').each(function () {
+//        var formattedDate = $(this).datepicker('getDate');
+//        var saveDate;
+//        if (formattedDate !== null) {
+//            saveDate = new Date(formattedDate).getTime() / 1000;
+//        } else {
+//            saveDate = null;
+//        }
+//
+//        if ($(this).attr('id') === 'start') {
+//            study.dateFrom = saveDate;
+//        } else {
+//            study.dateTo = saveDate;
+//        }
+//    });
 
     setLocalItem(STUDY, study);
     savePhases();

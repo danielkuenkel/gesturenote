@@ -9,12 +9,18 @@ include_once 'psl-config.php';
 session_start();
 if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['email'])) {
     $sessionUserId = $_SESSION['user_id'];
+    $sessionUserMail = $_SESSION['email'];
 
     $studyId = $_POST['studyId'];
     $inviteMail = $_POST['email'];
     $inviteURL = $_POST['url'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT users.id, users.email, studies_shared.* FROM users JOIN studies_shared ON users.email = '$inviteMail' LIMIT 1")) {
+    if ($sessionUserMail === $inviteMail) {
+        echo json_encode(array('status' => 'notInviteYourself'));
+        exit();
+    }
+
+    if ($select_stmt = $mysqli->prepare("SELECT users.id, users.email, studies_shared.* FROM users LEFT JOIN studies_shared ON users.email = '$inviteMail' WHERE studies_shared.study_id = '$studyId' LIMIT 1")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();
@@ -22,7 +28,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['email'])) {
             $select_stmt->store_result();
             $select_stmt->bind_result($userId, $userMail, $sharedStudyRowId, $sharedStudyId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited);
             $select_stmt->fetch();
-            
+
             if ($select_stmt->num_rows === 1) {
                 echo json_encode(array('status' => 'userAlreadyInvited'));
                 exit();

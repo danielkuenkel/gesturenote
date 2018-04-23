@@ -496,10 +496,10 @@ include '../includes/language.php';
         </span>
         <span class="sensor-title"></span>
     </div>
-    
-    
-    
-    
+
+
+
+
     <div id="gesture-recorder-without-introductions">
 
         <!-- recorder contents -->
@@ -750,7 +750,7 @@ include '../includes/language.php';
 
                     </div>
                 </div>
-                
+
                 <button class="btn btn-block btn-default btn-shadow disabled hidden" id="btn-recut-recording"><i class="fa fa-crop"></i> <?php echo $lang->recut ?></button>
 
                 <div id="gesture-save-form">
@@ -1252,8 +1252,8 @@ include '../includes/language.php';
                     </div>
                     <div class="text-center gestureControls">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                            <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                            <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
                             <button type="button" class="btn btn-default btn-shadow" id="btn-choose-preview-image"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
 
                         </div>
@@ -1317,8 +1317,8 @@ include '../includes/language.php';
                 </div>
                 <div class="text-center gestureControls">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
                     </div>
                 </div>
             </div>

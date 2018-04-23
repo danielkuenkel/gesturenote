@@ -18,8 +18,8 @@ include '../includes/language.php';
             <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 0px; border-top-left-radius: 4px; border-top-right-radius: 4px"></div>
             <div class="text-center hidden gestureControls">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
                 </div>
             </div>
 

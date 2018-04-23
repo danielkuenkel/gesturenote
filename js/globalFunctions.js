@@ -21,6 +21,24 @@ function isLocalStorageSupported() {
     }
 }
 
+function getDomain(url, subdomain) {
+    subdomain = subdomain || false;
+
+    url = url.replace(/(https?:\/\/)?(www.)?/i, '');
+
+    if (!subdomain) {
+        url = url.split('.');
+
+        url = url.slice(url.length - 2).join('.');
+    }
+
+    if (url.indexOf('/') !== -1) {
+        return url.split('/')[0];
+    }
+
+    return url;
+}
+
 
 var BROWSER_CHROME = 'Chrome';
 var BROWSER_OPERA = 'Opera';
@@ -2397,7 +2415,7 @@ function getStudiesCatalogListThumbnail(target, data) {
                 $(clone).find('#participant-count').attr('data-content', data.participants + ' ' + translation.participants).data('bs.popover').setContent();
             }
 
-            console.log(data, data.isOwner);
+//            console.log(data, data.isOwner);
             if (data.isOwner === false) {
                 $(clone).find('#shared-study').removeClass('hidden');
                 $(clone).find('#shared-study').attr('data-content', translation.sharedStudy);

@@ -3,7 +3,6 @@ include './includes/language.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
-session_start();
 $h = getv('h');
 $studyId = getv('studyId');
 $token = getv('token');

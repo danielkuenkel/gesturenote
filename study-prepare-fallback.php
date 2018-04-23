@@ -3,7 +3,6 @@ include './includes/language.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
-session_start();
 $loggedIn = login_check($mysqli) == true ? true : false;
 $h = getv('h');
 $studyId = getv('studyId');

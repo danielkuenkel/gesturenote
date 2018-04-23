@@ -3,7 +3,6 @@ include './includes/language.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
-session_start();
 if (login_check($mysqli) == true) {
     if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'tester') {
         header('Location: index.php');
@@ -18,16 +17,20 @@ if (login_check($mysqli) == true) {
         <title><?php echo $lang->gestureNoteStyleguides ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        
+        <!-- third party sources -->
+        <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+        <script src="js/jquery/jquery.min.js"></script>
+        <script src="js/bootstrap/js/bootstrap.min.js"></script>
+        <script src="js/greensock/TweenMax.min.js"></script>
+        
+        <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
-        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
-
+        
         <script src="js/refreshSession.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/storage.js"></script>
@@ -162,7 +165,7 @@ if (login_check($mysqli) == true) {
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();
-                
+
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
@@ -173,56 +176,9 @@ if (login_check($mysqli) == true) {
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
-
-//                renderDimensions($('#gus-styleguides #single-gus-list-container'));
                 renderGUSStyleguides($('#single-gus-list-container'), translation.singleGUS);
-
-//                renderDimensions($('#gus-styleguides #multiple-gus-list-container'));
                 renderGUSStyleguides($('#multiple-gus-list-container'), translation.multipleGUS);
             }
-
-//            function renderDimensions(target) {
-//                var count, subCount = 0;
-//                var dimension = null;
-//                var mainDimensions = translation.mainDimensions;
-//                var dimensionsForMainDimensions = translation.mainDimensionsForDimension;
-//                for (var mainDimension in mainDimensions) {
-//                    if (dimension !== mainDimension) {
-//                        dimension = mainDimension;
-//
-//                        var container = document.createElement('div');
-//                        $(container).attr('id', 'mainDimension_' + dimension);
-//                        $(container).addClass('container');
-//                        $(target).append(container);
-//
-//                        if (count > 0) {
-//                            $(container).css({marginTop: "40px"});
-//                        }
-//
-//                        for (var subDimension in dimensionsForMainDimensions) {
-//                            var headline = $('#item-factors-headline').clone().removeClass('hidden').removeAttr('id');
-////                            $(headline).find('#factor-main').text(mainDimensions[dimension]);
-//                            $(headline).addClass('row');
-//                            $(headline).find('#factor-primary').text(translation.dimensions[subDimension]);
-//
-//                            if (dimensionsForMainDimensions[subDimension] === dimension) {
-//                                $(container).append(headline);
-//
-//                                var subContainer = document.createElement('div');
-//                                $(subContainer).addClass('row');
-//                                $(subContainer).attr('id', 'subDimension_' + subDimension);
-//                                $(container).append(subContainer);
-//
-//                                if (subCount > 0) {
-//                                    $(headline).css({marginTop: "40px"});
-//                                }
-//                            }
-//                            subCount++;
-//                        }
-//                    }
-//                    count++;
-//                }
-//            }
 
             function renderGUSStyleguides(target, gus) {
                 var currentDimension = null;
@@ -244,9 +200,7 @@ if (login_check($mysqli) == true) {
                         if (currentDimension !== gus[i].dimension) {
                             currentDimension = gus[i].dimension;
                             var headline = $('#item-factors-headline').clone().removeClass('hidden').removeAttr('id');
-//                            $(headline).find('#factor-main').text(mainDimensions[dimension]);
-//                            $(headline).addClass('row');
-                            $(headline).find('#factor-primary').text(translation.dimensions[currentDimension]);
+                            $(headline).find('#factor-primary').text(translation.dimensions[currentDimension].title);
                             $(target).append(headline);
 
                             if (i > 0) {
@@ -265,17 +219,19 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
 
                 if (!$(this).hasClass('disabled')) {
+
                     if ($(this).hasClass('active')) {
                         $(this).removeClass('active');
+
                         TweenMax.to($(this).find('#plus-sign'), .3, {rotation: '0'});
                         $('#multiple-gus-list, #single-gus-list').addClass('hidden');
                     } else {
+                        
                         $('.btn-toggle-gus-items').removeClass('active');
                         $(this).addClass('active');
                         TweenMax.to($('.btn-toggle-gus-items').find('#plus-sign'), .3, {rotation: '0'});
                         TweenMax.to($(this).find('#plus-sign'), .3, {rotation: '45'});
-                        $("html, body").animate({scrollTop: 1490}, "slow");
-
+                        
                         if ($(this).attr('id') === 'btn-toggle-single') {
                             $('#single-gus-list').removeClass('hidden');
                             $('#multiple-gus-list').addClass('hidden');
@@ -285,6 +241,9 @@ if (login_check($mysqli) == true) {
                             $('#multiple-gus-list').removeClass('hidden');
                             TweenMax.from($('#multiple-gus-list'), .5, {opacity: 0});
                         }
+                        
+                        var offset = $(this).offset();
+                        $("html, body").animate({scrollTop: offset.top - 60}, "slow");
                     }
                 }
             });

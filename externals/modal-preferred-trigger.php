@@ -21,16 +21,6 @@ include '../includes/language.php';
                 </div>
             </div>
         </div>
-        <!--        <div class="previewGesture mouseScrollable btn-shadow autoplay embed-responsive embed-responsive-4by3"></div>
-                <div class="progress gesture-progress">
-                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                </div>
-                <div class="text-center gestureControls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
-                    </div>
-                </div>-->
     </div>
 
     <div class="question-container"></div>

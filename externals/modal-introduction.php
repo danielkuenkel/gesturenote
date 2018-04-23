@@ -1,6 +1,5 @@
 <?php
 include '../includes/language.php';
-session_start();
 ?>
 
 <div class="modal-header">

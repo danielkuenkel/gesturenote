@@ -25,8 +25,11 @@ function renderData(data, hash, showTutorial) {
     var totalDays = rangeDays(dateFrom, dateTo);
     if ((studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
             (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
-        $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
-        $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + (totalDays === 1 ? new Date(dateFrom).toLocaleDateString() : new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString()));
+        $('.study-plan').find('.address').text(translation.studyRun + ": ");
+        $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + translation.from + ' ' + new Date(dateFrom).toLocaleDateString() + ' (' + translation.zeroOClick + ') ' + translation.to + " " + new Date(dateTo).toLocaleDateString() + ' (' + translation.zeroOClick + ')');
+
+//        $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
+//        $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + (totalDays === 1 ? new Date(dateFrom).toLocaleDateString() : new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString()));
         $('.study-plan').removeClass('hidden');
 
         getStudyResults({studyId: data.id}, function (result) {
@@ -51,7 +54,8 @@ function renderData(data, hash, showTutorial) {
             (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
 
         // url copy clipboard view
-        var absoluteStaticStudyUrl = 'https://gesturenote.de/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
+        var origin = window.location.origin;
+        var absoluteStaticStudyUrl = origin + '/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
         var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
         $('#copy-to-clipboard #static-study-url').val(absoluteStaticStudyUrl);
         $('#copy-to-clipboard #static-study-url').click(function () {
@@ -353,7 +357,7 @@ function renderInvitedUsers() {
                     setLocalItem(INVITED_USERS, result.invitedUsers);
                     $(email).val('');
                     renderInvitedUsers();
-                } else if(result.status === 'userAlreadyInvited') {
+                } else if (result.status === 'userAlreadyInvited') {
                     $(email).val('');
                     appendAlert($('#invited-users'), ALERT_USER_ALREADY_INVITED);
                 }
