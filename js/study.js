@@ -55,6 +55,10 @@ function renderData(data, hash, showTutorial) {
 
         // url copy clipboard view
         var origin = window.location.origin;
+        if (origin === 'localhost') {
+            origin += '/gesturenote';
+        }
+        
         var absoluteStaticStudyUrl = origin + '/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
         var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
         $('#copy-to-clipboard #static-study-url').val(absoluteStaticStudyUrl);
@@ -283,7 +287,7 @@ function renderData(data, hash, showTutorial) {
 
         getExtractionData({studyId: data.id, surveyType: studyData.generalData.surveyType}, function (result) {
             if (result.status === RESULT_SUCCESS) {
-                console.log('getExtractionData', result);
+//                console.log('getExtractionData', result);
                 if (gestures && !trigger && result.elicitedGestures && result.elicitedGestures.length > 0) {
                     classificationType = ELICITED_GESTURES;
                     setLocalItem(ELICITED_GESTURES, getElicitedGestures(result.elicitedGestures));
@@ -327,8 +331,8 @@ function renderInvitedUsers() {
     } else {
         appendAlert($('#invited-users'), ALERT_NO_USERS_INVITED);
     }
-    
-    $('#invited-users').find('#input-email').unbind('keyup').bind('keyup', function(event) {
+
+    $('#invited-users').find('#input-email').unbind('keyup').bind('keyup', function (event) {
         event.preventDefault();
         clearAlerts($('#invite-users-form'));
     });
