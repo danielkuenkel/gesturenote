@@ -55,10 +55,10 @@ function renderData(data, hash, showTutorial) {
 
         // url copy clipboard view
         var origin = window.location.origin;
-        if (origin === 'localhost') {
+        if (origin.includes('localhost')) {
             origin += '/gesturenote';
         }
-        
+
         var absoluteStaticStudyUrl = origin + '/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
         var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
         $('#copy-to-clipboard #static-study-url').val(absoluteStaticStudyUrl);
