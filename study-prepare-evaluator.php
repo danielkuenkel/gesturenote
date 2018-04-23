@@ -442,7 +442,7 @@ if ($h && $token && $studyId) {
                                                     $(this).find('.btn-text').text(translation.unbanSensor);
                                                     banSensor(options.record, event.data.type);
                                                 }
-                                                
+
                                                 saveSensors(options.record);
                                                 checkSensorStates(options.record);
                                                 peerConnection.sendMessage(MESSAGE_SYNC_SENSORS, {sensors: options.record});
@@ -468,7 +468,8 @@ if ($h && $token && $studyId) {
                                     $(listItem).find('.init-icon').removeClass('fa-check success').addClass('fa-spin fa-circle-o-notch');
                                     $(listItem).find('.text').text(translation.sensors[payload.type].initialize);
                                     $('#btn-enter-study').addClass('disabled');
-                                    saveSensors(null)
+                                    saveSensors(null);
+                                    checkSensorStates();
                                 });
 
                                 $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event, payload) {
@@ -477,6 +478,7 @@ if ($h && $token && $studyId) {
                                     $('#btn-enter-study').removeClass('disabled');
                                     options.record = payload.sensors;
                                     saveSensors(options.record);
+                                    checkSensorStates();
                                 });
 
                                 $(peerConnection).unbind(MESSAGE_SYNC_SENSORS).bind(MESSAGE_SYNC_SENSORS, function (event, payload) {
@@ -495,6 +497,7 @@ if ($h && $token && $studyId) {
                                         }
                                     }
                                     saveSensors(options.record);
+                                    checkSensorStates();
                                 });
 
                                 peerConnection.sendMessage(MESSAGE_REQUEST_SENSOR_STATUS);
@@ -581,10 +584,10 @@ if ($h && $token && $studyId) {
 
             function saveSensors(sensors) {
                 savePreparedSensors({preparedSensors: sensors}, function (result) {
-                    console.log(result);
+                    console.log('save sensors', result);
                 });
             }
-            
+
             function checkSensorStates(sensors) {
                 var readyForExecution = true;
                 if (sensors && sensors.length > 0) {
@@ -595,8 +598,8 @@ if ($h && $token && $studyId) {
                         }
                     }
                 }
-                
-                if(readyForExecution) {
+
+                if (readyForExecution) {
                     $('#btn-enter-study').removeClass('disabled');
                 } else {
                     $('#btn-enter-study').addClass('disabled');

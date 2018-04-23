@@ -67,7 +67,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         screenRecordingFileExist = false;
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
 
-                        resultsPlayer.find('#loader').addClass('hidden');
+                        $(resultsPlayer).find('#loader').addClass('hidden');
                         return false;
                     });
 
@@ -162,7 +162,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         moderatorRecordingFileExist = false;
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
 
-                        resultsPlayer.find('#loader').addClass('hidden');
+                        $(resultsPlayer).find('#loader').addClass('hidden');
                         return false;
                     });
 
@@ -240,7 +240,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         console.warn('file does not exist: ' + UPLOADS + testerResults.recordUrl);
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
 
-                        resultsPlayer.find('#loader').addClass('hidden');
+                        $(resultsPlayer).find('#loader').addClass('hidden');
                         return false;
                     });
 
