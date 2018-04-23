@@ -27,6 +27,7 @@ if (isset($_POST['studyId'])) {
             $select_stmt->fetch();
             if ($select_stmt->num_rows == 1) {
                 $gestures = null;
+                $invitedUsers = null;
 //                $temp = json_decode($json);
 //$temp[] = new data, whatever you want to add...;
 //$json = json_encode($temp);
