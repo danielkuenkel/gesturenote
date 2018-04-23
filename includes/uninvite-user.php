@@ -25,7 +25,8 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['id'])) {
                 } else {
                     $select_invited_users_stmt->store_result();
                     $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedStudyId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited);
-
+                    $invitedUsers = null;
+                    
                     while ($select_invited_users_stmt->fetch()) {
                         $invitedUsers[] = array('id' => $sharedStudyRowId,
                             'ownerId' => $sharedStudyId,
