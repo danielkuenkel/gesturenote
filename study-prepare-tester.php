@@ -43,7 +43,6 @@ if ($h && $token && $studyId) {
 
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
         <script src="js/jquery/jquery.min.js"></script>
@@ -60,10 +59,10 @@ if ($h && $token && $studyId) {
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
         <script src="js/goto-general.js"></script>
-        <script type="text/JavaScript" src="js/storage.js"></script>
-        <script type="text/JavaScript" src="js/storageFunctions.js"></script>
-        <script type="text/JavaScript" src="js/login.js"></script>
-        <script type="text/JavaScript" src="js/checkForms.js"></script>
+        <script src="js/storage.js"></script>
+        <script src="js/storageFunctions.js"></script>
+        <script src="js/login.js"></script>
+        <script src="js/checkForms.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>

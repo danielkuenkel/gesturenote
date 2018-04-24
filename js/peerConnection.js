@@ -38,7 +38,7 @@ var STUN = {
 };
 
 var TURN = {
-    url: 'turn: danielkuenkel%40googlemail.com%40numb.viagenie.ca: 3478',
+    url: 'turn: danielkuenkel%40googlemail.com%40numb.viagenie.ca: 86400',
     credential: 'GpE-y3D-9YC-d9o'
 };
 
@@ -778,7 +778,7 @@ var screenMediaRecorder = null;
 PeerConnection.prototype.initScreenRecording = function () {
 
     var localScreenStream = webrtc.getLocalScreen();
-    console.log('initScreenRecording', localScreenStream, webrtc.webrtc.localScreens);
+    console.log('initScreenRecording');
     screenMediaRecorder = new MediaRecorder(localScreenStream);
     console.log(webrtc, screenMediaRecorder);
 
@@ -802,31 +802,35 @@ PeerConnection.prototype.initScreenRecording = function () {
     };
 
     screenMediaRecorder.onstop = function () {
-        console.log('Stopped screen recording, state = ' + screenMediaRecorder.state);
-        if (saveScreenRecording) {
-            var currentPhase = getCurrentPhase();
-            uploadQueue.uploadIsPending();
+        if (screenMediaRecorder) {
+            console.log('Stopped screen recording, state = ' + screenMediaRecorder);
+            if (saveScreenRecording) {
+                var currentPhase = getCurrentPhase();
+                uploadQueue.uploadIsPending();
 
-            getGMT(function (timestamp) {
-                console.log('Save screen recording');
-                var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.endScreenRecordingTime = timestamp;
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    console.log('Save screen recording');
+                    var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.endScreenRecordingTime = timestamp;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
-                uploadQueue.upload(screenChunks, filename, currentPhase.id, 'screenRecordUrl');
-                screenChunks = [];
+                    uploadQueue.upload(screenChunks, filename, currentPhase.id, 'screenRecordUrl');
+                    screenChunks = [];
 
+                    if (stopScreenRecordingCallback) {
+                        stopScreenRecordingCallback();
+                    }
+
+                    webrtc.webrtc.localScreens = [];
+                });
+            } else {
                 if (stopScreenRecordingCallback) {
                     stopScreenRecordingCallback();
                 }
-
-                webrtc.webrtc.localScreens = [];
-            });
-        } else {
-            if (stopScreenRecordingCallback) {
-                stopScreenRecordingCallback();
             }
+
+            screenMediaRecorder = null;
         }
     };
 
@@ -890,11 +894,12 @@ PeerConnection.prototype.stopShareScreen = function (save, callback) {
     if (webrtc) {
         console.log('stop screen sharing');
         webrtc.stopScreenShare();
+
     }
 };
 
 PeerConnection.prototype.reset = function () {
-    if (screenMediaRecorder) {
-        screenMediaRecorder = null;
-    }
+//    if (screenMediaRecorder) {
+//        screenMediaRecorder = null;
+//    }
 };

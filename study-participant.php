@@ -997,7 +997,7 @@ if (login_check($mysqli) == true) {
                             TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
                         }
                     } else {
-                        appendAlert(content, ALERT_NO_PHASE_DATA);
+                        appendAlert(container, ALERT_NO_PHASE_DATA);
                     }
                 } else if (studyData.identificationFor === 'trigger') {
                     var triggerGesturePairs;

@@ -3429,12 +3429,11 @@ var Moderator = {
                 console.log('on sync request');
                 pinRTC();
                 resetConstraints();
-                renderPhaseStep();
 
                 peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
 
                 peerConnection.stopShareScreen();
-                peerConnection.reset();
+//                peerConnection.reset();
 
                 if (prototypeWindow) {
                     prototypeWindow.close();
@@ -3443,6 +3442,8 @@ var Moderator = {
 
                 $('#custom-modal').find('.modal-content').empty();
                 $('#custom-modal').modal('hide');
+                
+                renderPhaseStep();
 //                Moderator.resetScreenSharing();
             });
 
@@ -3467,6 +3468,7 @@ var Moderator = {
             });
 
             $(peerConnection).unbind(CONNECTION_STATE_CONNECTED).bind(CONNECTION_STATE_CONNECTED, function () {
+                console.log('connected: ', CONNECTION_STATE_CONNECTED);
                 clearAlerts($('#viewModerator'));
                 $('#viewModerator').find('#phase-content').removeClass('hidden');
                 $('#viewModerator').find('#pinnedRTC').css({opacity: 1});
@@ -3474,7 +3476,7 @@ var Moderator = {
             });
 
             $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
-                console.log(CONNECTION_STATE_DISCONNECTED);
+                console.log('disconnected: ', CONNECTION_STATE_DISCONNECTED);
                 if (getCurrentPhase().format !== THANKS) {
                     appendAlert($('#viewModerator'), ALERT_PLEASE_WAIT);
                     $('#viewModerator').find('#phase-content').addClass('hidden');

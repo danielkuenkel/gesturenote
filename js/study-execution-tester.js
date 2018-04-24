@@ -2172,6 +2172,7 @@ var Tester = {
                 });
 
                 $(peerConnection).unbind(CONNECTION_STATE_CONNECTED).bind(CONNECTION_STATE_CONNECTED, function () {
+                    console.log('connected');
                     clearAlerts($('#viewTester'));
                     $('#viewTester').find('#phase-content').removeClass('hidden');
                     $('#viewTester').find('#pinnedRTC').css({opacity: 1});
@@ -2179,7 +2180,7 @@ var Tester = {
                 });
 
                 $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
-                    console.log(CONNECTION_STATE_DISCONNECTED)
+                    console.log('disconnected');
                     if (getCurrentPhase().format !== THANKS) {
                         appendAlert($('#viewTester'), ALERT_PLEASE_WAIT);
                         $('#viewTester').find('#phase-content').addClass('hidden');
