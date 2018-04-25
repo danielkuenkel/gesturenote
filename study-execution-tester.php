@@ -261,7 +261,6 @@ if ($h && $token && $studyId) {
             }
 
             function updateRTCHeight(updateWidth, updateColumn) {
-                console.log('update rtc height', updateWidth, updateColumn);
                 var scrollTop = $(document).scrollTop();
                 var newHeight = 3 / 4 * updateWidth - scrollTop;
                 var newWidth = 4 / 3 * newHeight;

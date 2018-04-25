@@ -3442,11 +3442,16 @@ var Moderator = {
                 console.log('on sync request');
 
                 resetConstraints();
-                renderPhaseStep();
-                pinRTC();
 
                 peerConnection.stopShareScreen();
                 peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
+
+
+                peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
+
+                peerConnection.stopShareScreen();
+//                peerConnection.reset();
+
 
                 if (prototypeWindow) {
                     prototypeWindow.close();
@@ -3455,7 +3460,9 @@ var Moderator = {
 
                 $('#custom-modal').find('.modal-content').empty();
                 $('#custom-modal').modal('hide');
-
+                
+                renderPhaseStep();
+//                Moderator.resetScreenSharing();
 
             });
 

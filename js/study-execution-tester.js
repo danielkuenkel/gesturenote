@@ -2276,7 +2276,7 @@ var Tester = {
             var videos = $(element).find('video');
             for (var i = 0; i < videos.length; i++) {
 //                if (videos[i].paused) {
-                    videos[i].play();
+                videos[i].play();
 //                }
             }
         }

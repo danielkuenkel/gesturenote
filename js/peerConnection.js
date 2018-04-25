@@ -893,6 +893,7 @@ PeerConnection.prototype.stopShareScreen = function (save, callback) {
     if (webrtc) {
         console.log('stop screen sharing');
         webrtc.stopScreenShare();
+
     }
 };
 
