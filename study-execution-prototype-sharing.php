@@ -13,22 +13,25 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- third party sources -->
+        <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+        <script src="js/jquery/jquery.min.js"></script>
+        <script src="js/bootstrap/js/bootstrap.min.js"></script>
+        <script src="js/greensock/TweenMax.min.js"></script>
+
+        <script src="js/resumable/resumable.js"></script>
+        <script src="js/chance.min.js"></script>
+        <script src="js/color-thief/color-thief.js"></script>
+        <script src="js/sha512.js"></script>
+
+        <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/study-preview.css">
         <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
 
-        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
-        <script src="js/resumable/resumable.js"></script>
-
-        <script src="js/chance.min.js"></script>
-        <script src="js/color-thief/color-thief.js"></script>
-        <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/constants.js"></script>
@@ -68,7 +71,6 @@
                     if (event.origin !== "https://gesturenote.de")
                         return;
 
-                    console.log(event.data);
                     switch (event.data.message) {
                         case MESSAGE_RENDER_SCENE:
                             renderSceneItem(event.data.scene);
@@ -120,9 +122,9 @@
                             };
                             sceneItem[0].src = scene.parameters.url;
                             break;
-//                        case SCENE_PIDOCO:
-//                            sceneItem[0].src = scene.parameters.url;
-//                            break;
+                        case SCENE_PIDOCO:
+                            sceneItem[0].src = scene.parameters.url;
+                            break;
                         case SCENE_VIDEO_EMBED:
                             sceneItem.find('.videoContainer').addClass(scene.options[0] === 'ratio_16_9' ? 'embed-responsive-16by9' : 'embed-responsive-4by3');
                             sceneItem.find('.videoContainer').html(scene.parameters.url);
@@ -140,7 +142,7 @@
                     var study = getLocalItem(STUDY);
 
                     sceneItem.css({marginTop: generalPanelHeight + 'px'});
-                    // calcuation of the new window height if resizing the window
+                    // calcuation of the new window height and resizing the window
                     $(window).resize(function () {
 
                         var height;

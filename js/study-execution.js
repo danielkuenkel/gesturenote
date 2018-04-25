@@ -186,6 +186,7 @@ function renderPhases() {
 function previousStep() {
     resetConstraints();
     resetRecorder();
+    checkScreenSharingZombies($('#video-caller'));
 
     var phases = getContextualPhaseSteps();
     if (phases && phases.length > 0) {
@@ -200,6 +201,7 @@ function previousStep() {
 function nextStep() {
     resetConstraints();
     if (currentView === VIEW_TESTER) {
+        checkScreenSharingZombies($('#video-caller'));
         resetRecorder();
     }
 
@@ -277,7 +279,6 @@ function resetConstraints() {
     identificationRecordingStartTriggered = false;
     identificationRecordingStopTriggered = false;
     identificationTriggerRequest = false;
-    currentIdentificationIndex = 0;
     currentIdentificationScene = 0;
 
     explorationStartTriggered = false;
@@ -390,7 +391,12 @@ function dragRTC() {
         video = $(getMainContent()).find('#video-caller');
     }
     $(video).css({width: (DRAGGABLE_MIN_WIDTH + 50) + 'px', height: ((DRAGGABLE_MIN_WIDTH + 50) * 3 / 4) + 'px'});
-//    $(video).height((DRAGGABLE_MIN_WIDTH + 50) * 3 / 4);
+
+    var toggleButton = $(video).find('#btn-toggle-rtc-fixed');
+    console.log(toggleButton);
+    $(toggleButton).removeClass('pinned');
+    $(toggleButton).find('.fa').removeClass('fa-window-restore').addClass('fa-window-maximize');
+//    $(toggleButton).attr('data-content', translation.pinRTC).data('bs.popover').setContent();
 
     $(video).addClass('shadow');
     $('#draggableRTC').removeClass('hidden');
@@ -470,6 +476,11 @@ function pinRTC() {
         video = $('#video-caller');
     }
 
+    var toggleButton = $(video).find('#btn-toggle-rtc-fixed');
+    $(toggleButton).addClass('pinned');
+    $(toggleButton).find('.fa').removeClass('fa-window-maximize').addClass('fa-window-restore');
+//    $(toggleButton).attr('data-content', translation.dragRTC).data('bs.popover').setContent();
+
     $(video).find('#resize-sign').addClass('hidden');
     $('#pinnedRTC').removeClass('hidden');
     $('#draggableRTC').addClass('hidden');
@@ -486,7 +497,24 @@ function keepStreamsAlive(target) {
         var pausedStreams = $(target).find('video');
         if (pausedStreams.length > 0) {
             for (var i = 0; i < pausedStreams.length; i++) {
-                pausedStreams[i].play();
+//                if (pausedStreams[i].paused) {
+                    pausedStreams[i].play();
+//                }
+            }
+        }
+    }
+}
+
+function checkScreenSharingZombies(target) {
+    if (previewModeEnabled === false) {
+        var videos = $(target).find('video');
+        for (var i = 0; i < videos.length; i++) {
+            var id = $(videos[i]).attr('id');
+            if (id !== undefined) {
+                if (id.indexOf('screen') !== -1) {
+                    console.log('remove video element: ', id);
+                    $(videos[i]).remove();
+                }
             }
         }
     }

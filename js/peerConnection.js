@@ -38,7 +38,7 @@ var STUN = {
 };
 
 var TURN = {
-    url: 'turn: danielkuenkel%40googlemail.com%40numb.viagenie.ca: 3478',
+    url: 'turn: danielkuenkel%40googlemail.com%40numb.viagenie.ca: 86400',
     credential: 'GpE-y3D-9YC-d9o'
 };
 
@@ -171,14 +171,8 @@ PeerConnection.prototype.initialize = function (options) {
                     if (!$(this).hasClass('disabled')) {
                         $(this).popover('hide');
                         if ($(this).hasClass('pinned')) {
-                            $(this).removeClass('pinned');
-                            $(this).find('.fa').removeClass('fa-window-restore').addClass('fa-window-maximize');
-                            $(this).attr('data-content', translation.pinRTC).data('bs.popover').setContent();
                             dragRTC();
                         } else {
-                            $(this).addClass('pinned');
-                            $(this).find('.fa').removeClass('fa-window-maximize').addClass('fa-window-restore');
-                            $(this).attr('data-content', translation.dragRTC).data('bs.popover').setContent();
                             pinRTC();
                         }
                     }
@@ -778,9 +772,14 @@ var screenMediaRecorder = null;
 PeerConnection.prototype.initScreenRecording = function () {
 
     var localScreenStream = webrtc.getLocalScreen();
-    console.log('initScreenRecording', localScreenStream, webrtc.webrtc.localScreens);
+    console.log('initScreenRecording');
     screenMediaRecorder = new MediaRecorder(localScreenStream);
     console.log(webrtc, screenMediaRecorder);
+    
+//    var hiddenVideo = document.createElement('video');
+//    hiddenVideo.srcObject = localScreenStream; // this line is required to make sure stream tracks aren't stopped/released
+//    hiddenVideo.muted = true;
+//    hiddenVideo.play();
 
     screenMediaRecorder.ondataavailable = function (e) {
         console.log('on screen sharing data available');
@@ -802,31 +801,35 @@ PeerConnection.prototype.initScreenRecording = function () {
     };
 
     screenMediaRecorder.onstop = function () {
-        console.log('Stopped screen recording, state = ' + screenMediaRecorder.state);
-        if (saveScreenRecording) {
-            var currentPhase = getCurrentPhase();
-            uploadQueue.uploadIsPending();
+        if (screenMediaRecorder) {
+            console.log('Stopped screen recording, state = ' + screenMediaRecorder);
+            if (saveScreenRecording) {
+                var currentPhase = getCurrentPhase();
+                uploadQueue.uploadIsPending();
 
-            getGMT(function (timestamp) {
-                console.log('Save screen recording');
-                var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.endScreenRecordingTime = timestamp;
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    console.log('Save screen recording');
+                    var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.endScreenRecordingTime = timestamp;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
-                uploadQueue.upload(screenChunks, filename, currentPhase.id, 'screenRecordUrl');
-                screenChunks = [];
+                    uploadQueue.upload(screenChunks, filename, currentPhase.id, 'screenRecordUrl');
+                    screenChunks = [];
 
+                    if (stopScreenRecordingCallback) {
+                        stopScreenRecordingCallback();
+                    }
+
+                    webrtc.webrtc.localScreens = [];
+                });
+            } else {
                 if (stopScreenRecordingCallback) {
                     stopScreenRecordingCallback();
                 }
-
-                webrtc.webrtc.localScreens = [];
-            });
-        } else {
-            if (stopScreenRecordingCallback) {
-                stopScreenRecordingCallback();
             }
+
+            screenMediaRecorder = null;
         }
     };
 
@@ -841,7 +844,7 @@ PeerConnection.prototype.startScreenRecording = function () {
 var stopScreenRecordingCallback = null;
 var saveScreenRecording = false;
 PeerConnection.prototype.stopScreenRecording = function (save, callback) {
-    console.log('stop recording screen sharing');
+    console.log('stop record screen sharing');
     saveScreenRecording = save;
     if (screenMediaRecorder && screenMediaRecorder.state !== 'inactive') {
         stopScreenRecordingCallback = null;
@@ -865,22 +868,22 @@ PeerConnection.prototype.transferFile = function (file) {
 
 PeerConnection.prototype.shareScreen = function (errorCallback, successCallback) {
     if (webrtc && webrtc.capabilities.supportScreenSharing) {
-        try {
+        console.log(webrtc.getLocalScreen());
+//        try {
             webrtc.shareScreen(function (error) {
                 if (error) {
                     if (errorCallback) {
                         errorCallback(error);
                     }
                 } else {
-                    console.log('start share screen');
                     if (successCallback) {
                         successCallback();
                     }
                 }
             });
-        } catch (error) {
-            console.log('error:', error);
-        }
+//        } catch (error) {
+//            console.log('error:', error);
+//        }
 
     }
 };
@@ -894,7 +897,7 @@ PeerConnection.prototype.stopShareScreen = function (save, callback) {
 };
 
 PeerConnection.prototype.reset = function () {
-    if (screenMediaRecorder) {
-        screenMediaRecorder = null;
-    }
+//    if (screenMediaRecorder) {
+//        screenMediaRecorder = null;
+//    }
 };

@@ -655,7 +655,7 @@ include '../includes/language.php';
                 <div id="webcam-video-container">
                     <div class="row">
                         <div class="col-xs-6 hidden" id="tester-video-container">
-                            <video id="tester-video-holder" preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative"></video>
+                            <video id="tester-video-holder" class="mirroredHorizontally" preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative"></video>
                             <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                                 <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                             </div>
@@ -669,7 +669,7 @@ include '../includes/language.php';
                             </div>
                         </div>
                         <div class="col-xs-6 hidden" id="moderator-video-container">
-                            <video id="moderator-video-holder" preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative"></video>
+                            <video id="moderator-video-holder" class="mirroredHorizontally" preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative"></video>
                             <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                                 <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                             </div>

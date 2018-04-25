@@ -21,7 +21,6 @@ if (login_check($mysqli) == true) {
 
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
         <script src="js/jquery/jquery.min.js"></script>

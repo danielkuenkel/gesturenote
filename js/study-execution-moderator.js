@@ -19,7 +19,7 @@ var Moderator = {
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
         }
-        console.log('render view', currentPhase);
+//        console.log('render view', currentPhase);
         Moderator.initializePeerConnection();
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
 
@@ -75,7 +75,8 @@ var Moderator = {
             }
 
             if (item !== false) {
-                if (!syncPhaseStep) {
+                console.log('append item', item, syncPhaseStep);
+                if (!syncPhaseStep || currentPhase.format === THANKS) {
                     $('#viewModerator #phase-content').empty().append(item);
                 }
             } else {
@@ -99,7 +100,8 @@ var Moderator = {
             $(document).scrollTop(0);
         }
 
-        updateRTCHeight($('#phase-content #column-left').width(), true);
+//        pinRTC();
+//        updateRTCHeight($('#phase-content #column-left').width(), true);
 
         if (isPidocoSocketNeeded()) {
             console.log('pidoco socket needed');
@@ -128,6 +130,10 @@ var Moderator = {
         return container;
     },
     getThanks: function getThanks(container, data) {
+        removeAlert($('#viewModerator'), ALERT_PLEASE_WAIT);
+        $('#viewModerator').find('#phase-content').removeClass('hidden');
+        $('#viewModerator').find('#pinnedRTC').css({opacity: 1});
+
         TweenMax.to(container.find('.fa-upload'), .5, {yoyo: true, repeat: -1, opacity: .4});
         $(container).find('#thanks-text').text(data);
         $(container).find('.thanks-text').text(data);
@@ -2341,14 +2347,13 @@ var Moderator = {
                             $(this).addClass('btn-primary');
                             $(this).parent().parent().find('.scene-description').removeClass('hidden');
                             currentIdentificationScene = event.data.index;
-                            openPrototypeScene(event.data.scene, data.identification.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                            openPrototypeScene(event.data.scene, data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
 
-                            if (currentIdentificationScene && identificationStartTriggered) {
+                            if (identificationStartTriggered) {
                                 getGMT(function (timestamp) {
                                     var currentPhase = getCurrentPhase();
                                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                                     var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
-                                    console.log(scene);
                                     tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: scene.id});
                                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                                 });
@@ -2380,7 +2385,7 @@ var Moderator = {
             if (!screenSharingStopped && identificationPrototypeOpened && currentIdentificationIndex > 0) {
                 $(item).find('#btn-start-gesture-recording').removeClass('disabled');
                 var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
-                openPrototypeScene(scene, data.identification.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                openPrototypeScene(scene, data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
 
                 if (currentIdentificationIndex >= data.identification.length - 1) {
                     $(container).find('#btn-next-trigger').remove();
@@ -2608,7 +2613,7 @@ var Moderator = {
 
             if (!screenSharingStopped && identificationPrototypeOpened && currentIdentificationIndex > 0) {
                 var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
-                openPrototypeScene(scene, data.identification.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                openPrototypeScene(scene, data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
 
                 if (currentIdentificationIndex >= data.identification.length - 1) {
                     $(container).find('#btn-next-trigger').remove();
@@ -2706,7 +2711,7 @@ var Moderator = {
                 identificationPrototypeOpened = true;
                 $(this).remove();
                 $(container).find('#btn-start-screen-sharing').removeClass('hidden');
-                openPrototypeScene(currentScene, data.identification.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                openPrototypeScene(currentScene, data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
             }
         });
 
@@ -2715,11 +2720,12 @@ var Moderator = {
             if (!$(this).hasClass('disabled')) {
                 var button = $(this);
                 lockButton(button, true);
+
                 if (!previewModeEnabled) {
                     $(container).find('#btn-start-screen-sharing').find('.fa-spin').removeClass('hidden');
                     peerConnection.shareScreen(function (error) {
                         unlockButton(button, true);
-                        console.error('Maybe check installed extension, ERROR:' + error);
+                        console.error('Maybe check installed extension, ERROR: ' + error);
                     }, function () {
                         peerConnection.startScreenRecording();
                         $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
@@ -3067,7 +3073,7 @@ var Moderator = {
                             $(this).addClass('btn-primary');
                             $(this).parent().parent().find('.scene-description').removeClass('hidden');
                             currentExplorationScene = event.data.index;
-                            openPrototypeScene(event.data.scene, data.exploration.length === 1, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
+                            openPrototypeScene(event.data.scene, data.exploration[currentExplorationIndex].transitionScenes.length === 1, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
                         }
 
                         if ($(this).hasClass('disabled')) {
@@ -3381,6 +3387,7 @@ var Moderator = {
     },
     initializeRTC: function initializeRTC() {
         // check preview or live mode, and check if webRTC is needed
+        initPopover();
         if (isWebRTCNeededInFuture()) {
             if (previewModeEnabled === true) {
                 Moderator.appendRTCPreviewStream();
@@ -3396,6 +3403,8 @@ var Moderator = {
         var target = $('#viewModerator').find('#pinnedRTC');
         var callerElement = $(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
         $(target).empty().prepend(callerElement);
+        pinRTC();
+        updateRTCHeight($('#viewModerator #column-left').width(), true);
 
         var tween = new TweenMax($(callerElement).find('.stream-controls'), .3, {opacity: 1.0, paused: true});
         $(callerElement).on('mouseenter', function (event) {
@@ -3416,25 +3425,28 @@ var Moderator = {
             });
 
             $(peerConnection).unbind(MESSAGE_CANCEL_SURVEY).bind(MESSAGE_CANCEL_SURVEY, function (event, payload) {
-                currentPhaseStepIndex = getThanksStepIndex();
-                renderPhaseStep();
-                updateProgress();
                 if (prototypeWindow) {
                     prototypeWindow.close();
                     prototypeWindow = null;
                 }
+
+                saveCurrentStatus(false);
+                peerConnection.stopRecording(function () {
+                    currentPhaseStepIndex = getThanksStepIndex();
+                    renderPhaseStep();
+                    updateProgress();
+                }, true);
             });
 
             $(peerConnection).unbind(MESSAGE_REQUEST_SYNC).bind(MESSAGE_REQUEST_SYNC, function (event, payload) {
                 console.log('on sync request');
-                pinRTC();
+
                 resetConstraints();
                 renderPhaseStep();
-
-                peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
+                pinRTC();
 
                 peerConnection.stopShareScreen();
-                peerConnection.reset();
+                peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
 
                 if (prototypeWindow) {
                     prototypeWindow.close();
@@ -3443,21 +3455,22 @@ var Moderator = {
 
                 $('#custom-modal').find('.modal-content').empty();
                 $('#custom-modal').modal('hide');
-//                Moderator.resetScreenSharing();
+
+
             });
 
             $(peerConnection).unbind(MESSAGE_SYNC_PHASE_STEP).bind(MESSAGE_SYNC_PHASE_STEP, function (event, payload) {
                 console.log('sync phase step', payload.index);
 
-                syncPhaseStep = false;
-                currentPhaseStepIndex = payload.index;
-                renderPhaseStep();
-                updateProgress();
                 if (prototypeWindow) {
                     prototypeWindow.close();
                     prototypeWindow = null;
                 }
-//                Moderator.resetScreenSharing();
+
+                syncPhaseStep = false;
+                currentPhaseStepIndex = payload.index;
+                renderPhaseStep();
+                updateProgress();
             });
 
             $(peerConnection).unbind('videoAdded').bind('videoAdded', function () {
@@ -3467,15 +3480,19 @@ var Moderator = {
             });
 
             $(peerConnection).unbind(CONNECTION_STATE_CONNECTED).bind(CONNECTION_STATE_CONNECTED, function () {
+                console.log('connected: ', CONNECTION_STATE_CONNECTED);
                 clearAlerts($('#viewModerator'));
                 $('#viewModerator').find('#phase-content').removeClass('hidden');
                 $('#viewModerator').find('#pinnedRTC').css({opacity: 1});
+                pinRTC();
                 updateRTCHeight($('#viewModerator #column-left').width());
             });
 
             $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
-                console.log(CONNECTION_STATE_DISCONNECTED);
+                console.log('disconnected: ', CONNECTION_STATE_DISCONNECTED);
+                clearAlerts($('#viewModerator'));
                 if (getCurrentPhase().format !== THANKS) {
+                    console.log('append alert please wait', $('#viewModerator'));
                     appendAlert($('#viewModerator'), ALERT_PLEASE_WAIT);
                     $('#viewModerator').find('#phase-content').addClass('hidden');
                     $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
@@ -3484,6 +3501,7 @@ var Moderator = {
 
             $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function () {
                 console.log('videoRemoved');
+                clearAlerts($('#viewModerator'));
                 if (getCurrentPhase().format !== THANKS) {
                     appendAlert($('#viewModerator'), ALERT_PLEASE_WAIT);
                     $('#viewModerator').find('#phase-content').addClass('hidden');
@@ -3519,6 +3537,8 @@ var Moderator = {
         };
 
         $(callerOptions.target).prepend(callerOptions.callerElement);
+        pinRTC();
+        updateRTCHeight($('#viewModerator #column-left').width(), true);
 
         peerConnection.update(callerOptions);
         Moderator.keepStreamsPlaying(callerOptions.callerElement);
@@ -3527,7 +3547,9 @@ var Moderator = {
         if (peerConnection.status !== STATUS_UNINITIALIZED) {
             var videos = $(element).find('video');
             for (var i = 0; i < videos.length; i++) {
-                videos[i].play();
+//                if (new String($(videos[i]).attr('id')).includes('video') && !videos[i].playing) {
+                    videos[i].play();
+//                }
             }
         }
     }
@@ -3655,20 +3677,27 @@ function submitFinalData(container, areAllRTCsUploaded) {
 
 function openPrototypeScene(scene, isSingleScene, description, index) {
     var windowSpecs = "location=no,menubar=no,status=no,toolbar=no";
+    console.log('open prototype window', scene, isSingleScene, prototypeWindow);
     if (scene !== null) {
         if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {
+            console.log('has prototype window');
             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
         } else if (!prototypeWindow && !isSingleScene) {
+            console.log('has no prototype window, no single scene');
             prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         } else if (!prototypeWindow && isSingleScene === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
+            console.log('has no prototype window, single scene, ', scene.type);
             prototypeWindow = window.open(scene.parameters.url, "_blank", windowSpecs);
         } else {
+            console.log('else');
             prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         }
     } else {
         if (prototypeWindow) {
+            console.log('no scene, but prototype window');
             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
         } else {
+            console.log('no scene, else');
             prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         }
     }

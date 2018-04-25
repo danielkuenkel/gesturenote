@@ -20,13 +20,14 @@ if (login_check($mysqli) == true) {
         
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         
         <!-- gesturenote specific sources -->
+        <link rel="stylesheet" href="css/general.css">
+        
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/login.js"></script>
         <script type="text/JavaScript" src="js/checkForms.js"></script>
@@ -207,7 +208,7 @@ if (login_check($mysqli) == true) {
                                 <i class="glyphicon glyphicon-envelope"></i>
                             </div>
                             <div class="col-xs-11">
-                                <p> <a href="mailto:danielkuenkel@gesturenote.de">danielkuenkel@gesturenote.de</a></p>
+                                <p> <a href="mailto:admin@gesturenote.de">admin@gesturenote.de</a></p>
                             </div>
                         </div>
 

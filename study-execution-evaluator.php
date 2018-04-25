@@ -28,21 +28,24 @@ if ($h && $token && $studyId) {
         <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/study-preview.css">
-        <link rel="stylesheet" href="css/gesture.css">
+        
+        <!-- third party sources -->
+        <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-
-        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
-        <script src="resumable/resumable.js"></script>
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+        <script src="js/jquery/jquery.min.js"></script>
+        <script src="js/bootstrap/js/bootstrap.min.js"></script>
+        <script src="js/greensock/TweenMax.min.js"></script>
+        
+        <script src="js/resumable/resumable.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script> 
         <script src="js/filesaver/FileSaver.min.js"></script>
+        
+        <!-- gesturenote specific sources -->
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/study-preview.css">
+        <link rel="stylesheet" href="css/gesture.css">        
 
         <script src="js/stomp/stomp.js"></script>
         <script src="js/websocket.js"></script>
@@ -69,7 +72,7 @@ if ($h && $token && $studyId) {
         <script src="js/upload-queue.js"></script>
 
         <!-- streaming -->
-        <script src="js/andyet/simplewebrtcbundle.js"></script>
+        <script src="js/andyet/simplewebrtc.bundle.js"></script>
         <script src="js/peerConnection.js"></script>
 
         <!-- leap and plugins -->
@@ -284,7 +287,7 @@ if ($h && $token && $studyId) {
                 }
 
                 if (updateColumn) {
-                    TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: newHeight + 20, opacity: 1.0}});
+                    TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: newHeight + 20}});
                 }
             }
 
