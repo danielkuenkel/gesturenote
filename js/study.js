@@ -1252,7 +1252,7 @@ function classifyGesture(gesture, foundMatch) {
             } else {
                 if (parseInt(matchedSourceGesture.triggerId) === parseInt(gesture.triggerId)) {
                     for (var i = 0; i < classification.assignments.length; i++) {
-                        if(parseInt(classification.assignments[i].mainGestureId) === parseInt(matchedSourceGesture.mainGestureId)) {
+                        if (parseInt(classification.assignments[i].mainGestureId) === parseInt(matchedSourceGesture.mainGestureId)) {
                             classification.assignments[i].gestures.push(gesture.id);
                         }
                     }
@@ -1854,7 +1854,7 @@ function getUniqueTrigger() {
 function renderTriggerGuessabilityTable(target, assignments) {
     var table = $('#template-study-container').find('#guessability-table').clone();
     $(target).append(table);
-    console.log('renderTriggerGuessabilityTable');
+//    console.log('renderTriggerGuessabilityTable');
 
     $(table).find('.table-head-row .basic').text(translation.gesture);
     $(table).find('.table-head-row .effect').text(translation.trigger);
@@ -1957,6 +1957,33 @@ function renderTriggerGuessabilityTable(target, assignments) {
     } else {
         $(meanAccordanceItem).find('.veryHighAgreement').removeClass('hidden');
     }
+}
+
+function getUniqueGestures() {
+    var gestures = [];
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+    for (var i = 0; i < phaseSteps.length; i++) {
+        if (phaseSteps[i].format === IDENTIFICATION) {
+            var phaseStepData = getLocalItem(phaseSteps[i].id + '.data');
+            for (var j = 0; j < phaseStepData.identification.length; j++) {
+                var pushGesture = getGestureById(phaseStepData.identification[j].gestureId, ASSEMBLED_GESTURE_SET);
+                if (!gestureExists(gestures, pushGesture)) {
+                    gestures.push(pushGesture);
+                }
+            }
+        }
+    }
+
+    function gestureExists(gestures, pushGesture) {
+        for (var i = 0; i < gestures.length; i++) {
+            if (parseInt(gestures[i].id) === parseInt(pushGesture.id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    return gestures;
 }
 
 function getAssignmentByMainGestureId(mainGestureId) {
@@ -2485,7 +2512,7 @@ function renderClassifiedTrigger(target, type) {
                     renderTriggerGuessabilityTable(target, classification.assignments);
                 }
 
-                var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
+                var gestures = getUniqueGestures();
                 console.log(gestures);
                 for (var i = 0; i < gestures.length; i++) {
                     var gesture = getGestureById(gestures[i]);
@@ -2634,7 +2661,7 @@ $(document).on('click', '#btn-trigger-yes', function (event) {
     triggerLeftIndex++;
     triggerRightIndex = 0;
 
-    console.log(triggerLeft.length, triggerLeftIndex);
+//    console.log(triggerLeft.length, triggerLeftIndex);
     if (triggerLeft.length > 0 && triggerLeftIndex < triggerLeft.length) {
         updateTriggerMatchingView();
         removeAlert($('#content-btn-trigger-classification'), ALERT_NO_TRIGGER_CLASSIFIED);
