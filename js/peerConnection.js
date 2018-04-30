@@ -287,7 +287,7 @@ PeerConnection.prototype.initialize = function (options) {
                     }
 
                     $(connection).trigger(peer.pc.iceConnectionState);
-                    console.log('peer connection state', state);
+                    console.log('peer connection state: ', state);
                 });
 
             }
@@ -675,6 +675,57 @@ PeerConnection.prototype.stopRecording = function (callback, save) {
     }
 };
 
+var snapshotTimer = null;
+PeerConnection.prototype.takeSnapshot = function (upload) {
+    var snapshotUrl = getLocalItem(STUDY).snapshot;
+
+
+    if (snapshotUrl && snapshotUrl !== '') {
+        return snapshotUrl;
+    } else {
+        clearTimeout(snapshotTimer);
+        snapshotTimer = setTimeout(function () {
+            var localStream = $('#' + connection.options.localVideoElement)[0];
+
+            // create snapshot from stream
+            var canvas = document.createElement('canvas');
+            canvas.width = $(localStream).width();
+            canvas.height = $(localStream).height();
+            var ctx = canvas.getContext('2d');
+
+            ctx.drawImage($(localStream)[0], 0, 0, canvas.width, canvas.height);
+            console.log(canvas, $(localStream).width());
+            canvas.toBlob(function (blob) {
+//                var url = URL.createObjectURL(blob);
+                var colorThief = new ColorThief();
+                var dominantColor = colorThief.getColor(canvas);
+                console.log('blob created', blob);
+
+                // black frame detection
+                if (dominantColor && (dominantColor[0] + dominantColor[1] + dominantColor[2]) > 0) {
+                    console.log(blob);
+
+                    if (upload && upload === true) {
+                        var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.jpg';
+                        var snapshotUploadQueue = new UploadQueue();
+                        $(snapshotUploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
+                            var url = snapshotUploadQueue.getUploadURLs()[0];
+                            var study = getLocalItem(STUDY);
+                            study.snapshot = url;
+                            setLocalItem(STUDY, study);
+//                            $(peerConnection).trigger('snapshotUploaded', [url]);
+                        });
+                        snapshotUploadQueue.upload([blob], filename);
+                    }
+                } else {
+                    console.log('black frame ignored');
+                }
+            }, 'image/jpeg', 0.8);
+        }, 3000);
+
+    }
+};
+
 
 var separateRecordingStream = null;
 var separateMediaRecorder = null;
@@ -775,7 +826,7 @@ PeerConnection.prototype.initScreenRecording = function () {
     console.log('initScreenRecording');
     screenMediaRecorder = new MediaRecorder(localScreenStream);
     console.log(webrtc, screenMediaRecorder);
-    
+
 //    var hiddenVideo = document.createElement('video');
 //    hiddenVideo.srcObject = localScreenStream; // this line is required to make sure stream tracks aren't stopped/released
 //    hiddenVideo.muted = true;
@@ -870,17 +921,17 @@ PeerConnection.prototype.shareScreen = function (errorCallback, successCallback)
     if (webrtc && webrtc.capabilities.supportScreenSharing) {
         console.log(webrtc.getLocalScreen());
 //        try {
-            webrtc.shareScreen(function (error) {
-                if (error) {
-                    if (errorCallback) {
-                        errorCallback(error);
-                    }
-                } else {
-                    if (successCallback) {
-                        successCallback();
-                    }
+        webrtc.shareScreen(function (error) {
+            if (error) {
+                if (errorCallback) {
+                    errorCallback(error);
                 }
-            });
+            } else {
+                if (successCallback) {
+                    successCallback();
+                }
+            }
+        });
 //        } catch (error) {
 //            console.log('error:', error);
 //        }

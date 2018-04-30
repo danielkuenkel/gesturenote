@@ -1490,6 +1490,7 @@
     "likedByMyself": "Geste als Favorit markiert",
     "gestureTaggedAsMain": "Als Stellvertreter markiert",
     "tagAsMainGesture": "Als Stellvertreter markieren",
+    "deleteFromClassification": "Von Klassifizierung entfernen",
     "addToStudyGestureSet": "Zum Studien-Gesten-Set hinzufügen",
     "removeFromStudyGestureSet": "Vom Studien-Gesten-Set entfernen",
     "deleteGestureSet": "Gesten-Set löschen",

@@ -202,6 +202,7 @@ function renderData(data, hash, showTutorial) {
 
     $('#tab-pane').on('change', function (event, activeId) {
         event.preventDefault();
+        $('#btn-scroll-to-top').addClass('hidden');
         if (activeId !== 'tab-introduction') {
 //            console.log(activeId);
             switch (activeId) {
@@ -213,6 +214,7 @@ function renderData(data, hash, showTutorial) {
                     break;
                 case 'extraction':
                     renderExtraction();
+                    $('#btn-scroll-to-top').removeClass('hidden');
                     break;
             }
 
@@ -508,6 +510,10 @@ function renderStudyParticipants(data, hash) {
             $(item).find('#execution-fault .label-text').text(translation.studyFault);
         }
 
+        if (result.snapshot) {
+            $(item).find('.participant-snapshot img').attr('src', result.snapshot);
+        }
+
         $(item).find('.panel').on('click', {studyId: data[i].studyId, participantId: data[i].userId}, function (event) {
             event.preventDefault();
             clearLocalItems();
@@ -658,6 +664,18 @@ function addUpdateMainGestureButtonEvent() {
             $(this).addClass('gesture-tagged');
             $(this).attr('data-content', translation.gestureTaggedAsMain);
             updateMainGesture(id, $(this).closest('#item-view'));
+        }
+    });
+
+    $('.btn-delete-from-classification').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        if (!$(this).hasClass('disabled')) {
+            $(this).popover('hide');
+            var id = $(this).closest('.root').attr('id');
+            var gesture = getGestureById(id);
+            reclassifiyGesture(gesture);
+            saveClassification();
+            renderGestureClassification();
         }
     });
 }
@@ -823,7 +841,13 @@ function renderGestureClassification() {
             $('#btn-reclassify-gestures').removeClass('disabled');
             $('#gesture-classification-parameters').addClass('hidden');
             gesturesLeft = getUnclassifiedGestures();
-            gesturesRight = classification.assignments;
+            gesturesRight = [];
+            for (var i = 0; i < classification.assignments.length; i++) {
+                if (!classification.assignments[i].sameAs) {
+                    gesturesRight.push(classification.assignments[i]);
+                }
+            }
+            console.log('gestures right', gesturesRight);
             if (gesturesLeft && gesturesLeft.length > 0) {
                 $('#gesture-classification').removeClass('hidden');
                 updateMatchingView(true, true);
@@ -1015,6 +1039,7 @@ function renderClassifiedGestures(target, type) {
                 }
 
                 var trigger = getUniqueTrigger();
+//                console.log('unique trigger: ', trigger)
                 for (var i = 0; i < trigger.length; i++) {
                     var counter = 0;
                     var container = $('#template-study-container').find('#amount-container-appearance-trigger').clone();
@@ -1190,10 +1215,8 @@ $(document).on('click', '#btn-gesture-no', function (event) {
     var leftId = parseInt($('#gesture-left').children().attr('id'));
     var leftGesture = getGestureById(leftId, ELICITED_GESTURES);
 
-
-
     if (gesturesRightIndex < gesturesRight.length - 1) {
-        console.log('more rights');
+        console.log('more rights', gesturesRight.length);
         gesturesRightIndex++;
         updateMatchingView(false, true);
     } else if (gesturesLeftIndex < gesturesLeft.length - 1) {
@@ -1211,7 +1234,7 @@ $(document).on('click', '#btn-gesture-no', function (event) {
         $('#gesture-classification').addClass('hidden');
         appendAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
     }
-    console.log(gesturesLeft.length, gesturesLeftIndex, gesturesRightIndex);
+//    console.log(gesturesLeft.length, gesturesLeftIndex, gesturesRightIndex);
 //    if (gesturesLeft.length > 0 && gesturesLeftIndex < gesturesLeft.length) {
 //        updateMatchingView(false, true);
 //    } else {
@@ -1223,26 +1246,45 @@ function classifyGesture(gesture, foundMatch) {
     var classification = getLocalItem(CLASSIFICATION);
     if (foundMatch) {
         if (classification && classification.assignments && classification.assignments.length > 0) {
-            var matchedSourceGesture = getGestureById(classification.assignments[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
-            if (classification.type === TYPE_CLASSIFICATION_APPEARANCE ||
-                    (classification.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER && parseInt(matchedSourceGesture.triggerId) === parseInt(gesture.triggerId)))
-            {
+            var matchedSourceGesture = gesturesRight[gesturesRightIndex];//;getGestureById(classification.assignments[].mainGestureId, ELICITED_GESTURES);
+            if (classification.type === TYPE_CLASSIFICATION_APPEARANCE) {
                 classification.assignments[gesturesRightIndex].gestures.push(gesture.id);
             } else {
-                classification.assignments.push({mainGestureId: gesture.id, triggerId: gesture.triggerId, sameAs: matchedSourceGesture.id, gestures: [gesture.id]});
+                if (parseInt(matchedSourceGesture.triggerId) === parseInt(gesture.triggerId)) {
+                    for (var i = 0; i < classification.assignments.length; i++) {
+                        if(parseInt(classification.assignments[i].mainGestureId) === parseInt(matchedSourceGesture.mainGestureId)) {
+                            classification.assignments[i].gestures.push(gesture.id);
+                        }
+                    }
+                } else {
+                    var matchedSameAsAssignment = false;
+                    for (var i = 0; i < classification.assignments.length; i++) {
+                        if (parseInt(classification.assignments[i].sameAs) === parseInt(matchedSourceGesture.mainGestureId)) {
+                            classification.assignments[i].gestures.push(gesture.id);
+                            matchedSameAsAssignment = true;
+                            break;
+                        }
+                    }
+
+                    if (matchedSameAsAssignment === false) {
+                        classification.assignments.push({mainGestureId: gesture.id, triggerId: gesture.triggerId, sameAs: matchedSourceGesture.mainGestureId, gestures: [gesture.id]});
+                    }
+                }
             }
         } else {
             classification.assignments = [{mainGestureId: gesture.id, triggerId: gesture.triggerId, gestures: [gesture.id]}];
+            gesturesRight = classification.assignments;
         }
     } else {
         if (classification && classification.assignments && classification.assignments.length > 0) {
             classification.assignments.push({mainGestureId: gesture.id, triggerId: gesture.triggerId, gestures: [gesture.id]});
+            gesturesRight.push({mainGestureId: gesture.id, triggerId: gesture.triggerId, gestures: [gesture.id]});
         } else {
             classification.assignments = [{mainGestureId: gesture.id, triggerId: gesture.triggerId, gestures: [gesture.id]}];
+            gesturesRight = classification.assignments;
         }
     }
 
-    gesturesRight = classification.assignments;
     setLocalItem(CLASSIFICATION, classification);
     saveClassification();
     $('#btn-reclassify-gestures').removeClass('disabled');
@@ -1265,7 +1307,15 @@ function reclassifiyGesture(gesture) {
             }
         }
     }
-    gesturesRight = assignments;
+
+    for (var i = 0; i < gesturesRight.length; i++) {
+        if (parseInt(gesture.id) === parseInt(gesturesRight[i].id)) {
+            gesturesRight.splice(i, 1);
+        }
+    }
+
+//    gesturesRight = assignments;
+    console.log(assignments, gesturesRight);
     setLocalItem(CLASSIFICATION, classification);
 }
 
@@ -1649,7 +1699,7 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
     function updateAttachtedGestureSets(mainGestureId, getLocalGestureSets) {
         var thumbnail = $('#content-btn-potential-gestures').find('[data-main-gesture-id=' + mainGestureId + ']');
         $(thumbnail).find('#attached-gesture-sets-container').empty();
-        console.log($('#content-btn-potential-gestures'), thumbnail);
+//        console.log($('#content-btn-potential-gestures'), thumbnail);
 
         if (getLocalGestureSets && getLocalGestureSets === true) {
             renderAttachedSets(getAttachedGestureSets(mainGestureId), thumbnail);
@@ -1745,7 +1795,7 @@ function renderGestureGuessabilityTable(target, assignments) {
                 } else {
                     // guessability / accordance
                     var accordance = getAccordance(trigger[i].id).toFixed(2);
-                    console.log(accordance, trigger[i].id);
+//                    console.log(accordance, trigger[i].id);
                     amountAccordance += parseFloat(accordance);
 
                     var col = document.createElement('td');
@@ -1781,11 +1831,23 @@ function getUniqueTrigger() {
         if (phaseSteps[i].format === IDENTIFICATION) {
             var phaseStepData = getLocalItem(phaseSteps[i].id + '.data');
             for (var j = 0; j < phaseStepData.identification.length; j++) {
-                trigger.push(getTriggerById(phaseStepData.identification[j].triggerId));
+                var pushTrigger = getTriggerById(phaseStepData.identification[j].triggerId);
+                if (!triggerExists(trigger, pushTrigger)) {
+                    trigger.push(pushTrigger);
+                }
             }
         }
     }
-    trigger = trigger.filter((v, i, a) => a.indexOf(v) === i);
+
+    function triggerExists(trigger, pushTrigger) {
+        for (var i = 0; i < trigger.length; i++) {
+            if (parseInt(trigger[i].id) === parseInt(pushTrigger.id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     return trigger;
 }
 
@@ -2760,7 +2822,7 @@ function renderPotentialTriggerParameters(target, assignment, mainTrigger) {
             }
         }
         usedGestures = unique(usedGestures);
-//        console.log(usedTrigger);
+//        console.log(usedGestures);
 
         for (var i = 0; i < usedGestures.length; i++) {
             var gesture = usedGestures[i];

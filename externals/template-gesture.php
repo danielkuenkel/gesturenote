@@ -63,10 +63,11 @@ include '../includes/language.php';
 
             <div class="thumbnail-footer text-center">
                 <div class="btn-tag-as-main-gesture" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsMainGesture ?>"><i class="fa fa-tag"></i></div>
-                <div class="btn-rate" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->rateGesture ?>"><i class="fa fa-star-o"></i> <span class="amount"></span></div>
-                <div class="btn-like update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->likeGesture ?>"><i class="fa fa-heart-o"></i> <span class="amount"></span></div>
-                <div class="btn-share update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->shareGesture ?>"><i class="fa fa-share-alt"></i></div>
-                <div class="btn-comment" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->commentGesture ?>"><i class="fa fa-comment-o"></i> <span class="amount"></span></div>
+                <div class="btn-delete-from-classification" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteFromClassification ?>"><i class="fa fa-trash"></i></div>
+                <!--<div class="btn-rate" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->rateGesture ?>"><i class="fa fa-star-o"></i> <span class="amount"></span></div>-->
+                <!--<div class="btn-like update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->likeGesture ?>"><i class="fa fa-heart-o"></i> <span class="amount"></span></div>-->
+                <!--<div class="btn-share update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->shareGesture ?>"><i class="fa fa-share-alt"></i></div>-->
+                <!--<div class="btn-comment" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->commentGesture ?>"><i class="fa fa-comment-o"></i> <span class="amount"></span></div>-->
                 <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
             </div>
         </div>

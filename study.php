@@ -18,7 +18,7 @@ if (login_check($mysqli) == true) {
         <title><?php echo $lang->gestureNoteStudy ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -26,7 +26,7 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
@@ -570,6 +570,9 @@ if (login_check($mysqli) == true) {
         </div>
 
 
+        <div id="btn-scroll-to-top" class="hidden" style="cursor:pointer; display: block; position: fixed; bottom: 65px; right: 15px; padding: 8px 10px; color:white; border-radius: 5px; background-color: rgba(0,0,0,.6)"><i class="fa fa-arrow-up fa-2x"></i></div>
+
+
         <script>
             $(document).ready(function () {
                 checkDomain();
@@ -606,6 +609,7 @@ if (login_check($mysqli) == true) {
             $('#tab-introduction a').on('click', function (event) {
                 event.preventDefault();
                 var activeTab = $('#tab-pane').find('.active a').attr('href');
+
                 if (activeTab !== '#generalData') {
                     switch (activeTab) {
                         case '#study-catalogs':
@@ -624,6 +628,11 @@ if (login_check($mysqli) == true) {
                 $('#custom-modal').attr('data-help-context', 'study');
                 $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialStudy'] ?>));
                 loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
+            });
+
+            $('#btn-scroll-to-top').click(function (event) {
+                event.preventDefault();
+                $('html, body').animate({scrollTop: 0}, "fast");
             });
         </script>
     </body>

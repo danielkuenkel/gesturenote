@@ -2184,6 +2184,10 @@ var Tester = {
                         $('#viewTester').find('#pinnedRTC').css({opacity: 1});
                         updateRTCHeight($('#viewTester #column-left').width(), true);
                     }
+                    
+                    if(peerConnection) {
+                        peerConnection.takeSnapshot(true);
+                    }
 
 //                    TweenMax.to($('#viewTester #phase-content'), 0, {y: -40, opacity: 0});
 //                    TweenMax.to($('#viewTester #phase-content'), .2, {delay: .2, y: 0, opacity: 1});

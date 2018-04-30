@@ -234,6 +234,7 @@ function saveCurrentStatus(studyFinished, callback) {
             data.studySuccessfull = studyFinished === true ? 'yes' : 'no';
             data.phases = phases;
             data.aborted = getLocalItem(STUDY).aborted;
+            data.snapshot = getLocalItem(STUDY).snapshot;
 
             if (studyFinished === true) {
                 data.endTime = timestamp;
