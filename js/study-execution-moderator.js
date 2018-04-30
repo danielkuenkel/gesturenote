@@ -95,7 +95,7 @@ var Moderator = {
 
         $('#viewModerator #column-right').css({y: 0, opacity: 1});
         Moderator.checkPositioning(currentPhase.format);
-        TweenMax.from($('#phase-content #column-right'), .2, {y: -60, opacity: 0, clearProps: 'all'});
+        TweenMax.from($('#phase-content #column-right'), .2, {y: -40, opacity: 0, clearProps: 'all'});
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
         }
@@ -2185,6 +2185,8 @@ var Moderator = {
                     allowRerecordGesture: false,
                     allowDeletingGesture: false,
                     ownerId: getLocalItem(STUDY).studyOwner,
+                    userId: getLocalItem(STUDY).testerId,
+                    source: SOURCE_GESTURE_TESTER,
                     context: data.identification[currentIdentificationIndex].context,
                     checkType: true,
                     checkInteractionType: true,

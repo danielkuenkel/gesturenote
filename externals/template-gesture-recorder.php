@@ -15,6 +15,13 @@ include '../includes/language.php';
                     <?php echo $lang->gestureRecorderManual->preInitialize->description ?>
                 </p>
             </div>
+            <div class="instruction-content hidden gr-initialize">
+                <h3 style="margin: 0" id="headline"><?php echo $lang->gestureRecorderManual->initialize->headline ?></h3>
+                <hr>
+                <p class="text">
+                    <?php echo $lang->gestureRecorderManual->initialize->description ?>
+                </p>
+            </div>
             <div class="instruction-content hidden gr-record">
                 <h3 style="margin: 0" id="headline"><?php echo $lang->gestureRecorderManual->recordGesture->headline ?></h3>
                 <hr>
@@ -95,7 +102,7 @@ include '../includes/language.php';
                 <div class="form-group root useWebcamSwitch" style="margin-top: 10px">
                     <label style="margin: 0">
                         <?php echo $lang->shouldUseWebcam ?> 
-                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationSensor ?>"></i>
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationWebcam ?>"></i>
                     </label><br>
 
                     <div class="btn-group" id="radio" style="margin: 0">
@@ -335,8 +342,8 @@ include '../includes/language.php';
 
                     <div class="form-group root" id="gestureTypeSelect">
                         <label>
-                            <?php echo $lang->gestureType ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                            <?php echo $lang->gestureExecutionType ?> 
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->executionType ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -364,7 +371,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="gestureInteractionTypeSelect">
                         <label>
                             <?php echo $lang->gestureInteractionType ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->interactionType  ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -391,22 +398,26 @@ include '../includes/language.php';
 
 
                     <div class="form-group">
-                        <label><?php echo $lang->gestureContext ?></label>
-                        <input type="text" class="form-control" placeholder="<?php echo $lang->gestureContextQuestion ?>" id="gestureContext" required>
+                        <label><?php echo $lang->gestureContext ?></label> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context  ?>"></i>
+                        <input type="text" class="form-control" id="gestureContext" required>
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo $lang->gestureAssociation ?></label>
-                        <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000"  placeholder="<?php echo $lang->gestureAssociationQuestion ?>" required></textarea>
+                        <label><?php echo $lang->gestureAssociation ?></label> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->association  ?>"></i>
+                        <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000" required></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo $lang->gestureDescription ?></label>
+                        <label><?php echo $lang->gestureDescription ?></label> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->description  ?>"></i>
                         <textarea class="form-control" id="gestureDescription" rows="3" maxlength="1000" required></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo $lang->gestureGraphicsQuestion ?></label>
+                        <label><?php echo $lang->bodyParts ?></label> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->bodyParts  ?>"></i>
                         <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                             <div id="joint-container" style="position: absolute"></div>
                             <img src="img/human_body.svg">
@@ -520,7 +531,7 @@ include '../includes/language.php';
                 <div class="form-group root useWebcamSwitch" style="margin-top: 10px">
                     <label style="margin: 0">
                         <?php echo $lang->shouldUseWebcam ?> 
-                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationSensor ?>"></i>
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationWebcam ?>"></i>
                     </label><br>
 
                     <div class="btn-group" id="radio" style="margin: 0">
@@ -762,8 +773,8 @@ include '../includes/language.php';
 
                     <div class="form-group root" id="gestureTypeSelect">
                         <label>
-                            <?php echo $lang->gestureType ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                            <?php echo $lang->gestureExecutionType ?> 
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->executionType ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -791,7 +802,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="gestureInteractionTypeSelect">
                         <label>
                             <?php echo $lang->gestureInteractionType ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->interactionType ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -818,22 +829,26 @@ include '../includes/language.php';
 
 
                     <div class="form-group">
-                        <label><?php echo $lang->gestureContext ?></label>
-                        <input type="text" class="form-control" placeholder="<?php echo $lang->gestureContextQuestion ?>" id="gestureContext" required>
+                        <label><?php echo $lang->gestureContext ?></label> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context  ?>"></i>
+                        <input type="text" class="form-control" id="gestureContext" required>
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo $lang->gestureAssociation ?></label>
-                        <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000"  placeholder="<?php echo $lang->gestureAssociationQuestion ?>" required></textarea>
+                        <label><?php echo $lang->gestureAssociation ?></label> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->association  ?>"></i>
+                        <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000" required></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo $lang->gestureDescription ?></label>
+                        <label><?php echo $lang->gestureDescription ?></label> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->description  ?>"></i>
                         <textarea class="form-control" id="gestureDescription" rows="3" maxlength="1000" required></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label><?php echo $lang->gestureGraphicsQuestion ?></label>
+                        <label><?php echo $lang->bodyParts ?></label> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->bodyParts  ?>"></i>
                         <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                             <div id="joint-container" style="position: absolute"></div>
                             <img src="img/human_body.svg">
@@ -1181,7 +1196,7 @@ include '../includes/language.php';
         </div>-->
 
 
-    <div id="gesture-recorder-tester">
+<!--    <div id="gesture-recorder-tester">
         <div class="alert-space alert-web-rtc-not-supported"></div>
 
         <div class="recorder text-center" style="border-radius: 4px; max-width: 500px; margin: auto">
@@ -1332,9 +1347,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow" id="btn-record-new-gesture"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGesture ?></button>
             </div>
         </div>
-    </div>
+    </div>-->
 
-    <div id="gesture-recorder-description" style="margin-bottom: 20px">
+<!--    <div id="gesture-recorder-description" style="margin-bottom: 20px">
     </div>
 
     <div id="stateRecord">
@@ -1398,6 +1413,6 @@ include '../includes/language.php';
                 <?php echo $lang->gestureRecorderManual->deletedGesture->description ?>
             </p>
         </div>
-    </div>
+    </div>-->
 
 </div>

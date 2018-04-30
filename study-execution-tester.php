@@ -235,7 +235,6 @@ if ($h && $token && $studyId) {
 
                 rescueVideoCaller();
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-                $('#viewTester').find('#phase-content').empty();
                 Tester.renderView();
                 window.location.hash = getCurrentPhase().id;
             }

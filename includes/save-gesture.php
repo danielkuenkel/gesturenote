@@ -13,12 +13,20 @@ $target_preview_dir = "uploads/";
 session_start();
 if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['images'], $_POST['gif'], $_POST['sensorData'])) {
     $userId = $_SESSION['user_id'];
+    if (isset($_POST['userId']) && $_POST['userId'] != null) {
+        $userId = $_POST['userId'];
+    }
+    
     $ownerId = $_SESSION['user_id'];
     if (isset($_POST['ownerId']) && $_POST['ownerId'] != null) {
         $ownerId = $_POST['ownerId'];
     }
     
     $source = $_SESSION['usertype'];
+    if (isset($_POST['source']) && $_POST['source'] != null) {
+        $source = $_POST['source'];
+    }
+    
     $scope = 'private';
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
     $context = filter_input(INPUT_POST, 'context', FILTER_SANITIZE_STRING);

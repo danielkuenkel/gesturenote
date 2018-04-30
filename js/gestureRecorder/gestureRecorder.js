@@ -716,7 +716,9 @@ function renderStateSave() {
             var association = $(associationInput).val().trim();
             var description = $(descriptionInput).val().trim();
             var joints = getSelectedJoints(jointsInput);
+            var userId = recorder.options.userId || null;
             var ownerId = recorder.options.ownerId || null;
+            var source = recorder.options.source || null;
 
             gestureSaveData = {
                 title: title,
@@ -726,7 +728,9 @@ function renderStateSave() {
                 association: association,
                 description: description,
                 joints: joints,
+                userId: userId,
                 ownerId: ownerId,
+                source: source,
                 images: null,
                 previewImage: null,
                 gif: null,

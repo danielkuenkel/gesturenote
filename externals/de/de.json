@@ -1222,7 +1222,6 @@
         "trigger": "Funktionen-Katalog",
         "feedback": "Feedback-Katalog"
     },
-    "gestureType": "Gestentyp",
     "bodyType": "Körperteile",
     "gestureTypes": {
         "pose": "Pose",
@@ -1537,11 +1536,10 @@
     "gesturePreview": "Informationen über Geste",
     "gestureName": "Gesten-Name",
     "gestureContext": "Gesten-Kontext",
-    "gestureType": "Gesten-Typ",
+    "gestureExecutionType": "Gesten-Ausführung",
+    "gestureType": "Gesten-Ausführung",
     "gestureInteractionType": "Gesten-Interaktions-Typ",
-    "gestureContextQuestion": "Wo soll die Geste eingesetzt werden?",
     "gestureAssociation": "Assoziation(en)",
-    "gestureAssociationQuestion": "Warum wurde diese Geste gewählt?",
     "noAssociation": "Keine Assoziation(en) verfügbar",
     "addToGestureset": "Gesten-Set-Zuweisung ändern",
     "addHelp": "Hilfe hinzufügen",
@@ -1565,7 +1563,7 @@
     "removeFromStudySet": "Entfernen",
     "removeFromStudySetShort": "Entf.",
     "gestureDescription": "Gesten-Beschreibung",
-    "gestureGraphicsQuestion": "Welche Teile des Körpers werden für die Geste genutzt?",
+    "bodyParts": "Körperteile",
     "startRecording": "Aufzeichnung starten",
     "stopRecording": "Aufzeichnung beenden",
     "videoDataLoading": "Einen Moment bitte... Videodaten werden geladen.",
@@ -1591,7 +1589,11 @@
     "gestureRecorderManual": {
         "preInitialize": {
             "headline": "Quellen wählen",
-            "description": "Um eine"
+            "description": "Um eine Geste aufzuzeichnen, müssen Sie vorab die Quelle(n) wählen. Es muss immer mindestens eine Quelle ausgewählt werden. <p class='text'>Des Weiteren zeigt eine Navigationsleiste den aktuellen Zustand vom Gesten-Recorder an.</p>"
+        },
+        "initialize": {
+            "headline": "Quellen initialisieren",
+            "description": "Die ausgewählten Quellen werden initialisiert. D.h. es wird versucht eine Verbindung zur jeweiligen Quelle aufzubauen. Klappt dies nicht oder kommt es dabei zu einem Fehler, gelangen Sie über den Button <button class='btn btn-xs btn-primary'><i class='fa fa-video-camera'></i> Auswahl</button> zurück zur Auswahl."
         },
         "recordGesture": {
             "headline": "Geste aufzeichnen",
@@ -1746,7 +1748,8 @@
             "identification": "Wählen Sie aus, ob Sie Gesten oder Funktionen ermittelt wollen. Legen Sie eine Liste von Elementen an für die Sie Gesten bzw. Funktionen ermitteln möchten.",
             "identificationOverlay": "<p>Wählen Sie aus, ob Sie Gesten oder Funktionen ermitteln wollen. Wenn z.B. Gesten ermittelt werden sollen, muss ein Funktionen- und Zustands-Katalog vorliegen.</p><p><strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Funktionen geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzer-basiert und zum anderen experten-basiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren. <br/><strong>Funktionen <em>(Top-Down)</em></strong>: Bei Top-Down werden logische Verknüpfungen von Funktionen zu vorhandenen Gesten hergestellt. Wichtig ist dabei, dass eine Quelle für die Gesten angeboten wird. In GestureNote können Funktionen für bereits vorhandene Gesten (ermittelte oder freigegebene Gesten anderer Evaluatoren) oder für von ihnen ad-hoc aufgezeichnete Gesten gesucht werden.</p>",
             "identificationFor": "Wenn Gesten identifiziert werden sollen, ist ein Funktionen-Katalog anzulegen. Für zu identifizierende Funktionen wird ein Studien-Gesten-Set benötigt.",
-            "identificationSensor": "Sollen - zusätzlich zur Webcam - Daten von einem angeschlossenen Sensor aufgezeichnet werden?",
+            "identificationWebcam": "Zeichnen sie eine Geste mit einer integrierten oder angeschlossenen Webcam auf. Hierfür werden die Bilddaten gespeichert.",
+            "identificationSensor": "Sollen Daten von einem angeschlossenen Sensor aufgezeichnet werden? Die Sensordaten werden an GestureNote übertragen und aufgezeichnet.",
             "identificationScenesForGestures": "Soll dem Probanden nicht nur die Funktion mitgeteilt werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden? Es kann für den Probanden einfacher sein geeignete Gesten zu demonstrieren, wenn dieser weiß wie das User Interface aussehen wird.",
             "identificationScenesForTrigger": "Soll dem Probanden nicht nur die Geste gezeigt werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden? Es kann für den Probanden einfacher sein geeignete Funktionen zu finden, wenn dieser weiß, wie das User Interface aussehen wird.",
             "identificationScene": "Greifen Sie auf den Zustands-Katalog zurück. Wird mehr als 1 Zustand hinterlegt, dann ist der erste der Ausgangszustand und der letzte der Folgezustand. Zwischenzustände sind ab 3 Zuständen möglich.",
@@ -1811,7 +1814,12 @@
             "sound": "Laden Sie eine MP3-Datei hoch, um dem Probanden Rückmeldung über Töne zu geben. Dies ist z.B. wichtig, wenn es kein grafisches User Interface gibt. Die Datei darf bis zu 8 MB groß sein."
         },
         "gestures": {
-
+            "executionType": "Eine Pose ist eine bestimmte Position von Körperteilen ohne Bewegung (z.B. Daumen-Hoch-Geste). Eine dynamische Geste beinaltet immer eine Bewegung (z.B. Push-Geste).",
+            "interactionType": "Kommt die Systemrückmeldung erst nach der Gesten-Ausführung (z.B. Seitenwechsel nach Daumen-Hoch-Geste)? Dann spricht man von einer diskreten Gesten-Interaktion. Wird die Systemrückmeldung bereits während der Gesten-Ausführung aktiviert (z.B. bei einer Sliderbedienung), spricht man von kontinuierlicher Gesten-Interaktion.",
+            "context": "Wo soll die Geste eingesetzt werden?",
+            "association": "Warum wurde diese Geste gewählt? Welche Zusammenhänge gibt es mit der Anwendungsdomäne?",
+            "description": "Beschreiben Sie die Geste genau. Teilt sich die Geste in Abschnitte auf? Sind die Hände geöffnet? Sind die Arme angewinkelt? Sind Bewegungen schnell oder langsam?",
+            "bodyParts": "Welche Körperteile werden für die Gesten-Ausführung benötigt?"
         }
     },
     "gestureStyleguides": {

@@ -117,9 +117,11 @@ function initialize() {
         study.aborted = 'no';
         setLocalItem(STUDY, study);
 
-        setLocalItem('startExecutionTime', new Date().getTime());
-        renderPhaseStep();
-        updateProgress();
+        getGMT(function (timestamp) {
+            setLocalItem('startExecutionTime', timestamp);
+            renderPhaseStep();
+            updateProgress();
+        });
     }
 
     $('.btn-cancel').click(function (event) {
@@ -498,7 +500,7 @@ function keepStreamsAlive(target) {
         if (pausedStreams.length > 0) {
             for (var i = 0; i < pausedStreams.length; i++) {
 //                if (pausedStreams[i].paused) {
-                    pausedStreams[i].play();
+                pausedStreams[i].play();
 //                }
             }
         }

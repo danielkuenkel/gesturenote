@@ -101,8 +101,9 @@ var Tester = {
             Tester.renderNoDataView();
         }
 
+        $('#viewTester #phase-content').css({y: 0, opacity: 1});
 //        Tester.checkPositioning(currentPhase.format);
-        TweenMax.from($('#viewTester #phase-content'), .2, {delay: .2, y: -40, opacity: 0});
+        TweenMax.from($('#viewTester #phase-content'), .2, {delay: 0, y: -40, opacity: 0, clearProps: 'all'});
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
         }
@@ -117,7 +118,7 @@ var Tester = {
 //                    posY = '90px';
 //                    break;
 //            }
-//            $('#viewTester #phase-content').css({marginTop: posY});
+////            $('#viewTester #phase-content').css({marginTop: posY});
 //        } else {
 //            switch (format) {
 //                case SCENARIO:
@@ -127,6 +128,7 @@ var Tester = {
 //                    break;
 //            }
 //        }
+//        console.log('check positioning', posY);
 //        $('#viewTester #phase-content').css({marginTop: posY});
 //    },
     renderNoDataView: function renderNoDataView() {
@@ -337,7 +339,7 @@ var Tester = {
     },
     renderModeratedTraining: function renderModeratedTraining(source, container, data) {
         if (previewModeEnabled) {
-            $(container).find('#scene-container').css({top: '-108px'});
+//            $(container).find('#scene-container').css({top: '-108px'});
         }
 
         // handle states in preview mode
@@ -936,7 +938,7 @@ var Tester = {
     renderModeratedIdentification: function renderModeratedIdentification(source, container, data) {
         container.empty().append($(source).find('#identificationModerated').clone().removeAttr('id'));
         if (previewModeEnabled) {
-            $(container).find('#scene-container').css({top: '-108px'});
+//            $(container).find('#scene-container').css({top: '-108px'});
         }
 
         var hasScences = data.identification[currentIdentificationIndex].transitionScenes && data.identification[currentIdentificationIndex].transitionScenes.length > 0;
@@ -1698,7 +1700,7 @@ var Tester = {
     },
     renderModeratedScenario: function renderModeratedScenario(source, container, data) {
         if (previewModeEnabled) {
-            $(container).find('#scene-container').css({top: '-108px'});
+//            $(container).find('#scene-container').css({top: '-108px'});
         }
 
         // handle states in preview mode
@@ -1944,7 +1946,7 @@ var Tester = {
 
         container.empty().append($(source).find('#exploration-moderated').clone().removeAttr('id'));
         if (previewModeEnabled) {
-            $(container).find('#scene-container').css({top: '-108px'});
+//            $(container).find('#scene-container').css({top: '-108px'});
         }
 
         // handle states in preview mode
@@ -2182,6 +2184,12 @@ var Tester = {
                         $('#viewTester').find('#pinnedRTC').css({opacity: 1});
                         updateRTCHeight($('#viewTester #column-left').width(), true);
                     }
+
+//                    TweenMax.to($('#viewTester #phase-content'), 0, {y: -40, opacity: 0});
+//                    TweenMax.to($('#viewTester #phase-content'), .2, {delay: .2, y: 0, opacity: 1});
+//                    if ($(document).scrollTop() > 0) {
+//                        $(document).scrollTop(0);
+//                    }
                 });
 
                 $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
@@ -2611,7 +2619,7 @@ function calcDimensions() {
         maxHeight = maxWidth * 3 / 4;
     }
 
-    var newTop = previewModeEnabled ? ((screenSize.height - maxHeight) / 2) - 88 : ((screenSize.height - maxHeight) / 2) - 55;
+    var newTop = previewModeEnabled ? ((screenSize.height - maxHeight) / 2) - 88 : ((screenSize.height - maxHeight) / 2) + 20;
     var newLeft = (screenSize.width - maxWidth) / 2;
     return {width: maxWidth, height: maxHeight, top: newTop, left: newLeft};
 }
