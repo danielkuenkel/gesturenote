@@ -94,6 +94,9 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['email'])) {
                 exit();
             }
         }
+    } else {
+        echo json_encode(array('status' => 'statementError'));
+        exit();
     }
 } else {
     echo json_encode(array('status' => 'error'));

@@ -95,12 +95,11 @@ if ($h && $studyId) {
                 <div class="col-sm-6 col-md-5" id="login">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h2 class="panel-title"><?php echo $lang->studyParticipant ?>?</h2>
+                            <h2 class="panel-title"><?php echo $lang->studyParticipant ?></h2>
                         </div>
                         <div class="panel-body">
                             <div class="btn-group-vertical btn-block">
-                                <!--<button type="button" class="btn btn-primary" id="btn-open-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>-->
-                                <button type="button" class="btn btn-default" id="btn-participate-without-account"><i class="fa fa-user-times" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->participateWithoutAccount ?></span></button>
+                                <button type="button" class="btn btn-default" id="btn-participate-without-account"><i class="fa fa-comments" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->participateWithoutAccount ?></span></button>
                             </div>
                         </div>
                     </div>
@@ -166,33 +165,33 @@ if ($h && $studyId) {
                 });
 
                 $('#login-form').on('loginSuccess', function (event, result) {
+                    event.preventDefault();
                     var hash = hex_sha512(parseInt(query.studyId) + result.userId + result.forename + result.surname);
                     if (result.userType === 'evaluator') {
                         goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
                     }
                 });
 
-//                $('#register-form').on('registerSuccess', function (event, result) {
-//                    event.preventDefault();
-//                    var hash = hex_sha512(parseInt(query.studyId) + result.userId + result.forename + result.surname);
-//                    if (result.userType === 'evaluator') {
-//                        goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
-//                    } else if (result.userType === 'tester') {
-//                        goto('study-prepare-tester.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
-//                    }
-//                });
-
                 $('#btn-participate-without-account').on('click', function (event) {
                     event.preventDefault();
+
+                    var origin = window.location.origin;
+                    if (origin.includes('localhost')) {
+                        origin += '/gesturenote';
+                    }
+
                     var hash = hex_sha512(parseInt(query.studyId) + 'guest');
-                    goto('study-prepare-tester.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
+                    var testerUrl = origin + '/study-prepare-tester.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash;
+                    var moderatorUrl = origin + '/study-prepare.php?studyId=' + query.studyId + '&h=' + query.h;
+                    prepareStudyExecution({studyId: query.studyId, executionUrl: moderatorUrl}, function (result) {
+                        if (result.status === RESULT_SUCCESS) {
+                            goto(testerUrl);
+                        } else {
+                            console.error(result.status);
+                        }
+                    });
                 });
             }
-
-//            $('#btn-open-register').on('click', function (event) {
-//                event.preventDefault();
-//                loadHTMLintoModal('custom-modal', 'modal-register.php', 'modal-md');
-//            });
         </script>
     </body>
 </html>

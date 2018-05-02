@@ -5,7 +5,7 @@ include_once 'includes/functions.php';
 
 if (login_check($mysqli) == true) {
     if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'evaluator') {
-        header('Location: dashboard-evaluator.php');
+        header('Location: dashboard.php');
     } else if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'tester') {
         header('Location: dashboard-tester.php');
     }
@@ -17,17 +17,17 @@ if (login_check($mysqli) == true) {
         <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
-        
+
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/login.js"></script>
         <script type="text/JavaScript" src="js/checkForms.js"></script>
@@ -332,19 +332,19 @@ if (login_check($mysqli) == true) {
                 });
 
                 $('#login-form').on('loginSuccess', function (event, result) {
+                    gotoDashboard();
 //                    if (result.userType === 'evaluator') {
-                    goto('dashboard-evaluator.php');
+//                    goto('dashboard.php');
 //                    } else if (result.userType === 'tester') {
 //                        goto('dashboard-tester.php');
 //                    }
                 });
 
                 $('#register-form').on('registerSuccess', function (event, result) {
-                    if (result.userType === 'evaluator') {
-                        goto('dashboard-evaluator.php');
-                    } else if (result.userType === 'tester') {
-                        goto('dashboard-tester.php');
-                    }
+//                    if (result.userType === 'evaluator') {
+                    gotoDashboard();
+//                        goto('dashboard.php');
+//                    }
                 });
 
                 var allNews = translation.allNews;
@@ -356,12 +356,12 @@ if (login_check($mysqli) == true) {
                     var col = document.createElement('div');
                     $(col).addClass('col-xs-12 col-sm-2 col-lg-1');
                     $(newsItem).append(col);
-                    
+
                     var date = new Date(allNews[i].date);
                     var newsDate = document.createElement('span');
                     $(newsDate).text(date.toLocaleDateString());
                     $(col).append(newsDate);
-                    
+
                     var col = document.createElement('div');
                     $(col).addClass('col-xs-12 col-sm-10 col-lg-11');
                     $(newsItem).append(col);

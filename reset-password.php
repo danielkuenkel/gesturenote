@@ -61,7 +61,7 @@ if (!$h) {
                 <div class="col-md-7">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h2 class="panel-title">Neues Passwort vergeben</h2>
+                            <h2 class="panel-title"><?php echo $lang->updatePassword ?></h2>
                         </div>
                         <div class="panel-body">
 
@@ -98,20 +98,20 @@ if (!$h) {
 
                         </div>
                         <div class="panel-footer">
-                            <button type="button" class="btn btn-default btn-shadow pull-right" id="btn-reset-password"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text">Neues Passwort speichern</span></button>
+                            <button type="button" class="btn btn-default btn-shadow pull-right" id="btn-reset-password"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->saveUpdatedPassword ?></span></button>
                             <div class="clearfix"></div>
                         </div>
                     </div>
 
                 </div>
                 <div class="col-md-5 text">
-                    Um Ihr Passwort zurückzusetzen, geben Sie bitte ihre E-Mail-Adresse und ihr neues Passwort ein. Wiederholen Sie zur Sicherheit ihr neues Passwort.
+                    <?php echo $lang->resetPasswordInfo ?>
                 </div>
             </div>
             <div class="row hidden" id="goto-login">
                 <div class="col-md-12">
                     <div class="alert-space alert-password-reset-success"></div>
-                    <button type="button" class="btn btn-success btn-shadow btn-block" id="btn-goto-login"><span class="btn-text">Jetzt einloggen</span></button>
+                    <button type="button" class="btn btn-success btn-shadow btn-block" id="btn-goto-login"><span class="btn-text"><?php echo $lang->loginNow ?></span></button>
                 </div>
             </div>
         </div>

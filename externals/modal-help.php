@@ -4,7 +4,7 @@ include '../includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title">Hilfe</h4>
+    <h4 class="modal-title"><?php echo $lang->help ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
     <div class="container-root" id="list-container"></div>
@@ -28,7 +28,7 @@ include '../includes/language.php';
     </div>
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow" id="btn-more-help">Mehr Hilfe</button>
+    <button type="button" class="btn btn-default btn-shadow" id="btn-more-help"><?php echo $lang->moreHelp ?></button>
     <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
 </div>
 
@@ -78,7 +78,7 @@ include '../includes/language.php';
             var clone = $('#tester-help-item').clone().removeClass('hidden').removeAttr('id');
             clone.find('#text').text(data.option);
             $('#list-container').append(clone);
-            
+
             if (data.useGestureHelp === true || data.useGestureHelp === 'true') {
                 $(clone).find('#webcam-preview').removeClass('hidden');
                 var gesture = getGestureById(data.gestureId);

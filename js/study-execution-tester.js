@@ -181,7 +181,7 @@ var Tester = {
         $(container).find('#static-study-url').text(absoluteStaticStudyUrl);
         $(container).find('#btn-execution-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            gotoDashboard();
+            gotoIndex();
         });
 
         $(container).find('#static-study-url').unbind('click').bind('click', function () {

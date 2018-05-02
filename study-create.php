@@ -44,65 +44,7 @@ if (login_check($mysqli) == true) {
         <script src="js/bootstrap-datepicker/js/bootstrap-datetimepicker.min.js"></script>
         <script src="js/moment/locale/de.js" charset="UTF-8"></script>
         <script src="js/moment/locale/en-gb.js" charset="UTF-8"></script>
-<!--        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.az.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.bg.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.bs.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.ca.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.cs.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.cy.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.da.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.de.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.el.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.en-GB.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.et.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.eu.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.fa.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.fo.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr-CH.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.gl.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.he.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.hr.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.hu.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.hy.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.id.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.is.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.it.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.it-CH.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.ja.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.ka.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.kh.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.kk.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.kr.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.lt.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.lv.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.mk.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.ms.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.nb.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.nl.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.nl-BE.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.no.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.pt.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.ro.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.rs.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.rs-latin.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.ru.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.sk.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.sl.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.sq.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.sr.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.sr-latin.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.sv.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.sw.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.th.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.tr.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.uk.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
-        <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-TW.min.js" charset="UTF-8"></script>-->
+
 
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
@@ -315,132 +257,6 @@ if (login_check($mysqli) == true) {
                         <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
                     </div>
 
-
-                    <!--                    <div id="from-To-datepicker" style="margin-top: 15px">
-                                            <div class="input-daterange row" id="datepicker">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label><?php echo $lang->studyRunsFrom ?></label>
-                                                        <div class="input-group">
-                                                            <input type="text" class="input form-control readonly" id="start" name="start" />
-                                                            <span class="input-group-btn">
-                                                                <button class="btn btn-default" id="btn-show-datepicker-from" type="button"><i class="fa fa-calendar"></i></button>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                    
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label><?php echo $lang->studyRunsTo ?></label>
-                                                        <div class="input-group">
-                                                            <input type="text" class="input form-control readonly" id="end" name="end" />
-                                                            <span class="input-group-btn">
-                                                                <button class="btn btn-default" id="btn-show-datepicker-to" type="button"><i class="fa fa-calendar"></i></button>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                    
-                                                </div>
-                                            </div>
-                                        </div>-->
-
-                    <!--                    <div class="panel panel-default">
-                    
-                                            <div class="panel-body" id="panelSurveySwitch" style="padding-top: 0px;">
-                                                <div class="form-inline">
-                                                    <div class="form-group form-group-no-margin root" style="margin-right: 20px; margin-top: 15px;">
-                                                        <label>
-                    <?php echo $lang->panelSurvey ?> 
-                                                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
-                                                        </label><br/>
-                    
-                                                        <div class="btn-group" id="radio" style="margin: 0">
-                                                            <button class="btn btn-default btn-radio btn-option-checked saveGeneralData" name="primary" id="no">
-                                                                <span id="icons" style="margin-right: 6px">
-                                                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                                                    <i class="fa fa-circle hidden" id="over"></i>
-                                                                    <i class="fa fa-check-circle" id="checked"></i>
-                                                                </span>
-                                                                <span class="option-text"><?php echo $lang->no ?></span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="btn-group" id="radio" style="margin: 0">
-                                                            <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="yes">
-                                                                <span id="icons" style="margin-right: 6px">
-                                                                    <i class="fa fa-circle-thin" id="normal"></i>
-                                                                    <i class="fa fa-circle hidden" id="over"></i>
-                                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                                </span>
-                                                                <span class="option-text"><?php echo $lang->yes ?></span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                    
-                                                    <div class="form-group form-group-no-margin hidden" id="selectedAgeRange" style="margin-top: 15px;">
-                                                        <label>
-                    <?php echo $lang->selection ?> 
-                                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
-                                                        </label> <br/>
-                                                        <div class="text" style="padding-top: 3px; padding-bottom: 4px"></div>
-                                                    </div>
-                                                </div>
-                    
-                                            </div>-->
-                    <!--                        <hr style="margin: 0">
-                                            <div class="panel-body hidden" id="panel-survey-container" style="padding-top: 0px">
-                                                <div class="form-inline">
-                                                    <div class="form-group form-group-no-margin root" id="genderSwitch" style="margin-right: 20px;margin-top: 15px">
-                                                        <label>
-                    <?php echo $lang->gender ?> 
-                                                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
-                                                        </label><br/>
-                                                        <div class="btn-group" id="radio" style="margin: 0">
-                                                            <button class="btn btn-default btn-radio btn-option-checked saveGeneralData" name="primary" id="female">
-                                                                <span id="icons" style="margin-right: 6px">
-                                                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                                                    <i class="fa fa-circle hidden" id="over"></i>
-                                                                    <i class="fa fa-check-circle" id="checked"></i>
-                                                                </span>
-                                                                <span class="option-text"><?php echo $lang->genderTypes->female ?></span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="btn-group" id="radio" style="margin: 0">
-                                                            <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="male">
-                                                                <span id="icons" style="margin-right: 6px">
-                                                                    <i class="fa fa-circle-thin" id="normal"></i>
-                                                                    <i class="fa fa-circle hidden" id="over"></i>
-                                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                                </span>
-                                                                <span class="option-text"><?php echo $lang->genderTypes->male ?></span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="btn-group" id="radio" style="margin: 0">
-                                                            <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="identical">
-                                                                <span id="icons" style="margin-right: 6px">
-                                                                    <i class="fa fa-circle-thin" id="normal"></i>
-                                                                    <i class="fa fa-circle hidden" id="over"></i>
-                                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                                </span>
-                                                                <span class="option-text"><?php echo $lang->genderTypes->identical ?></span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                    
-                                                    <div class="form-group" id="ageSlider" style="margin-top: 15px">
-                                                        <label id="age-label">
-                    <?php echo $lang->age ?> <span class="age-text"></span> <span><i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i></span>
-                                                        </label><br/>
-                                                        <div style="padding-top: 3px; padding-bottom: 4px">
-                                                            <span class="slider-from text"><?php echo $lang->of ?></span>
-                                                            <input class="custom-range-slider saveGeneralData" type="text" value="" data-slider-step="1"/>
-                                                            <span class="slider-to text"><?php echo $lang->to ?></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>-->
-
-                    <!--</div>-->
                 </div>
 
 
@@ -850,17 +666,6 @@ if (login_check($mysqli) == true) {
                     //                    TweenMax.from(clone, .3, {opacity: 0, y: -20, clearProps: 'all'});
                 }
             }
-
-//            $('#panelSurveySwitch').on('change', function (event, id) {
-//                event.preventDefault();
-//                if ($(event.target).attr('id') === 'yes') {
-//                    $('#panel-survey-container').removeClass('hidden');
-//                    $('#selectedAgeRange').removeClass('hidden');
-//                } else {
-//                    $('#panel-survey-container').addClass('hidden');
-//                    $('#selectedAgeRange').addClass('hidden');
-//                }
-//            });
 
             $('#phaseSelect').on('change', function (event) {
                 event.preventDefault();

@@ -66,8 +66,7 @@ if ($h && $token && $studyId) {
         <script src="js/language.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/alert.js"></script>
-        <script src="js/goto-general.js"></script>
-        <script src="js/goto-tester.js"></script>       
+        <script src="js/goto-general.js"></script>  
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/forms.js"></script>
@@ -160,27 +159,6 @@ if ($h && $token && $studyId) {
                     </div>
                 </div>
             </div>
-            <!--            <div id="video-caller" style="width: 100%">
-                            <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
-                            <div class="rtc-local-container" style="position: absolute">
-                                <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
-                            </div>
-                            <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 11px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                                <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-                                <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                                <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
-                            </div>
-                            <div id="stream-control-indicator">
-                                <div style="position: absolute; top: 2px; display: block; left: 10px; opacity: 1; color: white">
-                                    <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
-                                    <i id="pause-local-stream" class="hidden fa fa-pause"></i>
-                                </div>
-                                <div style="position: absolute; top: 2px; display: block; right:10px; opacity: 1; color: white">
-                                    <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
-                                    <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
-                                </div>
-                            </div>
-                        </div>-->
         </div>
 
 

@@ -832,7 +832,7 @@ include '../includes/language.php';
     <div id="identificationItem-gestures">
         <div id="search-for"><span class="address"></span> <span class="text"></span></div>
         <div id="transition-scenes" class="root"></div>
-        <div id="waiting-for-sensor" class="hidden"><i class="fa fa-spin fa-circle-o-notch"></i> Auf Sensordaten warten</div>
+        <div id="waiting-for-sensor" class="hidden"><i class="fa fa-spin fa-circle-o-notch"></i> <?php echo $lang->waitForSensorData ?></div>
         <div style="margin-top: 10px">
             <button class="btn btn-block btn-success btn-shadow disabled" id="btn-start-gesture-recording" name="btn-success"><i class="glyphicon glyphicon-record"></i> <?php echo $lang->recordGesture ?></button>
             <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success"><i class="glyphicon glyphicon-record"></i> <?php echo $lang->rerecordGesture ?></button>
@@ -1071,26 +1071,26 @@ include '../includes/language.php';
         </div>
 
         <div class="col-md-7" id="column-right" style="margin-bottom: 60px">
-            <h3 class="headline" style="margin: 0" >Einverständniserklärung</h3>
+            <h3 class="headline" style="margin: 0" ><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
             <hr>
             <div class="letter-text text"></div>
             <hr>
             <div>
-                <button type="button" class="btn btn-success btn-shadow" id="letter-agreed">Ich bin einverstanden</button>
-                <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline">Ich bin nicht einverstanden</button>
+                <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><?php echo $lang->letterOfAcceptanceAccept ?></button>
+                <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><?php echo $lang->letterOfAcceptanceNotAccept ?></button>
             </div>
         </div>
     </div>
 
 
     <div class="container" id="letterOfAcceptance-unmoderated">
-        <h3 class="headline" style="margin: 0">Einverständniserklärung</h3>
+        <h3 class="headline" style="margin: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
         <hr>
         <div class="letter-text"></div>
         <hr>
         <div>
-            <button type="button" class="btn btn-success btn-shadow" id="letter-agreed">Ich bin einverstanden</button>
-            <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline">Ich bin nicht einverstanden</button>
+            <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><?php echo $lang->letterOfAcceptanceAccept ?></button>
+            <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><?php echo $lang->letterOfAcceptanceNotAccept ?></button>
         </div>
     </div>
 
@@ -1110,7 +1110,7 @@ include '../includes/language.php';
     </div>
 
     <div class="container" id="questionnaire-unmoderated">
-        <h3 class="headline" style="margin: 0">Fragebogen</h3>
+        <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaire ?></h3>
         <hr>
         <div class="question-container"></div>
         <hr>
@@ -1132,7 +1132,7 @@ include '../includes/language.php';
     <div id="sus-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0">Fragebogen zum System</h3>
+            <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireSystem ?></h3>
             <hr>
             <div class="question-container"></div>
             <hr>
@@ -1141,7 +1141,7 @@ include '../includes/language.php';
     </div>
 
     <div class="container" id="sus-unmoderated">
-        <h3 class="headline" style="margin: 0">Fragebogen zum System</h3>
+        <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireSystem ?></h3>
         <hr>
         <div class="question-container"></div>
         <hr>
@@ -1154,7 +1154,7 @@ include '../includes/language.php';
     <div id="gus-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0">Fragebogen zur Geste</h3>
+            <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireGesture ?></h3>
             <div class="row">
                 <div class="col-sm-6 right" style="margin-bottom: 10px;">
                     <div id="gesture"><span class="address"></span> <span class="text"></span></div>
@@ -1179,7 +1179,7 @@ include '../includes/language.php';
     </div>
 
     <div class="container" id="gus-unmoderated">
-        <h3 class="headline" style="margin: 0" >Fragebogen zur Geste</h3>
+        <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireGesture ?></h3>
         <div class="row">
             <div class="col-sm-6 right" style="margin-bottom: 10px;">
                 <div id="gesture"><span class="address"></span> <span class="text"></span></div>
@@ -1209,7 +1209,7 @@ include '../includes/language.php';
     <div id="questionnaireGestures-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0" >Fragebogen zu den Gesten</h3>
+            <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireGestures ?></h3>
             <hr>
             <div class="question-container"></div>
             <hr>
@@ -1218,7 +1218,7 @@ include '../includes/language.php';
     </div>
 
     <div class="container" id="questionnaireGestures-unmoderated">
-        <h3 class="headline" style="margin: 0" >Fragebogen zu den Gesten</h3>
+        <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireGestures ?></h3>
         <hr>
         <div class="question-container"></div>
         <hr>
@@ -1246,9 +1246,9 @@ include '../includes/language.php';
 
         <div id="scene-container" class="text-center" style="position: fixed; top:0px; width: 100%;" allowtransparency></div>
         <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; left: 10px; pointer-events: none; opacity: 0.8"></div>
-<!--        <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
-
-        <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>-->
+        <!--        <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
+        
+                <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>-->
 
         <div class="" style="margin-top: 55px; padding: 20px">
             <div class="alert-space alert-please-wait"></div>
@@ -1301,7 +1301,7 @@ include '../includes/language.php';
                 <button class="btn btn-block btn-success btn-shadow" id="start-training" name="btn-success"><span class="btn-text"><?php echo $lang->startNow ?></span></button>
                 <button class="btn btn-block btn-success btn-shadow hidden" id="start-single-training" name="btn-success"><span class="btn-text">Gesten-Training beginnen</span></button>
                 <button class="btn btn-block btn-info btn-shadow hidden" id="repeat-training" name="btn-success"><span class="btn-text">Geste nochmal ausführen</span></button>
-                <button class="btn btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                <button class="btn btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="btn-text"><?php echo $lang->nextGesture ?></span> <span aria-hidden="true">&rarr;</span></button>
                 <button class="btn btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
             <div class="progress progress-training hidden" style="border-radius: 10px">
@@ -1322,7 +1322,7 @@ include '../includes/language.php';
                 <hr>
             </div>
             <div id="restart" class="hidden">
-                <h3 style="margin: 0" class="headline">Bitte noch einmal neu starten</h3>
+                <h3 style="margin: 0" class="headline"><?php pleaseRestart ?></h3>
                 <hr>
             </div>
             <div class="alert-space alert-please-wait"></div>
@@ -1438,11 +1438,11 @@ include '../includes/language.php';
         <div id="scene-container" class="text-center" style="position: fixed; top:0px; width: 100%;" allowtransparency></div>
         <div class="text-shadow-black text-center" id="scene-description" style="position: absolute;  left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
         <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; left: 10px; pointer-events: none; opacity: 0.8"></div>
-        
-<!--        <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
-        <div class="text-shadow-black text-center" id="scene-description" style="position: absolute; top: 5px; left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
 
-        <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>-->
+        <!--        <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
+                <div class="text-shadow-black text-center" id="scene-description" style="position: absolute; top: 5px; left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
+        
+                <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>-->
 
         <div class="" style="margin-top: 55px; padding: 20px">
             <div class="alert-space alert-please-wait"></div>
@@ -1517,17 +1517,17 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="col-sm-7 col-md-6">
-                    <p class="text">Welche Funktion könnte auf diese Geste passen? Bitte tragen Sie Ihren Vorschlag bei Funktion ein und begründen Sie anschließend Ihre Entscheidung.</p>
+                    <p class="text"><?php echo $lang->askTrigger ?></p>
                     <div class="form-group">
-                        <label for="trigger-name">Funktion</label>
+                        <label for="trigger-name"><?php echo $lang->trigger ?></label>
                         <input class="form-control" name="trigger-name" id="trigger-name">
                     </div>
                     <div class="form-group">
-                        <label for="trigger-name">Begründung</label>
+                        <label for="trigger-name"><?php echo $lang->justification ?></label>
                         <textarea class="form-control" rows="5" id="trigger-justification"></textarea>
                     </div>
                     <!--<div style="margin-top: 20px;" id="next-controls" class="hidden">-->
-                    <button type="button" class="btn btn-success btn-block btn-shadow" id="next-identification"><span class="btn-text"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow" id="next-identification"><span class="btn-text"><span class="btn-text"><?php echo $lang->nextGesture ?></span> <span aria-hidden="true">&rarr;</span></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                     <!--</div>-->
 
@@ -1544,7 +1544,7 @@ include '../includes/language.php';
                     </div>
                     <div id="gesture-recorder-container" style="width: 450px; margin: auto; margin-top: 15px;"></div>
                     <div style="margin-top: 20px;" id="next-controls" class="hidden">
-                        <button type="button" class="btn btn-success btn-block btn-shadow" id="next-identification"><span class="btn-text">Nächste Funktion</span> <span aria-hidden="true">&rarr;</span></button>
+                        <button type="button" class="btn btn-success btn-block btn-shadow" id="next-identification"><span class="btn-text"><?php echo $lang->nextTrigger ?></span> <span aria-hidden="true">&rarr;</span></button>
                         <button type="button" class="btn btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                     </div>
                 </div>
@@ -1555,8 +1555,8 @@ include '../includes/language.php';
 
     <div class="container text-center" id="identification-description" style="height: 100%; top: 40px">
         <div style="position: relative; top: 50%; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); transform: translateY(-50%);">
-            <h3 id="description-text" class="text-shadow-black" style="color: white; width: 400px; margin: auto">Test</h3>
-            <button type="button" class="btn btn-info btn-shadow" id="btn-start-gesture-recording" style="margin-top: 15px"><span class="btn-text">Jetzt die Geste aufzeichnen</span></button>
+            <h3 id="description-text" class="text-shadow-black" style="color: white; width: 400px; margin: auto"></h3>
+            <button type="button" class="btn btn-info btn-shadow" id="btn-start-gesture-recording" style="margin-top: 15px"><span class="btn-text"><?php echo $lang->recordGestureNow ?></span></button>
         </div>
     </div>
 
@@ -1598,7 +1598,7 @@ include '../includes/language.php';
 
         <div class="col-sm-12 hidden" id="stress-test-questionnaire">
             <div id="questionnaire-heading" class="hidden">
-                <h3 class="headline" style="margin: 0" >Bitte die Fragen beantworten</h3>
+                <h3 class="headline" style="margin: 0"><?php echo $lang->pleaseAnswerQuestions ?></h3>
                 <hr>
             </div>
             <div id="single-questions" class="hidden">
@@ -1607,7 +1607,7 @@ include '../includes/language.php';
                 <div id="single-joint-selection" class="hidden">
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
-                            <p class="question text">Welche Teile des Körpers wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <p class="question text"><?php echo $lang->stressOfBodyTesterQuestion ?></p>
                             <div class="select-joints-humand-body" id="human-body" style="max-width: 350px; width:350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_body.svg">
@@ -1617,7 +1617,7 @@ include '../includes/language.php';
 
                     <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
-                            <p class="question text">Welche Teile der Hand oder Hände wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <p class="question text"><?php echo $lang->stressOfHandTesterQuestion ?></p>
                             <div class="select-joints-humand-hand" id="human-hand" style="max-width: 350px; width:350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_hand.svg">
@@ -1635,7 +1635,7 @@ include '../includes/language.php';
                 <div id="sequence-joint-selection" class="hidden">
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
-                            <p class="question text">Welche Teile des Körpers wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <p class="question text"><?php echo $lang->stressOfBodyTotalTesterQuestion ?></p>
                             <div class="select-joints-humand-body" id="human-body" style="max-width: 350px; width:350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_body.svg">
@@ -1645,7 +1645,7 @@ include '../includes/language.php';
 
                     <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
-                            <p class="question text">Welche Teile der Hand oder Hände wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <p class="question text"><?php echo $lang->stressOfHandTotalTesterQuestion ?></p>
                             <div class="select-joints-humand-hand" id="human-hand" style="max-width: 350px; width:350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_hand.svg">
@@ -1655,8 +1655,6 @@ include '../includes/language.php';
                 </div>
 
                 <div class="question-container"></div>
-
-
             </div>
 
             <hr>
@@ -1686,7 +1684,7 @@ include '../includes/language.php';
             <div class="gestureControls">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
                 </div>
             </div>
         </div>
@@ -1752,8 +1750,8 @@ include '../includes/language.php';
 
         <div class="col-xs-12">
             <button class="btn btn-block btn-success btn-shadow" id="btn-gesture-done" name="btn-success">Geste wurde ausgeführt</button>
-            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-questionnaire-done" name="btn-success">Weiter</button>
-            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-questionnaire-done" name="btn-success"><?php echo $lang->next ?></button>
+            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><span class="btn-text"><?php echo $lang->nextGesture ?></span> <span aria-hidden="true">&rarr;</span></button>
             <button class="btn btn-block btn-success btn-shadow hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
 
@@ -2218,7 +2216,7 @@ include '../includes/language.php';
         <textarea class="form-control" id="justificationInput" rows="3"></textarea>
     </div>
 
-    <button type="button" class="btn btn-default btn-popover-gesture-preview" id="btn-show-gesture" style="border: none; height: 34px;"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+    <button type="button" class="btn btn-default btn-popover-gesture-preview" id="btn-show-gesture" style="border: none; height: 34px;"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
 
 </div>
 

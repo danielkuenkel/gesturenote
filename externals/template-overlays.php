@@ -25,7 +25,7 @@ include '../includes/language.php';
         <div class="row" style="margin-bottom: 30px;">
 
             <div class="col-md-7">
-                <textarea class="form-control" id="declaration" rows="10" placeholder="Erklärung einfügen" style="margin-top: 6px"></textarea>
+                <textarea class="form-control" id="declaration" rows="10" placeholder="<?php echo $lang->insertDeclaration ?>" style="margin-top: 6px"></textarea>
             </div>
 
             <div class="col-md-4">
@@ -1791,7 +1791,7 @@ include '../includes/language.php';
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="form-group root hidden" id="useSensorSwitch">
                         <label style="margin: 0"  >
                             <?php echo $lang->whatSensorShouldBeUsed ?> 
@@ -2430,12 +2430,12 @@ include '../includes/language.php';
 
                     <div role="tabpanel" class="tab-pane" id="tab-gesture-recorder-content">
                         <!--<div class="row">-->
-<!--                            <div class="col-sm-6">
-                                <div id="recorder-description"></div>
-                            </div>-->
-                            <div class="" id="gesture-recorder-container">
+                        <!--                            <div class="col-sm-6">
+                                                        <div id="recorder-description"></div>
+                                                    </div>-->
+                        <div class="" id="gesture-recorder-container">
 
-                            </div>
+                        </div>
                         <!--</div>-->
                     </div>
                 </div>

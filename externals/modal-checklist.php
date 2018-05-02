@@ -4,11 +4,11 @@ include '../includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" onclick="saveData()" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title">Überprüfung</h4>
+    <h4 class="modal-title"><?php echo $lang->check ?></h4>
 </div>
 
 <div id="gesture-details" class="modal-body">
-    <h4>Klassifizierte Gesten</h4>
+    <h4><?php echo $lang->ClassifiedGestures ?></h4>
     <div class="row" style="margin-top: 10px">
         <div id="gestures-list-container"></div>
     </div>
@@ -17,7 +17,7 @@ include '../includes/language.php';
 <hr style="margin: 0">
 
 <div id="modal-body" class="modal-body">
-    <h4>Checkliste</h4>
+    <h4><?php echo $lang->checklist ?></h4>
     <div id="editable-checklist" style="margin-top: 10px;">
         <div class="question-container"></div>
     </div>
@@ -26,8 +26,8 @@ include '../includes/language.php';
 <hr style="margin: 0">
 
 <div class="modal-body" id="objective-question">
-    <h4>Eignung der Geste</h4>
-    
+    <h4><?php echo $lang->fitnessOfGesture ?></h4>
+
     <div id="switch" style="margin-top: 10px">
         <label class="text"><?php echo $lang->objectiveExtractionChecklistQuestion ?></label> 
         <div class="switch root">
@@ -63,7 +63,7 @@ include '../includes/language.php';
             </div>
         </div>
     </div>
-    
+
 </div>
 
 <div id="modal-footer" class="modal-footer">
@@ -90,7 +90,7 @@ include '../includes/language.php';
         } else {
             renderQuestionnaire(('#editable-checklist'), items, null);
         }
-        
+
         if (currentAssignment.checklist && currentAssignment.checklist.objectiveAnswer) {
             $('#objective-question #switch').find('#' + currentAssignment.checklist.objectiveAnswer).click();
         }

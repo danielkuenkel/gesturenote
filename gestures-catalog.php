@@ -51,11 +51,6 @@ if (login_check($mysqli) == true) {
         <script src="js/color-thief/color-thief.js"></script> 
         <script src="js/filesaver/FileSaver.min.js"></script>
 
-        <!--         gesture recorder sources 
-                <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
-                <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
-                <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>-->
-
         <!-- leap and plugins -->
         <script src="js/leapjs/leap-0.6.4.min.js"></script>
         <script src="js/leapjs/leap-plugins-0.1.12.min.js"></script>

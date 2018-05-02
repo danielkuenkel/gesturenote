@@ -217,7 +217,7 @@ include '../includes/language.php';
                                 <i class="fa fa-circle hidden" id="over"></i>
                                 <i class="fa fa-check-circle hidden" id="checked"></i>
                             </span>
-                            <span class="option-text">Auswahl einer Option</span>
+                            <span class="option-text"><?php echo $lang->selectionOfOneOption ?></span>
                         </button>
                     </div>
                     <div class="btn-group" id="radio" style="margin: 0">
@@ -227,7 +227,7 @@ include '../includes/language.php';
                                 <i class="fa fa-circle hidden" id="over"></i>
                                 <i class="fa fa-check-circle hidden" id="checked"></i>
                             </span>
-                            <span class="option-text">Keiner Auswahl</span>
+                            <span class="option-text"><?php echo $lang->selectionOfNoneOption ?></span>
                         </button>
                     </div>
                     <div class="btn-group" id="radio" style="margin: 0">

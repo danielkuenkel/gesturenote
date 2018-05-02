@@ -443,6 +443,25 @@ function uninviteUser(data, callback) {
     });
 }
 
+function prepareStudyExecution(data, callback) {
+    $.ajax({
+        ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
+        url: 'includes/prepare-study-execution.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getStudyResults(data, callback) {
     $.ajax({
         ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',

@@ -57,11 +57,6 @@ include './includes/language.php';
             </div>
         </div>
 
-<!--         Container (Panel Section) 
-        <div class="container mainContent" style="margin-top: 35px;">
-
-        </div>-->
-
 
         <script>
             $(document).ready(function () {

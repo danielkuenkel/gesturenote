@@ -261,10 +261,6 @@ if (login_check($mysqli) == true) {
                     
                     for (var i = viewFromIndex; i < viewToIndex; i++) {
                         var clone = getStudiesCatalogListThumbnail(currentFilterList, currentFilterData[i]);
-//                        var height = chance.natural({min: 50, max: 300});
-//                        $(clone).find('.panel-heading').css({height: height + 'px'});
-//                        $(currentFilterList).append(clone);
-
                         if (animate) {
                             TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                         }

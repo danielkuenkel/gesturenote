@@ -48,9 +48,6 @@ if (login_check($mysqli) == true) {
         <div id="template-subpages"></div>
 
 
-
-        <!-- Container (Landing Section) -->
-        <!--<div class="container-fluid bg-grey wall" id="landingText">-->
         <!-- Container (Breadcrump) -->
         <div class="container" id="breadcrumb" style="margin-top: 40px">
             <div class="row">
@@ -62,10 +59,6 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <!--            <div class="container text-center dropShadowText">
-                        <h1><i class="fa fa-map-signs" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->breadcrump->gestureStyleguides ?></span></h1>
-                    </div>-->
-        <!--</div>-->
 
         <div class="container" id="general-styleguides" style="margin-top: 0px">
             <h2 style="margin-top: 40px"><?php echo $lang->gestureStyleguides->process->headline ?></h2>
@@ -155,8 +148,6 @@ if (login_check($mysqli) == true) {
         </div>
 
         <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors-headline">
-            <!--                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
             <div class="label label-primary" id="factor-primary"></div>
         </div>
 

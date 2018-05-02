@@ -17,11 +17,11 @@ include '../includes/language.php';
         <!-- Schalter -->
         <a class="left carousel-control" href="#carousel-introduction-generic" role="button" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Zurück</span>
+            <span class="sr-only"><?php echo $lang->previous ?></span>
         </a>
         <a class="right carousel-control" href="#carousel-introduction-generic" role="button" data-slide="next">
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Weiter</span>
+            <span class="sr-only"><?php echo $lang->next ?></span>
         </a>
     </div>
 </div>
@@ -36,11 +36,11 @@ include '../includes/language.php';
                 <i class="fa fa-square hidden" id="over"></i>
                 <i class="fa fa-check-square hidden" id="checked"></i>
             </span>
-            <span class="option-text ellipsis">Diese Hilfe nicht mehr automatisch anzeigen</span>
+            <span class="option-text ellipsis"><?php echo $lang->dontShowIntroductionAutomatically ?></span>
         </button>
     </div>
 
-    <button type="button" class="btn btn-default btn-shadow" id="btn-close"><i class="fa fa-close"></i> Schließen</button>
+    <button type="button" class="btn btn-default btn-shadow" id="btn-close"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
 </div>
 
 <script>

@@ -124,8 +124,8 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="root" id="rudimentary-gesture-thumbnail">
-        <div class="thumbnail gesture-thumbnail btn-shadow">
+    <div class="root " id="rudimentary-gesture-thumbnail">
+        <div class="gesture-thumbnail btn-shadow">
             <div class="embed-responsive embed-responsive-4by3">
                 <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
@@ -137,10 +137,10 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            <div class="caption text-center" style="padding-bottom: 10px">
+            <!--<div class="caption text-center" style="padding-bottom: 10px">-->
 <!--                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text hidden-xs"></span></span>
                 <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text hidden-xs"></span></span>-->
-            </div>
+            <!--</div>-->
         </div>
     </div>
 

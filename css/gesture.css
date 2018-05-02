@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : danielkunkel
 */
 
-.gesture-modal-preview .previewGesture, .gesture-thumbnail .previewGesture {
+.gesture-modal-preview .previewGesture, .gesture-thumbnail .previewGesture, .rudimentary-gesture-thumbnail .previewGesture {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -110,7 +110,11 @@ and open the template in the editor.
     border-bottom-right-radius: 5px;
 }
 
-.gesture-thumbnail {
+.rudimentary-gesture-thumbnail .previewGesture {
+    border-radius: 5px;
+}
+
+.gesture-thumbnail, .rudimentary-gesture-thumbnail {
     cursor: pointer;
 }
 

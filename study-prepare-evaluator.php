@@ -519,24 +519,6 @@ if ($h && $token && $studyId) {
                         $('#btn-enter-study').addClass('disabled');
                         $('#btn-start-screen-sharing').addClass('disabled');
                     });
-
-
-
-//                    $('#btn-start-screen-sharing').on('click', function (event) {
-//                        event.preventDefault();
-//                        if (!$(this).hasClass('active')) {
-//                            $(this).addClass('active');
-//                            peerConnection.shareScreen(function (error) {
-//                                $('#btn-start-screen-sharing').removeClass('active');
-//                                console.log(error);
-//                            }, function () {
-//                                console.log('screen sharing successful started');
-//                            });
-//                        } else {
-//                            $(this).removeClass('active');
-//                            peerConnection.stopShareScreen();
-//                        }
-//                    });
                 }
             }
 

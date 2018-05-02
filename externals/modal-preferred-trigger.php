@@ -3,7 +3,7 @@ include '../includes/language.php';
 ?>
 
 <div class="modal-header">
-    <h4 class="modal-title">Funktionsauswahl</h4>
+    <h4 class="modal-title"><?php echo $lang->triggerSelection ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
     <div class="text-center root" style="max-width: 400px; margin: 0 auto; margin-bottom: 20px" id="gesturePreview">

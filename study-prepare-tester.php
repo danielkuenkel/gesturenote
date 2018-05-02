@@ -155,42 +155,6 @@ if ($h && $token && $studyId) {
                 </div>
             </div>
 
-            <!--            <div class="row hidden" id="technical-check" style="margin-top: 40px">
-                            <div class="col-xs-12">
-                                <h2 id="check-headline" style="margin-top: 0"><?php echo $lang->checkWebcam ?></h2>
-                                <hr>
-                            </div>
-            
-                            <div class="col-sm-6">
-                                <div class="alert-space alert-web-rtc-not-supported"></div>
-                                <video autoplay id="rtc-video" class="rtc-stream hidden" style="width: 100%; height: auto; overflow: hidden; border-radius: 4px;"></video>
-                            </div>
-                            <div class="col-sm-6 text">
-                                <p><?php echo $lang->checkWebcamText1 ?></p>
-                                <p><?php echo $lang->checkWebcamText2 ?></p>
-            
-                                <div id="web-rtc-working">
-                                    <p><?php echo $lang->seeYourselfQuestion ?></p>
-                                    <div class="btn-group">
-                                        <button class="btn btn-danger btn-shadow" id="btn-no"><?php echo $lang->no ?></button>
-                                        <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
-                                    </div>
-                                </div>
-            
-                                <div id="web-rtc-not-working" class="hidden">
-                                    <p><?php echo $lang->seeBrowserQuestion ?></p>
-                                    <div class="btn-group">
-                                        <button class="btn btn-danger btn-shadow" id="btn-no"><?php echo $lang->no ?></button>
-                                        <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
-                                    </div>
-                                </div>
-            
-                                <div class="alert-space alert-another-browser-needed-for-web-rtc"></div>
-                                <div class="alert-space alert-contact-support"></div>
-            
-                            </div>
-                        </div>-->
-
         </div>
 
     </div>

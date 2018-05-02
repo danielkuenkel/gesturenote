@@ -1532,7 +1532,6 @@ var Moderator = {
             Moderator.enableScenarioControls(container);
         }
 
-//        var query = getQueryParams(document.location.search);
         $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
             event.preventDefault();
             Moderator.enableScenarioControls(container);
@@ -1553,7 +1552,7 @@ var Moderator = {
                 }
             }
 
-            if (sceneCount <= 1) {
+            if (tasks.length === 1 && sceneCount <= 1) {
                 return true;
             }
             return false;
@@ -2349,7 +2348,7 @@ var Moderator = {
                             $(this).addClass('btn-primary');
                             $(this).parent().parent().find('.scene-description').removeClass('hidden');
                             currentIdentificationScene = event.data.index;
-                            openPrototypeScene(event.data.scene, data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                            openPrototypeScene(event.data.scene, data.identification.length === 1 && data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
 
                             if (identificationStartTriggered) {
                                 getGMT(function (timestamp) {
@@ -2387,7 +2386,7 @@ var Moderator = {
             if (!screenSharingStopped && identificationPrototypeOpened && currentIdentificationIndex > 0) {
                 $(item).find('#btn-start-gesture-recording').removeClass('disabled');
                 var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
-                openPrototypeScene(scene, data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                openPrototypeScene(scene, data.identification.length === 1 && data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
 
                 if (currentIdentificationIndex >= data.identification.length - 1) {
                     $(container).find('#btn-next-trigger').remove();
@@ -2615,7 +2614,7 @@ var Moderator = {
 
             if (!screenSharingStopped && identificationPrototypeOpened && currentIdentificationIndex > 0) {
                 var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
-                openPrototypeScene(scene, data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                openPrototypeScene(scene, data.identification.length === 1 && data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
 
                 if (currentIdentificationIndex >= data.identification.length - 1) {
                     $(container).find('#btn-next-trigger').remove();
@@ -2713,7 +2712,7 @@ var Moderator = {
                 identificationPrototypeOpened = true;
                 $(this).remove();
                 $(container).find('#btn-start-screen-sharing').removeClass('hidden');
-                openPrototypeScene(currentScene, data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                openPrototypeScene(currentScene, data.identification.length === 1 && data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
             }
         });
 
@@ -3075,7 +3074,7 @@ var Moderator = {
                             $(this).addClass('btn-primary');
                             $(this).parent().parent().find('.scene-description').removeClass('hidden');
                             currentExplorationScene = event.data.index;
-                            openPrototypeScene(event.data.scene, data.exploration[currentExplorationIndex].transitionScenes.length === 1, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
+                            openPrototypeScene(event.data.scene, data.exploration.length === 1 && data.exploration[currentExplorationIndex].transitionScenes.length === 1, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
                         }
 
                         if ($(this).hasClass('disabled')) {
@@ -3091,7 +3090,7 @@ var Moderator = {
             } else {
                 if (scenesUsedForExploration(data.exploration) === true) {
                     // no scenes available for current exploration item
-                    openPrototypeScene(null, data.exploration.length === 1, null, currentExplorationIndex);
+                    openPrototypeScene(null, data.exploration.length === 1 && data.exploration[currentExplorationIndex].transitionScenes.length === 1, null, currentExplorationIndex);
                 } else {
                     // no scenes used at all
                     $(container).find('#btn-open-prototype').remove();
@@ -3300,7 +3299,7 @@ var Moderator = {
                 explorationPrototypeOpened = true;
                 $(this).remove();
                 $(container).find('#btn-start-screen-sharing').removeClass('hidden');
-                openPrototypeScene(currentScene, data.exploration.length === 1, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description, currentExplorationIndex);
+                openPrototypeScene(currentScene, data.exploration.length === 1 && data.exploration[currentExplorationIndex].transitionScenes.length === 1, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description, currentExplorationIndex);
             }
         });
 
@@ -3562,68 +3561,6 @@ var Moderator = {
             }
         }
     }
-//    initScreenSharing: function initScreenSharing(recordingNeeded) {
-//        if (!peerConnectionSharing) {
-//            var query = getQueryParams(document.location.search);
-//            var roomId = 'screenSharingRoom';
-//            if (query.roomId) {
-//                roomId = query.roomId + 'sharing';
-//            }
-//            var callerOptions = {
-////                        target: $('#viewModerator').find('#pinnedRTC'),
-////                        callerElement: $('#video-caller'),
-//                localVideoElement: '',
-//                remoteVideoElement: '',
-//                sharingVideoElement: '#video-embed',
-//                enableWebcamStream: false,
-//                enableDataChannels: false,
-//                autoRequestMedia: false,
-//                roomId: roomId,
-//                shareScreen: true,
-//                localStream: {audio: 'no', video: 'no', visualize: 'no'},
-//                remoteStream: {audio: 'no', video: 'no'}
-//            };
-//
-//            peerConnectionSharing = new PeerConnectionSharing();
-//            peerConnectionSharing.initialize(callerOptions);
-//        }
-
-//        if (!screenSharingModerator) {
-//            var query = getQueryParams(document.location.search);
-//            if (query.roomId === undefined) {
-//                screenSharingModerator = new ScreenSharing('previewRoom', false);
-//            } else {
-//                screenSharingModerator = new ScreenSharing(query.roomId + "screensharing", true);
-//            }
-//        }
-//
-//        $(screenSharingModerator).unbind('started').bind('started', {message: establishMessage}, function (event) {
-//            console.log('screen sharing started: message -> ', event.data.message);
-//
-//            if (peerConnection) {
-//                setTimeout(function () {
-//                    $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
-//                        event.preventDefault();
-//
-//                        if (callback) {
-//                            callback();
-//                        }
-//                    });
-//
-//                    peerConnection.sendMessage(establishMessage);
-//                }, 3000);
-//            }
-//        });
-//
-//        screenSharingModerator.start();
-//    }
-//    resetScreenSharing: function resetScreenSharing() {
-//        if (screenSharingModerator) {
-//            screenSharingModerator.stop();
-//            screenSharingModerator = null;
-//            $('#screenSharingTarget').empty();
-//        }
-//    }
 };
 function renderObservations(data, container) {
     if (data.observations && data.observations.length > 0) {

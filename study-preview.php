@@ -79,8 +79,8 @@ if (login_check($mysqli) == true) {
 
             <div class="input-group">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-default" id="btnViewModerator"><span class="hidden-sm hidden-xs">Moderator</span><span class="hidden-md hidden-lg">M</span></button>
-                    <button type="button" class="btn btn-default" id="btnViewTester"><span class="hidden-sm hidden-xs">Tester</span><span class="hidden-md hidden-lg">T</span></button>
+                    <button type="button" class="btn btn-default" id="btnViewModerator"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->evaluator ?></span><span class="hidden-md hidden-lg">M</span></button>
+                    <button type="button" class="btn btn-default" id="btnViewTester"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->tester ?></span><span class="hidden-md hidden-lg">T</span></button>
                 </div>
                 <input class="form-control item-input-text option-phase-steps show-dropdown text-center readonly" type="text" value=""/>
                 <div class="input-group-btn phaseStepsSelect select" role="group">

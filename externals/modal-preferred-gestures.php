@@ -3,7 +3,7 @@ include '../includes/language.php';
 ?>
 
 <div class="modal-header">
-    <h4 class="modal-title">Gestenauswahl</h4>
+    <h4 class="modal-title"><?php echo $lang->gestureSelection ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
     <div class="question-container"></div>

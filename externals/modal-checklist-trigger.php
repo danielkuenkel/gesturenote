@@ -7,11 +7,8 @@ include '../includes/language.php';
     <h4 class="modal-title"><?php echo $lang->check ?></h4>
 </div>
 
-<div id="gesture-details" class="modal-body">
-    <h4><?php echo $lang->ClassifiedTriggers ?></h4>
-    <div class="row" style="margin-top: 10px">
-        <div id="trigger-list-container"></div>
-    </div>
+<div id="modal-body" class="modal-body">
+    <div id="list-container"></div>
 </div>
 
 <hr style="margin: 0">
@@ -76,19 +73,66 @@ include '../includes/language.php';
     });
 
     function renderData() {
+         var row = document.createElement('div');
+        $(row).addClass('row');
+        $('#modal-body').find('#list-container').append(row);
+        
         var gesture = getGestureById(currentAssignment.gestureId);
 //        var involvedGesture = getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-6 col-md-4 col-lg-3');
 //            $('#gesture-details').find('#gestures-list-container').append(involvedGesture);
         
+        var gesture = getGestureById(currentAssignment.gestureId);
+        var gesturePreview = getSimpleGestureListThumbnail(gesture, 'rudimentary-gesture-thumbnail', 'col-xs-12 col-sm-5 col-md-4 col-lg-3');
+        $(row).append(gesturePreview);
+        
+        var triggerCol = document.createElement('div');
+        $(triggerCol).addClass('col-xs-12 col-sm-5 col-md-8 col-lg-9');
+        $(row).append(triggerCol);
+
         for (var k = 0; k < currentAssignment.trigger.length; k++) {
-            
+            var trigger = getTriggerById(currentAssignment.trigger[k], ELICITED_TRIGGER);
+            var triggerColItem = document.createElement('div');
+            $(triggerCol).append(triggerColItem);
+
+            var title = document.createElement('div');
+            $(triggerCol).append(title);
+
+            var titleLabel = document.createElement('span');
+            $(titleLabel).text(translation.trigger + ' ' + (k+1) + ': ');
+            $(title).append(titleLabel);
+
+            var titleText = document.createElement('span');
+            $(titleText).addClass('text');
+            $(titleText).text(gesture.title);
+            $(title).append(titleText);
+
+            var relationship = document.createElement('div');
+            $(triggerCol).append(relationship);
+
+            var relationshipLabel = document.createElement('span');
+            $(relationshipLabel).text(translation.gestureAssociation + ': ');
+            $(relationship).append(relationshipLabel);
+
+            var relationshipText = document.createElement('span');
+            $(relationshipText).addClass('text');
+            $(relationship).append(relationshipText);
+
+            if (trigger.justification && (trigger.justification !== null || trigger.justification !== '')) {
+                $(relationshipText).text(trigger.justification);
+            } else {
+                $(relationshipText).text(translation.noAssociation);
+            }
+
+            if (k > 0) {
+                $(triggerColItem).css({marginTop: '16px'});
+            }
         }
 
         var classification = getLocalItem(CLASSIFICATION);
         var items = getAssembledItems(classification.checklist.items);
 
         if (currentAssignment && currentAssignment.checklist && currentAssignment.checklist.answers && currentAssignment.checklist.answers.length > 0) {
-            console.log(currentAssignment.checklist.answers);
+//            console.log(currentAssignment.checklist.answers);
             renderQuestionnaire(('#editable-checklist'), items, {answers: currentAssignment.checklist.answers});
         } else {
             renderQuestionnaire(('#editable-checklist'), items, null);
@@ -112,7 +156,7 @@ include '../includes/language.php';
             }
         }
         
-        console.log(answers);
+//        console.log(answers);
         setLocalItem(CLASSIFICATION, classification);
         saveClassification();
         updateTriggerAssignmentInfos($('#content-btn-potential-trigger'), POTENTIAL_TRIGGER, currentAssignment.mainTriggerId, getAssignmentForTriggerId(currentAssignment.mainTriggerId));

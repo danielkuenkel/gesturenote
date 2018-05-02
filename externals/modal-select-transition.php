@@ -3,14 +3,14 @@ include '../includes/language.php';
 ?>
 
 <div class="modal-header">
-    <h4 class="modal-title">Welche Geste wurde vorgeführt?</h4>
+    <h4 class="modal-title"><?php echo $lang->whichGestureWasDemonstrated ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
     <div class="container-root row" id="list-container"></div>
 
     <div class="btn-group-vertical btn-block" style="margin-top: 10px;">
-        <button type="button" class="btn btn-default btn-other-gesture-fit" id="no-gesture-fit-found">Ich habe eine ganz andere Geste vorgeführt</button>
-        <button type="button" class="btn btn-default btn-other-gesture-fit" id="no-gesture-demonstrated">Ich habe keine Geste vorgeführt</button>
+        <button type="button" class="btn btn-default btn-other-gesture-fit" id="no-gesture-fit-found"><?php echo $lang->demonstratedAnotherGesture ?></button>
+        <button type="button" class="btn btn-default btn-other-gesture-fit" id="no-gesture-demonstrated"><?php echo $lang->demonstratedNoGesture ?></button>
     </div>
 
     <div class="col-sm-6 col-md-4 root hidden" id="tester-woz-item">
@@ -24,7 +24,7 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-success btn-block" id="btn-select-item" style="margin-top: 10px;">Diese</button>
+                <button type="button" class="btn btn-success btn-block" id="btn-select-item" style="margin-top: 10px;"><?php echo $lang->thisGesture ?></button>
             </div>
         </div>
     </div>

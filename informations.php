@@ -53,7 +53,7 @@ include_once 'includes/functions.php';
 
         <!-- Container (Landing Section) -->
         <div class="container mainContent" style="margin-top: 0px">
-            Inhalte werden folgen in den nächsten Wochen.
+            Inhalte folgen in den nächsten Wochen.
         </div>
 
         <script>

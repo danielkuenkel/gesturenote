@@ -131,7 +131,7 @@ $(document).on('click', '.btn-popover-gesture-preview', function (event) {
     }
 });
 
-$('body').on('mouseleave', '.btn-popover-gesture-preview', function (event) {
+$(document).on('mouseleave', '.btn-popover-gesture-preview', function (event) {
     event.preventDefault();
     $(this).removeClass('active');
     resetPopover();
