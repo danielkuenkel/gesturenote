@@ -10,14 +10,14 @@ var popoverVisible = false;
 $(document).on('mouseenter', '.previewGesture', function (event) {
     event.preventDefault();
     if ($(this).hasClass('mousePlayable')) {
-        $(this).parent().find('#btn-play-gesture').click();
+        $(this).parent().find('.btn-play-gesture').click();
     }
 });
 
 $(document).on('mouseleave', '.previewGesture', function (event) {
     event.preventDefault();
     if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
-        $(this).parent().find('#btn-stop-gesture').click();
+        $(this).parent().find('.btn-pause-gesture').click();
     }
 });
 
@@ -150,7 +150,7 @@ function onResetTweenComplete() {
 }
 
 function resetPlayButton(source) {
-    $(source).closest('.root').find('#btn-play-gesture').removeClass('active');
+    $(source).closest('.root').find('.btn-play-gesture').removeClass('active');
 }
 
 var originalImageWidth = 0;
@@ -181,8 +181,8 @@ function renderGestureImages(container, images, preview, callback) {
                     TweenMax.to(container, .3, {opacity: 1});
 
                     if ($(container).hasClass('autoplay')) {
-                        $(container).parent().find('#btn-stop-gesture').click();
-                        $(container).parent().find('#btn-play-gesture').click();
+                        $(container).parent().find('.btn-pause-gesture').click();
+                        $(container).parent().find('.btn-play-gesture').click();
                     }
                     if (callback !== null && callback !== undefined) {
                         callback();

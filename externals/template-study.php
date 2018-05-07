@@ -226,7 +226,7 @@ include '../includes/language.php';
             </div>
 
             <div class="col-sm-6">
-                <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center gestureControls hidden">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>

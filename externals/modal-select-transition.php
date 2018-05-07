@@ -74,12 +74,12 @@ include '../includes/language.php';
 
             $(clone).find('.panel').mouseenter(function (event) {
                 event.preventDefault();
-                $(this).find('#btn-play-gesture').click();
+                $(this).find('.btn-play-gesture').click();
             });
 
             $(clone).find('.panel').mouseleave(function (event) {
                 event.preventDefault();
-                $(this).find('#btn-stop-gesture').click();
+                $(this).find('.btn-pause-gesture').click();
             });
 
             $(clone).find('#btn-select-item').click({wozData: items[i]}, function (event) {

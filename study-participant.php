@@ -546,7 +546,8 @@ if (login_check($mysqli) == true) {
                 var susResultsValid = true;
                 var count = 0;
                 for (var i = 0; i < resultsData.answers.length; i++) {
-                    if (parseInt(resultsData.answers[i].selectedOption) !== -1) {
+                    console.log(resultsData.answers[i], resultsData.answers[i].answer.scales);
+                    if (parseInt(resultsData.answers[i].answer.scales) !== -1) {
                         var negative = studyData[i].parameters.negative === 'yes';
                         if (negative) {
                             count += translation.susOptions.length - (parseInt(resultsData.answers[i].answer.scales) + 1);

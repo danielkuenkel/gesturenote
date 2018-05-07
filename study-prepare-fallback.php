@@ -42,6 +42,7 @@ if ($h && $studyId) {
         <link rel="stylesheet" href="css/generalSubPages.css">
 
         <script src="js/constants.js"></script>
+        <script src="js/storage.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
         <script type="text/JavaScript" src="js/login.js"></script>
@@ -179,17 +180,23 @@ if ($h && $studyId) {
                     if (origin.includes('localhost')) {
                         origin += '/gesturenote';
                     }
+                    var study = getLocalItem(STUDY);
 
                     var hash = hex_sha512(parseInt(query.studyId) + 'guest');
                     var testerUrl = origin + '/study-prepare-tester.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash;
                     var moderatorUrl = origin + '/study-prepare.php?studyId=' + query.studyId + '&h=' + query.h;
-                    prepareStudyExecution({studyId: query.studyId, executionUrl: moderatorUrl}, function (result) {
-                        if (result.status === RESULT_SUCCESS) {
-                            goto(testerUrl);
-                        } else {
-                            console.error(result.status);
-                        }
-                    });
+
+                    if (study.surveyType === TYPE_SURVEY_MODERATED) {
+                        prepareStudyExecution({studyId: query.studyId, executionUrl: moderatorUrl}, function (result) {
+                            if (result.status === RESULT_SUCCESS) {
+                                goto(testerUrl);
+                            } else {
+                                console.error(result.status);
+                            }
+                        });
+                    } else {
+                        goto(testerUrl);
+                    } 
                 });
             }
         </script>

@@ -1603,7 +1603,7 @@ function toggleGestureThumbnailCollapse(element) {
         var brothers = $(element).closest('.container-root').children();
         for (var i = 0; i < brothers.length; i++) {
             $(brothers[i]).find('.panel-collapse').removeClass('in');
-            $(brothers[i]).find('#btn-stop-gesture').click();
+            $(brothers[i]).find('.btn-pause-gesture').click();
         }
         $(element).addClass('in');
     } else {
@@ -2079,7 +2079,7 @@ function initMoreInfoGesture(button, clone, data, source, modalId) {
         resetThumbnails($(clone).find('.previewGesture'));
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone};
         gesturePreviewOpened = true;
-        $(clone).find('#btn-stop-gesture').click();
+        $(clone).find('.btn-pause-gesture').click();
 
         $('#custom-modal').on('gesture-deleted', function () {
             checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
@@ -2106,7 +2106,7 @@ function initCommentGesture(button, clone, source, data) {
         resetThumbnails($(clone).find('.previewGesture'));
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'comments'};
         gesturePreviewOpened = true;
-        $(clone).find('#btn-stop-gesture').click();
+        $(clone).find('.btn-pause-gesture').click();
         loadHTMLintoModal('custom-modal', 'externals/modal-gesture.php', 'modal-lg');
     });
 }
@@ -2119,7 +2119,7 @@ function initGestureSet(button, clone, source, data) {
             resetThumbnails($(clone).find('.previewGesture'));
             currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'gestureSets'};
             gesturePreviewOpened = true;
-            $(clone).find('#btn-stop-gesture').click();
+            $(clone).find('.btn-pause-gesture').click();
             loadHTMLintoModal('custom-modal', 'externals/modal-gesture.php', 'modal-lg');
         });
     }
@@ -2325,7 +2325,7 @@ function initRatingGesture(button, clone, source, data) {
         resetThumbnails($(clone).find('.previewGesture'));
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'rating'};
         gesturePreviewOpened = true;
-        $(clone).find('#btn-stop-gesture').click();
+        $(clone).find('.btn-pause-gesture').click();
         loadHTMLintoModal('custom-modal', 'externals/modal-gesture.php', 'modal-lg');
     });
 }

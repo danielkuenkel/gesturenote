@@ -34,6 +34,7 @@ if (login_check($mysqli) == true) {
         <script type="text/JavaScript" src="js/ajax.js"></script>
         <script type="text/JavaScript" src="js/constants.js"></script>
         <script type="text/JavaScript" src="js/goto-general.js"></script>
+        <script type="text/JavaScript" src="js/goto-evaluator.js"></script>
         <script type="text/JavaScript" src="js/language.js"></script>
         <script type="text/JavaScript" src="js/externals.js"></script>
         <script type="text/JavaScript" src="js/alert.js"></script>
