@@ -28,6 +28,7 @@ if (login_check($mysqli) == true) {
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
 
+        <script type="text/JavaScript" src="js/storage.js"></script> 
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/login.js"></script>
         <script type="text/JavaScript" src="js/checkForms.js"></script>
