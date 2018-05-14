@@ -219,7 +219,7 @@
     "cancelExecution": "Die Befragung wirklich abbrechen?",
     "deleteStudyModal": "Wollen Sie diese Studie wirklich löschen? Alle Studien-Daten gehen dabei verloren. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.",
     "deleteCreateModal": "Die Erstellung dieser Studie wirklich beenden? Es werden alle Daten gelöscht!",
-    "executeStudy": "Studie durchführen",
+    "executeStudy": "Befragung starten",
     "showIntroduction": "Zeige Einführung",
     "introduction": "Einführung",
     "help": "Hilfe",
@@ -423,7 +423,7 @@
     "allPointsDistributed": "Alle Punkte verteilt",
     "notAllPointsDistributed": "Nicht alle Punkte verteilt",
     "enterStudyAsTester": "An Studie teilnehmen",
-    "enterStudyAsModerator": "Studie durchführen",
+    "enterStudyAsModerator": "Befragung starten",
     "justification": "Begründung(en)",
     "justificationFor": "Begründung(en) bei",
     "alternative": "Alternative",
@@ -1779,7 +1779,7 @@
             "matrix": "Dieses Fragenformat stellt eine Erweiterung zum Rating dar. Es lassen sich damit z.B. Fragen wie: 'Wie häufig arbeiten Sie mit den jeweiligen Gesten-Sensoren?' und deren Optionen: 'Kinect', 'Leap Motion Controller', 'Nintendo Wii', sowie deren Skalen von 'überhaupt nicht' bis 'täglich' erstellen.",
             "matrixRows": "Fügen Sie mehrere Zeilen ein, die ein Proband bewerten soll.",
             "identification": "Wählen Sie aus, ob Sie Gesten oder Funktionen ermittelt wollen. Legen Sie eine Liste von Elementen an für die Sie Gesten bzw. Funktionen ermitteln möchten.",
-            "identificationOverlay": "<p>Wählen Sie aus, ob Sie Gesten oder Funktionen ermitteln wollen. Wenn z.B. Gesten ermittelt werden sollen, muss ein Funktionen- und Zustands-Katalog vorliegen.</p><p><strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Funktionen geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzer-basiert und zum anderen experten-basiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren. <br/><strong>Funktionen <em>(Top-Down)</em></strong>: Bei Top-Down werden logische Verknüpfungen von Funktionen zu vorhandenen Gesten hergestellt. Wichtig ist dabei, dass eine Quelle für die Gesten angeboten wird. In GestureNote können Funktionen für bereits vorhandene Gesten (ermittelte oder freigegebene Gesten anderer Evaluatoren) oder für von ihnen ad-hoc aufgezeichnete Gesten gesucht werden.</p>",
+            "identificationOverlay": "<p>Teilen Sie ihrem Probanden mit, was während einer Ermittlung passiert.</p> Werden Gesten oder Funktionen ermittelt? Was soll der Proband tun?",
             "identificationFor": "Wenn Gesten identifiziert werden sollen, ist ein Funktionen-Katalog anzulegen. Für zu identifizierende Funktionen wird ein Studien-Gesten-Set benötigt.",
             "identificationWebcam": "Zeichnen sie eine Geste mit einer integrierten oder angeschlossenen Webcam auf. Hierfür werden die Bilddaten gespeichert.",
             "identificationSensor": "Sollen Daten von einem angeschlossenen Sensor aufgezeichnet werden? Die Sensordaten werden an GestureNote übertragen und aufgezeichnet.",
@@ -4309,10 +4309,10 @@
             "description": 
                     [
                         "<h4>Bereiche</h4><hr>",
-                        "<img class='img-image' src='img/de/introduction/study-create/carousel-01-01.jpg' style='max-width:350px' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-01-01.png' style='max-width:337px' />",
                         "<p>Die Erstellung einer Studie ist in drei Bereiche unterteilt: Allgemeines, Kataloge und Leitfaden. Die Kataloge und der Leitfaden können erst angelegt werden, wenn die allgemeinen Daten für die Studie hinterlegt wurden.</p>",
                         "<h4>Info-Symbole</h4><hr>",
-                        "<img class='img-image' src='img/de/introduction/study-create/carousel-01-02.jpg' style='max-width:458px' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-01-02.png' style='max-width:391px' />",
                         "<p>Hinter jedem Info-Symbol <i class='fa fa-info-circle'></i> sind weitere hilfreiche Informationen hinterlegt. Bewegen Sie die Maus über diese Symbole und die Informationen werden angezeigt.</p>",
                         "<h4>Speichern</h4><hr>",
                         "<p>Eine Studie wird erst final gespeichert und erstellt, wenn Sie den grünen Button <button type='button' class='btn btn-success btn-shadow btn-xs'><i class='fa fa-save'></i> Speichern & Schließen</button> klicken. Sie können die Seite neu laden, ohne das Ihre Daten verloren gehen. Laden Sie jedoch die Seite neu, wenn ein Dialog geöffnet ist, werden die Eignaben im Dialog nicht gespeichert. Dialogdaten werden erst gespeichert, wenn ein Dialog geschlossen wird. <br/><br/>Wird eine Studie gespeichert, gelangt man zur Studien-Übersicht. Für die Akquirierung von Probanden stellt GestureNote eine URL bereit, die dann z.B. in sozialen Netzwerken oder per E-Mail geteilt werden kann.</p>"
@@ -4326,10 +4326,10 @@
             "popover": "Allgemeines",
             "description": 
                     [
-                        "<img class='img-image' src='img/de/introduction/study-create/carousel-02-01.jpg' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-02-01.png' style='max-width:726px' />",
                         "<p>Hier sind allgemeine Daten, die einem Probanden vor der Teilnahme an einer Studie anzeigt werden sollen, zu hinterlegen. Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Jede Studie hat eine eindeutige ID, d.h. es können zwei Studien mit dem gleichen Namen angelegt werden, die jedoch einmal eine Ermittlung und einmal eine Evaluierung der zuvor ermittelten Gesten durchführen. Diese Informationen (Studien-Titel und Studien-Beschreibung) werden immer vor einer Studien-Teilnahme angezeigt. Des Weiteren kann die Design-Phase und die Befragungssart frei gewählt werden. Hier kommt es darauf an, in welcher Design-Phase die zu erstellende Studie angesiedelt ist. Bei einer Ermittlung können Gesten oder Funktionen nutzerzentriert identifiziert werden. In einer Extraktion dienen die Daten aus der Ermittlung als Grundlage und es können damit nutzer-zentriert potentielle Gesten oder Funktionen für ein interaktives System identifiziert werden. Die Befragten geben hier z.B. an, welche Geste(n) für eine bestimmte Funktion am Besten geeignet ist/sind. Bei einer Evaluierung können potentielle Gesten auf ihre Gebrauchstauglichkeit hin überprüft werden.</p>",
                         "<p>Bei einer moderierten Befragung begibt sich der Ersteller einer Studie in die Rolle des Moderators. Dieser leitet den Probanden durch eine Befragung oder einen Test. Dazu müssen beide beteiligten (Moderator und Proband) einen aktuellen Browser mit Unterstützung für WebRTC installieren und benutzen. Bei einer unmoderierten Durchführung nimmt nur der Proband an einer Befragung oder einem Test teil. Hier gibt es jedoch Einschränkungen, welche Methoden hierfür unterstützt werden. Mehr Informationen sind dazu unter dem Punkt Leitfaden zu finden.</p>",
-                        "<img class='img-image' src='img/de/introduction/study-create/carousel-02-02.jpg' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-02-02.png' style='max-width:726px' />",
                         "<p>Zusätzlich ist auszuwählen, über welchen Zeitraum eine Studie durchgeführt werden kann. Dazu ist ein Startdatum und ein Enddatum zu wählen. Gibt es für eine Studie keinen Zeitplan, kann die Studie auch nicht durchgeführt werden.</p>"
                     ]
         },
@@ -4427,7 +4427,7 @@
                         "<p>Die Studien-Vorschau dient dazu, sich als Moderator mit dem Leitfaden und der Durchführung einer Studie vertraut zu machen. Es ist wichtig, dass vorab die Workflows der einzelnen Methoden verinnerlicht sind, damit es bei einer Befragung nicht zu Problemen oder Verzögerungen kommt. Des Weiteren kann man so sehen, wie die hinterlegten Studien-Daten für die Befragung visualisiert sind. GestureNote stellt aus diesem Grund die interaktive Vorschau zur Verfügung.</p>",
                         "<h4>Ablauf einer Durchführung</h4><hr>",
                         "<img class='img-svg' style='max-width:300px' src='img/de/introduction/study-preview/execution.svg' />",
-                        "<p>Bei einer moderierten Befragung wird eine Web-Echtzeitkommunikation mit Hilfe von WebRTC zwischen Moderator und Proband aufgebaut. Wie in der oberen Grafik zu sehen, gelangen die Studienteilnehmer beim Aufruf einer Studien-URL zuerst auf eine Übersichtsseite, auf der allgemeine Informationen bereitgestellt werden. Bei einer moderierten Befragung muss der Moderator aus einer Liste der wartenden Teilnehmer einen Probanden auswählen. Es wird eine erste Verbindung zwischen Moderator und Proband hergestellt und der Moderator kann den Probanden begrüßen und diesen über die Studie aufklären. Klickt der Moderator dann auf <em>Studie durchführen</em>, gelangen beide Teilnehmer zur eigentlichen Durchführungsseite. Die Verbindung wird dabei kurz unterbrochen.</p>",
+                        "<p>Bei einer moderierten Befragung wird eine Web-Echtzeitkommunikation mit Hilfe von WebRTC zwischen Moderator und Proband aufgebaut. Wie in der oberen Grafik zu sehen, gelangen die Studienteilnehmer beim Aufruf einer Studien-URL zuerst auf eine Übersichtsseite, auf der allgemeine Informationen bereitgestellt werden. Bei einer moderierten Befragung muss der Moderator aus einer Liste der wartenden Teilnehmer einen Probanden auswählen. Es wird eine erste Verbindung zwischen Moderator und Proband hergestellt und der Moderator kann den Probanden begrüßen und diesen über die Studie aufklären. Klickt der Moderator dann auf <em>Befragung starten</em>, gelangen beide Teilnehmer zur eigentlichen Durchführungsseite. Die Verbindung wird dabei kurz unterbrochen.</p>",
                         "<p>Die Durchführungsseite wird dabei hier von der Vorschau repräsentiert. Die Vorschau stellt also nicht den kompletten Ablauf einer Durchführung dar, sondern nur den hinterlegten Leitfaden.</p>",
                         "<p>Bei einer unmoderierten Befragung ist der Ablauf ähnlich, jedoch wird keine Verbindung zwischen Moderator und Tester hergestellt, da kein Moderator benötigt wird. Der Tester startet die Befragung selbst und folgt den hinterlegten Anweisungen im Leitfaden.</p>",
                         "<h4>Vorschau vs. Durchführung</h4><hr>",

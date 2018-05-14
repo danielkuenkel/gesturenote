@@ -138,7 +138,7 @@ include '../includes/language.php';
                         <div class="form-group root" id="gestureTypeSelect">
                             <label>
                                 <?php echo $lang->gestureType ?> 
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->executionType ?>"></i>
                             </label><br>
 
                             <div class="btn-group" id="radio" style="margin: 0">
@@ -166,7 +166,7 @@ include '../includes/language.php';
                         <div class="form-group root" id="gestureInteractionTypeSelect">
                             <label>
                                 <?php echo $lang->gestureInteractionType ?> 
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->interactionType ?>"></i>
                             </label><br>
 
                             <div class="btn-group" id="radio" style="margin: 0">

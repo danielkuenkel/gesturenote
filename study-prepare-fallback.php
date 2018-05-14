@@ -180,23 +180,29 @@ if ($h && $studyId) {
                     if (origin.includes('localhost')) {
                         origin += '/gesturenote';
                     }
-                    var study = getLocalItem(STUDY);
 
-                    var hash = hex_sha512(parseInt(query.studyId) + 'guest');
-                    var testerUrl = origin + '/study-prepare-tester.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash;
-                    var moderatorUrl = origin + '/study-prepare.php?studyId=' + query.studyId + '&h=' + query.h;
+                    getStudyById({studyId: query.studyId}, function (result) {
+                        console.log(result);
+                        if (result.status === RESULT_SUCCESS) {
+                            var hash = hex_sha512(parseInt(query.studyId) + 'guest');
+                            var testerUrl = origin + '/study-prepare-tester.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash;
+                            var moderatorUrl = origin + '/study-prepare.php?studyId=' + query.studyId + '&h=' + query.h;
 
-                    if (study.surveyType === TYPE_SURVEY_MODERATED) {
-                        prepareStudyExecution({studyId: query.studyId, executionUrl: moderatorUrl}, function (result) {
-                            if (result.status === RESULT_SUCCESS) {
-                                goto(testerUrl);
+                            if (result.studyData.surveyType === TYPE_SURVEY_MODERATED) {
+                                prepareStudyExecution({studyId: query.studyId, executionUrl: moderatorUrl}, function (result) {
+                                    if (result.status === RESULT_SUCCESS) {
+                                        goto(testerUrl);
+                                    } else {
+                                        console.error(result.status);
+                                    }
+                                });
                             } else {
-                                console.error(result.status);
+                                goto(testerUrl);
                             }
-                        });
-                    } else {
-                        goto(testerUrl);
-                    } 
+                        } else {
+                            console.error('error: ', result.status);
+                        }
+                    });
                 });
             }
         </script>

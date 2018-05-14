@@ -79,6 +79,10 @@ if (login_check($mysqli) == true) {
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
+        
+        <!-- bootstrap slider -->
+        <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
+        <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
     </head>
     <body>
 

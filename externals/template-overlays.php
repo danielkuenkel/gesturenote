@@ -1740,7 +1740,7 @@ include '../includes/language.php';
             </div>
 
             <div class="col-md-4">
-                <div style=""><?php echo $lang->tooltips->studyCreate->identificationOverlay ?></div>
+                <div class="text"><?php echo $lang->tooltips->studyCreate->identificationOverlay ?></div>
             </div>
         </div>
 
@@ -1754,7 +1754,7 @@ include '../includes/language.php';
             </div>
         </div>
         <div class="row" id="identificationElements" style="margin-bottom: 30px;">
-            <div class="col-md-8 col-lg-9">
+            <div class="col-md-7">
                 <div class="alert-space alert-no-study-gestures-assembled-link"></div>
                 <div class="alert-space alert-no-trigger-assembled-link"></div>
                 <div class="alert-space alert-no-scenes-assembled-link"></div>
@@ -1762,7 +1762,7 @@ include '../includes/language.php';
 
                 <div class="option-container"></div>
             </div>
-            <div class="col-md-4 col-lg-3">
+            <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
                     <div class="form-group root" id="identificationTypeSwitch">
                         <label style="margin: 0"  >
