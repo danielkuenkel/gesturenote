@@ -26,7 +26,9 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
+        
 
+        <script src="js/sha512.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
@@ -45,8 +47,6 @@ if (login_check($mysqli) == true) {
         <script src="js/moment/locale/de.js" charset="UTF-8"></script>
         <script src="js/moment/locale/en-gb.js" charset="UTF-8"></script>
 
-
-        <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/refreshSession.js"></script>
@@ -79,6 +79,7 @@ if (login_check($mysqli) == true) {
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
+        <script src="js/resumable/resumable.js"></script>
         
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">

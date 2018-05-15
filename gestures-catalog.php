@@ -27,6 +27,13 @@ if (login_check($mysqli) == true) {
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
         
+        <script src="js/sha512.js"></script>
+        <script src="js/chance.min.js"></script>
+        <script src="js/filesaver/FileSaver.min.js"></script>
+        <script src="js/gifshot/gifshot.min.js"></script>
+        <script src="js/color-thief/color-thief.js"></script> 
+        <script src="js/randomColor/randomColor.js"></script>
+        
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
@@ -62,6 +69,7 @@ if (login_check($mysqli) == true) {
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
+        <script src="js/resumable/resumable.js"></script>
 
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">

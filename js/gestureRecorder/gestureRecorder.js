@@ -697,7 +697,6 @@ function renderStateSave() {
         }
     });
 
-    console.log('gesture contenxt', recorder.options.context);
     if (recorder.options.context) {
         $(contextInput).val(recorder.options.context);
     }
