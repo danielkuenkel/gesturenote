@@ -2223,14 +2223,20 @@ var Moderator = {
 
                 initRerecordingButton(gestureRecorder, null);
             } else {
+                var dummyImage = document.createElement('img');
+                $(dummyImage).attr('src', translation.gestureRecorderDummyURL);
+                $(dummyImage).css({maxWidth: '672px', width: '100%'});
+                container.find('#gesture-recorder-container').empty().append(dummyImage).removeClass('hidden');
+                container.find('#gesture-recorder-container').addClass('text-center');
+
                 $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
                 initRerecordingButton();
 
-                var gestureRecorderPlaceholder = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
-                container.find('#gesture-recorder-container').empty().append(gestureRecorderPlaceholder).removeClass('hidden');
-                container.find('#gesture-recorder-container .gr-playback').removeClass('hidden');
-                $(gestureRecorderPlaceholder).find('#gesture-recorder-nav').remove();
-                renderBodyJoints(gestureRecorderPlaceholder.find('#human-body'));
+//                var gestureRecorderPlaceholder = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
+//                container.find('#gesture-recorder-container').empty().append(gestureRecorderPlaceholder).removeClass('hidden');
+//                container.find('#gesture-recorder-container .gr-playback').removeClass('hidden');
+//                $(gestureRecorderPlaceholder).find('#gesture-recorder-nav').remove();
+//                renderBodyJoints(gestureRecorderPlaceholder.find('#human-body'));
 
                 appendAlert(container, ALERT_PREVIEW_DUMMY);
             }
@@ -2350,7 +2356,7 @@ var Moderator = {
                             currentIdentificationScene = event.data.index;
                             openPrototypeScene(event.data.scene, data.identification.length === 1 && data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
 
-                            if (identificationStartTriggered) {
+                            if (identificationStartTriggered && !previewModeEnabled) {
                                 getGMT(function (timestamp) {
                                     var currentPhase = getCurrentPhase();
                                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -2392,7 +2398,7 @@ var Moderator = {
                     $(container).find('#btn-next-trigger').remove();
                 }
 
-                if (scene) {
+                if (scene && !previewModeEnabled) {
                     getGMT(function (timestamp) {
                         var currentPhase = getCurrentPhase();
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -2604,7 +2610,6 @@ var Moderator = {
         }
 
         function renderIdentificationForTriggerItem(item, container, data) {
-            console.log(data);
             renderSceneTriggerItems(item, container, data);
 
             var searchedData = getGestureById(data.identification[currentIdentificationIndex].gestureId);
@@ -3426,17 +3431,31 @@ var Moderator = {
             });
 
             $(peerConnection).unbind(MESSAGE_CANCEL_SURVEY).bind(MESSAGE_CANCEL_SURVEY, function (event, payload) {
-                if (prototypeWindow) {
-                    prototypeWindow.close();
-                    prototypeWindow = null;
-                }
+                var currentPhase = getCurrentPhase();
+                if (currentPhase.format === IDENTIFICATION || currentPhase.format === EXPLORATION || currentPhase.format === GESTURE_TRAINING || currentPhase.format === SCENARIO) {
+                    if (prototypeWindow) {
+                        peerConnection.stopShareScreen(true, function () {
+                            prototypeWindow.close();
+                            prototypeWindow = null;
+                            console.log('screen stopped for canceling');
 
-                saveCurrentStatus(false);
-                peerConnection.stopRecording(function () {
-                    currentPhaseStepIndex = getThanksStepIndex();
-                    renderPhaseStep();
-                    updateProgress();
-                }, true);
+                            saveCurrentStatus(false);
+                            peerConnection.stopRecording(function () {
+                                console.log('recording stopped for canceling');
+                                currentPhaseStepIndex = getThanksStepIndex();
+                                renderPhaseStep();
+                                updateProgress();
+                            }, true);
+                        });
+                    }
+                } else {
+                    saveCurrentStatus(false);
+                    peerConnection.stopRecording(function () {
+                        currentPhaseStepIndex = getThanksStepIndex();
+                        renderPhaseStep();
+                        updateProgress();
+                    }, true);
+                }
             });
 
             $(peerConnection).unbind(MESSAGE_REQUEST_SYNC).bind(MESSAGE_REQUEST_SYNC, function (event, payload) {
@@ -3461,7 +3480,7 @@ var Moderator = {
 
                 $('#custom-modal').find('.modal-content').empty();
                 $('#custom-modal').modal('hide');
-                
+
                 renderPhaseStep();
 //                Moderator.resetScreenSharing();
 
@@ -3556,7 +3575,7 @@ var Moderator = {
             var videos = $(element).find('video');
             for (var i = 0; i < videos.length; i++) {
 //                if (new String($(videos[i]).attr('id')).includes('video') && !videos[i].playing) {
-                    videos[i].play();
+                videos[i].play();
 //                }
             }
         }

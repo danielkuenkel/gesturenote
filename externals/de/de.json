@@ -256,8 +256,8 @@
     "repeatTraining": "Training wiederholen",
     "startNow": "Jetzt starten",
     "openPrototype": "Prototyp öffnen",
-    "startScreensharing": "Screensharing starten",
-    "stopScreensharing": "Screensharing beenden",
+    "startScreensharing": "Screen-Sharing starten",
+    "stopScreensharing": "Screen-Sharing beenden",
     "done": "Fertig",
     "cancel": "Abbrechen",
     "cancelStudy": "Befragung abbrechen",
@@ -1481,6 +1481,7 @@
     "allGestures": "Alle Gesten",
     "gestureSets": "Gesten-Sets",
     "gestureRecorder": "Gesten-Recorder",
+    "gestureRecorderDummyURL":"img/de/gesture-recorder-dummy.jpg",
     "comments": "Kommentare",
     "share": "Teilen",
     "unshare": "Nicht Teilen",
@@ -4276,7 +4277,7 @@
         "noMoreTasks": {
             "id": "no-more-tasks",
             "type": "warning",
-            "text": "Für dieses Szenario gibt es keine weiteren Aufgaben. Beenden Sie bitte das Screensharing. Falls vorhanden, können sie danach noch letzte Eingaben in ihrem Beobachtungsbogen tätigen."
+            "text": "Für dieses Szenario gibt es keine weiteren Aufgaben. Beenden Sie bitte das Screen-Sharing. Falls vorhanden, können sie danach noch letzte Eingaben in ihrem Beobachtungsbogen tätigen."
         },
         "noAnnotations": {
             "id": "no-annotations",
@@ -4451,10 +4452,10 @@
                     [
                         "<p>Je nachdem, welche Gesten-Design-Phase mit einer erstellten Studie abgedeckt wird, gibt es Unterschiede bei der Durchführung und den gewählten Methoden. Die einzelnen Methoden unterscheiden sich im Workflow, demnach auch in der Vorschau und Durchführung. In GestureNote wurde dennoch auf eine einheitliche Darstellung der Bedienelemente geachtet.</p>",
                         "<p>Der WebRTC Stream und der Beobachtungsleitfaden ist immer auf der linken Seite zu finden. Die hinterlegten Texte für eine Methodeneinführung und die Steuerelemente sind immer auf der rechten Seite zu finden.</p>",
-                        "<h4>Screen Sharing</h4><hr>",
-                        "<p>Einige Methoden nutzen Screen Sharing, um hinterlegte Zustände beim Probanden anzuzeigen.</p>",
+                        "<h4>Screen-Sharing</h4><hr>",
+                        "<p>Einige Methoden nutzen Screen-Sharing, um hinterlegte Zustände beim Probanden anzuzeigen.</p>",
                         "<p><ul><li>Ermittlung mit Zuständen</li><li>Exploration mit Zuständen</li><li>Gesten-Training</li><li>Szenario mit Wizard-of-Oz-Experiment</li></ul></p>",
-                        "<span>Abgesehen von den Methoden und deren unterschiedlichem Workflow, ist das Initiieren und Beenden eines Screensharings immer gleich. </span>",
+                        "<span>Abgesehen von den Methoden und deren unterschiedlichem Workflow, ist das Initiieren und Beenden eines Screen-Sharings immer gleich. Klicken Sie als erstes auf den Button <button class='btn btn-success btn-xs'>Prototyp öffnen</button>. Es öffnet sich ein neues Browserfenster in dem die Zustände gerendert werden. Dieses Fenster soll dem Probanden übertragen werden. Klicken Sie anschließen in GestureNote auf <button class='btn btn-success btn-xs'>Screen-Sharing starten</button>. Es öffnet sich nun ein Dialog, in dem Sie das zu übertragende Browserfester auswählen und mit </span>",
                         "<h4>Fragebögen</h4><hr>",
                         "<p>Alle Fragebögen, sei es ein benutzerdefinierte Fragebogen, ein GUS, SUS oder UEQ, basieren auf den selben Funktionalitäten. Der Proband beantwortet die Fragen auf seinem Gerät. Die Antworten werden in Echtzeit zum Moderator übertragen, d.h. Sie sehen immer an welcher Stelle im Fragebogen sich ein Proband befindet und welche Antworten er gewählt hat. So können Sie nochmal nachhaken, falls es bei einer Frage Schwierigkeiten gibt. Bei einem Interview liest der Moderator die Fragen vor und gibt die Antworten des Probanden in das Formular ein.</p>",
                         "<h4>Ermittlung</h4><hr>",

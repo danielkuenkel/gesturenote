@@ -373,7 +373,7 @@ include '../includes/language.php';
             <div class="option-container"></div>
             <span class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
             <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address"><?php echo $lang->ownAnswers ?>:</span> <span class="text"></span></div>
-            <span class="label label-warning" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span>
+            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span>
         </div>
     </div>
 
@@ -412,7 +412,7 @@ include '../includes/language.php';
             <div class="option-container"></div>
             <span class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
             <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address"><?php echo $lang->ownAnswers ?></span> <span class="text"></span></div>
-            <span class="label label-warning" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span>
+            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span>
         </div>
     </div>
 
@@ -443,7 +443,7 @@ include '../includes/language.php';
             <div class="option-container"></div>
             <span class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
             <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address"><?php echo $lang->ownAnswers ?>:</span> <span class="text"></span></div>
-            <span class="label label-warning" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span>
+            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span>
         </div>
     </div>
 

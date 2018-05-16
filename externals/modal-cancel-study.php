@@ -35,9 +35,26 @@ include '../includes/language.php';
 
                 if (isUploadRecordingNeededForPhaseStep(getCurrentPhase())) {
                     if (peerConnection) {
-                        peerConnection.stopRecording(function () {
-                            abortStudy();
-                        }, true);
+                        var currentPhase = getCurrentPhase();
+                        console.log('abort study', currentPhase, currentView);
+                        if (currentView === VIEW_MODERATOR && (currentPhase.format === IDENTIFICATION || currentPhase.format === EXPLORATION || currentPhase.format === GESTURE_TRAINING || currentPhase.format === SCENARIO)) {
+                            if (prototypeWindow) {
+                                peerConnection.stopShareScreen(true, function () {
+                                    prototypeWindow.close();
+                                    prototypeWindow = null;
+                                    console.log('screen stopped for canceling');
+
+                                    peerConnection.stopRecording(function () {
+                                        console.log('recording stopped for canceling');
+                                        abortStudy();
+                                    }, true);
+                                });
+                            }
+                        } else {
+                            peerConnection.stopRecording(function () {
+                                abortStudy();
+                            }, true);
+                        }
                     } else {
                         abortStudy();
                     }

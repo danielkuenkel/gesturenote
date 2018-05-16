@@ -930,7 +930,6 @@ function renderEditableDichotomousQuestion(item, studyData, answer) {
 }
 
 function renderGroupingQuestion(item, studyData, answer) {
-//    console.log(studyData, answer);
     if (studyData.parameters.multiselect === 'yes') {
         $(item).find('#multiselect').removeClass('hidden');
     } else {
@@ -942,9 +941,10 @@ function renderGroupingQuestion(item, studyData, answer) {
         if (answer) {
             if (answer.optionalAnswer !== '') {
                 $(item).find('#no-answer').addClass('hidden');
-                $(item).find('#no-optional-answer').addClass('hidden');
                 $(item).find('#optionalanswer-content').removeClass('hidden');
                 $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
+            } else {
+                $(item).find('#no-optional-answer').removeClass('hidden');
             }
         }
     }
@@ -1072,9 +1072,10 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
         if (answer) {
             if (answer.optionalAnswer !== '') {
                 $(item).find('#no-answer').addClass('hidden');
-                $(item).find('#no-optional-answer').addClass('hidden');
                 $(item).find('#optionalanswer-content').removeClass('hidden');
                 $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
+            } else {
+                $(item).find('#no-optional-answer').removeClass('hidden');
             }
         }
     }
@@ -1466,6 +1467,7 @@ function renderAlternativeQuestion(item, studyData, answer) {
 
     if (answer) {
         if (answer.optionalAnswer !== '') {
+            $(item).find('#no-answer').addClass('hidden');
             $(item).find('#optionalanswer-content').removeClass('hidden');
             $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
         } else {
