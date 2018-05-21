@@ -34,11 +34,12 @@ var connection = null;
 //var syncPhaseStep = false;
 
 var STUN = {
-    'url': 'stun:stun.l.google.com:19302'
+    urls: 'stun:stun.l.google.com:19302'
 };
 
 var TURN = {
-    url: 'turn: danielkuenkel%40googlemail.com%40numb.viagenie.ca: 86400',
+    urls: 'turn:numb.viagenie.ca:86400',
+    username: 'danielkuenkel@googlemail.com',
     credential: 'GpE-y3D-9YC-d9o'
 };
 
@@ -67,12 +68,12 @@ PeerConnection.prototype.initialize = function (options) {
                 mirror: true, // flip the local video to mirror mode (for UX)
                 muted: true // mute local video stream to prevent echo
             },
-            peerConnectionConfig: {'iceServers': [STUN, TURN]},
-            enableDataChannels: options.enableDataChannels,
-            receiveMedia: {
-                offerToReceiveAudio: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0,
-                offerToReceiveVideo: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0
-            }
+//            peerConnectionConfig: {'iceServers': [STUN, TURN]},
+            enableDataChannels: options.enableDataChannels
+//            receiveMedia: {
+//                offerToReceiveAudio: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0,
+//                offerToReceiveVideo: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0
+//            }
         });
 
 
@@ -494,8 +495,8 @@ PeerConnection.prototype.showRemoteStream = function () {
 PeerConnection.prototype.hideRemoteStream = function () {
     var currentOptions = this.options;
     $('#' + currentOptions.localVideoElement).removeClass('rtc-shadow');
-    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: .2, css: {width: '100%', height: 'auto', left: 0, top: 0}, ease: Quad.easeIn, clearProps: 'all'});
     TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0});
+    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: .2, css: {width: '100%', height: 'auto', left: 0, top: 0}, ease: Quad.easeIn, clearProps: 'all'});
 };
 
 
@@ -722,100 +723,99 @@ PeerConnection.prototype.takeSnapshot = function (upload) {
                 }
             }, 'image/jpeg', 0.8);
         }, 3000);
-
     }
 };
 
 
-var separateRecordingStream = null;
-var separateMediaRecorder = null;
-PeerConnection.prototype.initSeparateRecording = function (startRecording) {
-    if (!separateRecordingStream) {
-        // check current browser for building constraints
-        if (getBrowser() == "Chrome") {
-            var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
-        } else if (getBrowser() == "Firefox") {
-            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
-        }
-
-        // set user media for specific browsers
-        navigator.getUserMedia = (navigator.getUserMedia ||
-                navigator.mozGetUserMedia ||
-                navigator.msGetUserMedia ||
-                navigator.webkitGetUserMedia);
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia(constraints)
-                    .then(function (stream) {
-                        onSuccess(stream);
-                    })
-                    .catch(function (err) {
-                        onError(err);
-                    });
-        } else {
-            console.log('Sorry! This requires Firefox 30 and up or Chrome 47 and up.');
-        }
-
-        // media recorder functions
-        function onError(error) {
-            console.log(error);
-        }
-
-        function onSuccess(stream) {
-            console.log('init recorder', separateMediaRecorder, stream);
-            separateRecordingStream = stream;
-            if (!separateMediaRecorder || separateMediaRecorder === undefined) {
-                separateMediaRecorder = new MediaRecorder(stream);
-
-                separateMediaRecorder.ondataavailable = function (event) {
-                    console.log('on separate data available');
-                    if (event.data && event.data.size > 0) {
-                        separateChunks.push(event.data);
-                    }
-                };
-
-                separateMediaRecorder.onerror = function (e) {
-                    console.log('Error: ', e);
-                };
-
-                separateMediaRecorder.onwarning = function (e) {
-                    console.log('Warning: ' + e);
-                };
-
-                console.log('startRecording', startRecording);
-                if (startRecording === true) {
-                    separateMediaRecorder.start(1000);
-                }
-            }
-        }
-    } else {
-        console.log('start separate ecording init', startRecording);
-        if (separateMediaRecorder.state !== 'recording' && startRecording) {
-            separateMediaRecorder.start(1000);
-        }
-    }
-};
-
-var separateChunks = [];
-PeerConnection.prototype.initSeparateChunksRecording = function () {
-    console.log('init separate chunks recording');
-    separateChunks = [];
-    connection.initSeparateRecording(false);
-};
-
-PeerConnection.prototype.startRecordSeparateChunks = function () {
-    console.log('start record separate chunks');
-    separateChunks = [];
-    connection.initSeparateRecording(true);
-};
-
-PeerConnection.prototype.stopRecordSeparateChunks = function () {
-    console.log('stop record separate chunks');
-    if (separateMediaRecorder && separateMediaRecorder.state !== 'inactive') {
-        separateMediaRecorder.stop();
-    }
-//    console.log(window.URL.createObjectURL(new Blob(separateChunks, {type: 'video/webm'})));
-    return separateChunks;
-};
+//var separateRecordingStream = null;
+//var separateMediaRecorder = null;
+//PeerConnection.prototype.initSeparateRecording = function (startRecording) {
+//    if (!separateRecordingStream) {
+//        // check current browser for building constraints
+//        if (getBrowser() == "Chrome") {
+//            var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
+//        } else if (getBrowser() == "Firefox") {
+//            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
+//        }
+//
+//        // set user media for specific browsers
+//        navigator.getUserMedia = (navigator.getUserMedia ||
+//                navigator.mozGetUserMedia ||
+//                navigator.msGetUserMedia ||
+//                navigator.webkitGetUserMedia);
+//        if (navigator.getUserMedia) {
+//            navigator.getUserMedia(constraints)
+//                    .then(function (stream) {
+//                        onSuccess(stream);
+//                    })
+//                    .catch(function (err) {
+//                        onError(err);
+//                    });
+//        } else {
+//            console.log('Sorry! This requires Firefox 30 and up or Chrome 47 and up.');
+//        }
+//
+//        // media recorder functions
+//        function onError(error) {
+//            console.log(error);
+//        }
+//
+//        function onSuccess(stream) {
+//            console.log('init recorder', separateMediaRecorder, stream);
+//            separateRecordingStream = stream;
+//            if (!separateMediaRecorder || separateMediaRecorder === undefined) {
+//                separateMediaRecorder = new MediaRecorder(stream);
+//
+//                separateMediaRecorder.ondataavailable = function (event) {
+//                    console.log('on separate data available');
+//                    if (event.data && event.data.size > 0) {
+//                        separateChunks.push(event.data);
+//                    }
+//                };
+//
+//                separateMediaRecorder.onerror = function (e) {
+//                    console.log('Error: ', e);
+//                };
+//
+//                separateMediaRecorder.onwarning = function (e) {
+//                    console.log('Warning: ' + e);
+//                };
+//
+//                console.log('startRecording', startRecording);
+//                if (startRecording === true) {
+//                    separateMediaRecorder.start(1000);
+//                }
+//            }
+//        }
+//    } else {
+//        console.log('start separate ecording init', startRecording);
+//        if (separateMediaRecorder.state !== 'recording' && startRecording) {
+//            separateMediaRecorder.start(1000);
+//        }
+//    }
+//};
+//
+//var separateChunks = [];
+//PeerConnection.prototype.initSeparateChunksRecording = function () {
+//    console.log('init separate chunks recording');
+//    separateChunks = [];
+//    connection.initSeparateRecording(false);
+//};
+//
+//PeerConnection.prototype.startRecordSeparateChunks = function () {
+//    console.log('start record separate chunks');
+//    separateChunks = [];
+//    connection.initSeparateRecording(true);
+//};
+//
+//PeerConnection.prototype.stopRecordSeparateChunks = function () {
+//    console.log('stop record separate chunks');
+//    if (separateMediaRecorder && separateMediaRecorder.state !== 'inactive') {
+//        separateMediaRecorder.stop();
+//    }
+//    
+//    return separateChunks;
+//};
 
 
 var screenChunks = [];
@@ -920,7 +920,6 @@ PeerConnection.prototype.transferFile = function (file) {
 PeerConnection.prototype.shareScreen = function (errorCallback, successCallback) {
     if (webrtc && webrtc.capabilities.supportScreenSharing) {
         console.log(webrtc.getLocalScreen());
-//        try {
         webrtc.shareScreen(function (error) {
             if (error) {
                 if (errorCallback) {
@@ -932,10 +931,6 @@ PeerConnection.prototype.shareScreen = function (errorCallback, successCallback)
                 }
             }
         });
-//        } catch (error) {
-//            console.log('error:', error);
-//        }
-
     }
 };
 
@@ -949,7 +944,4 @@ PeerConnection.prototype.stopShareScreen = function (save, callback) {
 };
 
 PeerConnection.prototype.reset = function () {
-//    if (screenMediaRecorder) {
-//        screenMediaRecorder = null;
-//    }
 };
