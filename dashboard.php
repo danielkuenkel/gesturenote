@@ -46,6 +46,16 @@ if (login_check($mysqli) == true) {
         <!-- externals -->
         <div id="alerts"></div>
         <div id="template-subpages"></div>
+        
+        <!-- Modal -->
+        <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content root">
+                </div>
+            </div>
+        </div>
 
         <!-- Container (Landing Section) --> 
         <div class="container-fluid bg-grey wall" id="landingText">
@@ -120,6 +130,7 @@ if (login_check($mysqli) == true) {
         <script>
             $(document).ready(function () {
                 checkDomain();
+                checkCookies(<?php echo $_SESSION['cookiesAccepted'] ?>);
                 keepSessionAlive();
 
                 checkLanguage(function () {

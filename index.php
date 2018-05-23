@@ -296,6 +296,8 @@ if (login_check($mysqli) == true) {
         <script>
             $(document).ready(function () {
                 checkDomain();
+                checkCookies(<?php echo $_SESSION['cookiesAccepted'] ?>);
+
                 checkLanguage(function () {
                     updateLanguageIndicator($('#language-selection'));
                     var externals = new Array();

@@ -15495,8 +15495,10 @@ function SimpleWebRTC(opts) {
     var self = this;
     var options = opts || {};
     var config = this.config = {
-            url: 'https://sandbox.simplewebrtc.com:443/',
-//            url: 'http://gesturenote.eu-4.evennode.com/',
+//            url: 'https://sandbox.simplewebrtc.com:443/',
+            url: 'https://gesturenote.eu-4.evennode.com/',
+//            url: 'https://guarded-anchorage-28113.herokuapp.com:33421/',
+//            url: 'https://rtcmulticonnection.herokuapp.com/',
             socketio: {/* 'force new connection':true*/},
             connection: null,
             debug: false,

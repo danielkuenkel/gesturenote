@@ -487,7 +487,7 @@ PeerConnection.prototype.showRemoteStream = function () {
 //        var width = Math.floor($('#' + currentOptions.remoteVideoElement).width() * .3);
 //        var height = Math.floor(width * 3 / 4);
     $('#' + currentOptions.localVideoElement).addClass('rtc-shadow');
-    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {css: {width: '30%', height: 'auto', left: 5, top: 5}, ease: Quad.easeIn});
+    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {css: {width: '30%', height: 'auto', left: 5, top: 5}, ease: Quad.easeIn, clearProps: 'all'});
     TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: .2, opacity: 1.0});
 //    }, 500);
 };

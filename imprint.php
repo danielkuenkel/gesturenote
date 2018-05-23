@@ -56,7 +56,7 @@ include_once 'includes/functions.php';
         <div class="container mainContent" style="margin-top: 0px">
             <div class="">
                 <div class="page-header" style="margin-top: 0px">
-                    <h2><?php echo $lang->imprintContent->mainHeadline ?>:</h2>
+                    <h2><?php echo $lang->imprintContent->mainHeadline ?></h2>
                 </div>
                 <div class="info-text text">
                     <p><?php echo $lang->imprintContent->adress ?></p>

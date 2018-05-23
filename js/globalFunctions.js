@@ -10,6 +10,25 @@ function checkDomain() {
     }
 }
 
+function checkCookies(cookiesAccepted) {
+//    console.log('check Cookies', cookiesAccepted);
+    if (isNaN(cookiesAccepted) || cookiesAccepted === undefined || parseInt(cookiesAccepted) === 0) {
+        loadHTMLintoModal('custom-modal', 'externals/modal-cookies.php', 'modal-md');
+
+        $('#custom-modal').unbind('acceptCookies').bind('acceptCookies', function () {
+            acceptCookies(function (result) {
+                if (result.status === RESULT_SUCCESS) {
+                } else {
+                }
+            });
+        });
+
+        $('#custom-modal').unbind('moreInfos').bind('moreInfos', function () {
+            gotoImprint();
+        });
+    }
+}
+
 // check supported local storage
 function isLocalStorageSupported() {
     if (typeof (Storage) !== "undefined") {

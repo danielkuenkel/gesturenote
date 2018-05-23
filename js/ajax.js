@@ -57,6 +57,22 @@ function getLanguage(callback) {
     });
 }
 
+function acceptCookies(callback) {
+    $.ajax({
+        url: 'includes/accept-cookies.php',
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function login(data, callback) {
     $.ajax({
         url: 'includes/process_login.php',
@@ -391,6 +407,25 @@ function deleteStudy(data, callback) {
         ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         dataType: 'json',
         url: 'includes/delete-study.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function deleteStudyResult(data, callback) {
+    $.ajax({
+        ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
+        url: 'includes/delete-study-result.php',
         data: data,
         type: 'post',
         async: true,

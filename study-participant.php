@@ -18,7 +18,7 @@ if (login_check($mysqli) == true) {
         <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/general.css">
@@ -29,7 +29,7 @@ if (login_check($mysqli) == true) {
         <script src="js/greensock/TweenMax.min.js"></script>
         <link href="js/vis/vis.min.css" rel="stylesheet">
         <script src="js/vis/vis.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
@@ -53,7 +53,7 @@ if (login_check($mysqli) == true) {
         <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/rtc-result-player.js"></script>
-        
+
         <!-- leap and plugins -->
         <script src="js/leapjs/leap-0.6.4.min.js"></script>
         <script src="js/leapjs/leap-plugins-0.1.12.min.js"></script>
@@ -116,8 +116,8 @@ if (login_check($mysqli) == true) {
 
             <nav>
                 <ul class="pager"style="margin-bottom: 2px">
-                    <li class="btn-sm btn-prev-participant disabled pull-left" style="padding: 0"><a href="#"><span aria-hidden="true">&larr;</span> Vorheriger Teilnehmer</a></li>
-                    <li class="btn-sm btn-next-participant disabled pull-right" style="padding: 0"><a href="#">Nächster Teilnehmer <span aria-hidden="true">&rarr;</span></a></li>
+                    <li class="btn-sm btn-prev-participant disabled pull-left" style="padding: 0"><a href="#"><span aria-hidden="true">&larr;</span> <?php echo $lang->previousParticipant ?></a></li>
+                    <li class="btn-sm btn-next-participant disabled pull-right" style="padding: 0"><a href="#"><?php echo $lang->nextParticipant ?> <span aria-hidden="true">&rarr;</span></a></li>
                 </ul>
             </nav>
 
@@ -134,6 +134,9 @@ if (login_check($mysqli) == true) {
                     </div>
 
                     <div class="btn-group-vertical btn-block" id="phase-results-nav" style="margin-top: 20px"></div>
+                    <div class="btn-group-vertical btn-block" id="delete-results-nav" style="margin-top: 20px">
+                        <button class="btn btn-danger" id="btn-delete-result" style="opacity: 0"><i class="fa fa-trash"></i> <?php echo $lang->deleteParticipantResults ?></button>
+                    </div>
                 </div>
                 <div class="col-md-9">
                     <div id="phase-result"></div>
@@ -144,8 +147,8 @@ if (login_check($mysqli) == true) {
         <div class="container mainContent" style="margin-top: 0px;">
             <nav>
                 <ul class="pager"style="margin-bottom: 2px">
-                    <li class="btn-sm btn-prev-participant disabled pull-left" style="padding: 0"><a href="#"><span aria-hidden="true">&larr;</span> Vorheriger Teilnehmer</a></li>
-                    <li class="btn-sm btn-next-participant disabled pull-right" style="padding: 0"><a href="#">Nächster Teilnehmer <span aria-hidden="true">&rarr;</span></a></li>
+                    <li class="btn-sm btn-prev-participant disabled pull-left" style="padding: 0"><a href="#"><span aria-hidden="true">&larr;</span> <?php echo $lang->previousParticipant ?></a></li>
+                    <li class="btn-sm btn-next-participant disabled pull-right" style="padding: 0"><a href="#"><?php echo $lang->nextParticipant ?> <span aria-hidden="true">&rarr;</span></a></li>
                 </ul>
             </nav>
         </div>
@@ -189,7 +192,6 @@ if (login_check($mysqli) == true) {
                     getStudyParticipant({studyId: query.studyId, participantId: query.participantId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             console.log(result);
-//                            console.log(result.resultData);
                             setStudyData(result);
                             renderData(result);
                         }
@@ -205,14 +207,8 @@ if (login_check($mysqli) == true) {
                 // general data view
                 $('#execution-date').text(convertSQLTimestampToDate(resultData.created).toLocaleString());
                 $('#main-headline').text(studyData.generalData.title);
-//                if (isNaN(resultData.userId)) {
-//                    $('#general-view').find('#user .label-text').text(translation.userTypes.guest);
-//                } else {
-//                    $('#general-view').find('#user .label-text').text(translation.userTypes.registered);
-//                }
 
                 if (results.aborted === 'no' && results.studySuccessfull === 'yes') {
-//                    $('#phase-results').find('.panel').addClass('panel-success');
                     $('#phase-results').find('#execution-success').removeClass('hidden');
                     $('#phase-results').find('#execution-success .label-text').text(translation.studySuccessful);
 
@@ -234,7 +230,6 @@ if (login_check($mysqli) == true) {
                         $('#phase-results').find('#execution-duration .label-text').text(getTimeString(duration, true));
                     }
                 } else {
-//                    $('#phase-results').find('.panel').addClass('panel-danger');
                     $('#phase-results').find('#execution-fault').removeClass('hidden');
                     $('#phase-results').find('#execution-fault .label-text').text(translation.studyFault);
                 }
@@ -243,7 +238,6 @@ if (login_check($mysqli) == true) {
                 getStudyResults({studyId: data.id}, function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         if (result.studyResults && result.studyResults.length > 1) { // check if there are study results
-//                            console.log(result.studyResults);
                             var query = getQueryParams(document.location.search);
                             var disablePrevButton = false;
                             var disableNextButton = false;
@@ -251,7 +245,6 @@ if (login_check($mysqli) == true) {
                             var prevParticipantId = null;
 
                             for (var i = 0; i < result.studyResults.length; i++) {
-//                                console.log(result.studyResults[i], query.participantId);
                                 if (query.participantId === result.studyResults[i].userId) {
                                     if (i === 0) {
                                         disablePrevButton = true;
@@ -277,8 +270,6 @@ if (login_check($mysqli) == true) {
                                 }
                                 return statusHash;
                             }
-
-//                            console.log(disablePrevButton, disableNextButton, query.participantId);
 
                             $('#pageBody').find('.btn-prev-participant').removeClass('disabled').unbind('click');
                             $('#pageBody').find('.btn-next-participant').removeClass('disabled').unbind('click');
@@ -320,6 +311,7 @@ if (login_check($mysqli) == true) {
 
                 // phase nav view
                 if (studyData.phases && studyData.phases.length > 0) {
+
                     for (var i = 0; i < studyData.phases.length; i++) {
                         var navItem = document.createElement('button');
                         $(navItem).attr('role', 'presentation');
@@ -334,6 +326,9 @@ if (login_check($mysqli) == true) {
                         TweenMax.from($(navItem), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0, clearProps: 'all'});
                     }
 
+                    TweenMax.to($('#btn-delete-result'), {opacity: 0});
+                    TweenMax.to($('#btn-delete-result'), .3, {delay: 0.4 + (studyData.phases.length * .05), opacity: 1, clearProps: 'all'});
+
                     var status = window.location.hash.substr(1);
                     var statusAddressMatch = statusAddressMatchIndex(status);
                     if (status !== '' && statusAddressMatch !== null) {
@@ -341,6 +336,47 @@ if (login_check($mysqli) == true) {
                     } else {
                         $('#phase-results-nav').children().first().click();
                     }
+
+                    var study = getLocalItem(STUDY);
+                    if (study.isOwner && (study.isOwner === 'false' || study.isOwner === false)) {
+                        $('#btn-delete-result').remove();
+                    }
+
+                    $('#btn-delete-result').unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        var button = $(this);
+
+                        if (!$(this).hasClass('disabled')) {
+                            lockButton(button, true, 'fa-trash');
+                            loadHTMLintoModal('custom-modal', 'externals/modal-delete-study-result.php', 'modal-md');
+                            var study = getLocalItem(STUDY);
+                            var tester = getLocalItem(STUDY_RESULTS);
+                            console.log(study, tester);
+
+                            $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
+                                deleteStudyResult({studyId: study.id, testerId: tester.userId}, function (result) {
+                                    unlockButton(button, true, 'fa-trash');
+                                    if (result.status === RESULT_SUCCESS) {
+                                        var prevParticipant = $('#pageBody').find('.btn-prev-participant');
+                                        var nextParticipant = $('#pageBody').find('.btn-next-participant');
+                                        if (!$(nextParticipant).hasClass('disabled')) {
+                                            $(nextParticipant).click();
+                                        } else if (!$(prevParticipant).hasClass('disabled')) {
+                                            $(prevParticipant).click();
+                                        } else {
+                                            $('.breadcrumb #btn-study').click();
+                                        }
+                                    } else {
+                                        console.warn('ERROR: ', result.status);
+                                    }
+                                });
+                            });
+
+                            $('#custom-modal').unbind('cancel').bind('cancel', function () {
+                                unlockButton(button, true, 'fa-trash');
+                            });
+                        }
+                    });
                 }
             }
 
@@ -397,7 +433,7 @@ if (login_check($mysqli) == true) {
                     // check and add recorded stream data
                     if (isWebRTCPlaybackNeededForPhaseStep(testerResults)) {
 //                        console.log('web rtc is needed for phase step');
-                        
+
                         if (testerResults && testerResults.recordUrl && testerResults.recordUrl !== '') {
                             resultsPlayer = new RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionTime, content);
                             $(resultsPlayer.player).unbind('initialized').bind('initialized', function (event) {
@@ -732,7 +768,7 @@ if (login_check($mysqli) == true) {
                             $(item).find('#training-time .address').text(translation.execution + ': ');
 //                            if (testerResults && testerResults.training && testerResults.training[i].gestureTrainingStart && testerResults.training[i].gestureTrainingEnd) {
 //                                var executionTime = getTimeBetweenTimestamps(testerResults.training[i].gestureTrainingStart, testerResults.training[i].gestureTrainingEnd);
-                                $(item).find('#training-time .text').text(getTimeString(execution, false, true));
+                            $(item).find('#training-time .text').text(getTimeString(execution, false, true));
 //                            } else {
 //                                $(item).find('#training-time .text').text('-');
 //                            }
@@ -954,14 +990,10 @@ if (login_check($mysqli) == true) {
             }
 
             function renderScenario(container, studyData, resultsData) {
-//                console.log($('#phase-results-nav').find('.active').attr('id'));
                 renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
-//                addObservationsDropdown(container);
             }
 
             function renderIdentification(container, studyData, phaseResults) {
-//                console.log(studyData, phaseResults, getLocalItem(GESTURE_CATALOG));
-
                 if (studyData.identificationFor === 'gestures') {
                     $(container).find('#search-gestures').removeClass('hidden');
                     var elicitedGestures = getLocalItem(GESTURE_CATALOG);
@@ -1047,9 +1079,6 @@ if (login_check($mysqli) == true) {
             }
 
             function renderExploration(container, phaseData, testerResults, evaluatorResults) {
-//                console.log(phaseData, testerResults, evaluatorResults);
-//
-//                console.log('exploration type: ' + phaseData.explorationType);
                 if (testerResults.answers) {
                     $(container).find('#extraction-item-container').removeClass('hidden');
                     $(container).find('#headline-extraction-items').text(phaseData.explorationType === 'trigger' ? translation.favoriteTrigger : translation.favoriteGestures);
@@ -1142,21 +1171,6 @@ if (login_check($mysqli) == true) {
 
             $('#btn-introduction').on('click', function (event) {
                 event.preventDefault();
-//                var activeTab = $('#tab-pane').find('.active a').attr('href');
-//                if (activeTab !== '#generalData') {
-//                    switch (activeTab) {
-//                        case '#study-catalogs':
-//                            $('#custom-modal').attr('data-start-tab-id', 'study-catalogs');
-//                            break;
-//                        case '#study-participants':
-//                            $('#custom-modal').attr('data-start-tab-id', 'study-participants');
-//                            break;
-//                        case '#gesture-extraction':
-//                            $('#custom-modal').attr('data-start-tab-id', 'gesture-extraction');
-//                            break;
-//                    }
-//                }
-
                 $('#custom-modal').attr('data-help-items-key', 'introductionParticipant');
                 $('#custom-modal').attr('data-help-context', 'participant');
                 $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialParticipant'] ?>));

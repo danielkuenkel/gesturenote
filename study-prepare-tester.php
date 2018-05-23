@@ -48,7 +48,8 @@ if ($h && $token && $studyId) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+        <script src="js/muazkhan/DetectRTC.min.js"></script>
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/study-preview.css">
@@ -101,7 +102,10 @@ if ($h && $token && $studyId) {
                     <hr style="">
 
                     <div class="row">
-                        <div class="col-sm-5 col-md-6">
+                        <div class="col-sm-5 col-md-6" id="study-details-container">
+                            <div class="alert-space alert-study-over-range"></div>
+                            <div class="alert-space alert-study-under-range"></div>
+
                             <div id="study-description">
                                 <p class="text"></p>
                             </div>
@@ -112,40 +116,81 @@ if ($h && $token && $studyId) {
                         <div class="col-sm-7 col-md-6 hidden" id="study-participation">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <div class="hidden embed-responsive embed-responsive-4by3" id="video-caller">
-                                        <div class="embed-responsive-item" style="border-radius: 4px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
-                                            <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+                                    <div id="check-rtc-status" class="">
+                                        <h3>Technische Überprüfung</h3>
+                                        <div class="check-web-rtc">
+                                            <span class="status-check-indicator">
+                                                <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                                <i class="status-warn fa fa-warning warning hidden"></i>
+                                                <i class="status-supported fa fa-check success hidden"></i>
+                                            </span>
+                                            <span class="status-check-text text">WebRTC</span>
                                         </div>
-                                        <div id="remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 4px;"></div>
-                                        <div class="rtc-local-container embed-responsive-item">
-                                            <video autoplay id="local-stream" class="rtc-stream" style="display:block;"></video>
+                                        <div class="check-webcam">
+                                            <span class="status-check-indicator">
+                                                <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                                <i class="status-warn fa fa-warning warning hidden"></i>
+                                                <i class="status-supported fa fa-check success hidden"></i>
+                                            </span>
+                                            <span class="status-check-text text">Webcam</span>
                                         </div>
-                                        <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                                            <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-                                            <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                                            <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                                        <div class="check-microphone">
+                                            <span class="status-check-indicator">
+                                                <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                                <i class="status-warn fa fa-warning warning hidden"></i>
+                                                <i class="status-supported fa fa-check success hidden"></i>
+                                            </span>
+                                            <span class="status-check-text text">Mikrofon</span>
                                         </div>
-                                        <div id="stream-control-indicator">
-                                            <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
-                                                <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
-                                                <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+                                        <div class="check-speakers">
+                                            <span class="status-check-indicator">
+                                                <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                                <i class="status-warn fa fa-warning warning hidden"></i>
+                                                <i class="status-supported fa fa-check success hidden"></i>
+                                            </span>
+                                            <span class="status-check-text text">Audioausgabe</span>
+                                        </div>
+
+                                        <div class="hidden progress" id="init-timer-progress" style="height: 10px; border-radius: 5px; margin-top: 10px">
+                                            <div class="progress-bar progress-bar-primary" id="init-timer-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%; width: 100%; background-color: #00ff26"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="hidden" id="video-caller-container">
+                                        <div class="alert-space alert-waiting-for-moderator"></div>
+
+                                        <div class="embed-responsive embed-responsive-4by3" id="video-caller">
+
+                                            <div class="embed-responsive-item" style="border-radius: 4px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
+                                                <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
                                             </div>
-                                            <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
-                                                <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
-                                                <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                                            <div id="remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 4px;"></div>
+                                            <div class="rtc-local-container embed-responsive-item">
+                                                <video autoplay id="local-stream" class="rtc-stream" style="display:block;"></video>
+                                            </div>
+                                            <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                                                <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                                                <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                                                <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                                            </div>
+                                            <div id="stream-control-indicator">
+                                                <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
+                                                    <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                                                    <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+                                                </div>
+                                                <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
+                                                    <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                                                    <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 hidden" id="technical-check" style="margin-top: 10px">
-                                    <div id="initialize-recorders-list" class="text-center"></div>
-                                </div>
                                 <div class="col-xs-12" style="margin-top: 10px">
                                     <div id="alert-hints">
-                                        <div class="alert-space alert-study-over-range"></div>
-                                        <div class="alert-space alert-study-under-range"></div>
-                                        <div class="alert-space alert-waiting-for-moderator"></div>
-                                        <div class="alert-space alert-web-rtc-not-supported"></div>
+
+
+                                        <!--<div class="alert-space alert-web-rtc-not-supported"></div>-->
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +222,7 @@ if ($h && $token && $studyId) {
             initPopover();
             renderSubPageElements(false);
 
-            console.log('tester id: <?php echo $_SESSION['user_id'] ?>');
+//            console.log('tester id: <?php echo $_SESSION['user_id'] ?>');
 
             var query = getQueryParams(document.location.search);
             if (query.studyId && query.h && query.token) {
@@ -192,22 +237,14 @@ if ($h && $token && $studyId) {
 
         var requestInterval = null;
         function renderData(data) {
-//            console.log(data);
             var studyData = data.studyData;
             $('#study-headline').text(studyData.generalData.title);
-//            $('#type-survey').text(translation.surveyType[studyData.generalData.surveyType]);
-//            $('#study-description .address').text(translation.description);
             $('#study-description .text').text(studyData.generalData.description);
 
             // date range view
             var now = new Date().getTime();
             var dateFrom = studyData.generalData.dateFrom * 1000;
             var dateTo = addDays(studyData.generalData.dateTo * 1000, 1);
-            var totalDays = rangeDays(dateFrom, dateTo);
-
-//            $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
-//            $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
-//            $('.study-plan').removeClass('hidden');
 
             $('#study-participation, #study-details').removeClass('hidden');
 
@@ -220,26 +257,26 @@ if ($h && $token && $studyId) {
 
                     requestParticipation({studyId: study.id, rtcToken: rtcToken}, function (result) {
                         if (result.status === RESULT_SUCCESS && result.data) {
-                            initVideoCaller(result.data.rtcToken);
+                            checkRTC($('#check-rtc-status'), result.data.rtcToken);
                         } else {
                             console.log('an error occured');
                         }
                     });
 
-                    if (getBrowser() !== BROWSER_CHROME) {
-                        appendAlert($('#alert-hints'), ALERT_WEB_RTC_NOT_SUPPORTED);
-                    } else {
-                        appendAlert($('#alert-hints'), ALERT_WAITING_FOR_MODERATOR);
-                        requestInterval = setInterval(function () {
-                            requestParticipation({studyId: study.id, rtcToken: rtcToken}, function (result) {
-                                if (result.status === RESULT_SUCCESS) {
-                                    if (!result.data) {
-                                        appendAlert($('#alert-hints'), ALERT_WAITING_FOR_MODERATOR);
-                                    }
+//                    if (getBrowser() !== BROWSER_CHROME) {
+//                        appendAlert($('#alert-hints'), ALERT_WEB_RTC_NOT_SUPPORTED);
+//                    } else {
+                    appendAlert($('#video-caller-container'), ALERT_WAITING_FOR_MODERATOR);
+                    requestInterval = setInterval(function () {
+                        requestParticipation({studyId: study.id, rtcToken: rtcToken}, function (result) {
+                            if (result.status === RESULT_SUCCESS) {
+                                if (!result.data) {
+                                    appendAlert($('#video-caller-container'), ALERT_WAITING_FOR_MODERATOR);
                                 }
-                            });
-                        }, 1000);
-                    }
+                            }
+                        });
+                    }, 1000);
+//                    }
                 } else {
                     $('#btn-enter-study').on('click', function (event) {
                         event.preventDefault();
@@ -249,9 +286,9 @@ if ($h && $token && $studyId) {
                 }
             } else {
                 if (now > dateFrom) {
-                    appendAlert($('#alert-hints'), ALERT_STUDY_OVER_RANGE);
+                    appendAlert($('#study-details-container'), ALERT_STUDY_OVER_RANGE);
                 } else {
-                    appendAlert($('#alert-hints'), ALERT_STUDY_UNDER_RANGE);
+                    appendAlert($('#study-details-container'), ALERT_STUDY_UNDER_RANGE);
                 }
 
                 if (data.studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
@@ -262,9 +299,76 @@ if ($h && $token && $studyId) {
             }
         }
 
+        function checkRTC(target, rtcToken) {
+            DetectRTC.load(function () {
+                navigator.mediaDevices.getUserMedia({
+                    audio: true, // { deviceId: 'mic-id' }
+                    video: true // { deviceId: 'camera-id' }
+                }).then(function (stream) {
+                    var indicator = null;
+                    var errors = 0;
+
+                    if (DetectRTC.isWebRTCSupported === false) {
+                        errors++;
+                        indicator = $(target).find('.check-web-rtc .status-check-indicator');
+                        $(indicator).find('.status-wait').addClass('hidden');
+                        $(indicator).find('.status-warn').removeClass('hidden');
+                    } else {
+                        indicator = $(target).find('.check-web-rtc .status-check-indicator');
+                        $(indicator).find('.status-wait').addClass('hidden');
+                        $(indicator).find('.status-supported').removeClass('hidden');
+                    }
+
+                    if (DetectRTC.hasWebcam === false) {
+                        errors++
+                        indicator = $(target).find('.check-webcam .status-check-indicator');
+                        $(indicator).find('.status-wait').addClass('hidden');
+                        $(indicator).find('.status-warn').removeClass('hidden');
+                    } else {
+                        indicator = $(target).find('.check-webcam .status-check-indicator');
+                        $(indicator).find('.status-wait').addClass('hidden');
+                        $(indicator).find('.status-supported').removeClass('hidden');
+                    }
+
+                    if (DetectRTC.hasMicrophone === false) {
+                        errors++;
+                        indicator = $(target).find('.check-microphone .status-check-indicator');
+                        $(indicator).find('.status-wait').addClass('hidden');
+                        $(indicator).find('.status-warn').removeClass('hidden');
+                    } else {
+                        indicator = $(target).find('.check-microphone .status-check-indicator');
+                        $(indicator).find('.status-wait').addClass('hidden');
+                        $(indicator).find('.status-supported').removeClass('hidden');
+                    }
+
+                    if (DetectRTC.hasSpeakers === false && (DetectRTC.browser.name === 'Chrome' || DetectRTC.browser.name === 'Edge')) {
+                        errors++;
+                        indicator = $(target).find('.check-speakers .status-check-indicator');
+                        $(indicator).find('.status-wait').addClass('hidden');
+                        $(indicator).find('.status-warn').removeClass('hidden');
+                    } else {
+                        indicator = $(target).find('.check-speakers .status-check-indicator');
+                        $(indicator).find('.status-wait').addClass('hidden');
+                        $(indicator).find('.status-supported').removeClass('hidden');
+                    }
+                    
+                    $(target).find('#init-timer-progress').removeClass('hidden');
+                    if (errors === 0) {
+                        var progressBar = $('#init-timer-progress-bar');
+                        $(progressBar).css({width: '100%'});
+                        TweenMax.to(progressBar, 5, {width: '0%', ease: Linear.easeNone, onComplete: function () {
+                                initVideoCaller(rtcToken);
+                            }});
+                    } else {
+                    }
+                });
+            });
+        }
+
         var peerConnection = null;
         function initVideoCaller(rtcToken) {
-            $('#video-caller').removeClass('hidden');
+            $('#check-rtc-status').addClass('hidden');
+            $('#video-caller-container').removeClass('hidden');
             var mainElement = $('#video-caller');
             var callerOptions = {
                 callerElement: mainElement,
@@ -291,7 +395,7 @@ if ($h && $token && $studyId) {
             // a peer video has been added
             var gestureRecorder = null;
             $(peerConnection).on('videoAdded', function () {
-                clearAlerts($('#alert-hints'));
+                clearAlerts($('#video-caller-container'));
                 $('#study-participation #initialize-recorders-list').empty();
 
                 // check if sensor has be connected
@@ -413,7 +517,7 @@ if ($h && $token && $studyId) {
 
             // a peer video has been removed
             $(peerConnection).on('videoRemoved', function () {
-                appendAlert($('#alert-hints'), ALERT_WAITING_FOR_MODERATOR);
+                appendAlert($('#video-caller-container'), ALERT_WAITING_FOR_MODERATOR);
                 $('#study-participation #technical-check').addClass('hidden');
                 if (gestureRecorder) {
                     gestureRecorder.destroy();

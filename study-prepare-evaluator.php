@@ -27,7 +27,7 @@ if ($h && $token && $studyId) {
         <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -35,11 +35,12 @@ if ($h && $token && $studyId) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+        <script src="js/muazkhan/DetectRTC.min.js"></script>
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
-        
+
         <script src="js/constants.js"></script>
         <script src="js/refreshSession.js"></script>
         <script src="js/storage.js"></script>
@@ -110,6 +111,58 @@ if ($h && $token && $studyId) {
                         <div class="alert-space alert-web-rtc-not-supported"></div>
                         <div class="alert-space alert-another-browser-needed-for-web-rtc"></div>
                         <div class="alert-space alert-contact-support"></div>
+                    </div>
+
+                    <div id="check-rtc-status" class="">
+                        <h3>Technische Überprüfung</h3>
+                        <div class="check-web-rtc">
+                            <span class="status-check-indicator">
+                                <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                <i class="status-warn fa fa-warning warning hidden"></i>
+                                <i class="status-supported fa fa-check success hidden"></i>
+                            </span>
+                            <span class="status-check-text text">WebRTC</span>
+                        </div>
+                        <div class="check-webcam">
+                            <span class="status-check-indicator">
+                                <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                <i class="status-warn fa fa-warning warning hidden"></i>
+                                <i class="status-supported fa fa-check success hidden"></i>
+                            </span>
+                            <span class="status-check-text text">Webcam</span>
+                        </div>
+                        <div class="check-microphone">
+                            <span class="status-check-indicator">
+                                <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                <i class="status-warn fa fa-warning warning hidden"></i>
+                                <i class="status-supported fa fa-check success hidden"></i>
+                            </span>
+                            <span class="status-check-text text">Mikrofon</span>
+                        </div>
+                        <div class="check-speakers">
+                            <span class="status-check-indicator">
+                                <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                <i class="status-warn fa fa-warning warning hidden"></i>
+                                <i class="status-supported fa fa-check success hidden"></i>
+                            </span>
+                            <span class="status-check-text text">Audioausgabe</span>
+                        </div>
+<!--                        <div class="check-stream-capturing">
+                            <span class="status-check-indicator">
+                                <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                <i class="status-warn fa fa-warning warning hidden"></i>
+                                <i class="status-supported fa fa-check success hidden"></i>
+                            </span>
+                            <span class="status-check-text text">Streaming</span>
+                        </div>-->
+                        <div class="check-screen-capturing">
+                            <span class="status-check-indicator">
+                                <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                <i class="status-warn fa fa-warning warning hidden"></i>
+                                <i class="status-supported fa fa-check success hidden"></i>
+                            </span>
+                            <span class="status-check-text text">Screen-Sharing</span>
+                        </div>
                     </div>
 
                     <div id="participation-queue" class="hidden">
@@ -224,10 +277,11 @@ if ($h && $token && $studyId) {
                     $('#study-details').removeClass('hidden');
                     if (now > dateFrom && now < dateTo) {
 
+                        checkRTC($('#check-rtc-status'));
 
                         // check rtc is needed
-                        if (isWebRTCSupported()) {
-                            $('#participation-queue').removeClass('hidden');
+//                        if (isWebRTCSupported()) {
+//                            $('#participation-queue').removeClass('hidden');
                             appendAlert($('#participation-queue'), ALERT_SEARCH_PARTICIPATION_REQUESTS);
 
                             getParticipationRequests({studyId: studyData.generalData.id}, function (result) {
@@ -250,10 +304,10 @@ if ($h && $token && $studyId) {
 
                                 }
                             });
-                        } else {
-                            console.log('no webRTC supported in this browser');
-                            appendAlert($('#study-details'), ALERT_WEB_RTC_NOT_SUPPORTED);
-                        }
+//                        } else {
+//                            console.log('no webRTC supported in this browser');
+//                            appendAlert($('#study-details'), ALERT_WEB_RTC_NOT_SUPPORTED);
+//                        }
                     } else if (now > dateFrom) {
                         appendAlert($('#alert-hints'), ALERT_STUDY_OVER_RANGE);
                     } else {
@@ -338,7 +392,7 @@ if ($h && $token && $studyId) {
                             approveParticipation({requestId: event.data.requestId}, function (result) {
                                 console.log(result);
                                 if (result.status === RESULT_SUCCESS) {
-                                    $('#participation-queue').addClass('hidden');
+                                    $('#participation-queue, #check-rtc-status').addClass('hidden');
                                     $('#call-screen').removeClass('hidden');
                                     $('#call-screen').attr('name', event.data.requestId + '_' + result.data.rtcToken + '_' + result.data.testerId);
                                     initPeerConnection(result.data.rtcToken);
@@ -356,7 +410,7 @@ if ($h && $token && $studyId) {
                 var requestId = $('#call-screen').attr('name').split('_')[0];
                 reapproveParticipation({requestId: requestId}, function (result) {
                     peerConnection.leaveRoom();
-                    $('#participation-queue').removeClass('hidden');
+                    $('#participation-queue, #check-rtc-status').removeClass('hidden');
                     $('#call-screen').addClass('hidden');
                     $('#btn-enter-study').addClass('disabled');
                     $('#btn-start-screen-sharing').addClass('disabled');
@@ -373,6 +427,90 @@ if ($h && $token && $studyId) {
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 goto("study.php?studyId=" + query.studyId + "&h=" + hash);
+            }
+
+            function checkRTC(target) {
+                $('#participation-queue').addClass('hidden');
+                DetectRTC.load(function () {
+                    navigator.mediaDevices.getUserMedia({
+                        audio: true, // { deviceId: 'mic-id' }
+                        video: true // { deviceId: 'camera-id' }
+                    }).then(function (stream) {
+                        var indicator = null;
+                        var errors = 0;
+
+                        if (DetectRTC.isWebRTCSupported === false) {
+                            errors++;
+                            indicator = $(target).find('.check-web-rtc .status-check-indicator');
+                            $(indicator).find('.status-wait').addClass('hidden');
+                            $(indicator).find('.status-warn').removeClass('hidden');
+                        } else {
+                            indicator = $(target).find('.check-web-rtc .status-check-indicator');
+                            $(indicator).find('.status-wait').addClass('hidden');
+                            $(indicator).find('.status-supported').removeClass('hidden');
+                        }
+
+                        if (DetectRTC.hasWebcam === false) {
+                            errors++;
+                            indicator = $(target).find('.check-webcam .status-check-indicator');
+                            $(indicator).find('.status-wait').addClass('hidden');
+                            $(indicator).find('.status-warn').removeClass('hidden');
+                        } else {
+                            indicator = $(target).find('.check-webcam .status-check-indicator');
+                            $(indicator).find('.status-wait').addClass('hidden');
+                            $(indicator).find('.status-supported').removeClass('hidden');
+                        }
+
+                        if (DetectRTC.hasMicrophone === false) {
+                            errors++;
+                            indicator = $(target).find('.check-microphone .status-check-indicator');
+                            $(indicator).find('.status-wait').addClass('hidden');
+                            $(indicator).find('.status-warn').removeClass('hidden');
+                        } else {
+                            indicator = $(target).find('.check-microphone .status-check-indicator');
+                            $(indicator).find('.status-wait').addClass('hidden');
+                            $(indicator).find('.status-supported').removeClass('hidden');
+                        }
+
+                        if (DetectRTC.hasSpeakers === false && (DetectRTC.browser.name === 'Chrome' || DetectRTC.browser.name === 'Edge')) {
+                            errors++;
+                            indicator = $(target).find('.check-speakers .status-check-indicator');
+                            $(indicator).find('.status-wait').addClass('hidden');
+                            $(indicator).find('.status-warn').removeClass('hidden');
+                        } else {
+                            indicator = $(target).find('.check-speakers .status-check-indicator');
+                            $(indicator).find('.status-wait').addClass('hidden');
+                            $(indicator).find('.status-supported').removeClass('hidden');
+                        }
+
+
+//                        if (DetectRTC.isVideoSupportsStreamCapturing === false) {
+//                            errors++;
+//                            indicator = $(target).find('.check-stream-capturing .status-check-indicator');
+//                            $(indicator).find('.status-wait').addClass('hidden');
+//                            $(indicator).find('.status-warn').removeClass('hidden');
+//                        } else {
+//                            indicator = $(target).find('.check-stream-capturing .status-check-indicator');
+//                            $(indicator).find('.status-wait').addClass('hidden');
+//                            $(indicator).find('.status-supported').removeClass('hidden');
+//                        }
+
+                        if (DetectRTC.isScreenCapturingSupported === false) {
+                            errors++;
+                            indicator = $(target).find('.check-screen-capturing .status-check-indicator');
+                            $(indicator).find('.status-wait').addClass('hidden');
+                            $(indicator).find('.status-warn').removeClass('hidden');
+                        } else {
+                            indicator = $(target).find('.check-screen-capturing .status-check-indicator');
+                            $(indicator).find('.status-wait').addClass('hidden');
+                            $(indicator).find('.status-supported').removeClass('hidden');
+                        }
+                        
+                        if(errors === 0) {
+                            $('#participation-queue').removeClass('hidden');
+                        }
+                    });
+                });
             }
 
             var peerConnection = null;
@@ -404,6 +542,8 @@ if ($h && $token && $studyId) {
 
                     // a peer video has been added
                     $(peerConnection).on('videoAdded', function () {
+//                        checkRTC();
+
                         clearAlerts($('#study-participation'));
                         $('#study-details #initialize-recorders-list').empty();
 
