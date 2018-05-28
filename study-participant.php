@@ -750,13 +750,14 @@ if (login_check($mysqli) == true) {
                     } else {
                         $(item).find('#feedback .text').text(translation.nones);
                     }
-
+                    
+//                    console.log('start training times', startTrainingTimes);
                     if (evaluatorResults.annotations && evaluatorResults.annotations.length) {
                         var trainingStart, trainingEnd = null;
                         for (var j = 0; j < startTrainingTimes.length; j++) {
                             if (parseInt(gesture.id) === parseInt(startTrainingTimes[j].gestureId)) {
                                 trainingStart = startTrainingTimes[j].time;
-                                if (i < startTrainingTimes.length - 1) {
+                                if (j < startTrainingTimes.length - 1) {
                                     trainingEnd = parseInt(startTrainingTimes[j + 1].time);
                                     break;
                                 } else {

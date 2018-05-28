@@ -38,7 +38,7 @@ if ($h && $token && $studyId) {
 <html lang="en">
     <head>
         <title><?php echo $lang->gestureNote ?></title>
-       <meta charset="utf-8">
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- third party sources -->
@@ -91,6 +91,10 @@ if ($h && $token && $studyId) {
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
+
+        <!-- bootstrap slider -->
+        <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
+        <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
     </head>
     <body id="pageBody">
 

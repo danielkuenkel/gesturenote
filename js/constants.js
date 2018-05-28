@@ -257,6 +257,7 @@ var MESSAGE_REQUEST_PREFERRED_TRIGGER = 'requestPreferredTrigger';
 var MESSAGE_RESPONSE_PREFERRED_TRIGGER = 'responsePreferredTrigger';
 
 var MESSAGE_SCREEN_SHARING_ESTABLISHED = 'screenSharingEstablished';
+var MESSAGE_STOP_SCREEN_SHARING = 'stopScreenSharing';
 
 /*
  * assessment color constants

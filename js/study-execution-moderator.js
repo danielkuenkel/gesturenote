@@ -955,6 +955,7 @@ var Moderator = {
                 currentGestureTrainingIndex = 0;
                 if (peerConnection) {
                     peerConnection.stopShareScreen(true);
+                    peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
                 }
 
                 if (prototypeWindow) {
@@ -1614,6 +1615,7 @@ var Moderator = {
                 screenSharingStopped = true;
                 if (peerConnection) {
                     peerConnection.stopShareScreen(true);
+                    peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
                 }
                 $(this).addClass('hidden');
                 $(container).find('#btn-done-scenario').removeClass('hidden');
@@ -2792,6 +2794,7 @@ var Moderator = {
                 $(container).find('#btn-done-identification').removeClass('hidden');
                 if (peerConnection) {
                     peerConnection.stopShareScreen(true);
+                    peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
                 }
                 identificationPrototypeOpened = false;
                 identificationStartTriggered = false;
@@ -3372,6 +3375,7 @@ var Moderator = {
                 screenSharingStopped = true;
                 if (peerConnection) {
                     peerConnection.stopShareScreen(true);
+                    peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
                 }
                 $(this).addClass('hidden');
                 $(container).find('#btn-done-exploration').removeClass('hidden');
@@ -3449,6 +3453,7 @@ var Moderator = {
                                 updateProgress();
                             }, true);
                         });
+                        peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
                     }
                 } else {
                     saveCurrentStatus(false);
@@ -3469,9 +3474,9 @@ var Moderator = {
                 peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
 
 
-                peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
-
-                peerConnection.stopShareScreen();
+//                peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
+//
+//                peerConnection.stopShareScreen();
 //                peerConnection.reset();
 
 

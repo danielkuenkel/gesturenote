@@ -711,9 +711,9 @@
                 },
                 "moderator": {
                     "stream": "yes",
-                    "video": "no",
+                    "video": "yes",
                     "audio": "yes",
-                    "visualizeStream": "no",
+                    "visualizeStream": "yes",
                     "recordStream": "yes"
                 },
                 "enableDataChannels": "yes"
@@ -906,7 +906,7 @@
                 },
                 "moderator": {
                     "stream": "yes",
-                    "video": "no",
+                    "video": "yes",
                     "audio": "yes",
                     "visualizeStream": "yes",
                     "recordStream": "yes"
@@ -945,9 +945,9 @@
                 },
                 "moderator": {
                     "stream": "yes",
-                    "video": "no",
+                    "video": "yes",
                     "audio": "yes",
-                    "visualizeStream": "no",
+                    "visualizeStream": "yes",
                     "recordStream": "yes"
                 },
                 "enableDataChannels": "yes"
