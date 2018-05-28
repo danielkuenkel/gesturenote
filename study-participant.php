@@ -338,7 +338,9 @@ if (login_check($mysqli) == true) {
                     }
 
                     var study = getLocalItem(STUDY);
-                    if (study.isOwner && (study.isOwner === 'false' || study.isOwner === false)) {
+                    
+                    if (study.isOwner === 'false' || study.isOwner === false) {
+                        console.log(study, study.isOwner);
                         $('#btn-delete-result').remove();
                     }
 

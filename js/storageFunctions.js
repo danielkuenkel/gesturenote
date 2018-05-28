@@ -323,9 +323,11 @@ function setStudyData(data) {
         setData = data.studyData;
         setData.generalData.studyOwner = data.userId;
         
-        if (data.isOwner) {
-            setData.generalData.isOwner = data.isOwner;
-        }
+//        if (data.isOwner) {
+            console.log('is owner?', data.isOwner);
+            setData.generalData.isOwner = data.isOwner || false;
+//        }
+        
         setData.generalData.id = data.id;
         setData.generalData.urlToken = data.urlToken;
         setLocalItem(STUDY, setData.generalData);

@@ -131,7 +131,7 @@ if (login_check($mysqli) == true) {
             </div>
 
             <div id="viewModerator" class="hidden" style="padding-left: 20px; padding-right: 20px;">
-                <div id="pinnedRTC" style="position: fixed"></div>
+                <div id="pinnedRTC" style="position: fixed; z-index: 99"></div>
 
                 <div id="phase-content"></div>
             </div>
@@ -166,7 +166,9 @@ if (login_check($mysqli) == true) {
             });
 
             $(window).scroll(function () {
-                updateRTCHeight($('#viewModerator #column-left').width());
+                if (!$('#viewModerator #pinnedRTC').hasClass('hidden') && $('#viewModerator #column-left').hasClass('rtc-scalable')) {
+                    updateRTCHeight($('#viewModerator #column-left').width());
+                }
             });
 
             function resetRTC() {

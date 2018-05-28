@@ -2030,6 +2030,7 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
 }
 
 function initGestureThumbnail(data, typeId, layout, panelStyle) {
+//    console.log(data);
     var clone;
     if (typeId && typeId !== null) {
         clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');

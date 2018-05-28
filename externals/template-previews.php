@@ -324,7 +324,7 @@ include '../includes/language.php';
 
 
     <div class="row root" id="letterOfAcceptance">
-        <div class="col-md-6 col-lg-4 rtc-scalable" id="column-left">
+        <div class="col-md-6 col-lg-4" id="column-left">
         </div>
         <div class="col-md-6 col-lg-8" id="column-right">
             <div class="">
@@ -341,7 +341,7 @@ include '../includes/language.php';
 
     <div class="row root" id="thanks">
 
-        <div class="col-sm-5 col-md-4 rtc-scalable" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-sm-5 col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 80px;">
             <h3 class="headline" style="margin: 0"><?php echo $lang->thanksHeadline ?></h3>
             <div class="row " style="margin-top: 20px">
@@ -378,14 +378,14 @@ include '../includes/language.php';
     <!-- gesture training container -->
     <div class="row root" id="gestureTraining">
         <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 20px">
-            <div class="panel panel panel-default" id="observations">
-                <div class="panel-heading">
-                    <span class="panel-heading-text"><?php echo $lang->observations ?></span>
-                </div>
-                <div class="panel-body">
+            <div class="" id="observations">
+                <!--<div class="panel-heading">-->
+                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <!--</div>-->
+                <!--<div class="panel-body">-->
                     <div class="alert-space alert-no-phase-data"></div>
                     <div class="question-container"></div>
-                </div>
+                <!--</div>-->
             </div>
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
@@ -449,14 +449,14 @@ include '../includes/language.php';
 
     <div class="row root" id="gestureSlideshow">
         <div class="col-md-5 rtc-scalable" id="column-left">
-            <div class="panel panel panel-default" id="observations">
-                <div class="panel-heading">
-                    <span class="panel-heading-text"><?php echo $lang->observations ?></span>
-                </div>
-                <div class="panel-body">
+            <div class="" id="observations">
+                <!--<div class="panel-heading">-->
+                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <!--</div>-->
+                <!--<div class="panel-body">-->
                     <div class="alert-space alert-no-phase-data"></div>
                     <div class="question-container"></div>
-                </div>
+                <!--</div>-->
             </div>
         </div>
         <div class="col-md-7" id="column-right">
@@ -548,16 +548,15 @@ include '../includes/language.php';
 
     <div class="row root" id="physicalStressTest">
         <div class="col-md-5 rtc-scalable" id="column-left">
-            <div class="panel panel panel-default" id="observations">
-                <div class="panel-heading">
-                    <span class="panel-heading-text"><?php echo $lang->observations ?></span>
-                </div>
-                <div class="panel-body">
+            <div class="" id="observations">
+                <!--<div class="panel-heading">-->
+                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <!--</div>-->
+                <!--<div class="panel-body">-->
                     <div class="alert-space alert-no-phase-data"></div>
                     <div class="question-container"></div>
-                </div>
+                <!--</div>-->
             </div>
-
         </div>
         <div class="col-md-7" id="column-right">
 
@@ -641,14 +640,14 @@ include '../includes/language.php';
 
     <div  class="row root" id="scenario">
         <div class="col-sm-6 col-md-5 rtc-scalable" id="column-left">
-            <div class="panel panel panel-default" id="observations">
-                <div class="panel-heading">
-                    <span class="panel-heading-text"><?php echo $lang->observations ?></span>
-                </div>
-                <div class="panel-body">
+            <div class="" id="observations">
+                <!--<div class="panel-heading">-->
+                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <!--</div>-->
+                <!--<div class="panel-body">-->
                     <div class="alert-space alert-no-phase-data"></div>
                     <div class="question-container"></div>
-                </div>
+                <!--</div>-->
             </div>
         </div>
 
@@ -778,14 +777,14 @@ include '../includes/language.php';
 
     <div class="row root" id="identification">
         <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left">
-            <div class="panel panel panel-default" id="observations">
-                <div class="panel-heading">
-                    <span class="panel-heading-text"><?php echo $lang->observations ?></span>
-                </div>
-                <div class="panel-body">
+            <div class="" id="observations">
+                <!--<div class="panel-heading">-->
+                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <!--</div>-->
+                <!--<div class="panel-body">-->
                     <div class="alert-space alert-no-phase-data"></div>
                     <div class="question-container"></div>
-                </div>
+                <!--</div>-->
             </div>
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
@@ -863,16 +862,15 @@ include '../includes/language.php';
     <!-- exploration container -->
     <div class="row root" id="exploration">
         <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left">
-            <div class="panel panel panel-default" id="observations">
-                <div class="panel-heading">
-                    <span class="panel-heading-text"><?php echo $lang->observations ?></span>
-                </div>
-                <div class="panel-body">
+            <div class="" id="observations">
+                <!--<div class="panel-heading">-->
+                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <!--</div>-->
+                <!--<div class="panel-body">-->
                     <div class="alert-space alert-no-phase-data"></div>
                     <div class="question-container"></div>
-                </div>
+                <!--</div>-->
             </div>
-
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
             <div class="" id="general">

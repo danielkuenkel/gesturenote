@@ -24,7 +24,8 @@ var Moderator = {
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
 
             var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
-            $(container).find('#column-left').css('opacity', '0');
+//            $(container).find('#column-left').css({'opacity': '0'});
+            
             var item = null;
             switch (currentPhase.format) {
                 case LETTER_OF_ACCEPTANCE:
@@ -96,6 +97,7 @@ var Moderator = {
         $('#viewModerator #column-right').css({y: 0, opacity: 1});
         Moderator.checkPositioning(currentPhase.format);
         TweenMax.from($('#phase-content #column-right'), .2, {y: -40, opacity: 0, clearProps: 'all'});
+//        TweenMax.to($('#phase-content #column-left'), .2, {opacity: 1, clearProps: 'all'});
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
         }
@@ -3598,6 +3600,7 @@ function renderObservations(data, container) {
                 saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
             });
         } else {
+            console.log('render observations');
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
         }
     } else {

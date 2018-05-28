@@ -134,7 +134,7 @@ if ($h && $token && $studyId) {
         <div class="mainContent" id="mainContent" style="padding:10px; margin-top:60px">
             <div id="viewModerator">
                 <div class="alert-space alert-please-wait"></div>
-                <div id="pinnedRTC" style="position: fixed; opacity: 0"></div>
+                <div id="pinnedRTC" style="position: fixed; opacity: 0; z-index: 99"></div>
                 <div id="phase-content" class="hidden"></div>
             </div>
         </div>

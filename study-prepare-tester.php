@@ -151,14 +151,16 @@ if ($h && $token && $studyId) {
                                             <span class="status-check-text text">Audioausgabe</span>
                                         </div>
 
-                                        <div class="hidden progress" id="init-timer-progress" style="height: 10px; border-radius: 5px; margin-top: 10px">
-                                            <div class="progress-bar progress-bar-primary" id="init-timer-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%; width: 100%; background-color: #00ff26"></div>
+                                        <div id="init-timer-progress" class="hidden">
+                                            <div class="progress" style="height: 10px; border-radius: 5px; margin-top: 10px">
+                                                <div class="progress-bar progress-bar-primary" id="init-timer-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%; width: 100%; background-color: #5cb85c"></div>
+                                            </div>
+                                            <div class="text-center" style="margin-top: -20px; margin-bottom: 20px">initialisieren …</div>
                                         </div>
+
                                     </div>
 
                                     <div class="hidden" id="video-caller-container">
-                                        <div class="alert-space alert-waiting-for-moderator"></div>
-
                                         <div class="embed-responsive embed-responsive-4by3" id="video-caller">
 
                                             <div class="embed-responsive-item" style="border-radius: 4px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
@@ -184,6 +186,8 @@ if ($h && $token && $studyId) {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="alert-space alert-waiting-for-moderator"></div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12" style="margin-top: 10px">
@@ -351,7 +355,7 @@ if ($h && $token && $studyId) {
                         $(indicator).find('.status-wait').addClass('hidden');
                         $(indicator).find('.status-supported').removeClass('hidden');
                     }
-                    
+
                     $(target).find('#init-timer-progress').removeClass('hidden');
                     if (errors === 0) {
                         var progressBar = $('#init-timer-progress-bar');

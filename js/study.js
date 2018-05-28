@@ -902,9 +902,11 @@ function updateMatchingView(updateLeft, updateRight) {
     } else {
         $('#btn-redo').addClass('disabled');
     }
-
+    
+    
     var leftGesture = gesturesLeft[gesturesLeftIndex];
     var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
+console.log(rightGesture, gesturesRight, gesturesRightIndex);
 
     var leftItem = getGestureCatalogListThumbnail(leftGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
     $(leftItem).removeClass('deleteable');

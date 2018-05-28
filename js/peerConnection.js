@@ -420,13 +420,12 @@ PeerConnection.prototype.update = function (options) {
             // check specific phase step constraints
             if (currentOptions.localStream.video === 'yes' && currentOptions.localStream.visualize === 'yes') {
                 connection.showLocalStream();
+                
                 if (currentOptions.remoteStream.video === 'yes') {
                     $('#' + currentOptions.remoteVideoElement).removeClass('hidden');
-//                    $('#' + currentOptions.localVideoElement).addClass('rtc-shadow');
                     connection.showRemoteStream();
                 } else {
                     $('#' + currentOptions.remoteVideoElement).addClass('hidden');
-
                     connection.hideRemoteStream();
                 }
             } else {
@@ -439,7 +438,6 @@ PeerConnection.prototype.update = function (options) {
             }
 
             // check if stream has to be recorded
-//            console.log('check if stream has to be recorded', options.localStream.record);
             if (options.localStream.record === 'yes') {
                 connection.startRecording(true);
             }
