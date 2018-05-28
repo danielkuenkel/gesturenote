@@ -550,6 +550,23 @@ function saveExtractionData(data, callback) {
     });
 }
 
+function getSharedGestureInfos(data, callback) {
+    $.ajax({
+        url: 'includes/get-shared-gesture-infos.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getGestureSets(callback) {
     $.ajax({
         url: 'includes/get-gesture-sets.php',

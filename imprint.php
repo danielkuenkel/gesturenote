@@ -71,15 +71,15 @@ include_once 'includes/functions.php';
                 </div>
                 <div class="info-text text">
                     <?php echo $lang->imprintContent->disclaimerContent ?>
-                </div>
+                </div><br/>
             </div>
 
-            <div class="">
+            <div class="" id="dataProtectionContent">
                 <div class="page-header">
                     <h2><?php echo $lang->imprintContent->dataProtectionHeadline ?></h2>
                 </div>
                 <div class="info-text text">
-                    <?php echo $lang->imprintContent->dataProtectionContent ?>
+                    
                 </div>
             </div>
         </div>
@@ -101,6 +101,8 @@ include_once 'includes/functions.php';
                 if (loggedIn === false) {
                     $('#btn-dashboard').parent().remove();
                 }
+                
+                $('#dataProtectionContent').find('.info-text').html(translation.imprintContent.dataProtectionContent);
             }
         </script>
 

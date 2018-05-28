@@ -19,7 +19,7 @@ include '../includes/language.php';
 
         <div role="tabpanel" class="tab-pane" id="tab-gesture-general">
             <div class="row">
-                <div class="col-md-5 root">
+                <div class="col-md-5 root" style="margin-bottom: 20px">
                     <div class="sensor-content">
                         <div data-sensor-source="webcam" id="webcam-preview" class="autoplay hidden">
                             <div class="root embed-responsive embed-responsive-4by3">
@@ -81,7 +81,8 @@ include '../includes/language.php';
                             <div class="col-xs-7 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text"><?php echo $lang->valuationTask ?></span></div>
                         </div>
                         <div id="rating-infos">
-                            <span id="rated-by"></span> <span id="rating-users-count"></span> <span id="rated-by-users"></span>
+                            <span id="rated-by"></span> 
+                            <div id="rated-by-myself" class="hidden"><?php echo $lang->gestureRated ?></div>
                             <div class="alert-space alert-rating-submitted" style="margin-top: 10px;"></div>
                         </div>
                         <button type="button" class="btn btn-block btn-warning" id="btn-rate-gesture" style="margin-top: 10px;"><?php echo $lang->rateGesture ?></button>
@@ -93,7 +94,7 @@ include '../includes/language.php';
 
                     <div id="gesture-likes" style="margin-top: 30px; margin-bottom: 30px">
                         <h3><i class="fa fa-heart-o"></i> <?php echo $lang->likes ?></h3>
-                        <span id="liked-by"></span> <span id="liked-users-count"></span> <span id="liked-by-users"></span>
+                        <span id="liked-by"></span>
                         <div style="display: block">
                             <div class="btn-like" style="display: inline-block; margin-right: 5px; font-size: 16pt; cursor: pointer"><i class="fa fa-heart-o"></i> <span class="amount hidden"></span></div>
                             <div style="display: inline-block" class="liked-self"></div>
@@ -102,6 +103,8 @@ include '../includes/language.php';
 
                     <div style="display: block" id="gesture-sharing">
                         <h3><i class="fa fa-share-alt"></i> <?php echo $lang->share ?></h3>
+                        <div style="" class="shared-with-own-projects"></div>
+                        <div style="" class="shared-with-other-projects"></div>
                         <div class="btn-share" style="display: inline-block; margin-right: 5px; font-size: 16pt; cursor: pointer"><i class="fa fa-share-alt"></i></div>
                         <div style="display: inline-block" class="shared-self"></div>
                     </div>
@@ -463,17 +466,22 @@ include '../includes/language.php';
             $(target).find('.rating-stars-container').append(ratingButton);
         }
 
-        $('#rated-by').text(translation.ratedBy);
+//        $('#rated-by').text(translation.ratedBy);
     }
 
     function renderGestureRating(target, ratings, newData) {
         if (newData) {
-            $('#rating-users-count').text(ratings !== null ? ratings.length : 0);
             if (ratings === null) {
-                $('#rated-by-users').text(translation.ratedByUsers);
-            } else {
-                $('#rated-by-users').text(ratings.length === 1 ? translation.ratedByUser : translation.ratedByUsers);
+                ratings = [];
             }
+            $('#rating-infos').find('#rated-by').html(new String(parseInt(ratings.length) === 1 ? translation.ratedByUser : translation.ratedByUsers).replace('{x}', ratings.length || 0));
+
+//            $('#rating-users-count').text(ratings !== null ? ratings.length : 0);
+//            if (ratings === null) {
+//                $('#rated-by-users').text(translation.ratedByUsers);
+//            } else {
+//                $('#rated-by-users').text(ratings.length === 1 ? translation.ratedByUser : translation.ratedByUsers);
+//            }
 
             ratings = calculateRatings(ratings);
         }
@@ -545,10 +553,11 @@ include '../includes/language.php';
         container.find('#gesture-scope #' + gesture.scope).removeClass('hidden');
         container.find('#tab-gesture-general .btn-download-as-gif').attr('data-gesture-id', gesture.id);
 
+        var shareButton = $(container).find('.btn-share');
         if (gesture.isOwner === true) {
             $(container).find('#gesture-rating #btn-rate-gesture').remove();
 
-            var shareButton = $(container).find('.btn-share');
+            $(shareButton).removeClass('hidden');
             if (gesture.scope === SCOPE_GESTURE_PRIVATE) {
                 shareButton.removeClass('gesture-shared');
                 $(container).find('#gesture-sharing .shared-self').text(translation.gestureNotShared);
@@ -566,7 +575,8 @@ include '../includes/language.php';
             }
         } else {
             $(container).find('#gesture-owner-controls').remove();
-            $(container).find('#gesture-sharing').remove();
+            $(shareButton).remove();
+            (container).find('#gesture-sharing .shared-self').remove();
 
             if (gesture.source !== SOURCE_GESTURE_TESTER) {
                 container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
@@ -576,8 +586,8 @@ include '../includes/language.php';
                 container.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
             }
         }
-        
-        
+
+
         if (gesture.images && gesture.images.length > 0) {
             renderGesturePreview(container.find('#webcam-preview'), gesture);
 //            $(container).find('#toggle-gesture-recording-source #btn-webcam').removeClass('hidden');
@@ -611,13 +621,13 @@ include '../includes/language.php';
                     var association = $('#gesture-association-input').val().trim();
                     var description = $('#gesture-description-input').val().trim();
                     var joints = getSelectedJoints($('#select-joints-human-body #joint-container'));
-                    console.log(previewImageIndex, title, type, interactionType, context, association, description, joints);
+//                    console.log(previewImageIndex, title, type, interactionType, context, association, description, joints);
 
                     updateGesture({gestureId: gesture.id, title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints, previewImageIndex: previewImageIndex}, function (result) {
                         showCursor($('body'), CURSOR_DEFAULT);
                         unlockButton(button, true, 'fa-pencil');
 
-                        $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
+                        $('#modal-body #btn-delete-gesture').removeClass('disabled');
                         if (result.status === RESULT_SUCCESS) {
                             updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, type: type, interactionType: interactionType, context: result.context, association: association, description: result.description, joints: result.joints, previewImage: result.previewImage});
                             $(thumbnail).find('.gesture-name').text(title);
@@ -706,6 +716,15 @@ include '../includes/language.php';
     function updateGestureSharing() {
         var modal = $('#custom-modal');
 
+//        console.log('update gesture sharing', currentPreviewGesture);
+        getSharedGestureInfos({gestureId: currentPreviewGesture.gesture.id}, function (result) {
+            console.log(result);
+            if (result.status === RESULT_SUCCESS) {
+                $(modal).find('#gesture-sharing .shared-with-own-projects').html(new String(translation.gestureSharedInOwnProjects).replace('{x}', result.usedSharedGestureInOwnProjectsCount));
+                $(modal).find('#gesture-sharing .shared-with-other-projects').html(new String(translation.gestureSharedInOtherProjects).replace('{x}', result.usedSharedGestureInOtherProjectsCount));
+            }
+        });
+
         initShareGesture($(modal).find('#gesture-sharing .btn-share'), currentPreviewGesture.thumbnail, currentPreviewGesture.source, currentPreviewGesture.gesture, function () {
             if ($(modal).find('#gesture-sharing .btn-share').hasClass('gesture-shared')) {
                 $(modal).find('#gesture-sharing .shared-self').text(translation.gestureShared);
@@ -723,6 +742,7 @@ include '../includes/language.php';
             if (result.status === RESULT_SUCCESS) {
                 renderGestureRating($(modal).find('#gesture-rating'), result.ratings, true);
                 if (result.hasRated && (result.hasRated === true || result.hasRated === 'true')) {
+                    $(modal).find('#gesture-rating #rated-by-myself').removeClass('hidden');
                     $(modal).find('#gesture-rating #btn-rate-gesture').remove();
                 }
             }
@@ -732,9 +752,9 @@ include '../includes/language.php';
     function updateGestureLikes() {
         getLikesForGesture({gestureId: currentPreviewGesture.gesture.id}, function (result) {
             if (result.status === RESULT_SUCCESS) {
-                $('#gesture-likes').find('#liked-by').text(translation.likedBy);
-                $('#gesture-likes').find('#liked-users-count').text(result.likeAmount || 0);
-                $('#liked-by-users').text(parseInt(result.likeAmount) === 1 ? translation.likedByUser : translation.likedByUsers);
+                $('#gesture-likes').find('#liked-by').html(new String(parseInt(result.likeAmount) === 1 ? translation.likedByUser : translation.likedByUsers).replace('{x}', result.likeAmount || 0));
+//                $('#gesture-likes').find('#liked-users-count').text(result.likeAmount || 0);
+//                $('#liked-by-users').text(parseInt(result.likeAmount) === 1 ? translation.likedByUser : translation.likedByUsers);
 
                 initLikeGesture($('#gesture-likes').find('.btn-like'), currentPreviewGesture.source, {id: currentPreviewGesture.gesture.id, hasLiked: result.hasLiked, likeAmount: result.likeAmount}, function () {
                     if ($('#gesture-likes').find('.btn-like').hasClass('gesture-liked')) {
