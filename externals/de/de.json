@@ -139,6 +139,27 @@
     "automatically": "automatisch",
     "cookieHint": "Cookies erleichtern das Bereitstellen unserer Dienste. Mit der Nutzung unserer Dienste erklären Sie sich damit einverstanden, dass wir Cookies verwenden.",
     "acceptCookies": "OK",
+    "infosContent": {
+        "planning": {
+            "title": "Planung",
+            "content": "Einfache Erstellung von Leitfäden<br/>Zugriff auf Gesten-Katalog</br>Unterstützung gängiger Gesten-Design-Methoden<br/>Anbindung von Prototypen<br/>Studien-Design-Vorschau</br>Gesten-Styleguides",
+            "videoPlaceholderUrl":"img/de/planning-placeholder.jpg"
+        },
+        "execution": {
+            "title": "Durchführung",
+            "content": "Moderierte & unmoderierte Befragungen<br/>Pluginfreie Echtzeit-kommunikation (WebRTC)<br/>Automatische Annotation von Ereignissen (z.B. wann Geste ausgeführt wurde)</br>Aufzeichnung von Webcam & Sensordaten (Leap Motion)<br/>Prototyp-Sharing & Aufzeichnung",
+            "videoPlaceholderUrl":"img/de/execution-placeholder.jpg"
+        },
+        "analysis": {
+            "title": "Analyse",
+            "content": "Bereitstellung von Rohdaten (Videodaten, Fragebögen, etc.)<br/>Berechnung des SUS-Scores</br>Teilen von Ergebnissen<br/>Kommentieren, Bewerten und Teilen von Gesten",
+            "videoPlaceholderUrl":"img/de/analysis-placeholder.jpg"
+        },
+        "features": {
+            "title": "Funktionsumfang",
+            "content": "Bereitstellung von Rohdaten (Videodaten, Fragebögen, etc.)<br/>Berechnung des SUS-Scores</br>Teilen von Ergebnissen<br/>Kommentieren, Bewerten und Teilen von Gesten"
+        }
+    },
     "imprintContent": {
         "mainHeadline": "Angaben gemäß § 5 TMG",
         "adress": "Daniel Künkel<br/>Petersberger Straße 50<br/>36037 Fulda",
