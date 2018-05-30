@@ -112,7 +112,8 @@ include_once 'includes/functions.php';
 
             <div class="row" style="margin-top: 30px">
                 <div class="col-md-12 text-center">
-                    <em>Nutzerzentriert</em>
+                    <em style="font-size: 14pt"><?php echo $lang->Usercentered ?></em>
+                    <p>Gesten-Designer treten in Kontakt mit potentiellen Nutzern von Gesten-Interaktionen. Ortsungebunden! Probanden können in alle drei Phasen des Gesten-Designs-Prozesses eingebunden werden. Nutzen Sie Screen-Sharing, um ihren Probanden zu veranschaulichen, wofür Gesten gesucht, extrahiert oder berwertet werden sollen. Binden Sie dazu Bilder, Videos oder Webseiten in ihren Leitfaden ein. Zeichnen Sie Gesten ganz einfach über die Webcam ihrer Probanden auf. Nutzen Sie vordefinierte Fragebögen, um schnell und einfach Gesten-Interaktionen bewerten zu lassen. Koppeln Sie Gesten an vorhandene Prototypen, um Gesten-Interaktionen zu evaluieren. Akquirieren Sie Probanden aus aller Welt über soziale Netzwerke. </p>
                 </div>
             </div>
 
@@ -120,23 +121,23 @@ include_once 'includes/functions.php';
 
             <div class="row text" id="features-user-centered" style="margin-top: 10px">
                 <div class="col-md-4">
-                    <h4 class="text-center font-bold">Ermittlung</h4>
+                    <h4 class="text-center font-bold"><?php echo $lang->phaseType->elicitation ?></h4>
                     <ul>
                         <li><strong>Ermittlung (Top-Down):</strong> Gesten für vorhandene Funktionen ermitteln.</li>
                         <li><strong>Ermittlung (Bottom-Up):</strong> Funktionen für vorhandene Gesten ermitteln.</li>
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <div class="hidden-sm hidden-md hidden-lg" style="margin-top: 20px"></div>
-                    <h4 class="text-center font-bold">Extraktion</h4>
+                    <div class="hidden-md hidden-lg" style="margin-top: 30px"></div>
+                    <h4 class="text-center font-bold"><?php echo $lang->phaseType->extraction ?></h4>
                     <ul>
                         <li><strong>Exploration (Top-Down):</strong> Abfrage favorisierter Gesten für vorhandene Funktionen.</li>
                         <li><strong>Exploration (Bottom-Up):</strong> Abfrage favorisierter Funktionen für vorhandene Gesten.</li>
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <div class="hidden-sm hidden-md hidden-lg" style="margin-top: 20px"></div>
-                    <h4 class="text-center font-bold">Evaluierung</h4>
+                    <div class="hidden-md hidden-lg" style="margin-top: 30px"></div>
+                    <h4 class="text-center font-bold"><?php echo $lang->phaseType->evaluation ?></h4>
                     <ul>
                         <li><strong>GUS:</strong> Baukasten zur Erstellung von Bewertungsbögen für Gesten-Interaktionen.</li>
                         <li><strong>SUS:</strong> Bewertung eines Systems oder Prototyp.</li>
@@ -151,9 +152,10 @@ include_once 'includes/functions.php';
             </div>
 
 
-            <div class="row" style="margin-top: 30px">
+            <div class="row" style="margin-top: 60px">
                 <div class="col-md-12 text-center">
-                    <em>Expertenbasiert</em>
+                    <em style="font-size: 14pt"><?php echo $lang->Expertbased ?></em>
+                    <p>Hier steht die Analyse und Bewertung von Gesten-Interaktionen durch Gesten-Designer im Fokus. GestureNote unterstützt Vorgehensweisen und Methoden, die ohne direkten Kontakt zu potentiellen Nutzern von Gesten-Interaktionen auskommen. Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.</p>
                 </div>
             </div>
 
@@ -161,15 +163,15 @@ include_once 'includes/functions.php';
 
             <div class="row text" id="features-expert-based" style="margin-top: 10px">
                 <div class="col-md-4">
-                    <h4 class="text-center font-bold">Ermittlung</h4>
+                    <h4 class="text-center font-bold"><?php echo $lang->phaseType->elicitation ?></h4>
                     <ul>
                         <li><strong>Gesten-Recorder:</strong> Aufzeichnung von Gesten mit über Webcam und/oder Leap Motion Controller.</li>
                         <li><strong>Gesten-Katalog:</strong> Zugriff auf alle erstellten und von anderen Gesten-Designern freigegebene Gesten.</li>
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <div class="hidden-sm hidden-md hidden-lg" style="margin-top: 20px"></div>
-                    <h4 class="text-center font-bold">Extraktion</h4>
+                    <div class="hidden-md hidden-lg" style="margin-top: 30px"></div>
+                    <h4 class="text-center font-bold"><?php echo $lang->phaseType->extraction ?></h4>
                     <ul>
                         <li><strong>Klassifizierung:</strong> Einfaches Klassifizieren von nutzerzentriert ermittelten Gesten.</li>
                         <li><strong>Potentielle Gesten:</strong> Bewertung klassifizierter Gesten auf Basis bereitgestellter Kennzahlen (Anzahl von Gesten, statische Übereinstimmung nach Wobbrock) und Bewertungsinstrumenten (Checkliste, Sinnzusammenhänge).</li>
@@ -177,8 +179,8 @@ include_once 'includes/functions.php';
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <div class="hidden-sm hidden-md hidden-lg" style="margin-top: 20px"></div>
-                    <h4 class="text-center font-bold">Evaluierung</h4>
+                    <div class="hidden-md hidden-lg" style="margin-top: 30px"></div>
+                    <h4 class="text-center font-bold"><?php echo $lang->phaseType->evaluation ?></h4>
                     <ul>
                         <li><strong>Rohdaten:</strong> Bereitstellung von Rohdaten (Videos, Gesten, Fragebögen, Beobachtungen, etc.).</li>
                         <li><strong>Umfangreicher Video-Player:</strong> Automatische Synchronisierung von Videodaten (Moderator, Proband, Prototyp).</li>
@@ -207,6 +209,12 @@ include_once 'includes/functions.php';
                     if (loggedIn === false) {
                         $('#btn-dashboard').parent().remove();
                     }
+
+                    $('.mainContent').find('video').on('click', function (event) {
+                        event.preventDefault();
+                        var video = $(this)[0];
+                        video.paused ? video.play() : video.pause();
+                    });
                 }
             </script>
 

@@ -1074,6 +1074,92 @@ function renderAssembledTasks(tasks, targetContainer, addNoneItem) {
 }
 
 
+/* 
+ * Actions for the questionnaire form filters
+ */
+
+function renderAtAnswerFilterOptions(target, options) {
+    if (options !== null) {
+        var dropdown = $(target).find('.select');
+        $(dropdown).find('.option').empty();
+
+        for (var i = 0; i < options.length; i++) {
+            var listItem = document.createElement('li');
+            listItem.setAttribute('id', options[i].id);
+
+            var link = document.createElement('a');
+            link.setAttribute('href', '#');
+            $(link).addClass('ellipsis');
+            link.appendChild(document.createTextNode(options[i].title));
+            listItem.appendChild(link);
+
+            if (i >= options.length - 1) {
+                var devider = document.createElement('li');
+                devider.setAttribute('class', 'divider');
+                $(dropdown).find('.option').append(devider);
+            }
+
+            $(dropdown).find('.option').append(listItem);
+            $(target).find('.dropdown-toggle').removeClass('disabled');
+            $(target).find('.item-input-text').attr('placeholder', translation.pleaseSelect);
+        }
+    } else {
+        $(target).find('.dropdown-toggle').addClass('disabled');
+        $(target).find('.item-input-text').attr('placeholder', translation.noFilterOptionsPresent);
+    }
+}
+
+function updateJumpToAnswerOptions(target, selectTarget) {
+    var nextAllItems = $(target).nextAll();
+    console.log('next all', nextAllItems);
+    var availableOptions = null;
+
+    if (nextAllItems.length > 0) {
+
+        availableOptions = [];
+        for (var i = 0; i < nextAllItems.length; i++) {
+            availableOptions.push({id: $(nextAllItems[i]).attr('name'), title: translation.questionFormats[$(nextAllItems[i]).attr('id')].text + ' ' + $(nextAllItems[i]).find('.badgeId').text()});
+        }
+        availableOptions.push({id: 'nextStep', title: translation.NextStep});
+
+        renderJumpToAnswerOptions(selectTarget, availableOptions);
+    } else {
+        renderJumpToAnswerOptions(selectTarget, availableOptions);
+    }
+}
+
+function renderJumpToAnswerOptions(target, options) {
+    if (options !== null) {
+        var dropdown = $(target).find('.select');
+        $(dropdown).find('.option').empty();
+
+        for (var i = 0; i < options.length; i++) {
+            var listItem = document.createElement('li');
+            listItem.setAttribute('id', options[i].id);
+
+            var link = document.createElement('a');
+            link.setAttribute('href', '#');
+            $(link).addClass('ellipsis');
+            link.appendChild(document.createTextNode(options[i].title));
+            listItem.appendChild(link);
+            
+            if (i >= options.length - 1) {
+                var devider = document.createElement('li');
+                devider.setAttribute('class', 'divider');
+                $(dropdown).find('.option').append(devider);
+            }
+
+            $(dropdown).find('.option').append(listItem);
+            $(target).find('.dropdown-toggle').removeClass('disabled');
+            $(target).find('.item-input-text').attr('placeholder', translation.pleaseSelect);
+        }
+    } else {
+        $(target).find('.dropdown-toggle').addClass('disabled');
+        $(target).find('.item-input-text').attr('placeholder', translation.noFurtherQuestionsPresent);
+    }
+}
+
+
 var wobbling = false;
 function wobble(elements) {
     if (!wobbling) {

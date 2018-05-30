@@ -143,17 +143,17 @@
         "planning": {
             "title": "Planung",
             "content": "Einfache Erstellung von Leitfäden<br/>Zugriff auf Gesten-Katalog</br>Unterstützung gängiger Gesten-Design-Methoden<br/>Anbindung von Prototypen<br/>Studien-Design-Vorschau</br>Gesten-Styleguides",
-            "videoPlaceholderUrl":"img/de/planning-placeholder.jpg"
+            "videoPlaceholderUrl": "img/de/planning-placeholder.jpg"
         },
         "execution": {
             "title": "Durchführung",
             "content": "Moderierte & unmoderierte Befragungen<br/>Pluginfreie Echtzeit-kommunikation (WebRTC)<br/>Automatische Annotation von Ereignissen (z.B. wann Geste ausgeführt wurde)</br>Aufzeichnung von Webcam & Sensordaten (Leap Motion)<br/>Prototyp-Sharing & Aufzeichnung",
-            "videoPlaceholderUrl":"img/de/execution-placeholder.jpg"
+            "videoPlaceholderUrl": "img/de/execution-placeholder.jpg"
         },
         "analysis": {
             "title": "Analyse",
             "content": "Bereitstellung von Rohdaten (Videodaten, Fragebögen, etc.)<br/>Berechnung des SUS-Scores</br>Teilen von Ergebnissen<br/>Kommentieren, Bewerten und Teilen von Gesten",
-            "videoPlaceholderUrl":"img/de/analysis-placeholder.jpg"
+            "videoPlaceholderUrl": "img/de/analysis-placeholder.jpg"
         },
         "features": {
             "title": "Funktionsumfang",
@@ -554,12 +554,14 @@
     "groupingOptions": "Eingruppierungs-Optionen",
     "rankingOptions": "Ranking-Optionen",
     "ratingOptions": "Rating-Optionen",
+    "filterOptions": "Filter-Optionen",
     "addGroupingQuestionOption": "Neue Auswahloption hinzufügen",
     "addRatingOption": "Neue Ratingoption hinzufügen",
     "addRankingOption": "Neue Rankingoption hinzufügen",
     "addNewRow": "Neue Zeile hinzufügen",
     "addNewAnswer": "Neue Antwort hinzufügen",
     "addState": "Zustand hinzufügen",
+    "addFilterOption": "Filter-Option hinzufügen",
     "sumQuestionAnswers": "Antworten der Summenfrage",
     "selectionOption": "Auswahloption",
     "selectionOfOneOption": "Auswahl einer Option",
@@ -568,6 +570,9 @@
     "noSelection": "Keine Auswahl",
     "matriceRows": "Matrix-Zeilen",
     "distributionIn": "Verteilung in",
+    "AtAnswerSelect": "Bei Antwort",
+    "JumpToQuestion": "Gehe zu",
+    "alwaysJumpTo": "Egal welche",
     "helpText": "Hilfetext",
     "displayOf": "Anzeige der",
     "displayOfFeedback": "Anzeige des Feedbacks",
@@ -1432,6 +1437,8 @@
     "theTrigger": "die Funktion",
     "theFeedback": "das Feedback",
     "noFeedbackPresent": "Kein Feedback vorhanden",
+    "noFilterOptionsPresent":"Keine Optionen vorhanden",
+    "noFurtherQuestionsPresent":"Keine Folgefragen vorhanden",
     "all": "Alle",
     "none": "Keine",
     "noner": "Keiner",
@@ -1506,6 +1513,7 @@
     },
     "nextTask": "nächste Aufgabe",
     "nextStep": "nächster Leitfadenschritt",
+    "NextStep": "Nächstem Leitfadenschritt",
     "nextParticipant": "Nächster Teilnehmer",
     "previousParticipant": "Vorheriger Teilnehmer",
     "description": "Beschreibung",
@@ -1675,6 +1683,10 @@
     "phases": "Leitfaden",
     "gestureElicitation": "Gesten-Ermittlung",
     "gestureEvaluation": "Gesten-Evaluierung",
+    "usercentered": "nutzerzentriert",
+    "Usercentered": "Nutzerzentriert",
+    "expertbased": "expertenbasiert",
+    "Expertbased": "Expertenbasiert",
     "wrongGesture": "Falsche Geste",
     "answer": "Antwort",
     "answers": "Antworten",
@@ -1903,6 +1915,7 @@
             "ratingNegative": "Ist die Skala negativ besetzt? D.h. stehen positive Eigenschaften an erster Stelle der Skala? Steht z.B. 'trifft zu' oder 'gut' an erster Stelle?",
             "matrix": "Dieses Fragenformat stellt eine Erweiterung zum Rating dar. Es lassen sich damit z.B. Fragen wie: 'Wie häufig arbeiten Sie mit den jeweiligen Gesten-Sensoren?' und deren Optionen: 'Kinect', 'Leap Motion Controller', 'Nintendo Wii', sowie deren Skalen von 'überhaupt nicht' bis 'täglich' erstellen.",
             "matrixRows": "Fügen Sie mehrere Zeilen ein, die ein Proband bewerten soll.",
+            "filterOptions": "Fügen Sie Filter-Optionen hinzu, um z.B. nachfolgende Fragen zu überspringen.",
             "identification": "Wählen Sie aus, ob Sie Gesten oder Funktionen ermittelt wollen. Legen Sie eine Liste von Elementen an für die Sie Gesten bzw. Funktionen ermitteln möchten.",
             "identificationOverlay": "<p>Teilen Sie ihrem Probanden mit, was während einer Ermittlung passiert.</p> Werden Gesten oder Funktionen ermittelt? Was soll der Proband tun?",
             "identificationFor": "Wenn Gesten identifiziert werden sollen, ist ein Funktionen-Katalog anzulegen. Für zu identifizierende Funktionen wird ein Studien-Gesten-Set benötigt.",
@@ -2004,7 +2017,13 @@
     },
     "systemIs": "Das System wurde mit",
     "rated": "bewertet",
-    "defaultScales": ["Trifft nicht zu", "Weder noch", "Trifft zu"],
+    "defaultScales": [{
+            "title": "Trifft nicht zu"
+        }, {
+            "title": "Weder noch"
+        }, {
+            "title": "Trifft zu"
+        }],
     "susOptions": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"],
     "susScores": [
         {

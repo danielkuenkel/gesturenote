@@ -4,10 +4,61 @@ include '../includes/language.php';
 
 <div id="form-item-container" class="hidden">
 
+    <div class="col-sm-11 root" id="filter-option-item">
+        <div class="panel panel-default" style="margin-bottom: 8px">
+            <div class="panel-heading">
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+                    <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
+                    <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+
+            <div class="panel-body">
+
+                <!-- filter options -->
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group root fitlerAtAnswerSelect">
+                            <label style="margin: 0"><?php echo $lang->AtAnswerSelect ?></label><br>
+
+                            <div class="input-group">
+                                <input class="form-control item-input-text option-at-answer show-dropdown readonly" type="text" value=""/>
+                                <div class="input-group-btn select" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group root filterJumpSelect">
+                            <label style="margin: 0"><?php echo $lang->JumpToQuestion ?></label><br>
+
+                            <div class="input-group">
+                                <input class="form-control item-input-text option-jump-to show-dropdown readonly" type="text" value=""/>
+                                <div class="input-group-btn select" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
     <div class="panel panel-default root" id="openQuestion">
         <div class="panel-heading">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
-               <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+                <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
@@ -33,7 +84,7 @@ include '../includes/language.php';
     <div class="panel panel-default root not-used" id="openQuestionGUS">
         <div class="panel-heading">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
-               <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+                <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
@@ -144,6 +195,13 @@ include '../includes/language.php';
                     </div>
                 </div>
             </form>
+
+            <!-- filter options -->
+            <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
+            <div class="">
+                <div class="filter-options-container row"></div>
+            </div>
+            <button type="button" class="btn btn-info btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
 
         </div>
     </div>
@@ -514,12 +572,24 @@ include '../includes/language.php';
                 </div>
             </form>
 
-            <label style="margin-top: 10px"><?php echo $lang->groupingOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingOptions ?>"></i></label>
-            <div class="">
-                <div class="option-container row"></div>
+            <!-- answer options -->
+            <div>
+                <label style="margin-top: 10px"><?php echo $lang->groupingOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingOptions ?>"></i></label>
+                <div class="">
+                    <div class="option-container row"></div>
+                </div>
+                <button type="button" class="btn btn-info btn-shadow btn-add-groupingQuestionOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addGroupingQuestionOption ?></button>
             </div>
 
-            <button type="button" class="btn btn-info btn-shadow btn-add-groupingQuestionOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addGroupingQuestionOption ?></button>
+            <!-- filter options -->
+            <div>
+                <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
+                <div class="">
+                    <div class="filter-options-container row"></div>
+                </div>
+                <button type="button" class="btn btn-info btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+            </div>
+
         </div>
     </div>
 
@@ -528,8 +598,8 @@ include '../includes/language.php';
             <div class="panel-heading">
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
-                <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
-                <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
+                    <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
 
@@ -1065,6 +1135,15 @@ include '../includes/language.php';
             <div class="ratingScaleItemContainer">
 
             </div>
+            
+            <!-- filter options -->
+            <div>
+                <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
+                <div class="">
+                    <div class="filter-options-container row"></div>
+                </div>
+                <button type="button" class="btn btn-info btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+            </div>
         </div>
     </div>
 
@@ -1075,8 +1154,8 @@ include '../includes/language.php';
             <div class="panel-heading">
                 <div class="btn-group btn-group-sm" style="margin-right: 10px">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
-                <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
-                <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
+                    <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
             <div class="panel-body">
@@ -1448,7 +1527,7 @@ include '../includes/language.php';
     <div class="panel panel-default root" id="task-assessment-item">
         <div class="panel-heading">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
-               <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+                <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
@@ -1499,8 +1578,8 @@ include '../includes/language.php';
             <div class="panel-heading">
                 <div class="btn-group btn-group-sm" style="margin-right: 10px">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
-                <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
-                <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
+                    <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
             <div class="panel-body" style="margin-bottom: 0px">
