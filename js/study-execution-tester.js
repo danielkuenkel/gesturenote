@@ -207,7 +207,7 @@ var Tester = {
             $(container).append(content);
         }
 
-        container = renderQuestionnaire(container, data, currentQuestionnaireAnswers);
+        container = renderQuestionnaire(container, data, currentQuestionnaireAnswers, true);
         $(container).find('.headline').text(getCurrentPhase().title);
 
         if (questionnaireDone) {

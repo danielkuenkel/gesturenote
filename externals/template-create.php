@@ -20,7 +20,57 @@ include '../includes/language.php';
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group root fitlerAtAnswerSelect">
+                        <div class="form-group filterAtAnswerSelect">
+                            <label style="margin: 0"><?php echo $lang->AtAnswerSelect ?></label><br>
+
+                            <div class="input-group">
+                                <input class="form-control item-input-text option-at-answer show-dropdown readonly" type="text" value=""/>
+                                <div class="input-group-btn select select-update" data-update-option="filter" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group filterJumpSelect">
+                            <label style="margin: 0"><?php echo $lang->JumpToQuestion ?></label><br>
+
+                            <div class="input-group">
+                                <input class="form-control item-input-text option-jump-to show-dropdown readonly" type="text" value=""/>
+                                <div class="input-group-btn select select-update" data-update-option="filter" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-11 root" id="ranking-filter-option-item">
+        <div class="panel panel-default" style="margin-bottom: 8px">
+            <div class="panel-heading">
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+                    <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
+                    <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+
+            <div class="panel-body">
+
+                <!-- filter options -->
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-8 col-lg-4">
+                        <div class="form-group root filterAtAnswerSelect">
                             <label style="margin: 0"><?php echo $lang->AtAnswerSelect ?></label><br>
 
                             <div class="input-group">
@@ -34,7 +84,188 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group root filterPositionSelect">
+                            <label style="margin: 0"><?php echo $lang->AtPositionSelect ?></label><br>
+
+                            <div class="input-group">
+                                <input class="form-control text-center item-input-text option-position show-dropdown readonly" type="text" value=""/>
+                                <div class="input-group-btn select" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-5">
+                        <div class="form-group root filterJumpSelect">
+                            <label style="margin: 0"><?php echo $lang->JumpToQuestion ?></label><br>
+
+                            <div class="input-group">
+                                <input class="form-control item-input-text option-jump-to show-dropdown readonly" type="text" value=""/>
+                                <div class="input-group-btn select" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-11 root" id="sum-filter-option-item">
+        <div class="panel panel-default" style="margin-bottom: 8px">
+            <div class="panel-heading">
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+                    <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
+                    <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+
+            <div class="panel-body">
+
+                <!-- filter options -->
+
+                <div class="row">
+                    <div class="col-sm-6 col-lg-8">
+                        <div class="form-group root filterAtAnswerSelect">
+                            <label style="margin: 0"><?php echo $lang->AtAnswerSelect ?></label><br>
+
+                            <div class="input-group">
+                                <input class="form-control item-input-text option-at-answer show-dropdown readonly" type="text" value=""/>
+                                <div class="input-group-btn select" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="form-group root operatorSelect">
+                            <label style="margin: 0"><?php echo $lang->operator ?></label><br>
+
+                            <div class="input-group">
+                                <input class="form-control text-center item-input-text option-position show-dropdown readonly" type="text" value="="/>
+                                <div class="input-group-btn select" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="equals"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                        <li id="equals"><a href="#">=</a></li>
+                                        <li id="greater"><a href="#">></a></li>
+                                        <li id="minor"><a href="#"><</a></li>
+                                        <li id="egalsGreater"><a href="#">>=</a></li>
+                                        <li id="egalsMinor"><a href="#"><=</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-5 col-lg-3">
+                        <div class="form-group">
+                            <label style="margin: 0"><?php echo $lang->hasValue ?></label><br/>
+
+                            <div class="input-group simple-stepper" id="counter-number" style="max-width: 100%;">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control readonly text-center stepper-text" value="0">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
+                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-8 col-md-7 col-lg-9">
+                        <div class="form-group root filterJumpSelect">
+                            <label style="margin: 0"><?php echo $lang->JumpToQuestion ?></label><br>
+
+                            <div class="input-group">
+                                <input class="form-control item-input-text option-jump-to show-dropdown readonly" type="text" value=""/>
+                                <div class="input-group-btn select" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-11 root" id="counter-filter-option-item">
+        <div class="panel panel-default" style="margin-bottom: 8px">
+            <div class="panel-heading">
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+                    <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
+                    <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+
+            <div class="panel-body">
+
+                <!-- filter options -->
+
+                <div class="row">
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="form-group root operatorSelect">
+                            <label style="margin: 0"><?php echo $lang->operator ?></label><br>
+
+                            <div class="input-group">
+                                <input class="form-control text-center item-input-text option-position show-dropdown readonly" type="text" value="="/>
+                                <div class="input-group-btn select" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="equals"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                        <li id="equals"><a href="#">=</a></li>
+                                        <li id="greater"><a href="#">></a></li>
+                                        <li id="minor"><a href="#"><</a></li>
+                                        <li id="egalsGreater"><a href="#">>=</a></li>
+                                        <li id="egalsMinor"><a href="#"><=</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="form-group">
+                            <label style="margin: 0"><?php echo $lang->hasValue ?></label><br/>
+
+                            <div class="input-group simple-stepper" id="counter-number" style="max-width: 100%;">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control readonly text-center stepper-text" value="0">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
+                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-5">
                         <div class="form-group root filterJumpSelect">
                             <label style="margin: 0"><?php echo $lang->JumpToQuestion ?></label><br>
 
@@ -198,9 +429,7 @@ include '../includes/language.php';
 
             <!-- filter options -->
             <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
-            <div class="">
-                <div class="filter-options-container row"></div>
-            </div>
+            <div class="filter-options-container row"></div>
             <button type="button" class="btn btn-info btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
 
         </div>
@@ -457,7 +686,7 @@ include '../includes/language.php';
 
             <form class="form-inline">
                 <div class="form-group form-group-margin-top" style="margin-right: 20px">
-                    <label><?php echo $lang->counterFrom ?></label><br/>
+                    <label style="margin: 0"><?php echo $lang->counterFrom ?></label><br/>
                     <div class="input-group simple-stepper" id="counter-from" style="max-width: 140px;">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
@@ -474,7 +703,7 @@ include '../includes/language.php';
                 </div>
 
                 <div class="form-group form-group-margin-top">
-                    <label><?php echo $lang->counterTo ?></label><br/>
+                    <label style="margin: 0"><?php echo $lang->counterTo ?></label><br/>
                     <div class="input-group simple-stepper" id="counter-to" style="max-width: 140px;">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
@@ -490,6 +719,12 @@ include '../includes/language.php';
                     </div>
                 </div>
             </form>
+
+            <div>
+                <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
+                <div class="filter-options-container row"></div>
+                <button type="button" class="btn btn-info btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+            </div> 
 
         </div>
     </div>
@@ -584,9 +819,7 @@ include '../includes/language.php';
             <!-- filter options -->
             <div>
                 <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
-                <div class="">
-                    <div class="filter-options-container row"></div>
-                </div>
+                <div class="filter-options-container row"></div>
                 <button type="button" class="btn btn-info btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
             </div>
 
@@ -1058,6 +1291,13 @@ include '../includes/language.php';
                 </div>
             </form>
 
+            <!-- filter options -->
+            <div>
+                <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
+                <div class="filter-options-container row"></div>
+                <button type="button" class="btn btn-info btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+            </div>
+
         </div>
     </div>
 
@@ -1135,20 +1375,17 @@ include '../includes/language.php';
             <div class="ratingScaleItemContainer">
 
             </div>
-            
+
             <!-- filter options -->
             <div>
                 <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
-                <div class="">
-                    <div class="filter-options-container row"></div>
-                </div>
+                <div class="filter-options-container row"></div>
                 <button type="button" class="btn btn-info btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
             </div>
         </div>
     </div>
 
     <div class="col-sm-11 root" id="ratingItem">
-
 
         <div class="panel panel-default" style="margin-bottom: 10px;">
             <div class="panel-heading">
@@ -1210,6 +1447,14 @@ include '../includes/language.php';
                 </form>
 
                 <div class="ratingScaleItemContainer"></div>
+
+                <!-- filter options -->
+                <div>
+                    <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
+                    <div class="filter-options-container row"></div>
+                    <button type="button" class="btn btn-info btn-shadow btn-add-filter-option" data-root-lookups="3"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -1306,7 +1551,7 @@ include '../includes/language.php';
                 </div>
 
                 <div class="form-group form-group-margin-top" style="margin-right: 20px">
-                    <label><?php echo $lang->maximum ?></label><br/>
+                    <label style="margin: 0"><?php echo $lang->maximum ?></label><br/>
 
                     <div class="input-group simple-stepper" id="counter-maximum" style="max-width: 140px;">
                         <div class="input-group-btn">
@@ -1324,12 +1569,22 @@ include '../includes/language.php';
                 </div>
             </form>
 
-            <label style="margin-top: 10px"><?php echo $lang->answers ?></label>
-            <div class="">
-                <div class="option-container">
+            <div>
+                <label style="margin-top: 10px"><?php echo $lang->answers ?></label>
+                <div class="">
+                    <div class="option-container">
+                    </div>
                 </div>
+                <button type="button" class="btn btn-info btn-shadow btn-add-sumQuestionOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addNewAnswer ?></button>
             </div>
-            <button type="button" class="btn btn-info btn-shadow btn-add-sumQuestionOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addNewAnswer ?></button>
+
+            <!-- filter options -->
+            <div>
+                <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
+                <div class="filter-options-container row"></div>
+                <button type="button" class="btn btn-info btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+            </div>     
+
         </div>
     </div>
 
@@ -1370,13 +1625,23 @@ include '../includes/language.php';
                 <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
             </div>
 
-            <label style="margin-top: 10px"><?php echo $lang->rankingOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rankingOptions ?>"></i></label>
-            <div class="">
-                <div class="option-container">
+            <div>
+                <label style="margin-top: 10px"><?php echo $lang->rankingOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rankingOptions ?>"></i></label>
+                <div class="">
+                    <div class="option-container">
+                    </div>
                 </div>
+
+                <button type="button" class="btn btn-info btn-shadow btn-add-rankingOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addRankingOption ?></button>
             </div>
 
-            <button type="button" class="btn btn-info btn-shadow btn-add-rankingOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addRankingOption ?></button>
+            <!-- filter options -->
+            <div>
+                <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
+                <div class="filter-options-container row"></div>
+                <button type="button" class="btn btn-info btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+            </div>
+
         </div>
     </div>
 
@@ -1656,7 +1921,7 @@ include '../includes/language.php';
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group hidden transitionFeedback-time-stepper">
-                            <label><?php echo $lang->transitionalPeriod ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingFeedbackTime ?>"></i></label>
+                            <label style="margin: 0"><?php echo $lang->transitionalPeriod ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingFeedbackTime ?>"></i></label>
                             <br/>
                             <div class="input-group simple-stepper">
                                 <div class="input-group-btn">
@@ -1739,7 +2004,7 @@ include '../includes/language.php';
                 <div class="col-sm-6">
                     <div class="hidden transition-time-stepper">
                         <div class="form-group form-group-margin-top">
-                            <label><?php echo $lang->transitionalPeriod ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingSceneTransitionTime ?>"></i></label>
+                            <label style="margin: 0"><?php echo $lang->transitionalPeriod ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingSceneTransitionTime ?>"></i></label>
                             <div class="input-group simple-stepper" >
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
@@ -1913,7 +2178,7 @@ include '../includes/language.php';
 
                 <div class="col-sm-6">
                     <div class="form-group" id="repeats-stepper">
-                        <label><?php echo $lang->repeats ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingRepeats ?>"></i></label><br/>
+                        <label style="margin: 0"><?php echo $lang->repeats ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingRepeats ?>"></i></label><br/>
                         <div class="input-group simple-stepper">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
@@ -1961,7 +2226,7 @@ include '../includes/language.php';
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group hidden transitionFeedback-time-stepper">
-                        <label><?php echo $lang->transitionalPeriod ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingFeedbackTime ?>"></i></label>
+                        <label style="margin: 0"><?php echo $lang->transitionalPeriod ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingFeedbackTime ?>"></i></label>
                         <br/>
                         <div class="input-group simple-stepper" >
                             <div class="input-group-btn">
@@ -2038,7 +2303,7 @@ include '../includes/language.php';
             </div>
 
             <div class="form-group form-group-margin-top" id="recognition-stepper">
-                <label><?php echo $lang->reactionPeriod ?></label>
+                <label style="margin: 0"><?php echo $lang->reactionPeriod ?></label>
                 <div class="input-group simple-stepper">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">

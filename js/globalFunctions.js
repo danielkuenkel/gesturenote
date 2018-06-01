@@ -303,6 +303,54 @@ $(document).on('click', '.select .option li', function (event) {
     }
 });
 
+$(document).on('click', '.select-update .dropdown-toggle', function (event) {
+    event.preventDefault();
+
+    if (!event.handled && !$(this).hasClass('disabled')) {
+        event.handled = true;
+
+        var updateOption = $(this).parent().attr('data-update-option');
+        if (updateOption !== undefined && $(this).attr('aria-expanded') !== 'false') {
+            console.log('select-update');
+            switch (updateOption) {
+                case 'filter':
+                    $(document).trigger('rerenderFilter', [$(this)]);
+                    break;
+            }
+        }
+    }
+});
+
+$(document).on('rerenderFilter', function (event, target) {
+    event.preventDefault();
+    var addFilterButton = $(target).closest('.filter-options-container').parent().find('.btn-add-filter-option');
+    var root = $(addFilterButton).closest('.root');
+    var dataRoot = $(addFilterButton).closest('.root');
+    var element = $(target).closest('.root');
+
+    if ($(addFilterButton).attr('data-root-lookups') !== undefined) {
+        var rootLookups = parseInt($(addFilterButton).attr('data-root-lookups'));
+        dataRoot = $(dataRoot).parents().eq(rootLookups);
+    }
+
+    var formatData = getFormatData(dataRoot);
+
+    var filterOptionData = getFilterOptions(formatData.format, root);
+    console.log('format data', formatData, filterOptionData);
+
+    if (filterOptionData && filterOptionData.length > 0) {
+        var filterOption = null;
+        for (var i = 0; i < filterOptionData.length; i++) {
+            if (parseInt($(element).attr('id')) === parseInt(filterOptionData[i].id)) {
+                filterOption = filterOptionData[i];
+                break;
+            }
+        }
+        console.log(filterOptionData, filterOption, element);
+        updateAvailableFilterOptions(formatData, dataRoot, root, element, filterOption);
+    }
+});
+
 $(document).on('click', '.add-button-group .btn-add-item', function (event) {
     if (!$(this).hasClass('disabled')) {
         $(this).trigger('change');
@@ -366,8 +414,14 @@ function onTweenDeleteComplete(element, parent, button) {
         savePhases();
     }
 
-    updateBadges(parent, $(button).closest('.root').attr('id'));
-    $(parent).trigger('change');
+    var deleteId = $(button).closest('.root').attr('id');
+    updateBadges(parent, deleteId);
+    
+    if(isNaN(deleteId)) {
+        deleteId = $(button).closest('.root').attr('name');
+    }
+//    $(parent).trigger('change');
+    $(parent).trigger('change', [{type: 'delete', id: deleteId}]);
 }
 
 $(document).on('click', '.btn-up', function (event) {
@@ -1093,7 +1147,7 @@ function renderAtAnswerFilterOptions(target, options) {
             link.appendChild(document.createTextNode(options[i].title));
             listItem.appendChild(link);
 
-            if (i >= options.length - 1) {
+            if (options.length > 1 && i >= options.length - 1) {
                 var devider = document.createElement('li');
                 devider.setAttribute('class', 'divider');
                 $(dropdown).find('.option').append(devider);
@@ -1111,7 +1165,7 @@ function renderAtAnswerFilterOptions(target, options) {
 
 function updateJumpToAnswerOptions(target, selectTarget) {
     var nextAllItems = $(target).nextAll();
-    console.log('next all', nextAllItems);
+//    console.log('next all', nextAllItems.length, target, nextAllItems);
     var availableOptions = null;
 
     if (nextAllItems.length > 0) {
@@ -1129,6 +1183,7 @@ function updateJumpToAnswerOptions(target, selectTarget) {
 }
 
 function renderJumpToAnswerOptions(target, options) {
+//    console.log('reder jump to options',target, options);
     if (options !== null) {
         var dropdown = $(target).find('.select');
         $(dropdown).find('.option').empty();
@@ -1142,12 +1197,38 @@ function renderJumpToAnswerOptions(target, options) {
             $(link).addClass('ellipsis');
             link.appendChild(document.createTextNode(options[i].title));
             listItem.appendChild(link);
-            
+
             if (i >= options.length - 1) {
                 var devider = document.createElement('li');
                 devider.setAttribute('class', 'divider');
                 $(dropdown).find('.option').append(devider);
             }
+
+            $(dropdown).find('.option').append(listItem);
+            $(target).find('.dropdown-toggle').removeClass('disabled');
+            $(target).find('.item-input-text').attr('placeholder', translation.pleaseSelect);
+        }
+    } else {
+        $(target).find('.dropdown-toggle').addClass('disabled');
+        $(target).find('.item-input-text').attr('placeholder', translation.noFurtherQuestionsPresent);
+    }
+}
+
+function renderRankingPosition(target, length) {
+    if (length > 0) {
+        var dropdown = $(target).find('.select');
+        $(dropdown).find('.option').empty();
+
+        for (var i = 0; i < length; i++) {
+            var listItem = document.createElement('li');
+            listItem.setAttribute('id', (i + 1));
+
+            var link = document.createElement('a');
+            link.setAttribute('href', '#');
+            $(link).addClass('ellipsis');
+            link.appendChild(document.createTextNode((i + 1)));
+            listItem.appendChild(link);
+
 
             $(dropdown).find('.option').append(listItem);
             $(target).find('.dropdown-toggle').removeClass('disabled');
