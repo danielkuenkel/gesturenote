@@ -7,6 +7,7 @@ include '../includes/language.php';
     <h4 class="modal-title"><?php echo $lang->preview ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
+    <div class="alert-space alert-waiting-for-moderator"></div>
     <div class="question-container container-root"></div>
     <div class="clearfix" style="margin-top: 10px">
         <button class="btn btn-success btn-shadow hidden btn-next-question pull-right"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></button>

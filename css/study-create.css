@@ -59,3 +59,7 @@ and open the template in the editor.
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
 }*/
+
+#sumQuestionItem {
+    margin-bottom: 8px;
+}

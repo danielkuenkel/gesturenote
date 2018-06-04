@@ -380,11 +380,11 @@ include '../includes/language.php';
         <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 20px">
             <div class="" id="observations">
                 <!--<div class="panel-heading">-->
-                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
                 <!--</div>-->
                 <!--<div class="panel-body">-->
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
                 <!--</div>-->
             </div>
         </div>
@@ -451,11 +451,11 @@ include '../includes/language.php';
         <div class="col-md-5 rtc-scalable" id="column-left">
             <div class="" id="observations">
                 <!--<div class="panel-heading">-->
-                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
                 <!--</div>-->
                 <!--<div class="panel-body">-->
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
                 <!--</div>-->
             </div>
         </div>
@@ -550,11 +550,11 @@ include '../includes/language.php';
         <div class="col-md-5 rtc-scalable" id="column-left">
             <div class="" id="observations">
                 <!--<div class="panel-heading">-->
-                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
                 <!--</div>-->
                 <!--<div class="panel-body">-->
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
                 <!--</div>-->
             </div>
         </div>
@@ -642,11 +642,11 @@ include '../includes/language.php';
         <div class="col-sm-6 col-md-5 rtc-scalable" id="column-left">
             <div class="" id="observations">
                 <!--<div class="panel-heading">-->
-                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
                 <!--</div>-->
                 <!--<div class="panel-body">-->
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
                 <!--</div>-->
             </div>
         </div>
@@ -779,11 +779,11 @@ include '../includes/language.php';
         <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left">
             <div class="" id="observations">
                 <!--<div class="panel-heading">-->
-                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
                 <!--</div>-->
                 <!--<div class="panel-body">-->
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
                 <!--</div>-->
             </div>
         </div>
@@ -864,11 +864,11 @@ include '../includes/language.php';
         <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left">
             <div class="" id="observations">
                 <!--<div class="panel-heading">-->
-                    <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
                 <!--</div>-->
                 <!--<div class="panel-body">-->
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
                 <!--</div>-->
             </div>
         </div>
@@ -1101,9 +1101,13 @@ include '../includes/language.php';
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
             <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaire ?></h3>
             <hr>
+            <div class="alert-space alert-waiting-for-moderator"></div>
             <div class="question-container"></div>
             <hr>
-            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <div class="clearfix" style="margin-top: 10px">
+                <button class="btn btn-success btn-shadow hidden btn-next-question pull-right"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></button>
+                <button class="btn btn-success btn-shadow hidden btn-questionnaire-done pull-right" id="btn-next-step"><i class="fa fa-check"></i> <?php echo $lang->done ?></button>
+            </div>
         </div>
     </div>
 
@@ -1474,9 +1478,9 @@ include '../includes/language.php';
         <div class="text-shadow-black text-center" id="scene-description" style="position: absolute;  left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
         <div id="fixed-rtc-preview" class="rtc-shadow" style="position: fixed; width: 300px; left: 10px; pointer-events: none; opacity: 0.8"></div>
 
-<!--        <div class="" style="margin-top: 55px; padding: 20px">
-            <div class="alert-space alert-please-wait"></div>
-        </div>-->
+        <!--        <div class="" style="margin-top: 55px; padding: 20px">
+                    <div class="alert-space alert-please-wait"></div>
+                </div>-->
 
         <div id="gesture-recorder-container" class="hidden"></div>
     </div>

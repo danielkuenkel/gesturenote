@@ -372,7 +372,6 @@ $(document).on('mouseenter', '.btn-show-hole-text', function (event) {
         event.handled = true;
         var inputVal = $(this).closest('.input-group').find('input').val();
         if (inputVal.trim() !== '') {
-            console.log($(this).offset());
             $(this).attr('data-original-title', inputVal);
             $(this).tooltip({container: 'body'});
             $(this).tooltip('show');
@@ -416,8 +415,8 @@ function onTweenDeleteComplete(element, parent, button) {
 
     var deleteId = $(button).closest('.root').attr('id');
     updateBadges(parent, deleteId);
-    
-    if(isNaN(deleteId)) {
+
+    if (isNaN(deleteId)) {
         deleteId = $(button).closest('.root').attr('name');
     }
 //    $(parent).trigger('change');
@@ -497,7 +496,13 @@ function onMoveUpComplete(element, brother, save) {
         updateBadges(element.parent(), element.attr('id'));
     }
 
-    $(element).trigger('change');
+    if ($(element).hasClass('.scroll-after-move')) {
+        $('html, body').animate({
+            scrollTop: $(element).offset().top - 70
+        }, 300);
+    }
+
+    $(element).trigger('change', [{type: 'moved', id: $(element).attr('id')}]);
 }
 
 function onMoveDownComplete(element, brother, save) {
@@ -513,7 +518,13 @@ function onMoveDownComplete(element, brother, save) {
         updateBadges(element.parent(), element.attr('id'));
     }
 
-    $(element).trigger('change');
+    if ($(element).hasClass('.scroll-after-move')) {
+        $('html, body').animate({
+            scrollTop: $(element).offset().top - 70
+        }, 300);
+    }
+
+    $(element).trigger('change', [{type: 'moved', id: $(element).attr('id')}]);
 }
 
 var currentPreviewData = null;

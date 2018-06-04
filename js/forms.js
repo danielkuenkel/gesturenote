@@ -271,9 +271,69 @@ function renderFormatItem(target, data, currentPhaseFormat) {
         if (data && data.type === 'delete') {
             var deleteFilterElement = $(target).find('.filter-options-container').find('.dropdown-toggle #' + data.id).closest('.root');
             $(deleteFilterElement).find('.btn-delete').click();
-            console.log('delete item', event.target, data.id, deleteFilterElement);
+            checkFilterOptions(target);
+//            console.log('delete item', event.target, data.id, deleteFilterElement);
+        } else if (data && data.type === 'moved') {
+            checkFilterOptions(target);
+//            var elementIndex = $(event.target).index();
+//            var questionsLength = $(event.target).closest('.container-root').children().length;
+//            if (questionsLength - 1 === elementIndex) {
+//                var filterOptionItems = $(event.target).find('.filter-options-container').children();
+//                console.log('element on last position', filterOptionItems);
+//                for (var i = 0; i < filterOptionItems.length; i++) {
+//                    $(filterOptionItems[i]).find('.btn-delete').click();
+//                }
+//                $(event.target).find('.filter-options').addClass('hidden');
+//                return false;
+//            } else {
+//                $(event.target).find('.filter-options').removeClass('hidden');
+//            }
+
+            var addFilterButtons = $(event.target).find('.btn-add-filter-option');
+            for (var i = 0; i < addFilterButtons.length; i++) {
+                if (!$(addFilterButtons[i]).closest('.filter-options').hasClass('hidden')) {
+                    var root = $(addFilterButtons[i]).closest('.root');
+                    var dataRoot = root;
+                    var element = $(event.target);
+
+                    if ($(addFilterButtons[i]).attr('data-root-lookups') !== undefined) {
+                        var rootLookups = parseInt($(addFilterButtons[i]).attr('data-root-lookups'));
+                        dataRoot = $(dataRoot).parents().eq(rootLookups);
+                    }
+
+                    var formatData = getFormatData(dataRoot);
+
+                    var filterOptionData = getFilterOptions(formatData.format, root);
+                    console.log('format data', formatData, filterOptionData);
+
+                    if (filterOptionData && filterOptionData.length > 0) {
+                        var filterOption = null;
+                        for (var j = 0; j < filterOptionData.length; j++) {
+                            if (parseInt($(element).attr('id')) === parseInt(filterOptionData[j].id)) {
+                                filterOption = filterOptionData[j];
+                                break;
+                            }
+                        }
+                        console.log(filterOptionData, filterOption, element);
+                        updateAvailableFilterOptions(formatData, dataRoot, root, element, filterOption);
+                    }
+                }
+            }
         }
     });
+
+    checkFilterOptions(target);
+}
+
+function checkFilterOptions(container) {
+    var elements = $(container).children();
+    for (var i = 0; i < elements.length; i++) {
+        if (i < elements.length - 1) {
+            $(elements[i]).find('.filter-options').removeClass('hidden');
+        } else {
+            $(elements[i]).find('.filter-options').addClass('hidden');
+        }
+    }
 }
 
 function renderFilterOptions(root, element, data, filterOptions) {
@@ -525,6 +585,19 @@ function getFilterOptions(format, element) {
     return filterOptions;
 }
 
+function getFilterOptionsById(filterOptions, id) {
+    if (filterOptions && filterOptions.length > 0) {
+        var filters = [];
+        for (var i = 0; i < filterOptions.length; i++) {
+            if (parseInt(filterOptions[i].filterAtAnswer) === parseInt(id)) {
+                filters.push(filterOptions[i]);
+            }
+        }
+        return filters.length > 0 ? filters : null;
+    }
+    return null;
+}
+
 
 /*
  * render a simple questionnaire
@@ -533,37 +606,68 @@ function getFilterOptions(format, element) {
  */
 var currentQuestionIndex = 0;
 function renderQuestionnaire(target, questionnaire, answers, forceFilters) {
-    currentQuestionIndex = 0;
+
+    clearAlerts(target);
+
     if (hasFilterQuesitons(questionnaire) && forceFilters && forceFilters === true) {
-        console.log('questionnaire has filter questions and must rendered step by step');
-        renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
 
         var nextQuestionButton = $(target).find('.btn-next-question');
         var doneQuestionnaireButton = $(target).find('.btn-questionnaire-done');
-        $(nextQuestionButton).removeClass('hidden');
+
+        if (currentQuestionIndex < questionnaire.length) {
+            renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
+            $(nextQuestionButton).removeClass('hidden');
+            $(doneQuestionnaireButton).addClass('hidden');
+        } else {
+            appendAlert(target, ALERT_WAITING_FOR_MODERATOR);
+            return target;
+        }
 
         $(nextQuestionButton).unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(nextQuestionButton).hasClass('disabled')) {
+
+                $(target).find('.question-container').trigger('nextQuestion');
                 currentQuestionIndex = getNextQuestionIndex(target, currentQuestionIndex, questionnaire);
 
                 if (currentQuestionIndex >= questionnaire.length) {
-                    $(nextQuestionButton).remove();
-                    $(doneQuestionnaireButton).remove();
+                    $(nextQuestionButton).addClass('hidden');
+                    $(doneQuestionnaireButton).addClass('hidden');
                     $(target).find('.question-container').empty();
-                    console.log('finish quesitonnaire');
+                    appendAlert(target, ALERT_WAITING_FOR_MODERATOR);
+                    $(target).find('.question-container').trigger('questionnaireDone');
+//                    console.log('finish questionnaire');
                 } else if (currentQuestionIndex >= questionnaire.length - 1) {
-                    renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
-                    $(nextQuestionButton).remove();
-                    $(doneQuestionnaireButton).removeClass('hidden');
+//                    console.log('we are at last question', filterQuestionStack);
+                    if (filterQuestionStack.length === 0) {
+                        renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
+                        $(nextQuestionButton).addClass('hidden');
+                        $(doneQuestionnaireButton).removeClass('hidden');
+                    } else {
+                        renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
+                    }
                 } else {
                     renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
                 }
             }
         });
+
+        $(doneQuestionnaireButton).unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled') && !$(this).hasClass('hidden')) {
+                $(nextQuestionButton).addClass('hidden');
+                $(doneQuestionnaireButton).addClass('hidden');
+                $(target).find('.question-container').empty();
+                appendAlert(target, ALERT_WAITING_FOR_MODERATOR);
+                $(target).find('.question-container').trigger('questionnaireDone');
+                currentQuestionIndex = questionnaire.length;
+            }
+        });
     } else {
         renderQuestions(target, questionnaire, answers);
     }
+
+    return target;
 }
 
 function renderQuestions(target, questionnaire, answers) {
@@ -753,7 +857,7 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
     if (filterOptions) {
         var tempJumpIds = [];
 
-        console.log('answers', answers, filterOptions);
+//        console.log('answers', answers, filterOptions);
 
         for (var i = 0; i < answers.length; i++) {
             var answer = answers[i].answer;
@@ -784,6 +888,7 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                         }
                         break;
                     case RANKING:
+//                        console.log(answer);
                         if (parseInt(answer.arrangement[parseInt(filterOption.filterAtPosition) - 1]) === parseInt(filterOption.filterAtAnswer)) {
                             if (tempJumpIds.length === 0) {
                                 tempJumpIds = [filterOption.filterJump];
@@ -793,9 +898,7 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                         }
                         break;
                     case MATRIX:
-//                        console.log(answer.scales, filterOption);
                         for (var k = 0; k < answer.scales.length; k++) {
-//                            console.log('scale', answer.scales[k]);
                             if (parseInt(answer.scales[k].id) === parseInt(filterOption.filterAtAnswer)) {
                                 if (tempJumpIds.length === 0) {
                                     tempJumpIds = [filterOption.filterJump];
@@ -803,8 +906,97 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                                     tempJumpIds.push(filterOption.filterJump);
                                 }
                             }
-//                            console.log(tempJumpIds);
                         }
+                        tempJumpIds = unique(tempJumpIds);
+                        break;
+                    case COUNTER:
+//                        console.log(answer, filterOption);
+                        var value = parseInt(filterOption.value);
+                        var count = parseInt(answer.count);
+                        var jumpIds = [];
+                        switch (filterOption.operator) {
+                            case 'equals':
+                                if (count === value) {
+                                    jumpIds.push(filterOption.filterJump);
+                                }
+                                break;
+                            case 'greater':
+                                if (count > value) {
+                                    jumpIds.push(filterOption.filterJump);
+                                }
+                                break;
+                            case 'minor':
+                                if (count < value) {
+                                    jumpIds.push(filterOption.filterJump);
+                                }
+                                break;
+                            case 'equalsGreater':
+                                if (count >= value) {
+                                    jumpIds.push(filterOption.filterJump);
+                                }
+                                break;
+                            case 'equalsMinor':
+                                if (count <= value) {
+                                    jumpIds.push(filterOption.filterJump);
+                                }
+                                break;
+                        }
+
+                        if (jumpIds.length > 0) {
+                            if (tempJumpIds.length === 0) {
+                                tempJumpIds = jumpIds;
+                            } else {
+                                tempJumpIds = tempJumpIds.concat(jumpIds);
+                            }
+                            tempJumpIds = unique(tempJumpIds);
+                        }
+                        break;
+                    case SUM_QUESTION:
+//                        console.log(answer, filterOption);
+                        var sumCounts = answer.sumCounts;
+                        for (var k = 0; k < sumCounts.length; k++) {
+                            if (parseInt(sumCounts[k].id) === parseInt(filterOption.filterAtAnswer)) {
+                                var value = parseInt(filterOption.value);
+                                var count = parseInt(sumCounts[k].count);
+                                var jumpIds = [];
+                                switch (filterOption.operator) {
+                                    case 'equals':
+                                        if (count === value) {
+                                            jumpIds.push(filterOption.filterJump);
+                                        }
+                                        break;
+                                    case 'greater':
+                                        if (count > value) {
+                                            jumpIds.push(filterOption.filterJump);
+                                        }
+                                        break;
+                                    case 'minor':
+                                        if (count < value) {
+                                            jumpIds.push(filterOption.filterJump);
+                                        }
+                                        break;
+                                    case 'equalsGreater':
+                                        if (count >= value) {
+                                            jumpIds.push(filterOption.filterJump);
+                                        }
+                                        break;
+                                    case 'equalsMinor':
+                                        if (count <= value) {
+                                            jumpIds.push(filterOption.filterJump);
+                                        }
+                                        break;
+                                }
+
+                                if (jumpIds.length > 0) {
+                                    if (tempJumpIds.length === 0) {
+                                        tempJumpIds = jumpIds;
+                                    } else {
+                                        tempJumpIds = tempJumpIds.concat(jumpIds);
+                                    }
+                                }
+                            }
+                        }
+                        tempJumpIds = unique(tempJumpIds);
                         break;
                 }
             }
@@ -822,8 +1014,6 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
             }
         }
 
-//        console.log('what question should be answered: ', tempJumpIds, filterQuestionStack);
-
         if (tempJumpIds.length > 0) {
             var nextQuestion = filterQuestionStack.shift();
             if (nextQuestion === 'nextStep') {
@@ -837,7 +1027,7 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
     } else {
         currentQuestionIndex++;
     }
-    console.log('render Question with index', currentQuestionIndex, tempJumpIds, filterQuestionStack);
+//    console.log('render Question with index', currentQuestionIndex, tempJumpIds, filterQuestionStack);
     return currentQuestionIndex;
 }
 
@@ -855,56 +1045,149 @@ function getQuestionIndex(questionnaire, id) {
  * get questionnaire form answers
  */
 
-function getQuestionnaireAnswers(questionnaire) {
-    var questionnaireAnswers = new Array();
-    for (var i = 0; i < questionnaire.length; i++) {
-        var format = $(questionnaire[i]).attr('id');
-        var id = $(questionnaire[i]).attr('name');
+function getQuestionnaireAnswers(questionnaireItems, questionnaire) {
+//    if (currentQuestionnaireAnswers) {
+//        console.log('get questionnaire answers', currentQuestionnaireAnswers);
+//    }
+
+    var questionnaireAnswers = [];
+    for (var i = 0; i < questionnaireItems.length; i++) {
+        var format = $(questionnaireItems[i]).attr('id');
+        var id = $(questionnaireItems[i]).attr('name');
+//        var questionIndex = getQuestionIndex(questionnaire, id);
+        var answer = null;
 
         switch (format) {
             case COUNTER:
-                questionnaireAnswers.push({id: id, answer: getCounterAnswers($(questionnaire[i]))});
+                answer = getCounterAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getCounterAnswers($(questionnaireItems[i]))});
                 break;
             case OPEN_QUESTION:
             case OPEN_QUESTION_GUS:
-                questionnaireAnswers.push({id: id, answer: getOpenQuestionAnswers($(questionnaire[i]))});
+                answer = getOpenQuestionAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getOpenQuestionAnswers($(questionnaireItems[i]))});
                 break;
             case DICHOTOMOUS_QUESTION:
             case DICHOTOMOUS_QUESTION_GUS:
-                questionnaireAnswers.push({id: id, answer: getDichotomousQuestionAnswers($(questionnaire[i]))});
+                answer = getDichotomousQuestionAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getDichotomousQuestionAnswers($(questionnaireItems[i]))});
                 break;
             case GROUPING_QUESTION:
             case GROUPING_QUESTION_GUS:
             case GROUPING_QUESTION_OPTIONS:
-                questionnaireAnswers.push({id: id, answer: getGroupingQuestionAnswers($(questionnaire[i]))});
+                answer = getGroupingQuestionAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getGroupingQuestionAnswers($(questionnaireItems[i]))});
                 break;
             case RATING:
-                questionnaireAnswers.push({id: id, answer: getRatingAnswers($(questionnaire[i]))});
+                answer = getRatingAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getRatingAnswers($(questionnaireItems[i]))});
                 break;
             case MATRIX:
-                questionnaireAnswers.push({id: id, answer: getMatrixAnswers($(questionnaire[i]))});
+                answer = getMatrixAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getMatrixAnswers($(questionnaireItems[i]))});
                 break;
             case SUM_QUESTION:
-                questionnaireAnswers.push({id: id, answer: getSumQuestionAnswers($(questionnaire[i]))});
+                answer = getSumQuestionAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getSumQuestionAnswers($(questionnaireItems[i]))});
                 break;
             case RANKING:
-                questionnaireAnswers.push({id: id, answer: getRankingAnswers($(questionnaire[i]))});
+                answer = getRankingAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getRankingAnswers($(questionnaireItems[i]))});
                 break;
             case ALTERNATIVE_QUESTION:
-                questionnaireAnswers.push({id: id, answer: getGroupingQuestionAnswers($(questionnaire[i]))});
+                answer = getGroupingQuestionAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getGroupingQuestionAnswers($(questionnaireItems[i]))});
                 break;
             case GUS_SINGLE:
-                questionnaireAnswers.push({id: id, answer: getSingleSUSAnswers($(questionnaire[i]))});
+                answer = getSingleSUSAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getSingleSUSAnswers($(questionnaireItems[i]))});
                 break;
             case SUS_ITEM:
-                questionnaireAnswers.push({id: id, answer: getSingleSUSAnswers($(questionnaire[i]))});
+                answer = getSingleSUSAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getSingleSUSAnswers($(questionnaireItems[i]))});
                 break;
             case UEQ_ITEM:
-                questionnaireAnswers.push({id: id, answer: getUEQAnswers($(questionnaire[i]))});
+                answer = getUEQAnswers($(questionnaireItems[i]));
+//                questionnaireAnswers.push({id: id, answer: getUEQAnswers($(questionnaireItems[i]))});
                 break;
         }
+
+//        questionnaireAnswers[questionIndex] = {id: id, answer: answer};
+        questionnaireAnswers.push({id: id, answer: answer});
     }
+
     return questionnaireAnswers;
+
+    // search for existing answers and override it
+//    if (questionnaireAnswers && questionnaireAnswers.length > 0) {
+//        for (var i = 0; i < questionnaireAnswers.length; i++) {
+//            var answerExists = false;
+//
+//            if (currentQuestionnaireAnswers && currentQuestionnaireAnswers.length > 0) {
+//                for (var j = 0; j < currentQuestionnaireAnswers.length; j++) {
+//                    if (parseInt(questionnaireAnswers[i].id) === parseInt(currentQuestionnaireAnswers[j].id)) {
+//                        currentQuestionnaireAnswers[j].answer = questionnaireAnswers[i];
+//                        answerExists = true;
+//                        break;
+//                    }
+//                }
+//
+//                if (!answerExists) {
+//                    currentQuestionnaireAnswers.push(questionnaireAnswers[i]);
+//                }
+//            } else {
+//                currentQuestionnaireAnswers = questionnaireAnswers;
+//            }
+//        }
+//    }
+
+//    if (currentQuestionnaireAnswers && currentQuestionnaireAnswers.length > 0) {
+//
+//    } else {
+//        currentQuestionnaireAnswers = questionnaireAnswers;
+//    }
+//
+//    if (currentQuestionnaireAnswers && currentQuestionnaireAnswers.length > 0) {
+//        currentQuestionnaireAnswers = currentQuestionnaireAnswers.concat(questionnaireAnswers);
+//        currentQuestionnaireAnswers = unique(currentQuestionnaireAnswers);
+//    } else {
+//        currentQuestionnaireAnswers = questionnaireAnswers;
+//    }
+
+
+    return currentQuestionnaireAnswers;
+}
+
+function checkCurrentQuestionnaireAnswers(questionnaireAnswers) {
+
+    if (questionnaireAnswers && questionnaireAnswers.length > 0) {
+
+        for (var i = 0; i < questionnaireAnswers.length; i++) {
+            var answerExists = false;
+            console.log('check questionnaire answers:', questionnaireAnswers[i], currentQuestionnaireAnswers);
+
+            if (currentQuestionnaireAnswers && currentQuestionnaireAnswers.answers && currentQuestionnaireAnswers.answers.length > 0) {
+                console.log('check answers');
+                for (var j = 0; j < currentQuestionnaireAnswers.answers.length; j++) {
+                    console.log(questionnaireAnswers[i], currentQuestionnaireAnswers.answers[j]);
+                    if (parseInt(questionnaireAnswers[i].id) === parseInt(currentQuestionnaireAnswers.answers[j].id)) {
+                        currentQuestionnaireAnswers.answers[j].answer = questionnaireAnswers[i].answer;
+                        answerExists = true;
+                        break;
+                    }
+                }
+
+                if (!answerExists) {
+                    currentQuestionnaireAnswers.answers.push(questionnaireAnswers[i]);
+                }
+            } else {
+                currentQuestionnaireAnswers = {answers: questionnaireAnswers};
+            }
+        }
+    }
+
+    console.log('return: ', currentQuestionnaireAnswers);
+    return currentQuestionnaireAnswers;
 }
 
 function getCounterAnswers(source) {
@@ -998,7 +1281,7 @@ function getSumQuestionAnswers(source) {
     var array = new Array();
     var sumOptions = $(source).find('.option-container').children();
     for (var i = 0; i < sumOptions.length; i++) {
-        array.push($(sumOptions[i]).find('.stepper-text').val());
+        array.push({id: $(sumOptions[i]).attr('id'), count: $(sumOptions[i]).find('.stepper-text').val()});
     }
     data.sumCounts = array;
     return data;
@@ -1150,6 +1433,7 @@ function renderCounter(item, studyData, answer) {
     if (answer && answer.count && answer.count !== '') {
         $(item).find('.answer').text(answer.count);
     } else {
+        $(item).find('.answer').text('0');
         $(item).find('#no-answer').removeClass('hidden');
     }
 }
@@ -1197,16 +1481,24 @@ function renderEditableOpenQuestion(item, studyData, answer) {
 }
 
 function renderDichotomousQuestion(item, studyData, answer) {
-    if (answer) {
-        if (answer.selectedSwitch === 'none') {
-            $(item).find('#no-answer').removeClass('hidden');
-            $(item).find('#selection').remove();
-        } else {
-            $(item).find('#selection .text').text(translation[answer.selectedSwitch]);
+    var options = [{id: 'yes', title: translation.yes}, {id: 'no', title: translation.no}];
+    for (var i = 0; i < options.length; i++) {
+        var optionItem = $('#template-study-container').find('#dichotomous-question-item').clone();
+        $(optionItem).find('#option-text').text(options[i].title);
+        $(item).find('.option-container').append(optionItem);
+
+        if (i >= 0 && i < options.length) {
+            $(item).find('.option-container').append(document.createElement('br'));
         }
-    } else {
+
         $(item).find('#no-answer').removeClass('hidden');
-        $(item).find('#selection').remove();
+
+        if (answer && answer.selectedSwitch === options[i].id) {
+            $(item).find('#no-answer').addClass('hidden');
+            $(optionItem).find('#option-text').addClass('bordered-scale-item');
+        } else {
+            $(optionItem).find('#option-text').css({paddingLeft: "0px"});
+        }
     }
 
     if (studyData.parameters.justification === 'yes') {
@@ -1271,7 +1563,7 @@ function renderGroupingQuestion(item, studyData, answer) {
         $(optionItem).find('#option-text').text(studyData.options[i].title);
         $(item).find('.option-container').append(optionItem);
 
-        if (i < studyData.options.length) {
+        if (i < studyData.options.length - 1) {
             var hr = document.createElement('hr');
             $(hr).css({marginTop: "15px", marginBottom: "5px"});
             $(item).find('.option-container').append(hr);
@@ -1460,7 +1752,6 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
                     button.attr('name', gesture.id);
                     $(button).insertAfter($(optionItem).find('#option-text'));
                     $(button).css({border: '1px solid rgba(0,0,0,0.3)'});
-//                    console.log(optionItem, button);
                 }
             } else {
                 $(optionItem).css({paddingLeft: "0px"});
@@ -1535,7 +1826,7 @@ function renderRating(item, studyData, answer) {
     for (var j = 0; j < studyData.options.length; j++) {
         var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
         $(optionItem).find('#scale-container').append(scaleItem);
-        $(scaleItem).text((j + 1) + '. ' + studyData.options[j]);
+        $(scaleItem).text((j + 1) + '. ' + studyData.options[j].title);
         if (answer && j === selectedScale) {
             $(scaleItem).addClass('bordered-scale-item');
         } else {
@@ -1576,7 +1867,7 @@ function renderMatrix(item, studyData, answer) {
         if (answer) {
             var score = 0;
             var maxScore = studyData.options[i].scales.length;
-            var selectedScale = parseInt(answer.scales[i]);
+            var selectedScale = parseInt(answer.scales[i].scale);
             if (studyData.options[i].negative === 'yes') {
                 $(optionItem).find('#negative').removeClass('hidden');
                 score = studyData.options[i].scales.length - selectedScale;
@@ -1584,8 +1875,6 @@ function renderMatrix(item, studyData, answer) {
                 $(optionItem).find('#positive').removeClass('hidden');
                 score = selectedScale + 1;
             }
-
-
 
             if (selectedScale === -1) {
                 $(optionItem).find('#score-container').remove();
@@ -1598,7 +1887,7 @@ function renderMatrix(item, studyData, answer) {
             for (var j = 0; j < studyData.options[i].scales.length; j++) {
                 var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
                 $(optionItem).find('#scale-container').append(scaleItem);
-                $(scaleItem).text((j + 1) + '. ' + studyData.options[i].scales[j]);
+                $(scaleItem).text((j + 1) + '. ' + studyData.options[i].scales[j].title);
                 if (j === selectedScale) {
                     $(scaleItem).addClass('bordered-scale-item');
                 } else {
@@ -1613,6 +1902,18 @@ function renderMatrix(item, studyData, answer) {
         } else {
             $(optionItem).find('#score-container').remove();
             $(item).find('#no-answer').removeClass('hidden');
+
+            for (var j = 0; j < studyData.options[i].scales.length; j++) {
+                var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
+                $(optionItem).find('#scale-container').append(scaleItem);
+                $(scaleItem).text((j + 1) + '. ' + studyData.options[i].scales[j].title);
+                $(scaleItem).css({paddingLeft: "0px"});
+
+                if (j < studyData.options[i].scales.length - 1) {
+                    var breakItem = document.createElement('br');
+                    $(optionItem).find('#scale-container').append(breakItem);
+                }
+            }
         }
     }
 }
@@ -1625,7 +1926,7 @@ function renderEditableMatrix(item, studyData, answer) {
                 var container = $(item).find('.scales-container')[i];
                 setTimeout(function (target, index) {
                     $(target).find('.btn-radio')[index].click();
-                }, 100, container, parseInt(answer.scales[i]));
+                }, 100, container, parseInt(answer.scales[i].scale));
             }
         }
     }
@@ -1635,13 +1936,28 @@ function renderSumQuestion(item, studyData, answer) {
     $(item).find('#maximum .label-text').text(translation.maximum + ': ' + studyData.parameters.maximum);
     $(item).find('#allocation .label-text').text(translation.scaleTypes[studyData.parameters.allocation]);
 
-    if (answer) {
+    console.log('sumQuestion', studyData.filterOptions);
+
+    if (studyData.options && studyData.options.length > 0) {
         var count = 0;
-        for (var i = 0; i < answer.sumCounts.length; i++) {
+
+        for (var i = 0; i < studyData.options.length; i++) {
             var listItemAnswer = $('#template-study-container').find('#sum-question-item').clone();
-            count += parseInt(answer.sumCounts[i]);
-            $(listItemAnswer).text(studyData.options[i] + ': ' + answer.sumCounts[i] + ' ' + translation.scaleTypes[studyData.parameters.allocation]);
+            $(listItemAnswer).attr('data-id', studyData.options[i].id);
             $(item).find('.option-container').append(listItemAnswer);
+            if (answer) {
+                count += parseInt(answer.sumCounts[i].count);
+                $(listItemAnswer).find('.option-text').text(studyData.options[i].title + ': ' + answer.sumCounts[i].count + ' ' + translation.scaleTypes[studyData.parameters.allocation]);
+            } else {
+                $(listItemAnswer).find('.option-text').text(studyData.options[i].title + ': 0 ' + translation.scaleTypes[studyData.parameters.allocation]);
+                $(item).find('#no-answer').removeClass('hidden');
+            }
+
+            var filterOptions = getFilterOptionsById(studyData.filterOptions, studyData.options[i].id);
+            if (filterOptions) {
+                console.log(filterOptions);
+                renderFilterOptionsData($(listItemAnswer), filterOptions);
+            }
         }
 
         if (count === parseInt(studyData.parameters.maximum)) {
@@ -1649,9 +1965,17 @@ function renderSumQuestion(item, studyData, answer) {
         } else {
             $(item).find('#distributeNotAllPoints').removeClass('hidden');
         }
-    } else {
-        $(item).find('#no-answer').removeClass('hidden');
     }
+
+
+//    for (var i = 0; i < answer.sumCounts.length; i++) {
+//        if (answer) {
+//
+//        } else {
+//
+//        }
+//    }
+
 }
 
 function renderEditableSumQuestion(item, studyData, answer) {
@@ -1662,7 +1986,7 @@ function renderEditableSumQuestion(item, studyData, answer) {
     renderSumQuestionInput(item, parameters, options);
     if (answer && answer.sumCounts && answer.sumCounts.length > 0) {
         for (var i = 0; i < answer.sumCounts.length; i++) {
-            $($(item).find('.option-container').find('.stepper-text')[i]).val(answer.sumCounts[i]);
+            $($(item).find('.option-container').find('.stepper-text')[i]).val(answer.sumCounts[i].count);
         }
     }
 }
@@ -1683,6 +2007,11 @@ function renderRanking(item, studyData, answer) {
         }
     } else {
         $(item).find('#no-answer').removeClass('hidden');
+        for (var j = 0; j < studyData.options.length; j++) {
+            var listItemAnswer = $('#template-study-container').find('#ranking-item').clone();
+            $(listItemAnswer).text((j + 1) + '. ' + studyData.options[j].text);
+            $(item).find('.option-container').append(listItemAnswer);
+        }
     }
 }
 
@@ -2829,5 +3158,28 @@ function updateAvailableFilterOptions(data, root, target, item, selectData) {
                 $(item).find('#counter-number .stepper-text').val(selectData.value);
                 break;
         }
+    }
+}
+
+function getQuestionById(questionnaire, id) {
+    if (questionnaire && questionnaire.length > 0) {
+        for (var i = 0; i < questionnaire.length; i++) {
+            if (parseInt(questionnaire[i].id) === parseInt(id)) {
+                return questionnaire[i];
+            }
+        }
+    }
+    return null;
+}
+
+function renderFilterOptionsData(target, filterOptions) {
+    if (filterOptions && filterOptions.length > 0) {
+        var filterOptionItem = $('#template-study-container').find('#filter-option-item').clone();
+        $(target).find('.filter-option').append(filterOptionItem);
+        var filterOptionDataContent = '';
+        for (var i = 0; i < filterOptions.length; i++) {
+            filterOptionDataContent += filterOptions[i].title;
+        }
+        $(filterOptionItem).attr('data-content', filterOptionDataContent);
     }
 }

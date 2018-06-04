@@ -167,6 +167,9 @@ include '../includes/language.php';
     </div>
 
 
+    <span id="filter-option-item" class="filter-options-popover" style="cursor: pointer" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">Filter</span>
+
+
 
     <div class="root" id="questionnaire">
         <h3 id="headline" style="margin-top: 0"></h3>
@@ -276,7 +279,7 @@ include '../includes/language.php';
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <span class="answer text"></span>
+            <div class="answer text"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
         </div>
     </div>
@@ -325,12 +328,31 @@ include '../includes/language.php';
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
+            <div class="option-container">
+
+            </div>
+            <!--            <div class="text">
+                            <div class="option-text yes"><?php echo $lang->yes ?></div>
+                            <div class="option-text no"><?php echo $lang->no ?></div>
+                        </div>-->
+                        <!--<div id="selection"><span id="address"><?php echo $lang->selection ?>:</span> <span class="text"></span></div>-->
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
-            <div id="selection"><span id="address"><?php echo $lang->selection ?>:</span> <span class="text"></span></div>
             <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
         </div>
     </div>
+
+    <span id="dichotomous-question-item">
+        <!--        <div>
+                    <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
+                    <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
+                </div>-->
+        <div id="option-text" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></div>
+        <!--        <div>
+                    <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
+                    <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
+                </div>-->
+    </span>
 
     <div class="panel panel-default" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
@@ -510,7 +532,9 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="sum-question-item" class="text"></div>
+    <div id="sum-question-item">
+        <span class="text option-text"></span><span class="filter-option" style="margin-left: 10px"></span>
+    </div>
 
     <div class="panel panel-default" id="ranking" style="margin-bottom: 5px;">
         <div class="panel-body">
