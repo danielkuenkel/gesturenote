@@ -546,7 +546,7 @@ function renderQuestionnaire(target, questionnaire, answers, forceFilters) {
             event.preventDefault();
             if (!$(nextQuestionButton).hasClass('disabled')) {
                 currentQuestionIndex = getNextQuestionIndex(target, currentQuestionIndex, questionnaire);
-                
+
                 if (currentQuestionIndex >= questionnaire.length) {
                     $(nextQuestionButton).remove();
                     $(doneQuestionnaireButton).remove();
@@ -735,7 +735,16 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
             break;
         case MATRIX:
             if (question.options && question.options.length > 0) {
-
+                for (var i = 0; i < question.options.length; i++) {
+                    var matrixFilterOptions = question.options[i].filterOptions;
+                    if (matrixFilterOptions && matrixFilterOptions.length > 0) {
+                        if (filterOptions) {
+                            filterOptions = filterOptions.concat(matrixFilterOptions);
+                        } else {
+                            filterOptions = matrixFilterOptions;
+                        }
+                    }
+                }
             }
             break;
     }
@@ -744,7 +753,7 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
     if (filterOptions) {
         var tempJumpIds = [];
 
-        console.log('answers', answers);
+        console.log('answers', answers, filterOptions);
 
         for (var i = 0; i < answers.length; i++) {
             var answer = answers[i].answer;
@@ -775,7 +784,6 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                         }
                         break;
                     case RANKING:
-                        console.log(answer, filterOption);
                         if (parseInt(answer.arrangement[parseInt(filterOption.filterAtPosition) - 1]) === parseInt(filterOption.filterAtAnswer)) {
                             if (tempJumpIds.length === 0) {
                                 tempJumpIds = [filterOption.filterJump];
@@ -785,6 +793,18 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                         }
                         break;
                     case MATRIX:
+//                        console.log(answer.scales, filterOption);
+                        for (var k = 0; k < answer.scales.length; k++) {
+//                            console.log('scale', answer.scales[k]);
+                            if (parseInt(answer.scales[k].id) === parseInt(filterOption.filterAtAnswer)) {
+                                if (tempJumpIds.length === 0) {
+                                    tempJumpIds = [filterOption.filterJump];
+                                } else {
+                                    tempJumpIds.push(filterOption.filterJump);
+                                }
+                            }
+//                            console.log(tempJumpIds);
+                        }
                         break;
                 }
             }
@@ -965,7 +985,9 @@ function getMatrixAnswers(source) {
     var array = new Array();
     var scalesContainer = $(source).find('.scales-container');
     for (var i = 0; i < scalesContainer.length; i++) {
-        array.push($(scalesContainer[i]).find('.btn-option-checked').closest('.btn-group').index() >> 1);
+        var selected = $(scalesContainer[i]).find('.btn-option-checked').closest('.btn-group');
+        var id = $(selected).attr('id');
+        array.push({id: id, scale: $(selected).index() >> 1});
     }
     data.scales = array;
     return data;
@@ -2234,6 +2256,7 @@ function renderMatrixInput(item, options) {
         ratingItem.find('#rating-header').text(options[j].option);
         for (var k = 0; k < options[j].scales.length; k++) {
             var optionItem = $('#item-container-inputs').find('#radio').clone(false);
+            $(optionItem).attr('id', options[j].scales[k].id);
             optionItem.find('.option-text').text(options[j].scales[k].title);
             ratingItem.find('#scales-container').append(optionItem);
             ratingItem.find('#scales-container').append(document.createElement('br'));
