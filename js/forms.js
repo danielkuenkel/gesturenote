@@ -56,7 +56,7 @@ function updateBadges(container, selector) {
  * render the format item for study creation
  */
 
-function renderFormatItem(target, data, currentPhaseFormat) {
+function renderFormatItem(target, data, currentPhaseFormat, allowFilters) {
     var clone = $('#form-item-container').find('#' + data.format).clone();
     $(clone).find('.question').val(data.question);
     clone.attr('name', data.id || chance.natural());
@@ -69,13 +69,20 @@ function renderFormatItem(target, data, currentPhaseFormat) {
     var options = data.options;
 
     switch (data.format) {
+        case OPEN_QUESTION:
+            if (allowFilters && allowFilters === true) {
+                renderFilterOptions(clone, clone, data, data.filterOptions);
+            }
+            break;
         case SUS_ITEM:
             $(clone).find('.negative #' + parameters.negative).click();
             break;
         case COUNTER:
             $(clone).find('#counter-from .stepper-text').val(parameters.countFrom);
             $(clone).find('#counter-to .stepper-text').val(parameters.countTo);
-            renderFilterOptions(clone, clone, data, data.filterOptions);
+            if (allowFilters && allowFilters === true) {
+                renderFilterOptions(clone, clone, data, data.filterOptions);
+            }
             break;
         case OPEN_QUESTION_GUS:
             if (parameters.used === 'used') {
@@ -86,7 +93,9 @@ function renderFormatItem(target, data, currentPhaseFormat) {
             break;
         case DICHOTOMOUS_QUESTION:
             initJustificationFormElements(clone, parameters);
-            renderFilterOptions(clone, clone, data, data.filterOptions);
+            if (allowFilters && allowFilters === true) {
+                renderFilterOptions(clone, clone, data, data.filterOptions);
+            }
             break;
         case DICHOTOMOUS_QUESTION_GUS:
             initJustificationFormElements(clone, parameters);
@@ -125,7 +134,9 @@ function renderFormatItem(target, data, currentPhaseFormat) {
                     checkCurrentListState($(clone).find('.option-container'));
                 }
             }
-            renderFilterOptions(clone, clone, data, data.filterOptions);
+            if (allowFilters && allowFilters === true) {
+                renderFilterOptions(clone, clone, data, data.filterOptions);
+            }
             break;
         case GROUPING_QUESTION_GUS:
         case GROUPING_QUESTION_OPTIONS:
@@ -138,17 +149,22 @@ function renderFormatItem(target, data, currentPhaseFormat) {
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
             $(clone).find('.optionselect #' + parameters.optionSource).click();
             initJustificationFormElements(clone, parameters);
+            if (data.format === GROUPING_QUESTION_OPTIONS && allowFilters && allowFilters === true) {
+                renderFilterOptions(clone, clone, data, data.filterOptions);
+            }
             break;
         case RATING:
             $(clone).find('#' + parameters.negative).click();
-
+            console.log('rating', options);
             if (options) {
                 renderScaleItems($(clone).find('.ratingScaleItemContainer'), options.length, options);
                 $(clone).find('#scale_' + (options.length)).addClass('selected');
                 $(clone).find('.chosen').attr('id', (options.length));
                 $(clone).find('.show-dropdown').val(options.length);
             }
-            renderFilterOptions(clone, clone, data, data.filterOptions);
+            if (allowFilters && allowFilters === true) {
+                renderFilterOptions(clone, clone, data, data.filterOptions);
+            }
             break;
         case MATRIX:
             if (options) {
@@ -164,7 +180,9 @@ function renderFormatItem(target, data, currentPhaseFormat) {
                     checkCurrentListState($(clone).find('.option-container'));
                     renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].scales.length, options[j].scales);
                     $(option).find('#' + options[j].negative).click();
-                    renderFilterOptions(clone, option, data, options[j].filterOptions);
+                    if (allowFilters && allowFilters === true) {
+                        renderFilterOptions(clone, option, data, options[j].filterOptions);
+                    }
                 }
             }
             break;
@@ -180,7 +198,9 @@ function renderFormatItem(target, data, currentPhaseFormat) {
                     checkCurrentListState($(clone).find('.option-container'));
                 }
             }
-            renderFilterOptions(clone, clone, data, data.filterOptions);
+            if (allowFilters && allowFilters === true) {
+                renderFilterOptions(clone, clone, data, data.filterOptions);
+            }
             break;
         case RANKING:
             if (options) {
@@ -192,7 +212,9 @@ function renderFormatItem(target, data, currentPhaseFormat) {
                     checkCurrentListState($(clone).find('.option-container'));
                 }
             }
-            renderFilterOptions(clone, clone, data, data.filterOptions);
+            if (allowFilters && allowFilters === true) {
+                renderFilterOptions(clone, clone, data, data.filterOptions);
+            }
             break;
         case ALTERNATIVE_QUESTION:
             if (parameters.used === 'used') {
@@ -251,6 +273,12 @@ function renderFormatItem(target, data, currentPhaseFormat) {
             break;
     }
 
+    if (allowFilters && allowFilters === true) {
+        $(clone).find('.filter-options').removeClass('hidden');
+    } else {
+        $(clone).find('.filter-options').remove();
+    }
+
     var dimension = data.dimension;
     if (dimension !== DIMENSION_ANY) {
         $(clone).find('#item-factors').removeClass('hidden');
@@ -265,62 +293,6 @@ function renderFormatItem(target, data, currentPhaseFormat) {
     }
 
     TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
-
-    $(target).unbind('change').bind('change', function (event, data) {
-        event.preventDefault();
-        if (data && data.type === 'delete') {
-            var deleteFilterElement = $(target).find('.filter-options-container').find('.dropdown-toggle #' + data.id).closest('.root');
-            $(deleteFilterElement).find('.btn-delete').click();
-            checkFilterOptions(target);
-//            console.log('delete item', event.target, data.id, deleteFilterElement);
-        } else if (data && data.type === 'moved') {
-            checkFilterOptions(target);
-//            var elementIndex = $(event.target).index();
-//            var questionsLength = $(event.target).closest('.container-root').children().length;
-//            if (questionsLength - 1 === elementIndex) {
-//                var filterOptionItems = $(event.target).find('.filter-options-container').children();
-//                console.log('element on last position', filterOptionItems);
-//                for (var i = 0; i < filterOptionItems.length; i++) {
-//                    $(filterOptionItems[i]).find('.btn-delete').click();
-//                }
-//                $(event.target).find('.filter-options').addClass('hidden');
-//                return false;
-//            } else {
-//                $(event.target).find('.filter-options').removeClass('hidden');
-//            }
-
-            var addFilterButtons = $(event.target).find('.btn-add-filter-option');
-            for (var i = 0; i < addFilterButtons.length; i++) {
-                if (!$(addFilterButtons[i]).closest('.filter-options').hasClass('hidden')) {
-                    var root = $(addFilterButtons[i]).closest('.root');
-                    var dataRoot = root;
-                    var element = $(event.target);
-
-                    if ($(addFilterButtons[i]).attr('data-root-lookups') !== undefined) {
-                        var rootLookups = parseInt($(addFilterButtons[i]).attr('data-root-lookups'));
-                        dataRoot = $(dataRoot).parents().eq(rootLookups);
-                    }
-
-                    var formatData = getFormatData(dataRoot);
-
-                    var filterOptionData = getFilterOptions(formatData.format, root);
-                    console.log('format data', formatData, filterOptionData);
-
-                    if (filterOptionData && filterOptionData.length > 0) {
-                        var filterOption = null;
-                        for (var j = 0; j < filterOptionData.length; j++) {
-                            if (parseInt($(element).attr('id')) === parseInt(filterOptionData[j].id)) {
-                                filterOption = filterOptionData[j];
-                                break;
-                            }
-                        }
-                        console.log(filterOptionData, filterOption, element);
-                        updateAvailableFilterOptions(formatData, dataRoot, root, element, filterOption);
-                    }
-                }
-            }
-        }
-    });
 
     checkFilterOptions(target);
 }
@@ -386,6 +358,9 @@ function getFormatData(element, currentPhaseFormat) {
     var filterOptions = null;
 
     switch (format) {
+        case OPEN_QUESTION:
+            filterOptions = getFilterOptions(format, element);
+            break;
         case SUS_ITEM:
             parameters = {negative: $(element).find('.negative .btn-option-checked').attr('id')};
             break;
@@ -434,6 +409,7 @@ function getFormatData(element, currentPhaseFormat) {
                 justification: $(element).find('.justification .btn-option-checked').attr('id'),
                 justificationFor: $(element).find('.justification-for .btn-option-checked').attr('id'),
                 optionalanswer: $(element).find('.optionalanswer .btn-option-checked').attr('id')};
+            filterOptions = getFilterOptions(format, element);
             break;
         case RATING:
             parameters = {negative: $(element).find('.negative .btn-option-checked').attr('id')};
@@ -453,7 +429,7 @@ function getFormatData(element, currentPhaseFormat) {
                 var ratingOptions = $(optionList[j]).find('.ratingScaleItemContainer').children();
                 filterOptions = getFilterOptions(format, $(optionList[j]));
                 var tempArray = new Array();
-                console.log('ratingOptions', ratingOptions);
+//                console.log('ratingOptions', ratingOptions);
                 for (var k = 0; k < ratingOptions.length; k++) {
 
                     tempArray.push({id: $(ratingOptions[k]).attr('data-id'), title: $(ratingOptions[k]).find('.option').val()});
@@ -534,8 +510,13 @@ function getFilterOptions(format, element) {
     var filterOptions = null;
 
     var filterListItems = $(element).find('.filter-options-container').children();
+    if($(element).find('.filter-options').hasClass('hidden')) {
+        console.log('dont save filter options for: ', format);
+        return null;
+    }
 
     switch (format) {
+        case OPEN_QUESTION:
         case DICHOTOMOUS_QUESTION:
         case GROUPING_QUESTION:
         case GROUPING_QUESTION_OPTIONS:
@@ -589,7 +570,8 @@ function getFilterOptionsById(filterOptions, id) {
     if (filterOptions && filterOptions.length > 0) {
         var filters = [];
         for (var i = 0; i < filterOptions.length; i++) {
-            if (parseInt(filterOptions[i].filterAtAnswer) === parseInt(id)) {
+//            console.log(filterOptions[i], id);
+            if (parseInt(filterOptions[i].filterAtAnswer) === parseInt(id) || filterOptions[i].filterAtAnswer === id) {
                 filters.push(filterOptions[i]);
             }
         }
@@ -630,25 +612,51 @@ function renderQuestionnaire(target, questionnaire, answers, forceFilters) {
                 $(target).find('.question-container').trigger('nextQuestion');
                 currentQuestionIndex = getNextQuestionIndex(target, currentQuestionIndex, questionnaire);
 
-                if (currentQuestionIndex >= questionnaire.length) {
-                    $(nextQuestionButton).addClass('hidden');
-                    $(doneQuestionnaireButton).addClass('hidden');
-                    $(target).find('.question-container').empty();
-                    appendAlert(target, ALERT_WAITING_FOR_MODERATOR);
-                    $(target).find('.question-container').trigger('questionnaireDone');
-//                    console.log('finish questionnaire');
-                } else if (currentQuestionIndex >= questionnaire.length - 1) {
-//                    console.log('we are at last question', filterQuestionStack);
-                    if (filterQuestionStack.length === 0) {
+                if (filterQuestionStack.length === 0) {
+                    if (currentQuestionIndex >= questionnaire.length) {
+                        console.log('finish questionnaire');
+                        $(nextQuestionButton).addClass('hidden');
+                        $(doneQuestionnaireButton).addClass('hidden');
+                        $(target).find('.question-container').empty();
+                        appendAlert(target, ALERT_WAITING_FOR_MODERATOR);
+                        $(target).find('.question-container').trigger('questionnaireDone');
+                    } else if (currentQuestionIndex >= questionnaire.length - 1) {
+                        console.log('last question reachead, render question');
                         renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
                         $(nextQuestionButton).addClass('hidden');
                         $(doneQuestionnaireButton).removeClass('hidden');
                     } else {
+                        console.log('stack empty, render question');
                         renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
+                        $(nextQuestionButton).removeClass('hidden');
+                        $(doneQuestionnaireButton).addClass('hidden');
                     }
                 } else {
+                    console.log('stack not empty, render question');
                     renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
+                    $(nextQuestionButton).removeClass('hidden');
+                    $(doneQuestionnaireButton).addClass('hidden');
                 }
+
+//                if (currentQuestionIndex >= questionnaire.length) {
+//                    $(nextQuestionButton).addClass('hidden');
+//                    $(doneQuestionnaireButton).addClass('hidden');
+//                    $(target).find('.question-container').empty();
+//                    appendAlert(target, ALERT_WAITING_FOR_MODERATOR);
+//                    $(target).find('.question-container').trigger('questionnaireDone');
+////                    console.log('finish questionnaire');
+//                } else if (currentQuestionIndex >= questionnaire.length - 1) {
+////                    console.log('we are at last question', filterQuestionStack);
+//                    if (filterQuestionStack.length === 0) {
+//                        renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
+//                        $(nextQuestionButton).addClass('hidden');
+//                        $(doneQuestionnaireButton).removeClass('hidden');
+//                    } else {
+//                        renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
+//                    }
+//                } else {
+//                    renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
+//                }
             }
         });
 
@@ -817,17 +825,13 @@ function hasFilterQuesitons(questionnaire) {
 
 var filterQuestionStack = [];
 function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
-    if (filterQuestionStack.length > 0) {
-        return getQuestionIndex(questionnaire, filterQuestionStack.shift());
-    }
-
-
     var question = questionnaire[currentQuestionIndex];
     var container = $(target).find('.question-container');
     var answers = getQuestionnaireAnswers(container.children());
     var filterOptions = null;
 
     switch (question.format) {
+        case OPEN_QUESTION:
         case DICHOTOMOUS_QUESTION:
         case GROUPING_QUESTION:
         case GROUPING_QUESTION_OPTIONS:
@@ -853,7 +857,7 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
             break;
     }
 
-//    console.log('filterOptions', filterOptions, answers);
+    console.log('filterOptions', question.format, filterOptions, answers);
     if (filterOptions) {
         var tempJumpIds = [];
 
@@ -863,10 +867,23 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
             var answer = answers[i].answer;
             for (var j = 0; j < filterOptions.length; j++) {
                 var filterOption = filterOptions[j];
+
+                if (filterOption.filterAtAnswer === 'noMatterAnswer') {
+                    if (tempJumpIds.length === 0) {
+                        tempJumpIds = [filterOption.filterJump];
+                    } else {
+                        tempJumpIds.push(filterOption.filterJump);
+                    }
+                }
+
                 switch (question.format) {
                     case DICHOTOMOUS_QUESTION:
                         if (answer.selectedSwitch === filterOption.filterAtAnswer) {
-                            tempJumpIds = [filterOption.filterJump];
+                            if (tempJumpIds.length === 0) {
+                                tempJumpIds = [filterOption.filterJump];
+                            } else {
+                                tempJumpIds.push(filterOption.filterJump);
+                            }
                         }
                         break;
                     case GROUPING_QUESTION:
@@ -884,7 +901,11 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                     case RATING:
                         var scale = parseInt(answer.scales);
                         if (scale !== -1 && parseInt(answer.id) === parseInt(filterOption.filterAtAnswer)) {
-                            tempJumpIds.push(filterOption.filterJump);
+                            if (tempJumpIds.length === 0) {
+                                tempJumpIds = [filterOption.filterJump];
+                            } else {
+                                tempJumpIds.push(filterOption.filterJump);
+                            }
                         }
                         break;
                     case RANKING:
@@ -1002,30 +1023,39 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
             }
         }
 
+        console.log('tempJumpIds', tempJumpIds);
+
         if (tempJumpIds.length > 0) {
             if (filterQuestionStack.length === 0) {
-                for (var i = 0; i < tempJumpIds.length; i++) {
-                    filterQuestionStack.push(tempJumpIds[i]);
-                }
+                filterQuestionStack = tempJumpIds;
+//                for (var i = 0; i < tempJumpIds.length; i++) {
+//                    filterQuestionStack.push(tempJumpIds[i]);
+//                }
             } else {
+                tempJumpIds = tempJumpIds.reverse();
                 for (var i = 0; i < tempJumpIds.length; i++) {
                     filterQuestionStack.unshift(tempJumpIds[i]);
                 }
             }
         }
 
-        if (tempJumpIds.length > 0) {
-            var nextQuestion = filterQuestionStack.shift();
-            if (nextQuestion === 'nextStep') {
+        console.log('stack:', filterQuestionStack);
+        if (filterQuestionStack.length > 0) {
+            var nextQuestionId = filterQuestionStack.shift();
+            if (nextQuestionId === 'nextStep') {
                 currentQuestionIndex = questionnaire.length;
             } else {
-                currentQuestionIndex = getQuestionIndex(questionnaire, nextQuestion);
+                currentQuestionIndex = getQuestionIndex(questionnaire, nextQuestionId);
             }
         } else {
             currentQuestionIndex++;
         }
     } else {
-        currentQuestionIndex++;
+        if (filterQuestionStack.length > 0) { // fehler
+            currentQuestionIndex = getQuestionIndex(questionnaire, filterQuestionStack.shift());
+        } else {
+            currentQuestionIndex++;
+        }
     }
 //    console.log('render Question with index', currentQuestionIndex, tempJumpIds, filterQuestionStack);
     return currentQuestionIndex;
@@ -1436,6 +1466,8 @@ function renderCounter(item, studyData, answer) {
         $(item).find('.answer').text('0');
         $(item).find('#no-answer').removeClass('hidden');
     }
+
+    renderFilterOptionsData(COUNTER, item, studyData.filterOptions);
 }
 
 function renderEditableCounter(item, studyData, answer) {
@@ -1456,6 +1488,7 @@ function renderOpenQuestion(item, studyData, answer) {
         $(item).find('.answer').text(answer.openAnswer);
     } else {
         $(item).find('#no-answer').removeClass('hidden');
+        $(item).find('.answer').text('-');
     }
 
     if (studyData.parameters && studyData.parameters.justification && studyData.parameters.justification === 'yes') {
@@ -1470,6 +1503,8 @@ function renderOpenQuestion(item, studyData, answer) {
             }
         }
     }
+    
+    renderFilterOptionsData(OPEN_QUESTION, item, studyData.filterOptions);
 }
 
 function renderEditableOpenQuestion(item, studyData, answer) {
@@ -1484,21 +1519,23 @@ function renderDichotomousQuestion(item, studyData, answer) {
     var options = [{id: 'yes', title: translation.yes}, {id: 'no', title: translation.no}];
     for (var i = 0; i < options.length; i++) {
         var optionItem = $('#template-study-container').find('#dichotomous-question-item').clone();
-        $(optionItem).find('#option-text').text(options[i].title);
+        $(optionItem).find('.option-text').text(options[i].title);
         $(item).find('.option-container').append(optionItem);
 
-        if (i >= 0 && i < options.length) {
-            $(item).find('.option-container').append(document.createElement('br'));
-        }
+//        if (i >= 0 && i < options.length) {
+//            $(item).find('.option-container').append(document.createElement('br'));
+//        }
 
         $(item).find('#no-answer').removeClass('hidden');
 
         if (answer && answer.selectedSwitch === options[i].id) {
             $(item).find('#no-answer').addClass('hidden');
-            $(optionItem).find('#option-text').addClass('bordered-scale-item');
+            $(optionItem).find('.option-text').addClass('bordered-scale-item');
         } else {
-            $(optionItem).find('#option-text').css({paddingLeft: "0px"});
+            $(optionItem).find('.option-text').css({paddingLeft: "0px"});
         }
+
+        renderFilterOptionsData(DICHOTOMOUS_QUESTION, optionItem, getFilterOptionsById(studyData.filterOptions, options[i].id));
     }
 
     if (studyData.parameters.justification === 'yes') {
@@ -1560,7 +1597,7 @@ function renderGroupingQuestion(item, studyData, answer) {
 
     for (var i = 0; i < studyData.options.length; i++) {
         var optionItem = $('#template-study-container').find('#grouping-question-item').clone();
-        $(optionItem).find('#option-text').text(studyData.options[i].title);
+        $(optionItem).find('.option-text').text(studyData.options[i].title);
         $(item).find('.option-container').append(optionItem);
 
         if (i < studyData.options.length - 1) {
@@ -1606,17 +1643,19 @@ function renderGroupingQuestion(item, studyData, answer) {
             var value = answer[studyData.options[i].id];
             if (value.selected === 'yes') {
                 $(item).find('#no-answer').addClass('hidden');
-                $(optionItem).find('#option-text').addClass('bordered-scale-item');
+                $(optionItem).find('.option-text').addClass('bordered-scale-item');
                 if (i > 0) {
-                    $(optionItem).css({marginTop: '5px'});
+                    $(optionItem).find('.option-text').css({marginTop: '5px'});
                 }
             } else {
-                $(optionItem).find('#option-text').css({paddingLeft: "0px"});
+                $(optionItem).find('.option-text').css({paddingLeft: "0px"});
             }
 
         } else {
-            $(optionItem).css({paddingLeft: "0px"});
+            $(optionItem).find('.option-text').css({paddingLeft: "0px"});
         }
+
+        renderFilterOptionsData(GROUPING_QUESTION, optionItem, getFilterOptionsById(studyData.filterOptions, studyData.options[i].id));
     }
 }
 
@@ -1692,7 +1731,7 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
     if (options && options.length > 0) {
         for (var i = 0; i < options.length; i++) {
             var optionItem = $('#template-study-container').find('#grouping-question-item').clone();
-            $(optionItem).find('#option-text').text(options[i].title);
+            $(optionItem).find('.option-text').text(options[i].title);
             $(item).find('.option-container').append(optionItem);
 
             if (i < options.length) {
@@ -1738,24 +1777,26 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
                 var value = answer[options[i].id];
                 if (value.selected === 'yes') {
                     $(item).find('#no-answer').addClass('hidden');
-                    $(optionItem).find('#option-text').addClass('bordered-scale-item');
+                    $(optionItem).find('.option-text').addClass('bordered-scale-item');
                     if (i > 0) {
-                        $(optionItem).css({marginTop: '5px'});
+                        $(optionItem).find('.option-text').css({marginTop: '5px'});
                     }
                 } else {
-                    $(optionItem).find('#option-text').css({paddingLeft: "0px"});
+                    $(optionItem).find('.option-text').css({paddingLeft: "0px"});
                 }
 
                 if (studyData.parameters.optionSource === 'gestures') {
                     var gesture = getGestureById(options[i].id);
                     var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
                     button.attr('name', gesture.id);
-                    $(button).insertAfter($(optionItem).find('#option-text'));
+                    $(button).insertAfter($(optionItem).find('.option-text'));
                     $(button).css({border: '1px solid rgba(0,0,0,0.3)'});
                 }
             } else {
-                $(optionItem).css({paddingLeft: "0px"});
+                $(optionItem).find('.option-text').css({paddingLeft: "0px"});
             }
+
+            renderFilterOptionsData(GROUPING_QUESTION_OPTIONS, optionItem, getFilterOptionsById(studyData.filterOptions, options[i].id));
         }
     }
 }
@@ -1823,20 +1864,22 @@ function renderRating(item, studyData, answer) {
         $(item).find('#no-answer').removeClass('hidden');
     }
 
-    for (var j = 0; j < studyData.options.length; j++) {
+    for (var i = 0; i < studyData.options.length; i++) {
         var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
         $(optionItem).find('#scale-container').append(scaleItem);
-        $(scaleItem).text((j + 1) + '. ' + studyData.options[j].title);
-        if (answer && j === selectedScale) {
-            $(scaleItem).addClass('bordered-scale-item');
+        $(scaleItem).find('.option-text').text((i + 1) + '. ' + studyData.options[i].title);
+        if (answer && i === selectedScale) {
+            $(scaleItem).find('.option-text').addClass('bordered-scale-item');
         } else {
-            $(scaleItem).css({paddingLeft: "0px"});
+            $(scaleItem).find('.option-text').css({paddingLeft: "0px"});
         }
 
-        if (j < studyData.options.length - 1) {
-            var breakItem = document.createElement('br');
-            $(optionItem).find('#scale-container').append(breakItem);
-        }
+//        if (i < studyData.options.length - 1) {
+//            var breakItem = document.createElement('br');
+//            $(optionItem).find('#scale-container').append(breakItem);
+//        }
+
+        renderFilterOptionsData(RATING, scaleItem, getFilterOptionsById(studyData.filterOptions, studyData.options[i].id));
     }
 }
 
@@ -1936,7 +1979,7 @@ function renderSumQuestion(item, studyData, answer) {
     $(item).find('#maximum .label-text').text(translation.maximum + ': ' + studyData.parameters.maximum);
     $(item).find('#allocation .label-text').text(translation.scaleTypes[studyData.parameters.allocation]);
 
-    console.log('sumQuestion', studyData.filterOptions);
+//    console.log('sumQuestion', studyData.filterOptions);
 
     if (studyData.options && studyData.options.length > 0) {
         var count = 0;
@@ -1953,11 +1996,7 @@ function renderSumQuestion(item, studyData, answer) {
                 $(item).find('#no-answer').removeClass('hidden');
             }
 
-            var filterOptions = getFilterOptionsById(studyData.filterOptions, studyData.options[i].id);
-            if (filterOptions) {
-                console.log(filterOptions);
-                renderFilterOptionsData($(listItemAnswer), filterOptions);
-            }
+            renderFilterOptionsData(SUM_QUESTION, $(listItemAnswer), getFilterOptionsById(studyData.filterOptions, studyData.options[i].id));
         }
 
         if (count === parseInt(studyData.parameters.maximum)) {
@@ -2000,17 +2039,20 @@ function renderRanking(item, studyData, answer) {
             for (var j = 0; j < studyData.options.length; j++) {
                 if (optionsId === parseInt(studyData.options[j].id)) {
                     text = studyData.options[j].text;
+                    renderFilterOptionsData(RANKING, $(listItemAnswer), getFilterOptionsById(studyData.filterOptions, studyData.options[j].id));
                 }
             }
-            $(listItemAnswer).text((i + 1) + '. ' + text);
+
+            $(listItemAnswer).find('.option-text').text((i + 1) + '. ' + text);
             $(item).find('.option-container').append(listItemAnswer);
         }
     } else {
         $(item).find('#no-answer').removeClass('hidden');
         for (var j = 0; j < studyData.options.length; j++) {
             var listItemAnswer = $('#template-study-container').find('#ranking-item').clone();
-            $(listItemAnswer).text((j + 1) + '. ' + studyData.options[j].text);
+            $(listItemAnswer).find('.option-text').text((j + 1) + '. ' + studyData.options[j].text);
             $(item).find('.option-container').append(listItemAnswer);
+            renderFilterOptionsData(RANKING, $(listItemAnswer), getFilterOptionsById(studyData.filterOptions, studyData.options[j].id));
         }
     }
 }
@@ -2228,7 +2270,7 @@ function renderSUSItem(item, studyData, answer) {
 
 function renderUEQItem(item, studyData, answer) {
     var score = 0;
-    console.log(answer);
+//    console.log(answer);
     if (studyData.parameters.negative === 'yes') {
         $(item).find('#negative').removeClass('hidden');
         if (answer) {
@@ -3105,6 +3147,7 @@ function updateAvailableFilterOptions(data, root, target, item, selectData) {
 
     if (selectData) {
         switch (data.format) {
+            case OPEN_QUESTION:
             case DICHOTOMOUS_QUESTION:
             case GROUPING_QUESTION:
             case GROUPING_QUESTION_OPTIONS:
@@ -3172,14 +3215,49 @@ function getQuestionById(questionnaire, id) {
     return null;
 }
 
-function renderFilterOptionsData(target, filterOptions) {
+function renderFilterOptionsData(format, target, filterOptions) {
     if (filterOptions && filterOptions.length > 0) {
         var filterOptionItem = $('#template-study-container').find('#filter-option-item').clone();
         $(target).find('.filter-option').append(filterOptionItem);
+        var currentPhaseData = getCurrentPhaseData();
+
         var filterOptionDataContent = '';
+
         for (var i = 0; i < filterOptions.length; i++) {
-            filterOptionDataContent += filterOptions[i].title;
+            var jumpQuestionIndex = 'nextStep';
+            if (filterOptions[i].filterJump !== 'nextStep') {
+                jumpQuestionIndex = getQuestionIndex(currentPhaseData, filterOptions[i].filterJump) + 1;
+            }
+
+            if (filterOptions[i].filterAtAnswer === 'noMatterAnswer') {
+                filterOptionDataContent += '<div>' + translation.NoMatterAnswer + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.and : '') + '</div>';
+            }
+
+            switch (format) {
+                case SUM_QUESTION:
+                    filterOptionDataContent += '<div>' + (i === 0 ? translation.Is : translation.is) + ' ' + translation.operators[filterOptions[i].operator].symbol + ' ' + filterOptions[i].value + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.or : '') + '</div>';
+                    break;
+                case COUNTER:
+                    filterOptionDataContent += '<div>' + (i === 0 ? translation.Is : translation.is) + ' ' + translation.operators[filterOptions[i].operator].symbol + ' ' + filterOptions[i].value + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.or : '') + '</div>';
+                    break;
+                case DICHOTOMOUS_QUESTION:
+                    filterOptionDataContent += '<div>' + translation.ForSelection + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.and : '') + '</div>';
+                    break;
+                case GROUPING_QUESTION:
+                case GROUPING_QUESTION_OPTIONS:
+//                    console.log(filterOptions[i]);
+                    filterOptionDataContent += '<div>' + translation.ForSelection + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.and : '') + '</div>';
+                    break;
+                case RATING:
+                    filterOptionDataContent += '<div>' + (i === 0 ? translation.ForSelection : '') + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.and : '') + '</div>';
+                    break;
+                case RANKING:
+//                    console.log(filterOptions, jumpQuestionIndex);
+                    filterOptionDataContent += '<div>' + (i === 0 ? translation.AtPositionSelect : translation.atPositionSelect) + ' ' + filterOptions[i].filterAtPosition + ': ' + (jumpQuestionIndex === 'nextStep' ? translation.endQuestionnaire : (translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex)) + (i < filterOptions.length - 1 ? ', ' + translation.or : '') + '</div>';
+                    break;
+            }
         }
+
         $(filterOptionItem).attr('data-content', filterOptionDataContent);
     }
 }

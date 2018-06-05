@@ -167,7 +167,7 @@ include '../includes/language.php';
     </div>
 
 
-    <span id="filter-option-item" class="filter-options-popover" style="cursor: pointer" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">Filter</span>
+    <span id="filter-option-item" class="filter-options-popover" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
 
 
 
@@ -279,7 +279,7 @@ include '../includes/language.php';
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <div class="answer text"></div>
+            <div><span class="text answer"></span><span class="filter-option" style="margin-left: 10px"></span></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
         </div>
     </div>
@@ -293,7 +293,10 @@ include '../includes/language.php';
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <div class="answer text"></div>
+            <div>
+                <span class="text answer" style=""></span><span class="filter-option" style="margin-left: 10px"></span>
+            </div>
+            <!--<div class="answer text"></div>-->
             <div class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></div>
             <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
@@ -343,15 +346,8 @@ include '../includes/language.php';
     </div>
 
     <span id="dichotomous-question-item">
-        <!--        <div>
-                    <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
-                    <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
-                </div>-->
-        <div id="option-text" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></div>
-        <!--        <div>
-                    <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
-                    <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
-                </div>-->
+        <div><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+        <!--<div id="option-text" class="text" ></div>-->
     </span>
 
     <div class="panel panel-default" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
@@ -407,7 +403,8 @@ include '../includes/language.php';
             <span class="label label-default hidden" id="selectNothing"><?php echo $lang->justificationForNoChoice ?></span>
             <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
         </div>
-        <div id="option-text" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></div>
+        <div><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+        <!--<div class="option-text text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></div>-->
         <div>
             <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
@@ -485,12 +482,13 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="rating-item" class="text">
+    <div id="rating-item">
         <div class="pull-right text" id="score-container"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
         <div id="scale-container"></div>
     </div>
 
-    <span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
+    <div id="rating-scale-item"><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+    <!--<span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>-->
 
     <div class="panel panel-default" id="matrix" style="margin-bottom: 5px;">
         <div class="panel-body">
@@ -550,7 +548,9 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="ranking-item" class="text"></div>
+    <div id="ranking-item">
+        <span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; padding-left: 0px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span>
+    </div>
 
     <div class="panel panel-default" id="alternativeQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">

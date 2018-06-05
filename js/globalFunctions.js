@@ -495,14 +495,14 @@ function onMoveUpComplete(element, brother, save) {
     if (element.parent().find('.badgeId').length > 0) {
         updateBadges(element.parent(), element.attr('id'));
     }
-
-    if ($(element).hasClass('.scroll-after-move')) {
+    
+    $(element).trigger('change', [{type: 'moved', id: $(element).attr('id')}]);
+    
+    if ((element).find('.btn-group-root .btn-up').hasClass('scroll-after-move')) {
         $('html, body').animate({
             scrollTop: $(element).offset().top - 70
         }, 300);
     }
-
-    $(element).trigger('change', [{type: 'moved', id: $(element).attr('id')}]);
 }
 
 function onMoveDownComplete(element, brother, save) {
@@ -518,13 +518,13 @@ function onMoveDownComplete(element, brother, save) {
         updateBadges(element.parent(), element.attr('id'));
     }
 
-    if ($(element).hasClass('.scroll-after-move')) {
+    $(element).trigger('change', [{type: 'moved', id: $(element).attr('id')}]);
+    
+    if ($(element).find('.btn-group-root .btn-down').hasClass('scroll-after-move')) {
         $('html, body').animate({
             scrollTop: $(element).offset().top - 70
         }, 300);
     }
-
-    $(element).trigger('change', [{type: 'moved', id: $(element).attr('id')}]);
 }
 
 var currentPreviewData = null;

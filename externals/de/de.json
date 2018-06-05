@@ -493,6 +493,10 @@
     "fitnessOfTrigger": "Eignung der Funktion",
     "noAnswer": "Keine Antwort",
     "noJustification": "Keine Begründung",
+    "Is": "Ist",
+    "is": "ist",
+    "and": "und",
+    "And": "And",
     "or": "oder",
     "Or": "Oder",
     "delete": "Löschen",
@@ -502,9 +506,14 @@
     "open": "Öffnen",
     "set": "Set",
     "record": "Aufzeichnen",
+    "goto": "gehe zu",
+    "ForSelection": "Bei Auswahl",
+    "forSelection": "bei Auswahl",
+    "Goto": "Gehe zu",
     "forExample100": "z.B. 100",
     "item": "Item",
     "negated": "negiert",
+    "NoMatterAnswer": "Antwort egal",
     "placeholderLetterOfAcceptance": "Sie erklären sich damit einverstanden, dass …",
     "placeholderThanks": "Vielen Dank, dass Sie an dieser Befragung teilgenommen haben!",
     "letterOfAcceptanceAccept": "Ich bin einverstanden",
@@ -573,6 +582,7 @@
     "distributionIn": "Verteilung in",
     "AtAnswerSelect": "Bei Antwort",
     "AtPositionSelect": "An Position",
+    "atPositionSelect": "an Position",
     "operator": "Operator",
     "hasValue": "Wert",
     "JumpToQuestion": "Gehe zu",
@@ -1428,6 +1438,23 @@
     "popover": {
 
     },
+    "operators": {
+        "equals": {
+            "symbol": "="
+        },
+        "minor": {
+            "symbol": "<"
+        },
+        "greater": {
+            "symbol": ">"
+        },
+        "equalsMinor": {
+            "symbol": "<="
+        },
+        "equalsGreater": {
+            "symbol": ">="
+        }
+    },
     "gesture": "Geste",
     "gestures": "Gesten",
     "studyGestures": "Studien-Gesten",
@@ -1518,6 +1545,9 @@
     "nextTask": "nächste Aufgabe",
     "nextStep": "nächster Leitfadenschritt",
     "NextStep": "Nächstem Leitfadenschritt",
+    "nextmStep": "nächstem Leitfadenschritt",
+    "endQuestionnaire": "beende Fragebogen",
+    "EndQuestionnaire": "Beende Fragebogen",
     "nextParticipant": "Nächster Teilnehmer",
     "previousParticipant": "Vorheriger Teilnehmer",
     "description": "Beschreibung",
@@ -2022,13 +2052,37 @@
     "systemIs": "Das System wurde mit",
     "rated": "bewertet",
     "defaultScales": [{
+            "id": "4678353657365356",
             "title": "Trifft nicht zu"
         }, {
+            "id": "7856543673456354",
             "title": "Weder noch"
         }, {
+            "id": "3523745673678456",
             "title": "Trifft zu"
         }],
-    "susOptions": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"],
+    "susOptions": [
+        {
+            "id": "7834563245734678",
+            "title": "Stimme gar nicht zu"
+        }, 
+        {
+            "id": "4356772453678256",
+            "title": "Stimme eher nicht zu"
+        }, 
+        {
+            "id": "0ß935678ß7024964",
+            "title": "Teils-teils"
+        }, 
+        {
+            "id": "1345357849843764",
+            "title": "Stimme eher zu"
+        }, 
+        {
+            "id": "46783524653624543",
+            "title": "Stimme voll und ganz zu"
+        }
+    ],
     "susScores": [
         {
             "adjective": "Denkbar am Schlechtesten",
@@ -2099,7 +2153,26 @@
             "parameters": {
                 "negative": "no"
             },
-            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": [{
+                    "id": "7834563245734678",
+                    "title": "Stimme gar nicht zu"
+                }, 
+                {
+                    "id": "4356772453678256",
+                    "title": "Stimme eher nicht zu"
+                }, 
+                {
+                    "id": "0ß935678ß7024964",
+                    "title": "Teils-teils"
+                }, 
+                {
+                    "id": "1345357849843764",
+                    "title": "Stimme eher zu"
+                }, 
+                {
+                    "id": "46783524653624543",
+                    "title": "Stimme voll und ganz zu"
+                }]
         },
         {
             "id": "89573",
@@ -2109,7 +2182,26 @@
             "parameters": {
                 "negative": "yes"
             },
-            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": [{
+                    "id": "7834563245734678",
+                    "title": "Stimme gar nicht zu"
+                }, 
+                {
+                    "id": "4356772453678256",
+                    "title": "Stimme eher nicht zu"
+                }, 
+                {
+                    "id": "0ß935678ß7024964",
+                    "title": "Teils-teils"
+                }, 
+                {
+                    "id": "1345357849843764",
+                    "title": "Stimme eher zu"
+                }, 
+                {
+                    "id": "46783524653624543",
+                    "title": "Stimme voll und ganz zu"
+                }]
         },
         {
             "id": "28263",
@@ -2119,7 +2211,26 @@
             "parameters": {
                 "negative": "no"
             },
-            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": [{
+                    "id": "7834563245734678",
+                    "title": "Stimme gar nicht zu"
+                }, 
+                {
+                    "id": "4356772453678256",
+                    "title": "Stimme eher nicht zu"
+                }, 
+                {
+                    "id": "0ß935678ß7024964",
+                    "title": "Teils-teils"
+                }, 
+                {
+                    "id": "1345357849843764",
+                    "title": "Stimme eher zu"
+                }, 
+                {
+                    "id": "46783524653624543",
+                    "title": "Stimme voll und ganz zu"
+                }]
         },
         {
             "id": "94429",
@@ -2129,7 +2240,26 @@
             "parameters": {
                 "negative": "yes"
             },
-            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": [{
+                    "id": "7834563245734678",
+                    "title": "Stimme gar nicht zu"
+                }, 
+                {
+                    "id": "4356772453678256",
+                    "title": "Stimme eher nicht zu"
+                }, 
+                {
+                    "id": "0ß935678ß7024964",
+                    "title": "Teils-teils"
+                }, 
+                {
+                    "id": "1345357849843764",
+                    "title": "Stimme eher zu"
+                }, 
+                {
+                    "id": "46783524653624543",
+                    "title": "Stimme voll und ganz zu"
+                }]
         },
         {
             "id": "37143",
@@ -2139,7 +2269,26 @@
             "parameters": {
                 "negative": "no"
             },
-            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": [{
+                    "id": "7834563245734678",
+                    "title": "Stimme gar nicht zu"
+                }, 
+                {
+                    "id": "4356772453678256",
+                    "title": "Stimme eher nicht zu"
+                }, 
+                {
+                    "id": "0ß935678ß7024964",
+                    "title": "Teils-teils"
+                }, 
+                {
+                    "id": "1345357849843764",
+                    "title": "Stimme eher zu"
+                }, 
+                {
+                    "id": "46783524653624543",
+                    "title": "Stimme voll und ganz zu"
+                }]
         },
         {
             "id": "28732",
@@ -2149,7 +2298,26 @@
             "parameters": {
                 "negative": "yes"
             },
-            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": [{
+                    "id": "7834563245734678",
+                    "title": "Stimme gar nicht zu"
+                }, 
+                {
+                    "id": "4356772453678256",
+                    "title": "Stimme eher nicht zu"
+                }, 
+                {
+                    "id": "0ß935678ß7024964",
+                    "title": "Teils-teils"
+                }, 
+                {
+                    "id": "1345357849843764",
+                    "title": "Stimme eher zu"
+                }, 
+                {
+                    "id": "46783524653624543",
+                    "title": "Stimme voll und ganz zu"
+                }]
         },
         {
             "id": "53457",
@@ -2159,7 +2327,26 @@
             "parameters": {
                 "negative": "no"
             },
-            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": [{
+                    "id": "7834563245734678",
+                    "title": "Stimme gar nicht zu"
+                }, 
+                {
+                    "id": "4356772453678256",
+                    "title": "Stimme eher nicht zu"
+                }, 
+                {
+                    "id": "0ß935678ß7024964",
+                    "title": "Teils-teils"
+                }, 
+                {
+                    "id": "1345357849843764",
+                    "title": "Stimme eher zu"
+                }, 
+                {
+                    "id": "46783524653624543",
+                    "title": "Stimme voll und ganz zu"
+                }]
         },
         {
             "id": "97896",
@@ -2169,7 +2356,26 @@
             "parameters": {
                 "negative": "yes"
             },
-            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": [{
+                    "id": "7834563245734678",
+                    "title": "Stimme gar nicht zu"
+                }, 
+                {
+                    "id": "4356772453678256",
+                    "title": "Stimme eher nicht zu"
+                }, 
+                {
+                    "id": "0ß935678ß7024964",
+                    "title": "Teils-teils"
+                }, 
+                {
+                    "id": "1345357849843764",
+                    "title": "Stimme eher zu"
+                }, 
+                {
+                    "id": "46783524653624543",
+                    "title": "Stimme voll und ganz zu"
+                }]
         },
         {
             "id": "97528",
@@ -2179,7 +2385,26 @@
             "parameters": {
                 "negative": "no"
             },
-            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": [{
+                    "id": "7834563245734678",
+                    "title": "Stimme gar nicht zu"
+                }, 
+                {
+                    "id": "4356772453678256",
+                    "title": "Stimme eher nicht zu"
+                }, 
+                {
+                    "id": "0ß935678ß7024964",
+                    "title": "Teils-teils"
+                }, 
+                {
+                    "id": "1345357849843764",
+                    "title": "Stimme eher zu"
+                }, 
+                {
+                    "id": "46783524653624543",
+                    "title": "Stimme voll und ganz zu"
+                }]
         },
         {
             "id": "52525",
@@ -2189,7 +2414,26 @@
             "parameters": {
                 "negative": "yes"
             },
-            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": [{
+                    "id": "7834563245734678",
+                    "title": "Stimme gar nicht zu"
+                }, 
+                {
+                    "id": "4356772453678256",
+                    "title": "Stimme eher nicht zu"
+                }, 
+                {
+                    "id": "0ß935678ß7024964",
+                    "title": "Teils-teils"
+                }, 
+                {
+                    "id": "1345357849843764",
+                    "title": "Stimme eher zu"
+                }, 
+                {
+                    "id": "46783524653624543",
+                    "title": "Stimme voll und ganz zu"
+                }]
         }
     ],
     "opposites": "Gegensatzpaar",

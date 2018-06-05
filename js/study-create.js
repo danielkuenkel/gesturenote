@@ -564,7 +564,7 @@ $(document).on('click', '#addFormat', function (event) {
             checkCurrentListState(listContainer);
             updateBadges(listContainer, format);
             TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
-            $(listContainer).trigger('listItemAdded');
+            $(listContainer).trigger('listItemAdded', [clone]);
         }
     }
 });

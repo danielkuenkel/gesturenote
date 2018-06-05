@@ -21,6 +21,7 @@ include '../includes/language.php';
 <script>
     $(document).ready(function () {
         if (currentPreviewData) {
+            currentQuestionIndex = 0;
             renderQuestionnaire($('#custom-modal'), currentPreviewData, null, true);
             if (currentPreviewData.length === 1) {
                 var modal = $('#custom-modal');

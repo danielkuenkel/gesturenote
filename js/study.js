@@ -1424,7 +1424,7 @@ function renderChecklist() {
         }
 
         TweenMax.from(clone, 1, {y: -40, opacity: 0, ease: Elastic.easeOut, clearProps: 'all'});
-        $(listContainer).trigger('listItemAdded');
+        $(listContainer).trigger('listItemAdded', [clone]);
         initPopover();
     }
 }
