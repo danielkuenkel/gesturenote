@@ -298,6 +298,7 @@ function resetConstraints() {
     screenSharingStopped = false;
 
     currentQuestionIndex = 0;
+    filterQuestionStack = [];
 
     if (gestureRecorder) {
         gestureRecorder.destroy();

@@ -510,7 +510,7 @@ function getFilterOptions(format, element) {
     var filterOptions = null;
 
     var filterListItems = $(element).find('.filter-options-container').children();
-    if($(element).find('.filter-options').hasClass('hidden')) {
+    if ($(element).find('.filter-options').hasClass('hidden')) {
         console.log('dont save filter options for: ', format);
         return null;
     }
@@ -868,17 +868,17 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
             for (var j = 0; j < filterOptions.length; j++) {
                 var filterOption = filterOptions[j];
 
-                if (filterOption.filterAtAnswer === 'noMatterAnswer') {
-                    if (tempJumpIds.length === 0) {
-                        tempJumpIds = [filterOption.filterJump];
-                    } else {
-                        tempJumpIds.push(filterOption.filterJump);
-                    }
-                }
+//                if (filterOption.filterAtAnswer === 'noMatterAnswer') {
+//                    if (tempJumpIds.length === 0) {
+//                        tempJumpIds = [filterOption.filterJump];
+//                    } else {
+//                        tempJumpIds.push(filterOption.filterJump);
+//                    }
+//                }
 
                 switch (question.format) {
                     case DICHOTOMOUS_QUESTION:
-                        if (answer.selectedSwitch === filterOption.filterAtAnswer) {
+                        if (answer.selectedSwitch === filterOption.filterAtAnswer || filterOption.filterAtAnswer === 'noMatterAnswer') {
                             if (tempJumpIds.length === 0) {
                                 tempJumpIds = [filterOption.filterJump];
                             } else {
@@ -910,7 +910,7 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                         break;
                     case RANKING:
 //                        console.log(answer);
-                        if (parseInt(answer.arrangement[parseInt(filterOption.filterAtPosition) - 1]) === parseInt(filterOption.filterAtAnswer)) {
+                        if (parseInt(answer.arrangement[parseInt(filterOption.filterAtPosition) - 1]) === parseInt(filterOption.filterAtAnswer) || filterOption.filterAtAnswer === 'noMatterAnswer') {
                             if (tempJumpIds.length === 0) {
                                 tempJumpIds = [filterOption.filterJump];
                             } else {
@@ -920,7 +920,7 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                         break;
                     case MATRIX:
                         for (var k = 0; k < answer.scales.length; k++) {
-                            if (parseInt(answer.scales[k].id) === parseInt(filterOption.filterAtAnswer)) {
+                            if (parseInt(answer.scales[k].id) === parseInt(filterOption.filterAtAnswer) || filterOption.filterAtAnswer === 'noMatterAnswer') {
                                 if (tempJumpIds.length === 0) {
                                     tempJumpIds = [filterOption.filterJump];
                                 } else {
@@ -976,7 +976,7 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
 //                        console.log(answer, filterOption);
                         var sumCounts = answer.sumCounts;
                         for (var k = 0; k < sumCounts.length; k++) {
-                            if (parseInt(sumCounts[k].id) === parseInt(filterOption.filterAtAnswer)) {
+                            if (parseInt(sumCounts[k].id) === parseInt(filterOption.filterAtAnswer) || filterOption.filterAtAnswer === 'noMatterAnswer') {
                                 var value = parseInt(filterOption.value);
                                 var count = parseInt(sumCounts[k].count);
                                 var jumpIds = [];
@@ -1051,13 +1051,12 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
             currentQuestionIndex++;
         }
     } else {
-        if (filterQuestionStack.length > 0) { // fehler
+        if (filterQuestionStack.length > 0) {
             currentQuestionIndex = getQuestionIndex(questionnaire, filterQuestionStack.shift());
         } else {
             currentQuestionIndex++;
         }
     }
-//    console.log('render Question with index', currentQuestionIndex, tempJumpIds, filterQuestionStack);
     return currentQuestionIndex;
 }
 
@@ -1503,7 +1502,7 @@ function renderOpenQuestion(item, studyData, answer) {
             }
         }
     }
-    
+
     renderFilterOptionsData(OPEN_QUESTION, item, studyData.filterOptions);
 }
 
@@ -1930,17 +1929,17 @@ function renderMatrix(item, studyData, answer) {
             for (var j = 0; j < studyData.options[i].scales.length; j++) {
                 var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
                 $(optionItem).find('#scale-container').append(scaleItem);
-                $(scaleItem).text((j + 1) + '. ' + studyData.options[i].scales[j].title);
+                $(scaleItem).find('.option-text').text((j + 1) + '. ' + studyData.options[i].scales[j].title);
                 if (j === selectedScale) {
-                    $(scaleItem).addClass('bordered-scale-item');
+                    $(scaleItem).find('.option-text').addClass('bordered-scale-item');
                 } else {
-                    $(scaleItem).css({paddingLeft: "0px"});
+                    $(scaleItem).find('.option-text').css({paddingLeft: "0px"});
                 }
 
-                if (j < studyData.options[i].scales.length - 1) {
-                    var breakItem = document.createElement('br');
-                    $(optionItem).find('#scale-container').append(breakItem);
-                }
+//                if (j < studyData.options[i].scales.length - 1) {
+//                    var breakItem = document.createElement('br');
+//                    $(optionItem).find('#scale-container').append(breakItem);
+//                }
             }
         } else {
             $(optionItem).find('#score-container').remove();
@@ -1949,13 +1948,13 @@ function renderMatrix(item, studyData, answer) {
             for (var j = 0; j < studyData.options[i].scales.length; j++) {
                 var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
                 $(optionItem).find('#scale-container').append(scaleItem);
-                $(scaleItem).text((j + 1) + '. ' + studyData.options[i].scales[j].title);
-                $(scaleItem).css({paddingLeft: "0px"});
+                $(scaleItem).find('.option-text').text((j + 1) + '. ' + studyData.options[i].scales[j].title);
+                $(scaleItem).find('.option-text').css({paddingLeft: "0px"});
 
-                if (j < studyData.options[i].scales.length - 1) {
-                    var breakItem = document.createElement('br');
-                    $(optionItem).find('#scale-container').append(breakItem);
-                }
+//                if (j < studyData.options[i].scales.length - 1) {
+//                    var breakItem = document.createElement('br');
+//                    $(optionItem).find('#scale-container').append(breakItem);
+//                }
             }
         }
     }
