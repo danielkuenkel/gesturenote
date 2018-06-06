@@ -237,7 +237,7 @@ var Moderator = {
 
             if (getCurrentPhase().format !== PHYSICAL_STRESS_TEST) {
                 $(peerConnection).unbind(MESSAGE_UPDATE_QUESTIONNAIRE).bind(MESSAGE_UPDATE_QUESTIONNAIRE, function (event, payload) {
-//                    console.log('update questionnaire', payload);
+                    console.log('update questionnaire', payload);
                     renderQuestionnaireAnswers(container, data, payload);
                 });
             }
