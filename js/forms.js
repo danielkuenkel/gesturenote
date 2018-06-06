@@ -7,17 +7,60 @@
 
 $(document).on('change', '.scaleSelect', function (event, result) {
     event.preventDefault();
+
     if (event.handled !== true)
     {
         event.handled = true;
         var scaleItemContainer = $(this).closest('.root').find('.ratingScaleItemContainer');
-        renderScaleItems(scaleItemContainer, result.split('_')[1], null);
+        var count = parseInt(result.split('_')[1]);
+        var defaultOptions = translation.threeDefaultScales;
+
+        var existingItems = $(this).closest('.root').find('.ratingScaleItemContainer').children();
+        var existingScale = [];
+        for (var i = 0; i < existingItems.length; i++) {
+            existingScale.push({id: $(existingItems[i]).attr('data-id'), title: $(existingItems[i]).find('.option').val()});
+        }
+//        console.log(existingScale);
+
+        switch (count) {
+            case 4:
+                defaultOptions = translation.fourDefaultScales;
+                break;
+            case 5:
+                defaultOptions = translation.fiveDefaultScales;
+                break;
+            case 6:
+                defaultOptions = translation.sixDefaultScales;
+                break;
+            case 7:
+                defaultOptions = translation.sevenDefaultScales;
+                break;
+        }
+
+        if (existingScale.length > 0) {
+            if (existingItems.length > count) {
+                defaultOptions = existingScale;
+                defaultOptions.splice(count);
+            } else {
+                var defaultTempOptions = [];
+                for (var i = 0; i < count; i++) {
+                    if (i < existingScale.length) {
+                        defaultTempOptions.push(existingScale[i]);
+                    } else {
+                        defaultTempOptions.push({id: chance.natural(), title: defaultOptions[i].title});
+                    }
+                }
+                defaultOptions = defaultTempOptions;
+            }
+        }
+
+        console.log(count, defaultOptions);
+
+        renderScaleItems(scaleItemContainer, count, defaultOptions);
     }
 });
 
-function renderScaleItems(container, count, options)
-{
-//    console.log(options);
+function renderScaleItems(container, count, options) {
     $(container).empty();
     for (var i = 0; i < count; i++)
     {
@@ -27,15 +70,15 @@ function renderScaleItems(container, count, options)
 
         if (i === 0) {
             $(scaleItem).find('.input-group-addon').text(translation.of + ' ' + (i + 1));
-            $(scaleItem).find('.item-input-text').attr('placeholder', translation.defaultScales[0].title);
+//            $(scaleItem).find('.item-input-text').attr('placeholder', translation.defaultScales[0].title);
         } else if (i === count - 1) {
             $(scaleItem).find('.input-group-addon').text(translation.to + ' ' + (i + 1));
-            $(scaleItem).find('.item-input-text').attr('placeholder', translation.defaultScales[2].title);
+//            $(scaleItem).find('.item-input-text').attr('placeholder', translation.defaultScales[2].title);
         } else {
             $(scaleItem).find('.input-group-addon').text(i + 1);
         }
 
-        if (options && options[i].title !== undefined) {
+        if (options && options[i].title !== undefined || options[i].title !== '') {
             $(scaleItem).find('.item-input-text').val(options[i].title);
         }
     }
@@ -155,7 +198,7 @@ function renderFormatItem(target, data, currentPhaseFormat, allowFilters) {
             break;
         case RATING:
             $(clone).find('#' + parameters.negative).click();
-            console.log('rating', options);
+//            console.log('rating', options);
             if (options) {
                 renderScaleItems($(clone).find('.ratingScaleItemContainer'), options.length, options);
                 $(clone).find('#scale_' + (options.length)).addClass('selected');
@@ -889,7 +932,7 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                     case GROUPING_QUESTION:
                     case GROUPING_QUESTION_OPTIONS:
                         for (var id in answer) {
-                            if (answer.hasOwnProperty(id) && ((answer[id].selected === 'yes' && parseInt(id) === parseInt(filterOption.filterAtAnswer)) || (id === 'optionalAnswer' && filterOption.filterAtAnswer === 'optionalAnswer' && answer.optionalAnswer !== ''))) {
+                            if (answer.hasOwnProperty(id) && ((answer[id].selected === 'yes' && parseInt(id) === parseInt(filterOption.filterAtAnswer)) || (id === 'optionalAnswer' && filterOption.filterAtAnswer === 'optionalAnswer' && answer.optionalAnswer !== '') || filterOption.filterAtAnswer === 'noMatterAnswer')) {
                                 if (tempJumpIds.length === 0) {
                                     tempJumpIds = [filterOption.filterJump];
                                 } else {
@@ -897,16 +940,18 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                                 }
                             }
                         }
+                        tempJumpIds = unique(tempJumpIds);
                         break;
                     case RATING:
                         var scale = parseInt(answer.scales);
-                        if (scale !== -1 && parseInt(answer.id) === parseInt(filterOption.filterAtAnswer)) {
+                        if (scale !== -1 && parseInt(answer.id) === parseInt(filterOption.filterAtAnswer) || filterOption.filterAtAnswer === 'noMatterAnswer') {
                             if (tempJumpIds.length === 0) {
                                 tempJumpIds = [filterOption.filterJump];
                             } else {
                                 tempJumpIds.push(filterOption.filterJump);
                             }
                         }
+                        tempJumpIds = unique(tempJumpIds);
                         break;
                     case RANKING:
 //                        console.log(answer);
@@ -917,6 +962,7 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                                 tempJumpIds.push(filterOption.filterJump);
                             }
                         }
+                        tempJumpIds = unique(tempJumpIds);
                         break;
                     case MATRIX:
                         for (var k = 0; k < answer.scales.length; k++) {
@@ -1196,9 +1242,9 @@ function checkCurrentQuestionnaireAnswers(questionnaireAnswers) {
             console.log('check questionnaire answers:', questionnaireAnswers[i], currentQuestionnaireAnswers);
 
             if (currentQuestionnaireAnswers && currentQuestionnaireAnswers.answers && currentQuestionnaireAnswers.answers.length > 0) {
-                console.log('check answers');
+//                console.log('check answers');
                 for (var j = 0; j < currentQuestionnaireAnswers.answers.length; j++) {
-                    console.log(questionnaireAnswers[i], currentQuestionnaireAnswers.answers[j]);
+//                    console.log(questionnaireAnswers[i], currentQuestionnaireAnswers.answers[j]);
                     if (parseInt(questionnaireAnswers[i].id) === parseInt(currentQuestionnaireAnswers.answers[j].id)) {
                         currentQuestionnaireAnswers.answers[j].answer = questionnaireAnswers[i].answer;
                         answerExists = true;
@@ -2992,7 +3038,8 @@ $(document).on('click', '.btn-add-ratingOption', function (event) {
         $(item).find('.chosen').attr('id', 3);
         $(item).find('.show-dropdown').val(3);
         $(item).find('#scale_3').addClass('selected');
-        renderScaleItems($(item).find('.ratingScaleItemContainer'), 3, translation.defaultScales);
+//        console.log(translation.defaultScales);
+        renderScaleItems($(item).find('.ratingScaleItemContainer'), 3, translation.threeDefaultScales);
         TweenMax.from(item, .2, {y: -10, opacity: 0});
     }
 });

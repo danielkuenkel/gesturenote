@@ -2051,14 +2051,59 @@
     },
     "systemIs": "Das System wurde mit",
     "rated": "bewertet",
-    "defaultScales": [{
-            "id": "4678353657365356",
+    "threeDefaultScales": [{
             "title": "Trifft nicht zu"
         }, {
-            "id": "7856543673456354",
             "title": "Weder noch"
         }, {
-            "id": "3523745673678456",
+            "title": "Trifft zu"
+        }],
+    "fourDefaultScales": [{
+            "title": "Trifft nicht zu"
+        }, {
+            "title": ""
+        }, {
+            "title": ""
+        }, {
+            "title": "Trifft zu"
+        }],
+    "fiveDefaultScales": [{
+            "title": "Trifft nicht zu"
+        }, {
+            "title": ""
+        }, {
+            "title": "Weder noch"
+        }, {
+            "title": ""
+        }, {
+            "title": "Trifft zu"
+        }],
+    "sixDefaultScales": [{
+            "title": "Trifft nicht zu"
+        }, {
+            "title": ""
+        }, {
+            "title": ""
+        }, {
+            "title": ""
+        }, {
+            "title": ""
+        }, {
+            "title": "Trifft zu"
+        }],
+    "sevenDefaultScales": [{
+            "title": "Trifft nicht zu"
+        }, {
+            "title": ""
+        }, {
+            "title": ""
+        }, {
+            "title": "Weder noch"
+        }, {
+            "title": ""
+        }, {
+            "title": ""
+        }, {
             "title": "Trifft zu"
         }],
     "susOptions": [

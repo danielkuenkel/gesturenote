@@ -193,7 +193,7 @@ function initQuestionnairePreview(button, list, getAssembledGestures, additional
     
     $(list).bind('change listItemAdded', function (event, data) {
         
-        console.log('change listItemAdded', event);
+//        console.log('change listItemAdded', event);
         if ($(this).children().length > 0) {
             $(button).removeClass('disabled');
             if (additionalFunction) {
@@ -241,7 +241,7 @@ function initQuestionnairePreview(button, list, getAssembledGestures, additional
                 }
             }
         } else if (event.type === 'listItemAdded') {
-            console.log('list item added');
+//            console.log('list item added');
             checkFilterOptions(list);
         }
     });
@@ -406,7 +406,7 @@ function initGUSSingleGesturesOverlay(id, formatClone) {
 
     initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), $(formatClone).find('#list-container'), true, checkSingleGestureGeneralData(), GUS_SINGLE_GESTURES);
     $(formatClone).find('.btn-preview-questionnaire').on('click', function (event) {
-        console.log('btn-preview-questionnaire');
+//        console.log('btn-preview-questionnaire');
         if ($(this).hasClass('disabled')) {
             wobble(formatClone.find('#general'));
         }
@@ -748,7 +748,7 @@ function initGestureTrainingOverlay(id, formatClone) {
         });
 
         $(item).find('.transitionFeedback-mode').unbind('change').bind('change', function (event) {
-            console.log('feedback transition mode changed', $(this).find('.btn-option-checked').attr('id'));
+//            console.log('feedback transition mode changed', $(this).find('.btn-option-checked').attr('id'));
             event.preventDefault();
             var selectedId = $(item).find('.feedbackSelect .chosen').attr('id');
             if ($(this).find('.btn-option-checked').attr('id') === 'automatically' && selectedId !== 'unselected' && selectedId !== 'none') {
@@ -794,7 +794,7 @@ function initGestureTrainingOverlay(id, formatClone) {
         });
 
         $(clone).find('.transition-mode').unbind('change').bind('change', function (event) {
-            console.log('transition mode changed', $(this).find('.btn-option-checked').attr('id'));
+//            console.log('transition mode changed', $(this).find('.btn-option-checked').attr('id'));
             event.preventDefault();
             if ($(this).find('.btn-option-checked').attr('id') === 'automatically') {
                 $(this).closest('.row').find('.transition-time-stepper').removeClass('hidden');
@@ -1322,7 +1322,7 @@ function initScenarioOverlay(id, formatClone) {
         });
 
         $(item).find('.transitionFeedback-mode').unbind('change').bind('change', function (event) {
-            console.log('feedback transition mode changed', $(this).find('.btn-option-checked').attr('id'));
+//            console.log('feedback transition mode changed', $(this).find('.btn-option-checked').attr('id'));
             event.preventDefault();
             var selectedId = $(item).find('.feedbackSelect .chosen').attr('id');
             if ($(this).find('.btn-option-checked').attr('id') === 'automatically' && selectedId !== 'unselected' && selectedId !== 'none') {
@@ -1365,7 +1365,7 @@ function initScenarioOverlay(id, formatClone) {
 
         function initSceneTransitionMode(clone) {
             $(clone).find('.transition-mode').unbind('change').bind('change', function (event) {
-                console.log('transition mode changed', $(this).find('.btn-option-checked').attr('id'));
+//                console.log('transition mode changed', $(this).find('.btn-option-checked').attr('id'));
                 event.preventDefault();
                 if ($(this).find('.btn-option-checked').attr('id') === 'automatically') {
                     $(this).closest('.row').find('.transition-time-stepper .stepper-text').attr('value', 1);
@@ -2023,7 +2023,7 @@ function initExplorationOverlay(id, formatClone) {
 //    console.log(assembledTrigger, assembledScenes);
 
     var data = getLocalItem(id + '.data');
-    console.log(data);
+//    console.log(data);
     if (data) {
         renderData(data);
     } else if (assembledGestures() !== null && assembledTrigger && assembledScenes) {
@@ -2052,7 +2052,7 @@ function initExplorationOverlay(id, formatClone) {
 
     function renderExplorationItems(items) {
         if (items !== undefined && items.length > 0) {
-            console.log(data.explorationType, items);
+//            console.log(data.explorationType, items);
             var container = $(formatClone).find('#explorationElements .option-container');
             for (var i = 0; i < items.length; i++) {
                 var clone = $('#form-item-container').find('#explorationItem-' + data.explorationType).clone().removeAttr('id');
@@ -2111,7 +2111,7 @@ function initExplorationOverlay(id, formatClone) {
         initPopover(300);
         if (gestureIds && gestureIds.length > 0) {
             for (var i = 0; i < gestureIds.length; i++) {
-                console.log($(container).find('#' + gestureIds[i] + ' .btn-add-gesture-to-scene'));
+//                console.log($(container).find('#' + gestureIds[i] + ' .btn-add-gesture-to-scene'));
                 $(container).find('#' + gestureIds[i] + ' .btn-add-gesture-to-scene').click();
             }
         }
@@ -2247,7 +2247,7 @@ function initExplorationOverlay(id, formatClone) {
             event.preventDefault();
             if (event.handled !== true)
             {
-                console.log('add transition scenes');
+//                console.log('add transition scenes');
                 event.handled = true;
                 var scenes = getLocalItem(ASSEMBLED_SCENES);
                 if (scenes && scenes.length > 0) {
@@ -2486,7 +2486,7 @@ function initCatalogGesturesOverlay(formatClone) {
             };
             initPagination(data);
             $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble) {
-                console.log('study gestures changed', gestureId);
+//                console.log('study gestures changed', gestureId);
                 TweenMax.to($(event.target).closest('.root'), .2, {scale: 0, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: function () {
                         reassembleGesture(gestureId);
                         updateCatalogButtons();
@@ -2643,17 +2643,17 @@ function initCatalogGesturesOverlay(formatClone) {
         });
 
         $(formatClone).find('#gesture-sets .create-gesture-set-input').unbind('gestureSetCreated').bind('gestureSetCreated', function (event) {
-            console.log('gesture set created');
+//            console.log('gesture set created');
             getWholeGestureSets();
         });
 
         $(formatClone).find('#gesture-sets #gesture-sets-container').unbind('gestureSetDeleted').bind('gestureSetDeleted', function (event) {
-            console.log('gesture set deleted');
+//            console.log('gesture set deleted');
             getWholeGestureSets();
         });
 
         $('#custom-modal').unbind('gestureSetsUpdated').bind('gestureSetsUpdated', function (event) {
-            console.log('gesture set updated');
+//            console.log('gesture set updated');
             getGestureSets(function (result) {
                 if (result.status === RESULT_SUCCESS) {
                     originalFilterData = result.gestureSets;
@@ -2855,7 +2855,7 @@ function initCatalogFeedbackOverlay(formatClone) {
         renderCatalogOverview();
     });
     $(formatClone).find('#list-container').unbind('saveData').bind('saveData', function (event) {
-        console.log('save data catched');
+//        console.log('save data catched');
         saveData();
     });
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-feedback-button-group'), $(formatClone).find('#list-container'), formatClone, true, true, ALERT_NO_PHASE_DATA);
@@ -2952,7 +2952,7 @@ function initCatalogScenesOverlay(formatClone) {
                     break;
             }
 
-            console.log(parameters);
+//            console.log(parameters);
             assembledData.push({id: name, type: type, title: title, parameters: parameters});
         }
         setLocalItem(ASSEMBLED_SCENES, assembledData);
@@ -2964,7 +2964,7 @@ function initCatalogScenesOverlay(formatClone) {
     });
 
     $(formatClone).find('#list-container').unbind('saveData').bind('saveData', function (event) {
-        console.log('save data catched');
+//        console.log('save data catched');
         initControlButtons();
         saveData();
     });
