@@ -133,7 +133,7 @@ if ($h && $token && $studyId) {
         <!-- Container (Panel Section) -->
         <div class="mainContent" id="mainContent" style="padding:10px; margin-top:60px">
             <div id="viewModerator">
-                <div class="alert-space alert-please-wait"></div>
+                <div class="alert-space alert-general-please-wait"></div>
                 <div id="pinnedRTC" style="position: fixed; opacity: 0; z-index: 99"></div>
                 <div id="phase-content" class="hidden"></div>
             </div>
@@ -274,8 +274,8 @@ if ($h && $token && $studyId) {
 
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
                 $('#viewModerator').find('#phase-content').empty();
-                Moderator.renderView();
                 window.location.hash = getCurrentPhase().id;
+                Moderator.renderView();
             }
         </script>
     </body>

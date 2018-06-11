@@ -4630,6 +4630,11 @@
             "type": "warning",
             "text": "Bitte warten …"
         },
+        "generalPleaseWait": {
+            "id": "general-please-wait",
+            "type": "warning",
+            "text": "Bitte warten …"
+        },
         "noRecordedGestures": {
             "id": "no-recorded-gestures",
             "type": "warning",
@@ -4824,7 +4829,8 @@
                         "<p><strong>Ranking</strong>: Beim Ranking sind Optionen anzugeben, die der Proband dann mit Pfeil-Buttons sortieren soll, z.B. nach Wichtigkeit.</p>",
                         "<p><strong>Rating</strong>: Hiermit können Fragen erstellt werden, die Häufigkeiten, Zutreffensgrade oder Intensitäten graduell abstufen. Z.B. mit der Frage: <em>Wie anstrengend fanden Sie die Geste?</em> und deren Skalen von <em>überhaupt nicht anstrengend</em> bis <em>sehr anstrengend</em>.</p>",
                         "<p><strong>Matrix</strong>: Dieses Fragenformat stellt eine Erweiterung zum Rating dar. Es lassen sich damit z.B. Fragen wie: <em>Wie häufig arbeiten Sie mit den jeweiligen Gesten-Steuerungen</em> und deren Optionen: <em>Kinect</em>, <em>Leap Motion Controller</em>, <em>Nintendo Wii</em> und deren Skalen von <em>überhaupt nicht</em> bis <em>täglich</em> erstellen.</p>",
-                        "<p>Die Erstellung von Filterfragen ist mit GestureNote nicht möglich.</p>",
+                        "<p>Die Erstellung von Filterfragen ist mit GestureNote ebenfalls möglich. Dies wird jedoch nur für die Erstellung eigener Fragebögen und nicht für z.B. den GUS, UEQ oder SUS unterstützt.</p>",
+                        "<p>…</p>",
                         "<h4>Interview</h4><hr>",
                         "<p>Ein Interview ist wie ein Fragebogen zu behandeln, nur dass nicht der Proband die Antworten in die Antwortmasken eingibt, sondern der Moderator.</p>",
                         "<h4>Gesture Usability Scale (GUS)</h4><hr>",
@@ -4896,6 +4902,7 @@
                         "<p>Klicken Sie als erstes auf den Button <button class='btn btn-success btn-xs'>Prototyp öffnen</button>. Es öffnet sich ein neues Browserfenster (siehe oben) in dem die Zustände gerendert werden. Dieses Fenster soll dem Probanden übertragen werden. Klicken Sie anschließen in GestureNote auf <button class='btn btn-success btn-xs'>Screen-Sharing starten</button>. Es öffnet sich nun ein Dialog, in dem Sie das zu übertragende Browserfester unter dem Reiter Anwendungsfenster auswählen können. Bestätigen Sie die Auswahl mit einem Klick auf Teilen. Der Prototyp wird nun zum Probanden übertragen. Ändert sich der Zustand, sieht dies somit auch der Proband. Sie können das Browserfenster verschieben, ohne dass dies einen Einfluss auf die Darstellung beim Probanden hat. Ändern Sie die Größe des Fensters, wird die Ansicht beim Probanden passend skaliert (scale-to-fit).</p>",
                         "<h4>Fragebögen</h4><hr>",
                         "<p>Alle Fragebögen, sei es ein benutzerdefinierte Fragebogen, ein GUS, SUS oder UEQ, basieren auf den selben Funktionalitäten. Der Proband beantwortet die Fragen auf seinem Gerät. Die Antworten werden in Echtzeit zum Moderator übertragen, d.h. Sie sehen immer an welcher Stelle im Fragebogen sich ein Proband befindet und welche Antworten er gewählt hat. So können Sie nochmal nachhaken, falls es bei einer Frage Schwierigkeiten gibt. Bei einem Interview liest der Moderator die Fragen vor und gibt die Antworten des Probanden in das Formular ein.</p>",
+                        "<p>Sie können für eigene Fragebögen Filterfragen anlegen. Wurden Filterfragen angelegt, werden diese Infos entweder neben den einzelnen Auswahloptionen oder für die ganze Frage eingeblendet (wenn z.B. die Antwort/Auswahl egal ist, oder bei einer Summenfrage alle Antwortmöglichkeiten >= 2 sind). Scrollen Sie mit der Maus über das Symbol <b><i class='fa fa-info-circle'></i> Filter</b>, um die Informationen abzurufen. Sind Filterfragen vorhanden, werden die einzelnen Fragen sequentiell eingeblendet. Ohne Filterfragen werden alle Fragen eines Fragebogens gezeigt.</p>",
                         "<h4>Ermittlung</h4><hr>",
                         "<img class='svg-image' style='max-width:600px' src='img/de/introduction/study-preview/elicitation.svg' />",
                         "<p></p>",
@@ -5043,6 +5050,7 @@
                 "<h4>Fragebogen</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/participant/carousel-02-01.png' style='max-width:700px' />",
                 "<p>Die Darstellung von Fragebögen und deren Antworten ist überall identisch. Für jede Frage werden die allgemeinen Informationen und die gegebenen Antworten angezeigt. Hinweise erleichtern eine schnelle Übersicht, ob z.B. eine Frage unbeantwortet blieb oder ob eine Rating gut oder schlecht ausfällt. Dies umfasst die Leitfadenformate <em>Fragebogen</em>, <em>Interview</em>, <em>Gesture Usability Scale</em>, <em>User Experience Questionnaire</em> und <em>System Usability Scale</em>.</p>",
+                "<p>Wurden Filterfragen angelegt, werden die Infos äquivalent zur Durchführung, entweder neben den einzelnen Auswahloptionen oder für die ganze Frage eingeblendet (wenn z.B. die Antwort/Auswahl egal ist, oder bei einer Summenfrage alle Antwortmöglichkeiten >= 2 sind). Scrollen Sie mit der Maus über das Symbol <b><i class='fa fa-info-circle'></i> Filter</b>, um die Informationen abzurufen.</p>",
                 "<h4>Systen Usabilty Scale</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/participant/carousel-02-03.png' style='max-width:701px' />",
                 "<p>Eine Besonderheit beim System Usability Scale ist die Punkteskala, die erscheint, wenn dieser Leitfadenschritt ausgewählt wurde. Die Skala visualiert, wie das System vom Probanden insgesamt bewertet wurde. Dazu müssen alle Fragen des SUS beantwortet werden.</p>",

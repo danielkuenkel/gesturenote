@@ -86,6 +86,7 @@ var ALERT_STUDY_OVER_RANGE = 'study-over-range';
 var ALERT_STUDY_UNDER_RANGE = 'study-under-range';
 
 var ALERT_PLEASE_WAIT = 'please-wait';
+var ALERT_GENERAL_PLEASE_WAIT = 'general-please-wait';
 
 var ALERT_NO_RECORDED_GESTURES = 'no-recorded-gestures';
 var ALERT_NO_GESTURES_CLASSIFIED = 'no-gestures-classified';

@@ -297,13 +297,12 @@ if (login_check($mysqli) == true) {
 
             function renderPhaseStep() {
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
+                window.location.hash = getCurrentPhase().id;
                 if (currentView === VIEW_TESTER) {
                     renderPhaseStepForTester();
                 } else {
                     renderPhaseStepForModerator();
                 }
-
-                window.location.hash = getCurrentPhase().id;
             }
 
             function resetRenderedContent() {

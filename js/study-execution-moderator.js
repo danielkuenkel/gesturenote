@@ -3515,11 +3515,12 @@ var Moderator = {
 
             $(peerConnection).unbind(CONNECTION_STATE_CONNECTED).bind(CONNECTION_STATE_CONNECTED, function () {
                 console.log('connected: ', CONNECTION_STATE_CONNECTED);
-                clearAlerts($('#viewModerator'));
+                removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
+//                clearAlerts($('#viewModerator'));
                 $('#viewModerator').find('#phase-content').removeClass('hidden');
                 $('#viewModerator').find('#pinnedRTC').css({opacity: 1});
                 pinRTC();
-                updateRTCHeight($('#viewModerator #column-left').width());
+                updateRTCHeight($('#viewModerator #column-left').width(), true);
             });
 
             $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
@@ -3527,7 +3528,7 @@ var Moderator = {
                 clearAlerts($('#viewModerator'));
                 if (getCurrentPhase().format !== THANKS) {
                     console.log('append alert please wait', $('#viewModerator'));
-                    appendAlert($('#viewModerator'), ALERT_PLEASE_WAIT);
+                    appendAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
                     $('#viewModerator').find('#phase-content').addClass('hidden');
                     $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
                 }
@@ -3537,7 +3538,7 @@ var Moderator = {
                 console.log('videoRemoved');
                 clearAlerts($('#viewModerator'));
                 if (getCurrentPhase().format !== THANKS) {
-                    appendAlert($('#viewModerator'), ALERT_PLEASE_WAIT);
+                    appendAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
                     $('#viewModerator').find('#phase-content').addClass('hidden');
                     $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
                 }

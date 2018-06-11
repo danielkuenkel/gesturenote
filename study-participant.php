@@ -53,6 +53,7 @@ if (login_check($mysqli) == true) {
         <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/rtc-result-player.js"></script>
+        <script src="js/study-execution.js"></script>
 
         <!-- leap and plugins -->
         <script src="js/leapjs/leap-0.6.4.min.js"></script>
@@ -390,8 +391,8 @@ if (login_check($mysqli) == true) {
                     $(this).addClass('active');
                     var selectedId = $(this).attr('id');
                     $("html, body").animate({scrollTop: 0}, 100);
-                    renderStudyPhaseResult(selectedId);
                     window.location.hash = selectedId;
+                    renderStudyPhaseResult(selectedId);
                 }
             });
 

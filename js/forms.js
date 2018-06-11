@@ -54,7 +54,7 @@ $(document).on('change', '.scaleSelect', function (event, result) {
             }
         }
 
-        console.log(count, defaultOptions);
+//        console.log(count, defaultOptions);
 
         renderScaleItems(scaleItemContainer, count, defaultOptions);
     }
@@ -611,14 +611,17 @@ function getFilterOptions(format, element) {
 
 function getFilterOptionsById(filterOptions, id) {
     if (filterOptions && filterOptions.length > 0) {
-        var filters = [];
+        var optionFilters = [];
+        var noMatterFilters = [];
+
         for (var i = 0; i < filterOptions.length; i++) {
-//            console.log(filterOptions[i], id);
-            if (parseInt(filterOptions[i].filterAtAnswer) === parseInt(id) || filterOptions[i].filterAtAnswer === id) {
-                filters.push(filterOptions[i]);
+            if (parseInt(filterOptions[i].filterAtAnswer) === parseInt(id) || filterOptions[i].filterAtAnswer === id || (id === 'all' && filterOptions[i].filterAtAnswer !== 'noMatterAnswer')) {
+                optionFilters.push(filterOptions[i]);
+            } else if (filterOptions[i].filterAtAnswer === 'noMatterAnswer' || (filterOptions[i].filterAtAnswer === 'noMatterAnswer' && id === 'all')) {
+                noMatterFilters.push(filterOptions[i]);
             }
         }
-        return filters.length > 0 ? filters : null;
+        return {optionFilters: unique(optionFilters), noMatterFilters: unique(noMatterFilters)};
     }
     return null;
 }
@@ -675,31 +678,18 @@ function renderQuestionnaire(target, questionnaire, answers, forceFilters) {
                         $(doneQuestionnaireButton).addClass('hidden');
                     }
                 } else {
-                    console.log('stack not empty, render question');
-                    renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
-                    $(nextQuestionButton).removeClass('hidden');
-                    $(doneQuestionnaireButton).addClass('hidden');
+                    if (filterQuestionStack.length === 1 && filterQuestionStack[0] === 'nextStep') {
+                        console.log('stack not empty, but jump to next step');
+                        renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
+                        $(nextQuestionButton).addClass('hidden');
+                        $(doneQuestionnaireButton).removeClass('hidden');
+                    } else {
+                        console.log('stack not empty, render question');
+                        renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
+                        $(nextQuestionButton).removeClass('hidden');
+                        $(doneQuestionnaireButton).addClass('hidden');
+                    }
                 }
-
-//                if (currentQuestionIndex >= questionnaire.length) {
-//                    $(nextQuestionButton).addClass('hidden');
-//                    $(doneQuestionnaireButton).addClass('hidden');
-//                    $(target).find('.question-container').empty();
-//                    appendAlert(target, ALERT_WAITING_FOR_MODERATOR);
-//                    $(target).find('.question-container').trigger('questionnaireDone');
-////                    console.log('finish questionnaire');
-//                } else if (currentQuestionIndex >= questionnaire.length - 1) {
-////                    console.log('we are at last question', filterQuestionStack);
-//                    if (filterQuestionStack.length === 0) {
-//                        renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
-//                        $(nextQuestionButton).addClass('hidden');
-//                        $(doneQuestionnaireButton).removeClass('hidden');
-//                    } else {
-//                        renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
-//                    }
-//                } else {
-//                    renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
-//                }
             }
         });
 
@@ -900,26 +890,16 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
             break;
     }
 
-    console.log('filterOptions', question.format, filterOptions, answers);
     if (filterOptions) {
         var tempJumpIds = [];
-
-//        console.log('answers', answers, filterOptions);
 
         for (var i = 0; i < answers.length; i++) {
             var answer = answers[i].answer;
             for (var j = 0; j < filterOptions.length; j++) {
                 var filterOption = filterOptions[j];
 
-//                if (filterOption.filterAtAnswer === 'noMatterAnswer') {
-//                    if (tempJumpIds.length === 0) {
-//                        tempJumpIds = [filterOption.filterJump];
-//                    } else {
-//                        tempJumpIds.push(filterOption.filterJump);
-//                    }
-//                }
-
                 switch (question.format) {
+                    case OPEN_QUESTION:
                     case DICHOTOMOUS_QUESTION:
                         if (answer.selectedSwitch === filterOption.filterAtAnswer || filterOption.filterAtAnswer === 'noMatterAnswer') {
                             if (tempJumpIds.length === 0) {
@@ -931,8 +911,9 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                         break;
                     case GROUPING_QUESTION:
                     case GROUPING_QUESTION_OPTIONS:
-                        for (var id in answer) {
-                            if (answer.hasOwnProperty(id) && ((answer[id].selected === 'yes' && parseInt(id) === parseInt(filterOption.filterAtAnswer)) || (id === 'optionalAnswer' && filterOption.filterAtAnswer === 'optionalAnswer' && answer.optionalAnswer !== '') || filterOption.filterAtAnswer === 'noMatterAnswer')) {
+                        for (var k = 0; k < answer.selections.length; k++) {
+
+                            if (((answer.selections[k].selected === 'yes' && parseInt(answer.selections[k].id) === parseInt(filterOption.filterAtAnswer)) || (answer.selections[k].id === 'optionalAnswer' && filterOption.filterAtAnswer === 'optionalAnswer' && answer.selections[k].content !== '') || filterOption.filterAtAnswer === 'noMatterAnswer')) {
                                 if (tempJumpIds.length === 0) {
                                     tempJumpIds = [filterOption.filterJump];
                                 } else {
@@ -954,7 +935,6 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                         tempJumpIds = unique(tempJumpIds);
                         break;
                     case RANKING:
-//                        console.log(answer);
                         if (parseInt(answer.arrangement[parseInt(filterOption.filterAtPosition) - 1]) === parseInt(filterOption.filterAtAnswer) || filterOption.filterAtAnswer === 'noMatterAnswer') {
                             if (tempJumpIds.length === 0) {
                                 tempJumpIds = [filterOption.filterJump];
@@ -977,7 +957,6 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                         tempJumpIds = unique(tempJumpIds);
                         break;
                     case COUNTER:
-//                        console.log(answer, filterOption);
                         var value = parseInt(filterOption.value);
                         var count = parseInt(answer.count);
                         var jumpIds = [];
@@ -1019,7 +998,6 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
                         }
                         break;
                     case SUM_QUESTION:
-//                        console.log(answer, filterOption);
                         var sumCounts = answer.sumCounts;
                         for (var k = 0; k < sumCounts.length; k++) {
                             if (parseInt(sumCounts[k].id) === parseInt(filterOption.filterAtAnswer) || filterOption.filterAtAnswer === 'noMatterAnswer') {
@@ -1074,9 +1052,6 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
         if (tempJumpIds.length > 0) {
             if (filterQuestionStack.length === 0) {
                 filterQuestionStack = tempJumpIds;
-//                for (var i = 0; i < tempJumpIds.length; i++) {
-//                    filterQuestionStack.push(tempJumpIds[i]);
-//                }
             } else {
                 tempJumpIds = tempJumpIds.reverse();
                 for (var i = 0; i < tempJumpIds.length; i++) {
@@ -1103,10 +1078,13 @@ function getNextQuestionIndex(target, currentQuestionIndex, questionnaire) {
             currentQuestionIndex++;
         }
     }
+
+    filterQuestionStack = unique(filterQuestionStack);
     return currentQuestionIndex;
 }
 
 function getQuestionIndex(questionnaire, id) {
+//    console.log('getget question index: ', questionnaire, id);
     if (questionnaire && questionnaire.length > 0) {
         for (var i = 0; i < questionnaire.length; i++) {
             var question = questionnaire[i];
@@ -1115,6 +1093,7 @@ function getQuestionIndex(questionnaire, id) {
             }
         }
     }
+    return null;
 }
 /* 
  * get questionnaire form answers
@@ -1506,7 +1485,6 @@ function getAnswerForId(id, data, sequentialAnswerSearch, index) {
 
 function renderCounter(item, studyData, answer) {
     var parameters = studyData.parameters;
-//    $(item).find('.question').text(studyData.question);
     $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
     $(item).find('#counter-label .counter-to').text(translation.to + ' ' + translation.maximal + ' ' + parameters.countTo);
     if (answer && answer.count && answer.count !== '') {
@@ -1516,7 +1494,7 @@ function renderCounter(item, studyData, answer) {
         $(item).find('#no-answer').removeClass('hidden');
     }
 
-    renderFilterOptionsData(COUNTER, item, studyData.filterOptions);
+    renderFilterOptionsData(COUNTER, item, getFilterOptionsById(studyData.filterOptions, 'all'));
 }
 
 function renderEditableCounter(item, studyData, answer) {
@@ -1553,7 +1531,7 @@ function renderOpenQuestion(item, studyData, answer) {
         }
     }
 
-    renderFilterOptionsData(OPEN_QUESTION, item, studyData.filterOptions);
+    renderFilterOptionsData(OPEN_QUESTION, item, getFilterOptionsById(studyData.filterOptions, 'all'));
 }
 
 function renderEditableOpenQuestion(item, studyData, answer) {
@@ -1566,8 +1544,11 @@ function renderEditableOpenQuestion(item, studyData, answer) {
 
 function renderDichotomousQuestion(item, studyData, answer) {
     var options = [{id: 'yes', title: translation.yes}, {id: 'no', title: translation.no}];
+//    renderFilterOptionsData(DICHOTOMOUS_QUESTION, item, studyData.filterOptions, true);
+
     for (var i = 0; i < options.length; i++) {
         var optionItem = $('#template-study-container').find('#dichotomous-question-item').clone();
+        $(optionItem).attr('data-id', options[i].id);
         $(optionItem).find('.option-text').text(options[i].title);
         $(item).find('.option-container').append(optionItem);
 
@@ -1602,6 +1583,8 @@ function renderDichotomousQuestion(item, studyData, answer) {
     } else {
         $(item).find('#no-justification').removeClass('hidden');
     }
+
+//    renderFilterOptionsData(DICHOTOMOUS_QUESTION, item, studyData.filterOptions);
 }
 
 function renderEditableDichotomousQuestion(item, studyData, answer) {
@@ -1631,11 +1614,13 @@ function renderGroupingQuestion(item, studyData, answer) {
         $(item).find('#singleselect').removeClass('hidden');
     }
 
-    console.log('answer:', answer);
+//    renderFilterOptionsData(GROUPING_QUESTION, item, studyData.filterOptions, true);
 
+//    console.log('answer:', answer);
 
     for (var i = 0; i < studyData.options.length; i++) {
         var optionItem = $('#template-study-container').find('#grouping-question-item').clone();
+        $(optionItem).attr('data-id', studyData.options[i].id);
         $(optionItem).find('.option-text').text(studyData.options[i].title);
         $(item).find('.option-container').append(optionItem);
 
@@ -1655,7 +1640,7 @@ function renderGroupingQuestion(item, studyData, answer) {
             }
         }
 
-        console.log('answer value:', answerValue, optionalAnswerValue);
+//        console.log('answer value:', answerValue, optionalAnswerValue);
 
         if (studyData.options[i].justification === 'yes') {
             optionItem.find('#justification').removeClass('hidden');
@@ -1672,7 +1657,7 @@ function renderGroupingQuestion(item, studyData, answer) {
                 } else if (studyData.options[i].justificationFor === 'selectNothing') {
                     if (answerValue.selected === 'no' && answerValue.justification !== '') {
                         $(optionItem).find('#justification-content').removeClass('hidden');
-                        $(optionItem).find('#justification-content .text').text(values.justification);
+                        $(optionItem).find('#justification-content .text').text(answerValue.justification);
                     } else if (answerValue.selected === 'no') {
                         $(optionItem).find('#no-answer-justification').removeClass('hidden');
                     }
@@ -1691,7 +1676,7 @@ function renderGroupingQuestion(item, studyData, answer) {
 
         if (answerValue) {
 
-            console.log(answer, answerValue);
+//            console.log(answer, answerValue);
             if (answerValue.selected === 'yes') {
                 $(item).find('#no-answer').addClass('hidden');
                 $(optionItem).find('.option-text').addClass('bordered-scale-item');
@@ -1724,7 +1709,7 @@ function renderGroupingQuestion(item, studyData, answer) {
             }
         }
 
-        console.log('optional answer value:', optionalAnswerValue);
+//        console.log('optional answer value:', optionalAnswerValue);
 
         $(item).find('#optionalanswer').removeClass('hidden');
         $(item).find('#optionalanswer-content').removeClass('hidden');
@@ -1761,19 +1746,22 @@ function renderEditableGroupingQuestion(item, studyData, answer) {
     }
 
     if (answer) {
-        for (var id in answer) {
-            if (answer.hasOwnProperty(id) && answer[id].selected === 'yes') {
-                var optionButton = $(item).find('#' + id);
-                checkOption(optionButton);
-                var justificationInput = $(optionButton).closest('.formgroup').find('#justificationInput');
-                $(justificationInput).val(answer[id].justification);
-            }
-        }
+        for (var i = 0; i < answer.selections.length; i++) {
+            if (answer.selections[i].selected === 'yes' || answer.selections[i].id === 'optionalAnswer') {
 
-        if (answer.optionalAnswer !== '') {
-            checkOption($(item).find('#checkbox-optionalanswer .btn-checkbox'));
-            checkOption($(item).find('#radio-optionalanswer .btn-radio'));
-            $(item).find('.optionalInput').val(answer.optionalAnswer);
+                if (answer.selections[i].id === 'optionalAnswer') {
+                    if (answer.selections[i].content !== '') {
+                        checkOption($(item).find('#checkbox-optionalanswer .btn-checkbox'));
+                        checkOption($(item).find('#radio-optionalanswer .btn-radio'));
+                        $(item).find('.optionalInput').val(answer.selections[i].content);
+                    }
+                } else {
+                    var optionButton = $(item).find('#' + answer.selections[i].id);
+                    checkOption(optionButton);
+                    var justificationInput = $(optionButton).closest('.formgroup').find('#justificationInput');
+                    $(justificationInput).val(answer.selections[i].justification);
+                }
+            }
         }
     }
 }
@@ -1799,96 +1787,223 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
         }
     }
 
+//    renderFilterOptionsData(GROUPING_QUESTION, item, studyData.filterOptions, true);
+
+//    if (studyData.parameters.multiselect === 'yes') {
+//        item.find('#multiselect').removeClass('hidden');
+//    } else {
+//        item.find('#singleselect').removeClass('hidden');
+//    }
+//
+//    if (studyData.parameters.optionalanswer === 'yes') {
+//        $(item).find('#optionalanswer').removeClass('hidden');
+//        if (answer) {
+//            if (answer.optionalAnswer !== '') {
+//                $(item).find('#no-answer').addClass('hidden');
+//                $(item).find('#optionalanswer-content').removeClass('hidden');
+//                $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
+//            } else {
+//                $(item).find('#no-optional-answer').removeClass('hidden');
+//            }
+//        }
+//    }
+//
+//    if (options && options.length > 0) {
+//        for (var i = 0; i < options.length; i++) {
+//            var optionItem = $('#template-study-container').find('#grouping-question-item').clone();
+//            $(optionItem).find('.option-text').text(options[i].title);
+//            $(item).find('.option-container').append(optionItem);
+//
+//            if (i < options.length) {
+//                var hr = document.createElement('hr');
+//                $(hr).css({marginTop: "15px", marginBottom: "5px"});
+//                $(item).find('.option-container').append(hr);
+//            }
+//
+//            if (studyData.parameters.justification === 'yes') {
+//                optionItem.find('#justification').removeClass('hidden');
+//                optionItem.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
+//
+//                if (answer) {
+//                    var values = answer[options[i].id];
+//                    if (studyData.parameters.justificationFor === 'selectOne') {
+//                        if (values.selected === 'yes' && values.justification !== '') {
+//                            $(optionItem).find('#justification-content').removeClass('hidden');
+//                            $(optionItem).find('#justification-content .text').text(values.justification);
+//                        } else if (values.selected === 'yes') {
+//                            $(optionItem).find('#no-answer-justification').removeClass('hidden');
+//                        }
+//                    } else if (studyData.parameters.justificationFor === 'selectNothing') {
+//                        if (values.selected === 'no' && values.justification !== '') {
+//                            $(optionItem).find('#justification-content').removeClass('hidden');
+//                            $(optionItem).find('#justification-content .text').text(values.justification);
+//                        } else if (values.selected === 'no') {
+//                            $(optionItem).find('#no-answer-justification').removeClass('hidden');
+//                        }
+//                    } else if (studyData.parameters.justificationFor === 'always' && values.justification !== '') {
+//                        $(optionItem).find('#justification-content').removeClass('hidden');
+//                        $(optionItem).find('#justification-content .text').text(values.justification);
+//                    } else {
+//                        $(optionItem).find('#no-answer-justification').removeClass('hidden');
+//                    }
+//                } else {
+//                    $(item).find('#no-answer').removeClass('hidden');
+//                }
+//            } else {
+//                optionItem.find('#no-justification').removeClass('hidden');
+//            }
+//
+//            if (answer) {
+//                var value = answer[options[i].id];
+//                if (value.selected === 'yes') {
+//                    $(item).find('#no-answer').addClass('hidden');
+//                    $(optionItem).find('.option-text').addClass('bordered-scale-item');
+//                    if (i > 0) {
+//                        $(optionItem).find('.option-text').css({marginTop: '5px'});
+//                    }
+//                } else {
+//                    $(optionItem).find('.option-text').css({paddingLeft: "0px"});
+//                }
+//
+//                if (studyData.parameters.optionSource === 'gestures') {
+//                    var gesture = getGestureById(options[i].id);
+//                    var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
+//                    button.attr('name', gesture.id);
+//                    $(button).insertAfter($(optionItem).find('.option-text'));
+//                    $(button).css({border: '1px solid rgba(0,0,0,0.3)'});
+//                }
+//            } else {
+//                $(optionItem).find('.option-text').css({paddingLeft: "0px"});
+//            }
+//
+//            renderFilterOptionsData(GROUPING_QUESTION_OPTIONS, optionItem, getFilterOptionsById(studyData.filterOptions, options[i].id));
+//        }
+//    }
+
     if (studyData.parameters.multiselect === 'yes') {
-        item.find('#multiselect').removeClass('hidden');
+        $(item).find('#multiselect').removeClass('hidden');
     } else {
-        item.find('#singleselect').removeClass('hidden');
+        $(item).find('#singleselect').removeClass('hidden');
     }
 
-    if (studyData.parameters.optionalanswer === 'yes') {
-        $(item).find('#optionalanswer').removeClass('hidden');
-        if (answer) {
-            if (answer.optionalAnswer !== '') {
-                $(item).find('#no-answer').addClass('hidden');
-                $(item).find('#optionalanswer-content').removeClass('hidden');
-                $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
-            } else {
-                $(item).find('#no-optional-answer').removeClass('hidden');
+//    console.log('answer:', answer);
+
+    for (var i = 0; i < options.length; i++) {
+        var optionItem = $('#template-study-container').find('#grouping-question-item').clone();
+        $(optionItem).find('.option-text').text(options[i].title);
+        $(optionItem).attr('data-id', options[i].id);
+        $(item).find('.option-container').append(optionItem);
+
+        if (i < options.length - 1) {
+            var hr = document.createElement('hr');
+            $(hr).css({marginTop: "15px", marginBottom: "5px"});
+            $(item).find('.option-container').append(hr);
+        }
+
+        var answerValue = null;
+        if (answer && answer.selections && answer.selections.length > 0) {
+            for (var j = 0; j < answer.selections.length; j++) {
+                if (parseInt(answer.selections[j].id) === parseInt(options[i].id)) {
+                    answerValue = answer.selections[j];
+                    break;
+                }
             }
         }
-    }
 
-    if (options && options.length > 0) {
-        for (var i = 0; i < options.length; i++) {
-            var optionItem = $('#template-study-container').find('#grouping-question-item').clone();
-            $(optionItem).find('.option-text').text(options[i].title);
-            $(item).find('.option-container').append(optionItem);
+//        console.log('answer value:', answerValue, optionalAnswerValue);
 
-            if (i < options.length) {
-                var hr = document.createElement('hr');
-                $(hr).css({marginTop: "15px", marginBottom: "5px"});
-                $(item).find('.option-container').append(hr);
-            }
+        if (studyData.parameters.justification === 'yes') {
+            optionItem.find('#justification').removeClass('hidden');
+            optionItem.find('#' + options[i].justificationFor).removeClass('hidden');
 
-            if (studyData.parameters.justification === 'yes') {
-                optionItem.find('#justification').removeClass('hidden');
-                optionItem.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
-
-                if (answer) {
-                    var values = answer[options[i].id];
-                    if (studyData.parameters.justificationFor === 'selectOne') {
-                        if (values.selected === 'yes' && values.justification !== '') {
-                            $(optionItem).find('#justification-content').removeClass('hidden');
-                            $(optionItem).find('#justification-content .text').text(values.justification);
-                        } else if (values.selected === 'yes') {
-                            $(optionItem).find('#no-answer-justification').removeClass('hidden');
-                        }
-                    } else if (studyData.parameters.justificationFor === 'selectNothing') {
-                        if (values.selected === 'no' && values.justification !== '') {
-                            $(optionItem).find('#justification-content').removeClass('hidden');
-                            $(optionItem).find('#justification-content .text').text(values.justification);
-                        } else if (values.selected === 'no') {
-                            $(optionItem).find('#no-answer-justification').removeClass('hidden');
-                        }
-                    } else if (studyData.parameters.justificationFor === 'always' && values.justification !== '') {
+            if (answerValue) {
+                if (studyData.parameters.justificationFor === 'selectOne') {
+                    if (answerValue.selected === 'yes' && answerValue.justification !== '') {
                         $(optionItem).find('#justification-content').removeClass('hidden');
-                        $(optionItem).find('#justification-content .text').text(values.justification);
-                    } else {
+                        $(optionItem).find('#justification-content .text').text(answerValue.justification);
+                    } else if (answerValue.selected === 'yes') {
                         $(optionItem).find('#no-answer-justification').removeClass('hidden');
                     }
+                } else if (studyData.parameters.justificationFor === 'selectNothing') {
+                    if (answerValue.selected === 'no' && answerValue.justification !== '') {
+                        $(optionItem).find('#justification-content').removeClass('hidden');
+                        $(optionItem).find('#justification-content .text').text(answerValue.justification);
+                    } else if (answerValue.selected === 'no') {
+                        $(optionItem).find('#no-answer-justification').removeClass('hidden');
+                    }
+                } else if (studyData.parameters.justificationFor === 'always' && answerValue.justification !== '') {
+                    $(optionItem).find('#justification-content').removeClass('hidden');
+                    $(optionItem).find('#justification-content .text').text(answerValue.justification);
                 } else {
-                    $(item).find('#no-answer').removeClass('hidden');
+                    $(optionItem).find('#no-answer-justification').removeClass('hidden');
                 }
             } else {
-                optionItem.find('#no-justification').removeClass('hidden');
+                $(item).find('#no-answer').removeClass('hidden');
             }
+        } else {
+            optionItem.find('#no-justification').removeClass('hidden');
+        }
 
-            if (answer) {
-                var value = answer[options[i].id];
-                if (value.selected === 'yes') {
-                    $(item).find('#no-answer').addClass('hidden');
-                    $(optionItem).find('.option-text').addClass('bordered-scale-item');
-                    if (i > 0) {
-                        $(optionItem).find('.option-text').css({marginTop: '5px'});
-                    }
-                } else {
-                    $(optionItem).find('.option-text').css({paddingLeft: "0px"});
-                }
+        if (answerValue) {
 
-                if (studyData.parameters.optionSource === 'gestures') {
-                    var gesture = getGestureById(options[i].id);
-                    var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
-                    button.attr('name', gesture.id);
-                    $(button).insertAfter($(optionItem).find('.option-text'));
-                    $(button).css({border: '1px solid rgba(0,0,0,0.3)'});
+//            console.log(answer, answerValue);
+            if (answerValue.selected === 'yes') {
+                $(item).find('#no-answer').addClass('hidden');
+                $(optionItem).find('.option-text').addClass('bordered-scale-item');
+                if (i > 0) {
+                    $(optionItem).find('.option-text').css({marginTop: '5px'});
                 }
             } else {
                 $(optionItem).find('.option-text').css({paddingLeft: "0px"});
             }
 
-            renderFilterOptionsData(GROUPING_QUESTION_OPTIONS, optionItem, getFilterOptionsById(studyData.filterOptions, options[i].id));
+        } else {
+            $(optionItem).find('.option-text').css({paddingLeft: "0px"});
         }
+
+        renderFilterOptionsData(GROUPING_QUESTION, optionItem, getFilterOptionsById(studyData.filterOptions, options[i].id));
     }
+
+    if (studyData.parameters.optionalanswer === 'yes') {
+//        var hr = document.createElement('hr');
+//        $(hr).css({marginTop: "15px", marginBottom: "5px"});
+//        $(item).find('.option-container').append(hr);
+
+        var optionalAnswerValue = null;
+        if (answer && answer.selections && answer.selections.length > 0) {
+            for (var j = 0; j < answer.selections.length; j++) {
+                if (answer.selections[j].id === 'optionalAnswer') {
+                    optionalAnswerValue = answer.selections[j];
+                    break;
+                }
+            }
+        }
+
+//        console.log('optional answer value:', optionalAnswerValue);
+
+        $(item).find('#optionalanswer').removeClass('hidden');
+        $(item).find('#optionalanswer-content').removeClass('hidden');
+
+        if (optionalAnswerValue) {
+            if (optionalAnswerValue.content !== '') {
+                $(item).find('#optionalanswer-content .address').addClass('bordered-scale-item');
+                $(item).find('#optionalanswer-content .text').text(optionalAnswerValue.content);
+                $(item).find('#no-answer').addClass('hidden');
+            } else {
+                $(item).find('#optionalanswer-content .address').css({paddingLeft: "0px"});
+                $(item).find('#optionalanswer-content .text').text('-');
+                $(item).find('#no-optional-answer').removeClass('hidden');
+            }
+        } else {
+            $(item).find('#optionalanswer-content .address').css({paddingLeft: "0px"});
+            $(item).find('#optionalanswer-content .text').text('-');
+            $(item).find('#no-optional-answer').removeClass('hidden');
+        }
+
+        renderFilterOptionsData(GROUPING_QUESTION, $(item).find('#optionalanswer-content'), getFilterOptionsById(studyData.filterOptions, 'optionalAnswer'));
+    }
+
+//    renderFilterOptionsData(GROUPING_QUESTION, item, studyData.filterOptions);
 }
 
 
@@ -1902,20 +2017,38 @@ function renderEditableGroupingQuestionGUS(item, studyData, answer) {
     }
 
     if (answer) {
-        for (var id in answer) {
-            if (answer.hasOwnProperty(id) && answer[id].selected === 'yes') {
-                var optionButton = $(item).find('#' + id);
-                checkOption(optionButton);
-                var justificationInput = $(optionButton).closest('.formgroup').find('#justificationInput');
-                $(justificationInput).val(answer[id].justification);
+
+        for (var i = 0; i < answer.selections.length; i++) {
+            if (answer.selections[i].selected === 'yes' || answer.selections[i].id === 'optionalAnswer') {
+                if (answer.selections[i].id === 'optionalAnswer') {
+                    if (answer.selections[i].content !== '') {
+                        checkOption($(item).find('#checkbox-optionalanswer .btn-checkbox'));
+                        checkOption($(item).find('#radio-optionalanswer .btn-radio'));
+                        $(item).find('.optionalInput').val(answer.selections[i].content);
+                    }
+                } else {
+                    var optionButton = $(item).find('#' + answer.selections[i].id);
+                    checkOption(optionButton);
+                    var justificationInput = $(optionButton).closest('.formgroup').find('#justificationInput');
+                    $(justificationInput).val(answer.selections[i].justification);
+                }
             }
         }
 
-        if (answer.optionalAnswer !== '') {
-            checkOption($(item).find('#checkbox-optionalanswer .btn-checkbox'));
-            checkOption($(item).find('#radio-optionalanswer .btn-radio'));
-            $(item).find('.optionalInput').val(answer.optionalAnswer);
-        }
+//        for (var id in answer) {
+//            if (answer.hasOwnProperty(id) && answer[id].selected === 'yes') {
+//                var optionButton = $(item).find('#' + id);
+//                checkOption(optionButton);
+//                var justificationInput = $(optionButton).closest('.formgroup').find('#justificationInput');
+//                $(justificationInput).val(answer[id].justification);
+//            }
+//        }
+//
+//        if (answer.optionalAnswer !== '') {
+//            checkOption($(item).find('#checkbox-optionalanswer .btn-checkbox'));
+//            checkOption($(item).find('#radio-optionalanswer .btn-radio'));
+//            $(item).find('.optionalInput').val(answer.optionalAnswer);
+//        }
     }
 }
 
@@ -1925,6 +2058,8 @@ function renderRating(item, studyData, answer) {
     } else {
         $(item).find('#positive').removeClass('hidden');
     }
+
+//    renderFilterOptionsData(RATING, item, studyData.filterOptions, true);
 
     var optionItem = $('#template-study-container').find('#rating-item').clone();
     $(item).find('.option-container').append(optionItem);
@@ -1997,6 +2132,8 @@ function renderMatrix(item, studyData, answer) {
             $(item).find('.option-container').append(hr);
         }
 
+//        renderFilterOptionsData(MATRIX, optionItem, studyData.options[i].filterOptions, true);
+
         if (answer) {
             var score = 0;
             var maxScore = studyData.options[i].scales.length;
@@ -2020,12 +2157,14 @@ function renderMatrix(item, studyData, answer) {
             for (var j = 0; j < studyData.options[i].scales.length; j++) {
                 var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
                 $(optionItem).find('#scale-container').append(scaleItem);
+                $(scaleItem).attr('id', studyData.options[i].scales[j].id);
                 $(scaleItem).find('.option-text').text((j + 1) + '. ' + studyData.options[i].scales[j].title);
                 if (j === selectedScale) {
                     $(scaleItem).find('.option-text').addClass('bordered-scale-item');
                 } else {
                     $(scaleItem).find('.option-text').css({paddingLeft: "0px"});
                 }
+                renderFilterOptionsData(MATRIX, scaleItem, getFilterOptionsById(studyData.options[i].filterOptions, studyData.options[i].scales[j].id));
 
 //                if (j < studyData.options[i].scales.length - 1) {
 //                    var breakItem = document.createElement('br');
@@ -2036,11 +2175,21 @@ function renderMatrix(item, studyData, answer) {
             $(optionItem).find('#score-container').remove();
             $(item).find('#no-answer').removeClass('hidden');
 
+            if (studyData.options[i].negative === 'yes') {
+                $(optionItem).find('#negative').removeClass('hidden');
+//                score = studyData.options[i].scales.length - selectedScale;
+            } else {
+                $(optionItem).find('#positive').removeClass('hidden');
+//                score = selectedScale + 1;
+            }
+
             for (var j = 0; j < studyData.options[i].scales.length; j++) {
                 var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
+                $(scaleItem).attr('id', studyData.options[i].scales[j].id);
                 $(optionItem).find('#scale-container').append(scaleItem);
                 $(scaleItem).find('.option-text').text((j + 1) + '. ' + studyData.options[i].scales[j].title);
                 $(scaleItem).find('.option-text').css({paddingLeft: "0px"});
+                renderFilterOptionsData(MATRIX, scaleItem, getFilterOptionsById(studyData.options[i].filterOptions, studyData.options[i].scales[j].id));
 
 //                if (j < studyData.options[i].scales.length - 1) {
 //                    var breakItem = document.createElement('br');
@@ -2055,11 +2204,13 @@ function renderEditableMatrix(item, studyData, answer) {
     renderMatrixInput(item, studyData.options);
     if (answer && answer.scales && answer.scales.length > 0) {
         for (var i = 0; i < answer.scales.length; i++) {
+//            console.log('selected scales: ', answer.scales[i]);
             if (parseInt(answer.scales[i]) !== -1) {
                 var container = $(item).find('.scales-container')[i];
-                setTimeout(function (target, index) {
-                    $(target).find('.btn-radio')[index].click();
-                }, 100, container, parseInt(answer.scales[i].scale));
+                setTimeout(function (target, id) {
+//                    console.log($(target).find('#' + id));
+                    $(target).find('#' + id + ' .btn').click();
+                }, 100, container, parseInt(answer.scales[i].id));
             }
         }
     }
@@ -3306,49 +3457,107 @@ function getQuestionById(questionnaire, id) {
     return null;
 }
 
-function renderFilterOptionsData(format, target, filterOptions) {
-    if (filterOptions && filterOptions.length > 0) {
-        var filterOptionItem = $('#template-study-container').find('#filter-option-item').clone();
-        $(target).find('.filter-option').append(filterOptionItem);
-        var currentPhaseData = getCurrentPhaseData();
+function renderFilterOptionsData(format, target, filters) {
+    var status = window.location.hash.substr(1);
+    var statusAddressMatch = statusAddressMatchIndex(status);
+//    console.log('statusAddressMatch', statusAddressMatch);
+    if (statusAddressMatch !== null && statusAddressMatch.index) {
+        currentPhaseStepIndex = statusAddressMatch.index;
+        console.log(currentPhaseData);
+    }
 
+    var currentPhaseData = getCurrentPhaseData();
+
+    console.log('render filter data:', format, filters);
+
+    if (filters && filters.optionFilters && filters.optionFilters.length > 0) {
         var filterOptionDataContent = '';
 
-        for (var i = 0; i < filterOptions.length; i++) {
+        for (var i = 0; i < filters.optionFilters.length; i++) {
             var jumpQuestionIndex = 'nextStep';
-            if (filterOptions[i].filterJump !== 'nextStep') {
-                jumpQuestionIndex = getQuestionIndex(currentPhaseData, filterOptions[i].filterJump) + 1;
+            if (filters.optionFilters[i].filterJump !== 'nextStep') {
+                jumpQuestionIndex = getQuestionIndex(currentPhaseData, filters.optionFilters[i].filterJump) + 1;
             }
 
-            if (filterOptions[i].filterAtAnswer === 'noMatterAnswer') {
-                filterOptionDataContent += '<div>' + translation.NoMatterAnswer + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.and : '') + '</div>';
-            }
-
+//            if (filterOptions[i].filterAtAnswer === 'noMatterAnswer') {
+//                console.log('push no-matter-answer filter', format);
+//                noMatterFilterOptions.push(filterOptions[i]);
+//            } else {
             switch (format) {
                 case SUM_QUESTION:
-                    filterOptionDataContent += '<div>' + (i === 0 ? translation.Is : translation.is) + ' ' + translation.operators[filterOptions[i].operator].symbol + ' ' + filterOptions[i].value + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.or : '') + '</div>';
+                    filterOptionDataContent += '<div>' + (i === 0 ? translation.Is : translation.is) + ' ' + translation.operators[filters.optionFilters[i].operator].symbol + ' ' + filters.optionFilters[i].value + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filters.optionFilters.length - 1 ? ', ' + translation.or : '') + '</div>';
                     break;
                 case COUNTER:
-                    filterOptionDataContent += '<div>' + (i === 0 ? translation.Is : translation.is) + ' ' + translation.operators[filterOptions[i].operator].symbol + ' ' + filterOptions[i].value + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.or : '') + '</div>';
+                    filterOptionDataContent += '<div>' + (i === 0 ? translation.Is : translation.is) + ' ' + translation.operators[filters.optionFilters[i].operator].symbol + ' ' + filters.optionFilters[i].value + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filters.optionFilters.length - 1 ? ', ' + translation.or : '') + '</div>';
                     break;
                 case DICHOTOMOUS_QUESTION:
-                    filterOptionDataContent += '<div>' + translation.ForSelection + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.and : '') + '</div>';
+                    filterOptionDataContent += '<div>' + translation.ForSelection + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filters.optionFilters.length - 1 ? ', ' + translation.and : '') + '</div>';
                     break;
                 case GROUPING_QUESTION:
                 case GROUPING_QUESTION_OPTIONS:
-//                    console.log(filterOptions[i]);
-                    filterOptionDataContent += '<div>' + translation.ForSelection + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.and : '') + '</div>';
+//                    var optionItems = $(target).find('.option-container [data-id]');
+//                    console.log('option items', optionItems);
+                    filterOptionDataContent += '<div>' + translation.ForSelection + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filters.optionFilters.length - 1 ? ', ' + translation.and : '') + '</div>';
                     break;
                 case RATING:
-                    filterOptionDataContent += '<div>' + (i === 0 ? translation.ForSelection : '') + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filterOptions.length - 1 ? ', ' + translation.and : '') + '</div>';
+                    filterOptionDataContent += '<div>' + (i === 0 ? translation.ForSelection : '') + ': ' + translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex + (i < filters.optionFilters.length - 1 ? ', ' + translation.and : '') + '</div>';
                     break;
                 case RANKING:
-//                    console.log(filterOptions, jumpQuestionIndex);
-                    filterOptionDataContent += '<div>' + (i === 0 ? translation.AtPositionSelect : translation.atPositionSelect) + ' ' + filterOptions[i].filterAtPosition + ': ' + (jumpQuestionIndex === 'nextStep' ? translation.endQuestionnaire : (translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex)) + (i < filterOptions.length - 1 ? ', ' + translation.or : '') + '</div>';
+                    filterOptionDataContent += '<div>' + (i === 0 ? translation.AtPositionSelect : translation.atPositionSelect) + ' ' + filters.optionFilters[i].filterAtPosition + ': ' + (jumpQuestionIndex === 'nextStep' ? translation.endQuestionnaire : (translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex)) + (i < filters.optionFilters.length - 1 ? ', ' + translation.or : '') + '</div>';
+                    break;
+                case MATRIX:
+                    filterOptionDataContent += '<div>' + (i === 0 ? translation.ForSelection : '') + ': ' + (jumpQuestionIndex === 'nextStep' ? translation.endQuestionnaire : (translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex)) + (i < filters.optionFilters.length - 1 ? ', ' + translation.and : '') + '</div>';
+                    break;
+            }
+//            }
+        }
+
+        if (filterOptionDataContent !== '') {
+            var filterOptionItem = $('#template-study-container').find('#filter-option-item').clone();
+            $(target).find('.filter-option').append(filterOptionItem);
+            $(filterOptionItem).attr('data-content', filterOptionDataContent);
+        }
+
+
+//        if (noMatterFilterOptions && noMatterFilterOptions.length > 0) {
+//            
+//        }
+    }
+
+    if (filters && filters.noMatterFilters && filters.noMatterFilters.length > 0) {
+        var noMatterFilterOptionContent = '';
+        var noMatterFilterTarget = $(target).closest('.panel').find('.no-matter-filter-option');
+
+        for (var i = 0; i < filters.noMatterFilters.length; i++) {
+            var jumpQuestionIndex = 'nextStep';
+            if (filters.noMatterFilters[i].filterJump !== 'nextStep') {
+                jumpQuestionIndex = getQuestionIndex(currentPhaseData, filters.noMatterFilters[i].filterJump) + 1;
+            }
+
+            switch (format) {
+                case OPEN_QUESTION:
+                    noMatterFilterTarget = $(target).find('.no-matter-filter-option');
+                    noMatterFilterOptionContent += '<div>' + translation.NoMatterAnswer + ': ' + (jumpQuestionIndex === 'nextStep' ? translation.endQuestionnaire : (translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex)) + (i < filters.noMatterFilters.length - 1 ? ', ' + translation.and : '') + '</div>';
+                    break;
+                case SUM_QUESTION:
+                    noMatterFilterOptionContent += '<div>' + translation.NoMatterAnswer + ' ' + translation.operators[filters.noMatterFilters[i].operator].symbol + ' ' + filters.noMatterFilters[i].value + ': ' + (jumpQuestionIndex === 'nextStep' ? translation.endQuestionnaire : (translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex)) + (i < filters.noMatterFilters.length - 1 ? ', ' + translation.and : '') + '</div>';
+                    break;
+                case MATRIX:
+                    noMatterFilterTarget = $(target).closest('#matrix-item').find('.no-matter-filter-option');
+                    noMatterFilterOptionContent += '<div>' + translation.NoMatterAnswer + ': ' + (jumpQuestionIndex === 'nextStep' ? translation.endQuestionnaire : (translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex)) + (i < filters.noMatterFilters.length - 1 ? ', ' + translation.and : '') + '</div>';
+                    break;
+                default:
+                    noMatterFilterOptionContent += '<div>' + translation.NoMatterAnswer + ': ' + (jumpQuestionIndex === 'nextStep' ? translation.endQuestionnaire : (translation.goto + ' ' + translation.question + ' ' + jumpQuestionIndex)) + (i < filters.noMatterFilters.length - 1 ? ', ' + translation.and : '') + '</div>';
                     break;
             }
         }
+        console.log('there are no matter filters:', format, filters.noMatterFilters, target, noMatterFilterTarget);
 
-        $(filterOptionItem).attr('data-content', filterOptionDataContent);
+
+//            console.log('no matter filter option content', format, noMatterFilterOptionContent);
+//                noMatterFilterOptionContent += 
+
+        $(noMatterFilterTarget).removeClass('hidden');
+        $(noMatterFilterTarget).attr('data-content', noMatterFilterOptionContent);
     }
 }

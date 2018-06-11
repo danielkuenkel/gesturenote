@@ -217,8 +217,8 @@ if ($h && $token && $studyId) {
 
                 rescueVideoCaller();
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-                Tester.renderView();
                 window.location.hash = getCurrentPhase().id;
+                Tester.renderView();
             }
 
 

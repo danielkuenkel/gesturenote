@@ -276,6 +276,7 @@ include '../includes/language.php';
                 <span class="label label-default" id="counter-label"><span class="counter-from"></span> <span class="counter-to"></span></span>
             </div>
             <label class="question"></label>
+            <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -287,16 +288,15 @@ include '../includes/language.php';
     <div class="panel panel-default" id="openQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
+                <!--<span id="filter-option-item" class="filter-options-popover" ></span>-->
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
             </div>
             <label class="question"></label>
+            <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <div>
-                <span class="text answer" style=""></span><span class="filter-option" style="margin-left: 10px"></span>
-            </div>
-            <!--<div class="answer text"></div>-->
+            <div class="answer text"></div>
             <div class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></div>
             <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
@@ -328,6 +328,7 @@ include '../includes/language.php';
                 <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
             </div>
             <label class="question"></label>
+            <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -385,6 +386,7 @@ include '../includes/language.php';
                 <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
             </div>
             <label class="question"></label>
+            <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -466,11 +468,11 @@ include '../includes/language.php';
                 <div class="label label-primary" id="factor-primary"></div>
             </div>
             <label class="question"></label>
+            <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
-            <span class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
             <div class="hidden" id="optionalanswer-content" style="margin-top: 15px">
                 <hr style="margin-bottom: 5px">
                 <div><span class="label label-warning hidden" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span></div>
@@ -490,6 +492,7 @@ include '../includes/language.php';
                 <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
             </div>
             <label class="question"></label>
+            <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -519,10 +522,11 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="matrix-item" class="text">
+    <div id="matrix-item">
         <span id="rating-option" style="margin-right: 5px"></span>
         <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
         <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
+        <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         <div class="pull-right text" id="score-container" style="margin-top: 9px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
         <div id="scale-container" style="margin-top: 10px;"></div>
         <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
@@ -536,6 +540,7 @@ include '../includes/language.php';
                 <span class="label label-default" id="allocation"><span class="label-text"></span></span>
             </div>
             <label class="question"></label>
+            <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -556,6 +561,7 @@ include '../includes/language.php';
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
             </div>
             <label class="question"></label>
+            <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
