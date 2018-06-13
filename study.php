@@ -159,8 +159,11 @@ if (login_check($mysqli) == true) {
                         <div class="btn-group-vertical btn-block" style="margin-top: 20px">
                             <button class="btn btn-default btn-shadow" type="button" id="btn-edit-study"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editStudy ?></span></button>
                             <button class="btn btn-default btn-shadow" type="button" id="btn-preview-study"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previewStudy ?></span></button>
-                            <button class="btn btn-default btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>
+                            
                             <!--<button class="btn btn-default btn-shadow" type="button" id="btn-prepare-study"><i class="fa fa-inbox" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->executeStudy ?></span></button>-->
+                        </div>
+                        <div class="btn-group-vertical btn-block" style="margin-top: 20px">
+                            <button class="btn btn-danger btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>
                         </div>
                     </div>
                 </div>

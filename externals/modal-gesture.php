@@ -219,10 +219,18 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
+                    <div class="row" style="margin-top: 20px" id="gesture-owner-controls">
+                        <div class="col-xs-6">
+                            <button type="button" class="btn btn-block btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="btn btn-block btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
+                        </div>
+                    </div>
+<!--                    <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
                         <button type="button" class="btn btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
                         <button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
-                    </div>
+                    </div>-->
 
                 </div>
             </div>
@@ -288,7 +296,7 @@ include '../includes/language.php';
     </div>
     <div class="panel-body" style="color: #303030; font-size: 10pt"></div>
     <div class="panel-footer">
-        <button class="btn btn-xs btn-danger" id="btn-delete-comment"><?php echo $lang->deleteComment ?></button>
+        <button class="btn btn-xs btn-danger" id="btn-delete-comment"><i class="fa fa-trash"></i> <?php echo $lang->deleteComment ?></button>
     </div>
 </div>
 

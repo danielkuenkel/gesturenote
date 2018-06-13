@@ -363,6 +363,7 @@ function initTooltips(delayShow, delayHide) {
 }
 
 function initPopover(delayShow, delayHide) {
+    $('[data-toggle="popover"]').attr('data-html', true);
     $('[data-toggle="popover"]').popover({container: 'body', delay: {"show": delayShow ? delayShow : 300, "hide": delayHide ? delayHide : 0}});
 }
 
@@ -966,6 +967,7 @@ function renderAssembledScenes(targetContainer, optionalSelections) {
             }
         }
     } else {
+        console.log(targetContainer, optionalSelections);
         if (optionalSelections && optionalSelections.length > 0) {
             $(target).find('.sceneSelect .dropdown-toggle').removeClass('disabled');
             $(target).find('.option-scene').attr('placeholder', translation.pleaseSelect);

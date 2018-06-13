@@ -272,7 +272,7 @@ function initInterviewOverlay(id, formatClone) {
 function initGUSSingleGesturesOverlay(id, formatClone) {
     renderAssembledGestures($(formatClone).find('#forGesture'));
     renderAssembledTriggers($(formatClone).find('#gesture-trigger'));
-    renderAssembledFeedback($(formatClone).find('#gesture-feedback'), [{id: 'none', title: translation.nones}]);
+    renderAssembledFeedback($(formatClone).find('#gesture-feedback'), [{id: 'none', title: translation.none}]);
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
     renderDimensions($(formatClone).find('#dimension-controls'), translation.singleGUS, $(formatClone).find('#list-container'), translation.dimensions);
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone), true, true, ALERT_NO_DATA_GUS);
@@ -538,7 +538,7 @@ function initGestureTrainingOverlay(id, formatClone) {
     }
 
     renderAssembledScenes();
-    renderAssembledFeedback(null, [{id: 'none', title: translation.nones}]);
+    renderAssembledFeedback(null, [{id: 'none', title: translation.none}]);
 
 
     var data = getLocalItem(id + '.data');
@@ -841,7 +841,7 @@ function initScenarioOverlay(id, formatClone) {
     }
 
 //    var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
-    renderAssembledFeedback(null, [{id: 'none', title: translation.nones}]);
+    renderAssembledFeedback(null, [{id: 'none', title: translation.none}]);
 //    if (!feedback) {
 //        appendAlert($(formatClone).find('#wozExperiment'), ALERT_NO_FEEDBACK_ASSEMBLED_LINK);
 //        $(formatClone).find('#wozExperiment .btn-add-woz-experimentOption').addClass('hidden');
@@ -2291,7 +2291,7 @@ function initOverlayContentFunctionalitiesByFormat(format, formatClone) {
 
 var currentFilterList;
 function initCatalogGesturesOverlay(formatClone) {
-    $(formatClone).find('#overlay-title').text(translation.arrangeSet);
+    $(formatClone).find('#overlay-title').text(translation.studyCatalogs.gestures);
     initDynamicAffixScrolling(formatClone);
     getGestureSets(function (result) {
         if (result.status === RESULT_SUCCESS) {

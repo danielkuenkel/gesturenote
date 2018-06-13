@@ -18,7 +18,7 @@ if (login_check($mysqli) == true) {
         <title><?php echo $lang->gestureNoteGestureCatalog ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -26,14 +26,14 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
         <script src="js/sha512.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script> 
         <script src="js/randomColor/randomColor.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
@@ -65,7 +65,7 @@ if (login_check($mysqli) == true) {
         <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
         <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
 
-         <!--gesture recorder--> 
+        <!--gesture recorder--> 
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
@@ -324,7 +324,7 @@ if (login_check($mysqli) == true) {
             }
 
 //            $('#gesture-catalogs-nav-tab a[href="#gesture-catalog"]').tab('show');
-            getWholeGestureCatalog();
+//            getWholeGestureCatalog();
         }
 
         function getStatusNavMatch(status) {
@@ -340,6 +340,7 @@ if (login_check($mysqli) == true) {
 
         var currentFilterList;
         function renderData(data, animate) {
+            console.log('renderData');
             var currentActiveTab = getCurrentActiveTab();
             currentFilterData = data;
             $(currentFilterList).empty();
@@ -357,6 +358,7 @@ if (login_check($mysqli) == true) {
 
                     switch ($(currentActiveTab).attr('id')) {
                         case 'gesture-sets':
+                            console.log('render gesture set:', currentFilterData);
                             clone = getGestureCatalogGestureSetPanel(currentFilterData[i]);
                             $(currentFilterList).append(clone);
                             if (animate && animate === true) {
@@ -443,6 +445,8 @@ if (login_check($mysqli) == true) {
                 gestureRecorder.destroy();
                 gestureRecorder = null;
             }
+            
+            console.log('show tab', $(event.target).attr('href'));
 
             switch ($(event.target).attr('href')) {
                 case '#gesture-catalog':
@@ -455,7 +459,7 @@ if (login_check($mysqli) == true) {
                     getWholeGestureRecorder();
                     break;
             }
-            
+
             var activeTabId = $(event.target).parent().attr('id').split('-')[1];
             window.location.hash = activeTabId;
         });
@@ -467,6 +471,8 @@ if (login_check($mysqli) == true) {
         function getWholeGestureCatalog() {
             currentFilterList = $('#gesture-catalog').find('#gesture-list-container');
             currentFilterList.empty();
+            
+            console.log('get whole gesture catalog');
 
             getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {
@@ -518,9 +524,11 @@ if (login_check($mysqli) == true) {
             currentFilterList.empty();
 
             getGestureSets(function (result) {
+                
                 if (result.status === RESULT_SUCCESS) {
                     originalFilterData = result.gestureSets;
                     setLocalItem(GESTURE_SETS, result.gestureSets);
+                    console.log('get gesture sets', result);
 
                     if (originalFilterData && originalFilterData.length > 0) {
                         var data = {
@@ -538,7 +546,9 @@ if (login_check($mysqli) == true) {
                         };
                         initPagination(data);
                         $('#gesture-sets').find('#sort #newest').removeClass('selected');
-                        $('#gesture-sets').find('#sort #newest').click();
+//                        $('#gesture-sets').find('#sort #newest').click();
+                        currentFilterData = sort();
+                        renderData(currentFilterData);
                     } else {
                         // show alert that no data is there
                     }

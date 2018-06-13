@@ -260,7 +260,7 @@ include '../includes/language.php';
     <div class="panel panel-default" id="create-study-gesture-set-panel">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">
-                <button class="btn btn-sm btn-default btn-shadow" id="btn-delete-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteGestureSet ?>"><span class="fa fa-trash"></span></button>
+                <button class="btn btn-sm btn-danger btn-shadow" id="btn-delete-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteGestureSet ?>"><span class="fa fa-trash"></span></button>
             </div>
             <span class="panel-heading-text"></span>
             <div class="btn-group pull-right">
@@ -281,7 +281,7 @@ include '../includes/language.php';
     <div class="panel panel-default" id="study-gesture-set-panel">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">
-                <button class="btn btn-sm btn-default btn-shadow" id="btn-delete-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteGestureSet ?>"><span class="fa fa-trash"></span></button>
+                <button class="btn btn-sm btn-danger btn-shadow" id="btn-delete-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteGestureSet ?>"><span class="fa fa-trash"></span></button>
             </div>
             <span class="panel-heading-text"></span>
             <div class="btn-group pull-right">

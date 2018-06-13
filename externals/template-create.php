@@ -1974,7 +1974,7 @@ include '../includes/language.php';
                 <div class="alert-space alert-assembled-scene-removed"></div>
                 <label><?php echo $lang->stateCharts->state ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingScene ?>"></i></label>
                 <div class="input-group">
-                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-scene show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->noScenesPresent ?>"/>
                     <div class="input-group-btn select sceneSelect"  role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2965,7 +2965,7 @@ include '../includes/language.php';
     </div>
 
 
-    <div class="panel panel-default panel-sm" id="gesture-comment-item" style="margin-top: 0px; margin-bottom: 8px">
+<!--    <div class="panel panel-default panel-sm" id="gesture-comment-item" style="margin-top: 0px; margin-bottom: 8px">
         <div class="panel-heading" style="font-size: 10pt">
             <span id="user"><i class="fa fa-comment" aria-hidden="true"></i> <span class="text"></span></span>
             <span id="created" class="pull-right"><i class="fa fa-clock-o" aria-hidden="true"></i> <span class="text"></span></span>
@@ -2975,7 +2975,7 @@ include '../includes/language.php';
             <button class="btn btn-xs btn-danger" id="btn-delete-comment"><i class="fa fa-trash"></i> <?php echo $lang->deleteComment ?></button>
         </div>
 
-    </div>
+    </div>-->
 
 </div>
 

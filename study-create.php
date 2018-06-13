@@ -303,7 +303,7 @@ if (login_check($mysqli) == true) {
 
                         <div class="col-md-6" id="feedback-catalog" style="margin-top: 20px">
                             <div style="display: inline">
-                                <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->feedback ?> 
+                                <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->feedbacks ?> 
                                     <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogFeedback ?>"></i>
                                 </h4>
                                 <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-feedback">

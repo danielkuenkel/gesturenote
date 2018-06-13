@@ -482,7 +482,7 @@
     "seeYourselfQuestion": "Können Sie sich sehen?",
     "seeBrowserQuestion": "Sehen Sie eine Meldung mit dem Hinweis einen anderen Browser zu nutzen?",
     "openSet": "Öffnen",
-    "arrangeSet": "Set zusammenstellen",
+    "arrangeSet": "Katalog zusammenstellen",
     "close": "Schließen",
     "saveAndClose": "Speichern & Schließen",
     "next": "Weiter",
@@ -607,7 +607,7 @@
     "alwaysJumpTo": "Egal welche",
     "helpText": "Hilfetext",
     "displayOf": "Anzeige der",
-    "displayOfFeedback": "Anzeige des Feedbacks",
+    "displayOfFeedback": "Anzeige der Systemrückmeldung",
     "displayOfTransitionState": "Anzeige des Zwischenzustandes",
     "transitionalPeriod": "Übergangszeit (in Sekunden)",
     "reactionPeriod": "Reaktionszeit (in Sekunden)",
@@ -1389,10 +1389,10 @@
     "measureOfApproval": "Maß der Übereinstimmung",
     "approval": "Übereinstimmung",
     "studyCatalogs": {
-        "gestures": "Gesten-Katalog",
-        "scenes": "Zustands-Katalog",
-        "trigger": "Funktionen-Katalog",
-        "feedback": "Feedback-Katalog"
+        "gestures": "Studien-Gesten",
+        "scenes": "Zustände",
+        "trigger": "Funktionen",
+        "feedback": "Systemrückmeldungen"
     },
     "bodyType": "Körperteile",
     "gestureTypes": {
@@ -1450,7 +1450,7 @@
         "intermediateStates": "Zwischenzustände",
         "entryAction": "Folgezustand",
         "entryActions": "Folgezustände",
-        "transitionFeedback": "Feedback",
+        "transitionFeedback": "Systemrückmeldung",
         "wozElements": "WOZ-Elemente"
     },
     "popover": {
@@ -1484,8 +1484,8 @@
     "assignToGestureSet": "Zu vorhandenen Gesten-Sets zuweisen",
     "theGesture": "die Geste",
     "theTrigger": "die Funktion",
-    "theFeedback": "das Feedback",
-    "noFeedbackPresent": "Kein Feedback vorhanden",
+    "theFeedback": "die Systemrückmeldung",
+    "noFeedbackPresent": "Keine Systemrückmeldungen vorhanden",
     "noFilterOptionsPresent": "Keine Optionen vorhanden",
     "noFurtherQuestionsPresent": "Keine Folgefragen vorhanden",
     "all": "Alle",
@@ -1496,8 +1496,8 @@
     "trigger": "Funktion",
     "triggers": "Funktionen",
     "triggerName": "Funktionsname",
-    "feedback": "Feedback",
-    "taskTitle": "Aufgabentitel",
+    "feedback": "Systemrückmeldung",
+    "feedbacks": "Systemrückmeldungen",
     "inputTaskTitle": "Aufgabentitel einfügen",
     "taskDescription": "Aufgabenbeschreibung",
     "insertTaskDescription": "Aufgabenbeschreibung einfügen",
@@ -1508,7 +1508,7 @@
     "expand": "Ausklappen",
     "task": "Aufgabe",
     "insertTask": "Aufgabe einfügen",
-    "tasks": "Aufgaben",
+    "tasks": "Szenariobasierte Aufgaben",
     "taskTitle": "Aufgaben-Titel",
     "insertTaskTitle": "Aufgaben-Titel einfügen",
     "taskAssessment": "Aufgaben-Beurteilung",
@@ -1922,8 +1922,8 @@
         "noGestureDemonstrated": "Keine Geste demonstriert",
         "noGestureFitFound": "Andere Geste demonstriert",
         "renderScene": "Zustand zeigen",
-        "showFeedback": "Feedback zeigen",
-        "hideFeedback": "Feedback ausblenden",
+        "showFeedback": "Systemrückmeldung zeigen",
+        "hideFeedback": "Systemrückmeldung ausblenden",
         "allRecorderReady": "Alle Sensoren bereit",
         "recorderLost": "Sensoren nicht verbunden"
     },
@@ -1945,7 +1945,7 @@
             "surveyType": "Unmoderierte Befragungen bieten die Möglichkeit Probanden ohne Moderation zu befragen. Bei moderierten Befragungen steuert der Moderator den Leitfaden.",
             "catalogGestures": "Studien-Gesten dienen als Grundlage für alle Studien-Design-Phasen. Ein Studien-Gesten-Set kann aus dem gesamten Gesten-Katalog zusammengestellt werden. Zusätzlich können neue Gesten erstellt werden.",
             "catalogTrigger": "Funktionen können im Leitfaden an Gesten gekoppelt werden und umgekehrt. Sie werden z.B. benötigt, um Gesten zu ermitteln oder bei Funktionen erraten die korrekte Zuordnung zu Gesten zu überprüfen.",
-            "catalogFeedback": "Um dem Probanden Feedback für eine Interaktion zu geben, können Text- (Hinweistext nach Geste) und Audio-Feedbacks (Abspielen einer mp3-Datei) angelegt werden. Diese können dann z.B. für ein Szenario genutzt werden.",
+            "catalogFeedback": "Um dem Probanden eine explizite Systemrückmeldung für eine Interaktion zu geben, können Text- (Hinweistext nach Geste) und Audio-Rückmeldungen (Abspielen einer mp3-Datei) angelegt werden. Diese können dann z.B. für ein Szenario genutzt werden.",
             "catalogScenes": "Zustände sind von Bedeutung, wenn dem Nutzer ein grafisches User Interface gezeigt werden soll. Mit Zuständen können z.B. explorative Szenarios erstellt werden.",
             "letterOfAcceptance": "Die Einverständniserklärung sollte in GestureNote immer die Einwilligung des Probanden für die Aufzeichnung personenpesogener Daten einholen, d.h. bei einer Ermittlung Gesten in Bildform und bei einer Evalierung Videoaufnahmen. GestureNote bietet aktuell keine Funktion für eine Anonymisierung an. Die Aufnahmen könenn für Auswertungen jedoch nachträglich händisch anonymisiert werden.",
             "letterOfAcceptanceOverlay": "Die Einverständniserklärung sollte in GestureNote immer die Einwilligung des Probanden für die Aufzeichnung personenpesogener Daten einholen. Bei einer Gesten-Ermittlung oder einer Evalierung werden z.B. Videoaufnahmen vom Probanden gespeichert. GestureNote bietet aktuell keine Funktion für eine Anonymisierung. Die Aufnahmen können für Auswertungen jedoch nachträglich händisch anonymisiert werden.",
@@ -1958,7 +1958,7 @@
             "dichotomousQuestion": "Ja/nein-Fragen lassen nur zwei Antwortmöglichkeiten zu. Es können Begründungen angefordert werden, z.B. wenn 'Nein' ausgewählt wurde.",
             "groupingQuestion": "Bei Eingruppierungsfragen werden bestimmte Wertebereiche festgelegt, in die sich der Befragte einordnen soll. Wertebereiche z.B. für 'Wie alt sind Sie?': unter 20 | 21 - 30 | über 30. Mit diesem Format können auch Fragen wie 'Welche Gesten-Erkenner sind Ihnen bekannt?' abgedeckt werden. Eine Ein- oder Mehrfachauswahl von Antworten ist möglich und eigene Antworten können ebenfalls angegeben werden.",
             "groupingOptions": "Fügen Sie mehrere Auswahl-Optionen ein, aus denen ein Proband wählen kann.",
-            "groupingQuestionOptions": "Dies ist eine Sonderform einer normalen Eingruppierungs-Frage. Hier müssen die Antwortmöglichkeiten nicht einzeln eingetragen werden, sondern werden automatisch angezeigt. Je nach Auswahl (Gesten, Feedback oder Funktionen) werden die entsprechend hinterlegten Katalogdaten übernommen.",
+            "groupingQuestionOptions": "Dies ist eine Sonderform einer normalen Eingruppierungs-Frage. Hier müssen die Antwortmöglichkeiten nicht einzeln eingetragen werden, sondern werden automatisch angezeigt. Je nach Auswahl (Gesten, Systemrückmeldung oder Funktionen) werden die entsprechend hinterlegten Katalogdaten übernommen.",
             "groupingQuestionOptionsOptions": "Die Auswahl-Optionen basieren auf der gewählten Quelle. Wählen Sie z.B. Gesten, um alle hinterlegten Studien-Gesten als Auswahl-Optionen zu übernehmen. Stellen Sie sicher, dass der jeweilige Katalog vorliegt.",
             "sumQuestion": "Hier kann ein Maximum und mehrere Antwortoptionen definiert werden. Der Proband soll dann z.B. 100 Punkte oder Prozent auf die jeweiligen Optionen verteilen.",
             "ranking": "Beim Ranking sind Optionen anzugeben, die der Proband dann mit Pfeil-Buttons sortieren soll, z.B. nach Wichtigkeit.",
@@ -1977,23 +1977,23 @@
             "identificationScenesForTrigger": "Soll dem Probanden nicht nur die Geste gezeigt werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden? Es kann für den Probanden einfacher sein geeignete Funktionen zu finden, wenn dieser weiß, wie das User Interface aussehen wird.",
             "identificationScene": "Greifen Sie auf den Zustands-Katalog zurück. Wird mehr als 1 Zustand hinterlegt, dann ist der erste der Ausgangszustand und der letzte der Folgezustand. Zwischenzustände sind ab 3 Zuständen möglich.",
             "identificationSceneDescription": "Dem Probanden sollte klar werden, was in diesem Zustand passiert. Wird die Geste ausgeführt? Was passiert danach? Oder zeigt dieser Zustand eine mögliche Funktion für eine Geste?",
-            "gus": "Dieser Variante des GUS hat den Vorteil, dass Probanden sich die Geste nochmals ansehen können und wissen, welche Funktion und welches Feedback daran gekoppelt ist. Der Proband bewertet nur diese eine Geste.",
+            "gus": "Dieser Variante des GUS hat den Vorteil, dass Probanden sich die Geste nochmals ansehen können und wissen, welche Funktion und welche Systemrückmeldung daran gekoppelt ist. Der Proband bewertet nur diese eine Geste.",
             "questionnaireGestures": "Diese Variante des GUS fragt - im Gegensatz zur Variante 'einzelne Geste' - mehrere Gesten zeitgleich ab.",
             "sus": "Dies ist ein einfacher und technologieunabhängiger Fragebogen, mit dem die Gebrauchstauglichkeit eines Systems bewertet werden kann. Der errechnete Scorewert (zwischen 0 und 100) kann zur quantitativen Analyse der Gebrauchstauglichkeit herangezogen werden. Sie müssen deshalb nichts weiter tun als diesen Fragebogen dem Leitfaden hinzuzufügen.",
             "ueq": "Der User Experience Questionnaire (UEQ) ermöglicht eine schnelle Beurteilung der Benutzererfahrung mit interaktiven Produkten. Das Format des Fragebogens unterstützt Benutzer sich über Gefühle, Eindrücke und Einstellungen auszudrücken, die entstehen, wenn sie ein Produkt verwenden.",
-            "gestureTraining": "Bevor Gesten (z.B. in einem Szenario) zum Einsatz kommen, können diese unter Umständen vorab explorativ trainiert werden. Dem Probanden kann dabei ein Prototyp mit dazugehöriger Funktionalität (Gesten, Feedback, Zustandsübergänge) gezeigt werden. Alternativ können nur die Gesten mit dazugehöriger Funktion trainiert werden.",
-            "gestureTrainingOverlay": "Bevor Gesten (z.B. in einem szenariobasierten WOZ-Experiment) zum Einsatz kommen, sollten diese unter Umständen vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich kann ein Gesten-Training durch einen vorhandenen Prototypen (Zustände) bereichert werden.",
+            "gestureTraining": "Bevor Gesten (z.B. in einem Szenario) zum Einsatz kommen, können diese unter Umständen vorab explorativ trainiert werden. Dem Probanden kann dabei ein Prototyp mit dazugehöriger Funktionalität (Gesten, Systemrückmeldung, Zustandsübergänge) gezeigt werden. Alternativ können nur die Gesten mit dazugehöriger Funktion trainiert werden.",
+            "gestureTrainingOverlay": "Bevor Gesten (z.B. in einem szenariobasierten WOZ-Experiment) zum Einsatz kommen, sollten diese unter Umständen vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Systemrückmeldungen nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich kann ein Gesten-Training durch einen vorhandenen Prototypen (Zustände) bereichert werden.",
             "gestureTrainingTrigger": "Welche Funktion soll der Benutzer erlernen?",
             "gestureTrainingGesture": "Welche Geste soll ein Benutzer vorführen, damit die Funktion ausgelöst werden kann?",
-            "gestureTrainingFeedback": "Soll dem Benutzer ein Feedback angezeigt werden? Oder genügt ein Zustandsübergang als Rückmeldung (falls Zustände verwendet werden)?",
-            "gestureTrainingFeedbackMode": "Automatisch bedeudet, dass dieses Feedback automatisch nach einer Geste angezeigt wird?",
-            "gestureTrainingFeedbackTime": "Wie lange soll dieses Feedback angezeigt werden, bevor der nächste Zustand aufgerufen wird (falls Zustände verwendet werden)?",
-            "gestureTrainingRepeats": "Wie oft soll das Training für die gewählte Funktion, Geste und Feedback vom Probanden wiederholt werden?",
-            "gestureTrainingScenes": "Soll dem Probanden nicht nur die Geste mit dazugehöriger Funktion und Feedback trainiert werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden?",
+            "gestureTrainingFeedback": "Soll dem Benutzer eine Systemrückmeldung angezeigt werden? Oder genügt ein Zustandsübergang als Rückmeldung (falls Zustände verwendet werden)?",
+            "gestureTrainingFeedbackMode": "Automatisch bedeudet, dass diese Systemrückmeldung automatisch nach einer Geste angezeigt wird?",
+            "gestureTrainingFeedbackTime": "Wie lange soll diese Systemrückmeldung angezeigt werden, bevor der nächste Zustand aufgerufen wird (falls Zustände verwendet werden)?",
+            "gestureTrainingRepeats": "Wie oft soll das Training für die gewählte Funktion, Geste und Systemrückmeldung vom Probanden wiederholt werden?",
+            "gestureTrainingScenes": "Soll dem Probanden nicht nur die Geste mit dazugehöriger Funktion und Systemrückmeldung trainiert werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden?",
             "gestureTrainingScene": "Greifen Sie auf den Zustands-Katalog zurück. Wird mehr als 1 Zustand hinterlegt, dann ist der erste der Ausgangszustand und der letzte der Folgezustand. Zwischenzustände sind ab 3 Zuständen möglich.",
             "gestureTrainingSceneTransitionMode": "Automatisch bedeudet, dass dieser Zustand z.B. automatisch nach einer Geste oder nach einem anderen Zwischenzustand angezeigt wird.",
             "gestureTrainingSceneTransitionTime": "Wie lange soll dieser Zwischenzustand angezeigt werden?",
-            "scenario": "Mit szenariobaiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten.",
+            "scenario": "Mit szenariobaiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelne Gesten und deren Systemrückmeldung. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten.",
             "scenarioOverlay": "Gesten-Interaktionen werden typischerweise mit szenariobasierten Aufgaben in Verbindung mit einem WOZ-Experiment evaluiert. D.h. es müssen in GestureNote entsprechende Daten und Strukturen hinterlegt werden, um solch einen Test durchführen zu können. Ein Szenario besteht dabei aus einer oder mehreren Aufgaben. An die jeweiligen Aufgaben sind Zustände gekoppelt (Bild, Video, Webseite, Pidoco). Des Weiteren können auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelne Gesten und deren Feedback. Der Erfolg einer Aufgabe muss beurteilt werden. Dazu können die vordefinierten Aufgaben-Beurteilungen genutzt, diese ergänzt oder eigene angelegt werden. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten, die dann abhängig von der jeweiligen Aufgabe und einem Zustand angezeigt werden kann.",
             "scenarioStartScene": "Geben Sie hier den Ausgangszustand an, von dem aus ein Szenario durchgespielt werden kann. Liegt ein Pidoco-Prototyp mit daran gekoppelten Gesten vor? Dann reicht es, wenn die Startseite des Prototypen hier angegeben wird.",
             "scenarioTaskTitle": "Der Aufgaben-Titel dient analytischen Zwecken und wird bei den Ergebnissen einer Durchführung angezeigt.",
@@ -2001,8 +2001,8 @@
             "scenarioWOZElements": "Hinterlegen Sie die für diese Aufgabe wichtigen Daten.",
             "scenarioTrigger": "Welche Funktion kann der Benutzer während der Aufgabenbewältigung auslösen?",
             "scenarioGesture": "Welche Geste soll ein Benutzer vorführen, damit die Funktion genutzt werden kann?",
-            "scenarioFeedback": "Soll dem Benutzer ein Feedback angezeigt werden? Oder genügt ein Zustandsübergang als Rückmeldung?",
-            "scenarioFeedbackTime": "Wie lange soll dieses Feedback angezeigt werden, bevor der nächste Zustand aufgerufen wird?",
+            "scenarioFeedback": "Soll dem Benutzer eine Systemrückmeldung angezeigt werden? Oder genügt ein Zustandsübergang als Rückmeldung? Dann wählen Sie <em>Keine</em>.",
+            "scenarioFeedbackTime": "Wie lange soll diese Systemrückmeldung angezeigt werden, bevor der nächste Zustand aufgerufen wird?",
             "scenarioScenes": "Hinterlegen Sie Zustände, die für diese Funktion und Geste benötigt werden, um dem Benutzer ein funktionierendes System vorzutäuschen.",
             "scenarioTaskAssessment": "Wie hat der Proband eine Aufgabe gelöst? Hat er z.B. Hilfe benötigt?",
             "scenarioTaskAssessmentColor": "Wählen Sie eine Wunsch-Farbe für die Annotation aus. Diese Farbe wird dann auch in den Studien-Ergebnissen angezeigt.",
@@ -2033,7 +2033,7 @@
             "image": "Hinterlegen Sie ein Bild im Format JPEG oder PNG mit maximal 8MB.",
             "videoEmbed": "Hinterlegen Sie eine Embed-URL von YouTube oder Vimeo. Die URL kann dem Teilen-Dialog der jeweiligen Plattform entnommen werden.",
             "embedURL": "Die Einbettungs-URL finden Sie bei YouTube und Vimeo im Teilen-Dialog. Gehen Sie dort auf Einbetten und kopieren Sie den kompletten Text.",
-            "text": "Erstellen Sie ein Text-Feedback, der beim Probanden angezeigt werden kann, z.B. während eines Szenarios.",
+            "text": "Erstellen Sie eine Text-Rückmeldung, der beim Probanden angezeigt werden kann, z.B. während eines Szenarios.",
             "sound": "Laden Sie eine MP3-Datei hoch, um dem Probanden Rückmeldung über Töne zu geben. Dies ist z.B. wichtig, wenn es kein grafisches User Interface gibt. Die Datei darf bis zu 8 MB groß sein."
         },
         "gestures": {
@@ -3041,7 +3041,7 @@
                 "justification": "no",
                 "justificationFor": "always"
             },
-            "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbares Feedback liefern. (Leap Motion, n.d.-a) Eine Gesten-Interaktion sollte schnell sein. (Microsoft, 2013)"
+            "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbare Systemrückmeldungen liefern. (Leap Motion, n.d.-a) Eine Gesten-Interaktion sollte schnell sein. (Microsoft, 2013)"
         },
         {
             "format": "dichotomousQuestionGUS",
@@ -3126,7 +3126,7 @@
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
-            "question": "Ich denke, dass das Feedback nicht zur Geste passt. ",
+            "question": "Ich denke, dass die Systemrückmeldung nicht zur Geste passt.",
             "parameters": {
                 "used": "used",
                 "justification": "yes",
@@ -3401,7 +3401,7 @@
                 "optionSource": "gestures",
                 "optionalAnswer": "no"
             },
-            "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbares Feedback liefern. (Leap Motion, n.d.-a) Eine Gesten-Interaktion sollte schnell sein. (Microsoft, 2013)"
+            "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbare Systemrückmeldungen liefern. (Leap Motion, n.d.-a) Eine Gesten-Interaktion sollte schnell sein. (Microsoft, 2013)"
         },
         {
             "format": "groupingQuestionGUS",
@@ -3503,7 +3503,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
-            "question": "Das Feedback passt nicht zu einer oder mehreren Gesten.",
+            "question": "Die Systemrückmeldung passt nicht zu einer oder mehreren Gesten.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -3904,7 +3904,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "meaningfulness",
-            "question": "Welches Feedback konnte vom Benutzer nicht gedeutet werden?",
+            "question": "Welche Systemrückmeldung konnte vom Benutzer nicht gedeutet werden?",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -4438,17 +4438,17 @@
         "noFeedbackAssembled": {
             "id": "no-feedback-assembled",
             "type": "danger",
-            "text": "Bitte zuerst ein Feedbackset für diese Studie erstellen!"
+            "text": "Bitte zuerst Systemrückmeldungen für diese Studie zusammenstellen!"
         },
         "noFeedbackAssembledLink": {
             "id": "no-feedback-assembled-link",
             "type": "danger",
-            "text": "Bitte zuerst ein Feedbackset für diese Studie erstellen! <a href='#' class='alert-link' id='btn-assemble-feedback'>Jetzt zusammenstellen</a>"
+            "text": "Bitte zuerst Systemrückmeldungen für diese Studie zusammenstellen! <a href='#' class='alert-link' id='btn-assemble-feedback'>Jetzt zusammenstellen</a>"
         },
         "assembledFeedbackRemoved": {
             "id": "assembled-feedback-removed",
             "type": "warning",
-            "text": "Das verknüpfte Feedback ist nicht mehr verfügbar!"
+            "text": "Die verknüpfte Systemrückmeldung ist nicht mehr verfügbar!"
         },
         "noTitle": {
             "id": "no-title",
@@ -4802,7 +4802,7 @@
             "description": 
                     [
                         "<p>Kataloge dienen als Grundlage für die Erstellung eines Leitfadens. Hierbei kommt es auch darauf an, in welcher Gesten-Design-Phase man sich befindet (Ermittlung, Extraktion, Evaluierung) und welche Methoden/Vorgehensweisen (Fragebogen, GUS, Szenario, Physischer Belastungstest, etc.) genutzt werden sollen. Sollen z.B. Gesten für vorhandene Funktionen ermittelt werden (Bottom-Up), genügt es für die Durchführung einen Funktionen- und einen Zustands-Katalog anzulegen. Ein Studien-Gesten-Set wird in diesem Fall nicht benötigt.<p/><p> Sollen dagegen in einer Ermittlung Funktionen für vorhandene Gesten ermittelt werden (Top-Down), reicht das Anlegen eines Studien-Gesten-Sets.<p/>",
-                        "<table class='table table-bordered' style='max-width:100%'><thead><tr><th>Methode</th><th class='text-center'>Studien-Gesten</th><th class='text-center'>Funktionen</th><th class='text-center'>Feedback</th><th class='text-center'>Zustände</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>GUS</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Ermittlung</td><td class='text-center'><i class='fa fa-check'></i> Top-Down</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Exploration</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Gesten-Training</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Szenario</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Gesten erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Funktionen erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr></tbody></table>",
+                        "<table class='table table-bordered' style='max-width:100%'><thead><tr><th>Methode</th><th class='text-center'>Studien-Gesten</th><th class='text-center'>Funktionen</th><th class='text-center'>Systemrückmeldung</th><th class='text-center'>Zustände</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>GUS</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Ermittlung</td><td class='text-center'><i class='fa fa-check'></i> Top-Down</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Exploration</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Gesten-Training</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Szenario</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Gesten erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Funktionen erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr></tbody></table>",
                         "<p>Für einen besseren Überblick wurden in der Tabelle die möglichen Vorgehensweisen und den benötigten Katalogen zusammengefasst. Optionale Kataloge sind mit <em>opt.</em> gekennzeichnet.</p>",
                         "<h4>Studien-Gesten</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-03-01.jpg' />",
@@ -4810,8 +4810,8 @@
                         "<h4>Funktionen</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-03-02.jpg' />",
                         "<p>Gesten werden in GestureNote an Funktionen gekoppelt. Soll z.B. nach Ausführung einer Geste die Musik lauter gestellt werden, sollte die Funktion <em>Musik lauter stellen</em> im Funktionen-Katalog hinterlegt werden. Die hinterlegten Funktionen können dann im Leitfaden verwendet werden. Es ist z.B. möglich bei einer Ermittlung für die hinterlegten Funktionen Gesten zu suchen. Oder in einer Extraktion nach bevorzugten Funktionen für eine Geste zu fragen.</p>",
-                        "<h4>Feedback</h4><hr>",
-                        "<p>Um dem potenziellen Nutzer Feedback für eine Interaktion zu geben, können Text- (Hinweistext nach Geste) und Audio-Feedbacks hinterlegt werden. Diese können dann z.B. für ein Szenario, ein Gesten-Training oder einem Gesture Usability Scale genutzt werden. Standardmäßig sind zwei Text-Feedbacks hinterlegt. Der Katalog für das Feedback wird nur bei der Evaluierung von Gesten benötigt.</p>",
+                        "<h4>Systemrückmeldung</h4><hr>",
+                        "<p>Um dem potenziellen Nutzer Systemrückmeldung für eine Interaktion zu geben, können Text- (Hinweistext nach Geste) und Audio-Rückmeldungen hinterlegt werden. Diese können dann z.B. für ein Szenario, ein Gesten-Training oder einem Gesture Usability Scale genutzt werden. Standardmäßig sind zwei Text-Rückmeldungen hinterlegt. Der Katalog für die Systemrückmeldungen wird nur bei der Evaluierung von Gesten benötigt.</p>",
                         "<h4>Zustände</h4><hr>",
                         "<p>Zustände sind z.B. für ein WOZ-Experiment während einer szenariobasierten Aufgabe von Bedeutung, um eine gewisse Immersion für potenzielle Nutzer zu gewährleisten. Mit Zuständen können explorative Gesten-Trainings, Gesten-Ermittlungen oder WOZ-Experimente erstellt werden. In GestureNote werden aktuell drei unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:</p>",
                         "<strong>Bild</strong>: Es können Bilder im Format JPEG und PNG hinterlegt werden.<br/>",
@@ -4842,7 +4842,7 @@
                         "<p><strong>Offene Frage</strong>: Der Proband beantwortet die Frage mit einem Wort oder einem längeren Text, z.B. mit der Frage <em>Woher kommen Sie?</em></p>",
                         "<p><strong>Ja/nein-Frage</strong>: Ja/nein-Fragen lassen nur zwei Antwortmöglichkeiten zu. Es können Begründungen angefordert werden, z.B. wenn <em>Nein</em> ausgewählt wurde.</p>",
                         "<p><strong>Eingruppierungs-Frage</strong>: Bei Eingruppierungsfragen werden bestimmte Wertebereiche festgelegt, in die sich der Befragte einordnen soll. Wertebereiche z.B. für <em>Wie alt sind Sie?</em>: unter 20 | 21 - 30 | über 30. Mit diesem Format kann aber auch Fragen wie <em>Welche Gesten-Erkenner sind Ihnen bekannt?</em> abgedeckt werden. Eine Ein- oder Mehrfachauswahl von Antworten ist möglich. Eigene Antworten können ebenfalls angegeben werden.</p>",
-                        "<p><strong>Eingruppierungs-Frage (auswählbare Optionen)</strong>: Dies ist eine Sonderform einer normalen Eingruppierungs-Frage. Hier müssen die Antwortmöglichkeiten nicht einzeln eingetragen werden, sondern werden automatisch angezeigt. Je nach Auswahl <em>Gesten</em>, <em>Feedback</em> oder <em>Funktionen</em> werden die entsprechend hinterlegten Daten aus den Katalogen übernommen.</p>",
+                        "<p><strong>Eingruppierungs-Frage (auswählbare Optionen)</strong>: Dies ist eine Sonderform einer normalen Eingruppierungs-Frage. Hier müssen die Antwortmöglichkeiten nicht einzeln eingetragen werden, sondern werden automatisch angezeigt. Je nach Auswahl <em>Gesten</em>, <em>Systemrückmeldung</em> oder <em>Funktionen</em> werden die entsprechend hinterlegten Daten aus den Katalogen übernommen.</p>",
                         "<p><strong>Summenfrage</strong>: Hier kann ein Maximum definiert und mehrere Antwortoptionen hinterlegt werden. Der Proband soll dann z.B. 100 Punkte oder Prozent auf die jeweiligen Optionen verteilen.</p>",
                         "<p><strong>Ranking</strong>: Beim Ranking sind Optionen anzugeben, die der Proband dann mit Pfeil-Buttons sortieren soll, z.B. nach Wichtigkeit.</p>",
                         "<p><strong>Rating</strong>: Hiermit können Fragen erstellt werden, die Häufigkeiten, Zutreffensgrade oder Intensitäten graduell abstufen. Z.B. mit der Frage: <em>Wie anstrengend fanden Sie die Geste?</em> und deren Skalen von <em>überhaupt nicht anstrengend</em> bis <em>sehr anstrengend</em>.</p>",
@@ -4855,7 +4855,7 @@
                         "<h4>Interview</h4><hr>",
                         "<p>Ein Interview ist wie ein Fragebogen zu behandeln, nur dass nicht der Proband die Antworten in die Antwortmasken eingibt, sondern der Moderator.</p>",
                         "<h4>Gesture Usability Scale (GUS)</h4><hr>",
-                        "<p>Der Gesture Usability Scale liegt in GestureNote in zwei Varianten vor. Zum einen können Gesten einzeln, zum anderen gebündelt abgefragt werden. Diese Fragebögen können mit Hilfe eines Baukastens durch die Auswahl abzufragender Faktoren (z.B. Körperliche Ermüdung, Soziale Akzeptanz oder Physischer Kontext) zusammengestellt werden. Im Unterschied zu normalen Labor- und Feldtests sehen die beiden Varianten des GUS eine Kopplung der Gesten, Funktionen als auch Feedback vor. Ein Vorteil gegenüber eines normalen Fragebogens ist, dass Probanden sich die Gesten (in beiden Varianten des GUS) nochmals ansehen können und wissen, welche Funktion und welches Feedback daran gekoppelt ist (in der Variante der Einzelgestenbewertung).</p>",
+                        "<p>Der Gesture Usability Scale liegt in GestureNote in zwei Varianten vor. Zum einen können Gesten einzeln, zum anderen gebündelt abgefragt werden. Diese Fragebögen können mit Hilfe eines Baukastens durch die Auswahl abzufragender Faktoren (z.B. Körperliche Ermüdung, Soziale Akzeptanz oder Physischer Kontext) zusammengestellt werden. Im Unterschied zu normalen Labor- und Feldtests sehen die beiden Varianten des GUS eine Kopplung der Gesten, Funktionen als auch Systemrückmeldung vor. Ein Vorteil gegenüber eines normalen Fragebogens ist, dass Probanden sich die Gesten (in beiden Varianten des GUS) nochmals ansehen können und wissen, welche Funktion und welche Systemrückmeldung daran gekoppelt ist (in der Variante der Einzelgestenbewertung).</p>",
                         "<h4>System Usability Scale (SUS)</h4><hr>",
                         "<p>Der System Usability Scale ist ein einfacher und technologieunabhängiger Fragebogen, mit dem die Gebrauchstauglichkeit eines Systems bewertet werden kann. Es handelt sich um eine etablierte Methode zur quantitativen Analyse der Gebrauchstauglichkeit. Der Scorewert (zwischen 0 und 100) wird in GestureNote automatisch berechnet. Sie müssen deshalb nichts weiter tun als diesen Fragebogen in den Leitfaden hinzuzufügen.</p>",
                         "<h4>User Experience Questionnaire (UEQ)</h4><hr>",
@@ -4867,10 +4867,10 @@
                         "<h4>Exploration</h4><hr>",
                         "<p>Ziel dieser Methode ist es, den Probanden einen Überblick über die ermittelten Gesten oder Funktionen zu geben. In der Befragung können dann entweder die favorisierten Funktionen für eine Gesten oder die favorisierten Gesten für eine Funktion identifiziert werden.</p>",
                         "<h4>Gesten-Training</h4><hr>",
-                        "<p>Bevor Gesten (z.B. in einem szenariobasierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich muss das Gesten-Training mit einem vorhandenen Prototypen durch unterschiedlich hinterlegt Zustände bereichert werden.</p>",
+                        "<p>Bevor Gesten (z.B. in einem szenariobasierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Systemrückmeldungen nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich muss das Gesten-Training mit einem vorhandenen Prototypen durch unterschiedlich hinterlegt Zustände bereichert werden.</p>",
                         "<h4>Szenario</h4><hr>",
                         "<p>Gesten-Interaktionen werden typischerweise mit szenariobasierten Aufgaben in Verbindung mit Wizard-of-Oz (WOZ)-Experimenten evaluiert. Bei einem WOZ-Experiment glaubt der Nutzer (Proband), dass dieser mit einem autonomen System interagiert. In Wirklichkeit steuert jedoch ein anderer Mensch die Reaktionen des Systems im Verborgenen. Der Vorteil dieser Methode ist, dass sie schon in einem sehr frühen Entwicklungsstadium eingesetzt werden kann.</p>",
-                        "<p>In GestureNote liegt der Fokus auf der Erstellung explorativer WOZ-Experimente. Mit szenariobaiserten Aufgaben können nicht nur verschiedene Quellen (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Übergänge für Szenen definiert werden. Daran gekoppelt sind einzelne Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe (moderiert) anzubieten oder (unmoderiert) abzurufen und Erfolgsfaktoren für jede Aufgabe zu definieren.</p>",
+                        "<p>In GestureNote liegt der Fokus auf der Erstellung explorativer WOZ-Experimente. Mit szenariobaiserten Aufgaben können nicht nur verschiedene Quellen (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge definiert werden. Daran gekoppelt sind einzelne Gesten und deren Systemrückmeldung. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten und Erfolgsfaktoren für jede Aufgabe zu definieren.</p>",
                         "<h4>Gesten erraten</h4><hr>",
                         "<p>Die Erinnerbarkeit und Intuitivität von Gesten kann mit einer Gesten-Slideshow abgefragt werden. Es werden die hinterlegten Funktionen angezeigt. Der Proband muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Konnte der Proband der Funktion nicht die korrekte Geste zuordnen, beginnt die Slideshow erneut. Der Benutzer bekommt bei einem Neustart alle Gesten nochmals eingeblendet. GestureNote bietet, neben der Erstellung von Gesten-Funktions-Paaren, die Möglichkeit das Zeitfenster für jedes Paar zu definieren.</p>",
                         "<h4>Funktionen erraten</h4><hr>",
@@ -4977,7 +4977,7 @@
             "text": "Hinterlegte Katalog-Daten der Studie.",
             "popover": "Kataloge",
             "description": [
-                "<p>Zusammenfassend werden in diesem Bereich alle hinterlegten Studien-Katalog-Daten angezeigt. Dies umfasst das Studien-Gesten-Set, Funktionen, Feedback sowie Zustände. Die Darstellung kann aufgrund der hinterlegten Daten variieren.</p>",
+                "<p>Zusammenfassend werden in diesem Bereich alle hinterlegten Studien-Katalog-Daten angezeigt. Dies umfasst das Studien-Gesten-Set, Funktionen, Systemrückmeldungen sowie Zustände. Die Darstellung kann aufgrund der hinterlegten Daten variieren.</p>",
                 "<p>Um diese Daten zu bearbeiten, klicken Sie unter <em>Allgemeines</em> auf <button class='btn btn-xs btn-default'><i class='fa fa-pencil'></i> Studie bearbeiten</button>.</p>"
             ]
         },
