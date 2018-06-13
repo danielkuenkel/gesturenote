@@ -395,7 +395,7 @@ function dragRTC() {
     if (previewModeEnabled !== true) {
         video = $(getMainContent()).find('#video-caller');
     }
-    $(video).css({width: (DRAGGABLE_MIN_WIDTH + 50) + 'px', height: ((DRAGGABLE_MIN_WIDTH + 50) * 3 / 4) + 'px'});
+    $(video).css({opacity: 1, width: (DRAGGABLE_MIN_WIDTH + 50) + 'px', height: ((DRAGGABLE_MIN_WIDTH + 50) * 3 / 4) + 'px'});
 
     var toggleButton = $(video).find('#btn-toggle-rtc-fixed');
     console.log(toggleButton);
@@ -492,9 +492,10 @@ function pinRTC() {
     $(video).removeClass('shadow');
     $(video).appendTo("#pinnedRTC");
     $(document).scrollTop(0);
-    resetRTC();
+    
     $('#draggableRTC').css({top: 150, left: 50});
     keepStreamsAlive(video);
+    resetRTC();
 }
 
 function keepStreamsAlive(target) {

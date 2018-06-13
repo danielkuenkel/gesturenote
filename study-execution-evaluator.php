@@ -28,7 +28,7 @@ if ($h && $token && $studyId) {
         <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -36,12 +36,12 @@ if ($h && $token && $studyId) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
         <script src="js/resumable/resumable.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script> 
         <script src="js/filesaver/FileSaver.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/study-preview.css">
@@ -165,7 +165,7 @@ if ($h && $token && $studyId) {
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
 
@@ -244,6 +244,12 @@ if ($h && $token && $studyId) {
                     } else {
                         $(document).scrollTop(0);
                     }
+                } else {
+                    
+                    var width = $('#viewModerator #column-left').width();
+                    var height = 3 / 4 * width;
+                    console.log('reset resize', width);
+                    $('#viewModerator #video-caller').css({width: width + 'px', height: height + 'px'});
                 }
             });
 
@@ -261,6 +267,12 @@ if ($h && $token && $studyId) {
                 var newWidth = 4 / 3 * newHeight;
                 if (newWidth > DRAGGABLE_MIN_WIDTH) {
                     $('#viewModerator #video-caller').css({height: newHeight + 'px', width: newWidth + 'px'});
+                }
+
+                if (scrollTop > 0) {
+                    $('#viewModerator #video-caller').css({opacity: .7});
+                } else {
+                    $('#viewModerator #video-caller').css({opacity: 1});
                 }
 
                 if (updateColumn) {

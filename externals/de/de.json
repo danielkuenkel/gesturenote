@@ -12,7 +12,7 @@
     "gestureNoteCreateStudy": "GestureNote - Studie erstellen",
     "gestureNoteGestureCatalog": "GestureNote - Gesten-Katalog",
     "gestureNoteGestureNews": "GestureNote - Aktuelles",
-    "gesturenoteSubline": "Spezialisiert auf Usability Engineering für Gesteninteraktionen",
+    "gesturenoteSubline": "Werkzeuggestütztes Remote Design gestenbasierter Interaktionen",
     "alpha": "alpha",
     "beta": "beta",
     "about": "Über",
@@ -124,7 +124,7 @@
     "whatOffersGesturenote4headline": "Einfache Studien-Erstellung",
     "whatOffersGesturenote4text": "Schnelle und einfache Erstellung von Leitfäden.",
     "whatOffersGesturenote5headline": "Messinstrumente",
-    "whatOffersGesturenote5text": "Gesture Usability Scales, Beobachtungsleitfäden, etc. Speziell entwickelt für Gesteninteraktionen.",
+    "whatOffersGesturenote5text": "Gesture Usability Scales, Beobachtungsleitfäden, etc. Speziell entwickelt für Gesten-Interaktionen.",
     "whatOffersGesturenote6headline": "Styleguides",
     "whatOffersGesturenote6text": "Sie wissen nicht weiter? GestureNote bietet Styleguides für gebrauchstaugliche Gesten an.",
     "whatOffersGesturenote7headline": "Aktuelle Technologien",
@@ -142,22 +142,40 @@
     "infosContent": {
         "planning": {
             "title": "Planung",
-            "content": "Einfache Erstellung von Leitfäden<br/>Zugriff auf Gesten-Katalog</br>Unterstützung gängiger Gesten-Design-Methoden<br/>Anbindung von Prototypen<br/>Studien-Design-Vorschau</br>Gesten-Styleguides",
-            "videoPlaceholderUrl": "img/de/planning-placeholder.jpg"
+            "content": "Einfache Erstellung von Leitfäden,<br/>Zugriff auf Gesten-Katalog,</br>Unterstützung gängiger Gesten-Design-Methoden,<br/>Anbindung von Prototypen,<br/>Studien-Design-Vorschau,</br>Gesten-Styleguides.",
+            "videoPlaceholderUrl": "img/de/planning-placeholder.jpg",
+            "videoUrl": "video/planning.mp4"
         },
         "execution": {
             "title": "Durchführung",
-            "content": "Moderierte & unmoderierte Befragungen<br/>Pluginfreie Echtzeit-kommunikation (WebRTC)<br/>Automatische Annotation von Ereignissen (z.B. wann Geste ausgeführt wurde)</br>Aufzeichnung von Webcam & Sensordaten (Leap Motion)<br/>Prototyp-Sharing & Aufzeichnung",
-            "videoPlaceholderUrl": "img/de/execution-placeholder.jpg"
+            "content": "Moderierte & unmoderierte Befragungen,<br/>Pluginfreie Echtzeit-kommunikation (WebRTC),<br/>Automatische Annotation von Ereignissen (z.B. wann Geste ausgeführt wurde),</br>Aufzeichnung von Webcam & Sensordaten (Leap Motion),<br/>Prototyp-Sharing & Aufzeichnung.",
+            "videoPlaceholderUrl": "img/de/execution-placeholder.jpg",
+            "videoUrl": "video/execution.mp4"
         },
         "analysis": {
             "title": "Analyse",
-            "content": "Bereitstellung von Rohdaten (Videodaten, Fragebögen, etc.)<br/>Berechnung des SUS-Scores</br>Teilen von Ergebnissen<br/>Kommentieren, Bewerten und Teilen von Gesten",
-            "videoPlaceholderUrl": "img/de/analysis-placeholder.jpg"
+            "content": "Bereitstellung von Rohdaten (Videodaten, Fragebögen, etc.),<br/>Berechnung des SUS-Scores,</br>Teilen von Ergebnissen,<br/>Kommentieren, Bewerten und Teilen von Gesten.",
+            "videoPlaceholderUrl": "img/de/analysis-placeholder.jpg",
+            "videoUrl": "video/analysis.mp4"
         },
         "features": {
             "title": "Funktionsumfang",
-            "content": "Bereitstellung von Rohdaten (Videodaten, Fragebögen, etc.)<br/>Berechnung des SUS-Scores</br>Teilen von Ergebnissen<br/>Kommentieren, Bewerten und Teilen von Gesten"
+            "usercentered": {
+                "subline": "Gesten-Designer treten in Kontakt mit potentiellen Nutzern von Gesten-Interaktionen. Ortsungebunden! Probanden können in alle drei Phasen des Gesten-Designs-Prozesses eingebunden werden. Nutzen Sie Screen-Sharing, um ihren Probanden zu veranschaulichen, wofür Gesten gesucht, extrahiert oder berwertet werden sollen. Binden Sie dazu Bilder, Videos oder Webseiten in ihren Leitfaden ein. Zeichnen Sie Gesten ganz einfach über die Webcam ihrer Probanden auf. Nutzen Sie vordefinierte Fragebögen, um schnell und einfach Gesten-Interaktionen bewerten zu lassen. Koppeln Sie Gesten an vorhandene Prototypen, um Gesten-Interaktionen zu evaluieren. Akquirieren Sie Probanden aus aller Welt über soziale Netzwerke.",
+                "content": {
+                    "col01": "<ul><li><strong>Ermittlung (Top-Down):</strong> Gesten für vorhandene Funktionen ermitteln.</li><li><strong>Ermittlung (Bottom-Up):</strong> Funktionen für vorhandene Gesten ermitteln.</li></ul>",
+                    "col02": "<ul><li><strong>Exploration (Top-Down):</strong> Abfrage favorisierter Gesten für vorhandene Funktionen.</li><li><strong>Exploration (Bottom-Up):</strong> Abfrage favorisierter Funktionen für vorhandene Gesten.</li></ul>",
+                    "col03": "<ul><li><strong>GUS:</strong> Baukasten zur Erstellung von Bewertungsbögen für Gesten-Interaktionen.</li><li><strong>SUS:</strong> Bewertung eines Systems oder Prototyp.</li><li><strong>UEQ:</strong> Messen der Benutzererfahrung von interaktiven Produkten.</li><li><strong>Gesten-Training:</strong> Trainieren von Gesten vor der Nutzung.</li><li><strong>Szenario:</strong> Interaktive explorative szenariobasierte WOZ-Experimente.</li><li><strong>Gesten erraten</strong> Messen von Erinnerbarkeit und Intuitivität von Gesten.</li><li><strong>Funktionen erraten:</strong> Messen von Erinnerbarkeit und Intuitivität von Gesten.</li><li><strong>Physischer Belastungstest:</strong> Messen der körperlichen Belastung von Gesten.</li></ul>"
+                }
+            },
+            "expertbased": {
+                "subline": "Hier steht die Analyse und Bewertung von Gesten-Interaktionen durch Gesten-Designer im Fokus. GestureNote unterstützt Vorgehensweisen und Methoden, die ohne direkten Kontakt zu potentiellen Nutzern von Gesten-Interaktionen auskommen. Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.",
+                "content": {
+                    "col01": "<ul><li><strong>Gesten-Recorder:</strong> Aufzeichnung von Gesten mit über Webcam und/oder Leap Motion Controller.</li><li><strong>Gesten-Katalog:</strong> Zugriff auf alle erstellten und von anderen Gesten-Designern freigegebene Gesten.</li></ul>",
+                    "col02": "<ul><li><strong>Klassifizierung:</strong> Einfaches Klassifizieren von nutzerzentriert ermittelten Gesten.</li><li><strong>Potentielle Gesten:</strong> Bewertung klassifizierter Gesten auf Basis bereitgestellter Kennzahlen (Anzahl von Gesten, statische Übereinstimmung nach Wobbrock) und Bewertungsinstrumenten (Checkliste, Sinnzusammenhänge).</li><li><strong>Gesten-Sets:</strong> Fassen Sie potentielle Gesten zu einem Gesten-Set zusammen, um diese für eine Evaluierung zu verwenden.</li></ul>",
+                    "col03": "<ul><li><strong>Rohdaten:</strong> Bereitstellung von Rohdaten (Videos, Gesten, Fragebögen, Beobachtungen, etc.).</li><li><strong>Umfangreicher Video-Player:</strong> Automatische Synchronisierung von Videodaten (Moderator, Proband, Prototyp).</li><li><strong>Zeitleiste & Annotationen:</strong> Synchroniserte Darstellung automatische gespeicherter Annotationen. Hinzufügen/Löschen von Annotationen.</li><li><strong>Automatische Score-Berechnung:</strong> SUS-Scores, sowie Scores für „Gesten erraten“ und „Funktionen erraten“ werden automatisch berechnet.</li><li><strong>Notizen:</strong> Fügen Sie wichtige Notizen zu jedem Leitfadenschritt hinzu.</li><li><strong>Teilen von Ergebnissen:</strong> Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.</li><li><strong>Gesten-Katalog:</strong> Teilen Sie ermittelte Gesten mit anderen Gesten-Designern. Diskutieren und bewerten Sie Gesten mit anderen Gesten-Designern.</li></ul>" 
+                }
+            }
         }
     },
     "imprintContent": {
@@ -1921,7 +1939,7 @@
             "editPhasestep": "Leitfadenschritt bearbeiten"
         },
         "studyCreate": {
-            "title": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Es können zwei Studien mit dem gleichen Namen angelegt werden, z.B. einmal für eine Ermittlung und einmal für eine Evaluierung.",
+            "title": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Es können zwei Studien mit dem gleichen Titel angelegt werden, z.B. einmal für eine <em>Ermittlung</em> und einmal für eine <em>Evaluierung</em>.",
             "description": "Geben Sie den Probanden Informationen über ihre Studie. Diese Informationen werden zusammen mit dem Titel immer vor einer Studien-Teilnahme angezeigt.",
             "phase": "Geben Sie an, für welche Phase eine Studie durchgeführt wird. Erst dann können Kataloge und der Leitfaden angelegt werden. ",
             "surveyType": "Unmoderierte Befragungen bieten die Möglichkeit Probanden ohne Moderation zu befragen. Bei moderierten Befragungen steuert der Moderator den Leitfaden.",
@@ -1964,7 +1982,7 @@
             "sus": "Dies ist ein einfacher und technologieunabhängiger Fragebogen, mit dem die Gebrauchstauglichkeit eines Systems bewertet werden kann. Der errechnete Scorewert (zwischen 0 und 100) kann zur quantitativen Analyse der Gebrauchstauglichkeit herangezogen werden. Sie müssen deshalb nichts weiter tun als diesen Fragebogen dem Leitfaden hinzuzufügen.",
             "ueq": "Der User Experience Questionnaire (UEQ) ermöglicht eine schnelle Beurteilung der Benutzererfahrung mit interaktiven Produkten. Das Format des Fragebogens unterstützt Benutzer sich über Gefühle, Eindrücke und Einstellungen auszudrücken, die entstehen, wenn sie ein Produkt verwenden.",
             "gestureTraining": "Bevor Gesten (z.B. in einem Szenario) zum Einsatz kommen, können diese unter Umständen vorab explorativ trainiert werden. Dem Probanden kann dabei ein Prototyp mit dazugehöriger Funktionalität (Gesten, Feedback, Zustandsübergänge) gezeigt werden. Alternativ können nur die Gesten mit dazugehöriger Funktion trainiert werden.",
-            "gestureTrainingOverlay": "Bevor Gesten (z.B. in einem Szenario-basierten WOZ-Experiment) zum Einsatz kommen, sollten diese unter Umständen vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich kann ein Gesten-Training durch einen vorhandenen Prototypen (Zustände) bereichert werden.",
+            "gestureTrainingOverlay": "Bevor Gesten (z.B. in einem szenariobasierten WOZ-Experiment) zum Einsatz kommen, sollten diese unter Umständen vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich kann ein Gesten-Training durch einen vorhandenen Prototypen (Zustände) bereichert werden.",
             "gestureTrainingTrigger": "Welche Funktion soll der Benutzer erlernen?",
             "gestureTrainingGesture": "Welche Geste soll ein Benutzer vorführen, damit die Funktion ausgelöst werden kann?",
             "gestureTrainingFeedback": "Soll dem Benutzer ein Feedback angezeigt werden? Oder genügt ein Zustandsübergang als Rückmeldung (falls Zustände verwendet werden)?",
@@ -1975,8 +1993,8 @@
             "gestureTrainingScene": "Greifen Sie auf den Zustands-Katalog zurück. Wird mehr als 1 Zustand hinterlegt, dann ist der erste der Ausgangszustand und der letzte der Folgezustand. Zwischenzustände sind ab 3 Zuständen möglich.",
             "gestureTrainingSceneTransitionMode": "Automatisch bedeudet, dass dieser Zustand z.B. automatisch nach einer Geste oder nach einem anderen Zwischenzustand angezeigt wird.",
             "gestureTrainingSceneTransitionTime": "Wie lange soll dieser Zwischenzustand angezeigt werden?",
-            "scenario": "Mit Szenario-baiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten.",
-            "scenarioOverlay": "Gesten-Interaktionen werden typischerweise mit Szenario-basierten Aufgaben in Verbindung mit einem WOZ-Experiment evaluiert. D.h. es müssen in GestureNote entsprechende Daten und Strukturen hinterlegt werden, um solch einen Test durchführen zu können. Ein Szenario besteht dabei aus einer oder mehreren Aufgaben. An die jeweiligen Aufgaben sind Zustände gekoppelt (Bild, Video, Webseite, Pidoco). Des Weiteren können auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelne Gesten und deren Feedback. Der Erfolg einer Aufgabe muss beurteilt werden. Dazu können die vordefinierten Aufgaben-Beurteilungen genutzt, diese ergänzt oder eigene angelegt werden. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten, die dann abhängig von der jeweiligen Aufgabe und einem Zustand angezeigt werden kann.",
+            "scenario": "Mit szenariobaiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten.",
+            "scenarioOverlay": "Gesten-Interaktionen werden typischerweise mit szenariobasierten Aufgaben in Verbindung mit einem WOZ-Experiment evaluiert. D.h. es müssen in GestureNote entsprechende Daten und Strukturen hinterlegt werden, um solch einen Test durchführen zu können. Ein Szenario besteht dabei aus einer oder mehreren Aufgaben. An die jeweiligen Aufgaben sind Zustände gekoppelt (Bild, Video, Webseite, Pidoco). Des Weiteren können auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelne Gesten und deren Feedback. Der Erfolg einer Aufgabe muss beurteilt werden. Dazu können die vordefinierten Aufgaben-Beurteilungen genutzt, diese ergänzt oder eigene angelegt werden. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten, die dann abhängig von der jeweiligen Aufgabe und einem Zustand angezeigt werden kann.",
             "scenarioStartScene": "Geben Sie hier den Ausgangszustand an, von dem aus ein Szenario durchgespielt werden kann. Liegt ein Pidoco-Prototyp mit daran gekoppelten Gesten vor? Dann reicht es, wenn die Startseite des Prototypen hier angegeben wird.",
             "scenarioTaskTitle": "Der Aufgaben-Titel dient analytischen Zwecken und wird bei den Ergebnissen einer Durchführung angezeigt.",
             "scenarioTaskDescription": "Welche Aufgabe soll ein Proband bewältigen? Formulieren Sie diese Aufgabe in der Sprache des Benutzers.",
@@ -3012,7 +3030,7 @@
                 "justification": "yes",
                 "justificationFor": "no"
             },
-            "styleguide": "Das System kann die Geste eindeutig [sicher] erkennen. (Long, Landay, & Rowe, 1999; Nielsen et al., 2004) Eine Gesteninteraktion sollte präzise und zuverlässig sein. (Microsoft, 2013)"
+            "styleguide": "Das System kann die Geste eindeutig [sicher] erkennen. (Long, Landay, & Rowe, 1999; Nielsen et al., 2004) Eine Gesten-Interaktion sollte präzise und zuverlässig sein. (Microsoft, 2013)"
         },
         {
             "format": "dichotomousQuestionGUS",
@@ -3023,7 +3041,7 @@
                 "justification": "no",
                 "justificationFor": "always"
             },
-            "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbares Feedback liefern. (Leap Motion, n.d.-a) Eine Gesteninteraktion sollte schnell sein. (Microsoft, 2013)"
+            "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbares Feedback liefern. (Leap Motion, n.d.-a) Eine Gesten-Interaktion sollte schnell sein. (Microsoft, 2013)"
         },
         {
             "format": "dichotomousQuestionGUS",
@@ -3369,7 +3387,7 @@
                 "optionSource": "gestures",
                 "optionalAnswer": "no"
             },
-            "styleguide": "Das System kann die Geste eindeutig [sicher] erkennen. (Long, Landay, & Rowe, 1999; Nielsen et al., 2004) Eine Gesteninteraktion sollte präzise und zuverlässig sein. (Microsoft, 2013)"
+            "styleguide": "Das System kann die Geste eindeutig [sicher] erkennen. (Long, Landay, & Rowe, 1999; Nielsen et al., 2004) Eine Gesten-Interaktion sollte präzise und zuverlässig sein. (Microsoft, 2013)"
         },
         {
             "format": "groupingQuestionGUS",
@@ -3383,7 +3401,7 @@
                 "optionSource": "gestures",
                 "optionalAnswer": "no"
             },
-            "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbares Feedback liefern. (Leap Motion, n.d.-a) Eine Gesteninteraktion sollte schnell sein. (Microsoft, 2013)"
+            "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbares Feedback liefern. (Leap Motion, n.d.-a) Eine Gesten-Interaktion sollte schnell sein. (Microsoft, 2013)"
         },
         {
             "format": "groupingQuestionGUS",
@@ -4779,7 +4797,7 @@
             "tabId": "catalogs",
             "imgSrc": "img/de/introduction/study-create/carousel-03.jpg",
             "title": "Kataloge",
-            "text": "Dies ist ein Infotext …",
+            "text": "Kataloge sind die Basis für jeden Leitfaden und somit jeder Gesten-Design-Studie.",
             "popover": "Kataloge",
             "description": 
                     [
@@ -4795,7 +4813,7 @@
                         "<h4>Feedback</h4><hr>",
                         "<p>Um dem potenziellen Nutzer Feedback für eine Interaktion zu geben, können Text- (Hinweistext nach Geste) und Audio-Feedbacks hinterlegt werden. Diese können dann z.B. für ein Szenario, ein Gesten-Training oder einem Gesture Usability Scale genutzt werden. Standardmäßig sind zwei Text-Feedbacks hinterlegt. Der Katalog für das Feedback wird nur bei der Evaluierung von Gesten benötigt.</p>",
                         "<h4>Zustände</h4><hr>",
-                        "<p>Zustände sind z.B. für ein WOZ-Experiment während einer Szenario-basierten Aufgabe von Bedeutung, um eine gewisse Immersion für potenzielle Nutzer zu gewährleisten. Mit Zuständen können explorative Gesten-Trainings, Gesten-Ermittlungen oder WOZ-Experimente erstellt werden. In GestureNote werden aktuell drei unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:</p>",
+                        "<p>Zustände sind z.B. für ein WOZ-Experiment während einer szenariobasierten Aufgabe von Bedeutung, um eine gewisse Immersion für potenzielle Nutzer zu gewährleisten. Mit Zuständen können explorative Gesten-Trainings, Gesten-Ermittlungen oder WOZ-Experimente erstellt werden. In GestureNote werden aktuell drei unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:</p>",
                         "<strong>Bild</strong>: Es können Bilder im Format JPEG und PNG hinterlegt werden.<br/>",
                         "<strong>Webseite</strong>: Ähnlich wie in typischen Online-Usability-Tools, können in GestureNote Webseiten hinterlegt werden. Aus Sicherheitsgründen überprüfen einige Webseiten den sog. Same-Origin. Wenn eine Webseite in der Zustands-Vorschau (z.B. bei der Katalog-Übersicht) nicht angezeigt wird, dann ist diese als Zustand für eine Befragung ungeeignet. Die Webseite kann in GestureNote nicht integriert, bzw. geladen werden.<br/>",
                         "<strong>Video-Embed</strong>: Embed-URLs von YouTube oder Vimeo. Diese URLs können über die Teilen-Funktion der jeweiligen Portale abgefragt und kopiert werden.<br/>",
@@ -4806,11 +4824,11 @@
             "tabId": "phases",
             "imgSrc": "img/de/introduction/study-create/carousel-04.jpg",
             "title": "Leitfaden",
-            "text": "Dies ist ein Infotext …",
+            "text": "Der Leitfaden ist das Kernstück einer nutzerzentrierten Befragung.",
             "popover": "Leitfaden",
             "description": 
                     [
-                        "<p>Der Leitfaden ist das Kernstück einer nutzerzentrierten Befragung. In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Danksagung. Diese Schritte sind vorausgewählt und können nicht gelöscht werden. Um weitere Abschnitte hinzuzufügen, klicken Sie einfach auf das entsprechende Format wie z.B. Fragebogen. Um die Abschnitte zu bearbeiten, klicken Sie in der Leitfadenliste auf den Titel des jeweiligen Abschnitts.</p>",
+                        "<p>In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Danksagung. Diese Schritte sind vorausgewählt und können nicht gelöscht werden. Um weitere Abschnitte hinzuzufügen, klicken Sie einfach auf das entsprechende Format wie z.B. Fragebogen. Um die Abschnitte zu bearbeiten, klicken Sie in der Leitfadenliste auf den Titel des jeweiligen Abschnitts.</p>",
                         "<table class='table table-bordered' style='max-width:100%'><thead><tr><th>Methode</th><th class='text-center'>Ermittlung</th><th class='text-center'>Extraktion</th><th class='text-center'>Evaluierung</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>M & UM</td><td class='text-center'>M & UM</td><td class='text-center'>M & UM</td></tr><tr><td>Interview</td><td class='text-center'>M</td><td class='text-center'>M</td><td class='text-center'>M</td></tr><tr><td>GUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr><tr><td>UEQ</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr><tr><td>Ermittlung</td><td class='text-center'>M<td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Exploration</td><td class='text-center'>-</td><td class='text-center'>M</td><td class='text-center'>-</td></tr><tr><td>Gesten-Training</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Szenario</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Gesten erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Funktionen erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr></tbody></table>",
                         "<div class='text-center' style='font-size:10pt'>M = Moderierte Durchführung, UM = Unmoderierte Durchführung</div>",
                         "<p style='margin-top:10px'>In der oberen Tabelle sind für eine bessere Übersicht alle Design-Phasen und die Methoden, welche mit GestureNote dort unterstützt werden dargestellt. Zusätzlich ist die unterstützte Befragungsart (moderiert oder unmoderiert) hinterlegt.</p>",
@@ -4825,12 +4843,15 @@
                         "<p><strong>Ja/nein-Frage</strong>: Ja/nein-Fragen lassen nur zwei Antwortmöglichkeiten zu. Es können Begründungen angefordert werden, z.B. wenn <em>Nein</em> ausgewählt wurde.</p>",
                         "<p><strong>Eingruppierungs-Frage</strong>: Bei Eingruppierungsfragen werden bestimmte Wertebereiche festgelegt, in die sich der Befragte einordnen soll. Wertebereiche z.B. für <em>Wie alt sind Sie?</em>: unter 20 | 21 - 30 | über 30. Mit diesem Format kann aber auch Fragen wie <em>Welche Gesten-Erkenner sind Ihnen bekannt?</em> abgedeckt werden. Eine Ein- oder Mehrfachauswahl von Antworten ist möglich. Eigene Antworten können ebenfalls angegeben werden.</p>",
                         "<p><strong>Eingruppierungs-Frage (auswählbare Optionen)</strong>: Dies ist eine Sonderform einer normalen Eingruppierungs-Frage. Hier müssen die Antwortmöglichkeiten nicht einzeln eingetragen werden, sondern werden automatisch angezeigt. Je nach Auswahl <em>Gesten</em>, <em>Feedback</em> oder <em>Funktionen</em> werden die entsprechend hinterlegten Daten aus den Katalogen übernommen.</p>",
-                        "<p><strong>Summenfrage</strong>: Hier kann eine Maximum definiert und mehrere Antwortoptionen definiert werden. Der Proband soll dann z.B. 100 Punkte oder Prozent auf die jeweiligen Optionen verteilen.</p>",
+                        "<p><strong>Summenfrage</strong>: Hier kann ein Maximum definiert und mehrere Antwortoptionen hinterlegt werden. Der Proband soll dann z.B. 100 Punkte oder Prozent auf die jeweiligen Optionen verteilen.</p>",
                         "<p><strong>Ranking</strong>: Beim Ranking sind Optionen anzugeben, die der Proband dann mit Pfeil-Buttons sortieren soll, z.B. nach Wichtigkeit.</p>",
                         "<p><strong>Rating</strong>: Hiermit können Fragen erstellt werden, die Häufigkeiten, Zutreffensgrade oder Intensitäten graduell abstufen. Z.B. mit der Frage: <em>Wie anstrengend fanden Sie die Geste?</em> und deren Skalen von <em>überhaupt nicht anstrengend</em> bis <em>sehr anstrengend</em>.</p>",
                         "<p><strong>Matrix</strong>: Dieses Fragenformat stellt eine Erweiterung zum Rating dar. Es lassen sich damit z.B. Fragen wie: <em>Wie häufig arbeiten Sie mit den jeweiligen Gesten-Steuerungen</em> und deren Optionen: <em>Kinect</em>, <em>Leap Motion Controller</em>, <em>Nintendo Wii</em> und deren Skalen von <em>überhaupt nicht</em> bis <em>täglich</em> erstellen.</p>",
-                        "<p>Die Erstellung von Filterfragen ist mit GestureNote ebenfalls möglich. Dies wird jedoch nur für die Erstellung eigener Fragebögen und nicht für z.B. den GUS, UEQ oder SUS unterstützt.</p>",
-                        "<p>…</p>",
+                        "<br/><p><strong>Filterfragen</strong></p><p>Die Erstellung von Filterfragen ist mit GestureNote ebenfalls möglich. Dies wird für die Erstellung eigener Fragebögen und Interviews, nicht jedoch für z.B. den GUS, UEQ, SUS oder Beobachtungsleitfäden unterstützt. Das Hinzufügen von Filteroptionen ist nur möglich, wenn mehr als eine Frage angelegt wurden. Eine Filteroption für eine Frage kann mit einem Klick auf <button class='btn btn-xs btn-info'><i class='fa fa-plus'></i> Filteroption hinzufügen</button> hinzufügt werden. </p>",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-04-01.jpg' style='max-width:595px' />",
+                        "<p>Im oberen Screenshot ist ein Beispiel für eine Filteroption einer Eingruppierungsfrage dargestellt. Ausgehend von einer Liste der verfügbaren Antwortmöglichkeiten (links), kann ausgewählt werden, welche Folgefrage bei einer bestimmten Antwort angezeigt werden soll (rechts). Es können mehrere Filteroptionen für eine Antwortmöglichkeit angelegt werden. Z.B. können bei Auswahl von <em>Microsoft Kinect</em> die Folgefragen <em>Offene Frage 1</em> und <em>Ja/nein-Frage 1</em> angezeigt werden, sowie bei Auwahl von <em>Leap Motion Controller</em> diese Fragen übersprungen werden, um direkt zur Folgefrage <em>Offene Frage 2</em> zu gelangen. Eine Filteroption kann auch dafür sorgen, dass ein Fragebogen mit all seinen noch verfügbaren Folgefragen beendet wird.</p>",
+                        "<p>Je nachdem, welches Fragenformat gewählt wurde (Zähler, Offene Frage, Matrix, etc.), unterscheiden sich die verfügbaren Filteroptionen. Im Gegensatz zu Eingruppierungs-Fragen, gib es bei Offenen Fragen z.B. keine Antwortmöglichkeiten außer <em>Egal welche</em>. Für Summenfragen können Filteroptionen mit den Operatoren =, <, >, >= und <= bestimmte Wertebereiche bei den Antwortmöglichkeiten eingrenzen. Für eine Matrix können für jede Zeile Filteroptionen hinterlegt werden.</p>",
+                        "<p>Sind Filteroptionen für einzelne Fragen vorhanden, wird der gesamte Fragebogen sequentiell abgefragt, d.h. Frage für Frage.</p>",
                         "<h4>Interview</h4><hr>",
                         "<p>Ein Interview ist wie ein Fragebogen zu behandeln, nur dass nicht der Proband die Antworten in die Antwortmasken eingibt, sondern der Moderator.</p>",
                         "<h4>Gesture Usability Scale (GUS)</h4><hr>",
@@ -4841,14 +4862,15 @@
                         "<p>Der User Experience Questionnaire (UEQ) ermöglicht eine schnelle Beurteilung der Benutzererfahrung mit interaktiven Produkten. Das Format des Fragebogens unterstützt Benutzer ihre Gefühle, Eindrücke und Einstellungen, die entstehen, wenn sie ein Produkt verwenden, sofort auszudrücken. Die Skalen des Fragebogens decken einen umfassenden Eindruck der Benutzererfahrung ab, d.h. messen sowohl klassische Usability-Aspekte (Effizienz, Übersichtlichkeit, Zuverlässigkeit) als auch Aspekte der Benutzererfahrung (Originalität, Stimulation).</p>",
                         "<h4>Ermittlung</h4><hr>",
                         "<p>Wählen Sie aus, ob Sie Gesten oder Funktionen ermitteln wollen. Wenn z.B. Gesten ermittelt werden sollen, muss ein Funktionen- und Zustands-Katalog vorliegen.</p>",
-                        "<p><strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Funktionen geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzer-basiert und zum anderen experten-basiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren. <br/>",
+                        "<p><strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Funktionen geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzerbasiert und zum anderen expertenbasiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren. <br/>",
                         "<strong>Funktionen <em>(Top-Down)</em></strong>: Bei Top-Down werden logische Verknüpfungen von Funktionen zu vorhandenen Gesten hergestellt. Wichtig ist dabei, dass eine Quelle für die Gesten angeboten wird. In GestureNote können Funktionen für bereits vorhandene Gesten (ermittelte oder freigegebene Gesten anderer Evaluatoren) oder für von ihnen ad-hoc aufgezeichnete Gesten gesucht werden.</p>",
                         "<h4>Exploration</h4><hr>",
                         "<p>Ziel dieser Methode ist es, den Probanden einen Überblick über die ermittelten Gesten oder Funktionen zu geben. In der Befragung können dann entweder die favorisierten Funktionen für eine Gesten oder die favorisierten Gesten für eine Funktion identifiziert werden.</p>",
                         "<h4>Gesten-Training</h4><hr>",
-                        "<p>Bevor Gesten (z.B. in einem Szenario-basierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich muss das Gesten-Training mit einem vorhandenen Prototypen durch unterschiedlich hinterlegt Zustände bereichert werden.</p>",
+                        "<p>Bevor Gesten (z.B. in einem szenariobasierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich muss das Gesten-Training mit einem vorhandenen Prototypen durch unterschiedlich hinterlegt Zustände bereichert werden.</p>",
                         "<h4>Szenario</h4><hr>",
-                        "<p>Gesteninteraktionen werden typischerweise mit Szenario-basierten Aufgaben in Verbindung mit WOZ-Experimenten evaluiert. Der Fokus wurde dabei auf die Erstellung explorativer WOZ-Experimente gelegt. Mit Szenario-baiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe (moderiert) anzubieten oder (unmoderiert) abzurufen.</p>",
+                        "<p>Gesten-Interaktionen werden typischerweise mit szenariobasierten Aufgaben in Verbindung mit Wizard-of-Oz (WOZ)-Experimenten evaluiert. Bei einem WOZ-Experiment glaubt der Nutzer (Proband), dass dieser mit einem autonomen System interagiert. In Wirklichkeit steuert jedoch ein anderer Mensch die Reaktionen des Systems im Verborgenen. Der Vorteil dieser Methode ist, dass sie schon in einem sehr frühen Entwicklungsstadium eingesetzt werden kann.</p>",
+                        "<p>In GestureNote liegt der Fokus auf der Erstellung explorativer WOZ-Experimente. Mit szenariobaiserten Aufgaben können nicht nur verschiedene Quellen (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Übergänge für Szenen definiert werden. Daran gekoppelt sind einzelne Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe (moderiert) anzubieten oder (unmoderiert) abzurufen und Erfolgsfaktoren für jede Aufgabe zu definieren.</p>",
                         "<h4>Gesten erraten</h4><hr>",
                         "<p>Die Erinnerbarkeit und Intuitivität von Gesten kann mit einer Gesten-Slideshow abgefragt werden. Es werden die hinterlegten Funktionen angezeigt. Der Proband muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Konnte der Proband der Funktion nicht die korrekte Geste zuordnen, beginnt die Slideshow erneut. Der Benutzer bekommt bei einem Neustart alle Gesten nochmals eingeblendet. GestureNote bietet, neben der Erstellung von Gesten-Funktions-Paaren, die Möglichkeit das Zeitfenster für jedes Paar zu definieren.</p>",
                         "<h4>Funktionen erraten</h4><hr>",

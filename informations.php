@@ -62,7 +62,7 @@ include_once 'includes/functions.php';
                     <!-- 16:9 aspect ratio -->
                     <div class="rtc-shadow embed-responsive embed-responsive-16by9" style="border-radius: 5px">
                         <video class="embed-responsive-item" poster="<?php echo $lang->infosContent->planning->videoPlaceholderUrl ?>" controls controlsList="nodownload">
-                            <source src="video/planning.mp4" type="video/mp4">
+                            <source src="<?php echo $lang->infosContent->planning->videoUrl ?>" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -79,7 +79,7 @@ include_once 'includes/functions.php';
                     <!-- 16:9 aspect ratio -->
                     <div class="rtc-shadow embed-responsive embed-responsive-16by9" style="border-radius: 5px">
                         <video class="embed-responsive-item" poster="<?php echo $lang->infosContent->execution->videoPlaceholderUrl ?>" controls controlsList="nodownload">
-                            <source src="video/execution.mp4" type="video/mp4">
+                            <source src="<?php echo $lang->infosContent->execution->videoUrl ?>" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -88,7 +88,7 @@ include_once 'includes/functions.php';
 
             <div class="row" style="margin-top: 120px">
                 <div class="col-md-5 col-md-push-7 text-center text" style="margin-bottom: 30px">
-                    <i class="fa fa-comments fa-5x"></i> 
+                    <i class="fa fa-bar-chart fa-5x"></i> 
                     <h2 style="margin-top: 4px" class="uppercase font-bold"><?php echo $lang->infosContent->analysis->title ?></h2>
                     <div style="margin-top: 20px"><?php echo $lang->infosContent->analysis->content ?></div>
                 </div>
@@ -96,7 +96,7 @@ include_once 'includes/functions.php';
                     <!-- 16:9 aspect ratio -->
                     <div class="rtc-shadow embed-responsive embed-responsive-16by9" style="border-radius: 5px">
                         <video class="embed-responsive-item" poster="<?php echo $lang->infosContent->analysis->videoPlaceholderUrl ?>" controls controlsList="nodownload">
-                            <source src="video/analysis.mp4" type="video/mp4">
+                            <source src="<?php echo $lang->infosContent->analysis->videoUrl ?>" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -113,7 +113,7 @@ include_once 'includes/functions.php';
             <div class="row" style="margin-top: 30px">
                 <div class="col-md-12 text-center">
                     <em style="font-size: 14pt"><?php echo $lang->Usercentered ?></em>
-                    <p>Gesten-Designer treten in Kontakt mit potentiellen Nutzern von Gesten-Interaktionen. Ortsungebunden! Probanden können in alle drei Phasen des Gesten-Designs-Prozesses eingebunden werden. Nutzen Sie Screen-Sharing, um ihren Probanden zu veranschaulichen, wofür Gesten gesucht, extrahiert oder berwertet werden sollen. Binden Sie dazu Bilder, Videos oder Webseiten in ihren Leitfaden ein. Zeichnen Sie Gesten ganz einfach über die Webcam ihrer Probanden auf. Nutzen Sie vordefinierte Fragebögen, um schnell und einfach Gesten-Interaktionen bewerten zu lassen. Koppeln Sie Gesten an vorhandene Prototypen, um Gesten-Interaktionen zu evaluieren. Akquirieren Sie Probanden aus aller Welt über soziale Netzwerke. </p>
+                    <p><?php echo $lang->infosContent->features->usercentered->subline ?></p>
                 </div>
             </div>
 
@@ -122,32 +122,17 @@ include_once 'includes/functions.php';
             <div class="row text" id="features-user-centered" style="margin-top: 10px">
                 <div class="col-md-4">
                     <h4 class="text-center font-bold"><?php echo $lang->phaseType->elicitation ?></h4>
-                    <ul>
-                        <li><strong>Ermittlung (Top-Down):</strong> Gesten für vorhandene Funktionen ermitteln.</li>
-                        <li><strong>Ermittlung (Bottom-Up):</strong> Funktionen für vorhandene Gesten ermitteln.</li>
-                    </ul>
+                    <p><?php echo $lang->infosContent->features->usercentered->content->col01 ?></p>
                 </div>
                 <div class="col-md-4">
                     <div class="hidden-md hidden-lg" style="margin-top: 30px"></div>
                     <h4 class="text-center font-bold"><?php echo $lang->phaseType->extraction ?></h4>
-                    <ul>
-                        <li><strong>Exploration (Top-Down):</strong> Abfrage favorisierter Gesten für vorhandene Funktionen.</li>
-                        <li><strong>Exploration (Bottom-Up):</strong> Abfrage favorisierter Funktionen für vorhandene Gesten.</li>
-                    </ul>
+                    <p><?php echo $lang->infosContent->features->usercentered->content->col02 ?></p>
                 </div>
                 <div class="col-md-4">
                     <div class="hidden-md hidden-lg" style="margin-top: 30px"></div>
                     <h4 class="text-center font-bold"><?php echo $lang->phaseType->evaluation ?></h4>
-                    <ul>
-                        <li><strong>GUS:</strong> Baukasten zur Erstellung von Bewertungsbögen für Gesten-Interaktionen.</li>
-                        <li><strong>SUS:</strong> Bewertung eines Systems oder Prototyp.</li>
-                        <li><strong>UEQ:</strong> Messen der Benutzererfahrung von interaktiven Produkten.</li>
-                        <li><strong>Gesten-Training:</strong> Trainieren von Gesten vor der Nutzung.</li>
-                        <li><strong>Szenario:</strong> Interaktive explorative szenariobasierte WOZ-Experimente.</li>
-                        <li><strong>Gesten erraten</strong> Messen von Erinnerbarkeit und Intuitivität von Gesten.</li>
-                        <li><strong>Funktionen erraten:</strong> Messen von Erinnerbarkeit und Intuitivität von Gesten.</li>
-                        <li><strong>Physischer Belastungstest:</strong> Messen der körperlichen Belastung von Gesten.</li>
-                    </ul>
+                    <p><?php echo $lang->infosContent->features->usercentered->content->col03 ?></p>
                 </div>
             </div>
 
@@ -155,7 +140,7 @@ include_once 'includes/functions.php';
             <div class="row" style="margin-top: 60px">
                 <div class="col-md-12 text-center">
                     <em style="font-size: 14pt"><?php echo $lang->Expertbased ?></em>
-                    <p>Hier steht die Analyse und Bewertung von Gesten-Interaktionen durch Gesten-Designer im Fokus. GestureNote unterstützt Vorgehensweisen und Methoden, die ohne direkten Kontakt zu potentiellen Nutzern von Gesten-Interaktionen auskommen. Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.</p>
+                    <p><?php echo $lang->infosContent->features->expertbased->subline ?></p>
                 </div>
             </div>
 
@@ -164,32 +149,17 @@ include_once 'includes/functions.php';
             <div class="row text" id="features-expert-based" style="margin-top: 10px">
                 <div class="col-md-4">
                     <h4 class="text-center font-bold"><?php echo $lang->phaseType->elicitation ?></h4>
-                    <ul>
-                        <li><strong>Gesten-Recorder:</strong> Aufzeichnung von Gesten mit über Webcam und/oder Leap Motion Controller.</li>
-                        <li><strong>Gesten-Katalog:</strong> Zugriff auf alle erstellten und von anderen Gesten-Designern freigegebene Gesten.</li>
-                    </ul>
+                    <p><?php echo $lang->infosContent->features->expertbased->content->col01 ?></p>
                 </div>
                 <div class="col-md-4">
                     <div class="hidden-md hidden-lg" style="margin-top: 30px"></div>
                     <h4 class="text-center font-bold"><?php echo $lang->phaseType->extraction ?></h4>
-                    <ul>
-                        <li><strong>Klassifizierung:</strong> Einfaches Klassifizieren von nutzerzentriert ermittelten Gesten.</li>
-                        <li><strong>Potentielle Gesten:</strong> Bewertung klassifizierter Gesten auf Basis bereitgestellter Kennzahlen (Anzahl von Gesten, statische Übereinstimmung nach Wobbrock) und Bewertungsinstrumenten (Checkliste, Sinnzusammenhänge).</li>
-                        <li><strong>Gesten-Sets:</strong> Fassen Sie potentielle Gesten zu einem Gesten-Set zusammen, um diese für eine Evaluierung zu verwenden.</li>
-                    </ul>
+                    <p><?php echo $lang->infosContent->features->expertbased->content->col02 ?></p>
                 </div>
                 <div class="col-md-4">
                     <div class="hidden-md hidden-lg" style="margin-top: 30px"></div>
                     <h4 class="text-center font-bold"><?php echo $lang->phaseType->evaluation ?></h4>
-                    <ul>
-                        <li><strong>Rohdaten:</strong> Bereitstellung von Rohdaten (Videos, Gesten, Fragebögen, Beobachtungen, etc.).</li>
-                        <li><strong>Umfangreicher Video-Player:</strong> Automatische Synchronisierung von Videodaten (Moderator, Proband, Prototyp).</li>
-                        <li><strong>Zeitleiste & Annotationen:</strong> Synchroniserte Darstellung automatische gespeicherter Annotationen. Hinzufügen/Löschen von Annotationen.</li>
-                        <li><strong>Automatische Score-Berechnung:</strong> SUS-Scores, sowie Scores für „Gesten erraten“ und „Funktionen erraten“ werden automatisch berechnet.</li>
-                        <li><strong>Notizen:</strong> Fügen Sie wichtige Notizen zu jedem Leitfadenschritt hinzu.</li>
-                        <li><strong>Teilen von Ergebnissen:</strong> Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.</li>
-                        <li><strong>Gesten-Katalog:</strong> Teilen Sie ermittelte Gesten mit anderen Gesten-Designern. Diskutieren und bewerten Sie Gesten mit anderen Gesten-Designern.</li>
-                    </ul>
+                    <p><?php echo $lang->infosContent->features->expertbased->content->col03 ?></p>
                 </div>
             </div>
 

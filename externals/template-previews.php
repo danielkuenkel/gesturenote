@@ -42,7 +42,11 @@ include '../includes/language.php';
         <div class="col-md-8" id="column-right">
             <h3 style="margin-top: 0"><?php echo $lang->formats->interview->text ?></h3>
             <div class="question-container"></div>
-            <button class="next-step btn btn-success btn-block pull-right" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <div class="clearfix" style="margin-top: 10px">
+                <button class="btn btn-success btn-shadow hidden btn-next-question pull-right"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></button>
+                <button class="btn btn-success btn-shadow hidden btn-questionnaire-done pull-right" id="btn-next-step"><i class="fa fa-check"></i> <?php echo $lang->done ?></button>
+            </div>
+            <!--<button class="next-step btn btn-success btn-block pull-right" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
         </div>
     </div>
 
@@ -2140,7 +2144,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="ranking-item" style="">
-        <div class="btn-group form-group-margin-top">
+        <div class="btn-group" style="margin-top: 5px">
             <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
             <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
         </div>

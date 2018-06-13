@@ -127,16 +127,18 @@ if (login_check($mysqli) == true) {
         <div class="container" id="phase-results" style="margin-bottom: 0px;">
             <div class="row">
                 <div class="col-md-3" style="margin-bottom: 30px;">
-                    <div class="" style="">
-                        <div class="text" id="execution-date"></div>
-                        <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text"></span></span>
-                        <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text"></span></span>
-                        <span class="label label-default hidden" id="execution-duration"><i class="fa fa-clock-o"></i> <span class="label-text"></span></span>
-                    </div>
+                    <div id="phase-results-navigation-bar">
+                        <div class="" style="">
+                            <div class="text" id="execution-date"></div>
+                            <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text"></span></span>
+                            <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text"></span></span>
+                            <span class="label label-default hidden" id="execution-duration"><i class="fa fa-clock-o"></i> <span class="label-text"></span></span>
+                        </div>
 
-                    <div class="btn-group-vertical btn-block" id="phase-results-nav" style="margin-top: 20px"></div>
-                    <div class="btn-group-vertical btn-block" id="delete-results-nav" style="margin-top: 20px">
-                        <button class="btn btn-danger" id="btn-delete-result" style="opacity: 0"><i class="fa fa-trash"></i> <?php echo $lang->deleteParticipantResults ?></button>
+                        <div class="btn-group-vertical btn-block" id="phase-results-nav" style="margin-top: 20px"></div>
+                        <div class="btn-group-vertical btn-block" id="delete-results-nav" style="margin-top: 20px">
+                            <button class="btn btn-danger" id="btn-delete-result" style="opacity: 0"><i class="fa fa-trash"></i> <?php echo $lang->deleteParticipantResults ?></button>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -145,7 +147,7 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="container mainContent" style="margin-top: 0px;">
+        <div class="container mainContent" id="pager-bottom" style="margin-top: 0px; padding-bottom: 0px">
             <nav>
                 <ul class="pager"style="margin-bottom: 2px">
                     <li class="btn-sm btn-prev-participant disabled pull-left" style="padding: 0"><a href="#"><span aria-hidden="true">&larr;</span> <?php echo $lang->previousParticipant ?></a></li>
@@ -339,11 +341,67 @@ if (login_check($mysqli) == true) {
                     }
 
                     var study = getLocalItem(STUDY);
-                    
+
                     if (study.isOwner === 'false' || study.isOwner === false) {
-                        console.log(study, study.isOwner);
+//                        console.log(study, study.isOwner);
                         $('#btn-delete-result').remove();
                     }
+
+                    var navigationBarContent = $('#phase-results-navigation-bar');
+                    $(window).on('resize', function (event) {
+                        event.preventDefault();
+
+                        var windowWidth = $(window).width();
+                        var row = $(navigationBarContent).parent();
+                        var rowWidth = $(row).width();
+                        if (windowWidth < 992) {
+                            $(navigationBarContent).removeClass('affix');
+                            $(navigationBarContent).css({width: '', top: ''});
+                        } else {
+//                            $(navigationBarContent).addClass('affix');
+                            $(navigationBarContent).css({width: rowWidth + 'px'});
+                        }
+                    }).resize();
+
+                    $(window).on('scroll', function (event) {
+                        event.preventDefault();
+                        var windowWidth = $(window).width();
+                        var resultHeight = $('#phase-result').height();
+                        var barHeight = navigationBarContent.height();
+
+                        if (windowWidth >= 992 && barHeight < resultHeight) {
+                            var visibleHeight = $(window).height() - 100 - 35;
+                            var scrollTop = $(window).scrollTop();
+
+//                            var visisbleBarOffset = $(navigationBarContent).offset();
+
+
+                            var scrollOffset = 0;
+                            if (barHeight > visibleHeight) {
+                                var scrollOffset = barHeight - visibleHeight;
+                            }
+                            console.log('barHeight: ' + barHeight + ', visibleHeight: ' + visibleHeight + ", scrollOffset: " + scrollOffset + ', scrollTop: ' + scrollTop);
+
+                            if (scrollTop >= 220 + scrollOffset) {
+//                                var top = 65 - (visibleBarHeight > windowHeight ? (visibleBarHeight - 190) : 0);
+                                var top = 65 - scrollOffset;
+//                                console.log(top, visibleBarHeight, windowHeight, (visibleBarHeight > windowHeight ? (visibleBarHeight - 190) : 0));
+                                $(navigationBarContent).addClass('affix');
+                                $(navigationBarContent).css({top: top + 'px'});
+                                if (scrollOffset > 0) {
+                                    $('#pager-bottom').addClass('hidden');
+                                }
+                            } else {
+                                $(navigationBarContent).removeClass('affix');
+                                $(navigationBarContent).css({top: ''});
+                                $('#pager-bottom').removeClass('hidden');
+                            }
+                        } else {
+                            $(navigationBarContent).removeClass('affix');
+                            $(navigationBarContent).css({top: ''});
+                            $('#pager-bottom').removeClass('hidden');
+                        }
+                    });
 
                     $('#btn-delete-result').unbind('click').bind('click', function (event) {
                         event.preventDefault();
@@ -751,7 +809,7 @@ if (login_check($mysqli) == true) {
                     } else {
                         $(item).find('#feedback .text').text(translation.nones);
                     }
-                    
+
 //                    console.log('start training times', startTrainingTimes);
                     if (evaluatorResults.annotations && evaluatorResults.annotations.length) {
                         var trainingStart, trainingEnd = null;

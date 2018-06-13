@@ -25,7 +25,7 @@ var Moderator = {
 
             var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
 //            $(container).find('#column-left').css({'opacity': '0'});
-            
+
             var item = null;
             switch (currentPhase.format) {
                 case LETTER_OF_ACCEPTANCE:
@@ -164,70 +164,130 @@ var Moderator = {
         data = getAssembledItems(data);
         if (data && data.length > 0) {
             if (isPreview) {
+//                console.log(container, currentQuestionnaireAnswers);
                 renderQuestionnaireAnswers(container, data, currentQuestionnaireAnswers, true);
             } else {
-                for (var i = 0; i < data.length; i++) {
-                    var item = $(source).find('#' + data[i].format).clone();
-                    item.attr('name', data[i].id);
-                    if (data.length > 1) {
-                        $(item).find('.question').text((i + 1) + '. ' + data[i].question);
-                    } else {
-                        $(item).find('.question').text(data[i].question);
-                    }
-
-                    $(container).find('.question-container').append(item);
-                    if (data[i].dimension !== DIMENSION_ANY) {
-                        $(item).find('#item-factors').removeClass('hidden');
-                        $(item).find('#factor-primary').text(translation.dimensions[data[i].dimension]);
-                    }
-
-                    var parameters = data[i].parameters;
-                    var options = data[i].options;
-                    switch (data[i].format) {
-                        case OPEN_QUESTION:
-                            renderOpenQuestionInput(item);
-                            break;
-                        case COUNTER:
-                            renderCounterInput(item, parameters);
-                            break;
-                        case DICHOTOMOUS_QUESTION:
-                            renderDichotomousQuestionInput(item, parameters);
-                            break;
-                        case DICHOTOMOUS_QUESTION_GUS:
-                            renderDichotomousQuestionInput(item, parameters);
-                            break;
-                        case GROUPING_QUESTION:
-                            renderGroupingQuestionInput(item, parameters, options);
-                            break;
-                        case GROUPING_QUESTION_GUS:
-                        case GROUPING_QUESTION_OPTIONS:
-                            renderGroupingQuestionGUSInput(item, parameters, options);
-                            break;
-                        case RATING:
-                            renderRatingInput(item, options);
-                            break;
-                        case MATRIX:
-                            renderMatrixInput(item, options);
-                            break;
-                        case SUM_QUESTION:
-                            renderSumQuestionInput(item, parameters, options);
-                            break;
-                        case RANKING:
-                            renderRankingInput(item, options);
-                            break;
-                        case ALTERNATIVE_QUESTION:
-                            renderAlternativeQuestionInput(item, parameters);
-                            break;
-                    }
-                }
+//                console.log('container', container);
+                renderQuestionnaire(container, data, currentQuestionnaireAnswers, true);
+//                for (var i = 0; i < data.length; i++) {
+//                    var item = $(source).find('#' + data[i].format).clone();
+//                    item.attr('name', data[i].id);
+//                    if (data.length > 1) {
+//                        $(item).find('.question').text((i + 1) + '. ' + data[i].question);
+//                    } else {
+//                        $(item).find('.question').text(data[i].question);
+//                    }
+//
+//                    $(container).find('.question-container').append(item);
+//                    if (data[i].dimension !== DIMENSION_ANY) {
+//                        $(item).find('#item-factors').removeClass('hidden');
+//                        $(item).find('#factor-primary').text(translation.dimensions[data[i].dimension]);
+//                    }
+//
+//                    var parameters = data[i].parameters;
+//                    var options = data[i].options;
+//                    switch (data[i].format) {
+//                        case OPEN_QUESTION:
+//                            renderOpenQuestionInput(item);
+//                            break;
+//                        case COUNTER:
+//                            renderCounterInput(item, parameters);
+//                            break;
+//                        case DICHOTOMOUS_QUESTION:
+//                            renderDichotomousQuestionInput(item, parameters);
+//                            break;
+//                        case DICHOTOMOUS_QUESTION_GUS:
+//                            renderDichotomousQuestionInput(item, parameters);
+//                            break;
+//                        case GROUPING_QUESTION:
+//                            renderGroupingQuestionInput(item, parameters, options);
+//                            break;
+//                        case GROUPING_QUESTION_GUS:
+//                        case GROUPING_QUESTION_OPTIONS:
+//                            renderGroupingQuestionGUSInput(item, parameters, options);
+//                            break;
+//                        case RATING:
+//                            renderRatingInput(item, options);
+//                            break;
+//                        case MATRIX:
+//                            renderMatrixInput(item, options);
+//                            break;
+//                        case SUM_QUESTION:
+//                            renderSumQuestionInput(item, parameters, options);
+//                            break;
+//                        case RANKING:
+//                            renderRankingInput(item, options);
+//                            break;
+//                        case ALTERNATIVE_QUESTION:
+//                            renderAlternativeQuestionInput(item, parameters);
+//                            break;
+//                    }
+//                }
             }
         }
+
+        if (getCurrentPhase().format === INTERVIEW) {
+            $(container).find('.question-container').unbind('questionnaireDone').bind('questionnaireDone', function (event) {
+                event.preventDefault();
+                console.log('questionnaire done triggered');
+
+                $(container).find('#btn-next-step').prev().addClass('hidden');
+                $(container).find('#btn-next-step').addClass('hidden');
+
+                questionnaireDone = true;
+                currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
+
+                if (!previewModeEnabled && peerConnection) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.answers = currentQuestionnaireAnswers.answers;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                }
+
+                $(container).find('#btn-next-step').click();
+            });
+
+            $(container).find('.question-container').unbind('nextQuestion').bind('nextQuestion', function (event) {
+                console.log('next question clicked');
+                event.preventDefault();
+                currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
+
+                if (previewModeEnabled === false && peerConnection) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.answers = currentQuestionnaireAnswers.answers;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                }
+            });
+
+            $(container).unbind('change').bind('change', function (event) {
+                event.preventDefault();
+                currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
+
+                if (previewModeEnabled === false && peerConnection) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.answers = currentQuestionnaireAnswers.answers;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                }
+            });
+        }
+
+        $(container).find('#btn-next-step').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                if (!previewModeEnabled && peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                }
+                nextStep();
+            }
+        });
 
         if (questionnaireDone) {
             $(container).find('#btn-next-step').removeClass('disabled');
         }
 
-        initNextStepButton(container);
+//        initNextStepButton(container);
 
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_QUESTIONNAIRE_DONE).bind(MESSAGE_QUESTIONNAIRE_DONE, function (event, payload) {
@@ -246,22 +306,22 @@ var Moderator = {
         return container;
     },
     getInterview: function getInterview(source, container, data) {
-        container = renderQuestionnaire(container, data, currentQuestionnaireAnswers);
-        initNextStepButton(container);
-        $(container).find('#btn-next-step').on('click', function (event) {
-            event.preventDefault();
+        Moderator.getQuestionnaire(source, container, data, false);
+//        container = renderQuestionnaire(container, data, currentQuestionnaireAnswers, true);
+//        initNextStepButton(container);
 
-            var answers = getQuestionnaireAnswers($(container).find('.question-container').children());
-            if (!previewModeEnabled) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.answers = answers;
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                console.log('on next step clicked', tempData);
-            }
-
-
-        });
+//        $(container).find('#btn-next-step').on('click', function (event) {
+//            event.preventDefault();
+//
+//            var answers = getQuestionnaireAnswers($(container).find('.question-container').children());
+//            if (!previewModeEnabled) {
+//                var currentPhase = getCurrentPhase();
+//                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                tempData.answers = answers;
+//                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                console.log('on next step clicked', tempData);
+//            }
+//        });
         return container;
     },
     getSUS: function getSUS(source, container, data) {

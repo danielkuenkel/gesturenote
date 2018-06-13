@@ -106,9 +106,12 @@ function initThanksOverlay(id, formatClone) {
 }
 
 function initQuestionnaireOverlay(id, formatClone) {
+    var listContainer = $(formatClone).find('#list-container');
     $('[data-toggle="popover"]').popover({container: 'body', delay: {"show": 300, "hide": 0}});
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
-    initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-question-button-group'), $(formatClone).find('#list-container'), $(formatClone), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
+    initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-question-button-group'), listContainer, $(formatClone), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
+    $(listContainer).attr('data-allow-filters', 'true');
+
     var data = getLocalItem(id + '.data');
     if (data !== null && data.length > 0) {
         renderData(data);
@@ -117,36 +120,17 @@ function initQuestionnaireOverlay(id, formatClone) {
     }
 
     function renderData(data) {
-        var listContainer = $(formatClone).find('#list-container');
         for (var i = 0; i < data.length; i++) {
             renderFormatItem(listContainer, data[i], null, true);
             updateBadges(listContainer, data[i].format);
         }
         checkCurrentListState(listContainer);
-
-//        $(listContainer).on('change', function (event, data) {
-//            if (!event.changed) {
-//                event.changed = true;
-////            console.log('list has changed', event, data);
-//                event.preventDefault();
-//
-//            }
-//        });
-
-//        $(listContainer).on('listItemAdded', function (event, element) {
-//            event.preventDefault();
-//            if (!event.added) {
-//                console.log('list item added');
-//                checkFilterOptions(listContainer);
-//                event.added = true;
-//            }
-//        });
     }
 
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(formatClone).find('#btn-save-phase-step-title').click();
-        var itemList = $(formatClone).find('#list-container').children();
+        var itemList = $(listContainer).children();
         var questionnaire = new Array();
         for (var i = 0; i < itemList.length; i++) {
             questionnaire.push(getFormatData(itemList[i]));
@@ -154,7 +138,7 @@ function initQuestionnaireOverlay(id, formatClone) {
         setLocalItem(id + '.data', questionnaire);
     });
 
-    initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), $(formatClone).find('#list-container'));
+    initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), listContainer);
 }
 
 
@@ -182,17 +166,15 @@ function initQuestionnairePreview(button, list, getAssembledGestures, additional
             });
 
             loadHTMLintoModal('custom-modal', 'externals/modal-preview.php', 'modal-lg');
-
-
         }
     });
 
     if ($(list).children().length === 0) {
         $(button).addClass('disabled');
     }
-    
+
     $(list).bind('change listItemAdded', function (event, data) {
-        
+
 //        console.log('change listItemAdded', event);
         if ($(this).children().length > 0) {
             $(button).removeClass('disabled');
@@ -203,54 +185,61 @@ function initQuestionnairePreview(button, list, getAssembledGestures, additional
             $(button).addClass('disabled');
         }
 
-        if (event.type === 'change' && data && data.type === 'delete') {
-            var deleteFilterElement = $(list).find('.filter-options-container').find('.dropdown-toggle #' + data.id).closest('.root');
-            $(deleteFilterElement).find('.btn-delete').click();
-            checkFilterOptions(list);
-        } else if (event.type === 'change' && data && data.type === 'moved') {
-            checkFilterOptions(list);
+        var allowFilterOptions = $(list).attr('data-allow-filters') === 'true';
+        console.log('list allowFilterOptions', allowFilterOptions);
+        if (allowFilterOptions) {
+            if (event.type === 'change' && data && data.type === 'delete') {
+                var deleteFilterElement = $(list).find('.filter-options-container').find('.dropdown-toggle #' + data.id).closest('.root');
+                $(deleteFilterElement).find('.btn-delete').click();
+                checkFilterOptions(list);
+            } else if (event.type === 'change' && data && data.type === 'moved') {
+                checkFilterOptions(list);
 
-            var addFilterButtons = $(event.target).find('.btn-add-filter-option');
-            for (var i = 0; i < addFilterButtons.length; i++) {
-                if (!$(addFilterButtons[i]).closest('.filter-options').hasClass('hidden')) {
-                    var root = $(addFilterButtons[i]).closest('.root');
-                    var dataRoot = root;
-                    var element = $(event.target);
+                var addFilterButtons = $(event.target).find('.btn-add-filter-option');
+                for (var i = 0; i < addFilterButtons.length; i++) {
+                    if (!$(addFilterButtons[i]).closest('.filter-options').hasClass('hidden')) {
+                        var root = $(addFilterButtons[i]).closest('.root');
+                        var dataRoot = root;
+                        var element = $(event.target);
 
-                    if ($(addFilterButtons[i]).attr('data-root-lookups') !== undefined) {
-                        var rootLookups = parseInt($(addFilterButtons[i]).attr('data-root-lookups'));
-                        dataRoot = $(dataRoot).parents().eq(rootLookups);
-                    }
-
-                    var formatData = getFormatData(dataRoot);
-
-                    var filterOptionData = getFilterOptions(formatData.format, root);
-//                        console.log('format data', formatData, filterOptionData);
-
-                    if (filterOptionData && filterOptionData.length > 0) {
-                        var filterOption = null;
-                        for (var j = 0; j < filterOptionData.length; j++) {
-                            if (parseInt($(element).attr('id')) === parseInt(filterOptionData[j].id)) {
-                                filterOption = filterOptionData[j];
-                                break;
-                            }
+                        if ($(addFilterButtons[i]).attr('data-root-lookups') !== undefined) {
+                            var rootLookups = parseInt($(addFilterButtons[i]).attr('data-root-lookups'));
+                            dataRoot = $(dataRoot).parents().eq(rootLookups);
                         }
-                        console.log(filterOptionData, filterOption, element);
-                        updateAvailableFilterOptions(formatData, dataRoot, root, element, filterOption);
+
+                        var formatData = getFormatData(dataRoot);
+                        var filterOptionData = getFilterOptions(formatData.format, root);
+
+                        if (filterOptionData && filterOptionData.length > 0) {
+                            var filterOption = null;
+                            for (var j = 0; j < filterOptionData.length; j++) {
+                                if (parseInt($(element).attr('id')) === parseInt(filterOptionData[j].id)) {
+                                    filterOption = filterOptionData[j];
+                                    break;
+                                }
+                            }
+                            console.log(filterOptionData, filterOption, element);
+                            updateAvailableFilterOptions(formatData, dataRoot, root, element, filterOption);
+                        }
                     }
                 }
-            }
-        } else if (event.type === 'listItemAdded') {
+            } else if (event.type === 'listItemAdded') {
 //            console.log('list item added');
-            checkFilterOptions(list);
+                checkFilterOptions(list);
+            }
+        } else {
+            $(list).find('.filter-options').remove();
         }
     });
 }
 
 function initInterviewOverlay(id, formatClone) {
+    var listContainer = $(formatClone).find('#list-container');
     $('[data-toggle="popover"]').popover({container: 'body', delay: {"show": 300, "hide": 0}});
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
-    initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-question-button-group'), $(formatClone).find('#list-container'), $(formatClone), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
+    initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-question-button-group'), listContainer, $(formatClone), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
+    $(listContainer).attr('data-allow-filters', 'true');
+
     var data = getLocalItem(id + '.data');
     if (data !== null && data.length > 0) {
         renderData(data);
@@ -258,10 +247,7 @@ function initInterviewOverlay(id, formatClone) {
         appendAlert($(formatClone), ALERT_NO_DATA_QUESTIONNAIRE);
     }
 
-
-
     function renderData(data) {
-        var listContainer = $(formatClone).find('#list-container');
         for (var i = 0; i < data.length; i++) {
             renderFormatItem(listContainer, data[i], null, true);
             updateBadges(listContainer, data[i].format);
@@ -3169,7 +3155,7 @@ function renderObservations(formatClone, obeservationItems) {
         $(formatClone).find('#useObservationsSwitch #yes').click();
         var listContainer = $(formatClone).find('#observations #list-container');
         for (var i = 0; i < obeservationItems.length; i++) {
-            renderFormatItem(listContainer, obeservationItems[i]);
+            renderFormatItem(listContainer, obeservationItems[i], null, false);
             updateBadges(listContainer, obeservationItems[i].format);
         }
         checkCurrentListState(listContainer);

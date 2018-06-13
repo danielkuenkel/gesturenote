@@ -18,7 +18,7 @@ if (login_check($mysqli) == true) {
         <title><?php echo $lang->gestureNoteStudyPreview ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -26,7 +26,7 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
@@ -126,13 +126,11 @@ if (login_check($mysqli) == true) {
         <!-- main content -->
         <div class="mainContent" id="mainContent" style="padding-top: 54px;">
             <div id="viewTester" class="hidden">
-                <!--<div id="fixedRTC" style="position: fixed"></div>-->
                 <div id="phase-content"></div>
             </div>
 
             <div id="viewModerator" class="hidden" style="padding-left: 20px; padding-right: 20px;">
                 <div id="pinnedRTC" style="position: fixed; z-index: 99"></div>
-
                 <div id="phase-content"></div>
             </div>
         </div>
@@ -162,6 +160,10 @@ if (login_check($mysqli) == true) {
                     } else {
                         $(document).scrollTop(0);
                     }
+                } else {
+                    var width = $('#viewModerator #column-left').width();
+                    var height = 3 / 4 * width;
+                    $('#viewModerator #web-rtc-placeholder').css({width: width + 'px', height: height + 'px'});
                 }
             });
 
@@ -181,6 +183,12 @@ if (login_check($mysqli) == true) {
                 var newWidth = 4 / 3 * newHeight;
                 if (newWidth > DRAGGABLE_MIN_WIDTH) {
                     $('#viewModerator #web-rtc-placeholder').css({height: newHeight + 'px', width: newWidth + 'px'});
+                }
+
+                if (scrollTop > 0) {
+                    $('#viewModerator #web-rtc-placeholder').css({opacity: .7});
+                } else {
+                    $('#viewModerator #web-rtc-placeholder').css({opacity: 1});
                 }
 
                 if (updateColumn) {
@@ -320,8 +328,8 @@ if (login_check($mysqli) == true) {
                 resetRenderedContent();
                 Tester.renderView();
             }
-            
-            
+
+
             $(document).on('click', '#btn-toggle-rtc-fixed', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {

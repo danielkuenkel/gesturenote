@@ -341,12 +341,14 @@ function renderFormatItem(target, data, currentPhaseFormat, allowFilters) {
 }
 
 function checkFilterOptions(container) {
-    var elements = $(container).children();
-    for (var i = 0; i < elements.length; i++) {
-        if (i < elements.length - 1) {
-            $(elements[i]).find('.filter-options').removeClass('hidden');
-        } else {
-            $(elements[i]).find('.filter-options').addClass('hidden');
+    if ($(container).attr('data-allow-filters') === 'true') {
+        var elements = $(container).children();
+        for (var i = 0; i < elements.length; i++) {
+            if (i < elements.length - 1) {
+                $(elements[i]).find('.filter-options').removeClass('hidden');
+            } else {
+                $(elements[i]).find('.filter-options').addClass('hidden');
+            }
         }
     }
 }
@@ -635,6 +637,7 @@ function getFilterOptionsById(filterOptions, id) {
 var currentQuestionIndex = 0;
 function renderQuestionnaire(target, questionnaire, answers, forceFilters) {
 
+    console.log('render questionnaire, force filters:', forceFilters);
     clearAlerts(target);
 
     if (hasFilterQuesitons(questionnaire) && forceFilters && forceFilters === true) {
@@ -824,6 +827,7 @@ function hasFilterQuesitons(questionnaire) {
         for (var i = 0; i < questionnaire.length; i++) {
             var question = questionnaire[i];
             switch (question.format) {
+                case OPEN_QUESTION:
                 case DICHOTOMOUS_QUESTION:
                 case GROUPING_QUESTION:
                 case GROUPING_QUESTION_OPTIONS:
