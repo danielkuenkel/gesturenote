@@ -1827,12 +1827,14 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
             $(this).addClass('assembled');
             $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
             $(this).closest('.gesture-thumbnail').addClass('assembled');
+            $(this).closest('.gesture-thumbnail').find('.tagged-symbol').removeClass('hidden');
             assemble = true;
         } else {
             $(this).attr('data-content', translation.addToStudyGestureSet).data('bs.popover').setContent();
             $(this).removeClass('assembled');
             $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
             $(this).closest('.gesture-thumbnail').removeClass('assembled');
+            $(this).closest('.gesture-thumbnail').find('.tagged-symbol').addClass('hidden');
         }
 
         $(this).trigger('change', [gestureId, assemble, rerender]);
@@ -1853,12 +1855,14 @@ $(document).on('click', '.btn-add-gesture-to-scene', function (event) {
             $(this).addClass('assembled');
             $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
             $(this).closest('.gesture-thumbnail').addClass('assembled');
+            $(this).closest('.gesture-thumbnail').find('.tagged-symbol').removeClass('hidden');
             assemble = true;
         } else {
             $(this).attr('data-content', translation.addToTrigger).data('bs.popover').setContent();
             $(this).removeClass('assembled');
             $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
             $(this).closest('.gesture-thumbnail').removeClass('assembled');
+            $(this).closest('.gesture-thumbnail').find('.tagged-symbol').addClass('hidden');
         }
 
         $(this).trigger('change', [gestureId, assemble]);
@@ -2544,6 +2548,7 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
         clone.find('.gesture-thumbnail').addClass('assembled');
         clone.find('.btn-tag-as-favorite-gesture').addClass('assembled');
         clone.find('.btn-tag-as-favorite-gesture .fa').removeClass('fa-plus-square').addClass('fa-minus-square');
+        clone.find('.tagged-symbol').removeClass('hidden');
     }
 
     return clone;
