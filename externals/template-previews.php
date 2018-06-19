@@ -867,13 +867,9 @@ include '../includes/language.php';
     <div class="row root" id="exploration">
         <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left">
             <div class="" id="observations">
-                <!--<div class="panel-heading">-->
                 <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
-                <!--</div>-->
-                <!--<div class="panel-body">-->
                 <div class="alert-space alert-no-phase-data"></div>
                 <div class="question-container"></div>
-                <!--</div>-->
             </div>
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
@@ -883,11 +879,10 @@ include '../includes/language.php';
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-exploration" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
-                <button type="button" class="btn btn-success btn-block btn-shadow disabled hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
-                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>
+                <!--<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>-->
             </div>
 
-            <div class="" id="slides">
+            <div class="hidden" id="slides">
                 <h3 class="headline"></h3>
                 <div id="exploration-container"></div>
             </div>
@@ -903,47 +898,82 @@ include '../includes/language.php';
                 <div class="alert-space alert-waiting-for-tester"></div>
                 <div class="question-container"></div>
             </div>
+
+            <div style="margin-top: 10px">
+                <button type="button" class="btn btn-block btn-success btn-shadow hidden disabled" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>
+                <button type="button" class="btn btn-block btn-success btn-shadow hidden disabled" id="btn-request-trigger" name="btn-success"><?php echo $lang->inquireFavoriteTrigger ?></span></button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>
+            </div>
         </div>
     </div>
 
     <div id="explorationItem">
-        <div id="search-for"><span class="address"></span> <span class="text"></span></div>
+        <div><?php echo $lang->scenes ?></div>
         <div id="transition-scenes" class="root"></div>
-        <div style="margin-top: 10px">
-            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
-            <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
-        </div>
+        <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
+        <div id="assembled-gestures" class="root row"></div>
+        <!--<div style="margin-top: 10px">-->
+            <!--<button class="btn btn-block btn-success btn-shadow disabled" id="btn-show-gestures" name="btn-success"><?php echo $lang->showGestures ?></span></button>-->
+
+<!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
+        <!--</div>-->
     </div>
 
     <div id="explorationItem-ask">
-        <div id="search-for"><span class="address"></span> <span class="text"></span></div>
+        <div><?php echo $lang->scenes ?></div>
         <div id="transition-scenes" class="root"></div>
-        <div style="margin-top: 10px">
-            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>
-            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
+        <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
+        <div id="assembled-gestures" class="root row"></div>
+        <!--<div style="margin-top: 20px">-->
+<!--            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>-->
+<!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
+            <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>-->
             <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
-        </div>
+        <!--</div>-->
     </div>
 
     <div id="explorationItem-trigger">
-        <div id="search-for"><span class="address"></span> <span class="text"></span></div>
+        <div><?php echo $lang->scenes ?></div>
         <div id="transition-scenes" class="root"></div>
-        <div style="margin-top: 10px">
-            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
+        <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
+        <div id="assembled-trigger" class="root"></div>
+        <!--<div style="margin-top: 10px">-->
+            <!--<button class="btn btn-block btn-success btn-shadow disabled" id="btn-show-trigger" name="btn-success"><?php echo $lang->showTrigger ?></span></button>-->
+<!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
+            <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>-->
             <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
-        </div>
+        <!--</div>-->
     </div>
 
     <div id="explorationItem-trigger-ask">
-        <div id="search-for"><span class="address"></span> <span class="text"></span></div>
+        <div><?php echo $lang->scenes ?></div>
         <div id="transition-scenes" class="root"></div>
-        <div style="margin-top: 10px">
-            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-trigger" name="btn-success"><?php echo $lang->inquireFavoriteTrigger ?></span></button>
-            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
-            <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
-        </div>
+        <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
+        <div id="assembled-trigger" class="root"></div>
+        <!--<div style="margin-top: 20px">-->
+
+<!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
+<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>-->
+<!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
+        <!--</div>-->
     </div>
 
+    <div id="present-gesture-item" class="col-xs-6 col-sm-4 col-md-6 col-lg-4">
+        <div class="thumbnail-container row"></div>
+        <button class="btn btn-block btn-default btn-shadow btn-present-gesture" id="btn-present-gesture"><i class="fa"></i> <span class="btn-text">Zeige Geste</span></button>
+        <button class="btn btn-block btn-success btn-shadow btn-quit-gesture-info hidden" id="btn-quit-gesture-info" style="margin-top: 0"><i class="fa"></i> <span class="btn-text">Vorschau beenden</span></button>
+    </div>
+
+    <div id="present-trigger-item" class="text" style="display: flex">
+        <div class="trigger-title" style="margin-right: 10px"></div>
+        <div>
+            <button class="btn btn-xs btn-default btn-shadow btn-present-trigger" id="btn-present-trigger"><i class="fa"></i> <span class="btn-text">Zeige Funktion</span></button>
+            <button class="btn btn-xs btn-success btn-shadow btn-quit-trigger-info hidden" id="btn-quit-trigger-info" style="margin-top: 0"><i class="fa"></i> <span class="btn-text">Vorschau beenden</span></button>
+        </div>
+    </div>
 
 
     <div id="trigger-catalog-thumbnail" class="text"></div>

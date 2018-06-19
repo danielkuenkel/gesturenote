@@ -26,6 +26,7 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
+        <script src="js/chart/Chart.bundle.min.js"></script>
 
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
@@ -159,8 +160,8 @@ if (login_check($mysqli) == true) {
                         <div class="btn-group-vertical btn-block" style="margin-top: 20px">
                             <button class="btn btn-default btn-shadow" type="button" id="btn-edit-study"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editStudy ?></span></button>
                             <button class="btn btn-default btn-shadow" type="button" id="btn-preview-study"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previewStudy ?></span></button>
-                            
-                            <!--<button class="btn btn-default btn-shadow" type="button" id="btn-prepare-study"><i class="fa fa-inbox" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->executeStudy ?></span></button>-->
+
+<!--<button class="btn btn-default btn-shadow" type="button" id="btn-prepare-study"><i class="fa fa-inbox" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->executeStudy ?></span></button>-->
                         </div>
                         <div class="btn-group-vertical btn-block" style="margin-top: 20px">
                             <button class="btn btn-danger btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>
@@ -226,8 +227,18 @@ if (login_check($mysqli) == true) {
             <div role="tabpanel" class="tab-pane" id="study-participants">
                 <div class="alert-space alert-no-phase-data"></div>
                 <div class="alert-space alert-no-plan"></div>
-                <div class="list-container row"></div>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="text text-center"><?php echo $lang->studyStatus ?></div>
+                        <canvas id="chart-participant-statistics"></canvas>
+                        <div class="text text-center" style="font-size: 10pt">
+                            <span id="amount-participants-success"></span>, <span id="amount-participants-aborted"></span>, <span id="amount-participants-total"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-container row" style="margin-top: 20px"></div>
             </div>
+            
 
             <div role="tabpanel" class="tab-pane" id="gesture-extraction">
                 <div class="alert-space alert-no-phase-data"></div>

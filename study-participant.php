@@ -380,7 +380,7 @@ if (login_check($mysqli) == true) {
                             if (barHeight > visibleHeight) {
                                 var scrollOffset = barHeight - visibleHeight;
                             }
-                            console.log('barHeight: ' + barHeight + ', visibleHeight: ' + visibleHeight + ", scrollOffset: " + scrollOffset + ', scrollTop: ' + scrollTop);
+//                            console.log('barHeight: ' + barHeight + ', visibleHeight: ' + visibleHeight + ", scrollOffset: " + scrollOffset + ', scrollTop: ' + scrollTop);
 
                             if (scrollTop >= 220 + scrollOffset) {
 //                                var top = 65 - (visibleBarHeight > windowHeight ? (visibleBarHeight - 190) : 0);
@@ -412,7 +412,7 @@ if (login_check($mysqli) == true) {
                             loadHTMLintoModal('custom-modal', 'externals/modal-delete-study-result.php', 'modal-md');
                             var study = getLocalItem(STUDY);
                             var tester = getLocalItem(STUDY_RESULTS);
-                            console.log(study, tester);
+//                            console.log(study, tester);
 
                             $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
                                 deleteStudyResult({studyId: study.id, testerId: tester.userId}, function (result) {

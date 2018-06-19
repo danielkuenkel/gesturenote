@@ -84,20 +84,35 @@ include '../includes/language.php';
     <div id="elicitation-statistics">
         <div id="headline"><?php echo $lang->whatGesturesWhereElicited ?></div>
 
-        <div class="text" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
-        <div class="progress" style="margin-bottom: 0px">
-            <div class="progress-bar" id="progress-type-static" role="progressbar" style="width:50%">
-                Free Space
+        <div class="row">
+            <div class="col-md-6">
+                <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
+                <canvas id="chart-gesture-execution-type"></canvas>
+                <div class="text text-center" style="font-size: 10pt">
+                    <span id="amount-static-gestures"></span>, <span id="amount-dynamic-gestures"></span>, <span id="amount-total-gestures"></span>
+                </div>
             </div>
-            <div class="progress-bar progress-bar-info" id="progress-type-dynamic" role="progressbar" style="width:40%">
-                Warning
+            <div class="col-md-6">
+                <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
+                <canvas id="chart-gesture-interaction-type"></canvas>
+                <div class="text text-center" style="font-size: 10pt">
+                    <span id="amount-discrete-gestures"></span>, <span id="amount-continuous-gestures"></span>
+                </div>
             </div>
-        </div>
-        <div class="text" style="font-size: 10pt">
-            <span id="amount-static-gestures"></span>, <span id="amount-dynamic-gestures"></span>
         </div>
 
-        <div class="text" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
+        <!--        <div class="progress" style="margin-bottom: 0px">
+                    <div class="progress-bar" id="progress-type-static" role="progressbar" style="width:50%">
+                        Free Space
+                    </div>
+                    <div class="progress-bar progress-bar-info" id="progress-type-dynamic" role="progressbar" style="width:40%">
+                        Warning
+                    </div>
+                </div>-->
+
+
+
+<!--        <div class="text" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
         <div class="progress" style="margin-bottom: 0px">
             <div class="progress-bar" id="progress-type-discrete" role="progressbar" style="width:50%">
                 Free Space
@@ -108,7 +123,7 @@ include '../includes/language.php';
         </div>
         <div class="text" style="font-size: 10pt">
             <span id="amount-discrete-gestures"></span>, <span id="amount-continuous-gestures"></span>
-        </div>
+        </div>-->
 
 <!--        <div class="text"><?php echo $lang->missingDataForGesture ?></div>
         <div class="progress" id="missing-data">

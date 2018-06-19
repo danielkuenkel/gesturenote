@@ -38,6 +38,10 @@ var identificationDone = false;
 var recordedIdentificationMedia = [];
 var currentExplorationIndex = 0;
 var currentExplorationScene = 0;
+var currentPresentGesture = null;
+var currentPresentTrigger = null;
+var currentPresentGestureInfoClosed = false;
+var explorationShowGestures = false;
 var explorationPrototypeOpened = false;
 var explorationStartTriggered = false;
 var explorationPreferredGesturesRequest = false;
@@ -284,10 +288,13 @@ function resetConstraints() {
     currentIdentificationScene = 0;
 
     explorationStartTriggered = false;
+    explorationShowGestures = false;
     currentExplorationIndex = 0;
     currentExplorationScene = 0;
     explorationPreferredGesturesRequest = false;
     explorationPrototypeOpened = false;
+    currentPresentGesture = null;
+    currentPresentGestureInfoClosed = false;
 
     singleGUSGesture = null;
     currentGUSData = null;
@@ -492,7 +499,7 @@ function pinRTC() {
     $(video).removeClass('shadow');
     $(video).appendTo("#pinnedRTC");
     $(document).scrollTop(0);
-    
+
     $('#draggableRTC').css({top: 150, left: 50});
     keepStreamsAlive(video);
     resetRTC();

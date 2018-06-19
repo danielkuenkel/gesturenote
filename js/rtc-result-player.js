@@ -748,6 +748,16 @@ function getVisDataSet(timelineData) {
                     contentText = translation.annotations[annotations[i].action];
                     className = 'item-danger-full';
                     break;
+                case ACTION_SHOW_GESTURE_INFO:
+                case ACTION_HIDE_GESTURE_INFO:
+                    var gesture = getGestureById(annotations[i].gestureId);
+                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+                    break;
+                case ACTION_SHOW_TRIGGER_INFO:
+                case ACTION_HIDE_TRIGGER_INFO:
+                    var trigger = getTriggerById(annotations[i].triggerId);
+                    contentText = translation.annotations[annotations[i].action] + ': ' + trigger.title;
+                    break;
             }
 
             var originalId = annotations[i].id;

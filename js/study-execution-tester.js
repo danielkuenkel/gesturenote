@@ -24,7 +24,6 @@ var Tester = {
 //                delete tempData.endRecordingTime;
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
-
         }
 
         Tester.initializePeerConnection();
@@ -147,7 +146,6 @@ var Tester = {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.accepted = 'yes';
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-
                 if (peerConnection) {
                     peerConnection.sendMessage(MESSAGE_NEXT_STEP);
                 }
@@ -155,7 +153,6 @@ var Tester = {
 
             nextStep();
         });
-
         $(container).find('#letter-decline').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!previewModeEnabled) {
@@ -172,10 +169,8 @@ var Tester = {
 
         var content = $(getSourceContainer(VIEW_TESTER)).find('#thanks-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
         $(container).append(content);
-
         TweenMax.to(container.find('.fa-upload'), .5, {yoyo: true, repeat: -1, opacity: .4});
         $(container).find('#thanks-text').text(data);
-
         var study = getLocalItem(STUDY);
         var absoluteStaticStudyUrl = 'https://gesturenote.de/study-prepare.php?studyId=' + study.id + '&h=' + study.urlToken;
         $(container).find('#static-study-url').text(absoluteStaticStudyUrl);
@@ -183,18 +178,15 @@ var Tester = {
             event.preventDefault();
             gotoIndex();
         });
-
         $(container).find('#static-study-url').unbind('click').bind('click', function () {
             $(container).find('#static-study-url').select();
         });
-
         $(container).find('#btn-retry-upload').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (previewModeEnabled === false) {
                 submitFinalData(container);
             }
         });
-
         if (previewModeEnabled === false) {
             checkRTCUploadStatus(container);
         }
@@ -208,47 +200,37 @@ var Tester = {
         }
 
         console.log('currentQuestionnaireAnswers', currentQuestionnaireAnswers);
-
         container = renderQuestionnaire(container, data, currentQuestionnaireAnswers, true);
         $(container).find('.headline').text(getCurrentPhase().title);
-
 //        console.log('get questionnaire:', container, data, currentQuestionnaireAnswers);
 
         $(container).find('.question-container').unbind('questionnaireDone').bind('questionnaireDone', function (event) {
             event.preventDefault();
             console.log('questionnaire done triggered');
-
             $(container).find('#btn-next-step').prev().addClass('hidden');
             $(container).find('#btn-next-step').addClass('hidden');
-
             questionnaireDone = true;
             currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
-
             if (!previewModeEnabled && peerConnection) {
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.answers = currentQuestionnaireAnswers.answers;
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-
                 peerConnection.sendMessage(MESSAGE_QUESTIONNAIRE_DONE);
             }
         });
-
         $(container).find('.question-container').unbind('nextQuestion').bind('nextQuestion', function (event) {
             console.log('next question clicked');
             event.preventDefault();
             currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
-
             if (previewModeEnabled === false && peerConnection) {
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.answers = currentQuestionnaireAnswers.answers;
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-
                 peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
             }
         });
-
         if (questionnaireDone) {
             $(container).find('#btn-next-step').prev().addClass('hidden');
             $(container).find('#btn-next-step').addClass('hidden');
@@ -265,13 +247,11 @@ var Tester = {
             $(container).unbind('change').bind('change', function (event) {
                 event.preventDefault();
                 currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
-
                 if (previewModeEnabled === false && peerConnection) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                     tempData.answers = currentQuestionnaireAnswers.answers;
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-
                     peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
                 }
             });
@@ -291,7 +271,6 @@ var Tester = {
         currentGUSData = data;
         var content = $(getSourceContainer(VIEW_TESTER)).find('#gus-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
         $(container).append(content);
-
         var gesture = getGestureById(data.gestureId);
         if (gesture && isGestureAssembled(data.gestureId)) {
             singleGUSGesture = {gestureId: data.gestureId, triggerId: data.triggerId, feedbackId: data.feedbackId};
@@ -303,11 +282,9 @@ var Tester = {
             $(container).find('#gesture .text').text(gesture.title);
             $(container).find('#trigger .address').text(translation.trigger + ':');
             $(container).find('#trigger .text').text(trigger.title);
-
             if (feedback) {
                 $(container).find('#feedback .address').text(translation.feedback + ':');
                 $(container).find('#feedback .text').text(feedback.title);
-
                 var icon = document.createElement('i');
                 var label = document.createElement('div');
                 $(label).addClass('label label-default');
@@ -376,7 +353,6 @@ var Tester = {
 //            clearAlerts(container);
 //            $(container).find('#fixed-rtc-preview').removeClass('hidden');
             $(container).find('#scene-container').removeClass('hidden');
-
             if (previewModeEnabled && currentWOZScene) {
                 // render scene manually
                 renderSceneItem(source, container, currentWOZScene.id);
@@ -401,32 +377,27 @@ var Tester = {
 //                tempData.annotations.push({action: ACTION_SELECT_GESTURE, time: getGMT()});
 //                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             });
-
             $(peerConnection).unbind(MESSAGE_START_GESTURE_TRAINING).bind(MESSAGE_START_GESTURE_TRAINING, function (event, payload) {
 //                console.log('start gesture training');
                 gestureTrainingStartTriggered = true;
 //                clearAlerts(container);
 //                $(container).find('#fixed-rtc-preview').removeClass('hidden');
                 $(container).find('#scene-container').removeClass('hidden');
-
 //                var currentPhase = getCurrentPhase();
 //                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
 //                tempData.startTrainingTime = getGMT();
 //                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
-
             $(peerConnection).unbind(MESSAGE_TRAINING_TRIGGERED).bind(MESSAGE_TRAINING_TRIGGERED, function (event, payload) {
                 trainingTriggered = true;
                 trainingShowGesture = true;
                 currentGestureTrainingIndex = payload.currentGestureTrainingIndex;
                 onTrainingTriggered();
-
 //                var currentPhase = getCurrentPhase();
 //                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
 //                tempData.training.push({gestureId: payload.gestureId, gestureTrainingStart: getGMT()});
 //                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
-
             $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
                 $(container).find('#scene-container').addClass('hidden');
             });
@@ -435,7 +406,6 @@ var Tester = {
         function checkFeedback() {
             if (triggeredFeedback) {
                 console.log(triggeredFeedback);
-
                 var hint = appendHint(source, $('body'), triggeredFeedback, TYPE_SURVEY_MODERATED);
                 if (hint !== null) {
                     $(hint).on('hint.hidden', function () {
@@ -461,8 +431,9 @@ var Tester = {
             currentPreviewGesture = {gesture: getGestureById(data[currentGestureTrainingIndex].gestureId)};
             loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
             $('#custom-modal').on('hide.bs.modal', function (event) {
+                event.preventDefault();
                 if (!previewModeEnabled && peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED);
+                    peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: data[currentGestureTrainingIndex].gestureId});
                 }
                 trainingShowGesture = false;
             });
@@ -538,7 +509,6 @@ var Tester = {
                 item.find('#start-single-training').removeClass('disabled');
             });
         });
-
         // training handler
         item.find('#start-single-training, #repeat-training').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -558,7 +528,6 @@ var Tester = {
                 TweenMax.to(item.find('.progress-bar-training'), trainingData.recognitionTime, {width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: onTrainingTimesUp});
             }
         });
-
         function onTrainingTimesUp() {
             repeatsLeft--;
             appendHint(source, $('body'), trainingData, TYPE_SURVEY_UNMODERATED);
@@ -620,13 +589,11 @@ var Tester = {
                 slideRestarted = true;
                 Tester.renderModeratedGestureSlideshowOverview(source, container, data);
             });
-
             $(peerConnection).unbind(MESSAGE_TRIGGER_GESTURE_SLIDE).bind(MESSAGE_TRIGGER_GESTURE_SLIDE, function (event, payload) {
                 slideRestarted = false;
                 slideTriggered = true;
                 currentSlideIndex = parseInt(payload.currentSlideIndex);
                 slidesRestartCount = payload.slidesRestartCount;
-
                 getGMT(function (timestamp) {
                     var slideData = data.slideshow[currentSlideIndex];
                     var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
@@ -635,14 +602,11 @@ var Tester = {
                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                     Tester.renderModeratedGestureSlideshow(source, container, data);
                 });
-
             });
-
             $(peerConnection).unbind(MESSAGE_GESTURE_FIT_FOUND).bind(MESSAGE_GESTURE_FIT_FOUND, function (event, payload) {
                 slideRestarted = false;
                 slideTriggered = false;
                 appendAlert($(container), ALERT_PLEASE_WAIT);
-
                 getGMT(function (timestamp) {
                     var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                     var annotationData = payload.annotationData;
@@ -652,13 +616,11 @@ var Tester = {
                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                 });
             });
-
             $(peerConnection).unbind(MESSAGE_NO_GESTURE_FIT_FOUND).bind(MESSAGE_NO_GESTURE_FIT_FOUND, function (event, payload) {
                 slideRestarted = true;
                 slideTriggered = false;
                 currentSlideIndex = parseInt(payload.currentSlideIndex);
                 slidesRestartCount = parseInt(payload.slidesRestartCount);
-
                 getGMT(function (timestamp) {
                     var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                     var annotationData = payload.annotationData;
@@ -670,7 +632,6 @@ var Tester = {
                     Tester.renderModeratedGestureSlideshowOverview(source, container, data);
                 });
             });
-
 //            $(peerConnection).unbind(MESSAGE_GESTURE_PERFORMED).bind(MESSAGE_GESTURE_PERFORMED, function (event, payload) {
 ////                console.log(payload);
 //                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
@@ -709,7 +670,6 @@ var Tester = {
         clearAlerts($(container));
         $(container).find('#slideshowContainer').removeClass('hidden').empty();
         $(container).find('#general').addClass('hidden');
-
         for (var i = 0; i < data.slideshow.length; i++) {
             var item = $(source).find('#gestureSlideshowOverviewItemModerated').clone().removeAttr('id');
             $(item).css({marginBottom: '20px'});
@@ -725,7 +685,6 @@ var Tester = {
         var slideData = data.slideshow[currentSlideIndex];
         var item = $(source).find('#gestureSlideshowItemModerated').clone().removeAttr('id');
         $(container).find('#slideshowContainer').removeClass('hidden').empty().append(item);
-
         var progress = $(container).find('.progress');
         progress.removeClass('active hidden');
         progress.find('.progress-bar').css({width: '100%', backgroundColor: '#5cb85c'});
@@ -808,7 +767,6 @@ var Tester = {
     getTriggerSlideshow: function getTriggerSlideshow(source, container, data) {
         var content = $(getSourceContainer(VIEW_TESTER)).find('#triggerSlideshow-' + getLocalItem(STUDY).surveyType).clone();
         $(container).append(content);
-
         // general data section
         $(container).find('#general .headline').text(data.title);
         $(container).find('#general .description').text(data.description);
@@ -820,12 +778,10 @@ var Tester = {
             Tester.renderTriggerSlideshow(source, container, data);
         } else {
             $(container).find('#startSlideshow').remove();
-
             $(peerConnection).unbind(MESSAGE_START_TRIGGER_SLIDESHOW).bind(MESSAGE_START_TRIGGER_SLIDESHOW, function (event, payload) {
                 slideshowStartTriggered = true;
                 Tester.renderTriggerSlideshow(source, container, data);
             });
-
             if (slideshowStartTriggered) {
                 Tester.renderTriggerSlideshow(source, container, data);
             } else {
@@ -875,7 +831,6 @@ var Tester = {
                 Tester.renderTriggerSlideshow(source, container, data);
             }
         });
-
         if (testerDoneTriggered) {
             $(container).find('#slideshowContainer').addClass('hidden');
             appendAlert($(container), ALERT_PLEASE_WAIT);
@@ -888,13 +843,10 @@ var Tester = {
 //            }
 
             testerDoneTriggered = true;
-
             $(container).find('#slideshowContainer').addClass('hidden');
             appendAlert($(container), ALERT_PLEASE_WAIT);
-
             var currentPhase = getCurrentPhase();
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-
             if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
                 nextStep();
             } else {
@@ -905,21 +857,17 @@ var Tester = {
                 }
             }
         });
-
         $(container).find('#startSlideshow').unbind('click').bind('click', function (event) {
             event.preventDefault();
             slideshowStartTriggered = true;
             Tester.renderTriggerSlideshow(source, container, data);
         });
-
         function saveTriggerSlideshowAnswer(container) {
             var selectedOption = $(container).find('.option-container .btn-option-checked').attr('id');
             selectedOption = selectedOption === undefined ? -1 : selectedOption;
-
             if (!previewModeEnabled && peerConnection) {
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-
                 if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
                     tempData.selectedOptions.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
                 } else {
@@ -975,7 +923,6 @@ var Tester = {
         }
 
         var hasScences = data.identification[currentIdentificationIndex].transitionScenes && data.identification[currentIdentificationIndex].transitionScenes.length > 0;
-
         // handle states in preview mode
         if (identificationStartTriggered === true) {
             if (hasScences) {
@@ -983,7 +930,6 @@ var Tester = {
 //                $(container).find('#fixed-rtc-preview').removeClass('hidden');
                 $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
                 $(container).find('#scene-description').removeClass('hidden');
-
                 if (data.identificationFor === 'gestures') {
                     if (identificationRecordingStartTriggered === true) {
                         animateLiveStream($(container).find('#fixed-rtc-preview'), true);
@@ -1032,7 +978,6 @@ var Tester = {
 
                 var gestureRecorderContent = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
                 container.find('#gesture-recorder-container').empty().append(gestureRecorderContent);
-
                 var options = {
                     recorderTarget: gestureRecorderContent,
                     startState: GR_STATE_INITIALIZE,
@@ -1044,7 +989,6 @@ var Tester = {
                         {type: 'webcam'}
                     ]
                 };
-
                 if (data.sensor !== 'none' && !sensorTypeBanned(data.sensor)) {
                     options.record.push({type: data.sensor});
                     options.initRecorders.push({type: data.sensor});
@@ -1055,23 +999,19 @@ var Tester = {
                     event.preventDefault();
                     peerConnection.sendMessage(MESSAGE_ALL_RECORDER_READY);
                 });
-
                 $(gestureRecorder).unbind('recorderDisconnected').bind('recorderDisconnected', function (event) {
                     event.preventDefault();
                     peerConnection.sendMessage(MESSAGE_RECORDER_LOST);
                 });
             });
-
             $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
                 currentIdentificationIndex = payload.index;
                 currentIdentificationScene = payload.sceneIndex;
-
                 if (hasScences) {
                     $(container).find('#scene-description p').text(payload.description);
                     $(container).find('#scene-container').removeClass('hidden');
                 }
             });
-
             $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
                 $(container).find('#scene-container').addClass('hidden');
             });
@@ -1093,10 +1033,8 @@ var Tester = {
                     animateLiveStream($(container).find('#fixed-rtc-preview'), true, VIEW_TESTER, function () {
                         gestureRecorder.record();
                     });
-
 //                    $(container).find('#fixed-rtc-preview').removeClass('hidden');
                 });
-
                 $(peerConnection).unbind(MESSAGE_STOP_RECORDING_GESTURE).bind(MESSAGE_STOP_RECORDING_GESTURE, function (event, payload) {
                     $(gestureRecorder).unbind('recorderStopped').bind('recorderStopped', function (event) {
                         event.preventDefault();
@@ -1169,24 +1107,19 @@ var Tester = {
         container.append($(source).find('#identificationUnmoderated').clone().removeAttr('id'));
         var item = $(source).find('#identificationItemUnmoderated').clone().removeAttr('id');
         $(container).find('#identificationContainer').empty().append(item);
-
         function renderIdentificationScene(source, container, sceneId) {
 //            console.log('renderIdentificationScene', sceneId);
             $(container).find('#recorder-description').removeClass('hidden');
             $(container).css({position: 'fixed'});
             var sceneItem = renderSceneItem(source, container, sceneId);
-
             var description = $(source).find('#identification-description').clone();
             $(description).height($(sceneItem).height());
             $(description).find('#description-text').text(data.identification[currentIdentificationIndex].sceneDescription);
-
             $(container).append(description);
-
             $(window).on('resize', function (event) {
                 event.preventDefault();
                 $(description).height($(sceneItem).height());
             });
-
             $(container).find('#btn-start-gesture-recording').on('click', function (event) {
                 event.preventDefault();
                 $(item).find('#identification-content').removeClass('hidden');
@@ -1211,7 +1144,6 @@ var Tester = {
             $(this).remove();
             $(container).find('#general').addClass('hidden');
         });
-
         if (identificationStartTriggered) {
             clearAlerts(container);
             $(container).find('#general').addClass('hidden');
@@ -1227,10 +1159,8 @@ var Tester = {
 
         var gesture = getGestureById(data.identification[currentIdentificationIndex].gestureId);
         var trigger = getTriggerById(data.identification[currentIdentificationIndex].triggerId);
-
         if (data.identificationFor === 'gestures') {
             $(item).find('#trigger-identification').remove();
-
             item.find('#trigger #text').text(trigger.title);
             var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder-tester').clone().removeAttr('id');
             item.find('#gesture-recorder-container').empty().append(gestureRecorder);
@@ -1247,13 +1177,11 @@ var Tester = {
             renderBodyJoints(gestureRecorder.find('#human-body'));
             var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
             container.find('#recorder-description').empty().append(recorderDescription);
-
             $(gestureRecorder).unbind(EVENT_GR_UPDATE_STATE).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
                 var descriptions = $('#item-container-gesture-recorder').find('#' + type).clone();
                 recorderDescription.empty().append(descriptions);
                 TweenMax.from(descriptions, .3, {y: -20, opacity: 0, clearProps: 'all'});
             });
-
             $(gestureRecorder).unbind(EVENT_GR_SAVE_SUCCESS).bind(EVENT_GR_SAVE_SUCCESS, function (event, gesture) {
                 event.preventDefault();
                 $(item).find('#next-controls').removeClass('hidden');
@@ -1270,17 +1198,14 @@ var Tester = {
 //                    }
                     console.log('after update', tempData);
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-
 //                    if (peerConnection) {
 //                        peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED, {gesture: gesture, index: currentIdentificationIndex});
 //                    }
                 }
             });
-
             $(gestureRecorder).unbind(EVENT_GR_DELETE_SUCCESS).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
                 event.preventDefault();
                 $(item).find('#next-controls').addClass('hidden');
-
                 if (!previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -1292,7 +1217,6 @@ var Tester = {
                     }
                     tempData.gestures = gestures;
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-
                     if (peerConnection) {
                         peerConnection.sendMessage(MESSAGE_IDENTIFIED_GESTURE_DELETED, {gestureId: gestureId, index: currentIdentificationIndex});
                     }
@@ -1308,7 +1232,6 @@ var Tester = {
             $(item).find('#done-identification').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 currentIdentificationIndex++;
-
                 if (data.identificationFor === 'trigger' && !previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -1330,7 +1253,6 @@ var Tester = {
                 }
 
                 identificationDone = true;
-
                 if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
                     nextStep();
                 } else {
@@ -1377,7 +1299,6 @@ var Tester = {
         // general data section
         $(container).find('.headline').text(data.title);
         $(container).find('.description').text(data.description);
-
         if (stressTestStartTriggered) {
             $(container).find('#general').remove();
         }
@@ -1401,7 +1322,6 @@ var Tester = {
             container.find('#btn-start-stress-test').removeClass('hidden');
             container.find('#btn-start-stress-test').unbind('click').bind('click', function (event) {
                 event.preventDefault();
-
                 $(this).remove();
                 $(container).find('#general').remove();
                 stressTestStartTriggered = true;
@@ -1417,7 +1337,6 @@ var Tester = {
                         stressTestStartTriggered = true;
                         $(container).find('#general').remove();
                     });
-
                     $(peerConnection).unbind(MESSAGE_TRIGGER_STRESS_TEST_GESTURE).bind(MESSAGE_TRIGGER_STRESS_TEST_GESTURE, function (event, payload) {
                         clearAlerts($(container));
                         stressTestGestureTriggered = true;
@@ -1426,7 +1345,6 @@ var Tester = {
                         currentStressTestIndex = parseInt(payload.index);
                         Tester.renderModeratedPhysicalStressTest(source, container, data);
                     });
-
                     $(peerConnection).unbind(MESSAGE_TRIGGER_STRESS_TEST_QUESTION).bind(MESSAGE_TRIGGER_STRESS_TEST_QUESTION, function (event, payload) {
                         stressTestGestureTriggered = false;
                         stressTestQuestionsTriggered = true;
@@ -1434,7 +1352,6 @@ var Tester = {
                         currentStressTestIndex = parseInt(payload.index);
                         Tester.renderModeratedPhysicalStressTest(source, container, data);
                     });
-
                     $(peerConnection).unbind(MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE).bind(MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE, function (event, payload) {
                         appendAlert($(container), ALERT_PLEASE_WAIT);
                         stressTestGestureTriggered = false;
@@ -1454,7 +1371,6 @@ var Tester = {
         $(container).find('#stressTestContainer').removeClass('hidden').empty().append(item);
         var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
         renderGestureImages($(container).find('.previewGesture'), gesture.images, gesture.previewImage, null);
-
         if (stressTestGestureTriggered) {
             if (!previewModeEnabled) {
                 getGMT(function (timestamp) {
@@ -1523,12 +1439,10 @@ var Tester = {
             Tester.savePhysicalStressTestAnswers(item, data, gesture, true);
             appendAlert($(container), ALERT_PLEASE_WAIT);
             questionContainer.addClass('hidden');
-
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
             }
         });
-
         if (!previewModeEnabled && peerConnection) {
             $(container).unbind('change').bind('change', function (event) {
                 event.preventDefault();
@@ -1541,7 +1455,6 @@ var Tester = {
         $(container).find('#stressTestContainer').empty().append(item);
         var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
         renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
-
         if (!previewModeEnabled) {
             getGMT(function (timestamp) {
                 var currentPhase = getCurrentPhase();
@@ -1603,7 +1516,6 @@ var Tester = {
                 $(item).find('#btn-next-gesture').removeClass('hidden');
             }
         });
-
         $(item).find('#btn-questionnaire-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             Tester.savePhysicalStressTestAnswers(item, data, gesture, true);
@@ -1623,7 +1535,6 @@ var Tester = {
                 });
             }
         });
-
         $(item).find('#btn-next-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
             Tester.savePhysicalStressTestAnswers(item, data, gesture);
@@ -1631,13 +1542,11 @@ var Tester = {
             currentStressTestIndex++;
             Tester.renderUnmoderatedPhysicalStressTest(source, container, data);
         });
-
         $(item).find('#btn-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             Tester.savePhysicalStressTestAnswers(item, data, gesture, true);
             nextStep();
         });
-
         $(item).find('#stress-test-questionnaire').unbind('change').bind('change', function (event) {
             console.log('stress-test-questionnaire changed');
             Tester.savePhysicalStressTestAnswers(item, data, gesture);
@@ -1645,7 +1554,6 @@ var Tester = {
     },
     savePhysicalStressTestAnswers: function savePhysicalStressTestAnswers(target, data, gesture, saveDoneState) {
         console.log(data, currentStressTestCount, data.stressAmount);
-
         var singleAnswer = {};
         if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
             var singleQuestionnaire = $(target).find('#single-questions .question-container').children();
@@ -1682,7 +1590,6 @@ var Tester = {
         currentQuestionnaireAnswers.answers = {singleAnswers: $.isEmptyObject(singleAnswer) ? null : [singleAnswer], sequenceAnswers: $.isEmptyObject(sequenceAnswer) ? null : [sequenceAnswer]};
 //        console.log(currentStressTestIndex, currentStressTestCount, answerIndex);
         console.log('current Questionnaire Answers:', currentQuestionnaireAnswers);
-
         if (!previewModeEnabled) {
 
             if (peerConnection) {
@@ -1729,7 +1636,6 @@ var Tester = {
         } else {
             Tester.renderModeratedScenario(source, container, data);
             Tester.initScreenSharing(container.find('#scene-container'));
-
             $(peerConnection).unbind(MESSAGE_START_SCENARIO).bind(MESSAGE_START_SCENARIO, function (event, payload) {
                 event.preventDefault();
                 scenarioStartTriggered = true;
@@ -1753,7 +1659,6 @@ var Tester = {
 //            clearAlerts(container);
 //            $(container).find('#fixed-rtc-preview').removeClass('hidden');
             $(container).find('#scene-container').removeClass('hidden');
-
             if (previewModeEnabled) {
                 // render scene manually
                 renderSceneItem(source, container, currentWOZScene.id);
@@ -1773,7 +1678,6 @@ var Tester = {
                 triggeredHelp = payload.help;
                 checkHelp();
             });
-
 //            $(peerConnection).unbind(MESSAGE_TRIGGER_WOZ).bind(MESSAGE_TRIGGER_WOZ, function (event, payload) {
 //                console.log(payload);
 //                triggeredWoz = payload.triggeredWOZ;
@@ -1787,12 +1691,10 @@ var Tester = {
                 console.log(payload);
                 triggeredFeedback = payload.triggeredFeedback;
                 checkFeedback();
-
 //                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
 //                tempData.annotations.push({action: ACTION_END_PERFORM_GESTURE, time: getGMT()});
 //                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             });
-
             $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
                 $(container).find('#scene-container').addClass('hidden');
             });
@@ -1807,7 +1709,6 @@ var Tester = {
         function checkFeedback() {
             if (triggeredFeedback) {
                 console.log(triggeredFeedback);
-
                 var hint = appendHint(source, $('body'), triggeredFeedback, TYPE_SURVEY_MODERATED);
                 if (hint !== null) {
                     $(hint).on('hint.hidden', function () {
@@ -1840,7 +1741,6 @@ var Tester = {
         container.find('#info-content').removeClass('hidden');
         container.find('#start-controls').removeClass('hidden');
         var panelOffset, panelHeight = 0;
-
         // button functions
         container.find('#btn-show-scenario-info').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -1861,7 +1761,6 @@ var Tester = {
             panelHeight = container.find('#generalPanel').height();
             container.find('#fixed-rtc-preview').css({marginTop: panelHeight + 20, opacity: .5});
         });
-
         container.find('#btn-hide-scenario-info').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('hidden')) {
@@ -1881,7 +1780,6 @@ var Tester = {
             panelHeight = container.find('#generalPanel').height();
             container.find('#fixed-rtc-preview').css({marginTop: panelHeight + 20, opacity: .6, pointerEvents: 'none'});
         });
-
         var sceneItem;
         if (scenarioStartTriggered) {
             if (currentWOZScene) {
@@ -1975,12 +1873,12 @@ var Tester = {
         });
     },
     getExploration: function getExploration(source, container, data) {
-        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
-            Tester.renderModeratedExploration(source, container, data);
-            Tester.initScreenSharing(container.find('#scene-container'));
-        } else {
-            Tester.renderUnmoderatedExploration(source, container, data);
-        }
+//        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
+        Tester.renderModeratedExploration(source, container, data);
+        Tester.initScreenSharing(container.find('#scene-container'));
+//        } else {
+//            Tester.renderUnmoderatedExploration(source, container, data);
+//        }
 
         return container;
     },
@@ -1990,9 +1888,9 @@ var Tester = {
         }
 
         container.empty().append($(source).find('#exploration-moderated').clone().removeAttr('id'));
-        if (previewModeEnabled) {
+//        if (previewModeEnabled) {
 //            $(container).find('#scene-container').css({top: '-108px'});
-        }
+//        }
 
         // handle states in preview mode
         if (explorationStartTriggered === true) {
@@ -2016,9 +1914,30 @@ var Tester = {
 
                 $(container).find('#scene-container').removeClass('hidden');
             } else {
-//                appendAlert($(container), ALERT_PLEASE_WAIT);
                 $(container).find('#scene-description').addClass('hidden');
                 $(container).find('#scene-container').addClass('hidden');
+            }
+
+            if (data.explorationType === 'gesture' && currentPresentGesture) {
+                currentPreviewGesture = {gesture: currentPresentGesture};
+                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
+                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
+                    $('#custom-modal').unbind('hide.bs.modal');
+                    if (!previewModeEnabled && peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
+                    }
+                    currentPresentGesture = null;
+                });
+            } else if (data.explorationType === 'trigger' && currentPresentTrigger) {
+                currentPreviewTrigger = currentPresentTrigger;
+                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
+                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
+                    $('#custom-modal').unbind('hide.bs.modal');
+                    currentPresentTrigger = null;
+                    if (!previewModeEnabled && peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
+                    }
+                });
             }
         } else {
 //            appendAlert($(container), ALERT_PLEASE_WAIT);
@@ -2032,7 +1951,6 @@ var Tester = {
 
             // generic exploration live events
             $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
-//                clearAlerts(container);
                 explorationStartTriggered = true;
                 if (scenesUsedForExploration(data.exploration) === true) {
                     $(container).find('#scene-description').removeClass('hidden');
@@ -2043,7 +1961,6 @@ var Tester = {
             $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
                 currentExplorationIndex = payload.index;
                 currentExplorationScene = payload.sceneIndex;
-                console.log('render scene', payload);
 
                 if (payload.description) {
                     $(container).find('#scene-description p').text(payload.description);
@@ -2051,6 +1968,37 @@ var Tester = {
                 } else {
                     $(container).find('#scene-container').addClass('hidden');
                 }
+            });
+
+            $(peerConnection).unbind(MESSAGE_OPEN_GESTURE_INFO).bind(MESSAGE_OPEN_GESTURE_INFO, function (event, payload) {
+                console.log('open gesture info', payload);
+
+                currentPreviewGesture = {gesture: getGestureById(payload.id)};
+//                console.log(currentPreviewGesture);
+                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
+                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
+//                    var gestureId = currentPreviewGesture.gesture.id;
+//                    console.log(currentPreviewGesture);
+                    $('#custom-modal').unbind('hide.bs.modal');
+                    if (!previewModeEnabled && peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
+                    }
+//                    currentPreviewGesture = null;
+                });
+            });
+
+            $(peerConnection).unbind(MESSAGE_OPEN_TRIGGER_INFO).bind(MESSAGE_OPEN_TRIGGER_INFO, function (event, payload) {
+                console.log('open trigger info', payload);
+
+                currentPreviewTrigger = getTriggerById(payload.id);
+                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
+                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
+                    currentPreviewTrigger = null;
+                    $('#custom-modal').unbind('hide.bs.modal');
+                    if (!previewModeEnabled && peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
+                    }
+                });
             });
 
             $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
@@ -2149,7 +2097,6 @@ var Tester = {
         var currentPhase = getCurrentPhase();
         var source = getSourceContainer(currentView);
         var target = $('#viewTester').find('#column-left');
-
         switch (currentPhase.format) {
             case SCENARIO:
             case IDENTIFICATION:
@@ -2164,7 +2111,6 @@ var Tester = {
         }
 //        console.log('appendRTCPreviewStream', target);
         $(target).empty().append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
-
 //        var source = getSourceContainer(currentView);
 //        var target = $('#viewTester').find('#fixedRTC');
 //        $(target).empty().prepend($(source).find('#tester-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder'));
@@ -2172,30 +2118,25 @@ var Tester = {
     initializePeerConnection: function initializePeerConnection() {
         if (!peerConnection && !previewModeEnabled && isWebRTCNeededInFuture()) {
             peerConnection = new PeerConnection(true);
-
             if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
                 $(peerConnection).unbind(MESSAGE_NEXT_STEP).bind(MESSAGE_NEXT_STEP, function (event, payload) {
                     console.log('next step received');
                     nextStep();
                 });
-
                 $(peerConnection).unbind(MESSAGE_CANCEL_SURVEY).bind(MESSAGE_CANCEL_SURVEY, function (event, payload) {
 //                    console.log('on cancel survey');
                     var study = getLocalItem(STUDY);
                     study.aborted = 'yes';
                     setLocalItem(STUDY, study);
                     saveCurrentStatus(false);
-
                     peerConnection.stopRecording(function () {
                         currentPhaseStepIndex = getThanksStepIndex();
                         renderPhaseStep();
                         updateProgress();
                     }, true);
                 });
-
                 $(peerConnection).unbind(MESSAGE_REQUEST_SYNC).bind(MESSAGE_REQUEST_SYNC, function (event, payload) {
                     console.log('on sync request');
-
                     peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
                     if (getCurrentPhase().format !== THANKS) {
                         console.log('render phase step: ' + currentPhaseStepIndex);
@@ -2208,23 +2149,19 @@ var Tester = {
                     $('#custom-modal').find('.modal-content').empty();
                     $('#custom-modal').modal('hide');
                 });
-
                 $(peerConnection).unbind(MESSAGE_SYNC_PHASE_STEP).bind(MESSAGE_SYNC_PHASE_STEP, function (event, payload) {
                     console.log('on sync phase step', payload.index);
-
                     syncPhaseStep = false;
                     currentPhaseStepIndex = payload.index;
                     renderPhaseStep();
                     updateProgress();
                 });
-
                 $(peerConnection).unbind('videoAdded').bind('videoAdded', function () {
                     if (syncPhaseStep) {
                         peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
                         updateRTCHeight($('#viewTester #column-left').width(), true);
                     }
                 });
-
                 $(peerConnection).unbind(CONNECTION_STATE_CONNECTED).bind(CONNECTION_STATE_CONNECTED, function () {
                     console.log('connected');
                     clearAlerts($('#viewTester'));
@@ -2244,7 +2181,6 @@ var Tester = {
 //                        $(document).scrollTop(0);
 //                    }
                 });
-
                 $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
                     console.log('disconnected');
                     clearAlerts($('#viewTester'));
@@ -2254,7 +2190,6 @@ var Tester = {
                         $('#viewTester').find('#pinnedRTC').css({opacity: 0});
                     }
                 });
-
                 $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function () {
                     console.log('videoRemoved');
                     clearAlerts($('#viewTester'));
@@ -2293,7 +2228,6 @@ var Tester = {
         }
 
         console.log('append rtc live stream', target);
-
         var options = getPhaseStepOptions(currentPhase.format);
         var query = getQueryParams(document.location.search);
         var mainElement = $('#video-caller');
@@ -2314,7 +2248,6 @@ var Tester = {
             localStream: {audio: options.tester.audio, video: options.tester.video, visualize: options.tester.visualizeStream, record: options.tester.recordStream},
             remoteStream: {audio: options.moderator.audio, video: options.moderator.video}
         };
-
         if (callerOptions.localStream.video === 'yes' || callerOptions.remoteStream.video === 'yes') {
             $(callerOptions.target).prepend(callerOptions.callerElement);
             if (updateRTCHeightBool) {
@@ -2330,7 +2263,6 @@ var Tester = {
 //        var source = getSourceContainer(currentView);
 //        $(target).empty().append(callerOptions.callerElement);
         Tester.keepStreamsPlaying(callerOptions.callerElement);
-
     },
     keepStreamsPlaying: function keepStreamsPlaying(element) {
         if (peerConnection.status !== STATUS_UNINITIALIZED) {
@@ -2354,12 +2286,10 @@ var Tester = {
             $(video).css({height: '100%', width: '100%', objectFit: 'contain'});
             $(video).removeAttr('controls');
             $(video).removeAttr('id');
-
             $(window).on('resize', function () {
                 var newHeight = $(window).height();
                 $(container).css({height: newHeight + "px"});
             });
-
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
             }
@@ -2368,7 +2298,6 @@ var Tester = {
         });
     }
 };
-
 function checkRTCUploadStatus(container) {
     if (isUploadRecordingNeeded() && uploadQueue && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
         console.log('sumbmit final data with upload queue, some files where not uploaded yet!');
@@ -2436,7 +2365,6 @@ function getJointSelectionRatings(answers, selectionRating, container) {
     if (selectionRating !== 'none') {
         var selectedBodyJoints = null;
         var selectedHandJoints = null;
-
         switch (selectionRating) {
             case 'body':
                 selectedBodyJoints = getSelectedJoints($(container).find('#human-body-selection-rating'));
@@ -2516,8 +2444,6 @@ function renderSceneItem(source, container, sceneId) {
         var containerOffsetTop = container.offset().top;
         var generalPanelHeight = previewModeEnabled ? 107 : 54;
         var study = getLocalItem(STUDY);
-
-
 //        if(!previewModeEnabled === false) {
 //            generalPanelHeight = 0;
 //        }
@@ -2527,7 +2453,6 @@ function renderSceneItem(source, container, sceneId) {
         $(window).resize(function () {
 
             var height;
-
             if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
                 height = $(window).height() - containerOffsetTop - generalPanelHeight;
             } else {
@@ -2566,7 +2491,6 @@ function onAnswerTimeExpired(container, data) {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.annotations.push({id: tempData.annotations.length, action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-
                 if (peerConnection) {
                     peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
                 }
@@ -2596,10 +2520,8 @@ function onUnmoderatedAnswerTimeExpired(source, container, data) {
             var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
             setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-
             loadHTMLintoModal('custom-modal', 'externals/modal-check-gesture.php', 'modal-lg');
         });
-
     }
 
     $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
@@ -2679,7 +2601,6 @@ function calcDimensions() {
     var screenSize = {width: $(window).width(), height: $(window).height()};
     var maxHeight = screenSize.height - 200;
     var maxWidth = maxHeight * 4 / 3;
-
     var ratio = screenSize.width / screenSize.height;
     if (ratio < 1) {
         maxWidth = screenSize.width - 50;

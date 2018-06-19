@@ -2190,6 +2190,7 @@ function getTimeString(object, short, milliseconds) {
 
 
 var currentPreviewGesture = null;
+var currentPreviewTrigger = null;
 var gesturePreviewOpened = false;
 var gesturePreviewDeleteable = true;
 function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle, modalId) {

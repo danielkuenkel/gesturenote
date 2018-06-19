@@ -1399,7 +1399,8 @@
         "pose": "Pose",
         "poses": "Posen",
         "dynamic": "Dynamische Geste",
-        "dynamics": "Dynamische Gesten"
+        "dynamics": "Dynamische Gesten",
+        "total": "Gesamt"
     },
     "gestureInteractionTypes": {
         "discrete": "Diskret",
@@ -1628,7 +1629,9 @@
     "triggerInquired": "Erfragt wird Geste",
     "inquireTrigger": "Funktion erfragen",
     "inquireFavoriteTrigger": "Favorisierte Funktion(en) erfragen",
+    "showTrigger": "Funktion(en) zeigen",
     "inquireFavoriteGestures": "Favorisierte Geste(n) erfragen",
+    "showGestures": "Geste(n) zeigen",
     "triggerShown": "Gezeigt wird Funktion",
     "gestureShow": "Gezeigt wird Geste",
     "showGesture": "Geste zeigen",
@@ -1760,6 +1763,9 @@
     "gestureContext": "Gesten-Kontext",
     "gestureExecutionType": "Gesten-Ausführung",
     "gestureType": "Gesten-Ausführung",
+    "studyStatus": "Studien-Durchführung",
+    "studiesSucceeded": "Erfolgreich",
+    "studiesAborted": "Abgebrochen",
     "gestureInteractionType": "Gesten-Interaktions-Typ",
     "gestureAssociation": "Assoziation(en)",
     "noAssociation": "Keine Assoziation(en) verfügbar",
@@ -1925,7 +1931,11 @@
         "showFeedback": "Systemrückmeldung zeigen",
         "hideFeedback": "Systemrückmeldung ausblenden",
         "allRecorderReady": "Alle Sensoren bereit",
-        "recorderLost": "Sensoren nicht verbunden"
+        "recorderLost": "Sensoren nicht verbunden",
+        "showGestureInfo": "Zeige Geste",
+        "hideGestureInfo": "Beende Vorschau für Geste",
+        "showTriggerInfo": "Zeige Funktion",
+        "hideTriggerInfo": "Beende Vorschau für Funktion"
     },
     "manual": "Handbuch",
     "moreInfos": "Mehr Informationen",

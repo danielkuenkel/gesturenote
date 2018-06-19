@@ -459,6 +459,8 @@ function renderStudyFeedback(feedback) {
 function renderStudyParticipants(data, hash) {
     $('#study-participants .list-container').empty();
     $('#tab-pane').find('#participants .badge').text(data.length);
+    var aborted = 0;
+    var success = 0;
 
     for (var i = 0; i < data.length; i++) {
         var result = data[i].data;
@@ -467,6 +469,7 @@ function renderStudyParticipants(data, hash) {
         $('#study-participants .list-container').append(item);
 
         if (result.aborted === 'no' && result.studySuccessfull === 'yes') {
+            success++;
             $(item).find('.panel').addClass('panel-success');
             $(item).find('#execution-success').removeClass('hidden');
             $(item).find('#execution-success .label-text').text(translation.studySuccessful);
@@ -489,6 +492,7 @@ function renderStudyParticipants(data, hash) {
                 $(item).find('#execution-duration .label-text').text(getTimeString(duration, true));
             }
         } else {
+            aborted++;
             $(item).find('.panel').addClass('panel-danger');
             $(item).find('#execution-fault').removeClass('hidden');
             $(item).find('#execution-fault .label-text').text(translation.studyFault);
@@ -504,6 +508,35 @@ function renderStudyParticipants(data, hash) {
             goto('study-participant.php?studyId=' + event.data.studyId + '&participantId=' + event.data.participantId + '&h=' + hash);
         });
     }
+
+    var chartOptions = {
+        rotation: -Math.PI,
+        cutoutPercentage: 30,
+        circumference: Math.PI
+    };
+    console.log(success, aborted);
+
+    var target = $('#study-participants');
+    var ctx = $(target).find('#chart-participant-statistics');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: [translation.studiesSucceeded, translation.studiesAborted],
+            datasets: [{
+//                    label: '# of Votes',
+                    data: [success, aborted],
+                    backgroundColor: [
+                        '#5cb85c',
+                        '#d9534f'
+                    ]
+                }]
+        },
+        options: chartOptions
+    });
+
+    $(target).find('#amount-participants-success').text(translation.studiesSucceeded + ': ' + success);
+    $(target).find('#amount-participants-aborted').text(translation.studiesAborted + ': ' + aborted);
+    $(target).find('#amount-participants-total').text(translation.gestureTypes.total + ': ' + (success + aborted));
 }
 
 
@@ -771,17 +804,60 @@ function renderAllGestures() {
 
 function renderElicitationStatistics(container, statistics, prependContainer, headline) {
     var statisticsContainer = $('#template-study').find('#elicitation-statistics').clone().removeAttr('id');
-    $(statisticsContainer).find('#progress-type-static').text(statistics.staticGestures);
-    $(statisticsContainer).find('#progress-type-static').css({width: (statistics.staticGestures / statistics.totalAmount * 100) + '%'});
-    $(statisticsContainer).find('#progress-type-dynamic').text(statistics.dynamicGestures);
-    $(statisticsContainer).find('#progress-type-dynamic').css({width: (statistics.dynamicGestures / statistics.totalAmount * 100) + '%'});
-    $(statisticsContainer).find('#progress-type-discrete').text(statistics.discreteInteractions);
-    $(statisticsContainer).find('#progress-type-discrete').css({width: (statistics.discreteInteractions / statistics.totalAmount * 100) + '%'});
-    $(statisticsContainer).find('#progress-type-continuous').text(statistics.continuousInteractions);
-    $(statisticsContainer).find('#progress-type-continuous').css({width: (statistics.continuousInteractions / statistics.totalAmount * 100) + '%'});
+
+    var chartOptions = {
+        rotation: -Math.PI,
+        cutoutPercentage: 30,
+        circumference: Math.PI
+    };
+
+    var ctx = $(statisticsContainer).find('#chart-gesture-execution-type');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: [translation.gestureTypes.poses, translation.gestureTypes.dynamics],
+            datasets: [{
+                    label: '# of Votes',
+                    data: [statistics.staticGestures, statistics.dynamicGestures],
+                    backgroundColor: [
+                        '#008000',
+                        '#97CB00'
+                    ]
+                }]
+        },
+        options: chartOptions
+    });
+
+    var ctx = $(statisticsContainer).find('#chart-gesture-interaction-type');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: [translation.gestureInteractionTypes.discrete, translation.gestureInteractionTypes.continuous],
+            datasets: [{
+                    label: '# of Votes',
+                    data: [statistics.discreteInteractions, statistics.continuousInteractions],
+                    backgroundColor: [
+                        '#FF9700',
+                        '#FFCB00'
+                    ]
+                }]
+        },
+        options: chartOptions
+    });
+
+
+//    $(statisticsContainer).find('#progress-type-static').text(statistics.staticGestures);
+//    $(statisticsContainer).find('#progress-type-static').css({width: (statistics.staticGestures / statistics.totalAmount * 100) + '%'});
+//    $(statisticsContainer).find('#progress-type-dynamic').text(statistics.dynamicGestures);
+//    $(statisticsContainer).find('#progress-type-dynamic').css({width: (statistics.dynamicGestures / statistics.totalAmount * 100) + '%'});
+//    $(statisticsContainer).find('#progress-type-discrete').text(statistics.discreteInteractions);
+//    $(statisticsContainer).find('#progress-type-discrete').css({width: (statistics.discreteInteractions / statistics.totalAmount * 100) + '%'});
+//    $(statisticsContainer).find('#progress-type-continuous').text(statistics.continuousInteractions);
+//    $(statisticsContainer).find('#progress-type-continuous').css({width: (statistics.continuousInteractions / statistics.totalAmount * 100) + '%'});
 
     $(statisticsContainer).find('#amount-static-gestures').text(translation.gestureTypes.poses + ': ' + statistics.staticGestures);
     $(statisticsContainer).find('#amount-dynamic-gestures').text(translation.gestureTypes.dynamics + ': ' + statistics.dynamicGestures);
+    $(statisticsContainer).find('#amount-total-gestures').text(translation.gestureTypes.total + ': ' + (statistics.staticGestures + statistics.dynamicGestures));
 
     $(statisticsContainer).find('#amount-discrete-gestures').text(translation.gestureInteractionTypes.discrete + ': ' + statistics.discreteInteractions);
     $(statisticsContainer).find('#amount-continuous-gestures').text(translation.gestureInteractionTypes.continuous + ': ' + statistics.continuousInteractions);
@@ -902,11 +978,11 @@ function updateMatchingView(updateLeft, updateRight) {
     } else {
         $('#btn-redo').addClass('disabled');
     }
-    
-    
+
+
     var leftGesture = gesturesLeft[gesturesLeftIndex];
     var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
-console.log(rightGesture, gesturesRight, gesturesRightIndex);
+    console.log(rightGesture, gesturesRight, gesturesRightIndex);
 
     var leftItem = getGestureCatalogListThumbnail(leftGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
     $(leftItem).removeClass('deleteable');
@@ -2476,7 +2552,7 @@ function updateTriggerAssignmentInfos(container, type, updateId, assignment) {
     var target = $(container).find('[data-main-trigger-id=' + updateId + ']');
     $(target).attr('data-main-gesture-id', assignment.mainTriggerId);
     $(target).find('.btn-popover-gesture-preview').remove();
-    
+
     if (type === POTENTIAL_TRIGGER) {
         $(target).find('#potential-parameters-container').children().not('#potential-parameters').remove();
     }

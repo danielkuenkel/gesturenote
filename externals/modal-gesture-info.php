@@ -25,7 +25,7 @@ include '../includes/language.php';
 </div>
 
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" id="btn-close-modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
 </div>
 
 <script>
@@ -33,7 +33,8 @@ include '../includes/language.php';
         renderModalData();
 
         $('#custom-modal').bind('hidden.bs.modal', function () {
-            currentPreviewGesture = null;
+            console.log('modal hidden');
+//            currentPreviewGesture = null;
             gesturePreviewOpened = false;
             $(this).unbind('hidden.bs.modal');
         });
@@ -50,14 +51,20 @@ include '../includes/language.php';
         container.find('#association .text').text(gesture.association === null ? '-' : gesture.association);
         container.find('#context .text').text(gesture.context);
         container.find('#description .text').text(gesture.description);
-        
+
         renderGesturePreview(container.find('#webcam-preview'), gesture);
 
-        if (peerConnection) {
+        if (!previewModeEnabled && peerConnection) {
             peerConnection.sendMessage(MESSAGE_GESTURE_INFO_PRESENT);
             $(peerConnection).unbind(MESSAGE_CLOSE_GESTURE_INFO).bind(MESSAGE_CLOSE_GESTURE_INFO, function (event, payload) {
                 $('#custom-modal').modal('hide');
             });
         }
     }
+
+//    $('#btn-close-modal').unbind('click').bind('click', function (event) {
+//        event.preventDefault();
+//        console.log('close modal');
+//        $('#custom-modal').modal('hide');
+//    });
 </script>
