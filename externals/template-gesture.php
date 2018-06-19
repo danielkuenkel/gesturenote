@@ -14,7 +14,7 @@ include '../includes/language.php';
     </li>
 
     <div class="root deleteable" id="gestures-catalog-thumbnail">
-        <div class="thumbnail gesture-thumbnail btn-shadow">
+        <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
             <div class="embed-responsive embed-responsive-4by3">
                 <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
@@ -43,7 +43,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="classified-gestures-catalog-thumbnail">
-        <div class="thumbnail gesture-thumbnail btn-shadow">
+        <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
             <div class="embed-responsive embed-responsive-4by3">
                 <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
@@ -74,7 +74,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="potential-gestures-catalog-thumbnail">
-        <div class="thumbnail gesture-thumbnail btn-shadow">
+        <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
             <div class="embed-responsive embed-responsive-4by3">
                 <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
@@ -104,7 +104,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="simple-gesture-thumbnail">
-        <div class="thumbnail gesture-thumbnail btn-shadow">
+        <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
             <div class="embed-responsive embed-responsive-4by3">
                 <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
@@ -125,7 +125,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root " id="rudimentary-gesture-thumbnail">
-        <div class="gesture-thumbnail btn-shadow">
+        <div class="gesture-thumbnail btn-gesture-shadow">
             <div class="embed-responsive embed-responsive-4by3">
                 <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
@@ -145,7 +145,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="exploration-gestures-catalog-thumbnail">
-        <div class="panel panel-default btn-shadow">
+        <div class="panel panel-default btn-gesture-shadow">
             <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
                 <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
             </div>
@@ -174,7 +174,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="favorite-gesture-catalog-thumbnail">
-        <div class="thumbnail gesture-thumbnail btn-shadow">
+        <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
             <div class="embed-responsive embed-responsive-4by3">
                 <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
@@ -184,6 +184,9 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
                         <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
                     </div>
+                </div>
+                <div class="tagged-symbol hidden">
+                    <i class="fa fa-asterisk"></i>
                 </div>
             </div>
             <div class="caption text-center">
@@ -199,7 +202,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="study-gesture-catalog-thumbnail">
-        <div class="panel panel-default btn-shadow">
+        <div class="panel panel-default btn-gesture-shadow">
             <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
                 <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
             </div>
@@ -230,7 +233,7 @@ include '../includes/language.php';
 
 
     <div class="root" id="add-gesture-to-scene-thumbnail">
-        <div class="thumbnail gesture-thumbnail btn-shadow">
+        <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
             <div class="embed-responsive embed-responsive-4by3">
                 <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
@@ -240,6 +243,9 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
                         <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
                     </div>
+                </div>
+                <div class="tagged-symbol hidden">
+                    <i class="fa fa-asterisk"></i>
                 </div>
             </div>
             <div class="caption text-center">

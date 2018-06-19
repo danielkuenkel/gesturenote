@@ -166,7 +166,7 @@ function renderGestureImages(container, images, preview, callback) {
         for (var i = 0; i < images.length; i++) {
             var image = document.createElement('img');
             $(image).addClass('gestureImage mirroredHorizontally embed-responsive-item');
-            $(image).css({borderBottomLeftRadius: '5px', borderBottomRightRadius: '5px'});
+//            $(image).css({borderBottomLeftRadius: '5px', borderBottomRightRadius: '5px'});
             container.append(image);
             if (i === parseInt(preview)) {
                 $(image).addClass('previewImage active');
@@ -388,7 +388,7 @@ function removeLoadingIcon(target) {
 function addNoImageIcon(target) {
     var embed = document.createElement('div');
     $(embed).addClass('embed-responsive-item');
-    $(embed).css({display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: '#eee', borderRadius: '0px 0px 5px 5px'});
+    $(embed).css({display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: '#eee', borderRadius: '8px 8px 0px 0px'});
     $(embed).attr('id', 'no-image-icon');
     $(target).append(embed);
 

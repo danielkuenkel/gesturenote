@@ -103,11 +103,17 @@ and open the template in the editor.
     transform: scaleX(-1);
 }
 
-.gesture-thumbnail .previewGesture {
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+.gesture-thumbnail {
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+}
+
+.gesture-thumbnail .gestureImage {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 .rudimentary-gesture-thumbnail .previewGesture {
@@ -119,14 +125,14 @@ and open the template in the editor.
 }
 
 .gesture-thumbnail:hover {
-    border-color: #b3b3b3;
+    /*border-color: #b3b3b3;*/
 }
 
 .gesture-thumbnail.assembled {
     border-color: #0480be;
 }
 .gesture-thumbnail.assembled:hover {
-    border-color: #385380;
+    /*border-color: #385380;*/
 }
 
 .gesture-thumbnail .caption {
@@ -272,4 +278,27 @@ and open the template in the editor.
 
 #btn-toggle-cropping.cropping {
     color: #5bc0de;
+}
+
+.btn-gesture-shadow {
+    cursor: pointer;
+    box-shadow: 0px 0px 10px rgba(0,0,0, .2);
+    transition: box-shadow 0.15s;
+}
+.btn-gesture-shadow:hover {
+    -webkit-box-shadow: 0px 5px 10px rgba(0,0,0, .3);
+    -moz-box-shadow: 0px 5px 10px rgba(0,0,0, .3);
+    box-shadow: 0px 5px 10px rgba(0,0,0, .3);
+}
+
+.tagged-symbol {
+    width: 30px; 
+    height: 28px; 
+    background-color: white; 
+    border-top-left-radius: 8px; 
+    border-bottom-right-radius: 10px; 
+    position: absolute;display: flex;
+    align-items: center;
+    justify-content: center; 
+    color: #337ab7;
 }
