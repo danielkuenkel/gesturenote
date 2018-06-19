@@ -390,7 +390,8 @@ function addNoImageIcon(target) {
     $(embed).addClass('embed-responsive-item');
     $(embed).css({display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: '#eee', borderRadius: '8px 8px 0px 0px'});
     $(embed).attr('id', 'no-image-icon');
-    $(target).append(embed);
+    $(embed).insertBefore($(target).find('.gesture-info-symbols'));
+//    $(target).append(embed);
 
     var stack = document.createElement('span');
     $(stack).addClass('fa-stack fa-lg');

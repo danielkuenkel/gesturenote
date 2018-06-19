@@ -815,13 +815,13 @@ function renderElicitationStatistics(container, statistics, prependContainer, he
     new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: [translation.gestureTypes.poses, translation.gestureTypes.dynamics],
+            labels: [translation.gestureTypes.pose, translation.gestureTypes.dynamic],
             datasets: [{
                     label: '# of Votes',
                     data: [statistics.staticGestures, statistics.dynamicGestures],
                     backgroundColor: [
-                        '#008000',
-                        '#97CB00'
+                        '#97CB00',
+                        '#4BACC6'
                     ]
                 }]
         },
@@ -837,7 +837,7 @@ function renderElicitationStatistics(container, statistics, prependContainer, he
                     label: '# of Votes',
                     data: [statistics.discreteInteractions, statistics.continuousInteractions],
                     backgroundColor: [
-                        '#FF9700',
+                        '#7030A0',
                         '#FFCB00'
                     ]
                 }]
@@ -855,8 +855,8 @@ function renderElicitationStatistics(container, statistics, prependContainer, he
 //    $(statisticsContainer).find('#progress-type-continuous').text(statistics.continuousInteractions);
 //    $(statisticsContainer).find('#progress-type-continuous').css({width: (statistics.continuousInteractions / statistics.totalAmount * 100) + '%'});
 
-    $(statisticsContainer).find('#amount-static-gestures').text(translation.gestureTypes.poses + ': ' + statistics.staticGestures);
-    $(statisticsContainer).find('#amount-dynamic-gestures').text(translation.gestureTypes.dynamics + ': ' + statistics.dynamicGestures);
+    $(statisticsContainer).find('#amount-static-gestures').text(translation.gestureTypes.pose + ': ' + statistics.staticGestures);
+    $(statisticsContainer).find('#amount-dynamic-gestures').text(translation.gestureTypes.dynamic + ': ' + statistics.dynamicGestures);
     $(statisticsContainer).find('#amount-total-gestures').text(translation.gestureTypes.total + ': ' + (statistics.staticGestures + statistics.dynamicGestures));
 
     $(statisticsContainer).find('#amount-discrete-gestures').text(translation.gestureInteractionTypes.discrete + ': ' + statistics.discreteInteractions);

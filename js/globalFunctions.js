@@ -496,9 +496,9 @@ function onMoveUpComplete(element, brother, save) {
     if (element.parent().find('.badgeId').length > 0) {
         updateBadges(element.parent(), element.attr('id'));
     }
-    
+
     $(element).trigger('change', [{type: 'moved', id: $(element).attr('id')}]);
-    
+
     if ((element).find('.btn-group-root .btn-up').hasClass('scroll-after-move')) {
         $('html, body').animate({
             scrollTop: $(element).offset().top - 70
@@ -520,7 +520,7 @@ function onMoveDownComplete(element, brother, save) {
     }
 
     $(element).trigger('change', [{type: 'moved', id: $(element).attr('id')}]);
-    
+
     if ($(element).find('.btn-group-root .btn-down').hasClass('scroll-after-move')) {
         $('html, body').animate({
             scrollTop: $(element).offset().top - 70
@@ -2215,7 +2215,7 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
 }
 
 function initGestureThumbnail(data, typeId, layout, panelStyle) {
-//    console.log(data);
+    console.log(data);
     var clone;
     if (typeId && typeId !== null) {
         clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');
@@ -2226,6 +2226,12 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
     clone.find('.gesture-name').text(data.title);
     clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
     clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
+
+    clone.find('.symbol-gesture-execution').addClass(data.type);
+    clone.find('.symbol-gesture-interaction').addClass(data.interactionType);
+    clone.find('.symbol-gesture-execution').attr('data-content', translation.gestureTypes[data.type + 's'] + ' ' + translation.gestureType);
+    clone.find('.symbol-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[data.interactionType + 's'] + ' ' + translation.gestureInteraction);
+    initPopover();
 
     if (panelStyle) {
         clone.find('.panel').removeClass('panel-default').addClass(panelStyle);

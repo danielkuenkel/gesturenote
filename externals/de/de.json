@@ -1396,10 +1396,10 @@
     },
     "bodyType": "Körperteile",
     "gestureTypes": {
-        "pose": "Pose",
-        "poses": "Posen",
-        "dynamic": "Dynamische Geste",
-        "dynamics": "Dynamische Gesten",
+        "pose": "Statisch",
+        "poses": "Statische",
+        "dynamic": "Dynamisch",
+        "dynamics": "Dynamische",
         "total": "Gesamt"
     },
     "gestureInteractionTypes": {
@@ -1766,6 +1766,8 @@
     "studyStatus": "Studien-Durchführung",
     "studiesSucceeded": "Erfolgreich",
     "studiesAborted": "Abgebrochen",
+    "gestureInteraction": "Gesten-Interaktion",
+    "gestureInteractions": "Gesten-Interaktionen",
     "gestureInteractionType": "Gesten-Interaktions-Typ",
     "gestureAssociation": "Assoziation(en)",
     "noAssociation": "Keine Assoziation(en) verfügbar",

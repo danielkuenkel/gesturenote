@@ -300,5 +300,44 @@ and open the template in the editor.
     position: absolute;display: flex;
     align-items: center;
     justify-content: center; 
-    color: #337ab7;
+    color: #4d4d4d;
+}
+
+
+
+.gesture-info-symbols {
+    display: flex;
+    position: absolute;
+    right: 0px;
+    padding: 6px;
+    background-color: rgba(255,255,255,1);
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 8px;
+}
+
+.gesture-info-symbol {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: black;
+}
+
+.symbol-gesture-execution {
+    margin-right: 4px;
+}
+
+.symbol-gesture-execution.pose {
+    background-color: #97CB00;
+}
+
+.symbol-gesture-execution.dynamic {
+    background-color: #4BACC6;
+}
+
+.symbol-gesture-interaction.discrete {
+    background-color: #7030A0;
+}
+
+.symbol-gesture-interaction.continuous {
+    background-color: #FFCB00;
 }

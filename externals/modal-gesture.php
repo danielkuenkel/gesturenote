@@ -115,8 +115,8 @@ include '../includes/language.php';
                     <div id="gesture-data-preview">
                         <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
                         <div id="title"><?php echo $lang->title ?>:<span class="address"></span> <span class="text"></span></div>
-                        <div id="type"><?php echo $lang->gestureType ?>:<span class="address"></span> <span class="text"></span></div>
-                        <div id="interactionType"><?php echo $lang->gestureInteractionType ?>:<span class="address"></span> <span class="text"></span></div>
+                        <div id="type" style="display:flex"><?php echo $lang->gestureType ?>: <div class="gesture-info-symbol symbol-gesture-execution" style="margin-top: 9px; margin-left: 6px; margin-right: 2px;"></div> <span class="address"></span> <span class="text"></span></div>
+                        <div id="interactionType" style="display:flex"><?php echo $lang->gestureInteractionType ?>: <div class="gesture-info-symbol symbol-gesture-interaction" style="margin-top: 9px; margin-left: 6px;margin-right: 2px"></div> <span class="address"></span> <span class="text"></span></div>
                         <div id="context"><?php echo $lang->gestureContext ?>:<span class="address"></span> <span class="text"></span></div>
                         <div id="association"><?php echo $lang->gestureAssociation ?>:<span class="address"></span> <span class="text"></span></div>
                         <div id="description"><?php echo $lang->gestureDescription ?>:<span class="address"></span> <span class="text"></span></div>
@@ -227,10 +227,10 @@ include '../includes/language.php';
                             <button type="button" class="btn btn-block btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
                         </div>
                     </div>
-<!--                    <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
-                        <button type="button" class="btn btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                        <button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
-                    </div>-->
+                    <!--                    <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
+                                            <button type="button" class="btn btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                                            <button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
+                                        </div>-->
 
                 </div>
             </div>
@@ -551,7 +551,9 @@ include '../includes/language.php';
         container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
         container.find('#title .text').text(gesture.title);
         container.find('#type .text').text(gesture.type === null ? '-' : translation.gestureTypes[gesture.type]);
+        container.find('#type .symbol-gesture-execution').addClass(gesture.type);
         container.find('#interactionType .text').text(gesture.interactionType === null ? '-' : translation.gestureInteractionTypes[gesture.interactionType]);
+        container.find('#interactionType .symbol-gesture-interaction').addClass(gesture.interactionType);
         container.find('#context .text').text(gesture.context);
         container.find('#association .text').text(gesture.association === null ? '-' : gesture.association);
         container.find('#description .text').text(gesture.description);
