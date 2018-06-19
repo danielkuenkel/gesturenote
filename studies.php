@@ -54,7 +54,7 @@ if (login_check($mysqli) == true) {
 
         <!-- thumbnail -->
         <div class="root col-xs-12 col-sm-6 col-lg-4 hidden grid-item studies-catalog-thumbnail" id="studies-catalog-thumbnail">
-            <div class="panel panel-default btn-shadow">
+            <div class="panel panel-default btn-shadow btn-panel">
                 <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
                     <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
                 </div>
@@ -65,7 +65,7 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
 
-                <div class="panel-body">
+                <div class="panel-body panel-content">
                     <div>
                         <div class="label label-default" id="type-phase"></div>
                         <div class="label label-default" id="type-survey"></div>

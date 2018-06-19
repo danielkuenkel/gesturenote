@@ -15,7 +15,7 @@ if (isset($_SESSION['user_id'])) {
             echo json_encode(array('status' => 'selectError'));
             exit();
         } else {
-            $select_stmt->bind_result($id, $forename, $surname, $email, $password, $birthday, $gender, $userType, $created, $passwordReset, $tutorialStudyCreation, $tutorialStudyPreview, $tutorialStudy, $tutorialParticipant);
+            $select_stmt->bind_result($id, $forename, $surname, $email, $password, $birthday, $gender, $userType, $created, $passwordReset, $tutorialStudyCreation, $tutorialStudyPreview, $tutorialStudy, $tutorialParticipant, $tutorialGestureCatalog);
             $select_stmt->store_result();
             $select_stmt->fetch();
             if ($select_stmt->num_rows == 1) {
@@ -94,6 +94,7 @@ if (isset($_SESSION['user_id'])) {
                     'tutorialStudyPreview' => $tutorialStudyPreview,
                     'tutorialStudy' => $tutorialStudy,
                     'tutorialParticipant' => $tutorialParticipant,
+                    'tutorialGestureCatalog' => $tutorialGestureCatalog,
                     'statistics' => $statistics);
 
                 echo json_encode(array('status' => 'success', 'user' => $user));

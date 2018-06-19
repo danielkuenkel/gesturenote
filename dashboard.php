@@ -17,7 +17,7 @@ if (login_check($mysqli) == true) {
         <title><?php echo $lang->gestureNoteDashboard ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -25,11 +25,11 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
-        
+
         <script src="js/storage.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/constants.js"></script>
@@ -40,13 +40,14 @@ if (login_check($mysqli) == true) {
         <script src="js/goto-evaluator.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/refreshSession.js"></script>
+        <script src="js/masonry/masonry.min.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
         <!-- externals -->
         <div id="alerts"></div>
         <div id="template-subpages"></div>
-        
+
         <!-- Modal -->
         <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
             <div class="modal-dialog">
@@ -81,23 +82,23 @@ if (login_check($mysqli) == true) {
         <!-- Container (Panel Section) -->
         <div class="container center-text mainContent" style="margin-top: 40px">
 
-            <div class="row">
-                <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-studies" style="opacity: 0">
+            <div class="row" id="dashboard-items-container">
+                <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-studies">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->dashboard->studies ?></div>
-                        <div class="panel-body"><?php echo $lang->dashboard->studiesPanelBody ?></div>
+                        <div class="panel-body panel-content"><?php echo $lang->dashboard->studiesPanelBody ?></div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-styleguides" style="opacity: 0">
+                <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-styleguides">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-map-signs" aria-hidden="true"></i> <?php echo $lang->dashboard->gesturesStyleguides ?></div>
-                        <div class="panel-body"><?php echo $lang->dashboard->gesturesStyleguidesPanelBody ?></div>
+                        <div class="panel-body panel-content"><?php echo $lang->dashboard->gesturesStyleguidesPanelBody ?></div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-catalog" style="opacity: 0">
+                <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-catalog">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->dashboard->gesturesCatalog ?></div>
-                        <div class="panel-body">
+                        <div class="panel-body panel-content">
                             <div id="total-gestures"><span class="address"></span> <span class="text"></span></div>
                             <div id="public-gestures"><span class="address"></span> <span class="text"></span></div>
                             <div id="user-gestures"><span class="address"></span> <span class="text"></span></div>
@@ -106,22 +107,28 @@ if (login_check($mysqli) == true) {
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-news" style="opacity: 0">
+                <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-news">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <?php echo $lang->dashboard->news ?></div>
-                        <div class="panel-body"><?php echo $lang->dashboard->newsPanelBody ?></div>
+                        <div class="panel-body panel-content"><?php echo $lang->dashboard->newsPanelBody ?></div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-publications" style="opacity: 0">
+                <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-publications">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php echo $lang->dashboard->publications ?></div>
-                        <div class="panel-body"><?php echo $lang->dashboard->publicationsPanelBody ?></div>
+                        <div class="panel-body panel-content"><?php echo $lang->dashboard->publicationsPanelBody ?></div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-profile" style="opacity: 0">
+                <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-profile">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->dashboard->profile ?></div>
-                        <div class="panel-body"><?php echo $lang->dashboard->profilePanelBody ?></div>
+                        <div class="panel-body panel-content"><?php echo $lang->dashboard->profilePanelBody ?></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-help">
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-support" aria-hidden="true"></i> <?php echo $lang->dashboard->help ?></div>
+                        <div class="panel-body panel-content"><?php echo $lang->dashboard->helpPanelBody ?></div>
                     </div>
                 </div>
             </div>
@@ -157,6 +164,7 @@ if (login_check($mysqli) == true) {
                         $(item).find('#user-public-gestures .text').text(result.publicUserGestures);
                         $(item).find('#elicited-gestures .address').text(translation.gesturesCatalog.elicitedGestures + ":");
                         $(item).find('#elicited-gestures .text').text(result.elicitedGestures);
+                        renderMasonryTest();
                         animateStart();
                     } else {
 
@@ -165,18 +173,24 @@ if (login_check($mysqli) == true) {
             }
 
             function animateStart() {
-                $('#btn-studies').css({opacity: 1});
-                TweenMax.from($('#btn-studies'), .2, {delay: 0, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-                $('#btn-gesture-styleguides').css({opacity: 1});
-                TweenMax.from($('#btn-gesture-styleguides'), .2, {delay: .05, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-                $('#btn-gesture-catalog').css({opacity: 1});
-                TweenMax.from($('#btn-gesture-catalog'), .2, {delay: .1, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-                $('#btn-news').css({opacity: 1});
-                TweenMax.from($('#btn-news'), .2, {delay: .15, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-                $('#btn-publications').css({opacity: 1});
-                TweenMax.from($('#btn-publications'), .2, {delay: .2, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-                $('#btn-profile').css({opacity: 1});
-                TweenMax.from($('#btn-profile'), .2, {delay: .25, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                var items = $('#dashboard-items-container').children();
+                for (var i = 0; i < items.length; i++) {
+                    var item = $(items[i]);
+                    $(item).css({opacity: 1});
+                    TweenMax.from(item, .2, {opacity: 0, delay: i * 0.05, scaleX: 0.5, scaleY: 0.5});
+                }
+//                $('#btn-studies').css({opacity: 1});
+//                
+//                $('#btn-gesture-styleguides').css({opacity: 1});
+//                TweenMax.from($('#btn-gesture-styleguides'), .2, {delay: .05, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+//                $('#btn-gesture-catalog').css({opacity: 1});
+//                TweenMax.from($('#btn-gesture-catalog'), .2, {delay: .1, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+//                $('#btn-news').css({opacity: 1});
+//                TweenMax.from($('#btn-news'), .2, {delay: .15, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+//                $('#btn-publications').css({opacity: 1});
+//                TweenMax.from($('#btn-publications'), .2, {delay: .2, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+//                $('#btn-profile').css({opacity: 1});
+//                TweenMax.from($('#btn-profile'), .2, {delay: .25, opacity: 0, scaleX: 0.5, scaleY: 0.5});
             }
 
             $('#btn-create-study').click(function (event) {
@@ -184,6 +198,14 @@ if (login_check($mysqli) == true) {
                 event.stopPropagation();
                 gotoCreateStudy();
             });
+
+            function renderMasonryTest() {
+                var $container = $('#dashboard-items-container');
+                $container.masonry({
+                    columnWidth: '.dashboard-item',
+                    itemSelector: '.dashboard-item'
+                });
+            }
         </script>
 
     </body>

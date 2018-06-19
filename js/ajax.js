@@ -209,6 +209,9 @@ function updateIntroduction(data, callback) {
         case 'participant':
             url = 'includes/update-introduction-participant.php';
             break;
+        case 'gestureCatalog':
+            url = 'includes/update-introduction-gesture-catalog.php';
+            break;
     }
 
     $.ajax({

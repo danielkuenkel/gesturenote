@@ -680,7 +680,9 @@
         "profile": "Profil",
         "profilePanelBody": "Anzeigen und bearbeiten der Nutzerdaten",
         "publications": "Veröffentlichungen",
-        "publicationsPanelBody": "Wissenschaftliche Beiträge der Macher von GestureNote zum Thema Gesten-Designprozess"
+        "publicationsPanelBody": "Wissenschaftliche Beiträge der Macher von GestureNote zum Thema Gesten-Designprozess",
+        "help": "Hilfe",
+        "helpPanelBody": "Zugriff auf sämtliche Inhalte der bereitgestellten Hilfebeiträge."
     },
     "createNewStudy": "Neue Studie erstellen",
     "copy": "Kopieren",
@@ -1748,10 +1750,11 @@
     "statePreview": "Zustands-Vorschau",
     "triggerSelection": "Funktionsauswahl",
     "gestureSelection": "Gestenauswahl",
-    "tutorialStudyCreationQuestion": "Hilfe bei Studien-Erstellung automatisch einblenden?",
-    "tutorialStudyPreviewQuestion": "Hilfe bei Studien-Vorschau automatisch einblenden?",
-    "tutorialStudyQuestion": "Hilfe bei Studie automatisch einblenden?",
-    "tutorialParticipantQuestion": "Hilfe bei Teilnehmer automatisch einblenden?",
+    "tutorialStudyCreationQuestion": "Hilfe für Studien-Erstellung automatisch einblenden?",
+    "tutorialStudyPreviewQuestion": "Hilfe für Studien-Vorschau automatisch einblenden?",
+    "tutorialStudyQuestion": "Hilfe für Studie automatisch einblenden?",
+    "tutorialParticipantQuestion": "Hilfe für Teilnehmer automatisch einblenden?",
+    "tutorialGestureCatalogQuestion": "Hilfe für Gesten-Katalog automatisch einblenden?",
     "gus": "GUS (Gesture Usability Scale)",
     "sus": "SUS (System Usability Scale)",
     "gusForSingleGesture": "GUS für einzelne Gesten",
@@ -5110,6 +5113,87 @@
                 "<p>Der Bereich <em>Einzel-Antworten</em> listet die Antworten des Probanden auf, die nach jeder Geste abgefragt wurden. Ggf. werden (wie in der Abbildung zu sehen) grafische Abbildungen (von Körper und/oder Hand) der Belastungsbereiche bereitgestellt (falls in der Durchführung abgefragt). Die Belastungsbereiche werden für die Einzel-Antworten zusammenfassend als Zähler dargestellt, d.h. der jeweilige Bereich (z.B. Schulter) wurde xom Probanden x-Mal als beanspruchend ausgewählt. Dieser Wert kann pro Bereich maximal den Wert der Wiederholungen pro Geste erreichen. Werden keine roten Punkte angezeigt, hat der Proband keinen der Bereiche ausgewählt.</p>",
                 "<p>Der Bereich <em>Abschließende Antworten</em> listet die Antworten des Probanden auf, die nach einer Gesten-Sequenz abgefragt wurden. Die Fragen beziehen sich auf die Gesamtbelastung bei der Ausführung einer Geste nach einer bestimmten Anzahl von Ausführungen (z.B. wurde die Geste 20 Mal ausgeführt). Auch hier werden ggf. grafische Abbildungen der Belastungsbereiche bereitgestellt (falls in der Durchführung abgefragt). Da hier die Abfrage der Belastungsbereiche für jede Geste nur einmal statt findet, wird nur ein roter Punkt ohne Zahlen an den vom Probanden gewählten Bereichen angezeigt. Werden keine roten Punkte eingeblendet, hat der Proband auch keinen Bereich gewählt.</p>"
             ]
+        }
+    ],
+    "introductionGestureCatalog": [
+        {
+            "tabId": "general",
+            "imgSrc": "img/de/introduction/gesture-catalog/carousel-01.jpg",
+            "title": "Allgemeines",
+            "text": "Allgemeine Informationen über Gesten",
+            "popover": "Allgemeines über Gesten",
+            "description": 
+                    [
+                        "<p>Die Studien-Vorschau dient dazu, sich als Moderator mit dem Leitfaden und der Durchführung einer Studie vertraut zu machen. Es ist wichtig, dass vorab die Workflows der einzelnen Methoden verinnerlicht sind, damit es bei einer Befragung nicht zu Problemen oder Verzögerungen kommt. Des Weiteren kann man so sehen, wie die hinterlegten Studien-Daten für die Befragung visualisiert sind. GestureNote stellt aus diesem Grund die interaktive Vorschau zur Verfügung.</p>",
+                        "<h4>Ablauf einer Durchführung</h4><hr>",
+                        "<img class='svg-image' style='max-width:300px' src='img/de/introduction/gesture-catalog/execution.svg' />",
+                        "<p>Bei einer moderierten Befragung wird eine Web-Echtzeitkommunikation mit Hilfe von WebRTC zwischen Moderator und Proband aufgebaut. Wie in der oberen Grafik zu sehen, gelangen die Studienteilnehmer beim Aufruf einer Studien-URL zuerst auf eine Übersichtsseite, auf der allgemeine Informationen bereitgestellt werden. Bei einer moderierten Befragung muss der Moderator aus einer Liste der wartenden Teilnehmer einen Probanden auswählen. Es wird eine erste Verbindung zwischen Moderator und Proband hergestellt und der Moderator kann den Probanden begrüßen und diesen über die Studie aufklären. Klickt der Moderator dann auf <em>Befragung starten</em>, gelangen beide Teilnehmer zur eigentlichen Durchführungsseite. Die Verbindung wird dabei kurz unterbrochen.</p>",
+                        "<p>Die Durchführungsseite wird dabei hier von der Vorschau repräsentiert. Die Vorschau stellt also nicht den kompletten Ablauf einer Durchführung dar, sondern nur den hinterlegten Leitfaden.</p>",
+                        "<p>Bei einer unmoderierten Befragung ist der Ablauf ähnlich, jedoch wird keine Verbindung zwischen Moderator und Tester hergestellt, da kein Moderator benötigt wird. Der Tester startet die Befragung selbst und folgt den hinterlegten Anweisungen im Leitfaden.</p>",
+                        "<h4>Vorschau vs. Durchführung</h4><hr>",
+                        "<p>Die Durchführungsseite ist das Äquivalent zur Studien-Vorschau, mit dem Unterschied, dass in der Vorschau zwischen den beiden Rollen (Moderator, Tester) gewechselt werden kann (wenn moderierte Befragung gewählt wurde). </p>",
+                        "<img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-02.jpg' />",
+                        "<p>Ein weiterer Unterschied betrifft die oberere Navigationsleiste. Mit dieser kann in der Vorschau frei zwischen den einzelnen Leitfadenschritten gewählt werden. In der eigentlichen Durchführung ist diese Leiste nicht vorhanden. Der Abbrechen-Button und die Fortschrittsanzeige sind hingegen in der Vorschau wie auch in der Durchführung vorhanden.</p>",
+                        "<img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-03.jpg' style='max-width:791px'/>",
+                        "<p>In der Durchführung wird der WebRTC Platzhalter (links) durch den eigentlichen Stream (rechts) ersetzt, sodass der Moderator den Tester sieht. Bei einigen Abschnitten kann auch der Tester den Moderator sehen (z.B. beim Ausfüllen eines Fragebogens oder bei der Danksagung). Die Funktionalität gleicht einem Videoanruf, nur dass dieser in einem Browser statt findet.</p>",
+                        "<p>In der Duruchführung werden alle Daten gespeichert (außer beim Neu laden), für die Vorschau hingegen nicht.</p>",
+                        "<h4>Neu laden bei Durchführung</h4><hr>",
+                        "<p>Kommt es bei einer Befragung zu Problemen, kann derjenige mit den Problemen die Durchführung neu laden. Dabei gehen jedoch alle für den aktuellen Leitfadenschritt erhobenen Daten verloren und es muss dieser von vorne gestartet werden. Die Synchronisierung nach einem Neu laden geschieht dabei automatisch, sodass beide Teilnehmer sich immer im gleichen Leitfadenschritt befinden.</p>"
+                    ]
+        },
+        {
+            "tabId": "gestureSets",
+            "imgSrc": "img/de/introduction/gesture-catalog/carousel-02.jpg",
+            "title": "Gesten-Sets",
+            "text": "Was sind Gesten-Sets und wie kann in GestureNote damit gearbeitet werden?",
+            "popover": "Gesten-Sets",
+            "description": 
+                    [
+                        "<p>Je nachdem, welche Gesten-Design-Phase mit einer erstellten Studie abgedeckt wird, gibt es Unterschiede bei der Durchführung und den gewählten Methoden. Die einzelnen Methoden unterscheiden sich im Workflow, demnach auch in der Vorschau und Durchführung. In GestureNote wurde dennoch auf eine einheitliche Darstellung der Bedienelemente geachtet.</p>",
+                        "<p>Der WebRTC Stream und der Beobachtungsleitfaden ist immer auf der linken Seite zu finden. Die hinterlegten Texte für eine Methodeneinführung und die Steuerelemente sind immer auf der rechten Seite zu finden.</p>",
+                        "<h4>Screen-Sharing</h4><hr>",
+                        "<p>Einige Methoden nutzen Screen-Sharing, um hinterlegte Zustände beim Probanden anzuzeigen.</p>",
+                        "<p><ul><li>Ermittlung mit Zuständen</li><li>Exploration mit Zuständen</li><li>Gesten-Training</li><li>Szenario mit Wizard-of-Oz-Experiment</li></ul></p>",
+                        "<span>Abgesehen von den Methoden und deren unterschiedlichem Workflow, ist das Initiieren und Beenden eines Screen-Sharings immer gleich.</span>",
+                        "<img class='img-image' style='max-width:741px' src='img/de/introduction/gesture-catalog/carousel-02-01.png' />",
+                        "<p>Klicken Sie als erstes auf den Button <button class='btn btn-success btn-xs'>Prototyp öffnen</button>. Es öffnet sich ein neues Browserfenster (siehe oben) in dem die Zustände gerendert werden. Dieses Fenster soll dem Probanden übertragen werden. Klicken Sie anschließen in GestureNote auf <button class='btn btn-success btn-xs'>Screen-Sharing starten</button>. Es öffnet sich nun ein Dialog, in dem Sie das zu übertragende Browserfester unter dem Reiter Anwendungsfenster auswählen können. Bestätigen Sie die Auswahl mit einem Klick auf Teilen. Der Prototyp wird nun zum Probanden übertragen. Ändert sich der Zustand, sieht dies somit auch der Proband. Sie können das Browserfenster verschieben, ohne dass dies einen Einfluss auf die Darstellung beim Probanden hat. Ändern Sie die Größe des Fensters, wird die Ansicht beim Probanden passend skaliert (scale-to-fit).</p>",
+                        "<h4>Fragebögen</h4><hr>",
+                        "<p>Alle Fragebögen, sei es ein benutzerdefinierte Fragebogen, ein GUS, SUS oder UEQ, basieren auf den selben Funktionalitäten. Der Proband beantwortet die Fragen auf seinem Gerät. Die Antworten werden in Echtzeit zum Moderator übertragen, d.h. Sie sehen immer an welcher Stelle im Fragebogen sich ein Proband befindet und welche Antworten er gewählt hat. So können Sie nochmal nachhaken, falls es bei einer Frage Schwierigkeiten gibt. Bei einem Interview liest der Moderator die Fragen vor und gibt die Antworten des Probanden in das Formular ein.</p>",
+                        "<p>Sie können für eigene Fragebögen Filterfragen anlegen. Wurden Filterfragen angelegt, werden diese Infos entweder neben den einzelnen Auswahloptionen oder für die ganze Frage eingeblendet (wenn z.B. die Antwort/Auswahl egal ist, oder bei einer Summenfrage alle Antwortmöglichkeiten >= 2 sind). Scrollen Sie mit der Maus über das Symbol <b><i class='fa fa-info-circle'></i> Filter</b>, um die Informationen abzurufen. Sind Filterfragen vorhanden, werden die einzelnen Fragen sequentiell eingeblendet. Ohne Filterfragen werden alle Fragen eines Fragebogens gezeigt.</p>",
+                        "<h4>Ermittlung</h4><hr>",
+                        "<img class='svg-image' style='max-width:600px' src='img/de/introduction/gesture-catalog/elicitation.svg' />",
+                        "<p></p>",
+                        "<h4>Exploration</h4><hr>",
+                        "<img class='svg-image' style='max-width:500px' src='img/de/introduction/gesture-catalog/exploration.svg' />",
+                        "<p></p>",
+                        "<h4>Gesten-Training</h4><hr>",
+                        "<img class='svg-image' style='max-width:500px' src='img/de/introduction/gesture-catalog/gesture-training.svg' />",
+                        "<p></p>",
+                        "<h4>Szenario</h4><hr>",
+                        "<img class='svg-image' style='max-width:800px' src='img/de/introduction/gesture-catalog/scenario.svg' />",
+                        "<p></p>",
+                        "<h4>Gesten erraten</h4><hr>",
+                        "<img class='svg-image' style='max-width:300px' src='img/de/introduction/gesture-catalog/gesture-slideshow.svg' />",
+                        "<p></p>",
+                        "<h4>Funktionen erraten</h4><hr>",
+                        "<img class='svg-image' style='max-width:130px' src='img/de/introduction/gesture-catalog/trigger-slideshow.svg' />",
+                        "<p></p>",
+                        "<h4>Physischer Belastungstest</h4><hr>",
+                        "<img class='svg-image' style='max-width:640px' src='img/de/introduction/gesture-catalog/physical-stress-test.svg' />",
+                        "<p></p>"
+                    ]
+        },
+        {
+            "tabId": "recordGestures",
+            "imgSrc": "img/de/introduction/gesture-catalog/carousel-03.jpg",
+            "title": "Gesten-Recorder",
+            "text": "Wie können neue Gesten erstellt werden?",
+            "popover": "Gesten-Recorder",
+            "description": 
+                    [
+                        "<p></p>",
+                        "<p></p>"
+                    ]
         }
     ],
     "news": "Aktuelles",

@@ -53,21 +53,24 @@ include '../includes/language.php';
     </div>
 
     <div class="root col-xs-6 col-sm-4 col-lg-3" id="participant-thumbnail">
-        <div class="panel panel-default btn-shadow">
+        <div class="panel panel-default btn-shadow btn-panel">
             <div class="panel-body">
-                <div id="heading-text"></div>
                 <div class="embed-responsive embed-responsive-4by3" style="border-radius: 4px">
                     <div class="embed-responsive-item participant-snapshot" style="position: absolute; background-color: #eee; display: flex; justify-content: center; align-items: center;">
                         <i class="fa fa-user fa-3x"></i>
                     </div>
                     <div class="embed-responsive-item participant-snapshot" style="position: absolute">
-                        <img src="" width="100%" height="auto" />
+                        <img src="" width="100%" height="auto" style="border-top-left-radius: 8px; border-top-right-radius: 8px;" />
                     </div>
                 </div>
-                <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
-                <span class="label label-warning hidden" id="execution-error"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
-                <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
-                <span class="label label-default hidden" id="execution-duration"><i class="fa fa-clock-o"></i> <span class="label-text"></span></span>
+                <div class="panel-content text-center">
+                    <div class="text" id="heading-text"></div>
+                    <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
+                    <span class="label label-warning hidden" id="execution-error"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
+                    <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
+                    <span class="label label-default hidden" id="execution-duration"><i class="fa fa-clock-o"></i> <span class="label-text"></span></span>
+                </div>
+
             </div>
 
             <!--<div class="panel-body">-->

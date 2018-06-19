@@ -93,7 +93,6 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-
         <div class="container" id="breadcrumb" style="padding-top: 40px">
             <div class="row">
                 <ol class="breadcrumb">
@@ -102,6 +101,10 @@ if (login_check($mysqli) == true) {
                     <li class="active"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->breadcrump->gestureCatalog ?></li>
                 </ol>
             </div>
+        </div>
+
+        <div class="container">
+            <a role="button" class="pull-right" id="btn-introduction"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
         </div>
 
         <!-- Nav tabs -->
@@ -323,6 +326,11 @@ if (login_check($mysqli) == true) {
                 $('#gesture-catalogs-nav-tab').children().first().find('a').click();
             }
 
+            var showTutorial = parseInt(<?php echo $_SESSION['tutorialGestureCatalog'] ?>);
+            if (showTutorial === 1) {
+                $('#btn-introduction').click();
+            }
+
 //            $('#gesture-catalogs-nav-tab a[href="#gesture-catalog"]').tab('show');
 //            getWholeGestureCatalog();
         }
@@ -445,7 +453,7 @@ if (login_check($mysqli) == true) {
                 gestureRecorder.destroy();
                 gestureRecorder = null;
             }
-            
+
             console.log('show tab', $(event.target).attr('href'));
 
             switch ($(event.target).attr('href')) {
@@ -471,7 +479,7 @@ if (login_check($mysqli) == true) {
         function getWholeGestureCatalog() {
             currentFilterList = $('#gesture-catalog').find('#gesture-list-container');
             currentFilterList.empty();
-            
+
             console.log('get whole gesture catalog');
 
             getGestureCatalog(function (result) {
@@ -524,7 +532,7 @@ if (login_check($mysqli) == true) {
             currentFilterList.empty();
 
             getGestureSets(function (result) {
-                
+
                 if (result.status === RESULT_SUCCESS) {
                     originalFilterData = result.gestureSets;
                     setLocalItem(GESTURE_SETS, result.gestureSets);
@@ -622,6 +630,14 @@ if (login_check($mysqli) == true) {
             $('#add-to-gesture-set').addClass('hidden');
             TweenMax.from(currentActiveContent, .3, {x: -25, opacity: 0});
         }
+
+        $('#btn-introduction').on('click', function (event) {
+            event.preventDefault();
+            $('#custom-modal').attr('data-help-items-key', 'introductionGestureCatalog');
+            $('#custom-modal').attr('data-help-context', 'gestureCatalog');
+            $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialGestureCatalog'] ?>));
+            loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
+        });
     </script>
 
 </body>

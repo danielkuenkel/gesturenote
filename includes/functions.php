@@ -33,7 +33,7 @@ function login($email, $password, $mysqli) {
         $stmt->store_result();
 
         // get variables from result.
-        $stmt->bind_result($user_id, $forename, $surname, $email, $db_password, $birthday, $gender, $usertype, $created, $passwordReset, $tutorialStudyCreation, $tutorialStudyPreview, $tutorialStudy, $tutorialParticipant);
+        $stmt->bind_result($user_id, $forename, $surname, $email, $db_password, $birthday, $gender, $usertype, $created, $passwordReset, $tutorialStudyCreation, $tutorialStudyPreview, $tutorialStudy, $tutorialParticipant, $tutorialGestureCatalog);
         $stmt->fetch();
 
         if ($stmt->num_rows == 1) {
@@ -68,6 +68,7 @@ function login($email, $password, $mysqli) {
                     $_SESSION['tutorialStudyPreview'] = $tutorialStudyPreview;
                     $_SESSION['tutorialStudy'] = $tutorialStudy;
                     $_SESSION['tutorialParticipant'] = $tutorialParticipant;
+                    $_SESSION['tutorialGestureCatalog'] = $tutorialGestureCatalog;
                     
                     echo json_encode(array('status' => 'success', 'userId' => $user_id, 'forename' => $forename, 'surname' => $surname, 'userType' => $usertype));
                     exit();
@@ -99,10 +100,7 @@ function checkbrute($user_id, $mysqli) {
     // All login attempts are counted from the past 2 hours. 
     $valid_attempts = $now - (2 * 60 * 60);
 
-    if ($stmt = $mysqli->prepare("SELECT time 
-                             FROM login_attempts 
-                             WHERE user_id = ? 
-                             AND time > '$valid_attempts'")) {
+    if ($stmt = $mysqli->prepare("SELECT time FROM login_attempts WHERE user_id = ? AND time > '$valid_attempts'")) {
         $stmt->bind_param('i', $user_id);
 
         // Execute the prepared query. 
@@ -132,9 +130,7 @@ function login_check($mysqli) {
         // Get the user-agent string of the user.
         $user_browser = $_SERVER['HTTP_USER_AGENT'];
 
-        if ($stmt = $mysqli->prepare("SELECT password 
-                                      FROM users 
-                                      WHERE id = ? LIMIT 1")) {
+        if ($stmt = $mysqli->prepare("SELECT password FROM users WHERE id = ? LIMIT 1")) {
             // Bind "$user_id" to parameter. 
             $stmt->bind_param('i', $user_id);
             $stmt->execute();   // Execute the prepared query.
