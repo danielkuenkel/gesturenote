@@ -41,7 +41,15 @@
         "resetPassword": "Passwort zurücksetzen",
         "imprint": "Impressum",
         "informations": "Über GestureNote",
-        "news": "Aktuelles"
+        "news": "Aktuelles",
+        "help": "Hilfe"
+    },
+    "helpHeadlines": {
+        "createStudy": "Gesten-Design-Studien",
+        "studyPreview": "Studien-Vorschau",
+        "study": "Akquirierung, Teilnahmen & Extraktion",
+        "participant": "Erhobene Daten",
+        "gestureCatalog": "Gesten-Katalog"
     },
     "months": {
         "january": "Januar",
@@ -4796,9 +4804,9 @@
         {
             "tabId": "generalDataInput",
             "imgSrc": "img/de/introduction/study-create/carousel-02.jpg",
-            "title": "Allgemeines",
+            "title": "Allgemeine Daten",
             "text": "Allgemeine Daten zu einer Gesten-Design-Studie",
-            "popover": "Allgemeines",
+            "popover": "Allgemeine Daten",
             "description": 
                     [
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-02-01.png' style='max-width:726px' />",

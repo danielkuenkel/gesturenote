@@ -206,6 +206,10 @@ if (login_check($mysqli) == true) {
                     itemSelector: '.dashboard-item'
                 });
             }
+
+            $('#btn-help').unbind('click').bind('click', function (event) {
+                goto('help-catalog.php');
+            });
         </script>
 
     </body>
