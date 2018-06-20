@@ -258,7 +258,7 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <div class="panel panel-default" id="statistics">
+                    <div class="panel panel-default panel-shadow" id="statistics">
                         <div class="panel-heading"><?php echo $lang->statistic ?></div>
                         <div class="panel-body">
                             <div id="stats-studies"><?php echo $lang->stats->studies ?>: <span class="amount text"></span></div>

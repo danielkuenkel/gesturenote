@@ -61,7 +61,7 @@ include '../includes/language.php';
 
 
     <!-- single question formats -->
-    <div class="panel panel-default root" id="counter" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="counter" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
@@ -69,7 +69,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="openQuestion" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="openQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
@@ -77,7 +77,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="openQuestionGUS" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="openQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
@@ -88,7 +88,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="dichotomousQuestion" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
@@ -102,7 +102,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
@@ -121,7 +121,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="alternativeQuestion" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="alternativeQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
@@ -143,7 +143,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="groupingQuestion" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
@@ -161,7 +161,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
@@ -183,7 +183,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="groupingQuestionOptions" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="groupingQuestionOptions" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
@@ -205,7 +205,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="rating" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
@@ -215,7 +215,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="sumQuestion" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="sumQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div class="question text"></div>
             <span class="label label-default hidden" id="dimension"></span>
@@ -225,7 +225,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="ranking" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="ranking" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
@@ -246,7 +246,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="susItem" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="question text"></span> 
             <span class="label label-danger hidden" id="reversed" style="margin-left: 4px"><?php echo $lang->negated ?></span>
@@ -298,7 +298,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="gusSingle" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="gusSingle" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
@@ -528,14 +528,14 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="gestureSlideshowItem" class="panel panel-default" style="margin-bottom: 5px;">
+    <div id="gestureSlideshowItem" class="panel panel-default panel-shadow" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div><?php echo $lang->triggerInquired ?>: <span id="searched" style="color: #303030"></span></div>
             <div><?php echo $lang->gestureShow ?>: <span id="given" style="color: #303030"></span></div>
         </div>
     </div>
 
-    <div id="triggerSlideshowItem" class="panel panel-default" style="margin-bottom: 5px;">
+    <div id="triggerSlideshowItem" class="panel panel-default panel-shadow" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div class="label label-success hidden" id="answered-correct"><i class="fa fa-check"></i> <span class="label-text"><?php echo $lang->answeredCorrect ?></span></div>
             <div class="label label-danger hidden" id="answered-wrong"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->answeredWrong ?></span></div>
@@ -703,7 +703,7 @@ include '../includes/language.php';
     </div>
 
     <div class="col-xs-6 col-sm-4 col-md-4 root" id="wozItem">
-        <div class="panel panel-default btn-shadow">
+        <div class="panel panel-default panel-shadow btn-shadow">
             <div class="btn-shadow">
                 <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 0px; border-top-left-radius: 4px; border-top-right-radius: 4px"></div>
                 <div class="text-center hidden gestureControls">
@@ -1641,7 +1641,7 @@ include '../includes/language.php';
                 <!--<h4 id="headline-single-questions" style="margin-top: 0">Einzel-Fragen</h4>-->
 
                 <div id="single-joint-selection" class="hidden">
-                    <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
+                    <div class="panel panel-default panel-shadow" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text"><?php echo $lang->stressOfBodyTesterQuestion ?></p>
                             <div class="select-joints-humand-body" id="human-body" style="max-width: 350px; width:350px; margin: auto">
@@ -1651,7 +1651,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
+                    <div class="panel panel-default panel-shadow" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text"><?php echo $lang->stressOfHandTesterQuestion ?></p>
                             <div class="select-joints-humand-hand" id="human-hand" style="max-width: 350px; width:350px; margin: auto">
@@ -1669,7 +1669,7 @@ include '../includes/language.php';
                 <!--<h4 id="headline-sequence-questions">Sequenz-Fragen</h4>-->
 
                 <div id="sequence-joint-selection" class="hidden">
-                    <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
+                    <div class="panel panel-default panel-shadow" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text"><?php echo $lang->stressOfBodyTotalTesterQuestion ?></p>
                             <div class="select-joints-humand-body" id="human-body" style="max-width: 350px; width:350px; margin: auto">
@@ -1679,7 +1679,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
+                    <div class="panel panel-default panel-shadow" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text"><?php echo $lang->stressOfHandTotalTesterQuestion ?></p>
                             <div class="select-joints-humand-hand" id="human-hand" style="max-width: 350px; width:350px; margin: auto">
@@ -1730,7 +1730,7 @@ include '../includes/language.php';
                 <!--<h4 id="headline-single-questions" style="margin-top: 0">Einzel-Fragen</h4>-->
 
                 <div id="single-joint-selection" class="hidden">
-                    <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
+                    <div class="panel panel-default panel-shadow" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile des Körpers wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
                             <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
@@ -1740,7 +1740,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
+                    <div class="panel panel-default panel-shadow" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile der Hand oder Hände wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
                             <div class="select-joints-humand-hand" id="human-hand" style="width: 350px; margin: auto">
@@ -1758,7 +1758,7 @@ include '../includes/language.php';
                 <!--<h4 id="headline-sequence-questions">Sequenz-Fragen</h4>-->
 
                 <div id="sequence-joint-selection" class="hidden">
-                    <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
+                    <div class="panel panel-default panel-shadow" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile des Körpers wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
                             <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
@@ -1768,7 +1768,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
+                    <div class="panel panel-default panel-shadow" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile der Hand oder Hände wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
                             <div class="select-joints-humand-hand" id="human-hand" style="width: 350px; margin: auto">
@@ -1988,7 +1988,7 @@ include '../includes/language.php';
 
 <div id="item-container-inputs" class="hidden">
 
-    <div class="panel panel-default root" id="openQuestion" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="openQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div class="form-group">
                 <label class="question text"></label> 
@@ -1997,7 +1997,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="openQuestionGUS" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="openQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div class="form-group">
                 <label class="question text"></label> 
@@ -2006,7 +2006,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="dichotomousQuestion" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body" id="panel-body">
             <div class="form-group">
                 <label class="question text"></label> 
@@ -2036,7 +2036,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div class="form-group">
                 <label class="question text"></label> 
@@ -2066,27 +2066,27 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="groupingQuestion" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
 
-    <div class="panel panel-default root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
-    <div class="panel panel-default root" id="groupingQuestionOptions" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="groupingQuestionOptions" style="margin-bottom: 5px;">
         <div class="panel-body">
             <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
 
-    <div class="panel panel-default root" id="counter" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="counter" style="margin-bottom: 5px;">
         <div class="panel-body">
             <label class="question text"></label>
             <div class="input-group simple-stepper" style="max-width: 130px;">
@@ -2105,7 +2105,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="susItem" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
                 <label class="question text"></label>
@@ -2114,7 +2114,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="gusSingle" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="gusSingle" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
                 <label class="question text"></label>
@@ -2123,14 +2123,14 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default root" id="rating" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
             <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
 
-    <div class="panel panel-default root" id="matrix" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="matrix" style="margin-bottom: 5px;">
         <div class="panel-body">
             <label class="question text"></label>
             <div class="option-container root"></div>
@@ -2142,7 +2142,7 @@ include '../includes/language.php';
         <div class="root scales-container" id="scales-container"></div>
     </div>
 
-    <div class="panel panel-default root" id="sumQuestion" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="sumQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <label class="question text"></label>
             <div class="option-container root"></div>
@@ -2166,7 +2166,7 @@ include '../includes/language.php';
         <span class="option-text text" style="margin-left: 8px; float: left; margin-top: 4px; margin-bottom: 12px"></span>
     </div>
 
-    <div class="panel panel-default root" id="ranking" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="ranking" style="margin-bottom: 5px;">
         <div class="panel-body">
             <label class="question text"></label>
             <div class="option-container root"></div>
@@ -2193,7 +2193,7 @@ include '../includes/language.php';
 
     </div>
 
-    <div class="panel panel-default root" id="alternativeQuestion" style="margin-bottom: 5px;">
+    <div class="panel panel-default panel-shadow root" id="alternativeQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <label class="question text"></label>
             <div class="option-container root"></div>

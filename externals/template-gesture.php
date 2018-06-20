@@ -156,7 +156,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="root" id="exploration-gestures-catalog-thumbnail">
+<!--    <div class="root" id="exploration-gestures-catalog-thumbnail">
         <div class="panel panel-default btn-gesture-shadow">
             <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
                 <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
@@ -183,7 +183,7 @@ include '../includes/language.php';
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <div class="root" id="favorite-gesture-catalog-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
@@ -283,7 +283,7 @@ include '../includes/language.php';
 
     </div>
 
-    <div class="panel panel-default" id="create-study-gesture-set-panel">
+    <div class="panel panel-default panel-shadow" id="create-study-gesture-set-panel">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">
                 <button class="btn btn-sm btn-danger btn-shadow" id="btn-delete-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteGestureSet ?>"><span class="fa fa-trash"></span></button>

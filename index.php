@@ -68,7 +68,7 @@ if (login_check($mysqli) == true) {
             <div class="row">
 
                 <div class="col-sm-6 col-sm-push-6 col-md-6" style="margin-top: 40px;">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default panel-shadow">
                         <div class="panel-heading">
                             <h2 class="panel-title"><?php echo $lang->signInOrRegister ?></h2>
                         </div>

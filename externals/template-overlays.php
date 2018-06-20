@@ -2208,8 +2208,8 @@ include '../includes/language.php';
                                                 <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
                                                 <li class="divider"></li>
                                                 <li class="dropdown-header"><?php echo $lang->sorting->gestureTitleHeadline ?></li>
-                                                <li id="asc"><a href="#"><?php echo $lang->sorting->AtoZ ?></a></li>
-                                                <li id="desc"><a href="#"><?php echo $lang->sorting->ZtoA ?></a></li>
+                                                <li id="asc"><a href="#"><?php echo $lang->sorting->AToZ ?></a></li>
+                                                <li id="desc"><a href="#"><?php echo $lang->sorting->ZToA ?></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -2289,8 +2289,8 @@ include '../includes/language.php';
                                                 <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
                                                 <li class="divider"></li>
                                                 <li class="dropdown-header"><?php echo $lang->sorting->gestureTitleHeadline ?></li>
-                                                <li id="asc"><a href="#"><?php echo $lang->sorting->AtoZ ?></a></li>
-                                                <li id="desc"><a href="#"><?php echo $lang->sorting->ZtoA ?></a></li>
+                                                <li id="asc"><a href="#"><?php echo $lang->sorting->AToZ ?></a></li>
+                                                <li id="desc"><a href="#"><?php echo $lang->sorting->ZToA ?></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -2367,21 +2367,21 @@ include '../includes/language.php';
                                     <div class="input-group">
                                         <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
                                         <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
-                                        <div class="input-group-btn select sort" id="sort" role="group">
-                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                        <div class="input-group-btn select sort" id="sort">
+                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                                 <li class="dropdown-header"><?php echo $lang->sorting->dateHeadline ?></li>
                                                 <li id="oldest"><a href="#"><?php echo $lang->sorting->DESC ?></a></li>
                                                 <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
                                                 <li class="divider"></li>
                                                 <li class="dropdown-header"><?php echo $lang->sorting->gestureTitleHeadline ?></li>
-                                                <li id="asc"><a href="#"><?php echo $lang->sorting->AtoZ ?></a></li>
-                                                <li id="desc"><a href="#"><?php echo $lang->sorting->ZtoA ?></a></li>
+                                                <li id="asc"><a href="#"><?php echo $lang->sorting->AToZ ?></a></li>
+                                                <li id="desc"><a href="#"><?php echo $lang->sorting->ZToA ?></a></li>
                                             </ul>
                                         </div>
                                         <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
                                         <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="4"/>
-                                        <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
+                                        <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_4"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                                 <li id="results_2"><a href="#">2</a></li>

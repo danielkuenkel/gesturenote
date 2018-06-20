@@ -4418,7 +4418,7 @@
         "noStudyGesturesAssembled": {
             "id": "no-study-gestures-assembled",
             "type": "warning",
-            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt. Die Quellen für ein Studien-Gesten-Set können der Gesten-Katalog, die Gesten-Sets oder neu aufgezeichnete Gesten sein. Wählen Sie zunächst eine dieser drei Quellen aus und fügen Sie mit einem Klick auf den Button <i class='fa fa-plus-square'></i> eine Geste zum Studien-Gesten-Set hinzu. Das Entfernen ist mit einem Klick auf den Button <i class='fa fa-minus-square-o'></i> möglich."
+            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt. Die Quellen für ein Studien-Gesten-Set können der Gesten-Katalog, die Gesten-Sets oder neu aufgezeichnete Gesten sein. Wählen Sie zunächst eine dieser drei Quellen aus und fügen Sie mit einem Klick auf den Button <i class='fa fa-plus-square'></i> eine Geste zum Studien-Gesten-Set hinzu. Das Entfernen ist mit einem Klick auf den Button <i class='fa fa-minus-square'></i> möglich."
         },
         "noStudyGesturesAssembledLink": {
             "id": "no-study-gestures-assembled-link",
