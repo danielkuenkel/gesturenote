@@ -944,6 +944,27 @@ li.disabledTab > a[data-toggle="tab"] {
     margin-top: 30px;
 }
 
+#help-description .image-with-caption {
+    position: relative;
+}
+
+#help-description .image-caption {
+    position: absolute;
+    bottom:0px;
+    width: 100%;
+    background-color: rgba(0,0,0,.7);
+    color: white;
+    padding: 5px 8px;
+    font-size: 10pt;
+    line-height: 13pt;
+}
+
+#help-description .image-border-rounded {
+    border: 1px solid;
+    border-color: #eee;
+    border-radius: 8px;
+}
+
 @media (max-width: 991px) {
     .toggle-affix {
         position: static;
@@ -1214,3 +1235,4 @@ canvas {
 .controls-container .application-btn-bottom-right-last {
     border-radius: 0px 5px 0px 0px;
 }
+

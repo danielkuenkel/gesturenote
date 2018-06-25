@@ -1665,14 +1665,18 @@ include '../includes/language.php';
     </div>
 
     <div class="panel panel-default panel-shadow root" id="helpItem">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
+            <span><?php echo $lang->help ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
         </div>
-        <div class="panel-body">
+        <div class="panel-body panel-body-expandable hidden">
 
             <div class="alert-space alert-no-tasks-assembled"></div>
             <div class="alert-space alert-no-scenes-assembled"></div>
@@ -1758,7 +1762,7 @@ include '../includes/language.php';
     </div>
 
     <div class="panel panel-default panel-shadow root" id="taskItem">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
@@ -1766,10 +1770,10 @@ include '../includes/language.php';
             </div>
             <span><?php echo $lang->task ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
             <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-expand hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
             </div>
         </div>
-        <div class="panel-body" style="margin-bottom: 0px">
+        <div class="panel-body panel-body-expandable hidden" style="margin-bottom: 0px">
 
             <div class="form-group">
                 <label for="taskTitle"><?php echo $lang->taskTitle ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioTaskTitle ?>"></i></label>
@@ -1798,14 +1802,18 @@ include '../includes/language.php';
     </div>
 
     <div class="panel panel-default panel-shadow root" id="task-assessment-item">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
+            <span><?php echo $lang->assessment ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
         </div>
-        <div class="panel-body">
+        <div class="panel-body panel-body-expandable hidden">
 
             <div class="row">
                 <div class="col-sm-5">
@@ -2052,15 +2060,19 @@ include '../includes/language.php';
     </div>
 
 
-    <div class="panel panel-default root" id="identificationItem-gestures" style="margin-bottom: 15px">
-        <div class="panel-heading">
+    <div class="panel panel-default panel-shadow root" id="identificationItem-gestures" style="margin-bottom: 15px">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
+            <span><?php echo $lang->trigger ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
         </div>
-        <div class="panel-body">
+        <div class="panel-body panel-body-expandable hidden">
             <div class="form-group">
                 <label><?php echo $lang->stateCharts->transition ?></label>
                 <div class="alert-space alert-assembled-trigger-removed"></div>
@@ -2095,14 +2107,18 @@ include '../includes/language.php';
 
 
     <div class="panel panel-default panel-shadow root" id="identificationItem-trigger">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
+            <span><?php echo $lang->gesture ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
         </div>
-        <div class="panel-body" style="padding-bottom: 0px">
+        <div class="panel-body panel-body-expandable hidden" style="padding-bottom: 0px">
             <div class="form-group">
                 <label><?php echo $lang->gesture ?> </label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
@@ -2130,14 +2146,18 @@ include '../includes/language.php';
 
 
     <div class="panel panel-default panel-shadow root" id="gestureTrainingItem">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
+            <span><?php echo $lang->gesture ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
         </div>
-        <div class="panel-body">
+        <div class="panel-body panel-body-expandable hidden">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -2276,15 +2296,19 @@ include '../includes/language.php';
     <!-- slideshow gesture item -->
 
     <div class="panel panel-default panel-shadow root" id="slideshow-gesture-item">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
+            <span><?php echo $lang->gesture ?> + <?php echo $lang->trigger ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
         </div>
 
-        <div class="panel-body">
+        <div class="panel-body panel-body-expandable hidden">
 
             <div class="form-group">
                 <label><?php echo $lang->trigger ?></label>
@@ -2334,14 +2358,18 @@ include '../includes/language.php';
     <!-- slideshow trigger item -->
 
     <div class="panel panel-default panel-shadow root" id="slideshow-trigger-item">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
+            <span><?php echo $lang->trigger ?> + <?php echo $lang->gesture ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
         </div>
-        <div class="panel-body">
+        <div class="panel-body panel-body-expandable hidden">
 
             <div class="form-group">
                 <label><?php echo $lang->trigger ?></label>
@@ -2374,14 +2402,18 @@ include '../includes/language.php';
 
     <!-- physical stress test -->
     <div class="panel panel-default panel-shadow root" id="physicalStressTestItem">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
+            <span><?php echo $lang->gesture ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
         </div>
-        <div class="panel-body">
+        <div class="panel-body panel-body-expandable hidden">
             <div class="form-group form-group-no-margin">
                 <label><?php echo $lang->gesture ?></label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
@@ -2400,14 +2432,18 @@ include '../includes/language.php';
 
     <!-- exploration -->
     <div class="panel panel-default panel-shadow root" id="explorationItem-gestures">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
+            <span><?php echo $lang->trigger ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
         </div>
-        <div class="panel-body" style="padding-bottom: 0px">
+        <div class="panel-body panel-body-expandable hidden" style="padding-bottom: 0px">
             <div class="form-group">
                 <label><?php echo $lang->stateCharts->transition ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationTrigger ?>"></i></label>
                 <div class="alert-space alert-assembled-trigger-removed"></div>
@@ -2442,14 +2478,18 @@ include '../includes/language.php';
     </div>
 
     <div class="panel panel-default panel-shadow root" id="explorationItem-trigger">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
+            <span><?php echo $lang->gesture ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
         </div>
-        <div class="panel-body" style="padding-bottom: 0px">
+        <div class="panel-body panel-body-expandable hidden" style="padding-bottom: 0px">
             <div class="form-group">
                 <label><?php echo $lang->gesture ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationGesture ?>"></i></label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
@@ -2493,7 +2533,7 @@ include '../includes/language.php';
     </div>
 
     <div class="panel panel-default panel-shadow root" id="transition-scene-option">
-        <div class="panel-heading">
+        <div class="panel-heading panel-heading-primary">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
@@ -2965,17 +3005,17 @@ include '../includes/language.php';
     </div>
 
 
-<!--    <div class="panel panel-default panel-sm" id="gesture-comment-item" style="margin-top: 0px; margin-bottom: 8px">
-        <div class="panel-heading" style="font-size: 10pt">
-            <span id="user"><i class="fa fa-comment" aria-hidden="true"></i> <span class="text"></span></span>
-            <span id="created" class="pull-right"><i class="fa fa-clock-o" aria-hidden="true"></i> <span class="text"></span></span>
-        </div>
-        <div class="panel-body" style="color: #303030; font-size: 10pt"></div>
-        <div class="panel-footer">
-            <button class="btn btn-xs btn-danger" id="btn-delete-comment"><i class="fa fa-trash"></i> <?php echo $lang->deleteComment ?></button>
-        </div>
-
-    </div>-->
+    <!--    <div class="panel panel-default panel-sm" id="gesture-comment-item" style="margin-top: 0px; margin-bottom: 8px">
+            <div class="panel-heading" style="font-size: 10pt">
+                <span id="user"><i class="fa fa-comment" aria-hidden="true"></i> <span class="text"></span></span>
+                <span id="created" class="pull-right"><i class="fa fa-clock-o" aria-hidden="true"></i> <span class="text"></span></span>
+            </div>
+            <div class="panel-body" style="color: #303030; font-size: 10pt"></div>
+            <div class="panel-footer">
+                <button class="btn btn-xs btn-danger" id="btn-delete-comment"><i class="fa fa-trash"></i> <?php echo $lang->deleteComment ?></button>
+            </div>
+    
+        </div>-->
 
 </div>
 
