@@ -55,7 +55,7 @@ include '../includes/language.php';
     <div class="root col-xs-6 col-sm-4 col-lg-3" id="participant-thumbnail">
         <div class="panel panel-default btn-shadow btn-panel">
             <div class="panel-body">
-                <div class="embed-responsive embed-responsive-4by3" style="border-radius: 4px">
+                <div class="embed-responsive embed-responsive-4by3">
                     <div class="embed-responsive-item participant-snapshot" style="position: absolute; background-color: #eee; display: flex; justify-content: center; align-items: center;">
                         <i class="fa fa-user fa-3x"></i>
                     </div>

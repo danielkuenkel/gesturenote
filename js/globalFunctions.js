@@ -3344,3 +3344,44 @@ $(document).on('click', '.btn-tag-as-preview', function (event) {
         unlockButton(button, true, 'fa-bookmark-o');
     }
 });
+
+
+
+
+/*
+ * expanding panel functionalities
+ */
+
+$(document).on('click', '.btn-expand', function (event) {
+    event.preventDefault();
+
+    if (!$(this).hasClass('disabled')) {
+        var panel = $(this).closest('.panel');
+        var container = $(panel).parent();
+
+console.log('click expand', panel, container);
+        $(panel).find('.btn-expand').popover('hide');
+
+        if ($(panel).find('.panel-body-expandable').hasClass('hidden')) {
+            $(container).find('.panel-body-expandable').addClass('hidden');
+            $(container).find('.btn-expand').attr('data-content', translation.expand).data('bs.popover').setContent();
+            $(container).find('.btn-expand .fa').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            $(container).find('.panel-heading-expandable').css({borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px'});
+
+            $(panel).find('.panel-body-expandable').removeClass('hidden');
+            $(panel).find('.btn-expand .fa').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+            $(panel).find('.panel-heading-expandable').css({borderBottomLeftRadius: '', borderBottomRightRadius: ''});
+            $(panel).find('.btn-expand').attr('data-content', translation.collapse).data('bs.popover').setContent();
+
+            // scroll after expand
+//            $('html, body').animate({
+//                scrollTop: $(panel).offset().top - 70
+//            }, 300);
+        } else {
+            $(panel).find('.panel-body-expandable').addClass('hidden');
+            $(panel).find('.btn-expand .fa').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            $(panel).find('.panel-heading-expandable').css({borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px'});
+            $(panel).find('.btn-expand').attr('data-content', translation.expand).data('bs.popover').setContent();
+        }
+    }
+});

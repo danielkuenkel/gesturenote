@@ -228,9 +228,9 @@ if (login_check($mysqli) == true) {
                 <div class="alert-space alert-no-phase-data"></div>
                 <div class="alert-space alert-no-plan"></div>
                 <div class="row">
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-xs-12 text-center">
                         <div class="text text-center"><?php echo $lang->studyStatus ?></div>
-                        <canvas id="chart-participant-statistics"></canvas>
+                        <canvas id="chart-participant-statistics" style="max-width:400px; margin: 0 auto"></canvas>
                         <div class="text text-center" style="font-size: 10pt">
                             <span id="amount-participants-success"></span>, <span id="amount-participants-aborted"></span>, <span id="amount-participants-total"></span>
                         </div>

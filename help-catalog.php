@@ -125,6 +125,7 @@ include_once 'includes/functions.php';
                         var helpItemImage = document.createElement('img');
                         $(helpItemImage).attr('src', allHelp[i].content[j].imgSrc).addClass('img-image');
                         $(helpItemImage).css({marginBottom: '30px', width: '100%'});
+                        $(helpItemImage).addClass('image-border-rounded');
                         $(helpItem).append(helpItemImage);
 
                         var helpContent = document.createElement('div');
