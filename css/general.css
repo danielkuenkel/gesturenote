@@ -930,6 +930,7 @@ li.disabledTab > a[data-toggle="tab"] {
 
 #help-description .img-image {
     /*border: 1px solid #e7e7e7;*/
+    margin-top: 20px;
 }
 
 #help-description {
@@ -949,14 +950,14 @@ li.disabledTab > a[data-toggle="tab"] {
 }
 
 #help-description .image-caption {
-    position: absolute;
-    bottom:0px;
+/*    position: absolute;
+    bottom:0px;*/
     width: 100%;
-    background-color: rgba(0,0,0,.7);
-    color: white;
-    padding: 5px 8px;
-    font-size: 10pt;
-    line-height: 13pt;
+    /*background-color: rgba(0,0,0,.7);*/
+    color: #888;
+    margin-bottom: 10px;
+    font-size: 9pt;
+    /*line-height: 13pt;*/
 }
 
 #help-description .image-border-rounded {

@@ -2228,9 +2228,11 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
     clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
 
     clone.find('.symbol-gesture-execution').addClass(data.type);
-    clone.find('.symbol-gesture-interaction').addClass(data.interactionType);
     clone.find('.symbol-gesture-execution').attr('data-content', translation.gestureTypes[data.type + 's'] + ' ' + translation.gestureType);
+    clone.find('.text-gesture-execution').text(translation.gestureTypes[data.type + 'Short']);
+    clone.find('.symbol-gesture-interaction').addClass(data.interactionType);
     clone.find('.symbol-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[data.interactionType + 's'] + ' ' + translation.gestureInteraction);
+    clone.find('.text-gesture-interaction').text(translation.gestureInteractionTypes[data.interactionType + 'Short']);
     initPopover();
 
     if (panelStyle) {

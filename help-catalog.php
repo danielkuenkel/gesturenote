@@ -22,6 +22,7 @@ include_once 'includes/functions.php';
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
+        <link rel="stylesheet" href="css/gesture.css">
 
         <script src="js/storage.js"></script>
         <script src="js/ajax.js"></script>
@@ -52,7 +53,7 @@ include_once 'includes/functions.php';
 
         <div class="container mainContent" style="margin-top: 0px">
             <div class="row">
-                <div class="col-md-4 col-lg-3" id="link-list">
+                <div class="col-md-4 col-lg-3" id="link-list" style="margin-bottom: 30px">
                     <!--<a href="#createStudy" class="smooth-goto">1. Gesten-Design-Studien</a>-->
                 </div>
                 <div class="col-md-8 col-lg-9" id="help-description">
@@ -116,7 +117,7 @@ include_once 'includes/functions.php';
                         $(contentHeadline).text(allHelp[i].content[j].title).css({marginTop: '60px'});
                         $(contentHeadline).prepend(contentHeadlineNumber);
                         $(helpItem).append(contentHeadline);
-                        $(helpItem).append(document.createElement('hr'));
+//                        $(helpItem).append(document.createElement('hr'));
 
                         var link = document.createElement('a');
                         $(link).attr('href', '#' + allHelp[i].id + '-' + allHelp[i].content[j].tabId).addClass('smooth-goto ellipsis').text((i + 1) + '.' + (j + 1) + ' ' + allHelp[i].content[j].title);

@@ -547,6 +547,7 @@ include '../includes/language.php';
             return false;
         }
 
+console.log(gesture);
         var container = $('#modal-body');
         container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
         container.find('#title .text').text(gesture.title);
@@ -720,6 +721,7 @@ include '../includes/language.php';
             });
         } else {
             $(container).find('#btn-delete-gesture').remove();
+            $(container).find('#btn-edit-gesture').parent().removeClass('col-xs-6').addClass('col-xs-12');
         }
     }
 

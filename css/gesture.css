@@ -323,7 +323,7 @@ and open the template in the editor.
 }
 
 .symbol-gesture-execution {
-    margin-right: 4px;
+    margin-right: 6px;
 }
 
 .symbol-gesture-execution.pose {
@@ -340,4 +340,13 @@ and open the template in the editor.
 
 .symbol-gesture-interaction.continuous {
     background-color: #FFCB00;
+}
+
+.gesture-info-symbol-text {
+    font-size: 8pt; 
+    position: relative; 
+    top: 5px; 
+    line-height: 0pt;
+    margin-right: 1px;
+    text-transform: uppercase;
 }

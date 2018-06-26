@@ -26,7 +26,9 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
                     <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
                     <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
                 </div>
             </div>
@@ -59,7 +61,9 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
                     <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
                     <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
                 </div>
             </div>
@@ -94,7 +98,9 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
                     <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
                     <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
                 </div>
             </div>
@@ -156,34 +162,34 @@ include '../includes/language.php';
         </div>
     </div>
 
-<!--    <div class="root" id="exploration-gestures-catalog-thumbnail">
-        <div class="panel panel-default btn-gesture-shadow">
-            <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
-                <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
-            </div>
-
-            <div class="panel-body">
-                <div class="embed-responsive embed-responsive-4by3">
-                    <div class="previewGesture"></div>
-                    <div class="text-center hidden gestureControls">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                            <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                            <button type="button" class="btn btn-default btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
-                            <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
+    <!--    <div class="root" id="exploration-gestures-catalog-thumbnail">
+            <div class="panel panel-default btn-gesture-shadow">
+                <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
+                    <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
+                </div>
+    
+                <div class="panel-body">
+                    <div class="embed-responsive embed-responsive-4by3">
+                        <div class="previewGesture"></div>
+                        <div class="text-center hidden gestureControls">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                                <button type="button" class="btn btn-default btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
+                                <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
-                <div class="btn-group btn-group-justified">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
+        </div>-->
 
     <div class="root" id="favorite-gesture-catalog-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
@@ -201,7 +207,9 @@ include '../includes/language.php';
                     <i class="fa fa-asterisk"></i>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
                     <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
                     <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
                 </div>
             </div>
@@ -217,35 +225,35 @@ include '../includes/language.php';
         </div>
     </div>
 
-<!--    <div class="root" id="study-gesture-catalog-thumbnail">
-        <div class="panel panel-default btn-gesture-shadow">
-            <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
-                <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
-            </div>
-
-            <div class="panel-body">
-                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
-                <div class="text-center hidden gestureControls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                        <button type="button" class="btn btn-default btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
-                        <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
+    <!--    <div class="root" id="study-gesture-catalog-thumbnail">
+            <div class="panel panel-default btn-gesture-shadow">
+                <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
+                    <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
+                </div>
+    
+                <div class="panel-body">
+                    <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+                    <div class="text-center hidden gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                            <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                            <button type="button" class="btn btn-default btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
+                            <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-untag-as-favorite-gesture" id="btn-untag-as-favorite-gesture"><i class="fa fa-close" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
-                <div class="btn-group btn-group-justified">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-untag-as-favorite-gesture" id="btn-untag-as-favorite-gesture"><i class="fa fa-close" aria-hidden="true"></i></button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
+        </div>-->
 
 
     <div class="root" id="add-gesture-to-scene-thumbnail">
@@ -264,7 +272,9 @@ include '../includes/language.php';
                     <i class="fa fa-asterisk"></i>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
                     <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
                     <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
                 </div>
             </div>
@@ -304,7 +314,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default" id="study-gesture-set-panel">
+    <div class="panel panel-shadow panel-default" id="study-gesture-set-panel">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">
                 <button class="btn btn-sm btn-danger btn-shadow" id="btn-delete-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteGestureSet ?>"><span class="fa fa-trash"></span></button>

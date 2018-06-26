@@ -90,14 +90,14 @@ include '../includes/language.php';
         <div class="row">
             <div class="col-md-6">
                 <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
-                <canvas id="chart-gesture-execution-type"></canvas>
+                <canvas id="chart-gesture-execution-type" style="max-width: 300px; margin: 0 auto"></canvas>
                 <div class="text text-center" style="font-size: 10pt">
                     <span id="amount-static-gestures"></span>, <span id="amount-dynamic-gestures"></span>, <span id="amount-total-gestures"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
-                <canvas id="chart-gesture-interaction-type"></canvas>
+                <canvas id="chart-gesture-interaction-type" style="max-width: 300px; margin: 0 auto"></canvas>
                 <div class="text text-center" style="font-size: 10pt">
                     <span id="amount-discrete-gestures"></span>, <span id="amount-continuous-gestures"></span>
                 </div>
