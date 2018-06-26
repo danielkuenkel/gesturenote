@@ -289,7 +289,7 @@ include '../includes/language.php';
 
 </div>
 
-<div class="hidden panel panel-default panel-sm" id="gesture-comment-item" style="margin-top: 0px; margin-bottom: 8px">
+<div class="hidden panel panel-default panel-sm panel-shadow" id="gesture-comment-item" style="margin-top: 0px; margin-bottom: 8px">
     <div class="panel-heading" style="font-size: 10pt">
         <span id="user"><i class="fa fa-comment" aria-hidden="true"></i> <span class="text"></span></span>
         <span id="created" class="pull-right"><i class="fa fa-clock-o" aria-hidden="true"></i> <span class="text"></span></span>

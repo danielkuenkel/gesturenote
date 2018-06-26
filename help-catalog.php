@@ -7,7 +7,7 @@ include_once 'includes/functions.php';
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title><?php echo $lang->gestureNoteNews ?></title>
+        <title><?php echo $lang->gestureNoteHelpCatalog ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 

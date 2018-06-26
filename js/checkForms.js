@@ -1,12 +1,12 @@
 function loginFormhash(form, email, password) {
     clearAlerts(form);
-    if ($(email).val().trim() === '' || $(password).val().trim() === '') {
+    if ($(email).val().trim().toLowerCase() === '' || $(password).val().trim() === '') {
         appendAlert($('#login'), ALERT_MISSING_FIELDS);
         return false;
     }
 
     // Add the new element to our form. 
-    var passwordString = password.val() + '-' + $(email).val();
+    var passwordString = password.val() + '-' + $(email).val().toLowerCase();
 //    console.log(passwordString);
     
     if ($(form).find('#p').length > 0) {
