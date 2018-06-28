@@ -238,7 +238,7 @@ if (login_check($mysqli) == true) {
                 </div>
                 <div class="list-container row" style="margin-top: 20px"></div>
             </div>
-            
+
 
             <div role="tabpanel" class="tab-pane" id="gesture-extraction">
                 <div class="alert-space alert-no-phase-data"></div>
@@ -612,9 +612,10 @@ if (login_check($mysqli) == true) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             setStudyData(result);
-                            var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
+                            var showStudyTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
+                            var showExtractionTutorial = parseInt(<?php echo $_SESSION['tutorialExtraction'] ?>);
+                            renderData(result, hash, showStudyTutorial, showExtractionTutorial);
                             initPopover();
-                            renderData(result, hash, showTutorial);
                         }
                     });
                 }
@@ -623,6 +624,8 @@ if (login_check($mysqli) == true) {
             $('#tab-introduction a').on('click', function (event) {
                 event.preventDefault();
                 var activeTab = $('#tab-pane').find('.active a').attr('href');
+                var helpContext = 'study';
+                var helpKey = 'introductionStudy';
 
                 if (activeTab !== '#generalData') {
                     switch (activeTab) {
@@ -633,14 +636,17 @@ if (login_check($mysqli) == true) {
                             $('#custom-modal').attr('data-start-tab-id', 'study-participants');
                             break;
                         case '#gesture-extraction':
-                            $('#custom-modal').attr('data-start-tab-id', 'gesture-extraction');
+                            $('#custom-modal').removeAttr('data-start-tab-id');
+                            helpKey = 'introductionExtraction';
+                            helpContext = 'extraction';
                             break;
                     }
                 }
 
-                $('#custom-modal').attr('data-help-items-key', 'introductionStudy');
-                $('#custom-modal').attr('data-help-context', 'study');
-                $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialStudy'] ?>));
+                console.log(helpContext, helpKey);
+                $('#custom-modal').attr('data-help-items-key', helpKey);
+                $('#custom-modal').attr('data-help-context', helpContext);
+                $('#custom-modal').attr('data-help-show-tutorial', parseInt(helpContext === 'study' ? <?php echo $_SESSION['tutorialStudy'] ?> : <?php echo $_SESSION['tutorialExtraction'] ?>));
                 loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
             });
 

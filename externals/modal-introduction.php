@@ -49,40 +49,46 @@ include '../includes/language.php';
         var items = $(modal).attr('data-help-items-key');
         var startTabId = $(modal).attr('data-start-tab-id');
 
-//        console.log(items, translation[items]);
-        for (var i = 0; i < translation[items].length; i++) {
-            var helpItem = translation[items][i];
+        console.log(items, translation[items]);
+        var items = translation[items];
+        for (var i = 0; i < items.length; i++) {
+            
+            var helpItem = items[i];
+            console.log(helpItem);
             var item = $('#carousel-listbox-item').clone().removeClass('hidden').removeAttr('id');
             $(item).find('img').attr('src', helpItem.imgSrc);
             $(item).find('.carousel-caption-header').text(helpItem.title);
             $(item).find('.carousel-caption-text').text(helpItem.text);
             $(modal).find('#carousel-introduction-generic .carousel-inner').append(item);
 
-            var indicatorItem = document.createElement('li');
-            $(indicatorItem).attr('data-target', '#carousel-introduction-generic');
-            $(indicatorItem).attr('data-slide-to', i);
-            $(modal).find('#carousel-introduction-generic .carousel-indicators').append(indicatorItem);
+            if (items.length > 1) {
+                var indicatorItem = document.createElement('li');
+                $(indicatorItem).attr('data-target', '#carousel-introduction-generic');
+                $(indicatorItem).attr('data-slide-to', i);
+                $(modal).find('#carousel-introduction-generic .carousel-indicators').append(indicatorItem);
 
-            if (helpItem.popover && helpItem.popover !== '') {
-                $(indicatorItem).attr('data-toggle', 'popover');
-                $(indicatorItem).attr('data-trigger', 'hover');
-                $(indicatorItem).attr('data-placement', 'auto');
-                $(indicatorItem).attr('data-content', helpItem.popover);
+                if (helpItem.popover && helpItem.popover !== '') {
+                    $(indicatorItem).attr('data-toggle', 'popover');
+                    $(indicatorItem).attr('data-trigger', 'hover');
+                    $(indicatorItem).attr('data-placement', 'auto');
+                    $(indicatorItem).attr('data-content', helpItem.popover);
+                }
             }
 
-            if ((i === 0 && !startTabId) || (i > 0 && startTabId && helpItem.tabId === startTabId)) {
-                $(indicatorItem).addClass('active');
-                $(item).addClass('active');
 
+            if ((i === 0 && !startTabId) || (i > 0 && startTabId && helpItem.tabId === startTabId)) {
+                if (items.length > 1) {
+                    $(indicatorItem).addClass('active');
+                    $(item).addClass('active');
+                }
+console.log(i, startTabId);
                 if (helpItem.description && helpItem.description.length > 0) {
+                    console.log('render help description', helpItem.description);
                     $(modal).find('#help-description').removeClass('hidden');
-//                    var description = "";
-//                    for (var j = 0; j < helpItem.description.length; j++) {
-//                        description += helpItem.description[j];
-//                    }
                     $(modal).find('#help-description').html(helpItem.description);
                 }
             }
+
         }
 
         initPopover(0);

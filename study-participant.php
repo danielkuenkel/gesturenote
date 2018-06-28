@@ -785,9 +785,9 @@ if (login_check($mysqli) == true) {
 
                     var item = $('#template-study-container').find('#training-gesture-item').clone().removeAttr('id');
                     container.find('#gestures-container').append(item);
-                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-                    $(item).find('#gesture .text').text(gesture.title);
+//                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
+//                    $(item).find('#gesture .address').text(translation.gesture + ': ');
+//                    $(item).find('#gesture .text').text(gesture.title);
                     $(item).find('#trigger .address').text(translation.trigger + ': ');
                     $(item).find('#trigger .text').text(trigger.title);
                     $(item).find('#repeats .address').text(translation.repeats + ': ');
@@ -797,6 +797,10 @@ if (login_check($mysqli) == true) {
 //                    $(item).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
 
                     $(item).find('#feedback .address').text(translation.feedback + ': ');
+                    
+                    var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                    $(gestureThumbnail).removeClass('deleteable');
+                    $(item).find('.gesture-container').append(gestureThumbnail);
 
                     if (feedback) {
                         var feedbackItem = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
@@ -807,7 +811,7 @@ if (login_check($mysqli) == true) {
                         }
                         $(item).find('#feedback .text').append(feedbackItem);
                     } else {
-                        $(item).find('#feedback .text').text(translation.nones);
+                        $(item).find('#feedback .text').text(translation.none);
                     }
 
 //                    console.log('start training times', startTrainingTimes);
@@ -857,12 +861,14 @@ if (login_check($mysqli) == true) {
                     var gesture = getGestureById(studyData.slideshow[i].gestureId);
                     var trigger = getTriggerById(studyData.slideshow[i].triggerId);
                     //                    var feedback = getFeedbackById(studyData.slideshow[i].feedbackId);
+//                    console.log('gesture for gesture slideshow', gesture, item);
+                    
 
                     var item = $('#template-study-container').find('#slideshow-gesture-item').clone().removeAttr('id');
                     container.find('#gestures-container').append(item);
-                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-                    $(item).find('#gesture .text').text(gesture.title);
+//                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
+//                    $(item).find('#gesture .address').text(translation.gesture + ': ');
+//                    $(item).find('#gesture .text').text(gesture.title);
                     $(item).find('#trigger .address').text(translation.trigger + ': ');
                     $(item).find('#trigger .text').text(trigger.title);
 //                    $(item).find('#repeats .address').text(translation.repeats + ': ');
@@ -870,6 +876,10 @@ if (login_check($mysqli) == true) {
                     $(item).find('#recognition-time .address').text(translation.recognitionTime + ': ');
                     var recognitionSeconds = parseInt(studyData.slideshow[i].recognitionTime);
                     $(item).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
+
+                    var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                    $(gestureThumbnail).removeClass('deleteable');
+                    $(item).find('.gesture-container').append(gestureThumbnail);
 
                     if (resultsData.annotations && resultsData.annotations.length > 0) {
                         var count = 0;
@@ -903,12 +913,16 @@ if (login_check($mysqli) == true) {
                     var trigger = getTriggerById(studyData.slideshow[i].triggerId);
                     var item = $('#template-study-container').find('#slideshow-trigger-item').clone().removeAttr('id');
                     container.find('#gestures-container').append(item);
-                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-                    $(item).find('#gesture .text').text(gesture.title);
+//                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
+//                    $(item).find('#gesture .address').text(translation.gesture + ': ');
+//                    $(item).find('#gesture .text').text(gesture.title);
                     $(item).find('#trigger .address').text(translation.trigger + ': ');
                     $(item).find('#trigger .text').text(trigger.title);
                     $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
+                    
+                    var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                    $(gestureThumbnail).removeClass('deleteable');
+                    $(item).find('.gesture-container').append(gestureThumbnail);
 
                     var fault = 0;
                     var realTriggerId = parseInt(studyData.slideshow[i].triggerId);
@@ -961,9 +975,15 @@ if (login_check($mysqli) == true) {
                     var gesture = getGestureById(studyData.stressTestItems[i]);
                     var item = $('#template-study-container').find('#physicalStressTest-item').clone().removeAttr('id');
                     container.find('#gestures-container').append(item);
-                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-                    $(item).find('#gesture .text').text(gesture.title);
+//                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
+
+                    var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                    $(gestureThumbnail).removeClass('deleteable');
+                    $(item).find('.gesture-container').append(gestureThumbnail);
+
+
+//                    $(item).find('#gesture .address').text(translation.gesture + ': ');
+//                    $(item).find('#gesture .text').text(gesture.title);
                     $(item).find('#trigger .address').text(translation.trigger + ': ');
                     $(item).find('#trigger .text').text(trigger.title);
                     $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');

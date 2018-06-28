@@ -206,6 +206,9 @@ function updateIntroduction(data, callback) {
         case 'study':
             url = 'includes/update-introduction-study.php';
             break;
+        case 'extraction':
+            url = 'includes/update-introduction-extraction.php';
+            break;
         case 'participant':
             url = 'includes/update-introduction-participant.php';
             break;

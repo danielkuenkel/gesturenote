@@ -18,7 +18,7 @@ if (login_check($mysqli) == true) {
         <title><?php echo $lang->gestureNoteProfile ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -26,7 +26,7 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
@@ -205,7 +205,32 @@ if (login_check($mysqli) == true) {
                                 </button>
                             </div>
                         </div>
-                        
+
+                        <div class="form-group root" id="tutorialExtraction" data-help-context="extraction">
+                            <label><?php echo $lang->tutorialExtractionQuestion ?></label><br/>
+
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="no">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->no ?></span>
+                                </button>
+                            </div>
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->yes ?></span>
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="form-group root" id="tutorialParticipant" data-help-context="participant">
                             <label><?php echo $lang->tutorialParticipantQuestion ?></label><br/>
 
@@ -230,7 +255,7 @@ if (login_check($mysqli) == true) {
                                 </button>
                             </div>
                         </div>
-                        
+
                         <div class="form-group root" id="tutorialGestureCatalog" data-help-context="gestureCatalog">
                             <label><?php echo $lang->tutorialGestureCatalogQuestion ?></label><br/>
 
@@ -276,7 +301,7 @@ if (login_check($mysqli) == true) {
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();
-                
+
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
@@ -327,6 +352,7 @@ if (login_check($mysqli) == true) {
                         $('#tutorialStudyCreation').find(parseInt(user.tutorialStudyCreation) === 0 ? '#no' : '#yes').click();
                         $('#tutorialStudyPreview').find(parseInt(user.tutorialStudyPreview) === 0 ? '#no' : '#yes').click();
                         $('#tutorialStudy').find(parseInt(user.tutorialStudy) === 0 ? '#no' : '#yes').click();
+                        $('#tutorialExtraction').find(parseInt(user.tutorialExtraction) === 0 ? '#no' : '#yes').click();
                         $('#tutorialParticipant').find(parseInt(user.tutorialParticipant) === 0 ? '#no' : '#yes').click();
                         $('#tutorialGestureCatalog').find(parseInt(user.tutorialGestureCatalog) === 0 ? '#no' : '#yes').click();
 
@@ -381,7 +407,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 if (p !== null && pO !== null) {
-                    console.log(p, pO);
+//                    console.log(p, pO);
                     updateUser({forename: forename, surname: surname, p: p, pO: pO}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             $('#user-forename .text').text(forename);
@@ -418,7 +444,7 @@ if (login_check($mysqli) == true) {
                 }
             });
 
-            $('#tutorialStudyCreation, #tutorialStudyPreview, #tutorialStudy, #tutorialParticipant, #tutorialGestureCatalog').unbind('change').bind('change', function (event) {
+            $('#tutorialStudyCreation, #tutorialStudyPreview, #tutorialStudy, #tutorialExtraction, #tutorialParticipant, #tutorialGestureCatalog').unbind('change').bind('change', function (event) {
                 event.preventDefault();
                 var context = $(this).attr('data-help-context');
                 var showTutorial = $(this).find('.btn-option-checked').attr('id') === 'yes' ? 1 : 0;

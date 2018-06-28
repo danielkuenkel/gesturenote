@@ -33,7 +33,7 @@ function login($email, $password, $mysqli) {
         $stmt->store_result();
 
         // get variables from result.
-        $stmt->bind_result($user_id, $forename, $surname, $email, $db_password, $birthday, $gender, $usertype, $created, $passwordReset, $tutorialStudyCreation, $tutorialStudyPreview, $tutorialStudy, $tutorialParticipant, $tutorialGestureCatalog);
+        $stmt->bind_result($user_id, $forename, $surname, $email, $db_password, $birthday, $gender, $usertype, $created, $passwordReset, $tutorialStudyCreation, $tutorialStudyPreview, $tutorialStudy, $tutorialExtraction, $tutorialParticipant, $tutorialGestureCatalog);
         $stmt->fetch();
 
         if ($stmt->num_rows == 1) {
@@ -67,6 +67,7 @@ function login($email, $password, $mysqli) {
                     $_SESSION['tutorialStudyCreation'] = $tutorialStudyCreation;
                     $_SESSION['tutorialStudyPreview'] = $tutorialStudyPreview;
                     $_SESSION['tutorialStudy'] = $tutorialStudy;
+                    $_SESSION['tutorialExtraction'] = $tutorialExtraction;
                     $_SESSION['tutorialParticipant'] = $tutorialParticipant;
                     $_SESSION['tutorialGestureCatalog'] = $tutorialGestureCatalog;
                     

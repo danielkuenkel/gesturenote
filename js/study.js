@@ -1,4 +1,4 @@
-function renderData(data, hash, showTutorial) {
+function renderData(data, hash, showStudyTutorial, showExtractionTutorial) {
     var studyData = data.studyData;
     // general data view
     $('#study-headline').text(studyData.generalData.title);
@@ -216,7 +216,7 @@ function renderData(data, hash, showTutorial) {
         $('#tab-pane').find('#general a').click();
     }
 
-    if (showTutorial === 1) {
+    if (showStudyTutorial === 1 || showExtractionTutorial === 1) {
         $('#tab-introduction a').click();
     }
 
@@ -744,7 +744,7 @@ function renderAllGestures() {
             singleStatistics.continuousInteractions = 0;
             singleStatistics.totalAmount = 0;
 
-            var triggerTitle = document.createElement('div');
+            var triggerTitle = document.createElement('h3');
             $(triggerTitle).addClass('text');
             $(triggerTitle).text(translation.trigger + ": " + trigger[i].title);
 
@@ -797,6 +797,7 @@ function renderAllGestures() {
         }
 
         renderElicitationStatistics($('#content-btn-all-gestures'), statistics);
+        initPopover();
     } else {
         // append alert
     }
@@ -811,7 +812,7 @@ function renderElicitationStatistics(container, statistics, prependContainer, he
         circumference: Math.PI
     };
 
-    var ctx = $(statisticsContainer).find('#chart-gesture-execution-type');
+    var ctx = $(statisticsContainer).find('.chart-gesture-execution-type');
     new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -828,7 +829,7 @@ function renderElicitationStatistics(container, statistics, prependContainer, he
         options: chartOptions
     });
 
-    var ctx = $(statisticsContainer).find('#chart-gesture-interaction-type');
+    var ctx = $(statisticsContainer).find('.chart-gesture-interaction-type');
     new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -855,12 +856,13 @@ function renderElicitationStatistics(container, statistics, prependContainer, he
 //    $(statisticsContainer).find('#progress-type-continuous').text(statistics.continuousInteractions);
 //    $(statisticsContainer).find('#progress-type-continuous').css({width: (statistics.continuousInteractions / statistics.totalAmount * 100) + '%'});
 
-    $(statisticsContainer).find('#amount-static-gestures').text(translation.gestureTypes.pose + ': ' + statistics.staticGestures);
-    $(statisticsContainer).find('#amount-dynamic-gestures').text(translation.gestureTypes.dynamic + ': ' + statistics.dynamicGestures);
-    $(statisticsContainer).find('#amount-total-gestures').text(translation.gestureTypes.total + ': ' + (statistics.staticGestures + statistics.dynamicGestures));
+    $(statisticsContainer).find('.amount-static-gestures').text(translation.gestureTypes.pose + ': ' + statistics.staticGestures);
+    $(statisticsContainer).find('.amount-dynamic-gestures').text(translation.gestureTypes.dynamic + ': ' + statistics.dynamicGestures);
+    $(statisticsContainer).find('.amount-total-gesture-executions').text(translation.gestureTypes.total + ': ' + (statistics.staticGestures + statistics.dynamicGestures));
 
-    $(statisticsContainer).find('#amount-discrete-gestures').text(translation.gestureInteractionTypes.discrete + ': ' + statistics.discreteInteractions);
-    $(statisticsContainer).find('#amount-continuous-gestures').text(translation.gestureInteractionTypes.continuous + ': ' + statistics.continuousInteractions);
+    $(statisticsContainer).find('.amount-discrete-gestures').text(translation.gestureInteractionTypes.discrete + ': ' + statistics.discreteInteractions);
+    $(statisticsContainer).find('.amount-continuous-gestures').text(translation.gestureInteractionTypes.continuous + ': ' + statistics.continuousInteractions);
+    $(statisticsContainer).find('.amount-total-gesture-interactions').text(translation.gestureTypes.total + ': ' + (statistics.discreteInteractions + statistics.continuousInteractions));
 
     $(statisticsContainer).css({marginBottom: '40px'});
 
@@ -1082,6 +1084,7 @@ function renderClassifiedGestures(target, type) {
             if (classification.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER) {
                 if (type === POTENTIAL_GESTURES) {
                     renderGestureGuessabilityTable(target, classification.assignments);
+                    renderPotentialGesturesTotalStatistics(target, classification.assignments);
                 }
 
                 var trigger = getUniqueTrigger();
@@ -1091,6 +1094,7 @@ function renderClassifiedGestures(target, type) {
                     TweenMax.from(container, .2, {delay: .2 + (i * .1), opacity: 0, y: -20});
 
                     container.find('#headline .text').text(translation.gesturesForTrigger + ': ' + trigger[i].title);
+                    renderPotentialGestureSpecificStatistics(container, classification.assignments, trigger[i].id);
 
                     for (var j = 0; j < classification.assignments.length; j++) {
                         var assignment = classification.assignments[j];
@@ -1178,7 +1182,7 @@ function updateGestureAssignmentInfos(container, type, updateId, assignment) {
                 $(involvedGesture).find('.btn-tag-as-main-gesture').attr('data-content', translation.gestureTaggedAsMain);
             }
         } else if (type === POTENTIAL_GESTURES && parseInt(assignment.mainGestureId) === parseInt(gesture.id)) {
-            involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-12 col-md-4', ELICITED_GESTURES);
+            involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-12 col-md-5', ELICITED_GESTURES);
             $(target).find('#potential-parameters-container').prepend(involvedGesture);
         }
     }
@@ -1800,6 +1804,194 @@ function renderGestureGuessabilityTable(target, assignments) {
         $(meanAccordanceItem).find('.highAgreement').removeClass('hidden');
     } else {
         $(meanAccordanceItem).find('.veryHighAgreement').removeClass('hidden');
+    }
+}
+
+function renderPotentialGesturesTotalStatistics(target, assignments) {
+    var staticGestures = 0;
+    var dynamicGestures = 0;
+    var unclassifiedExecutions = 0;
+    var discreteInteractions = 0;
+    var continuousInteractions = 0;
+    var unclassifiedInteractions = 0;
+
+    if (assignments && assignments.length > 0) {
+        var statistics = $('#template-study-container').find('#potential-gesture-statistics').clone().removeAttr('id');
+        $(target).append(statistics);
+
+        for (var i = 0; i < assignments.length; i++) {
+            var gesture = getGestureById(assignments[i].mainGestureId);
+            if (gesture.type !== null) {
+                switch (gesture.type) {
+                    case TYPE_GESTURE_POSE:
+                        staticGestures++;
+                        break;
+                    case TYPE_GESTURE_DYNAMIC:
+                        dynamicGestures++;
+                        break;
+                }
+            } else {
+                unclassifiedExecutions++;
+            }
+
+            if (gesture.interactionType !== null) {
+                switch (gesture.interactionType) {
+                    case TYPE_GESTURE_DISCRETE:
+                        discreteInteractions++;
+                        break;
+                    case TYPE_GESTURE_CONTINUOUS:
+                        continuousInteractions++;
+                        break;
+                }
+            } else {
+                unclassifiedInteractions++;
+            }
+        }
+
+        var chartOptions = {
+            rotation: -Math.PI,
+            cutoutPercentage: 30,
+            circumference: Math.PI
+        };
+
+        var ctx = $(statistics).find('.chart-gesture-execution-type');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: [translation.gestureTypes.pose, translation.gestureTypes.dynamic],
+                datasets: [{
+                        label: '# of Votes',
+                        data: [staticGestures, dynamicGestures],
+                        backgroundColor: [
+                            '#97CB00',
+                            '#4BACC6'
+                        ]
+                    }]
+            },
+            options: chartOptions
+        });
+
+        var ctx = $(statistics).find('.chart-gesture-interaction-type');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: [translation.gestureInteractionTypes.discrete, translation.gestureInteractionTypes.continuous],
+                datasets: [{
+                        label: '# of Votes',
+                        data: [discreteInteractions, continuousInteractions],
+                        backgroundColor: [
+                            '#7030A0',
+                            '#FFCB00'
+                        ]
+                    }]
+            },
+            options: chartOptions
+        });
+
+//        console.log(statistics, target);
+        $(statistics).find('.amount-static-gestures').text(translation.gestureTypes.pose + ': ' + staticGestures);
+        $(statistics).find('.amount-dynamic-gestures').text(translation.gestureTypes.dynamic + ': ' + dynamicGestures);
+        $(statistics).find('.amount-total-gesture-executions').text(translation.gestureTypes.total + ': ' + (staticGestures + dynamicGestures));
+
+        $(statistics).find('.amount-discrete-gestures').text(translation.gestureInteractionTypes.discrete + ': ' + discreteInteractions);
+        $(statistics).find('.amount-continuous-gestures').text(translation.gestureInteractionTypes.continuous + ': ' + continuousInteractions);
+        $(statistics).find('.amount-total-gesture-interactions').text(translation.gestureTypes.total + ': ' + (discreteInteractions + continuousInteractions));
+    }
+}
+
+function renderPotentialGestureSpecificStatistics(target, assignments, triggerId) {
+
+    var staticGestures = 0;
+    var dynamicGestures = 0;
+    var unclassifiedExecutions = 0;
+    var discreteInteractions = 0;
+    var continuousInteractions = 0;
+    var unclassifiedInteractions = 0;
+
+    if (assignments && assignments.length > 0) {
+        var statistics = $(target).find('.specific-gesture-statistics');
+        console.log(statistics);
+//        $(target).append(statistics);
+
+        for (var i = 0; i < assignments.length; i++) {
+            console.log(assignments[i], triggerId);
+            if (parseInt(assignments[i].triggerId) === parseInt(triggerId)) {
+                var gesture = getGestureById(assignments[i].mainGestureId);
+                if (gesture.type !== null) {
+                    switch (gesture.type) {
+                        case TYPE_GESTURE_POSE:
+                            staticGestures++;
+                            break;
+                        case TYPE_GESTURE_DYNAMIC:
+                            dynamicGestures++;
+                            break;
+                    }
+                } else {
+                    unclassifiedExecutions++;
+                }
+
+                if (gesture.interactionType !== null) {
+                    switch (gesture.interactionType) {
+                        case TYPE_GESTURE_DISCRETE:
+                            discreteInteractions++;
+                            break;
+                        case TYPE_GESTURE_CONTINUOUS:
+                            continuousInteractions++;
+                            break;
+                    }
+                } else {
+                    unclassifiedInteractions++;
+                }
+            }
+        }
+
+        var chartOptions = {
+            rotation: -Math.PI,
+            cutoutPercentage: 30,
+            circumference: Math.PI
+        };
+
+        var ctx = $(statistics).find('.chart-gesture-execution-type');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: [translation.gestureTypes.pose, translation.gestureTypes.dynamic],
+                datasets: [{
+                        label: '# of Votes',
+                        data: [staticGestures, dynamicGestures],
+                        backgroundColor: [
+                            '#97CB00',
+                            '#4BACC6'
+                        ]
+                    }]
+            },
+            options: chartOptions
+        });
+
+        var ctx = $(statistics).find('.chart-gesture-interaction-type');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: [translation.gestureInteractionTypes.discrete, translation.gestureInteractionTypes.continuous],
+                datasets: [{
+                        label: '# of Votes',
+                        data: [discreteInteractions, continuousInteractions],
+                        backgroundColor: [
+                            '#7030A0',
+                            '#FFCB00'
+                        ]
+                    }]
+            },
+            options: chartOptions
+        });
+
+        $(statistics).find('.amount-static-gestures').text(translation.gestureTypes.pose + ': ' + staticGestures);
+        $(statistics).find('.amount-dynamic-gestures').text(translation.gestureTypes.dynamic + ': ' + dynamicGestures);
+        $(statistics).find('.amount-total-gesture-executions').text(translation.gestureTypes.total + ': ' + (staticGestures + dynamicGestures));
+
+        $(statistics).find('.amount-discrete-gestures').text(translation.gestureInteractionTypes.discrete + ': ' + discreteInteractions);
+        $(statistics).find('.amount-continuous-gestures').text(translation.gestureInteractionTypes.continuous + ': ' + continuousInteractions);
+        $(statistics).find('.amount-total-gesture-interactions').text(translation.gestureTypes.total + ': ' + (discreteInteractions + continuousInteractions));
     }
 }
 

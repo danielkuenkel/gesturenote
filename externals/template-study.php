@@ -85,21 +85,21 @@ include '../includes/language.php';
     </div>
 
     <div id="elicitation-statistics">
-        <div id="headline"><?php echo $lang->whatGesturesWhereElicited ?></div>
+        <div id="headline" class="text-center"><?php echo $lang->whatGesturesWhereElicited ?></div>
 
         <div class="row">
             <div class="col-md-6">
                 <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
-                <canvas id="chart-gesture-execution-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                <canvas class="chart-gesture-execution-type" style="max-width: 300px; margin: 0 auto"></canvas>
                 <div class="text text-center" style="font-size: 10pt">
-                    <span id="amount-static-gestures"></span>, <span id="amount-dynamic-gestures"></span>, <span id="amount-total-gestures"></span>
+                    <span class="amount-static-gestures"></span>, <span class="amount-dynamic-gestures"></span>, <span class="amount-total-gesture-executions"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
-                <canvas id="chart-gesture-interaction-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                <canvas class="chart-gesture-interaction-type" style="max-width: 300px; margin: 0 auto"></canvas>
                 <div class="text text-center" style="font-size: 10pt">
-                    <span id="amount-discrete-gestures"></span>, <span id="amount-continuous-gestures"></span>
+                    <span class="amount-discrete-gestures"></span>, <span class="amount-continuous-gestures"></span>, <span class="amount-total-gesture-interactions"></span>
                 </div>
             </div>
         </div>
@@ -850,18 +850,19 @@ include '../includes/language.php';
     </div>
 
     <div class="row" id="training-gesture-item" style="margin-bottom: 30px">
-        <div class="col-sm-6 root">
-            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-            <div class="text-center gestureControls hidden">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                </div>
-            </div>
+        <div class="col-sm-5 col-lg-4 root">
+            <!--            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                        <div class="text-center gestureControls hidden">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                            </div>
+                        </div>-->
+            <div class="row gesture-container"></div>
         </div>
 
-        <div class="col-sm-6">
-            <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+        <div class="col-sm-7 col-lg-8">
+            <!--<div id="gesture"><span class="address"></span> <span class="text"></span></div>-->
             <div id="trigger"><span class="address"></span> <span class="text"></span></div>
             <div id="feedback"><span class="address"></span> <span class="text" style="display: inline-block"></span></div>
             <!--<div id="recognition-time"><span class="address"></span> <span class="text"></span></div>-->
@@ -903,18 +904,19 @@ include '../includes/language.php';
     </div>
 
     <div class="row" id="slideshow-gesture-item" style="margin-bottom: 30px">
-        <div class="col-sm-6 root">
-            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-            <div class="text-center gestureControls hidden">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                </div>
-            </div>
+        <div class="col-sm-5 col-lg-4 root">
+            <!--            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                        <div class="text-center gestureControls hidden">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                            </div>
+                        </div>-->
+            <div class="row gesture-container"></div>
         </div>
 
-        <div class="col-sm-6">
-            <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+        <div class="col-sm-7 col-lg-8">
+            <!--<div id="gesture"><span class="address"></span> <span class="text"></span></div>-->
             <div id="trigger"><span class="address"></span> <span class="text"></span></div>
             <div id="feedback"><span class="address"></span> <span class="content"></span></div>
             <div id="recognition-time"><span class="address"></span> <span class="text"></span></div>
@@ -954,18 +956,19 @@ include '../includes/language.php';
     </div>
 
     <div class="row" id="slideshow-trigger-item" style="margin-bottom: 30px">
-        <div class="col-sm-6 root">
-            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-            <div class="text-center gestureControls hidden">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                </div>
-            </div>
+        <div class="col-sm-5 col-lg-4 root">
+            <!--            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                        <div class="text-center gestureControls hidden">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                            </div>
+                        </div>-->
+            <div class="row gesture-container"></div>
         </div>
 
-        <div class="col-sm-6">
-            <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+        <div class="col-sm-7 col-lg-8">
+            <!--<div id="gesture"><span class="address"></span> <span class="text"></span></div>-->
             <div id="trigger"><span class="address"></span> <span class="text"></span></div>
             <div id="feedback"><span class="address"></span> <span class="content"></span></div>
             <div id="selection"><span class="address"></span> 
@@ -998,25 +1001,26 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
-        <div class="col-sm-5 root">
-            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-            <div class="text-center gestureControls hidden">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                </div>
-            </div>
+    <div class="row" id="physicalStressTest-item" style="margin-bottom: 100px">
+        <div class="col-sm-5 col-lg-4 root">
+            <!--            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                        <div class="text-center gestureControls hidden">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                            </div>
+                        </div>-->
+            <div class="gesture-container row"></div>
         </div>
 
-        <div class="col-sm-7">
-            <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+        <div class="col-sm-7 col-lg-8">
+            <!--<div id="gesture"><span class="address"></span> <span class="text"></span></div>-->
             <div id="single-stress-answers">
-                <h4 id="headline-single-questions"><?php echo $lang->singleAnswers ?></h4>
+                <h4 id="headline-single-questions" style="margin-top: 0px"><?php echo $lang->singleAnswers ?></h4>
                 <div class="question-container"></div>
             </div>
             <div id="sequence-stress-answers" style="margin-top: 40px">
-                <h4 id="headline-sequence-questions"><?php echo $lang->multipleAnswers ?></h4>
+                <h4 id="headline-sequence-questions" style="margin-top: 0px"><?php echo $lang->multipleAnswers ?></h4>
                 <div class="question-container"></div>
             </div>
 
@@ -1126,11 +1130,48 @@ include '../includes/language.php';
         </div>
     </div>
 
+    <div id="potential-gesture-statistics" style="margin-bottom: 40px">
+        <div class="text-center"><?php echo $lang->whatGesturesWhereElicitedForClassification ?></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
+                <canvas class="chart-gesture-execution-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                <div class="text text-center" style="font-size: 10pt">
+                    <span class="amount-static-gestures"></span>, <span class="amount-dynamic-gestures"></span>, <span class="amount-total-gesture-executions"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
+                <canvas class="chart-gesture-interaction-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                <div class="text text-center" style="font-size: 10pt">
+                    <span class="amount-discrete-gestures"></span>, <span class="amount-continuous-gestures"></span>, <span class="amount-total-gesture-interactions"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <div id="amount-container-appearance-trigger" style="margin-bottom: 30px">
-        <p id="headline" style="margin: 0"><span class="text" style="margin-right: 5px"></span> <span class="badge"></span></p> 
+        <h3 id="headline" style="margin: 0"><span class="text" style="margin-right: 5px"></span> <span class="badge"></span></h3> 
         <hr>
+        <div class="text-center"><?php echo $lang->whatGesturesWhereElicitedForClassificationTrigger ?></div>
+        <div class="row specific-gesture-statistics">
+            <div class="col-md-6">
+                <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
+                <canvas class="chart-gesture-execution-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                <div class="text text-center" style="font-size: 10pt">
+                    <span class="amount-static-gestures"></span>, <span class="amount-dynamic-gestures"></span>, <span class="amount-total-gesture-executions"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
+                <canvas class="chart-gesture-interaction-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                <div class="text text-center" style="font-size: 10pt">
+                    <span class="amount-discrete-gestures"></span>, <span class="amount-continuous-gestures"></span>, <span class="amount-total-gesture-interactions"></span>
+                </div>
+            </div>
+        </div>
         <div id="item-view"></div>
     </div>
 
@@ -1146,7 +1187,7 @@ include '../includes/language.php';
         <div id="headline-trigger-gesture"></div>
 
         <div class="row" id="potential-parameters-container" style="margin-top: 10px">
-            <div class="col-xs-12 col-md-8" id="potential-parameters"></div>
+            <div class="col-xs-12 col-md-7" id="potential-parameters"></div>
         </div>
 
         <div id="more-classified-gestures" class="hidden" style="margin-top: 20px">
