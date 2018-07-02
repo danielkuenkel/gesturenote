@@ -187,7 +187,7 @@ if ($h && $token && $studyId) {
                                             </div>
                                         </div>
 
-                                        <div class="alert-space alert-waiting-for-moderator"></div>
+                                        <div class="alert-space alert-waiting-for-moderator" style="margin-top: 10px"></div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12" style="margin-top: 10px">

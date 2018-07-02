@@ -1805,7 +1805,7 @@ include '../includes/language.php';
                                     <i class="fa fa-circle hidden" id="over"></i>
                                     <i class="fa fa-check-circle" id="checked"></i>
                                 </span>
-                                <span class="option-text"><?php echo $lang->noner ?></span>
+                                <span class="option-text"><?php echo $lang->none ?></span>
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="margin: 0">

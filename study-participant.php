@@ -540,6 +540,7 @@ if (login_check($mysqli) == true) {
                                 break;
                             case UEQ:
                                 renderQuestionnaireAnswers(content, phaseData, testerResults, true);
+                                renderUEQ(content, phaseData, testerResults);
                                 break;
                             case GUS_SINGLE_GESTURES:
                                 renderSingleGUS(content, phaseData, testerResults);
@@ -718,6 +719,96 @@ if (login_check($mysqli) == true) {
                 });
             }
 
+            function renderUEQ(content, studyData, resultsData) {
+                // calculate ueq scales
+                var scales = {attractiveness: {sum: 0, max: 0}, efficiency: {sum: 0, max: 0}, perspicuity: {sum: 0, max: 0}, dependability: {sum: 0, max: 0}, stimulation: {sum: 0, max: 0}, novelty: {sum: 0, max: 0}};
+                var ueqDimensions = translation.ueqDimensions;
+
+                for (var key in ueqDimensions) {
+                    if (ueqDimensions.hasOwnProperty(key)) {
+                        for (var j = 0; j < studyData.length; j++) {
+                            if (key === studyData[j].dimension) {
+                                var ueqId = parseInt(studyData[j].id);
+                                for (var k = 0; k < resultsData.answers.length; k++) {
+                                    var answerId = parseInt(resultsData.answers[k].id);
+                                    var value = 0;
+                                    if (ueqId === answerId) {
+                                        if (studyData[j].parameters.negative === 'yes') {
+                                            value = 6 - parseInt(resultsData.answers[k].answer.selectedOption) - 3;
+                                        } else {
+                                            value = parseInt(resultsData.answers[k].answer.selectedOption) - 3;
+                                        }
+                                        scales[key].sum = scales[key].sum + value;
+                                        scales[key].max++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                var qualities = {attractiveness: {sum: 0.0, max: 0}, pragmaticQuality: {sum: 0.0, max: 0}, hedonicQuality: {sum: 0.0, max: 0}};
+//                var cloneArrows = [];
+                for (var key in scales) {
+                    var scaleValue = parseFloat(parseInt(scales[key].sum) / parseInt(scales[key].max)).toFixed(2);
+                    $(content).find('.ueq-scales-statistics .' + key + ' .text').text(scaleValue);
+                    var arrow = null;
+                    if (scaleValue < -0.8) {
+                        arrow = $(content).find('.ueq-scales-statistics .' + key + ' .arrow-red');
+                        $(arrow).removeClass('hidden');
+                    } else if (scaleValue > 0.8) {
+                        arrow = $(content).find('.ueq-scales-statistics .' + key + ' .arrow-green');
+                        $(arrow).removeClass('hidden');
+                    } else {
+                        arrow = $(content).find('.ueq-scales-statistics .' + key + ' .arrow-yellow');
+                        $(arrow).removeClass('hidden');
+                    }
+                    $(arrow).attr('data-quality-id', translation.ueqMainDimensionsForDimension[key]);
+
+                    var qualityValue = parseFloat(qualities[translation.ueqMainDimensionsForDimension[key]].sum);
+                    qualities[translation.ueqMainDimensionsForDimension[key]].sum = qualityValue + parseFloat(scaleValue);
+                    qualities[translation.ueqMainDimensionsForDimension[key]].max++;
+                }
+
+                var count = 0;
+                for (var key in qualities) {
+
+                    var qualityValue = (parseFloat(qualities[key].sum) / parseInt(qualities[key].max)).toFixed(2);
+                    $(content).find('.ueq-quality-statistics .' + key + ' .text').text(qualityValue);
+
+                    var arrow = null;
+                    if (qualityValue < -0.8) {
+                        arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-red');
+                        $(arrow).removeClass('hidden');
+                    } else if (qualityValue > 0.8) {
+                        arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-green');
+                        $(arrow).removeClass('hidden');
+                    } else {
+                        arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-yellow');
+                        $(arrow).removeClass('hidden');
+                    }
+                    var tweenToPosition = $(arrow).offset();
+
+                    var tweenArrows = $(content).find('.ueq-scales-statistics [data-quality-id=' + key + ']');
+                    for (var i = 0; i < tweenArrows.length; i++) {
+                        var originPosition = $(tweenArrows[i]).offset();
+                        var tweenArrow = $(tweenArrows[i]).clone().removeAttr('data-quality-id');
+                        $('body').append(tweenArrow);
+
+                        $(tweenArrow).css({opacity: 0, position: 'absolute', top: (originPosition.top - 4) + 'px', left: originPosition.left + 'px'});
+                        TweenMax.to(tweenArrow, .1, {delay: .5 + (count * .5), css: {opacity: 1}});
+                        TweenMax.to(tweenArrow, 1.0, {delay: .7 + (count * .5), css: {top: (tweenToPosition.top - 4) + 'px', left: tweenToPosition.left + 'px'}});
+                        TweenMax.to(tweenArrow, .1, {delay: 1.6 + (count * .5), css: {opacity: 0}});
+                    }
+                    count++;
+
+                }
+
+
+//                console.log(cloneArrows);
+            }
+
             var currentGUSData = null;
             function renderSingleGUS(content, studyData, resultsData) {
 //                console.log(studyData, resultsData);
@@ -797,7 +888,7 @@ if (login_check($mysqli) == true) {
 //                    $(item).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
 
                     $(item).find('#feedback .address').text(translation.feedback + ': ');
-                    
+
                     var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
                     $(gestureThumbnail).removeClass('deleteable');
                     $(item).find('.gesture-container').append(gestureThumbnail);
@@ -862,7 +953,7 @@ if (login_check($mysqli) == true) {
                     var trigger = getTriggerById(studyData.slideshow[i].triggerId);
                     //                    var feedback = getFeedbackById(studyData.slideshow[i].feedbackId);
 //                    console.log('gesture for gesture slideshow', gesture, item);
-                    
+
 
                     var item = $('#template-study-container').find('#slideshow-gesture-item').clone().removeAttr('id');
                     container.find('#gestures-container').append(item);
@@ -919,7 +1010,7 @@ if (login_check($mysqli) == true) {
                     $(item).find('#trigger .address').text(translation.trigger + ': ');
                     $(item).find('#trigger .text').text(trigger.title);
                     $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
-                    
+
                     var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
                     $(gestureThumbnail).removeClass('deleteable');
                     $(item).find('.gesture-container').append(gestureThumbnail);
@@ -1257,7 +1348,8 @@ if (login_check($mysqli) == true) {
                 $('#custom-modal').attr('data-help-context', 'participant');
                 $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialParticipant'] ?>));
                 loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
-            });
+            }
+            );
 
         </script>
     </body>

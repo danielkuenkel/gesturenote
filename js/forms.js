@@ -151,11 +151,11 @@ function renderFormatItem(target, data, currentPhaseFormat, allowFilters) {
         case UEQ_ITEM:
 //            $(clone).attr('data-ueq-id', data.id);
             dimensions = translation.ueqDimensions;
-            if (parameters.used === 'used') {
-                $(clone).find('.btn-use').click();
-            } else {
-                $(clone).find('.hide-when-unused').addClass('hidden');
-            }
+//            if (parameters.used === 'used') {
+//                $(clone).find('.btn-use').click();
+//            } else {
+//                $(clone).find('.hide-when-unused').addClass('hidden');
+//            }
 
             $(clone).find('.opposites .left').text(translation.ueqOpposites[parameters.opposites.left]);
             $(clone).find('.opposites .left').attr('data-opposite-id', parameters.opposites.left);
@@ -542,7 +542,7 @@ function getFormatData(element, currentPhaseFormat) {
                 negative: $(element).find('.negative .btn-option-checked').attr('id')};
             break;
         case UEQ_ITEM:
-            parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
+            parameters = {used: 'used',
                 negative: $(element).find('.negative .btn-option-checked').attr('id'),
                 opposites: {left: $(element).find('.opposites .left').attr('data-opposite-id'), right: $(element).find('.opposites .right').attr('data-opposite-id')}};
             break;
@@ -639,11 +639,11 @@ function renderQuestionnaire(target, questionnaire, answers, forceFilters) {
 
     console.log('render questionnaire, force filters:', forceFilters);
     clearAlerts(target);
+    var nextQuestionButton = $(target).find('.btn-next-question');
+    var doneQuestionnaireButton = $(target).find('.btn-questionnaire-done');
+
 
     if (hasFilterQuesitons(questionnaire) && forceFilters && forceFilters === true) {
-
-        var nextQuestionButton = $(target).find('.btn-next-question');
-        var doneQuestionnaireButton = $(target).find('.btn-questionnaire-done');
 
         if (currentQuestionIndex < questionnaire.length) {
             renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
@@ -708,7 +708,20 @@ function renderQuestionnaire(target, questionnaire, answers, forceFilters) {
             }
         });
     } else {
+//        console.error('no filter questions');
+        $(doneQuestionnaireButton).removeClass('hidden');
         renderQuestions(target, questionnaire, answers);
+
+        $(doneQuestionnaireButton).unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled') && !$(this).hasClass('hidden')) {
+                $(doneQuestionnaireButton).addClass('hidden');
+                $(target).find('.question-container').empty();
+                appendAlert(target, ALERT_WAITING_FOR_MODERATOR);
+                $(target).find('.question-container').trigger('questionnaireDone');
+                currentQuestionIndex = questionnaire.length;
+            }
+        });
     }
 
     return target;
@@ -1384,7 +1397,7 @@ function getSingleSUSAnswers(source) {
  */
 
 function renderQuestionnaireAnswers(content, studyData, resultsData, enableTweening, sequentialAnswerSearch) {
-//    console.log(studyData);
+    console.log(studyData);
 
     $(content).find('.question-container').empty();
     for (var i = 0; i < studyData.length; i++) {
@@ -1455,6 +1468,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
                 break;
             case UEQ_ITEM:
                 $(listItem).find('.question').text((i + 1) + '. ' + translation.ueqOpposites[studyData[i].parameters.opposites.left] + ' - ' + translation.ueqOpposites[studyData[i].parameters.opposites.right]);
+                $(listItem).find('.original-ueq-item-id').text(studyData[i].id);
                 renderUEQItem(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
                 break;
         }
@@ -2515,7 +2529,8 @@ function renderSUSItem(item, studyData, answer) {
 
 function renderUEQItem(item, studyData, answer) {
     var score = 0;
-//    console.log(answer);
+    console.log(answer);
+
     if (studyData.parameters.negative === 'yes') {
         $(item).find('#negative').removeClass('hidden');
         if (answer) {

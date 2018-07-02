@@ -2605,10 +2605,10 @@ function getStudiesCatalogListThumbnail(target, data) {
             $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
 
             if (now > dateFrom && now < dateTo) {
-                var left = getTimeLeftForTimestamp(addDays(dateTo, 1));
+                var left = getTimeLeftForTimestamp(dateTo, 1);
                 var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
                 progress = daysExpired / totalDays * 100;
-                $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days + 1 === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
+                $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
                 $(clone).find('.progress-bar').addClass('progress-bar-success');
                 $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
             } else if (now < dateFrom) {

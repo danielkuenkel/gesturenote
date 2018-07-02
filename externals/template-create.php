@@ -324,7 +324,7 @@ include '../includes/language.php';
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
-                <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-default btn-shadow btn-delete hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->openQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
@@ -448,7 +448,7 @@ include '../includes/language.php';
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
-                <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-default btn-shadow btn-delete hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->alternativeQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
@@ -924,7 +924,7 @@ include '../includes/language.php';
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
-                <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-default btn-shadow btn-delete hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
@@ -2725,7 +2725,7 @@ include '../includes/language.php';
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
-                <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-default btn-shadow btn-delete hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->rating->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
@@ -2761,7 +2761,7 @@ include '../includes/language.php';
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
-                <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-default btn-shadow btn-delete hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->dichotomousQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
@@ -2859,20 +2859,20 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default panel-shadow not-used root" id="ueqItem" style="margin-bottom: 10px;">
+    <div class="panel panel-default panel-shadow root" id="ueqItem" style="margin-bottom: 10px;">
         <div class="panel-heading">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
-                <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
-                <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
-                <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
+                <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>" style="border-top-right-radius: 3px; border-bottom-right-radius: 3px"><i class="fa fa-arrow-down"></i></button>
+                <button class="btn btn-default btn-shadow btn-delete hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                <!--<button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>-->
             </div>
             <span><?php echo $lang->questionFormats->ueqItem->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
             <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-sm btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
-        <div class="panel-body hide-when-unused">
+        <div class="panel-body">
 
             <div style="width: 100%" id="item-factors">
                 <div class="label label-primary" id="factor-primary"></div>

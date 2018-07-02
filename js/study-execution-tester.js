@@ -219,6 +219,7 @@ var Tester = {
                 peerConnection.sendMessage(MESSAGE_QUESTIONNAIRE_DONE);
             }
         });
+        
         $(container).find('.question-container').unbind('nextQuestion').bind('nextQuestion', function (event) {
             console.log('next question clicked');
             event.preventDefault();
@@ -231,6 +232,7 @@ var Tester = {
                 peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
             }
         });
+        
         if (questionnaireDone) {
             $(container).find('#btn-next-step').prev().addClass('hidden');
             $(container).find('#btn-next-step').addClass('hidden');

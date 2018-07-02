@@ -245,7 +245,7 @@ if ($h && $token && $studyId) {
                         $(document).scrollTop(0);
                     }
                 } else {
-                    
+
                     var width = $('#viewModerator #column-left').width();
                     var height = 3 / 4 * width;
                     console.log('reset resize', width);
@@ -262,21 +262,23 @@ if ($h && $token && $studyId) {
             }
 
             function updateRTCHeight(updateWidth, updateColumn) {
-                var scrollTop = $(document).scrollTop();
-                var newHeight = 3 / 4 * updateWidth - scrollTop;
-                var newWidth = 4 / 3 * newHeight;
-                if (newWidth > DRAGGABLE_MIN_WIDTH) {
-                    $('#viewModerator #video-caller').css({height: newHeight + 'px', width: newWidth + 'px'});
-                }
+                if ($('#viewModerator #column-left').hasClass('rtc-scalable')) {
+                    var scrollTop = $(document).scrollTop();
+                    var newHeight = 3 / 4 * updateWidth - scrollTop;
+                    var newWidth = 4 / 3 * newHeight;
+                    if (newWidth > DRAGGABLE_MIN_WIDTH) {
+                        $('#viewModerator #video-caller').css({height: newHeight + 'px', width: newWidth + 'px'});
+                    }
 
-                if (scrollTop > 0) {
-                    $('#viewModerator #video-caller').css({opacity: .7});
-                } else {
-                    $('#viewModerator #video-caller').css({opacity: 1});
-                }
+                    if (scrollTop > 0) {
+                        $('#viewModerator #video-caller').css({opacity: .7});
+                    } else {
+                        $('#viewModerator #video-caller').css({opacity: 1});
+                    }
 
-                if (updateColumn) {
-                    TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: newHeight + 20}});
+                    if (updateColumn) {
+                        TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: newHeight + 20}});
+                    }
                 }
             }
 

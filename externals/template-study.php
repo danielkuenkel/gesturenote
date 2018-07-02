@@ -282,6 +282,27 @@ include '../includes/language.php';
                         <div id="sus-marker-container" style="margin-top: 3px; margin-bottom: 100px"></div>
                     </div>
                 </div>-->
+        <div class="row">
+            <div class="col-sm-6">
+                <label><?php echo $lang->scales ?></label>
+                <div class="ueq-scales-statistics">
+                    <div class="attractiveness"><span class="address"><?php echo $lang->ueqDimensions->attractiveness->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->attractiveness->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="efficiency"><span class="address"><?php echo $lang->ueqDimensions->efficiency->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->efficiency->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="perspicuity"><span class="address"><?php echo $lang->ueqDimensions->perspicuity->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->perspicuity->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="dependability"><span class="address"><?php echo $lang->ueqDimensions->dependability->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->dependability->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="stimulation"><span class="address"><?php echo $lang->ueqDimensions->stimulation->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->stimulation->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="novelty"><span class="address"><?php echo $lang->ueqDimensions->novelty->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->novelty->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label><?php echo $lang->pragmaticHedonicQuality ?></label>
+                <div class="ueq-quality-statistics">
+                    <div class="attractiveness"><span class="address"><?php echo $lang->ueqMainDimensions->attractiveness ?></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="pragmaticQuality"><span class="address"><?php echo $lang->ueqMainDimensions->pragmaticQuality ?></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="hedonicQuality"><span class="address"><?php echo $lang->ueqMainDimensions->hedonicQuality ?></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                </div>
+            </div>
+        </div>
         <hr>
         <div class="question-container"></div>
     </div>
@@ -678,7 +699,7 @@ include '../includes/language.php';
 
 
     <div class="panel panel-default panel-shadow" id="ueqItem" style="margin-bottom: 5px;">
-        <div class="panel-body">
+        <div class="panel-body" style="position: relative">
             <div>
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
                 <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
@@ -689,8 +710,8 @@ include '../includes/language.php';
                 <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <div class="label label-primary" id="factor-primary"></div>
             </div>
-            <label class="question"></label><br/>
-            <div class="pull-right text" id="score-container" style="position: absolute; right: 15px; top: 43px;"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
+            <label class="question"></label> <span class="original-ueq-item-id text-center" style="margin-left: 5px; background-color: #777777; border-radius: 50%; width: 20px; height: 20px; display: inline-block; color: white; font-weight: bold; font-size: 8pt;"></span><br/>
+            <div class="text" id="score-container" style="position: absolute; right:15px; top:70px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
         </div>
     </div>

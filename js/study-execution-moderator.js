@@ -50,7 +50,10 @@ var Moderator = {
                     item = Moderator.getSUS(source, container, currentPhaseData);
                     break;
                 case UEQ:
+                    console.log('ueq:',currentPhaseData);
+                    
                     item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
+                    $(item).find('.headline').text(getCurrentPhase().title);
                     break;
                 case GESTURE_TRAINING:
                     item = Moderator.getGestureTraining(source, container, currentPhaseData);
@@ -162,6 +165,7 @@ var Moderator = {
     },
     getQuestionnaire: function getQuestionnaire(source, container, data, isPreview) {
         data = getAssembledItems(data);
+        console.log('get questionnaire', data);
         if (data && data.length > 0) {
             if (isPreview) {
 //                console.log(container, currentQuestionnaireAnswers);

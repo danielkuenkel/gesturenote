@@ -75,7 +75,6 @@ if (login_check($mysqli) == true) {
             <div class="container text-center dropShadowText">
                 <h1 class="greenGrey"><i class="fa fa-tachometer" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->dashboard->dashboard ?></span></h1>
                 <h2><?php echo htmlentities($_SESSION['forename']) . ' ' . htmlentities($_SESSION['surname']); ?></h2>
-                <p><?php echo $lang->dashboard->dashboardInfo ?></p>
             </div>
         </div>
 
@@ -179,18 +178,6 @@ if (login_check($mysqli) == true) {
                     $(item).css({opacity: 1});
                     TweenMax.from(item, .2, {opacity: 0, delay: i * 0.05, scaleX: 0.5, scaleY: 0.5});
                 }
-//                $('#btn-studies').css({opacity: 1});
-//                
-//                $('#btn-gesture-styleguides').css({opacity: 1});
-//                TweenMax.from($('#btn-gesture-styleguides'), .2, {delay: .05, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-//                $('#btn-gesture-catalog').css({opacity: 1});
-//                TweenMax.from($('#btn-gesture-catalog'), .2, {delay: .1, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-//                $('#btn-news').css({opacity: 1});
-//                TweenMax.from($('#btn-news'), .2, {delay: .15, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-//                $('#btn-publications').css({opacity: 1});
-//                TweenMax.from($('#btn-publications'), .2, {delay: .2, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-//                $('#btn-profile').css({opacity: 1});
-//                TweenMax.from($('#btn-profile'), .2, {delay: .25, opacity: 0, scaleX: 0.5, scaleY: 0.5});
             }
 
             $('#btn-create-study').click(function (event) {
@@ -207,7 +194,7 @@ if (login_check($mysqli) == true) {
                 });
             }
 
-            $('#btn-help').unbind('click').bind('click', function (event) {
+            $('#btn-help').unbind('click').bind('click', function () {
                 goto('help-catalog.php');
             });
         </script>
