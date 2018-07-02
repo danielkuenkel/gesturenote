@@ -46,15 +46,15 @@ include '../includes/language.php';
 <script>
     $(document).ready(function () {
         var modal = $('#custom-modal');
-        var items = $(modal).attr('data-help-items-key');
+        var itemsKey = $(modal).attr('data-help-items-key');
         var startTabId = $(modal).attr('data-start-tab-id');
 
-        console.log(items, translation[items]);
-        var items = translation[items];
+//        console.log(items, translation[items]);
+        var items = translation[itemsKey];
         for (var i = 0; i < items.length; i++) {
             
             var helpItem = items[i];
-            console.log(helpItem);
+//            console.log(helpItem);
             var item = $('#carousel-listbox-item').clone().removeClass('hidden').removeAttr('id');
             $(item).find('img').attr('src', helpItem.imgSrc);
             $(item).find('.carousel-caption-header').text(helpItem.title);
@@ -81,9 +81,9 @@ include '../includes/language.php';
                     $(indicatorItem).addClass('active');
                     $(item).addClass('active');
                 }
-console.log(i, startTabId);
+//console.log(i, startTabId);
                 if (helpItem.description && helpItem.description.length > 0) {
-                    console.log('render help description', helpItem.description);
+//                    console.log('render help description', helpItem.description);
                     $(modal).find('#help-description').removeClass('hidden');
                     $(modal).find('#help-description').html(helpItem.description);
                 }
@@ -100,8 +100,9 @@ console.log(i, startTabId);
 
         $(modal).find('#carousel-introduction-generic').unbind('slid.bs.carousel').bind('slid.bs.carousel', function () {
             var currentIndex = parseInt($(modal).find('#carousel-introduction-generic .carousel-indicators .active').attr('data-slide-to'));
-            if (items && translation[items] && translation[items].length > 0) {
-                var helpItem = translation[items][currentIndex];
+            console.log(currentIndex, translation[itemsKey], itemsKey);
+            if (items && items.length > 0) {
+                var helpItem = items[currentIndex];
                 if (helpItem.description) {
                     $(modal).find('#help-description').html('');
 //                    $(modal).find('#help-description').removeClass('hidden');
@@ -128,7 +129,7 @@ console.log(i, startTabId);
             closeIntroduction();
         });
 
-        function closeIntroduction() {
+        function closeIntroduction() {           
             var dontShowIntroduction = $(modal).find('#checkbox-automatic-show .btn-checkbox').hasClass('btn-option-checked');
             updateIntroduction({context: $(modal).attr('data-help-context'), dontShowIntroduction: dontShowIntroduction ? 0 : 1});
             $(modal).removeAttr('data-help-items-key');
@@ -136,6 +137,12 @@ console.log(i, startTabId);
             $(modal).removeAttr('data-help-show-tutorial');
             $(modal).removeAttr('data-start-tab-id');
             $(modal).modal('hide');
+            
+            if(itemsKey === 'introductionStudy') {
+                showStudyTutorial = dontShowIntroduction ? 0 : 1;
+            } else if(itemsKey === 'introductionExtraction') {
+                showExtractionTutorial = dontShowIntroduction ? 0 : 1;
+            }
         }
     });
 </script>

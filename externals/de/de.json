@@ -447,7 +447,8 @@
         "gesturesRated": "Gesten bewertet"
     },
     "extractionContent": {
-        "preparation": "Vorbereitung",
+        "classification": "Klassifizierung",
+        "analysis": "Analyse",
         "allElicitedGestures": "Alle ermittelten Gesten",
         "allElicitedTrigger": "Alle ermittelten Funktionen",
         "gestureClassification": "Gesten-Klassifizierung",
@@ -3352,7 +3353,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "advantage",
-            "question": "Ich denke, dass mir eine oder mehrere Gesten Vorteile gegenüber anderen Eingabegeräten bringen (z.B. gegenüber Maus und Tastatur).",
+            "question": "Ich denke, dass mir eine oder mehrere Gesten keine Vorteile gegenüber anderen Eingabegeräten bringen (z.B. gegenüber Maus und Tastatur).",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -4924,7 +4925,7 @@
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-04-12.jpg' style='max-width:834px' /><div class='image-caption'>Eine Liste von Funktions-Gesten-Paaren.</div></div>",
                         "<p>Hier werden dem Probanden nacheinander die Gesten eines Vokabulars und eine Liste von Funktionen gezeigt. Der Proband soll die dazugehörige Funktion auswählen. In GestureNote wurde dies mit Hilfe von Eingruppierungsfragen (für die Funktionsliste) und der Vorschau jeder einzelnen Geste realisiert. Legen Sie hier einfach eine Liste mit Funktions-Gesten-Paaren an.</p>",
                         "<h4>Physischer Belastungstest</h4><hr>",
-                        "<div class='image-with-caption'><img class='img-image' src='img/de/introduction/study-create/carousel-04-13.jpg' style='max-width:982px' /><div class='image-caption'>Eine Liste von Gesten deren Belastung auf den Körper gemessen werden sollen (oben). Unten ein Teil des Fragebogens, welcher nach jeder Gesten-Ausführung dem Benutzer zur Beantwortung gestellt werden soll.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-04-13.jpg' style='max-width:982px' /><div class='image-caption'>Eine Liste von Gesten deren Belastung auf den Körper gemessen werden sollen (oben). Unten ein Teil des Fragebogens, welcher nach jeder Gesten-Ausführung dem Benutzer zur Beantwortung gestellt werden soll.</div></div>",
                         "<p>Ziel dieser Methode ist es, die physische Belastung von Gesten bei der Benutzung herauszufinden. Dies geschieht mit einem Test, bei dem der Proband jede Geste aus einem Vokabular X-Mal vorführt, um Rückschlüsse auf eine besondere Beanspruchung der ausführenden Körperteile zu schließen. Es wird vorgeschlagen die Gesten eines Vokabulares in Summe 200 Mal durchführen zu lassen. In GestureNote können Sie diese Anzahl erhöhen oder verringern, da die Anzahl der Durchläufe an die Gesten gekoppelt sind (d.h. man gibt den Wert 10 an, dann werden für jede Geste 10 Wiederholungen veranschlagt. Für 3 Gesten entpspricht das 30 Durchläufen). Nach jedem Vorführen einer Geste haben Sie die Möglichkeit, die Beanspruchung bewerten zu lassen. Zusätzlich sollte nach jeder Gesten-Sequenz die Beanspruchung insgesamt bewertet werden. In GestureNote stehen dafür die bekannten Fragenformate (z.B. offene Fragen, Ja-/Nein-Frage, Summenfrage, etc.) zur Verfügung. Darüber hinaus gibt es in GestureNote auch die Möglichkeit den Probanden mit Hilfe einer Grafik über besondere Beanspruchungen zu befragen. Der Proband kann einfach die jeweiligen Bereiche auswählen. Aktuell können Körper, Handgesten oder beide Gestenarten abgefragt werden.</p>"
                     ]
         }
@@ -5044,44 +5045,51 @@
     ],
     "introductionExtraction": [
         {
-            "tabId": "gesture-extraction",
+            "tabId": "classification",
             "imgSrc": "img/de/introduction/extraction/carousel-01.jpg",
-            "title": "Extraktion",
-            "text": "Nur verfügbar, wenn eine Ermittlung durchgeführt wurde.",
-            "popover": "Extraktion",
+            "title": "Klassifizierung",
+            "text": "Sichtung aller ermittelten Gesten oder Funktionen und Klassifzierung.",
+            "popover": "Klassifizierung",
             "description": [
-                "Wurde eine Gesten- oder Funktionen-Ermittlung durchgeführt, können die erhobenen Daten unter diesem Bereich gesichtet, klassifiziert, bewertet und sortiert werden.",
-                "<h4>Ermittelte Gesten oder Funktionen</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/extraction/carousel-01-01.jpg' style='max-width:871px' />",
+                "Wurde eine Ermittlung von Gesten oder Funktionen durchgeführt, können die erhobenen Daten unter diesem Bereich gesichtet, klassifiziert, bewertet und sortiert werden.",
+                "<img class='img-image' src='img/de/introduction/extraction/carousel-01-01.jpg' style='max-width:868px' />",
                 "<p>Je nachdem was ermittelt wurde (Gesten oder Funktionen), werden unter diesem Punkt alle Daten dargestellt, inkl. Zuordnung. Wurden z.B. Gesten für Funktionen ermittelt, sind hier für jede Funktion die aufgezeichneten Gesten aufgelistet. Darüber hinaus wird die Verteilung von Gesten-Typen und Gesten-Interaktions-Typen als Balken dargestellt (siehe obere Abbildung).</p>",
-                "<h4>Klassifizierung</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/extraction/carousel-01-02.png' style='max-width:802px' />",
+                "<img class='img-image' src='img/de/introduction/extraction/carousel-01-02.jpg' style='max-width:765px' />",
                 "<p>Bei der Klassifzierung werden gleiche Gesten oder Funktionen zusammengefasst. Dies ist wichtig, um statistische Aussagen über die Verteilung zu treffen. Eine Klassifzierung kann bereits nach dem Erhalt der ersten erhobenen Studien-Daten durchgeführt und zu einem späteren Zeitpunkt (z.B. bei Erhalt weiterer Daten) fortgesetzt werden. Um einen Effekt bei der Kodierung (d.h. Coder Bias) zu vermindern, versuchen Sie die Klassifizierung mit mehreren Experten durchzuführen.</p>",
                 "<h4>Gesten-Klassifizierung</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/extraction/carousel-01-03.jpg' style='max-width:716px' />",
                 "<p>Bei einer Gesten-Klassifizierung kann zwischen zwei Arten gewählt werden: <em>Aussehen</em> oder <em>Aussehen + Funktion</em> (Standard). Nach der Wahl beginnt die eigentliche Klassifizierung. Dabei vergleichen Sie die linke mit der rechten Geste und wählen <button class='btn btn-xs btn-danger'><i class='fa fa-thumbs-down'></i> Nein</button> bei Ablehnung oder <button class='btn btn-xs btn-success'><i class='fa fa-thumbs-up'></i> Ja</button> bei Zustimmung.</p>",
                 "<p>Bei einer Klassifizierung nach <em>Aussehen</em> werden gleiche Gesten ohne Berücksichtigung von Funktionen gruppiert. Hierbei kann die Übereinstimmung nach Wobbrock et. al nicht berechnet werden (die Verknüpfung zur jeweiligen Funktion fehlt).</p>",
                 "<p>Dagegen findet eine Verknüpfung zwischen Geste und Funktion bei der Klassifizierung nach <em>Aussehen + Funktion</em> statt. Klassifizierte Gesten werden dann unter dem jeweiligen Funktionsnamen, für die sie ermittelt wurden, aufgelistet.</p>",
-                "<p>Wurden Gesten klassifiziert und liegt eine Gruppe von Gesten vor, kann aus der Gruppe eine Stellvertreter-Geste gewählt werden. Klicken Sie dazu auf das Symbol <i class='fa fa-tag'></i>. Stellvertreter-Gesten werden mit einem blauen Rahmen versehen.</p>",
+                "<p>Wurden Gesten klassifiziert und liegt eine Gruppe von Gesten vor, kann aus der Gruppe eine Stellvertreter-Geste gewählt werden. Klicken Sie dazu auf das Symbol <i class='fa fa-tag'></i>. Das Symbol einer Stellvertreter-Geste wird blau eingefärbt <i class='fa fa-tag' style='color:#337ab7'></i>. Standardmäßig wird immer die erste klassifizierte Geste einer Gruppe als Stellvertretergeste markiert.</p>",
                 "<h4>Funktions-Klassifizierung</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/extraction/carousel-01-04.png' style='max-width:718px' />",
                 "<p>Eine Funktions-Klassifizierung läuft analog zu einer Gesten-Klassifizierung ab. Es kann auch hier zwischen zwei Arten der Klassifizierung gewählt werden: Eine Klassifizierung nach <em>Funktion</em> oder <em>Funktion + Geste</em> (Standard).</p>",
                 "<p>Bei der Zuordnung werden jedoch keine Gesten angezeigt, sondern die erfragten Funktionen und der von den Probanden hinterlegten Begründung.</p>",
-                "<p>Wurden Funktionen klassifiziert und liegt eine Gruppe von Funktionen vor, kann au der Gruppe eine Stellvertreter-Funktion gewählt werden (wird dann fett dargestellt). Klicken Sie dazu auf die jeweilige Funktion.</p>",
+                "<p>Wurden Funktionen klassifiziert und liegt eine Gruppe von Funktionen vor, kann aus der Gruppe eine Stellvertreter-Funktion gewählt werden. Klicken Sie dazu auf die jeweilige Funktion. Eine Stellvertreter-Funktion wird in fetter Schrift dargestellt.</p>",
                 "<h4>Checkliste</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/extraction/carousel-01-05.jpg' style='max-width:487px' />",
-                "<p></p>",
+                "<p></p>"
+            ]
+        },
+        {
+            "tabId": "analysis",
+            "imgSrc": "img/de/introduction/extraction/carousel-02.jpg",
+            "title": "Analyse",
+            "text": "Analysieren von klassifzierten Gesten oder Funktionen. Fassen Sie darüber hinaus potentielle Gesten zu Gesten-Sets zusammen.",
+            "popover": "Analyse",
+            "description": [
                 "<h4>Potentielle Gesten oder Funktionen</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/extraction/carousel-01-06.png' style='max-width:701px' />",
+                "<img class='img-image' src='img/de/introduction/extraction/carousel-02-01.png' style='max-width:701px' />",
                 "<p>Der Bereich <em>Potentielle Gesten</em> bzw. <em>Potentielle Funktionen</em> stellt Daten und Hilfsmittel bereit, um z.B. eine Auswahl von Gesten für eine Evaluierung zu treffen. Falls die Standard-Klassifizierungs-Art gewählt wurde, fasst eine Tabelle die wichtigsten Daten zusammen und bietet einen Schnellzugriff auf die jeweiligen Gesten oder Funktionen. Darunter stehen die einzeln Gesten oder Funktionen samt Informationen über Anzahl, Sinnzusammenhänge, Checklisten und Gesten-Set-Zuweisungen bereit. Je nach gewählter Klassifizierungsart und ermittelten Daten (Gesten oder Funktionen) kann diese Darstellung variieren.</p>",
                 "<p><span class='font-bold'>Erratbarkeits-Studie:</span> GestureNote bietet die Berechnung des sog. Maß der Übereinstimmung nach Wobbrock et al. an (nur bei Klassifizierung nach <em>Aussehen + Funktion</em>). Hierfür wird ein strikter statistischer Wert für jede einzelne Systeminteraktion, sowie ein Durchschnittswert über alle Übereinstimmungen berechnet. Das Ziel der Methode ist, Gestensets zu entwickeln, die von möglichst vielen Personen intuitiv benutzt werden können. Die Methode ist darauf ausgelegt, Gestensets zu kreieren für welche die Wahrscheinlichkeit die richtigen Gesten zu erraten, maximiert ist. Die Erratbarkeit ist dabei ein Kriterium für die Erlernbarkeit von Systemen.</p>",
-                "<img class='img-image' src='img/de/introduction/extraction/carousel-01-07.jpg' style='max-width:769px; />",
+                "<img class='img-image' src='img/de/introduction/extraction/carousel-02-02.jpg' style='max-width:769px; />",
                 "<p><span class='font-bold'>Anzahl:</span> Gibt eine Empfehlung, ob eine Geste oder Funktion aufgrund ihrer Anzahl in Verbindung mit der Funktion für ein Set geeignet ist. Ein Beispiel: Für die Funkion <em>System aktivieren</em> wurden insgesamt 6 Gesten demonstriert. Nach der Klassifizierung ergeben sich 3 Gesten (Eine Geste kommt einmal vor, die zweite Geste zweimal und die dritte Geste dreimal). Die Geste, die dreimal vorkommt wird von GestureNote als geeignet angesehen, während die Geste, welche nur einmal vorkommt als ungeeignet gilt. Es ergeben sich folgende Werte für die Funktion <em>Sytem aktivieren</em>. <em>Minimal:</em> 1 (Mindestgruppengröße), <em>maximal:</em> 3 (Maximalgruppengröße). Der letzte Wert (Gruppengröße) variiert für alle 3 potentiellen Gesten (Gesten-Gruppengröße von 1,2 und 3).</p>",
                 "<p><span class='font-bold'>Sinnzusammenhänge:</span> Hier können hinterlegte Sinnzusammenhänge vom Probanden überprüft werden. Eine Eignung der Geste oder Funktion kann manuell festgelegt werden.</p>",
                 "<p><span class='font-bold'>Checkliste:</span> Wird eine Checkliste verwendet, kann diese für jede potientielle Geste oder Funktion beantwortet werden. Die Eignung einer Geste oder Funktion muss - wie auch bei den Sinnzusammenhängen - manuell festgelegt werden.</p>",
                 "<p><span class='font-bold'>Zuweisung zu Gesten-Sets:</span> Ist eine Geste für ein Gesten-Set geeignet, kann diese einem solchen zugeordnet werden. Klicken Sie dazu auf das Symbol <i class='fa fa-paperclip'></i>. Es öffnet sich die <em>Gesten-Sets</em>-Rubrik in den Gesten-Informationen. Dort haben Sie nun die Möglichkeit ein neues Gesten-Set zu erstellen oder die Geste einem bereits vorhandenem Gesten-Set zuzuordnen.</p>",
                 "<h4>Gesten-Sets</h4><hr>",
-                "<img class='img-image' src='img/de/introduction/extraction/carousel-01-08.jpg' style='max-width:718px' />",
+                "<img class='img-image' src='img/de/introduction/extraction/carousel-02-03.jpg' style='max-width:718px' />",
                 "<p>Potentielle Gesten lassen sich zu einem Gesten-Set zusammenfassen. Das Gesten-Set kann dann z.B. in einer darauffolgenden Studie zur Evaluierung wiederverwenden werden. Oder es kann als JSON-Datei heruntergeladen werden, um es in einem Pidoco-Projekt zu importieren.</em></p>"
             ]
         }
@@ -5167,11 +5175,11 @@
                         "<p><strong>Bewertungen</strong><br/>Das Sternsymbol <i class='fa fa-star-o'></i> zeigt an, ob und wie die Geste von anderen Gesten-Designer bewertet ist. Ein leerer Stern gibt an, dass die Geste noch nicht bewertet wurde. Ein gefüllter gelber Stern <span class='btn-rate gesture-rated'><i class='fa fa-star' style='color:#f0ad4e'></i> <span class='amount' style='font-size: 9pt;position: relative;top: -1px; left:-2px'>45</span></span> zeigt an, dass die Geste bewertet ist und die Zahl daneben, von wie vielen Gesten-Designern sie bewertet wurde. Eigene Gesten, d.h. selbst aufgezeichnete oder in Studien ermittelte Gesten können nicht bewertet werden. Mit einem Klick auf das Symbol gelangt man zu den Bewertungen</p>",
                         "<p><strong>Favoriten</strong><br/>Analog zum Sternsymbol verhält sich das Herzsymbol <i class='fa fa-heart-o'></i>, welches anzeigt, ob und von wie vielen Gesten-Designer diese Geste favorisiert wird. Ein leeres Herz gibt an, dass die Geste noch nicht favorisiert wurde. Ein gefülltes rotes Herz <span class='btn-like gesture-liked'><i class='fa fa-heart' style='color:#D42C29'></i> <span class='amount' style='font-size: 9pt;position: relative;top: -1px; left:-2px'>15</span></span> zeigt an, dass die Geste favorisiert wird und die Zahl daneben, von wie vielen Gesten-Designern sie favorisiert wird. Es können auch eigene Gesten favorisiert werden.</p>",
                         "<p><strong>Teilen</strong><br/>Das Sharingsymbol <i class='fa fa-share-alt'></i> verhält sich wie ein Switch. Ist es grau, wurde diese Geste nicht von Ihnen mit anderen Gesten-Designer geteilt. Ist es hingegen blau <i class='fa fa-share-alt' style='color:#0480be'></i>, wurde es von Ihnen in der Vergangenheit für andere Gesten-Designer freigegeben. Es können nur eigene Geste, d.h. selbst aufgezeichnete Gesten und in Studien ermittelte Gesten für andere Gesten-Designer freigegeben werden.</p>",
-                        "<p><strong>Kommentare</strong><br/>Das Symbol <i class='fa fa-comments'></i> zeigt an, ob und wie viele Kommentare es für eine Geste gibt. Man gelangt zu den Kommentaren, in dem man auf das Symbol klickt.</p>",
-                        "<p><strong>Alle Informationen abrufen</strong><br/>Über einem Klick auf das Symbol <i class='fa fa-ellipsis'></i>, können alle Informationen über eine Geste abgerufen werden. Ist man „Besitzer“ dieser Geste, kann diese zusätzlich bearbeitet und gelöscht werden.</p><br/>",
+                        "<p><strong>Kommentare</strong><br/>Das Symbol <i class='fa fa-comments'></i> zeigt an, ob und wie viele Kommentare es für eine Geste gibt. Man gelangt zu den Kommentaren, in dem man auf das Symbol klickt. Sind noch keine Kommtanre zu dieser Geste vorhanden, wird eine leere Sprechblase <i class='fa fa-comment-o'></i> angezeigt.</p>",
+                        "<p><strong>Alle Informationen abrufen</strong><br/>Über einem Klick auf das Symbol <i class='fa fa-ellipsis-h'></i>, können alle Informationen über eine Geste abgerufen werden. Ist man „Besitzer“ dieser Geste, kann diese zusätzlich bearbeitet und gelöscht werden.</p><br/>",
                         "<p>Oben rechts werden Informationen über die Art der Gesten-Ausführung und Gesten-Interaktion dargestellt. Es können jeweils zwei Arten der Gesten-Ausführung und Gesten-Interaktion unteschieden werden. Diese sind in GestureNote mit spezifischen Farben gekennzeichnet.</p>",
-                        "<p><strong>Gesten-Ausführung</strong><br/>Im Kontext der Mensch-Computer-Interaktion ist eine Geste eine koordinierte Bewegung oder Position des Körpers oder Teile des Körpers mit der Absicht, mit einem System zu interagieren. Zum Beispiel ist ein Streichen einer Hand zur Seite eine koordinierte Bewegung, während das Halten einer Hand über einm UI Element eine Position wiederspiegelt. Die Unterscheidung ist in GestureNote folgendermaßen festgelegt.<br/><span class='gesture-info-symbol symbol-gesture-execution pose' style='display:inline-block'></span> <em>Statische Gesten-Ausführung</em>: ist eine Haltung über einen gewissen Zeitraum, d.h. relative Hand- und Fingerpositionen, ohne die Bewegung zu berücksichtigen.<br/><span class='gesture-info-symbol symbol-gesture-execution dynamic' style='display:inline-block'></span> <em>Dynamische Gesten-Ausführung</em>: ist definiert durch ihren Bewegungsablauf.</p>",
-                        "<p><strong>Gesten-Interaktion</strong><br/>Eine Gesten-Interaktion ist eine Geste in Verbindung mit dem jeweiligen UI-Verhalten, das durch die Geste ausgelöst wird. Es werden folgende Arten unterschieden.<br/><span class='gesture-info-symbol symbol-gesture-interaction discrete' style='display:inline-block'></span> <em>Diskrete Gesten-Interaktion</em>: ist eine Geste in Verbindung mit dem jeweiligen UI-Verhalten, das durch die Geste ausgelöst wird. Das UI-Verhalten wird erst ausgeführt, wenn eine dynamische Geste ausgeführt ist, oder eine bestimmte Dauer bei einer statischen Geste überschritten ist.<br/><span class='gesture-info-symbol symbol-gesture-interaction continuous' style='display:inline-block'></span> <em>Kontinulierliche Gesten-Interaktion</em>: ist definiert durch ihren Bewegungsablauf.</p>",
+                        "<p><strong>Gesten-Ausführung</strong><br/>Im Kontext der Mensch-Computer-Interaktion ist eine Geste eine koordinierte Bewegung oder Position des Körpers oder Teile des Körpers mit der Absicht, mit einem System zu interagieren. Zum Beispiel ist ein Streichen einer Hand zur Seite eine koordinierte Bewegung, während das Halten einer Hand über einm UI Element eine Position wiederspiegelt. Die Unterscheidung ist in GestureNote folgendermaßen festgelegt:<br/><span class='gesture-info-symbol symbol-gesture-execution pose' style='display:inline-block'></span> <em>Statische Gesten-Ausführung</em>: ist eine Haltung über einen gewissen Zeitraum, d.h. relative Hand- und Fingerpositionen, ohne die Bewegung zu berücksichtigen.<br/><span class='gesture-info-symbol symbol-gesture-execution dynamic' style='display:inline-block'></span> <em>Dynamische Gesten-Ausführung</em>: ist definiert durch ihren Bewegungsablauf.</p>",
+                        "<p><strong>Gesten-Interaktion</strong><br/>Eine Gesten-Interaktion ist eine Geste in Verbindung mit dem jeweiligen UI-Verhalten, das durch die Geste ausgelöst wird. Es werden folgende Arten unterschieden:<br/><span class='gesture-info-symbol symbol-gesture-interaction discrete' style='display:inline-block'></span> <em>Diskrete Gesten-Interaktion</em>: ist eine Geste in Verbindung mit dem jeweiligen UI-Verhalten, das durch die Geste ausgelöst wird. Das UI-Verhalten wird erst ausgeführt, wenn eine dynamische Geste zu Ende ausgeführt oder eine bestimmte Dauer bei einer statischen Geste überschritten ist.<br/><span class='gesture-info-symbol symbol-gesture-interaction continuous' style='display:inline-block'></span> <em>Kontinulierliche Gesten-Interaktion</em>: .</p>",
                         "<h4>Thumbnail Variationen</h4><hr>",
                         "<p>Je nachdem, in welchem Bereich man sich gerade in GestureNote aufhält, unterscheiden sich die angezeigten Symbole unterhalb der Vorschau. Soll ein Studien-Gesten-Set für eine Gesten-Design-Studie zusammengestellt werden, werden dort die Symbole <i class='fa fa-plus-square></i> oder <i class='fa fa-minus-square'></i> aufgeführt.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-02.jpg' style='max-width:277px' /><div class='image-caption'>Thumbnail einer Geste für den Bereich <em>Gesten-Klassifizierung</em> in der Gesten-Extraktion.</div></div>",

@@ -247,14 +247,14 @@ if (login_check($mysqli) == true) {
 
                     <div class="col-sm-4 col-md-3" style="margin-bottom: 20px">
                         <div data-spy="affix" data-offset-top="0" id="gesture-extraction-navigation">
-                            <h5 class="text"><?php echo $lang->extractionContent->preparation ?></h5>
+                            <h5 class="text"><?php echo $lang->extractionContent->classification ?></h5>
                             <div class="btn-group-vertical btn-block" id="btns-general">
                                 <button class="btn btn-default btn-shadow" type="button" id="btn-all-gestures"><span class="btn-text"><?php echo $lang->extractionContent->allElicitedGestures ?></span></button>
                                 <button class="btn btn-default btn-shadow" type="button" id="btn-gesture-classification"><span class="btn-text"><?php echo $lang->extractionContent->gestureClassification ?></span></button>
                                 <button class="btn btn-default btn-shadow" type="button" id="btn-checklist"><span class="btn-text"><?php echo $lang->extractionContent->checklist ?></span></button>
                             </div>
 
-                            <h5 class="text" style="margin-top: 20px"><?php echo $lang->phaseType->extraction ?></h5>
+                            <h5 class="text" style="margin-top: 20px"><?php echo $lang->extractionContent->analysis ?></h5>
                             <div class="btn-group-vertical btn-block" id="btns-arrange-gesture-sets">
                                 <button class="btn btn-default btn-shadow disabled" type="button" id="btn-potential-gestures"><span class="btn-text"><?php echo $lang->extractionContent->potentialGestures ?></span></button>
                                 <button class="btn btn-default btn-shadow disabled" type="button" id="btn-gesture-sets"><span class="btn-text"><?php echo $lang->gestureSets ?></span></button>
@@ -384,14 +384,14 @@ if (login_check($mysqli) == true) {
 
                     <div class="col-sm-4 col-md-3" style="margin-bottom: 20px">
                         <div data-spy="affix" data-offset-top="0" id="trigger-extraction-navigation">
-                            <h5 class="text"><?php echo $lang->extractionContent->preparation ?></h5>
+                            <h5 class="text"><?php echo $lang->extractionContent->classification ?></h5>
                             <div class="btn-group-vertical btn-block" id="btns-general">
                                 <button class="btn btn-default btn-shadow" type="button" id="btn-all-trigger"><span class="btn-text"><?php echo $lang->extractionContent->allElicitedTrigger ?></span></button>
                                 <button class="btn btn-default btn-shadow" type="button" id="btn-trigger-classification"><span class="btn-text"><?php echo $lang->extractionContent->triggerClassification ?></span></button>
                                 <button class="btn btn-default btn-shadow" type="button" id="btn-checklist"><span class="btn-text"><?php echo $lang->extractionContent->checklist ?></span></button>
                             </div>
 
-                            <h5 class="text" style="margin-top: 20px"><?php echo $lang->phaseType->extraction ?></h5>
+                            <h5 class="text" style="margin-top: 20px"><?php echo $lang->extractionContent->analysis ?></h5>
                             <div class="btn-group-vertical btn-block" id="btns-arrange-trigger-sets">
                                 <button class="btn btn-default btn-shadow disabled" type="button" id="btn-potential-trigger"><span class="btn-text"><?php echo $lang->extractionContent->potentialTrigger ?></span></button>
                                 <!--<button class="btn btn-default btn-shadow disabled" type="button" id="btn-gesture-sets"><span class="btn-text"><?php echo $lang->gestureSets ?></span></button>-->
@@ -604,6 +604,9 @@ if (login_check($mysqli) == true) {
                 });
             });
 
+            var showStudyTutorial = 0;
+            var showExtractionTutorial = 0;
+            var tutorialAutomaticClicked = false;
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);
@@ -612,9 +615,9 @@ if (login_check($mysqli) == true) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             setStudyData(result);
-                            var showStudyTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
-                            var showExtractionTutorial = parseInt(<?php echo $_SESSION['tutorialExtraction'] ?>);
-                            renderData(result, hash, showStudyTutorial, showExtractionTutorial);
+                            showStudyTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
+                            showExtractionTutorial = parseInt(<?php echo $_SESSION['tutorialExtraction'] ?>);
+                            renderData(result, hash);
                             initPopover();
                         }
                     });
@@ -623,31 +626,61 @@ if (login_check($mysqli) == true) {
 
             $('#tab-introduction a').on('click', function (event) {
                 event.preventDefault();
-                var activeTab = $('#tab-pane').find('.active a').attr('href');
-                var helpContext = 'study';
-                var helpKey = 'introductionStudy';
+//                showStudyTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
+//                showExtractionTutorial = parseInt(<?php echo $_SESSION['tutorialExtraction'] ?>);
+                var showTutorial = false;
 
-                if (activeTab !== '#generalData') {
-                    switch (activeTab) {
-                        case '#study-catalogs':
-                            $('#custom-modal').attr('data-start-tab-id', 'study-catalogs');
-                            break;
-                        case '#study-participants':
-                            $('#custom-modal').attr('data-start-tab-id', 'study-participants');
-                            break;
-                        case '#gesture-extraction':
-                            $('#custom-modal').removeAttr('data-start-tab-id');
-                            helpKey = 'introductionExtraction';
-                            helpContext = 'extraction';
-                            break;
+                console.log('show tutorial', tutorialAutomaticClicked, showStudyTutorial, showExtractionTutorial);
+                if (tutorialAutomaticClicked === false || (tutorialAutomaticClicked === true && (showStudyTutorial === 1 || showExtractionTutorial === 1))) {
+                    var activeTab = $('#tab-pane').find('.active a').attr('href');
+                    var helpContext = 'study';
+                    var helpKey = 'introductionStudy';
+
+                    if (activeTab !== '#generalData') {
+                        switch (activeTab) {
+                            case '#general-infos':
+                                $('#custom-modal').removeAttr('data-start-tab-id');
+                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
+                                break;
+                            case '#study-catalogs':
+                                $('#custom-modal').attr('data-start-tab-id', 'study-catalogs');
+                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
+                                break;
+                            case '#study-participants':
+                                $('#custom-modal').attr('data-start-tab-id', 'study-participants');
+                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
+                                break;
+                            case '#gesture-extraction':
+                                var activeExtractionTab = $('#gesture-extraction-navigation').find('.active').attr('id');
+
+                                switch (activeExtractionTab) {
+                                    case 'btn-all-gestures':
+                                    case 'btn-gesture-classification':
+                                    case 'btn-checklist':
+                                        $('#custom-modal').removeAttr('data-start-tab-id');
+                                        break;
+                                    case 'btn-potential-gestures':
+                                    case 'btn-gesture-sets':
+                                    case 'btn-potential-trigger':
+                                        $('#custom-modal').attr('data-start-tab-id', 'analysis');
+                                        break;
+                                }
+
+                                helpKey = 'introductionExtraction';
+                                helpContext = 'extraction';
+                                showTutorial = tutorialAutomaticClicked === false || showExtractionTutorial === 1;
+                                break;
+                        }
+                    }
+
+                    if (showTutorial) {
+                        $('#custom-modal').attr('data-help-items-key', helpKey);
+                        $('#custom-modal').attr('data-help-context', helpContext);
+                        $('#custom-modal').attr('data-help-show-tutorial', parseInt(helpContext === 'study' ? showStudyTutorial : showExtractionTutorial));
+                        loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
                     }
                 }
-
-                console.log(helpContext, helpKey);
-                $('#custom-modal').attr('data-help-items-key', helpKey);
-                $('#custom-modal').attr('data-help-context', helpContext);
-                $('#custom-modal').attr('data-help-show-tutorial', parseInt(helpContext === 'study' ? <?php echo $_SESSION['tutorialStudy'] ?> : <?php echo $_SESSION['tutorialExtraction'] ?>));
-                loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
+                tutorialAutomaticClicked = false;
             });
 
             $('#btn-scroll-to-top').click(function (event) {

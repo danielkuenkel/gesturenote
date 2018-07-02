@@ -1,4 +1,4 @@
-function renderData(data, hash, showStudyTutorial, showExtractionTutorial) {
+function renderData(data, hash) {
     var studyData = data.studyData;
     // general data view
     $('#study-headline').text(studyData.generalData.title);
@@ -206,6 +206,11 @@ function renderData(data, hash, showStudyTutorial, showExtractionTutorial) {
             window.location.hash = activeId;
             $(document).scrollTop(0);
             TweenMax.from($('#main-content'), .2, {y: -10, opacity: 0.0, clearProps: 'all'});
+            
+            setTimeout(function() {
+                tutorialAutomaticClicked = true;
+                $('#tab-introduction a').click();
+            }, 300);
         }
     });
 
@@ -216,9 +221,9 @@ function renderData(data, hash, showStudyTutorial, showExtractionTutorial) {
         $('#tab-pane').find('#general a').click();
     }
 
-    if (showStudyTutorial === 1 || showExtractionTutorial === 1) {
-        $('#tab-introduction a').click();
-    }
+//    if (showStudyTutorial === 1 || showExtractionTutorial === 1) {
+//        $('#tab-introduction a').click();
+//    }
 
     function renderCatalogs() {
         // catalogs view
