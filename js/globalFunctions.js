@@ -3228,8 +3228,8 @@ function unlockButton(button, hideLoadingIndicator, originalIcon) {
  * 
  */
 function getGesturePreviewIndex(source) {
-    console.log(source);
-    return $(source).find('.previewImage').attr('data-index');
+    var imageIndex = $(source).find('.previewImage').attr('data-index');
+    return imageIndex !== undefined ? imageIndex : 0;
 }
 
 /*
@@ -3336,12 +3336,12 @@ $(document).on('click', '.btn-tag-as-preview', function (event) {
         var previewImageIndex = parseInt($(this).closest('.root').find('.previewImage').attr('data-index')) + 1;
         $(this).find('.preview-image-index').text(previewImageIndex);
 
-        var gesture = getGestureById($(this).attr('data-gesture-id'));
-        if (gesture) {
-
-        } else {
-
-        }
+//        var gesture = getGestureById($(this).attr('data-gesture-id'));
+//        if (gesture) {
+//
+//        } else {
+//
+//        }
 
         unlockButton(button, true, 'fa-bookmark-o');
     }

@@ -156,6 +156,8 @@ if (login_check($mysqli) == true) {
             </nav>
         </div>
 
+        <div id="ueq-arrows-container" style="position: absolute; top:0px; left:0px"></div>
+
 
         <script>
             var resultsPlayer = null;
@@ -749,7 +751,6 @@ if (login_check($mysqli) == true) {
 
 
                 var qualities = {attractiveness: {sum: 0.0, max: 0}, pragmaticQuality: {sum: 0.0, max: 0}, hedonicQuality: {sum: 0.0, max: 0}};
-//                var cloneArrows = [];
                 for (var key in scales) {
                     var scaleValue = parseFloat(parseInt(scales[key].sum) / parseInt(scales[key].max)).toFixed(2);
                     $(content).find('.ueq-scales-statistics .' + key + ' .text').text(scaleValue);
@@ -771,47 +772,70 @@ if (login_check($mysqli) == true) {
                     qualities[translation.ueqMainDimensionsForDimension[key]].max++;
                 }
 
-                var count = 0;
-                for (var key in qualities) {
 
-                    var qualityValue = (parseFloat(qualities[key].sum) / parseInt(qualities[key].max)).toFixed(2);
-                    $(content).find('.ueq-quality-statistics .' + key + ' .text').text(qualityValue);
+                var timeline = null;
+                var firstOffsetY = -4;
+                var playTweenTimeout = 0;
+                $(window).on('resize', function () {
+                    clearTimeout(playTweenTimeout);
+                    playTweenTimeout = setTimeout(function () {
+                        var count = 0;
+                        timeline = new TimelineMax({paused: true});
+                        $('body').find('.tweenable-arrow').remove();
 
-                    var arrow = null;
-                    if (qualityValue < -0.8) {
-                        arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-red');
-                        $(arrow).removeClass('hidden');
-                    } else if (qualityValue > 0.8) {
-                        arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-green');
-                        $(arrow).removeClass('hidden');
-                    } else {
-                        arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-yellow');
-                        $(arrow).removeClass('hidden');
-                    }
-                    var tweenToPosition = $(arrow).offset();
+                        for (var key in qualities) {
+                            var qualityValue = (parseFloat(qualities[key].sum) / parseInt(qualities[key].max)).toFixed(2);
+                            $(content).find('.ueq-quality-statistics .' + key + ' .text').text(qualityValue);
 
-                    var tweenArrows = $(content).find('.ueq-scales-statistics [data-quality-id=' + key + ']');
-                    for (var i = 0; i < tweenArrows.length; i++) {
-                        var originPosition = $(tweenArrows[i]).offset();
-                        var tweenArrow = $(tweenArrows[i]).clone().removeAttr('data-quality-id');
-                        $('body').append(tweenArrow);
+                            var arrow = null;
+                            if (qualityValue < -0.8) {
+                                arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-red');
+                                $(arrow).removeClass('hidden');
+                            } else if (qualityValue > 0.8) {
+                                arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-green');
+                                $(arrow).removeClass('hidden');
+                            } else {
+                                arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-yellow');
+                                $(arrow).removeClass('hidden');
+                            }
+                            var tweenToPosition = $(arrow).offset();
 
-                        $(tweenArrow).css({opacity: 0, position: 'absolute', top: (originPosition.top - 4) + 'px', left: originPosition.left + 'px'});
-                        TweenMax.to(tweenArrow, .1, {delay: .5 + (count * .5), css: {opacity: 1}});
-                        TweenMax.to(tweenArrow, 1.0, {delay: .7 + (count * .5), css: {top: (tweenToPosition.top - 4) + 'px', left: tweenToPosition.left + 'px'}});
-                        TweenMax.to(tweenArrow, .1, {delay: 1.6 + (count * .5), css: {opacity: 0}});
-                    }
-                    count++;
+                            var tweenArrows = $(content).find('.ueq-scales-statistics [data-quality-id=' + key + ']');
+                            for (var i = 0; i < tweenArrows.length; i++) {
+                                var originPosition = $(tweenArrows[i]).offset();
+                                var tweenArrow = $(tweenArrows[i]).clone().removeAttr('data-quality-id');
+                                $(tweenArrow).addClass('tweenable-arrow');
+                                $('body').append(tweenArrow);
+                                $(tweenArrow).css({opacity: 0, position: 'absolute', top: (originPosition.top + firstOffsetY) + 'px', left: originPosition.left + 'px', pointerEvents: 'none'});
+                                timeline.add("start", 0)
+                                        .to(tweenArrow, .1, {delay: (count * .3), css: {opacity: 1}}, "start")
+                                        .to(tweenArrow, 1.0, {delay: .1 + (count * .3), css: {top: (tweenToPosition.top + firstOffsetY) + 'px', left: tweenToPosition.left + 'px'}, ease: Quad.easeInOut}, "start")
+                                        .to(tweenArrow, .1, {delay: 1 + (count * .3), css: {opacity: 0}}, "start");
+                            }
+                            count++;
 
+                        }
+                        timeline.reverse();
+                        firstOffsetY = -4;
+
+                        timeline.invalidate().restart();
+                        addArrowEvents();
+                    }, 300);
+                }).resize();
+
+                function addArrowEvents() {
+                    var clickableArrows = $(content).find('.arrow-green:not(.hidden), .arrow-yellow:not(.hidden), .arrow-red:not(.hidden)');
+                    $(clickableArrows).css({cursor: 'pointer'});
+                    $(clickableArrows).unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        timeline.reversed() ? timeline.play() : timeline.reverse();
+
+                    });
                 }
-
-
-//                console.log(cloneArrows);
             }
 
             var currentGUSData = null;
             function renderSingleGUS(content, studyData, resultsData) {
-//                console.log(studyData, resultsData);
                 currentGUSData = studyData;
                 renderQuestionnaireAnswers(content, getAssembledItems(studyData.gus), resultsData, true);
 

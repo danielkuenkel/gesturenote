@@ -27,6 +27,7 @@ include '../includes/language.php';
                                 <div class="controls-container embed-responsive-item">
                                     <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                     <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
+                                    <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single btn-tag-as-preview hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i> <?php echo $lang->previewImage ?>: <span class="preview-image-index">1</span></div>
                                 </div>
                             </div>
 
@@ -547,7 +548,7 @@ include '../includes/language.php';
             return false;
         }
 
-console.log(gesture);
+//console.log(gesture);
         var container = $('#modal-body');
         container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
         container.find('#title .text').text(gesture.title);
@@ -602,9 +603,10 @@ console.log(gesture);
         if (gesture.images && gesture.images.length > 0) {
             renderGesturePreview(container.find('#webcam-preview'), gesture);
 //            $(container).find('#toggle-gesture-recording-source #btn-webcam').removeClass('hidden');
-            console.log('render Gesture preview', $(container).find('.sensor-content [data-toggle-sensor=webcam]'));
+//            console.log('render Gesture preview', $(container).find('.sensor-content [data-toggle-sensor=webcam]'));
             $(container).find('.sensor-content [data-sensor-source=webcam]').removeClass('hidden');
             $(container).find('.sensor-content [data-toggle-sensor=webcam]').click();
+            $(container).find('.preview-image-index').text((parseInt(gesture.previewImage) + 1));
         }
 
 //        renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
@@ -642,17 +644,17 @@ console.log(gesture);
                         if (result.status === RESULT_SUCCESS) {
                             updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, type: type, interactionType: interactionType, context: result.context, association: association, description: result.description, joints: result.joints, previewImage: result.previewImage});
                             $(thumbnail).find('.gesture-name').text(title);
-                            $('#modal-body #btn-choose-preview-image').addClass('hidden');
+//                            $('#modal-body #btn-choose-preview-image').addClass('hidden');
                             $(thumbnail).find('.previewGesture .gestureImage').removeClass('previewImage active ');
                             $(thumbnail).find('.previewGesture .gestureImage').addClass('hidden');
                             $($(thumbnail).find('.previewGesture .gestureImage')[previewImageIndex]).addClass('previewImage active');
                             $($(thumbnail).find('.previewGesture .gestureImage')[previewImageIndex]).removeClass('hidden');
+                            $('#modal-body #webcam-preview').find('.btn-tag-as-preview').addClass('hidden');
                             $(button).removeClass('gesture-editable').addClass('gesture-previewable');
                             $(button).find('.btn-text').text(translation.edit);
                             $('#modal-body #gesture-data-preview').removeClass('hidden');
                             $('#modal-body #gesture-data-edit').addClass('hidden');
                             currentPreviewGesture.gesture = getGestureById(result.id, currentPreviewGesture.source);
-//                            console.log('btn-edit', currentPreviewGesture, result.id);
                             originalFilterData = getLocalItem(currentPreviewGesture.source);
                             renderGeneralGestureInfo();
                         } else {
@@ -667,13 +669,17 @@ console.log(gesture);
                 $('#modal-body #gesture-data-preview').addClass('hidden');
                 $('#modal-body #gesture-data-edit').removeClass('hidden');
                 $('#modal-body #btn-delete-gesture, #modal-body .btn-share').addClass('disabled');
-                $('#modal-body #btn-choose-preview-image').removeClass('hidden');
+//                $('#modal-body #btn-choose-preview-image').removeClass('hidden');
                 $('#gesture-name-input').val(gesture.title);
                 if (gesture.type !== "") {
                     $('#gesture-data-edit #gestureTypeSelect').find('#' + gesture.type).click();
                 }
                 if (gesture.interactionType !== "") {
                     $('#gesture-data-edit #gestureInteractionTypeSelect').find('#' + gesture.interactionType).click();
+                }
+                
+                if(gesture.images && gesture.images.length > 0) {
+                    $('#modal-body #webcam-preview').find('.btn-tag-as-preview').removeClass('hidden');
                 }
 
                 $('#gesture-association-input').val(gesture.association);
@@ -683,15 +689,15 @@ console.log(gesture);
             }
         });
 
-        $('#modal-body #btn-choose-preview-image').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-
-            var previewImage = $(this).closest('.root').find('.previewImage');
-            previewImage.removeClass('previewImage');
-            var visibleImage = $(this).closest('.root').find('.active');
-            visibleImage.addClass('previewImage');
-            console.log('tag as preview image', previewImage, visibleImage);
-        });
+//        $('#modal-body #btn-choose-preview-image').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//
+//            var previewImage = $(this).closest('.root').find('.previewImage');
+//            previewImage.removeClass('previewImage');
+//            var visibleImage = $(this).closest('.root').find('.active');
+//            visibleImage.addClass('previewImage');
+////            console.log('tag as preview image', previewImage, visibleImage);
+//        });
 
         if ($(thumbnail).hasClass('deleteable')) {
             $(container).find('#btn-delete-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {

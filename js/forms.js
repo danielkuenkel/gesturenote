@@ -2529,7 +2529,7 @@ function renderSUSItem(item, studyData, answer) {
 
 function renderUEQItem(item, studyData, answer) {
     var score = 0;
-    console.log(answer);
+//    console.log(answer);
 
     if (studyData.parameters.negative === 'yes') {
         $(item).find('#negative').removeClass('hidden');
