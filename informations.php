@@ -52,7 +52,9 @@ include_once 'includes/functions.php';
 
         <!-- Container (Landing Section) -->
         <div class="container mainContent" style="margin-top: 0px">
-            <div class="row">
+            <div class='text' id="help-description"><?php echo $lang->infosContent->general->content ?></div>
+            
+            <div class="row" style="margin-top: 120px">
                 <div class="col-md-5 col-md-push-7 text-center text" style="margin-bottom: 30px">
                     <i class="fa fa-pencil fa-5x"></i> 
                     <h2 style="margin-top: 4px" class="uppercase font-bold"><?php echo $lang->infosContent->planning->title ?></h2>

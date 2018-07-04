@@ -124,8 +124,8 @@
         "placeHolder": "Suchbegriff eingeben (Gesten-Set-Titel)"
     },
     "whatIsGesturenote": "Was ist GestureNote?",
-    "whatIsGesturenote2": "Die Vision von GestureNote ist, unterschiedliche und typisch verwendete Vorgehensweisen, Ansätze und Methoden in einem einzigen Tool zu vereinen.",
-    "whatIsGesturenote3": "Weg von ortsgebundenen Gesten-Ermittlungen und -Evaluierungen, hin zu schnellen und einfachen Remote-Gesten-Design-Studien. Die Einbettung in den Usability-Engineering-Lifecycle ist für GestureNote kein Problem.",
+    "whatIsGesturenote2": "Mit GestureNote können ortsungebundene Gesten-Design-Studien geplant, durchgeführt und analysiert werden.",
+    "whatIsGesturenote3": "<p><strong>Verlassen Sie das Usability-Lab und befragen Sie ihre Zielgruppe weltweit. GestureNote unterstützt Sie mit bekannten Methoden und Vorgehensweisen aus der Literatur, bietet darüber hinaus aber auch neue Ansätze (wie z.B. den Gesture Usability Scale oder Remote-Wizard-of-Oz-Experimente).</strong></p><p>Dieses Promotionsvorhaben wird an der Hochschule Fulda durchgeführt.</p>",
     "whatOffersGesturenote": "Was bietet GestureNote?",
     "whatOffersGesturenote2headline": "Remote Usability-Tests",
     "whatOffersGesturenote2text": "Befragen Sie einfach und umkompliziert ihre Zielgruppe - Weltweit!",
@@ -150,6 +150,9 @@
     "cookieHint": "Cookies erleichtern das Bereitstellen unserer Dienste. Mit der Nutzung unserer Dienste erklären Sie sich damit einverstanden, dass wir Cookies verwenden.",
     "acceptCookies": "OK",
     "infosContent": {
+        "general": {
+            "content": "<p>GestureNote entsteht im Rahmen der Promotion mit dem Titel <em>Werkzeuggestütztes Remote-Design gestenbasierter Interaktionen</em>. Das Promotionsvorhaben beschäftigt sich mit den theoretischen und praktischen Grundlagen bekannter Methoden und Vorgehensweisen für den Gesten-Design-Prozess. Die Leitfrage, die man sich für Gesten-Interaktionen in der Mensch-Computer-Interaktion immer wieder stellen muss, ist: Was sind gute Gesten und wie kann man sie designen?</p><div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px;' src='img/de/introduction/study-create/gesture-design-process.svg'><div class='image-caption'>Die drei Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluieurng</em> im Gesten-Design-Prozess. Blaue Boxen stellen mögliche Einstiegspunkte dar. Gelbe Boxen stellen die Ergebnisse der jeweiligen Phase dar.</div></div><p>Um an gute Gesten zu gelangen durchläuft ein sog. Gesten-Designer in der Regel drei Phasen im Gesten-Design-Prozess: Ermittlung, Extraktion und Evaluierung. Bei der <strong>Ermittlung</strong> werden Gesten für Interaktionsaufgaben wie z.B. <em>Musik lauter stellen</em> gesucht. Der Gesten-Designer erfragt diese aktuell entweder in einem Usability-Lab oder vorort mit Hilfe szenariobasierter Aufgaben. Die Gesten werden aufgezeichnet und anschließend ausgewertet. Danach erfolgt meist eine Klassifizierung in der <strong>Exkration</strong>, d.h. der Gesten-Designer gruppiert die ermittelten Gesten und analysiert, welche Gesten für eine Evaluierung in Frage kämen (sog. potentielle Gesten). Die potentiellen Gesten werden dann in einem Gesten-Set zusammengefasst. Bei der <strong>Evaluierung</strong> werden dann die potentiellen Gesten auf ihre Gebrauchstauglichkeit und weitere Aspete (z.B. Erlernbarkeit, Ergonomie, etc.) hin überprüft. Wie in der oberen Abbildung zu sehen ist, gibt es nicht nur den einen Weg um an gute Gesten zu gelangen. Der Gesten-Designer kann z.B. ohne potentielle Nutzer Gesten expertenbasiert für eine Evaluierung zusammenstellen. Eine Extraktion kann ebenso auch nutzerzentriert durchgeführt werden.</p><p>Der nutzerzentrierte Anteil ist in der Regel sehr hoch. Dadurch können potentielle Endanwender früh in den Design-Prozess eingebunden werden. Es hat sich jedoch gezeigt, dass diese Vorgehensweise sehr aufwendig und zeitraubend ist. Die ortsgebundenen Befragungen erlauben zudem eine geringe und oft nur regionale Stichprobe. Des Weiteren kommt hinzu, dass unerfahrene Gesten-Designer (wie z.B. Studierende) nicht wissen, auf was beispielsweise bei einer Gesten-Evaluierung alles zu achten ist. Für jede Design-Phase stehen unterschiedliche Methoden und Vorgehensweisen zur Verfügung. Um einen schnellen Überblick zu bekommen, muss man in Erfahrung bringen welche Methoden es gibt und was die Besonderheiten sind.</p><p>Mit GestureNote wird versucht, diese Probleme zu lösen und darüber hinaus die Phasen des Gesten-Design-Prozesses in der Planung, Durchführung und Analyse zu unterstützen. Zum einen wurden bekannte Methoden und Vorgehensweisen aus der Literatur in GestureNote integriert und erweitert (z.B. Wizard-of-Oz-Experimente, Gesten-Training, Physischer Belastungstest, etc.). Zum anderen wurden neue Ansätze identifiziert und entwickelt (z.B. Gesture Usability Scale, Gesten-Katalog, etc.).</p><p>Nachfolgend sind auszugsweise Beispiele für die Planung, Durchführung und Analyse dargestellt. Eine Übersicht über die wichtigesten Features ist weiter unten zu finden.</p>"
+        },
         "planning": {
             "title": "Planung",
             "content": "Einfache Erstellung von Leitfäden,<br/>Zugriff auf Gesten-Katalog,</br>Unterstützung gängiger Gesten-Design-Methoden,<br/>Anbindung von Prototypen,<br/>Studien-Design-Vorschau,</br>Gesten-Styleguides.",
@@ -179,11 +182,11 @@
                 }
             },
             "expertbased": {
-                "subline": "Hier steht die Analyse und Bewertung von Gesten-Interaktionen durch Gesten-Designer im Fokus. GestureNote unterstützt Vorgehensweisen und Methoden, die ohne direkten Kontakt zu potentiellen Nutzern von Gesten-Interaktionen auskommen. Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.",
+                "subline": "Hier steht die Analyse und Bewertung von Gesten-Interaktionen durch den Gesten-Designer im Fokus. GestureNote unterstützt Vorgehensweisen und Methoden, die ohne direkten Kontakt zu potentiellen Nutzern von Gesten-Interaktionen auskommen. Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.",
                 "content": {
                     "col01": "<ul><li><strong>Gesten-Recorder:</strong> Aufzeichnung von Gesten mit über Webcam und/oder Leap Motion Controller.</li><li><strong>Gesten-Katalog:</strong> Zugriff auf alle erstellten und von anderen Gesten-Designern freigegebene Gesten.</li></ul>",
                     "col02": "<ul><li><strong>Klassifizierung:</strong> Einfaches Klassifizieren von nutzerzentriert ermittelten Gesten.</li><li><strong>Potentielle Gesten:</strong> Bewertung klassifizierter Gesten auf Basis bereitgestellter Kennzahlen (Anzahl von Gesten, statische Übereinstimmung nach Wobbrock) und Bewertungsinstrumenten (Checkliste, Sinnzusammenhänge).</li><li><strong>Gesten-Sets:</strong> Fassen Sie potentielle Gesten zu einem Gesten-Set zusammen, um diese für eine Evaluierung zu verwenden.</li></ul>",
-                    "col03": "<ul><li><strong>Rohdaten:</strong> Bereitstellung von Rohdaten (Videos, Gesten, Fragebögen, Beobachtungen, etc.).</li><li><strong>Umfangreicher Video-Player:</strong> Automatische Synchronisierung von Videodaten (Moderator, Proband, Prototyp).</li><li><strong>Zeitleiste & Annotationen:</strong> Synchroniserte Darstellung automatische gespeicherter Annotationen. Hinzufügen/Löschen von Annotationen.</li><li><strong>Automatische Score-Berechnung:</strong> SUS-Scores, sowie Scores für „Gesten erraten“ und „Funktionen erraten“ werden automatisch berechnet.</li><li><strong>Notizen:</strong> Fügen Sie wichtige Notizen zu jedem Leitfadenschritt hinzu.</li><li><strong>Teilen von Ergebnissen:</strong> Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.</li><li><strong>Gesten-Katalog:</strong> Teilen Sie ermittelte Gesten mit anderen Gesten-Designern. Diskutieren und bewerten Sie Gesten mit anderen Gesten-Designern.</li></ul>" 
+                    "col03": "<ul><li><strong>Rohdaten:</strong> Sichtung von Rohdaten (Videos, Gesten, Fragebögen, Beobachtungen, etc.).</li><li><strong>Umfangreicher Video-Player:</strong> Automatische Synchronisierung von Videodaten (Moderator, Proband, Prototyp).</li><li><strong>Zeitleiste & Annotationen:</strong> Synchroniserte Darstellung automatische gespeicherter Annotationen. Hinzufügen/Löschen von Annotationen.</li><li><strong>Automatische Score-Berechnung:</strong> SUS-Scores, UEQ-Scales, sowie Scores für <em>Gesten erraten</em> und <em>Funktionen erraten</em> werden automatisch berechnet.</li><li><strong>Notizen:</strong> Fügen Sie wichtige Notizen zu jedem Leitfadenschritt hinzu.</li><li><strong>Teilen von Ergebnissen:</strong> Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.</li><li><strong>Gesten-Katalog:</strong> Teilen Sie ermittelte Gesten mit anderen Gesten-Designern. Diskutieren und bewerten Sie Gesten mit anderen Gesten-Designern.</li></ul>" 
                 }
             }
         }
@@ -693,7 +696,7 @@
         "profile": "Profil",
         "profilePanelBody": "Anzeigen und bearbeiten der Nutzerdaten.",
         "publications": "Veröffentlichungen",
-        "publicationsPanelBody": "Wissenschaftliche Beiträge zum Thema Gesten-Designprozess",
+        "publicationsPanelBody": "Wissenschaftliche Beiträge zum Thema Gesten-Design-Prozess",
         "help": "Hilfe",
         "helpPanelBody": "Zugriff auf sämtliche Inhalte der bereitgestellten Hilfebeiträge."
     },
@@ -1901,6 +1904,8 @@
         "socialAcceptance": "satisfaction",
         "discrimination": "satisfaction"
     },
+    "totalGUSItem":"Insgesamt {x} Item",
+    "totalGUSItems":"Insgesamt {x} Items",
     "dimensions": {
         "taskAppropriateness": {
             "title": "Aufgabenangemessenheit",
@@ -2082,13 +2087,12 @@
     },
     "gestureStyleguides": {
         "process": {
-            "headline": "Gesten-Designprozess",
-            "info": "<p>Ein Gesten-Designprozess besteht typischerweise aus den 3 Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluierung</em> von Gesten. Diese Phasen können in den Usability Engineering Lifecycle eingebettet werden. Einen Überblick über die einzelnen Phasen, den jeweiligen Schritten und den Zusammenhängen bietet die nachfolgende Abbildung als Flowchart.</p>",
-            "processImage": "img/de/introduction/study-create/gesture-design-process.svg"
+            "headline": "Gesten-Design-Prozess",
+            "info": "Die Leitfrage, die man sich für Gesten-Interaktionen in der Mensch-Computer-Interaktion immer wieder stellen muss, ist: Was sind gute Gesten und wie kann man sie designen?</p><div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px;' src='img/de/introduction/study-create/gesture-design-process.svg'><div class='image-caption'>Die drei Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluieurng</em> im Gesten-Design-Prozess. Blaue Boxen stellen mögliche Einstiegspunkte dar. Gelbe Boxen stellen die Ergebnisse der jeweiligen Phase dar.</div></div><p>Um an gute Gesten zu gelangen durchläuft ein sog. Gesten-Designer in der Regel drei Phasen im Gesten-Design-Prozess: Ermittlung, Extraktion und Evaluierung. Bei der <strong>Ermittlung</strong> werden Gesten für Interaktionsaufgaben wie z.B. <em>Musik lauter stellen</em> gesucht. Der Gesten-Designer erfragt diese aktuell entweder in einem Usability-Lab oder vorort mit Hilfe szenariobasierter Aufgaben. Die Gesten werden aufgezeichnet und anschließend ausgewertet. Danach erfolgt meist eine Klassifizierung in der <strong>Exkration</strong>, d.h. der Gesten-Designer gruppiert die ermittelten Gesten und analysiert, welche Gesten für eine Evaluierung in Frage kämen (sog. potentielle Gesten). Die potentiellen Gesten werden dann in einem Gesten-Set zusammengefasst. Bei der <strong>Evaluierung</strong> werden dann die potentiellen Gesten auf ihre Gebrauchstauglichkeit und weitere Aspete (z.B. Erlernbarkeit, Ergonomie, etc.) hin überprüft.</p><p>Der nutzerzentrierte Anteil ist in der Regel sehr hoch. Dadurch können potentielle Endanwender früh in den Design-Prozess eingebunden werden. Nutzer werden im Anschluss jedes Benutzertests über die Gebrauchstauglichkeit von Gesten befragt (mit Hilfe von Fragebögen oder Interviews). In jeder Studie gibt es andere Anforderungen und Ziele, weshalb die Fragen stark varrieren können. Mit dem bereitgestellten Gesture Usability Scale (GUS) bietet GestureNote einen Fragebogenbaukasten an, der speziell für die subjektive Bewertung von Gesten-Interaktionen in der Evaluierungsphase genutzt werden kann. Es können unterschiedliche Aspekte wie z.B. <em>Aufgabenangemessenheit</em>, <em>Erlern- & Erinnerbarkeit</em> oder <em>Soziale Akzeptanz</em> abgefragt werden. Dabei können alle genutzten Gesten auf einmal oder einzelne Gesten nacheinander abgefragt werden. Zudem stellt GestureNote allgemeine Styleguides, die den Gesten-Design-Prozess betreffen, zur Verfügung.</p><p>Die bereitgestellten Items für den GUS und die allgemeinen Styleguides wurden auf Basis von Literaturrecherchen und eigenen Erfahrungen im Kontext der gestenbasierten Mensch-Computer-Interaktion entwickelt. Der GUS wird in Lehrveranstaltungen mit Schwerpunkt Usability Engineering eingesetzt und weiter entwickelt.</p>"
         },
         "processStyleguides": {
             "headline": "Allgemeine Styleguides",
-            "info": "Diese Styleguides beziehen sich auf den Gesten-Designprozess in seiner Gänze. Sie dienen als Wegweiser."
+            "info": "Diese Styleguides beziehen sich auf den Gesten-Design-Prozess in seiner Gänze. Sie dienen als Wegweiser."
         },
         "heuristics": {
             "headline": "Heuristiken",
@@ -2096,7 +2100,9 @@
         },
         "usabilityScale": {
             "headline": "Gesture Usability Scale",
-            "info": "Der Gesture Usability Scale (GUS) ist ein Baukasten zum Erstellen von Fragebögen für die subjektive Bewertung der Gebrauchstauglichkeit von Gesten durch den Benutzer oder Probanden. Beim Konfigurieren einer neuen Studie kann der GUS in zwei Varianten genutzt werden. Nachfolgend wird ein Überblick über die einzelnen Items (rechts) und deren zugrunde liegenden Styleguides (links) gegeben."
+            "createGUSImageUrl":"img/de/introduction/study-create/carousel-04-04.jpg",
+            "createGUSImageCaption":"Auszug aus der Fragebogenerstellung für einen GUS, welcher die Bewertung mehrerer Gesten auf einmal erlaubt. Einzelne Aspekte können auf der rechten Seite an und abgewählt werden.",
+            "info": "Der Gesture Usability Scale (GUS) ist ein Baukasten zum Erstellen von Fragebögen für die subjektive Bewertung der Gebrauchstauglichkeit von Gesten durch den Benutzer oder Probanden (siehe oberes Bild). Beim Konfigurieren einer neuen Studie kann der GUS in zwei Varianten genutzt werden. Nachfolgend wird ein Überblick über die einzelnen Items (rechts) und deren zugrunde liegenden Styleguides (links) gegeben."
         },
         "references": {
             "headline": "Literatur & Quellen"
@@ -4308,7 +4314,7 @@
         }
     ],
     "generalGestureProcessStyleguides": {
-        "sg1": "Ergebnis eines Gesten-Designprozesses sind ergonomische, komfortable und benutzbare (d.h. effiziente, einfache und intuitive) Gesten. (Intel, 2012; Microsoft, 2013; Nielsen et al., 2004; Wachs et al., 2011)",
+        "sg1": "Ergebnis eines Gesten-Design-Prozesses sind ergonomische, komfortable und benutzbare (d.h. effiziente, einfache und intuitive) Gesten. (Intel, 2012; Microsoft, 2013; Nielsen et al., 2004; Wachs et al., 2011)",
         "sg2": "Kreativität beim Design von Gesten zahlt sich bei der Interaktion aus. (Leap Motion, n.d.-a) Jede Iteration des Gestendesigns sollte mit Endanwendern durchgeführt werden (Ashbrook & Starner, 2010)",
         "sg3": "In der Analysephase sollten Interaktionsabsichten bestimmt werden. D.h. wann möchte der Nutzer mit dem System interagieren? (Microsoft, 2013)",
         "sg4": "Interaktionale Kosten für seltene oder große Anzahl von Benutzern geringhalten. (Microsoft, 2013)",

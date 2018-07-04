@@ -945,11 +945,11 @@ li.disabledTab > a[data-toggle="tab"] {
     margin-top: 30px;
 }
 
-#help-description .image-with-caption {
+.image-with-caption {
     position: relative;
 }
 
-#help-description .image-caption {
+.image-caption {
 /*    position: absolute;
     bottom:0px;*/
     width: 100%;

@@ -111,7 +111,8 @@ if (login_check($mysqli) == true) {
                         </div>
                         <div class="info-text text">
                             <p><?php echo $lang->whatIsGesturenote2 ?></p>
-                            <p><strong><?php echo $lang->whatIsGesturenote3 ?></strong></p>
+                            <p><?php echo $lang->whatIsGesturenote3 ?></p>
+                            <button class="btn btn-default btn-shadow" id="btn-more-infos"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->moreInfos ?></span></button>
                         </div>
                     </div>
                 </div>

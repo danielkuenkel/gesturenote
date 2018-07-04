@@ -17,7 +17,7 @@ if (login_check($mysqli) == true) {
         <title><?php echo $lang->gestureNoteStyleguides ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -25,11 +25,11 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
-        
+
         <script src="js/refreshSession.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/storage.js"></script>
@@ -63,10 +63,10 @@ if (login_check($mysqli) == true) {
         <div class="container" id="general-styleguides" style="margin-top: 0px">
             <h2 style="margin-top: 40px"><?php echo $lang->gestureStyleguides->process->headline ?></h2>
             <hr>
-            <div class="text">
+            <div id="help-description" class="text">
                 <?php echo $lang->gestureStyleguides->process->info ?>
             </div>
-            <img src="<?php echo $lang->gestureStyleguides->process->processImage ?>" class="img-responsive" style="display: block; margin-left: auto; margin-right: auto"/>
+            <!--<img src="<?php echo $lang->gestureStyleguides->process->processImage ?>" class="img-responsive" style="display: block; margin-left: auto; margin-right: auto"/>-->
         </div>
 
         <div class="container" id="general-styleguides" style="margin-top: 50px">
@@ -106,7 +106,8 @@ if (login_check($mysqli) == true) {
         <div class="container" id="gus-styleguides" style="margin-top: 50px">
             <h2><?php echo $lang->gestureStyleguides->usabilityScale->headline ?></h2>
             <hr>
-            <p><?php echo $lang->gestureStyleguides->usabilityScale->info ?></p>
+            <div id="help-description"><div class="image-with-caption text-center"><img class='img-image' style="max-width: 968px" src="<?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageUrl ?>"/><div class='image-caption'><?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageCaption ?></div></div></div>
+            <p class="text"><?php echo $lang->gestureStyleguides->usabilityScale->info ?></p>
             <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-single">
                 <h4 class="pull-left"><?php echo $lang->gusForSingleGesture ?></h4>
                 <div id="plus-sign" class="pull-right"><i class="fa fa-plus"></i></div>
@@ -148,7 +149,20 @@ if (login_check($mysqli) == true) {
         </div>
 
         <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors-headline">
-            <div class="label label-primary" id="factor-primary"></div>
+            <div class="row">
+                <div class="col-sm-6 col-md-5 col-lg-4">
+                    <div class="panel panel-default panel-shadow" style="background-color: #0480BE;color: white;">
+                        <div class="panel-body" style="padding: 15px 15px 10px 15px">
+                            <h3 class="factor-headline" style="margin: 0; font-weight: bold;"></h3>
+                            <div class="factor-description" style="margin-top: 10px; line-height: 12pt; font-size: 10pt;"></div>
+                            <div class="pull-right factor-total-items" data-total="0" style="color:#81D0FD; font-size: 9pt; font-weight: bold; margin-top: 4px">Insgesamt 1 Item</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="label label-primary" id="factor-primary"></div>-->
+            <!--<div class="factor-description" id=""></div>-->
         </div>
 
         <script>
@@ -190,7 +204,8 @@ if (login_check($mysqli) == true) {
                         if (currentDimension !== gus[i].dimension) {
                             currentDimension = gus[i].dimension;
                             var headline = $('#item-factors-headline').clone().removeClass('hidden').removeAttr('id');
-                            $(headline).find('#factor-primary').text(translation.dimensions[currentDimension].title);
+                            $(headline).find('.factor-headline').text(translation.dimensions[currentDimension].title);
+                            $(headline).find('.factor-description').text(translation.dimensions[currentDimension].popover);
                             $(target).append(headline);
 
                             if (i > 0) {
@@ -200,6 +215,12 @@ if (login_check($mysqli) == true) {
                             $(row).css({marginTop: "20px"});
                         }
 
+                        var totalItems = parseInt($(headline).find('.factor-total-items').attr('data-total')) + 1;
+                        console.log($(headline).find('.factor-total-items').attr('data-total'));
+                        var totalItemsText = totalItems === 1 ? translation.totalGUSItem : translation.totalGUSItems;
+                        totalItemsText = totalItemsText.replace('{x}', totalItems);
+                        $(headline).find('.factor-total-items').text(totalItemsText);
+                        $(headline).find('.factor-total-items').attr('data-total', totalItems);
                         $(target).append(row);
                     }
                 }
@@ -216,12 +237,12 @@ if (login_check($mysqli) == true) {
                         TweenMax.to($(this).find('#plus-sign'), .3, {rotation: '0'});
                         $('#multiple-gus-list, #single-gus-list').addClass('hidden');
                     } else {
-                        
+
                         $('.btn-toggle-gus-items').removeClass('active');
                         $(this).addClass('active');
                         TweenMax.to($('.btn-toggle-gus-items').find('#plus-sign'), .3, {rotation: '0'});
                         TweenMax.to($(this).find('#plus-sign'), .3, {rotation: '45'});
-                        
+
                         if ($(this).attr('id') === 'btn-toggle-single') {
                             $('#single-gus-list').removeClass('hidden');
                             $('#multiple-gus-list').addClass('hidden');
@@ -231,7 +252,7 @@ if (login_check($mysqli) == true) {
                             $('#multiple-gus-list').removeClass('hidden');
                             TweenMax.from($('#multiple-gus-list'), .5, {opacity: 0});
                         }
-                        
+
                         var offset = $(this).offset();
                         $("html, body").animate({scrollTop: offset.top - 60}, "slow");
                     }
