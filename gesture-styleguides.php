@@ -109,8 +109,7 @@ if (login_check($mysqli) == true) {
             <div id="help-description"><div class="image-with-caption text-center"><img class='img-image' style="max-width: 968px" src="<?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageUrl ?>"/><div class='image-caption'><?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageCaption ?></div></div></div>
             <p class="text"><?php echo $lang->gestureStyleguides->usabilityScale->info ?></p>
             <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-single">
-                <h4 class="pull-left"><?php echo $lang->gusForSingleGesture ?></h4>
-                <div id="plus-sign" class="pull-right"><i class="fa fa-plus"></i></div>
+                <h4><span class="plus-sign pull-left" style="margin-right: 10px"><i class="fa fa-plus"></i></span> <?php echo $lang->gusForSingleGesture ?></h4>
             </div>
             <div style="clear: both"></div>
             <div id="single-gus-list" class="hidden">
@@ -119,8 +118,7 @@ if (login_check($mysqli) == true) {
             </div>
 
             <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-multiple">
-                <h4 class="pull-left"><?php echo $lang->gusForMultipleGestures ?></h4>
-                <div id="plus-sign" class="pull-right"><i class="fa fa-plus"></i></div>
+                <h4><span class="plus-sign pull-left" style="margin-right: 10px"><i class="fa fa-plus"></i></span> <?php echo $lang->gusForMultipleGestures ?></h4>
             </div>
             <div style="clear: both"></div>
             <div id="multiple-gus-list" class="hidden">
@@ -193,12 +191,12 @@ if (login_check($mysqli) == true) {
 
                         var column = document.createElement('div');
                         $(column).addClass('col-xs-6');
-                        $(column).html(gus[i].styleguide); // html because of the html tags in the translation
+                        $(column).text(gus[i].question);
                         $(row).append(column);
 
                         column = document.createElement('div');
                         $(column).addClass('col-xs-6');
-                        $(column).text(gus[i].question);
+                        $(column).html(gus[i].styleguide); // html because of the html tags in the translation
                         $(row).append(column);
 
                         if (currentDimension !== gus[i].dimension) {
@@ -209,7 +207,7 @@ if (login_check($mysqli) == true) {
                             $(target).append(headline);
 
                             if (i > 0) {
-                                $(headline).css({marginTop: "40px"});
+                                $(headline).css({marginTop: "100px"});
                             }
                         } else {
                             $(row).css({marginTop: "20px"});
@@ -234,14 +232,14 @@ if (login_check($mysqli) == true) {
                     if ($(this).hasClass('active')) {
                         $(this).removeClass('active');
 
-                        TweenMax.to($(this).find('#plus-sign'), .3, {rotation: '0'});
+                        TweenMax.to($(this).find('.plus-sign'), .3, {rotation: '0'});
                         $('#multiple-gus-list, #single-gus-list').addClass('hidden');
                     } else {
 
                         $('.btn-toggle-gus-items').removeClass('active');
                         $(this).addClass('active');
-                        TweenMax.to($('.btn-toggle-gus-items').find('#plus-sign'), .3, {rotation: '0'});
-                        TweenMax.to($(this).find('#plus-sign'), .3, {rotation: '45'});
+                        TweenMax.to($('.btn-toggle-gus-items').find('.plus-sign'), .3, {rotation: '0'});
+                        TweenMax.to($(this).find('.plus-sign'), .3, {rotation: '45'});
 
                         if ($(this).attr('id') === 'btn-toggle-single') {
                             $('#single-gus-list').removeClass('hidden');
@@ -254,7 +252,7 @@ if (login_check($mysqli) == true) {
                         }
 
                         var offset = $(this).offset();
-                        $("html, body").animate({scrollTop: offset.top - 60}, "slow");
+                        $("html, body").animate({scrollTop: offset.top - 60}, "fast");
                     }
                 }
             });

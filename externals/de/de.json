@@ -689,7 +689,7 @@
         "studies": "Studien-Übersicht",
         "studiesPanelBody": "Katalog der erstellten und durchgeführten Gesten-Designstudien. Sie können hier auch eine neue Studie erstellen.",
         "gesturesStyleguides": "Gesten-Styleguides",
-        "gesturesStyleguidesPanelBody": "Erfahren Sie, welchen Kriterien gebrauchstaugliche Gesten unterliegen.",
+        "gesturesStyleguidesPanelBody": "Erfahren Sie hier, welchen Kriterien gebrauchstaugliche Gesten unterliegen und welche Aspekte und Fragen im GUS zur Verfügung stehen.",
         "gesturesCatalog": "Gesten-Katalog",
         "news": "Aktuelles",
         "newsPanelBody": "Neuigkeiten und Updates rund um GestureNote auf einen Blick.",
@@ -1976,7 +1976,10 @@
             "delete": "Element löschen",
             "dontUseQuestion": "Frage deaktivieren",
             "useQuestion": "Frage aktivieren",
-            "editPhasestep": "Leitfadenschritt bearbeiten"
+            "editPhasestep": "Leitfadenschritt bearbeiten",
+            "readAloudText":"Text vorlesen",
+            "readAloudScenario": "Szenario vorlesen",
+            "readAloudTask": "Aufgabe vorlesen"
         },
         "studyCreate": {
             "title": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Es können zwei Studien mit dem gleichen Titel angelegt werden, z.B. einmal für eine <em>Ermittlung</em> und einmal für eine <em>Evaluierung</em>.",
@@ -3285,7 +3288,7 @@
                 "justification": "yes",
                 "justificationFor": "yes"
             },
-            "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011) Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011) Ermüdung vorbeugen, indem Gesten (für Intel) so designt werden, dass sie mit einem Ellbogen auf dem Tisch ausgeführt werden können Kurze Gesten, die kleine Pausen zulassen und keine präzisen Eingaben erfordern wirken Ermüdung entgegen. (Intel, 2012) Bei häufiger Verwendung sollen Gesten nicht ermüdend sein. (Microsoft, 2013; Nielsen et al., 2004) Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012) Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004) Eine Geste sollte von der Bewegung her nicht komisch sein. (Eigene Erfahrungen) Beachtung der genauen Körperhaltung eines Nutzers. (Intel, 2012; Microsoft, 2013)"
+            "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011) Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011) Ermüdung vorbeugen, indem Gesten (für Intel) so designt werden, dass sie mit einem Ellbogen auf dem Tisch ausgeführt werden können. Kurze Gesten, die kleine Pausen zulassen und keine präzisen Eingaben erfordern wirken Ermüdung entgegen. (Intel, 2012) Bei häufiger Verwendung sollen Gesten nicht ermüdend sein. (Microsoft, 2013; Nielsen et al., 2004) Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012) Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004) Eine Geste sollte von der Bewegung her nicht komisch sein. (Eigene Erfahrungen) Beachtung der genauen Körperhaltung eines Nutzers. (Intel, 2012; Microsoft, 2013)"
         },
         {
             "format": "dichotomousQuestionGUS",
@@ -5202,6 +5205,8 @@
                         "<p>Im Bereich <em>Gesten-Klassifizierung</em> bei einer Gesten-Extraktion werden Thumbnails mit dem Symbol <i class='fa fa-tag'></i> für das Markieren als Stellvertretergeste und dem Symbol <i class='fa fa-trash'></i> für das Löschen aus der Klassifizierung ausgestattet.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-03.jpg' style='max-width:283px' /><div class='image-caption'>Thumbnail einer Geste für den Bereich <em>Potentielle Gesten</em> in der Gesten-Extraktion.</div></div>",
                         "<p>Im Bereich der <em>Potentiellen Gesten</em> werden Thumbnails mit einem Quicklink <i class='fa fa-paperclip'></i> zu Gesten-Sets eingeblendet. Dies ermöglicht ein schnelles Zusammenstellen von potentiellen Gesten-Sets (z.B. für eine Gesten-Evaluierung). Man gelangt in den Bereich <em>Gesten-Sets</em> indem man auf das Symbol klickt.</p>",
+                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-04.jpg' style='max-width:284px' /><div class='image-caption'>Thumbnail einer Geste für den Bereich <em>Studien-Gesten-Set</em> in der Erstellung einer Studie.</div></div>",
+                        "<p>Für das Zusammenstellen eines <em>Studien-Gesten-Sets</em> im Bereich der <em>Studien-Erstellung</em> werden Thumbnails mit einem Plus <i class='fa fa-plus-square'></i> zum Hinzufügen zum Studien-Gesten-Set oder einem Minus <i class='fa fa-minus-square'></i> zum Entfernen von einem Studien-Gesten-Set eingeblendet. In der linken oberen Ecke erscheint zudem ein Sternsymbol <i class='fa fa-asterisk'></i>, welches anzeigt, ob diese Geste dem Studien-Gesten-Set angehört.</p>",
                         "<h4>Infofenster</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-05.jpg' style='max-width:600px' /><div class='image-caption'>Alle Informationen über eine Geste werden in einem Infofenster dargestellt. Unte anderem mit den Funktionen Teilen, Bewerten, Favorisieren, Kommentieren und Bearbeiten einer Geste. Sowie die Zuteilung einer Geste zu einem bestimmten Gesten-Set.</div></div>",
                         "<p>Im Infofenster können alle Informationen über eine Geste im Detail abgerufen werden. Das Bearbeiten einer Geste betrifft die Daten auf der rechten Seite (Titel, Kontext, Beschreibung, etc.).</p>",

@@ -1565,8 +1565,8 @@ var Moderator = {
 //        $(container).find('#general #task .address').text(translation.scenarioTitle);
 //        $(container).find('#general #task .text').text(data.title);
         $(container).find('#general .headline').text(getCurrentPhase().title);
-        $(container).find('#general #description .address').text(translation.scenarioDescription);
-        $(container).find('#general #description .text').text(data.description);
+//        $(container).find('#general #description .address').text(translation.scenarioDescription);
+        $(container).find('#general #description').text(data.description);
         if (!currentWOZScene) {
             currentWOZScene = getSceneById(data.scene);
             currentScenarioTask = data.tasks[0];
@@ -1904,7 +1904,7 @@ var Moderator = {
         }
 
         if (data.tasks && data.tasks.length > 0) {
-            $(container).find('#assessment-controls #task .text').text(currentScenarioTask.task);
+            $(container).find('#assessment-controls #task').text(currentScenarioTask.task);
             $(container).find('#assessment-controls .headline').text(translation.task + ' ' + (currentScenarioTaskIndex + 1) + ' ' + translation.of + ' ' + data.tasks.length)
 
             if (currentScenarioTask.woz) {

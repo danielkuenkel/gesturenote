@@ -383,19 +383,16 @@ include '../includes/language.php';
     <div class="row root" id="gestureTraining">
         <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 20px">
             <div class="" id="observations">
-                <!--<div class="panel-heading">-->
                 <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
-                <!--</div>-->
-                <!--<div class="panel-body">-->
                 <div class="alert-space alert-no-phase-data"></div>
-                <div class="question-container"></div>
-                <!--</div>-->
+                <div class="question-container"></div>                  
             </div>
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
             <div class="" id="general">
-                <h3 class="headline" style="margin-top: 0"></h3>
-                <div id="description"></div>
+                <h3 class="headline" style="margin-top: 0"></h3>    
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-training" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
@@ -465,8 +462,9 @@ include '../includes/language.php';
         </div>
         <div class="col-md-7" id="column-right">
             <div class="" id="general">
-                <h3 class="headline" style="margin: 0"></h3>
-                <p id="description"></p>
+                <h3 class="headline" style="margin-top: 0px"></h3>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <!--<p id="description"></p>-->
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
@@ -514,8 +512,8 @@ include '../includes/language.php';
         <div class="col-md-8" id="column-right">
 
             <div id="general">
-                <h3 class="headline" style="margin: 0"></h3>
-                <p id="description"></p>
+                <h3 class="headline" style="margin-top: 0px"></h3>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
@@ -565,8 +563,8 @@ include '../includes/language.php';
         <div class="col-md-7" id="column-right">
 
             <div id="general">
-                <h3 class="headline" style="margin: 0"></h3>
-                <p id="description"></p>
+                <h3 class="headline" style="margin-top: 0px"></h3>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-stress-test" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
@@ -645,13 +643,9 @@ include '../includes/language.php';
     <div  class="row root" id="scenario">
         <div class="col-sm-6 col-md-5 rtc-scalable" id="column-left">
             <div class="" id="observations">
-                <!--<div class="panel-heading">-->
                 <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
-                <!--</div>-->
-                <!--<div class="panel-body">-->
                 <div class="alert-space alert-no-phase-data"></div>
                 <div class="question-container"></div>
-                <!--</div>-->
             </div>
         </div>
 
@@ -660,8 +654,8 @@ include '../includes/language.php';
                 <h3 class="headline" style="margin-top: 0px"><?php echo $lang->general ?></h3>
                 <div class="">
                     <div class="alert-space alert-no-more-tasks"></div>
-                    <!--<div id="task"><span class="address"></span>: <span class="text"></span></div>-->
-                    <div id="description"><span class="address"></span>: <span class="text font-bold"></span></div>
+                    <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudScenario ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                    <!--<div id="description"><span class="address"></span>: <span class="text font-bold"></span></div>-->
                     <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
@@ -672,7 +666,8 @@ include '../includes/language.php';
                 <h3 class="headline"><?php echo $lang->task ?> </h3>
                 <div class="" style="padding-bottom: 0">
                     <div class="alert-space alert-no-phase-data"></div>
-                    <div id="task"><span class="text font-bold"></span></div>
+                    <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudTask ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="task"></span></div>
+                    <!--<div id="task"><span class="text font-bold"></span></div>-->
                     <div id="assessment-controls-container" style="margin-bottom: 20px; margin-top: 10px"></div>
                 </div>
             </div>
@@ -794,11 +789,11 @@ include '../includes/language.php';
         <div class="col-md-6 col-lg-7" id="column-right">
             <div class="" id="general">
                 <h3 class="headline" style="margin: 0"></h3>
-                <div>
+                <div style="margin-bottom: 10px">
                     <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
                     <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
                 </div>
-                <p id="description"></p>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <div style="margin-top: 6px">
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-elicitation"><?php echo $lang->startNow ?></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" ><?php echo $lang->openPrototype ?></button>
@@ -875,7 +870,11 @@ include '../includes/language.php';
         <div class="col-md-6 col-lg-7" id="column-right">
             <div class="" id="general">
                 <h3 class="headline" style="margin: 0"></h3>
-                <p id="description"></p>
+                <div style="margin-bottom: 10px">
+                    <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
+                    <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
+                </div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-exploration" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
