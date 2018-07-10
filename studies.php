@@ -50,7 +50,7 @@ if (login_check($mysqli) == true) {
 
         <!-- externals -->
         <div id="alerts"></div>
-        <div id="template-subpages"></div>
+        <div id="template-general"></div>
 
         <!-- thumbnail -->
         <div class="root col-xs-12 col-sm-6 col-lg-4 hidden grid-item studies-catalog-thumbnail" id="studies-catalog-thumbnail">
@@ -90,7 +90,7 @@ if (login_check($mysqli) == true) {
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
-                    <li class="active"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></li>
+                    <li class="active" data-id="btn-studies"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></li>
                 </ol>
             </div>
         </div>
@@ -152,7 +152,7 @@ if (login_check($mysqli) == true) {
                 <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #EEAC57"></i> <span class="text"><?php echo $lang->studyColors->notStarted ?></span></span>
                 <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5cb85c"></i> <span class="text"><?php echo $lang->studyColors->running ?></span></span>
                 <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5bc0de"></i> <span class="text"><?php echo $lang->studyColors->stopped ?></span></span>
-                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #d9534f"></i> <span class="text"><?php echo $lang->studyColors->noSchedule ?></span></span>
+                <!--<span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #d9534f"></i> <span class="text"><?php echo $lang->studyColors->noSchedule ?></span></span>-->
             </div>
 
             <div class="text-center custom-pagination" id="pager-top">
@@ -200,7 +200,7 @@ if (login_check($mysqli) == true) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     loadExternals(externals);
                 });
 
@@ -236,6 +236,8 @@ if (login_check($mysqli) == true) {
                         } else {
                             appendAlert($('#item-view'), ALERT_NO_STUDIES);
                         }
+                        
+                        animateBreadcrump();
                     }
                 });
             }

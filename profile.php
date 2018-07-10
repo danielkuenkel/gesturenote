@@ -48,7 +48,7 @@ if (login_check($mysqli) == true) {
 
         <!-- externals -->
         <div id="alerts"></div>
-        <div id="template-subpages"></div>
+        <div id="template-general"></div>
 
 
         <!-- Container (Breadcrump) -->
@@ -57,7 +57,7 @@ if (login_check($mysqli) == true) {
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
-                    <li class="active"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->breadcrump->profile ?></li>
+                    <li class="active" data-id="btn-profile"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->breadcrump->profile ?></li>
                 </ol>
             </div>
         </div>
@@ -305,13 +305,15 @@ if (login_check($mysqli) == true) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     loadExternals(externals);
                 });
             });
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                animateBreadcrump();
+                
                 $('#btn-edit-profile .btn-text').text(translation.editProfile);
                 $('#general-preview .panel-title').text(translation.general);
                 $('#general-edit .panel-title').text(translation.generalEdit);

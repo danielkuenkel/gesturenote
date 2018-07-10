@@ -42,7 +42,7 @@ if (!$h) {
 
         <!-- externals -->
         <div id="alerts"></div>
-        <div id="template-subpages"></div>
+        <div id="template-general"></div>
 
 
 
@@ -122,7 +122,7 @@ if (!$h) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     loadExternals(externals);
                 });
             });

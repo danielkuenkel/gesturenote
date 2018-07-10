@@ -89,7 +89,7 @@ if ($h && $token && $studyId) {
 
         <!-- externals -->
         <div id="alerts"></div>
-        <div id="template-subpages"></div>
+        <div id="template-general"></div>
         <div id="template-previews"></div>
 
 
@@ -216,7 +216,7 @@ if ($h && $token && $studyId) {
             checkLanguage(function () {
                 var externals = new Array();
                 externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
-                externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                 externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                 loadExternals(externals);
             });

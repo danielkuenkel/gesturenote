@@ -36,7 +36,7 @@ include_once 'includes/functions.php';
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
         <!-- externals -->
-        <div id="template-subpages"></div>
+        <div id="template-general"></div>
 
 
 
@@ -46,7 +46,7 @@ include_once 'includes/functions.php';
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
-                    <li class="active"><i class="fa fa-support" aria-hidden="true"></i> <?php echo $lang->breadcrump->help ?></li>
+                    <li class="active" data-id="btn-support"><i class="fa fa-support" aria-hidden="true"></i> <?php echo $lang->breadcrump->help ?></li>
                 </ol>
             </div>
         </div>
@@ -67,7 +67,7 @@ include_once 'includes/functions.php';
                 checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     loadExternals(externals);
                 });
             });
@@ -75,6 +75,7 @@ include_once 'includes/functions.php';
             function onAllExternalsLoadedSuccessfully() {
                 var loggedIn = parseInt('<?php echo login_check($mysqli) ?>') === 1;
                 renderSubPageElements(loggedIn, false);
+                animateBreadcrump();
 
                 var allHelp = [];
                 allHelp.push({id: 'gestureCatalog', content: translation.introductionGestureCatalog});

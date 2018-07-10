@@ -1,7 +1,8 @@
 {
-    "gesturenote": "GestureNote",
-    "gesturenoteSubline": "Specialized in usability engineering for gesture interaction",
+    "gestureNote": "GestureNote",
+    "gesturenoteSubline": "Tool-based remote design of gesture-based interactions",
     "alpha": "alpha",
+    "beta": "beta",
     "about": "About",
     "services": "Services",
     "contact": "Contact",

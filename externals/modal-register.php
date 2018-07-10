@@ -31,7 +31,7 @@ include '../includes/language.php';
             </div>
 
             <div class="form-group">
-                <label for="password"><?php echo $lang->password ?></label>
+                <label for="password"><?php echo $lang->password ?> <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->password ?>"></i></label>
                 <div class="alert-space alert-password-short"></div>
                 <div class="alert-space alert-password-invalid"></div>
                 <input type="password" class="form-control" name="password" id="password" placeholder="">
@@ -121,6 +121,10 @@ include '../includes/language.php';
 </div>
 
 <script>
+    $(document).ready(function () {
+        initPopover();
+    });
+    
     $('#btn-register').on('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {

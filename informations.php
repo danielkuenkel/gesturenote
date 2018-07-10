@@ -35,7 +35,7 @@ include_once 'includes/functions.php';
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
         <!-- externals -->
-        <div id="template-subpages"></div>
+        <div id="template-general"></div>
 
 
         <!-- Container (Breadcrump) -->
@@ -44,7 +44,7 @@ include_once 'includes/functions.php';
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
-                    <li class="active"><?php echo $lang->breadcrump->informations ?></li>
+                    <li class="active" data-id="btn-informations"><i class="fa fa-file-text-o"></i> <?php echo $lang->breadcrump->informations ?></li>
                 </ol>
             </div>
         </div>
@@ -63,7 +63,7 @@ include_once 'includes/functions.php';
                 <div class="col-md-7 col-md-pull-5" style="margin-bottom: 30px">
                     <!-- 16:9 aspect ratio -->
                     <div class="rtc-shadow embed-responsive embed-responsive-16by9" style="border-radius: 5px">
-                        <video class="embed-responsive-item" poster="<?php echo $lang->infosContent->planning->videoPlaceholderUrl ?>" controls controlsList="nodownload">
+                        <video class="embed-responsive-item" style="border-radius: 5px;" poster="<?php echo $lang->infosContent->planning->videoPlaceholderUrl ?>" controls controlsList="nodownload">
                             <source src="<?php echo $lang->infosContent->planning->videoUrl ?>" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
@@ -80,7 +80,7 @@ include_once 'includes/functions.php';
                 <div class="col-md-7" style="margin-bottom: 30px">
                     <!-- 16:9 aspect ratio -->
                     <div class="rtc-shadow embed-responsive embed-responsive-16by9" style="border-radius: 5px">
-                        <video class="embed-responsive-item" poster="<?php echo $lang->infosContent->execution->videoPlaceholderUrl ?>" controls controlsList="nodownload">
+                        <video class="embed-responsive-item" style="border-radius: 5px;" poster="<?php echo $lang->infosContent->execution->videoPlaceholderUrl ?>" controls controlsList="nodownload">
                             <source src="<?php echo $lang->infosContent->execution->videoUrl ?>" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
@@ -97,7 +97,7 @@ include_once 'includes/functions.php';
                 <div class="col-md-7 col-md-pull-5" style="margin-bottom: 30px">
                     <!-- 16:9 aspect ratio -->
                     <div class="rtc-shadow embed-responsive embed-responsive-16by9" style="border-radius: 5px">
-                        <video class="embed-responsive-item" poster="<?php echo $lang->infosContent->analysis->videoPlaceholderUrl ?>" controls controlsList="nodownload">
+                        <video class="embed-responsive-item" style="border-radius: 5px;" poster="<?php echo $lang->infosContent->analysis->videoPlaceholderUrl ?>" controls controlsList="nodownload">
                             <source src="<?php echo $lang->infosContent->analysis->videoUrl ?>" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
@@ -170,7 +170,7 @@ include_once 'includes/functions.php';
                     checkDomain();
                     checkLanguage(function () {
                         var externals = new Array();
-                        externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                        externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                         loadExternals(externals);
                     });
                 });
@@ -178,6 +178,8 @@ include_once 'includes/functions.php';
                 function onAllExternalsLoadedSuccessfully() {
                     var loggedIn = parseInt('<?php echo login_check($mysqli) ?>') === 1;
                     renderSubPageElements(loggedIn);
+                    animateBreadcrump();
+                    
                     if (loggedIn === false) {
                         $('#btn-dashboard').parent().remove();
                     }

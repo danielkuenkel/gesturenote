@@ -60,6 +60,22 @@ $(document).ready(function () {
             gotoPublications();
         }
     });
+
+    $('body').on('click', '#btn-support', function (event) {
+        event.preventDefault();
+        if (!event.handled) {
+            event.handled = true;
+            gotoSupport();
+        }
+    });
+
+    $('body').on('click', '#btn-informations', function (event) {
+        event.preventDefault();
+        if (!event.handled) {
+            event.handled = true;
+            gotoInformations();
+        }
+    });
 });
 
 
@@ -81,6 +97,16 @@ function gotoNews() {
 function gotoProfile() {
     clearLocalItems();
     goto('profile.php');
+}
+
+function gotoSupport() {
+    clearLocalItems();
+    goto('help-catalog.php');
+}
+
+function gotoInformations() {
+    clearLocalItems();
+    goto('informations.php');
 }
 
 function gotoGestureStyleguides() {

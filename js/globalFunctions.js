@@ -144,7 +144,7 @@ function validateEmail(email) {
  * language indicator
  */
 function updateLanguageIndicator(target) {
-    $(target).find('#' + currentLanguage).addClass('selected');
+    $(target).find('#' + currentLanguage).parent().addClass('active');
     $(target).find('.language-indicator').text(translation.languages[currentLanguage].language);
     $(target).find('.dropdown-toggle img').attr('src', 'img/flags/' + currentLanguage + '.png');
 }
@@ -164,7 +164,9 @@ function statusAddressMatchIndex(phaseStepId) {
 function animateBreadcrump() {
     var breadcrumpItems = $('#breadcrumb').find('.breadcrumb').children();
     for (var i = 0; i < breadcrumpItems.length; i++) {
-        TweenMax.from($(breadcrumpItems[i]), .2, {delay: 0.2 + (i * .05), x: -10, opacity: 0, clearProps: 'all'});
+//        $(breadcrumpItems[i]).css({opacity:0});
+        TweenMax.from($(breadcrumpItems[i]), .2, {delay: .2 + (i * .05), x: -10, clearProps: 'all'});
+        TweenMax.to($(breadcrumpItems[i]), .2, {delay: .2 + (i * .05), opacity: 1});
     }
 }
 
@@ -244,19 +246,67 @@ function renderSubPageElements(hasTopNavbar, hasNoImprint) {
         gotoIndex();
     });
 
-    var footer = $('#header-footer-container').find('#sub-page-footer').clone().removeAttr('id');
-    $('body').append(footer);
+//    var footer = $('#header-footer-container').find('#sub-page-footer').clone().removeAttr('id');
+//    $('body').append(footer);
 
     if (hasTopNavbar === false) {
-        header.find('.navbar-right').addClass('hidden');
+        header.find('#main-navigation-dropdown').addClass('hidden');
     }
 
     if (hasNoImprint === true) {
-        footer.find('#btn-imprint').addClass('hidden');
+//        header.find('.main-burger-menu .btn-imprint').addClass('hidden');
     }
 
-    updateLanguageIndicator($(footer).find('#language-selection'));
+    updateLanguageIndicator($(header).find('#language-selection'));
+    updateMainBurgerMenu($(header).find('.main-burger-menu'), $('body').find('#breadcrumb'));
 }
+
+function updateMainBurgerMenu(target, breadcrump) {
+    var activeId = $(breadcrump).find('.active').attr('data-id');
+    console.log(activeId, $(target).find('.' + activeId));
+    $(target).find('.active').removeClass('active');
+    $(target).find('.' + activeId).addClass('active');
+}
+
+$(document).on('click', '.main-burger-menu li a', function (event) {
+    event.preventDefault();
+    
+    if (!$(this).parent().hasClass('active')) {
+        var gotoId = $(this).parent().attr('data-id');
+        switch (gotoId) {
+            case 'btn-dashboard':
+                gotoDashboard();
+                break;
+            case 'btn-studies':
+                gotoStudies();
+                break;
+            case 'btn-gesture-styleguides':
+                gotoGestureStyleguides();
+                break;
+            case 'btn-gesture-catalog':
+                gotoGesturesCatalog();
+                break;
+            case 'btn-news':
+                gotoNews();
+                break;
+            case 'btn-publications':
+                gotoPublications();
+                break;
+            case 'btn-profile':
+                gotoProfile();
+                break;
+            case 'btn-support':
+                gotoSupport();
+                break;
+            case 'btn-informations':
+                gotoInformations();
+                break;
+            case 'btn-imprint':
+                gotoImprint();
+                break;
+        }
+    }
+});
 
 $(document).on('click', '#language-selection li a', function (event) {
     event.preventDefault();
@@ -2607,7 +2657,7 @@ function getStudiesCatalogListThumbnail(target, data) {
             if (now > dateFrom && now < dateTo) {
                 var left = getTimeLeftForTimestamp(dateTo, 1);
                 var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
-                progress = daysExpired / totalDays * 100;
+                progress = dateFrom / dateTo * 100;
                 $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
                 $(clone).find('.progress-bar').addClass('progress-bar-success');
                 $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
@@ -3361,7 +3411,7 @@ $(document).on('click', '.btn-expand', function (event) {
         var panel = $(this).closest('.panel');
         var container = $(panel).parent();
 
-console.log('click expand', panel, container);
+        console.log('click expand', panel, container);
         $(panel).find('.btn-expand').popover('hide');
 
         if ($(panel).find('.panel-body-expandable').hasClass('hidden')) {

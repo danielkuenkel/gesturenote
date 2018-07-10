@@ -34,7 +34,7 @@ include './includes/language.php';
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
         <!-- externals -->
-        <div id="template-subpages"></div>
+        <div id="template-general"></div>
 
 
 
@@ -44,7 +44,7 @@ include './includes/language.php';
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
-                    <li class="active"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php echo $lang->breadcrump->publications ?></li>
+                    <li class="active" data-id="btn-publications"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php echo $lang->breadcrump->publications ?></li>
                 </ol>
             </div>
         </div>
@@ -90,13 +90,14 @@ include './includes/language.php';
                 
                 checkLanguage(function () {
                     var externals = new Array();
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     loadExternals(externals);
                 });
             });
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                animateBreadcrump();
             }
         </script>
 

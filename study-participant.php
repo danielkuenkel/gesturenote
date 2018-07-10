@@ -89,8 +89,8 @@ if (login_check($mysqli) == true) {
                     <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-studies"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></a></li>
-                    <li><a class="breadcrump-btn" id="btn-study"><?php echo $lang->breadcrump->study ?></a></li>
-                    <li class="active"><?php echo $lang->breadcrump->studyParticipant ?></li>
+                    <li><a class="breadcrump-btn" id="btn-study"><i class="fa fa-clipboard"></i> <?php echo $lang->breadcrump->study ?></a></li>
+                    <li class="active"><i class="fa fa-user-circle-o"></i> <?php echo $lang->breadcrump->studyParticipant ?></li>
                 </ol>
             </div>
         </div>
@@ -110,7 +110,7 @@ if (login_check($mysqli) == true) {
         <div class="container mainContent" style="margin-top: 0px;" id="general-view">
             <div>
                 <h2 id="main-headline" style="margin-top: 0; display: inline"></h2>
-                <a role="button" class="pull-right" id="btn-introduction"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
+                <a role="button" class="pull-right" id="btn-introduction" style=" clear: both;"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
             </div>
 
             <hr>
@@ -170,7 +170,6 @@ if (login_check($mysqli) == true) {
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     loadExternals(externals);
@@ -191,7 +190,13 @@ if (login_check($mysqli) == true) {
                 if (query.studyId && query.participantId && query.h === hash) {
                     $('.breadcrumb #btn-study').on('click', function (event) {
                         event.preventDefault();
-                        goto('study.php?studyId=' + query.studyId + '&h=' + hash);
+                        goto('study.php?studyId=' + query.studyId + '&h=' + hash + '#participants');
+                    });
+                    
+                    $('body').find('.main-burger-menu .btn-study').removeClass('hidden');
+                    $('body').find('.main-burger-menu .btn-study').unbind('click').bind('click', function(event) {
+                        event.preventDefault();
+                        goto('study.php?studyId=' + query.studyId + '&h=' + hash + '#participants');
                     });
 
                     getStudyParticipant({studyId: query.studyId, participantId: query.participantId}, function (result) {
@@ -202,6 +207,7 @@ if (login_check($mysqli) == true) {
                         }
                     });
                 }
+                animateBreadcrump();
             }
 
             function renderData(data) {

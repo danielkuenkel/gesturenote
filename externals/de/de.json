@@ -36,7 +36,7 @@
         "createStudy": "Neue Studie",
         "studyPrepare": "An Studie teilnehmen",
         "gestureStyleguides": "Gesten-Styleguides",
-        "gestureCatalog": "Gesten",
+        "gestureCatalog": "Gesten-Katalog",
         "profile": "Profil",
         "publications": "Veröffentlichungen",
         "resetPassword": "Passwort zurücksetzen",
@@ -684,21 +684,15 @@
         "male": "Männlich"
     },
     "dashboard": {
-        "dashboard": "dashboard",
         "dashboardInfo": "Um fortzufahren wählen Sie bitte aus einer der unten stehenden Kategorien.",
-        "studies": "Studien-Übersicht",
         "studiesPanelBody": "Katalog der erstellten und durchgeführten Gesten-Designstudien. Sie können hier auch eine neue Studie erstellen.",
-        "gesturesStyleguides": "Gesten-Styleguides",
         "gesturesStyleguidesPanelBody": "Erfahren Sie hier, welchen Kriterien gebrauchstaugliche Gesten unterliegen und welche Aspekte und Fragen im GUS zur Verfügung stehen.",
-        "gesturesCatalog": "Gesten-Katalog",
-        "news": "Aktuelles",
         "newsPanelBody": "Neuigkeiten und Updates rund um GestureNote auf einen Blick.",
-        "profile": "Profil",
         "profilePanelBody": "Anzeigen und bearbeiten der Nutzerdaten.",
-        "publications": "Veröffentlichungen",
         "publicationsPanelBody": "Wissenschaftliche Beiträge zum Thema Gesten-Design-Prozess",
-        "help": "Hilfe",
-        "helpPanelBody": "Zugriff auf sämtliche Inhalte der bereitgestellten Hilfebeiträge."
+        "helpPanelBody": "Zugriff auf sämtliche Inhalte der bereitgestellten Hilfebeiträge.",
+        "informationsPanelBody": "Informationen über den Funktionsumfang von GestureNote.",
+        "imprintPanelBody": "Haftungsausschluss und Datenschutz."
     },
     "createNewStudy": "Neue Studie erstellen",
     "copy": "Kopieren",
@@ -1904,8 +1898,8 @@
         "socialAcceptance": "satisfaction",
         "discrimination": "satisfaction"
     },
-    "totalGUSItem":"Insgesamt {x} Item",
-    "totalGUSItems":"Insgesamt {x} Items",
+    "totalGUSItem": "Insgesamt {x} Item",
+    "totalGUSItems": "Insgesamt {x} Items",
     "dimensions": {
         "taskAppropriateness": {
             "title": "Aufgabenangemessenheit",
@@ -1971,13 +1965,14 @@
     "moreInfos": "Mehr Informationen",
     "tooltips": {
         "general": {
+            "password":"Das Passwort muss mindestens 6 Zeichen lang sein. Es muss mindestens eine Zahl, einen Großbuchstaben und einen Kleinbuchstaben enthalten.",
             "moveUp": "Mit oberem Element tauschen",
             "moveDown": "Mit unterem Element tauschen",
             "delete": "Element löschen",
             "dontUseQuestion": "Frage deaktivieren",
             "useQuestion": "Frage aktivieren",
             "editPhasestep": "Leitfadenschritt bearbeiten",
-            "readAloudText":"Text vorlesen",
+            "readAloudText": "Text vorlesen",
             "readAloudScenario": "Szenario vorlesen",
             "readAloudTask": "Aufgabe vorlesen"
         },
@@ -2103,8 +2098,8 @@
         },
         "usabilityScale": {
             "headline": "Gesture Usability Scale",
-            "createGUSImageUrl":"img/de/introduction/study-create/carousel-04-04.jpg",
-            "createGUSImageCaption":"Auszug aus der Fragebogenerstellung für einen GUS, welcher die Bewertung mehrerer Gesten auf einmal erlaubt. Einzelne Aspekte können auf der rechten Seite an und abgewählt werden.",
+            "createGUSImageUrl": "img/de/introduction/study-create/carousel-04-04.jpg",
+            "createGUSImageCaption": "Auszug aus der Fragebogenerstellung für einen GUS, welcher die Bewertung mehrerer Gesten auf einmal erlaubt. Einzelne Aspekte können auf der rechten Seite an und abgewählt werden.",
             "info": "Der Gesture Usability Scale (GUS) ist ein Baukasten zum Erstellen von Fragebögen für die subjektive Bewertung der Gebrauchstauglichkeit von Gesten durch den Benutzer oder Probanden (siehe oberes Bild). Beim Konfigurieren einer neuen Studie kann der GUS in zwei Varianten genutzt werden. Nachfolgend wird ein Überblick über die einzelnen Items (rechts) und deren zugrunde liegenden Styleguides (links) gegeben."
         },
         "references": {
@@ -5213,7 +5208,7 @@
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-08.jpg' style='max-width:350px' /><div class='image-caption'>Vorschau einer Gesten-Aufzeichnung mit Auswahl des Vorschaubildes (unten links) und Kontrollelement zum Herunterladen eines GIFs (oben links).</div></div>",
                         "<p>Die Vorschau einer Geste kann als GIF mit einem Klick auf das Symbol <i class='fa fa-file-image-o'></i> heruntergeladen werden. Es kann jedes Einzelbild über einen Klick auf den blauen Slider unter der Vorschau angewählt werden. Scrollen Sie mit der Maus über die Vorschau, um den Play- und Pause-Button anzuzeigen.</p>",
                         "<p>Das Vorschaubild einer Geste kann in GestureNote im Bearbeiten-Modus geändert werden. Navigieren Sie dazu mit der Maus auf der blauen Statusleiste unter der Vorschau zum gewünschen Einzelbild. Klicken Sie anschließend auf <span><i class='fa fa-bookmark-o'></i> Vorschaubild</span>. Das Vorschaubild wird erst gespeichert, wenn der Bearbeiten-Modus beendet wird. Wurde die Geste nicht mit Hilfe einer Webcam aufgezeichnet, ist es nicht möglich ein Vorschaubild auszuwählen.</p>",
-                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-06.jpg' style='max-width:358px' /><div class='image-caption'>Vorschau einer mit dem Leap Motion Controller aufgezeichnete Geste.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-06.jpg' style='max-width:345px' /><div class='image-caption'>Vorschau von einer mit dem Leap Motion Controller aufgezeichneten Geste.</div></div>",
                         "<p>Wurde eine Geste mit dem unterstützten Leap Motion Controller aufgezeichnet werden die Daten als 3D-Modell in der Vorschau dargestellt. Liegen mehrere Quellen vor, können diese über die Button-Leiste unter der Vorschau umgeschaltet werden.</p>",
                         "<p>Sie können die Rohdaten der Geste über einen Klick auf <i class='fa fa-file-code-o'></i> (unkomprimiert) oder <i class='fa fa-file-zip-o'></i> (komprimiert) herunterladen.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-07.jpg' style='max-width:700px' /><div class='image-caption'>Kommentarfunktion im Infofenster einer Geste.</div></div>",
@@ -5248,7 +5243,7 @@
                         "<h4>Nutzerzentrierte Aufzeichnung</h4><hr>",
                         "<p>Eine nutzerzentrierte Aufzeichnung von Gesten findet in GestureNote während der Durchführung einer Gesten-Ermittlung statt. Die Geste wird beim Probanden aufgezeichnet und anschließend an den Moderator der Durchführung gesendet, sodass dieser dann die einzelnen Schritte zur Speicherung durchläuft wie bei der expertenbasierten Aufzeichnung. Weitere Informationen stehen unter <a class='smooth-goto' href='#createStudy-phases-2-4-8'>Planung</a> und <a class='smooth-goto' href='#studyPreview-usage-3-2-3'>Durchführung</a> zur Verfügung.</p>",
                         "<h4>Unterstützte Sensoren</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-03-03.jpg' style='max-width:400px' /><div class='image-caption'>Aufzeichnung einer Handgeste mit Leap Motion Controller.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-03-03.jpg' style='max-width:400px; border-radius:8px' /><div class='image-caption'>Aufzeichnen einer Handgeste mit Leap Motion Controller.</div></div>",
                         "<p>Der Gesten-Recorder von GestureNote unterstützt nicht nur handelsübliche Webcams, sondern auch speziell für die Gesten-Interaktion entwickelte Sensoren. Aktuell bietet GestureNote die Möglichkeit Handgesten mit Hilfe eines Leap Motion Controllers aufzuzeichnen. Eine Erkennung der Gesten bietet GestureNote aktuell jedoch nicht an.</p>"
                     ]
         }
@@ -5260,7 +5255,7 @@
             "title": "Unterstützung für Leap Motion Controller",
             "date": "4/6/2018",
             "content": [
-                "<p>GestureNote unterstützt den Leap Motion Controller. Dies beinhaltet das Aufzeichnen und Anzeigen von Gesten. Eine Erkennung z.B. während einer Gesten-Evaluierung wird derzeit nicht unterstützt.</p>"
+                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-03-03.jpg' style='max-width:345px; border-radius:8px' /><div class='image-caption'>Aufzeichnen einer Handgeste mit Leap Motion Controller.</div></div><p>GestureNote unterstützt den Leap Motion Controller. Dies beinhaltet das Aufzeichnen und Anzeigen von Gesten. Eine Erkennung z.B. während einer Gesten-Evaluierung wird derzeit nicht unterstützt.</p>"
             ]
         },
         {
@@ -5274,7 +5269,7 @@
             "title": "Erhöhung der Sicherheit bei Passwörtern",
             "date": "1/20/2018",
             "content": [
-                "<p>Aufgrund eines Problems beim Verschlüsseln von Passwörtern während des Anmeldevorgangs bei GestureNote müssen alle Passwörter zurückgesetzt werden.</p>",
+                "<p>Aufgrund eines Problems beim Verschlüsseln von Passwörtern während des Anmeldevorgangs, müssen alle Passwörter zurückgesetzt werden.</p>",
                 "<p>Haben Sie bereits bei GestureNote einen Account eingerichtet? Setzen Sie einfach Ihr Passwort mit der Funktion <em>Passwort vergessen</em> auf der Startseite von GestureNote zurück.</p>"
             ]
         },

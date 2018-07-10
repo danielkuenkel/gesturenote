@@ -100,7 +100,7 @@ if (login_check($mysqli) == true) {
                     <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-studies"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></a></li>
-                    <li class="active"><?php echo $lang->breadcrump->study ?></li>
+                    <li class="active"><i class="fa fa-clipboard"></i> <?php echo $lang->breadcrump->study ?></li>
                 </ol>
             </div>
         </div>
@@ -188,7 +188,7 @@ if (login_check($mysqli) == true) {
                             <div class="input-group">
                                 <input type="text" class="form-control" id="input-email" minlength="8" maxlength="50" placeholder="<?php echo $lang->email ?>">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-info" type="button" id="btn-invite-user"><i class="fa fa-paper-plane"></i> <span class="btn-text"><?php echo $lang->invite ?></span></button>
+                                    <button class="btn btn-default" type="button" id="btn-invite-user"><i class="fa fa-paper-plane"></i> <span class="btn-text"><?php echo $lang->invite ?></span></button>
                                 </span>
                             </div>
                         </div>
@@ -594,7 +594,6 @@ if (login_check($mysqli) == true) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     externals.push(['#template-create', PATH_EXTERNALS + 'template-create.php']);
@@ -619,6 +618,7 @@ if (login_check($mysqli) == true) {
                             showExtractionTutorial = parseInt(<?php echo $_SESSION['tutorialExtraction'] ?>);
                             renderData(result, hash);
                             initPopover();
+                            animateBreadcrump();
                         }
                     });
                 }

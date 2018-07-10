@@ -46,7 +46,7 @@ if (login_check($mysqli) == true) {
 
         <!-- externals -->
         <div id="alerts"></div>
-        <div id="template-subpages"></div>
+        <div id="template-general"></div>
 
         <!-- Modal -->
         <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -59,44 +59,52 @@ if (login_check($mysqli) == true) {
         </div>
 
         <!-- Container (Landing Section) --> 
-        <div class="container-fluid bg-grey wall" id="landingText">
+        <div class="container" id="breadcrumb" style="margin-top: 40px">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                    <li class="active" data-id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></li>
+                </ol>
+            </div>
+        </div>
+<!--        <div class="container-fluid bg-grey wall" id="landingText">
 
-            <!-- Container (Breadcrump) -->
+             Container (Breadcrump) 
             <div class="container" id="breadcrumb">
                 <div class="row">
                     <ol class="breadcrumb" style="margin: 0">
                         <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
-                        <li class="active"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></li>
+                        <li class="active" data-id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></li>
                     </ol>
                 </div>
             </div>
 
-            <!-- headline -->
+             headline 
             <div class="container text-center dropShadowText">
-                <h1 class="greenGrey"><i class="fa fa-tachometer" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->dashboard->dashboard ?></span></h1>
+                <h1 class="greenGrey"><i class="fa fa-tachometer" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->breadcrump->dashboard ?></span></h1>
                 <h2><?php echo htmlentities($_SESSION['forename']) . ' ' . htmlentities($_SESSION['surname']); ?></h2>
             </div>
-        </div>
+        </div>-->
 
         <!-- Container (Panel Section) -->
-        <div class="container center-text mainContent" style="margin-top: 40px">
+        <div class="container center-text mainContent" style="margin-top: 0px">
 
             <div class="row" id="dashboard-items-container">
                 <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-studies">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->dashboard->studies ?></div>
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></div>
                         <div class="panel-body panel-content"><?php echo $lang->dashboard->studiesPanelBody ?></div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-styleguides">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-map-signs" aria-hidden="true"></i> <?php echo $lang->dashboard->gesturesStyleguides ?></div>
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-map-signs" aria-hidden="true"></i> <?php echo $lang->breadcrump->gestureStyleguides ?></div>
                         <div class="panel-body panel-content"><?php echo $lang->dashboard->gesturesStyleguidesPanelBody ?></div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-catalog">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->dashboard->gesturesCatalog ?></div>
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->breadcrump->gestureCatalog ?></div>
                         <div class="panel-body panel-content">
                             <div id="total-gestures"><span class="address"></span> <span class="text"></span></div>
                             <div id="public-gestures"><span class="address"></span> <span class="text"></span></div>
@@ -108,26 +116,38 @@ if (login_check($mysqli) == true) {
                 </div>
                 <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-news">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <?php echo $lang->dashboard->news ?></div>
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <?php echo $lang->breadcrump->news ?></div>
                         <div class="panel-body panel-content"><?php echo $lang->dashboard->newsPanelBody ?></div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-publications">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php echo $lang->dashboard->publications ?></div>
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php echo $lang->breadcrump->publications ?></div>
                         <div class="panel-body panel-content"><?php echo $lang->dashboard->publicationsPanelBody ?></div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-profile">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->dashboard->profile ?></div>
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->breadcrump->profile ?></div>
                         <div class="panel-body panel-content"><?php echo $lang->dashboard->profilePanelBody ?></div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-help">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-support" aria-hidden="true"></i> <?php echo $lang->dashboard->help ?></div>
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-support">
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-support" aria-hidden="true"></i> <?php echo $lang->breadcrump->help ?></div>
                         <div class="panel-body panel-content"><?php echo $lang->dashboard->helpPanelBody ?></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-informations">
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-file-text-o" aria-hidden="true"></i> <?php echo $lang->breadcrump->informations ?></div>
+                        <div class="panel-body panel-content"><?php echo $lang->dashboard->informationsPanelBody ?></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-imprint">
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-info-circle" aria-hidden="true"></i> <?php echo $lang->breadcrump->imprint ?></div>
+                        <div class="panel-body panel-content"><?php echo $lang->dashboard->imprintPanelBody ?></div>
                     </div>
                 </div>
             </div>
@@ -142,13 +162,14 @@ if (login_check($mysqli) == true) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     loadExternals(externals);
                 });
             });
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                
                 getDashboardInfos(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         // gestures catalog infos
@@ -168,6 +189,8 @@ if (login_check($mysqli) == true) {
                     } else {
 
                     }
+                    
+                    animateBreadcrump();
                 });
             }
 
@@ -180,11 +203,11 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-            $('#btn-create-study').click(function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                gotoCreateStudy();
-            });
+//            $('#btn-create-study').click(function (event) {
+//                event.preventDefault();
+//                event.stopPropagation();
+//                gotoCreateStudy();
+//            });
 
             function renderMasonryTest() {
                 var $container = $('#dashboard-items-container');
@@ -193,10 +216,6 @@ if (login_check($mysqli) == true) {
                     itemSelector: '.dashboard-item'
                 });
             }
-
-            $('#btn-help').unbind('click').bind('click', function () {
-                goto('help-catalog.php');
-            });
         </script>
 
     </body>

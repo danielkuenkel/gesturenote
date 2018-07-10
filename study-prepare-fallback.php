@@ -57,7 +57,7 @@ if ($h && $studyId) {
 
         <!-- externals -->
         <div id="alerts"></div>
-        <div id="template-subpages"></div>
+        <div id="template-general"></div>
 
         <!-- Modal -->
         <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -150,13 +150,14 @@ if ($h && $studyId) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     loadExternals(externals);
                 });
             });
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements(false);
+                animateBreadcrump();
                 var query = getQueryParams(document.location.search);
 
                 $('#login-form #password, #login-form #email').keypress(function (event) {

@@ -83,7 +83,7 @@ function renderData(data, hash) {
     // phase view
     if (studyData.phases && studyData.phases.length > 0) {
         var step = document.createElement('ol');
-        $(step).addClass('study-phase-step');
+        $(step).addClass('study-phase-step').css({paddingLeft: '20px'});
         $('#phase-steps-container').append(step);
         for (var i = 0; i < studyData.phases.length; i++) {
 
@@ -206,8 +206,8 @@ function renderData(data, hash) {
             window.location.hash = activeId;
             $(document).scrollTop(0);
             TweenMax.from($('#main-content'), .2, {y: -10, opacity: 0.0, clearProps: 'all'});
-            
-            setTimeout(function() {
+
+            setTimeout(function () {
                 tutorialAutomaticClicked = true;
                 $('#tab-introduction a').click();
             }, 300);

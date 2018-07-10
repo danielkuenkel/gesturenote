@@ -45,7 +45,7 @@ if (login_check($mysqli) == true) {
 
         <!-- externals -->
         <div id="alerts"></div>
-        <div id="template-subpages"></div>
+        <div id="template-general"></div>
 
 
         <!-- Container (Breadcrump) -->
@@ -54,7 +54,7 @@ if (login_check($mysqli) == true) {
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
-                    <li class="active"><i class="fa fa-map-signs" aria-hidden="true"></i> <?php echo $lang->breadcrump->gestureStyleguides ?></li>
+                    <li class="active" data-id="btn-gesture-styleguides"><i class="fa fa-map-signs" aria-hidden="true"></i> <?php echo $lang->breadcrump->gestureStyleguides ?></li>
                 </ol>
             </div>
         </div>
@@ -171,13 +171,15 @@ if (login_check($mysqli) == true) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     loadExternals(externals);
                 });
             });
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                animateBreadcrump();
+                
                 renderGUSStyleguides($('#single-gus-list-container'), translation.singleGUS);
                 renderGUSStyleguides($('#multiple-gus-list-container'), translation.multipleGUS);
             }
@@ -214,7 +216,7 @@ if (login_check($mysqli) == true) {
                         }
 
                         var totalItems = parseInt($(headline).find('.factor-total-items').attr('data-total')) + 1;
-                        console.log($(headline).find('.factor-total-items').attr('data-total'));
+//                        console.log($(headline).find('.factor-total-items').attr('data-total'));
                         var totalItemsText = totalItems === 1 ? translation.totalGUSItem : translation.totalGUSItems;
                         totalItemsText = totalItemsText.replace('{x}', totalItems);
                         $(headline).find('.factor-total-items').text(totalItemsText);

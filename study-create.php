@@ -26,7 +26,7 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
 
         <script src="js/sha512.js"></script>
         <script src="js/chance.min.js"></script>
@@ -80,7 +80,7 @@ if (login_check($mysqli) == true) {
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
         <script src="js/resumable/resumable.js"></script>
-        
+
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
@@ -105,8 +105,8 @@ if (login_check($mysqli) == true) {
                     <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-studies"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></a></li>
-                    <li class="hidden"><a class="breadcrump-btn" id="btn-study"><?php echo $lang->breadcrump->study ?></a></li>
-                    <li class="active"><?php echo $lang->breadcrump->createStudy ?></li>
+                    <li class="hidden"><a class="breadcrump-btn" id="btn-study"><i class="fa fa-clipboard"></i> <?php echo $lang->breadcrump->study ?></a></li>
+                    <li class="active" id="btn-new-study"><i class="fa fa-pencil"></i> <span class="btn-text"><?php echo $lang->breadcrump->createStudy ?></span></li>
                 </ol>
             </div>
         </div>
@@ -488,7 +488,6 @@ if (login_check($mysqli) == true) {
                     externals.push(['#template-overlays', PATH_EXTERNALS + 'template-overlays.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
                 });
@@ -505,6 +504,8 @@ if (login_check($mysqli) == true) {
                     studyEditable = true;
                     editableStudyId = query.studyId;
                     $('#btn-study').parent().removeClass('hidden');
+                    $('#btn-new-study').find('.btn-text').text('Bearbeiten');
+                    $('.btn-study').removeClass('hidden');
 
                     if (getLocalItem(STUDY)) {
                         init();
@@ -518,15 +519,19 @@ if (login_check($mysqli) == true) {
                     }
                 } else if (query.edit && (query.edit === true || query.edit === "true") && query.studyId) {
                     $('#btn-clear-data').remove();
-                    init();
                     studyEditable = true;
                     editableStudyId = query.studyId;
                     $('#btn-study').parent().removeClass('hidden');
-                } else {
+                    $('#btn-new-study').find('.btn-text').text('Bearbeiten');
+                    $('.btn-study').removeClass('hidden');
                     init();
+                } else {
                     studyEditable = false;
                     editableStudyId = null;
+                    init();
                 }
+                
+                animateBreadcrump();
             }
 
             function init() {
@@ -666,9 +671,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 if (animate === true) {
-                    //                    console.log(clone);
                     TweenMax.from(clone, 1.2, {y: -50, opacity: 0, delay: .3, ease: Elastic.easeOut});
-                    //                    TweenMax.from(clone, .3, {opacity: 0, y: -20, clearProps: 'all'});
                 }
             }
 
@@ -737,8 +740,66 @@ if (login_check($mysqli) == true) {
                         $(button).unbind('click').click();
                     }
 
-                    clearSceneImages();
-                    clearSounds();
+                    if (editableStudyId === null) {
+                        clearSceneImages();
+                        clearSounds();
+                    }
+
+                    clearLocalItems();
+                });
+            });
+
+            $('body').on('click', '.main-burger-menu li a', function (event) {
+                var button = $(this);
+                event.stopImmediatePropagation();
+                loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-sm');
+                $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
+                    console.log('delete data');
+                    var gotoId = $(button).parent().attr('data-id');
+                    if (gotoId === 'btn-study') {
+                        var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                        goto("study.php?studyId=" + editableStudyId + "&h=" + hash);
+                    } else {
+                        console.log(button);
+                        switch (gotoId) {
+                            case 'btn-dashboard':
+                                gotoDashboard();
+                                break;
+                            case 'btn-studies':
+                                gotoStudies();
+                                break;
+                            case 'btn-gesture-styleguides':
+                                gotoGestureStyleguides();
+                                break;
+                            case 'btn-gesture-catalog':
+                                gotoGesturesCatalog();
+                                break;
+                            case 'btn-news':
+                                gotoNews();
+                                break;
+                            case 'btn-publications':
+                                gotoPublications();
+                                break;
+                            case 'btn-profile':
+                                gotoProfile();
+                                break;
+                            case 'btn-support':
+                                gotoSupport();
+                                break;
+                            case 'btn-informations':
+                                gotoInformations();
+                                break;
+                            case 'btn-imprint':
+                                gotoImprint();
+                                break;
+                        }
+                    }
+
+                    if (editableStudyId === null) {
+                        clearSceneImages();
+                        clearSounds();
+                    }
+
                     clearLocalItems();
                 });
             });

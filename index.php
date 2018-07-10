@@ -24,6 +24,7 @@ if (login_check($mysqli) == true) {
         <link rel="icon" type="image/x-icon" href="img/favicon.ico">
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
+        <script src="js/greensock/TweenMax.min.js"></script>
 
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
@@ -41,16 +42,42 @@ if (login_check($mysqli) == true) {
         <script type="text/JavaScript" src="js/alert.js"></script>
         <script type="text/JavaScript" src="js/globalFunctions.js"></script>
     </head>
-    <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
+    <body id="pageBody">
 
         <!-- externals -->
         <div id="alerts"></div>
 
-        <div class="jumbotron text-center">
-            <div><h1><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gestureNote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 8pt; top: -15px"><?php echo $lang->beta ?></span></sup></h1></div>
-            <p><?php echo $lang->gesturenoteSubline ?></p> 
+        <div class="nav-wrapper" style="min-height: 366px">
+            <div class="navbar-fixed-index-container" data-spy="affix" data-offset-top="267">
+                <div class="jumbotron text-center">
+                    <div><h1><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gestureNote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 8pt; top: -15px"><?php echo $lang->beta ?></span></sup></h1></div>
+                    <p><?php echo $lang->gesturenoteSubline ?></p> 
+                </div>
+
+                <nav class="navbar navbar-default navbar-fixed-index" id="sub-page-header">
+                    <div class="container">
+                        <div class="navbar-header" id="affix-logo" style="opacity: 0">
+                            <button class="navbar-toggle"><span class="icon-bar"></span></button>
+                            <a class="navbar-brand" style="color: white !important"><i class="glyphicon glyphicon-stats"></i> <span style="letter-spacing: 0pt; margin-left: -5px"><?php echo $lang->gestureNote ?></span> <sup><span class="label label-success uppercase" style="position: relative; font-size: 6pt; letter-spacing: normal"><?php echo $lang->beta ?></span></sup></a>
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li id="btn-imprint" class="btn-imprint" data-id="btn-imprint"><a href="#"><span style="position: relative; top:2px"><i class="fa fa-info-circle" aria-hidden="true"></i> <?php echo $lang->breadcrump->imprint ?></span></a></li>
+                            <li class="dropdown language-selection" id="language-selection">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="flag-small" src="" style="margin-top: 0px"></a>
+                                <ul class="dropdown-menu" style=" margin-top: 2px;">
+                                    <li><a href="#" id="de" style="margin-top: -1px"><img class="flag-small" src="img/flags/Germany.png"> <span><?php echo $lang->languages->de->language ?></span></a></li>
+                                    <li><a href="#" id="en"><img class="flag-small" src="img/flags/en.png"> <span><?php echo $lang->languages->en->language ?></span></a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="line"></div>
+            </div>
         </div>
-        <div class="line text-center" data-spy="affix" data-offset-top="376"></div>
+
+
 
         <!-- Modal -->
         <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -64,7 +91,7 @@ if (login_check($mysqli) == true) {
 
 
         <!-- Container (Login Section) -->
-        <div id="login" class="container" style="padding-bottom: 60px; padding-top: 50px">
+        <div id="login" class="container" style="padding-bottom: 60px; padding-top: 0px">
             <div class="row">
 
                 <div class="col-sm-6 col-sm-push-6 col-md-6" style="margin-top: 40px;">
@@ -112,7 +139,7 @@ if (login_check($mysqli) == true) {
                         <div class="info-text text">
                             <p><?php echo $lang->whatIsGesturenote2 ?></p>
                             <p><?php echo $lang->whatIsGesturenote3 ?></p>
-                            <button class="btn btn-default btn-shadow" id="btn-more-infos"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->moreInfos ?></span></button>
+                            <button class="btn btn-default btn-shadow btn-more-infos"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->moreInfos ?></span></button>
                         </div>
                     </div>
                 </div>
@@ -172,7 +199,7 @@ if (login_check($mysqli) == true) {
                 </div>
                 <br/><br/>
                 <div class="row">
-                    <button class="btn btn-default btn-shadow" id="btn-more-infos"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->moreInfos ?></span></button>
+                    <button class="btn btn-default btn-shadow btn-more-infos"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->moreInfos ?></span></button>
                 </div>
             </div>
         </div>
@@ -272,26 +299,13 @@ if (login_check($mysqli) == true) {
 
         <footer class="container-fluid text-center">
             <a href="#pageBody" title="To Top">
-                <div class="glyphicon glyphicon-chevron-up" id="btn-to-top"></div>
+                <div class="fa fa-chevron-up" id="btn-to-top"></div>
             </a>	
         </footer>
-
-        <!-- Fixed Footer -->
-        <nav class="navbar navbar-default navbar-fixed-bottom">
-            <div class="container">
-                <span class="footer-copyright uppercase"><i class="glyphicon glyphicon-copyright-mark"></i> <?php echo $lang->copyrightName ?></span>
-                <ul class="nav navbar-right">
-                    <li class="dropdown language-selection" id="language-selection">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src=""> <span class="language-indicator"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#" id="de"><img src="img/flags/de.png"> <span><?php echo $lang->languages->de->language ?></span></a></li>
-                            <li><a href="#" id="en"><img src="img/flags/en.png"> <span><?php echo $lang->languages->en->language ?></span></a></li>
-                        </ul>
-                    </li>
-                    <li role="presentation"><a href="imprint.php" class="no-scrolling"><?php echo $lang->imprint ?></a></li>
-                </ul>
-            </div>
-        </nav>
+        
+        <div class="text-center">
+            <i class="fa fa-copyright"></i> <?php echo $lang->copyrightName ?>
+        </div>
 
 
         <script>
@@ -308,28 +322,6 @@ if (login_check($mysqli) == true) {
             });
 
             function onAllExternalsLoadedSuccessfully() {
-
-
-                // Add smooth scrolling to all links in navbar + footer link
-                //                $(".navbar a, footer a[href='#pageBody']").on('click', function (event) {
-                //                    if (!$(this).hasClass('no-scrolling')) {
-                //                        event.preventDefault();
-                //
-                //                        // Store hash
-                //                        var hash = this.hash;
-                //
-                //                        // Using jQuery's animate() method to add smooth page scroll
-                //                        // The optional number (400) specifies the number of milliseconds it takes to scroll to the specified area
-                //                        $('html, body').animate({
-                //                            scrollTop: $(hash).offset().top - 50
-                //                        }, 400, function () {
-                //
-                //                            // Add hash (#) to URL when done scrolling (default click behavior)
-                //                            window.location.hash = hash;
-                //                        });
-                //                    }
-                //                });
-
                 $('#login-form #password, #login-form #email').keypress(function (event) {
                     if (event.keyCode === 13) {
                         $('#login-form #btn-login').click();
@@ -338,18 +330,10 @@ if (login_check($mysqli) == true) {
 
                 $('#login-form').on('loginSuccess', function (event, result) {
                     gotoDashboard();
-//                    if (result.userType === 'evaluator') {
-//                    goto('dashboard.php');
-//                    } else if (result.userType === 'tester') {
-//                        goto('dashboard-tester.php');
-//                    }
                 });
 
                 $('#register-form').on('registerSuccess', function (event, result) {
-//                    if (result.userType === 'evaluator') {
                     gotoDashboard();
-//                        goto('dashboard.php');
-//                    }
                 });
 
                 var allNews = translation.allNews;
@@ -382,9 +366,11 @@ if (login_check($mysqli) == true) {
                     $(col).append(newsContent);
 
                     if (i > 0) {
-                        $(newsItem).css({marginTop: '20px'});
+                        $(newsItem).css({marginTop: '40px'});
                     }
                 }
+                
+                initPopover();
             }
 
             $('#btn-open-register').on('click', function (event) {
@@ -457,7 +443,7 @@ if (login_check($mysqli) == true) {
                 $("html, body").animate({scrollTop: 0}, 200);
             });
 
-            $('#btn-more-infos').on('click', function () {
+            $('.btn-more-infos').on('click', function () {
                 goto('informations.php');
             });
 
@@ -468,6 +454,14 @@ if (login_check($mysqli) == true) {
             function resetContactFormInput() {
                 unlockButton($('#contact-form').find('#btn-contact-us'), true, 'fa-send');
             }
+            
+            $(window).on('scroll', function() {
+                if($('.navbar-fixed-index-container').hasClass('affix')) {
+                    TweenMax.to($('#affix-logo'), .2, {opacity:1});
+                } else {
+                    TweenMax.to($('#affix-logo'), .2, {opacity:0});
+                }
+            });
         </script>
 
     </body>

@@ -37,7 +37,7 @@ include_once 'includes/functions.php';
 
         <!-- externals -->
         <!--<div id="alerts"></div>-->
-        <div id="template-subpages"></div>
+        <div id="template-general"></div>
 
 
         <!-- Container (Breadcrump) -->
@@ -46,7 +46,7 @@ include_once 'includes/functions.php';
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
-                    <li class="active"><i class="fa fa-info-circle" aria-hidden="true"></i> <?php echo $lang->breadcrump->imprint ?></li>
+                    <li class="active" data-id="btn-imprint"><i class="fa fa-info-circle" aria-hidden="true"></i> <?php echo $lang->breadcrump->imprint ?></li>
                 </ol>
             </div>
         </div>
@@ -89,7 +89,7 @@ include_once 'includes/functions.php';
                 checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
-                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     loadExternals(externals);
                 });
             });
@@ -98,6 +98,8 @@ include_once 'includes/functions.php';
 
                 var loggedIn = parseInt('<?php echo login_check($mysqli) ?>') === 1;
                 renderSubPageElements(loggedIn, true);
+                animateBreadcrump();
+                
                 if (loggedIn === false) {
                     $('#btn-dashboard').parent().remove();
                 }
