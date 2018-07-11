@@ -173,20 +173,20 @@ include '../includes/language.php';
                             </div>
                         </a>
                         <ul class="dropdown-menu main-burger-menu">
-                            <li class="btn-dashboard" data-id="btn-dashboard"><a href="#" style="margin-top: 1px"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
+                            <li class="btn-dashboard" data-id="btn-dashboard"><a href="#" style="margin-top: 1px"><i class="fa fa-tachometer" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->dashboard ?></span></a></li>
                             <li role="separator" class="divider" style="background-color: #787878; margin: 4px 0px;"></li>
-                            <li class="btn-studies" data-id="btn-studies"><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></a></li>
-                            <li class="btn-study hidden" data-id="btn-study"><a href="#"><i class="fa fa-clipboard"></i> <?php echo $lang->breadcrump->study ?></a></li>
-                            <li class="btn-gesture-styleguides" data-id="btn-gesture-styleguides"><a href="#"><i class="fa fa-map-signs" aria-hidden="true"></i> <?php echo $lang->breadcrump->gestureStyleguides ?></a></li>
-                            <li class="btn-gesture-catalog" data-id="btn-gesture-catalog"><a href="#"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->breadcrump->gestureCatalog ?></a></li>
-                            <li class="btn-news" data-id="btn-news"><a href="#"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <?php echo $lang->breadcrump->news ?></a></li>
-                            <li class="btn-publications" data-id="btn-publications"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php echo $lang->breadcrump->publications ?></a></li>
-                            <li class="btn-profile" data-id="btn-profile"><a href="#"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->breadcrump->profile ?></a></li>
-                            <li class="btn-support" data-id="btn-support"><a href="#"><i class="fa fa-support" aria-hidden="true"></i> <?php echo $lang->breadcrump->help ?></a></li>
-                            <li class="btn-informations" data-id="btn-informations"><a href="#"><i class="fa fa-file-text-o" aria-hidden="true"></i> <?php echo $lang->breadcrump->informations ?></a></li>
-                            <li class="btn-imprint" data-id="btn-imprint"><a href="#"><i class="fa fa-info-circle" aria-hidden="true"></i> <?php echo $lang->breadcrump->imprint ?></a></li>
+                            <li class="btn-studies" data-id="btn-studies"><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->studies ?></span></a></li>
+                            <li class="btn-study hidden" data-id="btn-study"><a href="#"><i class="fa fa-clipboard"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->study ?></span></a></li>
+                            <li class="btn-gesture-styleguides" data-id="btn-gesture-styleguides"><a href="#"><i class="fa fa-map-signs" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->gestureStyleguides ?></span></a></li>
+                            <li class="btn-gesture-catalog" data-id="btn-gesture-catalog"><a href="#"><i class="fa fa-sign-language" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->gestureCatalog ?></span></a></li>
+                            <li class="btn-news" data-id="btn-news"><a href="#"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->news ?></span></a></li>
+                            <li class="btn-publications" data-id="btn-publications"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->publications ?></span></a></li>
+                            <li class="btn-profile" data-id="btn-profile"><a href="#"><i class="fa fa-user" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->profile ?></span></a></li>
+                            <li class="btn-support" data-id="btn-support"><a href="#"><i class="fa fa-support" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->help ?></span></a></li>
+                            <li class="btn-informations" data-id="btn-informations"><a href="#"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->informations ?></span></a></li>
+                            <li class="btn-imprint" data-id="btn-imprint"><a href="#"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->imprint ?></span></a></li>
                             <li role="separator" class="divider" style="background-color: #787878; margin: 4px 0px;"></li>
-                            <li id="btn-sign-out"><a href="#"><i class="fa fa-lock"></i> <span class="btn-text uppercase"><?php echo $lang->signOut ?></span></a></li>
+                            <li id="btn-sign-out"><a href="#"><i class="fa fa-lock"></i> <span class="main-burger-menu-text"><?php echo $lang->signOut ?></span></a></li>
                         </ul>
                     </li>
                 </ul>

@@ -544,7 +544,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-gestureTrainingOption" type="button" style="z-index: 3000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addTrainingElement ?></span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-gestureTrainingOption" type="button" style="z-index: 3000"><span class="fa fa-plus"></span> <span><?php echo $lang->addTrainingElement ?></span></button>
                 </div>
             </div>
         </div>
@@ -731,8 +731,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-taskOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addTaskElement ?></span></button>
-                    <!--<button class="btn btn-info btn-shadow font-bold btn-add-woz-experimentOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addWOZElement ?></span></button>-->
+                    <button class="btn btn-info btn-shadow font-bold btn-add-taskOption" type="button" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addTaskElement ?></span></button>
                 </div>
             </div>
         </div>
@@ -752,7 +751,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-taskAssessmentOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addTaskAssessmentElement ?></span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-taskAssessmentOption" type="button" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addTaskAssessmentElement ?></span></button>
                 </div>
             </div>
         </div>
@@ -778,7 +777,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button type="button" class="btn btn-info btn-shadow font-bold btn-add-helpOption" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addHelp ?></span></button>
+                    <button type="button" class="btn btn-info btn-shadow font-bold btn-add-helpOption" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addHelp ?></span></button>
                 </div>
             </div>
         </div>
@@ -955,7 +954,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-slideshowOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addSlideshowElement ?></span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-slideshowOption" type="button" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addSlideshowElement ?></span></button>
                 </div>
             </div>
         </div>
@@ -1138,7 +1137,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-slideshowOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addSlideshowElement ?></span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-slideshowOption" type="button" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addSlideshowElement ?></span></button>
                 </div>
             </div>
         </div>
@@ -1274,13 +1273,13 @@ include '../includes/language.php';
                         <div class="input-group simple-stepper">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="2">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneLess ?></span>
+                                    <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneLess ?></span>
                                 </button>
                             </div>
                             <input type="text" class="form-control readonly text-center stepper-text" id="totalStressAmount" value="10">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="300">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneMore ?></span>
+                                    <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneMore ?></span>
                                 </button>
                             </div>
                         </div>
@@ -1312,7 +1311,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-physicalStressTestOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addGesture ?></span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-physicalStressTestOption" type="button" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addGesture ?></span></button>
                 </div>
             </div>
         </div>
@@ -1820,7 +1819,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-info btn-shadow btn-add-identificationOption font-bold disabled" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addIdentificationElement ?></span></button>
+                    <button class="btn btn-info btn-shadow btn-add-identificationOption font-bold disabled" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addIdentificationElement ?></span></button>
                 </div>
             </div>
         </div>
@@ -2059,7 +2058,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-info btn-shadow btn-add-explorationOption font-bold disabled" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addExplorationElement ?></span></button>
+                    <button class="btn btn-info btn-shadow btn-add-explorationOption font-bold disabled" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addExplorationElement ?></span></button>
                 </div>
             </div>
         </div>

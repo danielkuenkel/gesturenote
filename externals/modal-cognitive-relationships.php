@@ -55,7 +55,7 @@ include '../includes/language.php';
 </div>
 
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="saveData()"><span class="glyphicon glyphicon-floppy-disk"></span> <?php echo $lang->saveAndClose ?></button>
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="saveData()"><span class="fa fa-save"></span> <?php echo $lang->saveAndClose ?></button>
 </div>
 
 <script>

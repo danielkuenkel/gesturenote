@@ -39,7 +39,7 @@ $(document).on('change', '.imageUpload', function (event) {
                 $(button).next().attr('src', '');
                 $(button).removeClass('disabled');
                 $(button).closest('.root').find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
-                $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture').addClass('glyphicon-refresh');
+                $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('fa-picture').addClass('fa-refresh');
                 control.replaceWith(control = control.clone(true));
                 $(button).trigger('saveData');
                 return null;
@@ -64,7 +64,7 @@ $(document).on('change', '.imageUpload', function (event) {
                     $(button).closest('.root').find('#image-loading-indicator').addClass('hidden');
                     $(imageAreaContent).attr("src", result.imageUrl);
                     $(element).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
-                    $(element).find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture').addClass('glyphicon-refresh');
+                    $(element).find('.chooseSceneImage .btn-icon').removeClass('fa-picture').addClass('fa-refresh');
                     control.replaceWith(control = control.clone(true));
                     $(button).trigger('saveData');
                 } else {
@@ -96,7 +96,7 @@ $(document).on('click', '.btn-delete-image', function (event) {
                 $(button).next().attr('src', '');
                 $(element).find('.imageArea').addClass('hidden');
                 $(button).closest('.root').find('.chooseSceneImage .btn-text').text('Bild auswählen');
-                $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('glyphicon-refresh').addClass('glyphicon-picture');
+                $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('fa-refresh').addClass('fa-picture');
                 $(element).find('.title').val('');
                 $(button).trigger('saveData');
             } else {
@@ -140,7 +140,7 @@ $(document).on('change', '.soundUpload', function (event) {
                 $(button).next().attr('src', '');
                 $(button).removeClass('disabled');
                 $(button).closest('.root').find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
-                $(button).closest('.root').find('.chooseFeedbackSound .btn-icon').removeClass('glyphicon-picture').addClass('glyphicon-refresh');
+                $(button).closest('.root').find('.chooseFeedbackSound .btn-icon').removeClass('fa-picture').addClass('fa-refresh');
                 control.replaceWith(control = control.clone(true));
                 $(button).trigger('saveData');
                 return null;
@@ -168,7 +168,7 @@ $(document).on('change', '.soundUpload', function (event) {
                     $(audioPlayer).removeClass('hidden');
                     $(element).find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
                     $(element).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-volume-up');
-                    $(element).find('.chooseFeedbackSound .btn-icon').addClass('glyphicon glyphicon-refresh');
+                    $(element).find('.chooseFeedbackSound .btn-icon').addClass('fa fa-refresh');
                     control.replaceWith(control = control.clone(true));
                     $(element).trigger('saveData');
                 } else {
@@ -199,7 +199,7 @@ $(document).on('click', '.btn-delete-sound', function (event) {
                 $(element).find('.audio-holder').attr('src', '');
                 $(element).find('.audioPlayer').addClass('hidden');
                 $(element).find('.chooseFeedbackSound .btn-text').text('Sounddatei auswählen');
-                $(element).find('.chooseFeedbackSound .btn-icon').removeClass('glyphicon glyphicon-refresh');
+                $(element).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-refresh');
                 $(element).find('.chooseFeedbackSound .btn-icon').addClass('fa fa-volume-up');
                 $(element).find('#stop').click();
                 $(element).find('.title').val('');

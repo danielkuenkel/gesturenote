@@ -16,11 +16,11 @@ include '../includes/language.php';
 
         <!-- Schalter -->
         <a class="left carousel-control" href="#carousel-introduction-generic" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="fa fa-chevron-left" aria-hidden="true"></span>
             <span class="sr-only"><?php echo $lang->previous ?></span>
         </a>
         <a class="right carousel-control" href="#carousel-introduction-generic" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="fa fa-chevron-right" aria-hidden="true"></span>
             <span class="sr-only"><?php echo $lang->next ?></span>
         </a>
     </div>

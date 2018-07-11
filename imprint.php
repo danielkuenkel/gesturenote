@@ -60,8 +60,8 @@ include_once 'includes/functions.php';
                 </div>
                 <div class="info-text text">
                     <p><?php echo $lang->imprintContent->adress ?></p>
-                    <p><?php echo $lang->email ?>: <a href="mailto:admin@gesturenote.de"><i class="glyphicon glyphicon-link"></i> admin@gesturenote.de</a></p>
-                    <p><?php echo $lang->imprintContent->source ?>: <a href="https://www.e-recht24.de"><i class="glyphicon glyphicon-link"></i> e-recht24.de</a></p>
+                    <p><?php echo $lang->email ?>: <a href="mailto:admin@gesturenote.de"><i class="fa fa-link"></i> admin@gesturenote.de</a></p>
+                    <p><?php echo $lang->imprintContent->source ?>: <a href="https://www.e-recht24.de"><i class="fa fa-link"></i> e-recht24.de</a></p>
                 </div>
             </div>
 

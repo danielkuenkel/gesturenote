@@ -176,13 +176,13 @@ include '../includes/language.php';
                             <div class="input-group simple-stepper" id="counter-number" style="max-width: 100%;">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
-                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                                        <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                                     </button>
                                 </div>
                                 <input type="text" class="form-control readonly text-center stepper-text" value="0">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
-                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                                        <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                                     </button>
                                 </div>
                             </div>
@@ -252,13 +252,13 @@ include '../includes/language.php';
                             <div class="input-group simple-stepper" id="counter-number" style="max-width: 100%;">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
-                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                                        <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                                     </button>
                                 </div>
                                 <input type="text" class="form-control readonly text-center stepper-text" value="0">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
-                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                                        <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                                     </button>
                                 </div>
                             </div>
@@ -314,7 +314,7 @@ include '../includes/language.php';
             <div class="filter-options">
                 <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
                 <div class="filter-options-container row"></div>
-                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="fa fa-plus"></span> <?php echo $lang->addFilterOption ?></button>
             </div>
         </div>
     </div>
@@ -438,7 +438,7 @@ include '../includes/language.php';
             <div class="filter-options">
                 <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
                 <div class="filter-options-container row"></div>
-                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="fa fa-plus"></span> <?php echo $lang->addFilterOption ?></button>
             </div>
         </div>
     </div>
@@ -698,13 +698,13 @@ include '../includes/language.php';
                     <div class="input-group simple-stepper" id="counter-from" style="max-width: 140px;">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
-                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                                <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                             </button>
                         </div>
                         <input type="text" class="form-control readonly text-center stepper-text" value="0">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
-                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                                <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                             </button>
                         </div>
                     </div>
@@ -715,13 +715,13 @@ include '../includes/language.php';
                     <div class="input-group simple-stepper" id="counter-to" style="max-width: 140px;">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
-                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                                <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                             </button>
                         </div>
                         <input type="text" class="form-control readonly text-center stepper-text" value="0">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
-                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                                <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                             </button>
                         </div>
                     </div>
@@ -731,7 +731,7 @@ include '../includes/language.php';
             <div class="filter-options">
                 <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
                 <div class="filter-options-container row"></div>
-                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="fa fa-plus"></span> <?php echo $lang->addFilterOption ?></button>
             </div> 
 
         </div>
@@ -821,14 +821,14 @@ include '../includes/language.php';
                 <div class="">
                     <div class="option-container row"></div>
                 </div>
-                <button type="button" class="btn btn-success btn-shadow btn-add-groupingQuestionOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addGroupingQuestionOption ?></button>
+                <button type="button" class="btn btn-success btn-shadow btn-add-groupingQuestionOption"><span class="fa fa-plus"></span> <?php echo $lang->addGroupingQuestionOption ?></button>
             </div>
 
             <!-- filter options -->
             <div class="filter-options">
                 <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
                 <div class="filter-options-container row"></div>
-                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="fa fa-plus"></span> <?php echo $lang->addFilterOption ?></button>
             </div>
 
         </div>
@@ -1303,7 +1303,7 @@ include '../includes/language.php';
             <div class="filter-options">
                 <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
                 <div class="filter-options-container row"></div>
-                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="fa fa-plus"></span> <?php echo $lang->addFilterOption ?></button>
             </div>
 
         </div>
@@ -1333,7 +1333,7 @@ include '../includes/language.php';
                 <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
             </div>
 
-<!--            <button type="button" class="btn btn-info btn-shadow btn-add-ratingOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addRatingOption ?></button>-->
+<!--            <button type="button" class="btn btn-info btn-shadow btn-add-ratingOption"><span class="fa fa-plus"></span> <?php echo $lang->addRatingOption ?></button>-->
             <form class="form-inline" style="margin-top: 10px">
                 <div class="form-group root negative" style="margin-right: 20px">
                     <label style="margin: 0"><?php echo $lang->negativeQuestionmark ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ratingNegative ?>"></i></label><br>
@@ -1388,7 +1388,7 @@ include '../includes/language.php';
             <div class="filter-options">
                 <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
                 <div class="filter-options-container row"></div>
-                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="fa fa-plus"></span> <?php echo $lang->addFilterOption ?></button>
             </div>
         </div>
     </div>
@@ -1460,7 +1460,7 @@ include '../includes/language.php';
                 <div class="filter-options">
                     <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
                     <div class="filter-options-container row"></div>
-                    <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option" data-root-lookups="3"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+                    <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option" data-root-lookups="3"><span class="fa fa-plus"></span> <?php echo $lang->addFilterOption ?></button>
                 </div>
 
             </div>
@@ -1504,7 +1504,7 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <button type="button" class="btn btn-success btn-shadow btn-add-ratingOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addNewRow ?></button>
+            <button type="button" class="btn btn-success btn-shadow btn-add-ratingOption"><span class="fa fa-plus"></span> <?php echo $lang->addNewRow ?></button>
         </div>
     </div>
 
@@ -1564,13 +1564,13 @@ include '../includes/language.php';
                     <div class="input-group simple-stepper" id="counter-maximum" style="max-width: 140px;">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
-                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                                <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                             </button>
                         </div>
                         <input type="text" class="form-control readonly text-center stepper-text" value="0">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
-                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                                <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                             </button>
                         </div>
                     </div>
@@ -1583,14 +1583,14 @@ include '../includes/language.php';
                     <div class="option-container">
                     </div>
                 </div>
-                <button type="button" class="btn btn-success btn-shadow btn-add-sumQuestionOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addNewAnswer ?></button>
+                <button type="button" class="btn btn-success btn-shadow btn-add-sumQuestionOption"><span class="fa fa-plus"></span> <?php echo $lang->addNewAnswer ?></button>
             </div>
 
             <!-- filter options -->
             <div class="filter-options">
                 <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
                 <div class="filter-options-container row"></div>
-                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="fa fa-plus"></span> <?php echo $lang->addFilterOption ?></button>
             </div>     
 
         </div>
@@ -1640,14 +1640,14 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-success btn-shadow btn-add-rankingOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addRankingOption ?></button>
+                <button type="button" class="btn btn-success btn-shadow btn-add-rankingOption"><span class="fa fa-plus"></span> <?php echo $lang->addRankingOption ?></button>
             </div>
 
             <!-- filter options -->
             <div class="filter-options">
                 <label style="margin-top: 10px"><?php echo $lang->filterOptions ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->filterOptions ?>"></i></label>
                 <div class="filter-options-container row"></div>
-                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addFilterOption ?></button>
+                <button type="button" class="btn btn-warning btn-shadow btn-add-filter-option"><span class="fa fa-plus"></span> <?php echo $lang->addFilterOption ?></button>
             </div>
 
         </div>
@@ -1795,7 +1795,7 @@ include '../includes/language.php';
                     <div class="alert-space alert-no-feedback-assembled-link"></div>
                     <div class="option-container row"></div>
                 </div>
-                <button class="btn btn-success btn-shadow font-bold btn-add-woz-experimentOption" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addWOZElement ?></span></button>
+                <button class="btn btn-success btn-shadow font-bold btn-add-woz-experimentOption" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addWOZElement ?></span></button>
             </div>
 
         </div>
@@ -1942,13 +1942,13 @@ include '../includes/language.php';
                             <div class="input-group simple-stepper">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
+                                        <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
                                     </button>
                                 </div>
                                 <input type="text" class="form-control readonly text-center stepper-text" value="1">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
-                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
+                                        <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
                                     </button>
                                 </div>
                             </div>
@@ -1962,7 +1962,7 @@ include '../includes/language.php';
                     <div class="">
                         <div class="transition-scenes-option-container"></div>
                     </div>
-                    <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
+                    <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
                 </div>
 
             </div>
@@ -2024,13 +2024,13 @@ include '../includes/language.php';
                             <div class="input-group simple-stepper" >
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
+                                        <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
                                     </button>
                                 </div>
                                 <input type="text" class="form-control readonly text-center stepper-text" value="1">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
-                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
+                                        <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
                                     </button>
                                 </div>
                             </div>
@@ -2098,7 +2098,7 @@ include '../includes/language.php';
                     <div class="transition-scenes-option-container">
                     </div>
                 </div>
-                <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
+                <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
             </div>
 
         </div>
@@ -2138,7 +2138,7 @@ include '../includes/language.php';
                     <div class="transition-scenes-option-container">
                     </div>
                 </div>
-                <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
+                <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
             </div>
 
         </div>
@@ -2210,13 +2210,13 @@ include '../includes/language.php';
                         <div class="input-group simple-stepper">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneLess ?></span>
+                                    <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneLess ?></span>
                                 </button>
                             </div>
                             <input type="text" class="form-control readonly text-center stepper-text" value="5" tabindex="-1">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneMore ?></span>
+                                    <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneMore ?></span>
                                 </button>
                             </div>
                         </div>
@@ -2259,13 +2259,13 @@ include '../includes/language.php';
                         <div class="input-group simple-stepper" >
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
+                                    <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
                                 </button>
                             </div>
                             <input type="text" class="form-control readonly text-center stepper-text" value="1">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
+                                    <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
                                 </button>
                             </div>
                         </div>
@@ -2284,7 +2284,7 @@ include '../includes/language.php';
                     <div class="">
                         <div class="transition-scenes-option-container"></div>
                     </div>
-                    <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
+                    <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
                 </div>
             </div>
 
@@ -2339,13 +2339,13 @@ include '../includes/language.php';
                 <div class="input-group simple-stepper">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                            <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
+                            <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
                         </button>
                     </div>
                     <input type="text" class="form-control readonly text-center stepper-text" value="3">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
-                            <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
+                            <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
                         </button>
                     </div>
                 </div>
@@ -2469,7 +2469,7 @@ include '../includes/language.php';
                         <div class="transition-scenes-option-container">
                         </div>
                     </div>
-                    <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
+                    <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
                 </div>
             </div>
 
@@ -2517,7 +2517,7 @@ include '../includes/language.php';
                             <div class="transition-scenes-option-container">
                             </div>
                         </div>
-                        <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
+                        <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
                     </div>
                 </div>
 
@@ -2613,7 +2613,7 @@ include '../includes/language.php';
                 <div class="input-group">
                     <input class="form-control item-input-text pidoco-embed-url enter-key" type="text" value="" placeholder="<?php echo $lang->pidocoSimulationUrl ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow checkInput checkPidocoEmbedURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text"><?php echo $lang->check ?></span></button>
+                        <button class="btn btn-default btn-shadow checkInput checkPidocoEmbedURL"><i class="btn-icon fa fa-check"></i> <span class="btn-text"><?php echo $lang->check ?></span></button>
                     </div>
                 </div>
             </div>
@@ -2638,7 +2638,7 @@ include '../includes/language.php';
                 <div class="input-group">
                     <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow chooseSceneImage"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text"><?php echo $lang->chooseImage ?></span></button>
+                        <button class="btn btn-default btn-shadow chooseSceneImage"><i class="btn-icon fa fa-picture-o"></i> <span class="btn-text"><?php echo $lang->chooseImage ?></span></button>
                     </div>
                 </div>
 
@@ -2650,7 +2650,7 @@ include '../includes/language.php';
 
             <div class="imageArea hidden" style="margin-top: 10px; width: 400px; height: auto; position: relative;">
                 <div class="btn-group"style="position: absolute; margin: 10px;">
-                    <button class="btn btn-danger btn-shadow btn-delete-image"><span class="glyphicon glyphicon-trash"></span> <?php echo $lang->deleteImage ?></button>
+                    <button class="btn btn-danger btn-shadow btn-delete-image"><span class="fa fa-trash"></span> <?php echo $lang->deleteImage ?></button>
                     <button class="btn btn-default btn-shadow btn-decrease-image"><i class="fa fa-minus"></i></button>
                     <button class="btn btn-default btn-shadow btn-increase-image"><i class="fa fa-plus"></i></button>
                 </div>
@@ -2704,7 +2704,7 @@ include '../includes/language.php';
                 <div class="input-group">
                     <input class="form-control item-input-text video-embed-url enter-key" type="text" value="" placeholder="<?php echo $lang->videoEmbedUrl ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow checkInput checkVideoEmbedURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text"><?php echo $lang->check ?></span></button>
+                        <button class="btn btn-default btn-shadow checkInput checkVideoEmbedURL"><i class="btn-icon fa fa-check"></i> <span class="btn-text"><?php echo $lang->check ?></span></button>
                     </div>
                 </div>
             </div>

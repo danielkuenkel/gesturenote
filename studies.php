@@ -75,10 +75,10 @@ if (login_check($mysqli) == true) {
 
                     <div>
                         <div id="study-range-days"><span class="address"></span> <span class="text"></span></div>
-                        <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="text"></span></div>
-                        <div class="hidden study-not-started"><i class="fa fa-hourglass-start" aria-hidden="true"></i> <span class="text"></span></div>
-                        <div class="hidden study-started"><i class="fa fa-hourglass-half" aria-hidden="true"></i> <span class="text"></span></div>
-                        <div class="hidden study-ended"><i class="fa fa-hourglass-end" aria-hidden="true"></i> <span class="text"></span></div>
+                        <div class="hidden study-no-plan text"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="status-text"></span></div>
+                        <div class="hidden study-not-started text"><i class="fa fa-hourglass-start" aria-hidden="true"></i> <span class="status-text"></span></div>
+                        <div class="hidden study-started text"><i class="fa fa-hourglass-half" aria-hidden="true"></i> <span class="status-text"></span></div>
+                        <div class="hidden study-ended text"><i class="fa fa-hourglass-end" aria-hidden="true"></i> <span class="status-text"></span></div>
                     </div>
                 </div>
             </div>
@@ -99,7 +99,7 @@ if (login_check($mysqli) == true) {
         <!-- Container (Panel Section) -->
         <div class="container mainContent" style="margin-top: 0px;" id="item-view">
 
-            <button type="button" class="btn btn-success btn-block btn-shadow" onclick="gotoCreateStudy()"><i class="glyphicon glyphicon-plus"></i> <?php echo $lang->createNewStudy ?></button>
+            <button type="button" class="btn btn-success btn-block btn-shadow" onclick="gotoCreateStudy()"><i class="fa fa-plus"></i> <?php echo $lang->createNewStudy ?></button>
 
             <div class="form-group form-group-no-margin" style="margin-top: 20px">
                 <div class="input-group">

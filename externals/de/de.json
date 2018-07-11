@@ -130,7 +130,7 @@
     "whatOffersGesturenote2headline": "Remote Usability-Tests",
     "whatOffersGesturenote2text": "Befragen Sie einfach und umkompliziert ihre Zielgruppe - Weltweit!",
     "whatOffersGesturenote3headline": "Design von Gesten",
-    "whatOffersGesturenote3text": "Die Designphasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluierung</em> werden unterstützt.",
+    "whatOffersGesturenote3text": "Die Designphasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluierung</em> werden in der Planung, Durchführung und Analyse unterstützt.",
     "whatOffersGesturenote4headline": "Einfache Studien-Erstellung",
     "whatOffersGesturenote4text": "Schnelle und einfache Erstellung von Leitfäden.",
     "whatOffersGesturenote5headline": "Messinstrumente",
@@ -321,7 +321,7 @@
     "studyRuns": "Studie lief insgesamt",
     "studyRunsFrom": "Studie läuft von",
     "studyRunsTo": "Studie läuft bis",
-    "startsAt": "startet in",
+    "startsAt": "Startet in",
     "number": "Anzahl",
     "zeroOClick": "00:00 Uhr",
     "summary": "Zusammenfassung",
@@ -1847,7 +1847,7 @@
         },
         "recordGesture": {
             "headline": "Geste aufzeichnen",
-            "description": "Um eine Geste aufzuzeichnen, klicken Sie auf <button class='btn btn-xs btn-success btn-shadow'><i class='glyphicon glyphicon-record'></i> Aufzeichung starten</button>. Die Aufzeichnung startet und Sie haben nun 20 Sekunden Zeit, um eine Geste vorzuführen. Die Aufzeichnung wird nach Ablauf der 20 Sekunden automatisch gestoppt. Die Aufzeichnung kann auch manuell beendet werden, indem Sie auf <button class='btn btn-xs btn-danger btn-shadow'><i class='glyphicon glyphicon-stop'></i> Aufzeichung beenden</button> klicken."
+            "description": "Um eine Geste aufzuzeichnen, klicken Sie auf <button class='btn btn-xs btn-success btn-shadow'><i class='fa fa-dot-circle-o'></i> Aufzeichung starten</button>. Die Aufzeichnung startet und Sie haben nun 20 Sekunden Zeit, um eine Geste vorzuführen. Die Aufzeichnung wird nach Ablauf der 20 Sekunden automatisch gestoppt. Die Aufzeichnung kann auch manuell beendet werden, indem Sie auf <button class='btn btn-xs btn-danger btn-shadow'><i class='fa fa-stop'></i> Aufzeichung beenden</button> klicken."
         },
         "previewTrimmingGesture": {
             "headline": "Ansehen und Schneiden einer Geste",
@@ -1965,7 +1965,7 @@
     "moreInfos": "Mehr Informationen",
     "tooltips": {
         "general": {
-            "password":"Das Passwort muss mindestens 6 Zeichen lang sein. Es muss mindestens eine Zahl, einen Großbuchstaben und einen Kleinbuchstaben enthalten.",
+            "password": "Das Passwort muss mindestens 6 Zeichen lang sein. Es muss mindestens eine Zahl, einen Großbuchstaben und einen Kleinbuchstaben enthalten.",
             "moveUp": "Mit oberem Element tauschen",
             "moveDown": "Mit unterem Element tauschen",
             "delete": "Element löschen",
@@ -4809,6 +4809,10 @@
             "popover": "Gesten-Design-Studie erstellen",
             "description": 
                     [
+                        "<h4>Studien-Übersicht</h4><hr>",
+                        "<img class='img-image' src='img/de/introduction/study-create/studies.jpg' style='max-width:388px' />",
+                        "<p>Die Studien-Übersicht stellt Ihre gesamten Studien übersichtlich dar. Das Farbschema zeigt an, ob eine Studie nocht nicht gestartet (gelbe Linie <span style='margin-left: 2px'><i class='fa fa-minus' style='color: #EEAC57'></i></span>), gestartet (grüne Linie <span style='margin-left: 2px'><i class='fa fa-minus' style='color: #5cb85c'></i></span>) oder beendet ist (blaue Linie <span style='margin-left: 2px'><i class='fa fa-minus' style='color: #5bc0de'></i></span>). Zudem zeigt die grüne Linie einer gestarteten Studie den Fortschritt an, bzw. wieviel Zeit noch übrig ist. Des Weiteren zeigt jedes Element Informationen über die Design-Phase (Ermittlung, Extraktion, Evaluierung), die Art der Befragung (moderiert, unmoderiert), die Anzahl der Teilnehmer und die Anzahl der zu dieser Studie eingeladenen Personen an.</p>",
+                        "<p>Um eine neue Studie zu erstellen, klicken Sie auf den Button <button class='btn btn-success btn-xs btn-shadow'><i class='fa fa-plus'></i> Neue Studie erstellen</button>. Möchten Sie die Studie bearbeiten, sich die Rohdaten der Teilnahmen ansehen oder eine Extraktion für ermittelte Gesten durchführen, klicken Sie auf das jeweilige Element einer Studie.</p>",
                         "<h4>Bereiche</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-01-01.jpg' style='max-width:363px' />",
                         "<p>Die Erstellung einer Studie ist in drei Bereiche unterteilt: Allgemeine Daten, Kataloge und Leitfaden. Die Kataloge und der Leitfaden können erst angelegt werden, wenn die allgemeinen Daten für die Studie hinterlegt wurden.</p>",

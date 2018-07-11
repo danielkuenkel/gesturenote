@@ -482,9 +482,6 @@ include '../includes/language.php';
                 <div><?php echo $lang->triggerShown ?>: <span id="given" style="color: #303030"></span></div>
                 <div><?php echo $lang->answerPeriod ?>: <span id="responseTime" style="color: #303030"></span></div>
             </div>
-            <!--            <div class="btn-group-vertical btn-block" style="margin-top: 10px">
-                            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
-                        </div>-->
         </div>
         <div class="col-xs-6 col-lg-4 right">
             <div style="margin: 0 auto">
@@ -540,7 +537,7 @@ include '../includes/language.php';
             <div class="label label-warning hidden" id="not-answered"><i class="fa fa-ellipsis-h"></i> <span class="label-text"><?php echo $lang->notAnswered ?></span></div>
             <div><?php echo $lang->triggerInquired ?>: <span id="searched" style="color: #303030"></span></div>
             <div style="margin-right: 10px; float: left"><?php echo $lang->gestureShow ?>: <span id="given" style="color: #303030"></span>
-                <button style="height: auto" type="button" class="btn btn-xs btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+                <button style="height: auto" type="button" class="btn btn-xs btn-default btn-shadow btn-popover-gesture-preview"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
             </div>
         </div>
     </div>
@@ -575,7 +572,6 @@ include '../includes/language.php';
                         <div class="col-xs-6 col-lg-8">
                             <div id="repeats-left"><span class="address"><?php echo $lang->repeatsLeft ?>:</span> <span class="text"></span></div>
                             <div id="stress-for"><span class="address"><?php echo $lang->gestureShow ?>:</span> <span class="text"></span></div>
-                            <!--<button type="button" class="btn btn-default btn-block btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>-->
                         </div>
 
                         <div class="col-xs-6 col-lg-4">
@@ -767,7 +763,7 @@ include '../includes/language.php';
         <div class="help-title"></div>
         <div class="btn-group" style="margin-top: 10px;">
             <button type="button" class="btn btn-info btn-shadow disabled" id="offer-help"><i class="fa fa-life-ring"></i> <?php echo $lang->offerHelp ?></button>
-            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
         </div>
     </div>
 
@@ -832,9 +828,9 @@ include '../includes/language.php';
         <div id="transition-scenes" class="root"></div>
         <div id="waiting-for-sensor" class="hidden"><i class="fa fa-spin fa-circle-o-notch"></i> <?php echo $lang->waitForSensorData ?></div>
         <div style="margin-top: 10px">
-            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-start-gesture-recording" name="btn-success"><i class="glyphicon glyphicon-record"></i> <?php echo $lang->recordGesture ?></button>
-            <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success"><i class="glyphicon glyphicon-record"></i> <?php echo $lang->rerecordGesture ?></button>
-            <button class="btn btn-block btn-danger btn-shadow hidden" id="btn-stop-gesture-recording" name="btn-success"><i class="glyphicon glyphicon-stop"></i> <?php echo $lang->stopRecordGesture ?></span></button>
+            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-start-gesture-recording" name="btn-success"><i class="fa fa-dot-circle-o"></i> <?php echo $lang->recordGesture ?></button>
+            <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success"><i class="fa fa-dot-circle-o"></i> <?php echo $lang->rerecordGesture ?></button>
+            <button class="btn btn-block btn-danger btn-shadow hidden" id="btn-stop-gesture-recording" name="btn-success"><i class="fa fa-stop"></i> <?php echo $lang->stopRecordGesture ?></span></button>
             <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
             <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
@@ -842,7 +838,7 @@ include '../includes/language.php';
 
     <div id="identificationItem-trigger">
         <div id="search-for"><span class="address"></span> <span class="text"></span> 
-            <button type="button" class="btn btn-xs btn-default btn-popover-gesture-preview" style="height: 22px; margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+            <button type="button" class="btn btn-xs btn-default btn-popover-gesture-preview" style="height: 22px; margin-left: 5px"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
         </div> 
         <div id="transition-scenes" class="root"></div>
         <div style="margin-top: 10px">
@@ -1036,14 +1032,14 @@ include '../includes/language.php';
         <span><?php echo $lang->title ?>: </span><span class="title"></span><br/>
         <span><?php echo $lang->type ?>: </span><div class="label label-default type"><i class="fa fa-link"></i> <span class="label-text"></span></div><br/><br/>
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
-        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="<?php echo $lang->openUrlInNewWindow ?>"><i class="glyphicon glyphicon-link"></i> <?php echo $lang->openUrlInNewWindow ?></button>
+        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="<?php echo $lang->openUrlInNewWindow ?>"><i class="fa fa-link"></i> <?php echo $lang->openUrlInNewWindow ?></button>
     </div>
 
     <div id="pidoco">
         <span><?php echo $lang->title ?>: </span><span class="title"></span><br/>
         <span><?php echo $lang->type ?>: </span><div class="label label-default type"><i class="fa fa-link"></i> <span class="label-text"></span></div><br/><br/>
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
-        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="<?php echo $lang->openUrlInNewWindow ?>"><i class="glyphicon glyphicon-link"></i> <?php echo $lang->openUrlInNewWindow ?></button>
+        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="<?php echo $lang->openUrlInNewWindow ?>"><i class="fa fa-link"></i> <?php echo $lang->openUrlInNewWindow ?></button>
     </div>
 
     <div id="image">
@@ -1819,12 +1815,12 @@ include '../includes/language.php';
 
         <div class="hidden" id="normal-controls">
             <div class="pull-left">
-                <button class="btn btn-link" id="btn-show-scenario-info"><i class="glyphicon glyphicon-menu-down text-center"></i> <span id="more-text"></span></button>
-                <button class="btn btn-link pull-left hidden" id="btn-hide-scenario-info"><i class="glyphicon glyphicon-menu-up text-center"></i> <span id="less-text"></span></button>
+                <button class="btn btn-link" id="btn-show-scenario-info"><i class="fa fa-angle-down text-center"></i> <span id="more-text"></span></button>
+                <button class="btn btn-link pull-left hidden" id="btn-hide-scenario-info"><i class="fa fa-angle-up text-center"></i> <span id="less-text"></span></button>
             </div>
             <div class="pull-right">
                 <button type="button" class="btn btn-success" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
-                <button type="button" class="btn btn-info" id="btn-refresh-scene"><i class="glyphicon glyphicon-refresh"></i> <span class="btn-text"><?php echo $lang->reload ?></span></button>
+                <button type="button" class="btn btn-info" id="btn-refresh-scene"><i class="fa fa-refresh"></i> <span class="btn-text"><?php echo $lang->reload ?></span></button>
                 <button type="button" class="btn btn-info" id="btn-getting-help"><i class="fa fa-life-ring"></i> <span class="btn-text"><?php echo $lang->help ?></span></button>
             </div>
             <div class="text-center" style="overflow: hidden">
@@ -2091,13 +2087,13 @@ include '../includes/language.php';
             <div class="input-group simple-stepper" style="max-width: 130px;">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
-                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                        <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                     </button>
                 </div>
                 <input type="text" class="form-control readonly text-center stepper-text" value="0">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                        <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                     </button>
                 </div>
             </div>
@@ -2152,13 +2148,13 @@ include '../includes/language.php';
         <div class="input-group simple-stepper" style="max-width: 140px; float: left;  clear: left">
             <div class="input-group-btn">
                 <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
-                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                    <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                 </button>
             </div>
             <input type="text" class="form-control readonly text-center stepper-text" value="0">
             <div class="input-group-btn">
                 <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="0">
-                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                    <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                 </button>
             </div>
         </div>

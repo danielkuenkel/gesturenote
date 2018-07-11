@@ -2879,7 +2879,7 @@ function initCatalogFeedbackOverlay(formatClone) {
                         $(clone).find('.audioPlayer').removeClass('hidden');
                         $(clone).find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
                         $(clone).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-volume-up');
-                        $(clone).find('.chooseFeedbackSound .btn-icon').addClass('glyphicon glyphicon-refresh');
+                        $(clone).find('.chooseFeedbackSound .btn-icon').addClass('fa fa-refresh');
                     }
                     break;
             }
@@ -2965,8 +2965,8 @@ function initCatalogScenesOverlay(formatClone) {
                         $(clone).find('.imageAreaContent').attr("src", item.parameters.url);
                         $(clone).find('.imageArea').removeClass('hidden');
                         $(clone).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
-                        $(clone).find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture');
-                        $(clone).find('.chooseSceneImage .btn-icon').addClass('glyphicon-refresh');
+                        $(clone).find('.chooseSceneImage .btn-icon').removeClass('fa-picture');
+                        $(clone).find('.chooseSceneImage .btn-icon').addClass('fa-refresh');
                     }
                     break;
                 case SCENE_VIDEO_EMBED:

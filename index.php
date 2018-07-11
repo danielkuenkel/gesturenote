@@ -173,7 +173,7 @@ if (login_check($mysqli) == true) {
                 </div>
                 <div class="row" style="margin-top: 30px;">
                     <div class="col-sm-4">
-                        <i class="fa fa-archive logo-small" style="font-size: 50px"></i>
+                        <i class="fa fa-bar-chart logo-small" style="font-size: 50px"></i>
                         <h4 class="uppercase"><?php echo $lang->whatOffersGesturenote5headline ?></h4>
                         <p><?php echo $lang->whatOffersGesturenote5text ?></p>
                     </div>
@@ -183,7 +183,7 @@ if (login_check($mysqli) == true) {
                         <p><?php echo $lang->whatOffersGesturenote6text ?></p>
                     </div>
                     <div class="col-sm-4">
-                        <i class="fa fa-wrench logo-small" style="font-size: 50px"></i>
+                        <i class="fa fa-code logo-small" style="font-size: 50px"></i>
                         <h4 class="uppercase"><?php echo $lang->whatOffersGesturenote7headline ?></h4>
                         <p><?php echo $lang->whatOffersGesturenote7text ?></p>
                     </div>
@@ -228,14 +228,14 @@ if (login_check($mysqli) == true) {
                         <p><?php echo $lang->contactText ?></p>
                         <div class="row">
                             <div class="col-xs-1">
-                                <i class="glyphicon glyphicon-map-marker"></i>
+                                <i class="fa fa-map-marker"></i>
                             </div>
                             <div class="col-xs-11">
                                 <p><?php echo $lang->contactAdress1 ?><br>
                                     <?php echo $lang->contactAdress2 ?></p>
                             </div>
                             <div class="col-xs-1">
-                                <i class="glyphicon glyphicon-envelope"></i>
+                                <i class="fa fa-envelope"></i>
                             </div>
                             <div class="col-xs-11">
                                 <p> <a href="mailto:admin@gesturenote.de">admin@gesturenote.de</a></p>

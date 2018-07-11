@@ -384,7 +384,7 @@ h4 {
 }
 .navbar-fixed-top .dropdown-menu li a:hover, .navbar-fixed-index .dropdown-menu li a:hover {
     color: white !important;
-    background-color: #333333;
+    background-color: #444;
 }
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
     background-color: #5bb85c;
@@ -394,7 +394,7 @@ h4 {
     box-shadow: 0px 1px 1px 0px rgba(56,130,57,1);
 }
 .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
-    background-color: #333333;
+    background-color: #303030;
 }
 .navbar-fixed-top li a, .navbar-fixed-top .navbar-brand,
 .navbar-fixed-bottom li a, .navbar-fixed-bottom .navbar-brand {
@@ -426,6 +426,14 @@ footer .fa {
     color: #696969;
 }
 
+.main-burger-menu-text {
+/*    position: absolute;
+    left: 37px;*/
+}
+.main-burger-menu .fa {
+    min-width: 16px;
+}
+
 .breadcrumb li {
     opacity: 0;
 }
@@ -433,6 +441,7 @@ footer .fa {
     width: 16px;
     margin-top: -2px;
     box-shadow: 0px 1px 1px 0px rgba(0,0,0,.4);
+    margin-right: 3px;
 }
 
 .burger-line {

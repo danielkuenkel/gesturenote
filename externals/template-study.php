@@ -81,7 +81,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="no-phase-results">
-        <div class="alert alert-warning" role="alert"><i class="glyphicon glyphicon-info-sign"></i> <?php echo $lang->alerts->noDataAvailable->text ?></div>
+        <div class="alert alert-warning" role="alert"><i class="fa fa-info-circle"></i> <?php echo $lang->alerts->noDataAvailable->text ?></div>
     </div>
 
     <div id="elicitation-statistics">
@@ -490,7 +490,7 @@ include '../includes/language.php';
     <div id="grouping-question-gus-feedbacks-option" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px"><span class="text"></span></div>
     <div id="grouping-question-gus-gestures-option" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px">
         <span class="text"></span>
-        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
     </div>
 
     <div class="panel panel-default panel-shadow" id="groupingQuestionOptions" style="margin-bottom: 5px;">
@@ -648,7 +648,7 @@ include '../includes/language.php';
 
     <div id="alternativeQuestion-gesture-item" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px">
         <span class="text"></span>
-        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
     </div>
 
     <div id="alternativeQuestion-trigger-item" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"><span class="text"></span></div>
@@ -1465,30 +1465,6 @@ include '../includes/language.php';
     </div>
 
 
-
-
-
-
-    <!--    <div class="panel panel-default" id="panel-gesture-set">
-            <div class="panel-heading">
-                <div class="btn-group" style="margin-right: 10px">
-                    <button class="btn btn-default btn-shadow" id="btn-delete-gesture-set"><span class="glyphicon glyphicon-trash"></span></button>
-                </div>
-                <span class="panel-heading-text"></span>
-                <div class="btn-group pull-right">
-                    <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-download"></i></button>
-                    <button class="btn btn-sm btn-default btn-shadow" id="btn-mark-hole-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addAllGesturesToStudyGestureSet ?>"><i class="fa fa-plus"></i></button>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-    
-            <div class="panel-body" id="item-view">
-                <div class="row" id="gestures-list-container">
-    
-                </div>
-            </div>
-        </div>-->
-
 </div>
 
 
@@ -1514,13 +1490,13 @@ include '../includes/language.php';
             <div class="input-group simple-stepper" style="max-width: 130px;">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
-                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                        <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                     </button>
                 </div>
                 <input type="text" class="form-control readonly text-center stepper-text" value="0">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                        <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                     </button>
                 </div>
             </div>
@@ -1614,7 +1590,7 @@ include '../includes/language.php';
         <div class="help-title"></div>
         <div class="btn-group" style="margin-top: 10px;">
             <button type="button" class="btn btn-info btn-shadow disabled" id="offer-help"><i class="fa fa-life-ring"></i> <?php echo $lang->offerHelp ?></button>
-            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
         </div>
     </div>
 
@@ -1622,14 +1598,14 @@ include '../includes/language.php';
         <span><?php echo $lang->title ?>: </span><span class="title"></span><br/>
         <span><?php echo $lang->type ?>: </span><div class="label label-default type"><i class="fa fa-link"></i> <span class="label-text"></span></div><br/><br/>
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
-        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="<?php echo $lang->openUrlInNewWindow ?>"><i class="glyphicon glyphicon-link"></i> <?php echo $lang->openUrlInNewWindow ?></button>
+        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="<?php echo $lang->openUrlInNewWindow ?>"><i class="fa fa-link"></i> <?php echo $lang->openUrlInNewWindow ?></button>
     </div>
 
     <div id="pidoco">
         <span><?php echo $lang->title ?>: </span><span class="title"></span><br/>
         <span><?php echo $lang->type ?>: </span><div class="label label-default type"><i class="fa fa-link"></i> <span class="label-text"></span></div><br/><br/>
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
-        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="<?php echo $lang->openUrlInNewWindow ?>"><i class="glyphicon glyphicon-link"></i> <?php echo $lang->openUrlInNewWindow ?></button>
+        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="<?php echo $lang->openUrlInNewWindow ?>"><i class="fa fa-link"></i> <?php echo $lang->openUrlInNewWindow ?></button>
     </div>
 
     <div id="image">

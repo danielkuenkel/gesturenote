@@ -462,7 +462,7 @@ if (login_check($mysqli) == true) {
 
                 <!-- submit form button group -->
                 <div class="btn-group-vertical btn-block" role="group">
-                    <button type="button" class="btn btn-default btn-shadow disabled" id="btn-preview-study"><i class="glyphicon glyphicon-eye-open"></i> <?php echo $lang->studyPreview ?></button>
+                    <button type="button" class="btn btn-default btn-shadow disabled" id="btn-preview-study"><i class="fa fa-eye"></i> <?php echo $lang->studyPreview ?></button>
                     <button type="button" class="btn btn-success btn-shadow" id="btn-save-study"><i class="fa fa-save"></i> <?php echo $lang->saveAndClose ?></button>
                 </div>
             </div>

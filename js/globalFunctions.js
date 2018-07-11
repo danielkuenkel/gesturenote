@@ -165,8 +165,8 @@ function animateBreadcrump() {
     var breadcrumpItems = $('#breadcrumb').find('.breadcrumb').children();
     for (var i = 0; i < breadcrumpItems.length; i++) {
 //        $(breadcrumpItems[i]).css({opacity:0});
-        TweenMax.from($(breadcrumpItems[i]), .2, {delay: .2 + (i * .05), x: -10, clearProps: 'all'});
-        TweenMax.to($(breadcrumpItems[i]), .2, {delay: .2 + (i * .05), opacity: 1});
+        TweenMax.from($(breadcrumpItems[i]), .2, {delay: .6 + (i * .05), x: -10, clearProps: 'all'});
+        TweenMax.to($(breadcrumpItems[i]), .2, {delay: .6 + (i * .05), opacity: 1});
     }
 }
 
@@ -270,7 +270,7 @@ function updateMainBurgerMenu(target, breadcrump) {
 
 $(document).on('click', '.main-burger-menu li a', function (event) {
     event.preventDefault();
-    
+
     if (!$(this).parent().hasClass('active')) {
         var gotoId = $(this).parent().attr('data-id');
         switch (gotoId) {
@@ -2655,21 +2655,27 @@ function getStudiesCatalogListThumbnail(target, data) {
             $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
 
             if (now > dateFrom && now < dateTo) {
+                console.log(dateFrom, dateTo.getTime(), now);
                 var left = getTimeLeftForTimestamp(dateTo, 1);
-                var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
-                progress = dateFrom / dateTo * 100;
-                $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
+//                var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
+                var statusText = $(clone).find('.study-started').removeClass('hidden').find('.status-text');
+                progress = (now - dateFrom) / (dateTo.getTime() - dateFrom) * 100;//daysExpired / totalDays * 100;
+                $(statusText).text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
                 $(clone).find('.progress-bar').addClass('progress-bar-success');
                 $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
+                var hourglass = $(clone).find('.study-started .fa');
+                console.log(statusText);
+                TweenMax.to(hourglass, 2, {rotation: '360', repeat: -1, ease: Quad.easeInOut});
+                TweenMax.to($(statusText), 1, {delay: 0, css:{marginLeft:'8'}, yoyo: true, repeat: -1, ease: Quad.easeIn});
             } else if (now < dateFrom) {
                 progress = 100;
                 var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
-                $(clone).find('.study-not-started').removeClass('hidden').find('.text').text(translation.studyNotStarted + ', ' + translation.startsAt + ' ' + daysToStart + ' ' + (daysToStart === 1 ? translation.day : translation.daysn));
+                $(clone).find('.study-not-started').removeClass('hidden').find('.status-text').text(translation.startsAt + ' ' + daysToStart + ' ' + (daysToStart === 1 ? translation.day : translation.daysn));
                 $(clone).find('.progress-bar').addClass('progress-bar-warning');
             } else if (now > dateTo) {
                 progress = 100;
                 $(clone).find('#study-range-days .address').text(translation.studyRuns + ": ");
-                $(clone).find('.study-ended').removeClass('hidden').find('.text').text(translation.studyEnded);
+                $(clone).find('.study-ended').removeClass('hidden').find('.status-text').text(translation.studyEnded);
                 $(clone).find('.progress-bar').addClass('progress-bar-info');
                 $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.none);
             }
@@ -2697,7 +2703,7 @@ function getStudiesCatalogListThumbnail(target, data) {
             }
         } else {
             $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
-            $(clone).find('#study-range-days .text').text('0 ' + translation.days);
+            $(clone).find('#study-range-days .status-text').text('0 ' + translation.days);
             $(clone).find('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
             $(clone).find('.progress-bar').addClass('progress-bar-danger');
         }
