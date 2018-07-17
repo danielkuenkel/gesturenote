@@ -90,7 +90,7 @@ include '../includes/language.php';
                         <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-pre-initialize"><i class="fa fa-video-camera"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->gestureRecorderNavigation->preInitialize ?></span></a></li>
                         <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-record"><i class="fa fa-dot-circle-o"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->gestureRecorderNavigation->record ?></span></a></li>
                         <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-playback"><i class="fa fa-crop"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->gestureRecorderNavigation->cut ?></span></a></li>
-                        <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-save"><i class="fa fa-floppy-o"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->gestureRecorderNavigation->save ?></span></a></li>
+                        <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-save"><i class="fa fa-pencil"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->gestureRecorderNavigation->save ?></span></a></li>
                     </ul>
                 </div>
             </div>
@@ -214,7 +214,7 @@ include '../includes/language.php';
                         <div class="root embed-responsive embed-responsive-4by3">
                             <video class="playback-webcam-video mirroredHorizontally" preload="metadata" style="border-top-left-radius: 5px; border-top-right-radius: 5px"></video>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>
                             </div>
                         </div>
@@ -253,7 +253,7 @@ include '../includes/language.php';
                         <div class="embed-responsive embed-responsive-4by3 sensor-canvas">
                             <div id="renderArea" class="embed-responsive-item"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>
@@ -298,7 +298,7 @@ include '../includes/language.php';
                         <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single btn-tag-as-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i> <?php echo $lang->previewImage ?>: <span class="preview-image-index">1</span></div>
                             </div>
@@ -316,7 +316,7 @@ include '../includes/language.php';
                         <div class="embed-responsive embed-responsive-4by3">
                             <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
                             </div>
@@ -447,7 +447,7 @@ include '../includes/language.php';
                         <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
                                 <!--<div class="controls-container-btn application-btn application-btn-right btn-tag-as-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i></div>-->
                             </div>
@@ -465,7 +465,7 @@ include '../includes/language.php';
                         <div class="embed-responsive embed-responsive-4by3">
                             <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
                             </div>
@@ -519,7 +519,7 @@ include '../includes/language.php';
                         <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-pre-initialize"><i class="fa fa-video-camera"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->gestureRecorderNavigation->preInitialize ?></span></a></li>
                         <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-record"><i class="fa fa-dot-circle-o"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->gestureRecorderNavigation->record ?></span></a></li>
                         <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-playback"><i class="fa fa-crop"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->gestureRecorderNavigation->cut ?></span></a></li>
-                        <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-save"><i class="fa fa-floppy-o"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->gestureRecorderNavigation->save ?></span></a></li>
+                        <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-save"><i class="fa fa-pencil"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->gestureRecorderNavigation->save ?></span></a></li>
                     </ul>
                 </div>
             </div>
@@ -643,7 +643,7 @@ include '../includes/language.php';
                         <div class="root embed-responsive embed-responsive-4by3">
                             <video class="playback-webcam-video mirroredHorizontally" preload="metadata" style="border-top-left-radius: 5px; border-top-right-radius: 5px"></video>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>
                             </div>
                         </div>
@@ -682,7 +682,7 @@ include '../includes/language.php';
                         <div class="embed-responsive embed-responsive-4by3 sensor-canvas">
                             <div id="renderArea" class="embed-responsive-item"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>
@@ -727,7 +727,7 @@ include '../includes/language.php';
                         <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single btn-tag-as-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i> <?php echo $lang->previewImage ?>: <span class="preview-image-index">1</span></div>
                             </div>
@@ -745,7 +745,7 @@ include '../includes/language.php';
                         <div class="embed-responsive embed-responsive-4by3">
                             <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
                             </div>
@@ -878,7 +878,7 @@ include '../includes/language.php';
                         <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
                                 <!--<div class="controls-container-btn application-btn application-btn-right btn-tag-as-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i></div>-->
                             </div>
@@ -896,7 +896,7 @@ include '../includes/language.php';
                         <div class="embed-responsive embed-responsive-4by3">
                             <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
                                 <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
                             </div>

@@ -25,12 +25,15 @@ function LeapRecorder(options) {
         pauseOnHand: options.pauseOnHand || false,
         overlay: false
     });
+    
+    console.log('renderTarget',options.renderTarget);
 
     controller.use('riggedHand', {
         checkWebGL: false,
         offset: options.offset || null,
         renderTarget: options.renderTarget || null
     });
+    
 
     controller.connect();
     this.options.controller = controller;
@@ -431,8 +434,8 @@ LeapRecorder.prototype.play = function (container) {
 };
 
 LeapRecorder.prototype.stop = function (container) {
-    if ($(container).find('#btn-toggle-playback').hasClass('playing')) {
-        $(container).find('#btn-toggle-playback').click();
+    if ($(container).find('.btn-toggle-playback').hasClass('playing')) {
+        $(container).find('.btn-toggle-playback').click();
     }
 };
 
@@ -461,7 +464,7 @@ LeapRecorder.prototype.playback = function () {
         options.controller = currentOptions.controller;
         options.parent = currentOptions.parent;
         options.rawData = recordedFrameData;
-        options.playbackElement = $(container).find('#btn-toggle-playback');
+        options.playbackElement = $(container).find('.btn-toggle-playback');
         options.downloadJsonElement = $(container).find('.btn-download-as-json');
         options.downloadCompressedElement = $(container).find('.btn-download-as-compressed');
         options.playbackSliderElement = $(container).find('#leap-playback-slider');
@@ -518,7 +521,7 @@ LeapRecorder.prototype.showSave = function () {
     options.controller = currentOptions.controller;
     options.parent = currentOptions.parent;
     options.rawData = croppedRecordedFrameData;
-    options.playbackElement = $(container).find('#btn-toggle-playback');
+    options.playbackElement = $(container).find('.btn-toggle-playback');
     options.downloadJsonElement = $(container).find('.btn-download-as-json');
     options.downloadCompressedElement = $(container).find('.btn-download-as-compressed');
     options.playbackSliderElement = $(container).find('#leap-playback-slider');
@@ -559,7 +562,7 @@ LeapRecorder.prototype.showSaveSuccess = function () {
     options.controller = currentOptions.controller;
     options.parent = currentOptions.parent;
     options.rawData = croppedRecordedFrameData;
-    options.playbackElement = $(container).find('#btn-toggle-playback');
+    options.playbackElement = $(container).find('.btn-toggle-playback');
     options.downloadJsonElement = $(container).find('.btn-download-as-json');
     options.downloadCompressedElement = $(container).find('.btn-download-as-compressed');
     options.playbackSliderElement = $(container).find('#leap-playback-slider');

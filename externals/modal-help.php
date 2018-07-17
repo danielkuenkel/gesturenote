@@ -15,7 +15,7 @@ include '../includes/language.php';
             <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
                 <div id="" class="webcam-image-container"></div>
                 <div class="controls-container embed-responsive-item">
-                    <div class="hidden-control text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                    <div class="hidden-control text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                 </div>
             </div>
 

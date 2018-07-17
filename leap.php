@@ -80,7 +80,7 @@ session_start();
                 <button class="btn btn-default" id="btn-start-recording">RECORD</button>
                 <button class="btn btn-default disabled" id="btn-stop-recording">STOP RECORD</button>
                 <button class="btn btn-default disabled" id="btn-crop-recording">CROP</button>
-                <button class="btn btn-default disabled" id="btn-toggle-playback"><i class="fa fa-play"></i></button>
+                <button class="btn btn-default disabled btn-toggle-playback"><i class="fa fa-play"></i></button>
             </div>
             <div class="btn-group">
                 <button class="btn btn-default" id="btn-download-recording-as-json">DOWNLOAD JSON</button>
@@ -151,7 +151,7 @@ session_start();
 //                    renderTarget: $('#renderArea'),
                     recordElement: $('#btn-start-recording'),
                     stopRecordElement: $('#btn-stop-recording'),
-                    playbackElement: $('#btn-toggle-playback'),
+                    playbackElement: $('.btn-toggle-playback'),
                     downloadJsonElement: $('#btn-download-recording-as-json'),
                     downloadCompressedElement: $('#btn-download-recording-as-compressed'),
                     loadRecordingElement: $('#btn-load-recording'),

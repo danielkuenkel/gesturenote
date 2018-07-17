@@ -7,20 +7,6 @@
 var GESTURE_THUMBNAIL_SCROLLING_SPEED = 100;
 var popoverVisible = false;
 
-$(document).on('mouseenter', '.previewGesture', function (event) {
-    event.preventDefault();
-    if ($(this).hasClass('mousePlayable')) {
-        $(this).parent().find('.btn-play-gesture').click();
-    }
-});
-
-$(document).on('mouseleave', '.previewGesture', function (event) {
-    event.preventDefault();
-    if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
-        $(this).parent().find('.btn-pause-gesture').click();
-    }
-});
-
 var currentSlide, prevSlide;
 $(document).on('mousemove', '.mouseScrollable', function (event) {
     clearTimer();
@@ -59,6 +45,7 @@ $(document).on('click', '.btn-pause-gesture', function (event) {
     event.stopPropagation();
     event.stopImmediatePropagation();
     resetPlayButton($(this));
+    clearTimer();
     resetThumbnails($(this).closest('.root').find('.previewGesture'));
 });
 
@@ -101,10 +88,26 @@ $(document).on('mousedown', '.btn-step-backward-gesture', function (event) {
     event.stopPropagation();
     clearTimer();
     mouseDownInterval = setInterval(function (container) {
-        console.log(container);
+//        console.log(container);
         stepBackward(container);
     }, 200, $(this).closest('.root').find('.previewGesture'));
 });
+
+//$(document).on('mouseenter', '.previewGesture', function (event) {
+//    event.preventDefault();
+//    if ($(this).hasClass('mousePlayable')) {
+//        console.log('on mouse enter');
+//        $(this).parent().find('.btn-play-gesture').click();
+//    }
+//});
+
+//$(document).on('mouseleave', '.previewGesture', function (event) {
+//    event.preventDefault();
+//    if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
+//        console.log('on mouse leave');
+//        $(this).parent().find('.btn-pause-gesture').click();
+//    }
+//});
 
 $(document).on('click', '.btn-popover-gesture-preview', function (event) {
     event.preventDefault();
@@ -140,6 +143,7 @@ $(document).on('mouseleave', '.btn-popover-gesture-preview', function (event) {
 function resetPopover() {
     var popover = $('#popover-gesture');
     popoverVisible = false;
+    clearTimer();
     resetThumbnails(popover.find('.previewGesture'));
     TweenMax.to(popover, .1, {autoAlpha: 0, onComplete: onResetTweenComplete()});
 }
@@ -156,8 +160,7 @@ function resetPlayButton(source) {
 var originalImageWidth = 0;
 function renderGestureImages(container, images, preview, callback) {
     var numImagesLoaded = 0;
-    $(container).empty();
-    $(container).addClass('text-center');
+    $(container).empty().addClass('text-center');
     TweenMax.set(container, {opacity: 0});
 
     if (images && images.length > 0) {
@@ -166,13 +169,8 @@ function renderGestureImages(container, images, preview, callback) {
         for (var i = 0; i < images.length; i++) {
             var image = document.createElement('img');
             $(image).addClass('gestureImage mirroredHorizontally embed-responsive-item');
-//            $(image).css({borderBottomLeftRadius: '5px', borderBottomRightRadius: '5px'});
             container.append(image);
-            if (i === parseInt(preview)) {
-                $(image).addClass('previewImage active');
-            } else {
-                $(image).addClass('hidden');
-            }
+            $(image).addClass(i === parseInt(preview) ? 'previewImage active' : 'hidden');
 
             image.onload = function () {
                 if (numImagesLoaded === images.length - 1) {
@@ -181,7 +179,7 @@ function renderGestureImages(container, images, preview, callback) {
                     TweenMax.to(container, .3, {opacity: 1});
 
                     if ($(container).hasClass('autoplay')) {
-                        $(container).parent().find('.btn-pause-gesture').click();
+//                        $(container).parent().find('.btn-pause-gesture').click();
                         $(container).parent().find('.btn-play-gesture').click();
                     }
                     if (callback !== null && callback !== undefined) {
@@ -200,11 +198,11 @@ function renderGestureImages(container, images, preview, callback) {
 function renderGesturePreview(container, gesture, callback) {
     var numImagesLoaded = 0;
     var imageContainer = $(container).find('.webcam-image-container');
-    $(imageContainer).empty();
-    $(imageContainer).addClass('hidden');
+    $(imageContainer).empty().addClass('hidden');
+    $(imageContainer).unbind('imageChange');
 
     // control elements
-    var togglePlaybackButton = $(container).find('#btn-toggle-playback');
+    var togglePlaybackButton = $(container).find('.btn-toggle-playback');
     var slider = $(container).find('#webcam-playback-slider');
 
     if (gesture.images && gesture.images.length > 0) {
@@ -221,6 +219,7 @@ function renderGesturePreview(container, gesture, callback) {
                     if (callback !== null && callback !== undefined) {
                         callback();
                     }
+                    initGesturePreviewButtons();
                 }
                 numImagesLoaded++;
             };
@@ -228,60 +227,67 @@ function renderGesturePreview(container, gesture, callback) {
         }
     }
 
-    if (togglePlaybackButton) {
-        $(togglePlaybackButton).unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                if ($(this).attr('data-state') === 'playing') {
-                    $(this).attr('data-state', 'paused');
-                    $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
-                    stopPlayThroughThumbnails();
-                } else {
-                    $(this).attr('data-state', 'playing');
-                    $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
-                    playThroughThumbnails(imageContainer);
+    function initGesturePreviewButtons() {
+        if (togglePlaybackButton) {
+            $(togglePlaybackButton).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    if ($(this).attr('data-state') === 'playing') {
+                        $(this).attr('data-state', 'paused');
+                        $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
+                        stopPlayThroughThumbnails();
+                    } else {
+                        $(this).attr('data-state', 'playing');
+                        $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
+                        playThroughThumbnails(imageContainer);
+                    }
                 }
-            }
-        });
-    }
-
-    if ($(container).hasClass('autoplay')) {
-        if (togglePlaybackButton && $(togglePlaybackButton).attr('data-state') === 'paused') {
-            $(togglePlaybackButton).click();
-        } else if (!togglePlaybackButton) {
-            playThroughThumbnails(imageContainer);
+            });
         }
-    }
 
-    if (slider && $(container).find('#webcam-playback-slider-controls').attr('data-visible') === 'true') {
-        $(container).find('#webcam-playback-slider-controls').removeClass('hidden');
-        var sliderOptions = {
-            min: 0,
-            max: gesture.images.length - 1,
-            step: 1,
-            value: gesture.preview
-        };
-        $(slider).slider(sliderOptions);
-
-        $(imageContainer).unbind('imageChange').bind('imageChange', function (event, index) {
-            $(slider).slider('setValue', index);
-        });
-
-        $(slider).unbind('slide').bind('slide', function (event) {
-            if (togglePlaybackButton && $(togglePlaybackButton).attr('data-state') === 'playing') {
-                $(togglePlaybackButton).click();
+        if ($(container).hasClass('autoplay')) {
+            if (togglePlaybackButton) {
+                if ($(togglePlaybackButton).attr('data-state') === 'paused') {
+                    $(togglePlaybackButton).click();
+                }
+            } else if (!togglePlaybackButton) {
+                playThroughThumbnails(imageContainer);
             }
-            $(imageContainer).children().removeClass('active').addClass('hidden');
-            $($(imageContainer).children()[event.value]).addClass('active').removeClass('hidden');
-        });
+        }
 
-        $(slider).unbind('change').bind('change', function (event) {
-            if (togglePlaybackButton && $(togglePlaybackButton).attr('data-state') === 'playing') {
-                $(togglePlaybackButton).click();
-            }
-            $(imageContainer).children().removeClass('active').addClass('hidden');
-            $($(imageContainer).children()[event.value.newValue]).addClass('active').removeClass('hidden');
-        });
+        if (slider && $(container).find('#webcam-playback-slider-controls').attr('data-visible') === 'true') {
+            $(container).find('#webcam-playback-slider-controls').removeClass('hidden');
+            var sliderOptions = {
+                min: 0,
+                max: gesture.images.length - 1,
+                step: 1,
+                value: gesture.preview
+            };
+            $(slider).slider(sliderOptions);
+
+            $(imageContainer).unbind('imageChange').bind('imageChange', function (event, index) {
+                event.preventDefault();
+                if (slider) {
+                    $(slider).slider('setValue', index);
+                }
+            });
+
+            $(slider).unbind('slide').bind('slide', function (event) {
+                if (togglePlaybackButton && $(togglePlaybackButton).attr('data-state') === 'playing') {
+                    $(togglePlaybackButton).click();
+                }
+                $(imageContainer).children().removeClass('active').addClass('hidden');
+                $($(imageContainer).children()[event.value]).addClass('active').removeClass('hidden');
+            });
+
+            $(slider).unbind('change').bind('change', function (event) {
+                if (togglePlaybackButton && $(togglePlaybackButton).attr('data-state') === 'playing') {
+                    $(togglePlaybackButton).click();
+                }
+                $(imageContainer).children().removeClass('active').addClass('hidden');
+                $($(imageContainer).children()[event.value.newValue]).addClass('active').removeClass('hidden');
+            });
+        }
     }
 }
 
@@ -300,14 +306,20 @@ function renderGesturePopoverPreview(gesture, callback) {
 
 var gestureThumbnailTimer;
 function playThroughThumbnails(container) {
-    clearTimer();
-    stepForward(container);
-    gestureThumbnailTimer = setTimeout(function () {
-        playThroughThumbnails(container);
+//    clearTimer();
+
+    gestureThumbnailTimer = setInterval(function () {
+//        console.log('play through thumbnails', container);
+        stepForward(container);
+//        playThroughThumbnails(container);
     }, GESTURE_THUMBNAIL_SCROLLING_SPEED);
+//    gestureThumbnailTimer = setTimeout(function () {
+//
+//    }, GESTURE_THUMBNAIL_SCROLLING_SPEED);
 }
 
 function stopPlayThroughThumbnails() {
+//    console.log('stop play through thumbnails');
     clearTimer();
 }
 
@@ -338,7 +350,7 @@ function stepBackward(container) {
 }
 
 function resetThumbnails(container) {
-    clearTimer();
+//    clearTimer();
     var previewIndex;
     var children = $(container).children();
     for (var i = 0; i < children.length; i++) {
@@ -356,7 +368,9 @@ function resetThumbnails(container) {
 }
 
 function clearTimer() {
-    clearTimeout(gestureThumbnailTimer);
+//    console.log('clear timer');
+//    clearTimeout(gestureThumbnailTimer);
+    clearInterval(gestureThumbnailTimer);
 }
 
 function updateModalProgress(container) {

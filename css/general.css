@@ -1240,7 +1240,7 @@ canvas {
     opacity: .9 !important;
 }
 
-.controls-container #btn-toggle-playback {
+.controls-container .btn-toggle-playback {
     position: absolute;
     width: 56px;
     height: 56px;
@@ -1251,7 +1251,7 @@ canvas {
     transform: translate(-50%, -50%); 
 }
 
-.controls-container #btn-toggle-playback i{
+.controls-container .btn-toggle-playback i{
     color: white;
     position: relative;
     top: 12px;

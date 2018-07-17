@@ -879,10 +879,24 @@ function updateGesture(data, callback) {
         dataType: 'json',
         async: true,
         success: function (result) {
-//            if (result.status === RESULT_SUCCESS) {
-//                setLocalItem(GESTURE_CATALOG, result.gestures);
-//            }
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
 
+function deleteGestureFiles(data, callback) {
+    $.ajax({
+        url: 'includes/delete-gesture-files.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
             if (callback) {
                 callback(result);
             }

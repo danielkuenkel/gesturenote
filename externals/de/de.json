@@ -1695,7 +1695,7 @@
     "gestureSharedInOwnProjects": "<span class='text font-bold'>{x}</span> Mal in eigenen Projekten genutzt.",
     "gestureSharedInOtherProjects": "<span class='text font-bold'>{x}</span> Mal in Projekten anderer genutzt.",
     "edit": "Bearbeiten",
-    "gesturePreviewable": "Bearbeitung beenden",
+    "gesturePreviewable": "Bearbeitung abbrechen",
     "rateGesture": "Geste bewerten",
     "valuation": "Bewertung",
     "valuationType": "Gestentyp für Kontext stimmig? (z.B. Ganzkörper-Geste für Arbeitsplatz stimmig?)",
@@ -1834,7 +1834,7 @@
         "preInitialize": "Auswahl",
         "record": "Aufzeichnen",
         "cut": "Schneiden",
-        "save": "Speichern"
+        "save": "Daten"
     },
     "gestureRecorderManual": {
         "preInitialize": {

@@ -16,6 +16,7 @@ var GR_STATE_SAVE_SUCCESS = 'gr-save-success';
 var GR_STATE_DELETE_SUCCESS = 'gr-delete-success';
 
 var GR_EVENT_SAVE_SUCCESS = 'gr-save-success';
+var GR_EVENT_UPDATE_SUCCESS = 'gr-update-success';
 var GR_EVENT_DELETE_SUCCESS = 'gr-delete-success';
 var GR_EVENT_GESTURE_TOO_SHORT = 'gr-gesture-too-short';
 
@@ -32,11 +33,15 @@ function GestureRecorder(options) {
     recorder.options = options;
     initRecorderEvents();
     if (options.startState) {
+        console.log('initalize Recorders', recorder.options.updateGesture && recorder.options.updateGesture === true, options.initRecorders && options.initRecorders.length > 0)
         if (options.initRecorders && options.initRecorders.length > 0) {
             initializeRecorders();
-            initInstancesEvents();
-            setState(options.startState);
         }
+//        if(recorder.options.updateGesture && recorder.options.updateGesture === true) {
+//            
+//            
+//        }
+        setState(options.startState);
     } else {
         setState(GR_STATE_PRE_INITIALIZE);
     }
@@ -45,6 +50,13 @@ function GestureRecorder(options) {
 }
 
 GestureRecorder.prototype.destroy = function () {
+    var togglePlaybackButtons = $(recorder.options.recorderTarget).find('.btn-toggle-playback');
+    for (var i = 0; i < togglePlaybackButtons.length; i++) {
+        if ($(togglePlaybackButtons[i]).attr('data-state') === 'playing') {
+            $(togglePlaybackButtons[i]).click();
+        }
+    }
+
     if (recorders.length > 0) {
         for (var i = 0; i < recorders.length; i++) {
             if (recorders[i].instance) {
@@ -79,6 +91,14 @@ GestureRecorder.prototype.currentInstructionContent = null;
 function setState(state) {
     $(recorder.options.recorderTarget).find('.recorder-contents .recorder-content').addClass('hidden');
     $(recorder.options.recorderTarget).find('.instruction-contents .instruction-content').addClass('hidden');
+    console.log('set state: ' + state + ', start state: ' + recorder.options.startState);
+
+    var togglePlaybackButtons = $(recorder.options.recorderTarget).find('.btn-toggle-playback');
+    for (var i = 0; i < togglePlaybackButtons.length; i++) {
+        if ($(togglePlaybackButtons[i]).attr('data-state') === 'playing') {
+            $(togglePlaybackButtons[i]).click();
+        }
+    }
 
     if (nextStateAllowed(state)) {
         recorder.state = state;
@@ -88,24 +108,30 @@ function setState(state) {
 
         switch (state) {
             case GR_STATE_PRE_INITIALIZE:
+                initInstancesEvents();
                 renderStatePreInitialize();
                 break;
             case GR_STATE_INITIALIZE:
                 renderStateInitialize();
                 break;
             case GR_STATE_RECORD:
+                initInstancesEvents();
                 renderStateRecord();
                 break;
             case GR_STATE_PLAYBACK:
+                initInstancesEvents();
                 renderStatePlayback();
                 break;
             case GR_STATE_SAVE:
+                initInstancesEvents();
                 renderStateSave();
                 break;
             case GR_STATE_SAVE_SUCCESS:
+                initInstancesEvents();
                 renderStateSaveSuccess();
                 break;
             case GR_STATE_DELETE_SUCCESS:
+                initInstancesEvents();
                 renderStateDeleteSuccess();
                 break;
         }
@@ -165,6 +191,14 @@ function updateRecorderNavigation() {
             $(navigation).find('[data-toggle-id="gr-pre-initialize"]').parent().removeClass('disabled');
             $(navigation).find('[data-toggle-id="gr-record"]').parent().removeClass('disabled');
             break;
+    }
+
+
+    if (recorder.options.updateData && recorder.options.startState === GR_STATE_SAVE) {
+//        console.log($(recorder.options.recorderTarget).find('[data-toggle-id=gr-playback]'));
+        $(navigation).find('[data-toggle-id="gr-record"]').parent().addClass('disabled');
+        $(navigation).find('[data-toggle-id="gr-playback"]').parent().addClass('disabled');
+        recorder.options.startState = null;
     }
 }
 
@@ -233,6 +267,7 @@ function renderStatePreInitialize() {
             }
             if (sensorSource !== 'none') {
                 var sensorOptions = getRecorderOptionsByType(sensorSource);
+                console.log(sensorOptions);
                 recorder.options.initRecorders.push({type: sensorSource,
                     autoplayPlayback: sensorOptions.autoplayPlayback || false,
                     autoplaySave: sensorOptions.autoplaySave || false,
@@ -304,27 +339,35 @@ function initInstancesEvents() {
 
 function initInstanceEvents(instance) {
     if (recorder.options.usedStates && recorder.options.usedStates.length > 0) {
-        for (var i = 0; i < recorder.options.usedStates.length; i++) {
-            switch (recorder.options.usedStates[i]) {
-                case GR_STATE_INITIALIZE:
-                    $(instance).unbind('ready').bind('ready', onRecorderInstanceReady);
-                    $(instance).unbind('disconnected').bind('disconnected', onRecorderInstanceDisconnected);
-                    break;
-                case GR_STATE_RECORD:
-                    $(instance).unbind('recordingStopped').bind('recordingStopped', onRecorderInstanceRecordingStopped);
-                    $(instance).unbind('playbackReady').bind('playbackReady', onRecorderInstancePlaybackReady);
-                    break;
-                case GR_STATE_PLAYBACK:
-                    $(instance).unbind(GR_EVENT_GESTURE_TOO_SHORT).bind(GR_EVENT_GESTURE_TOO_SHORT, onRecorderInstanceGestureTooShort);
-                    $(instance).unbind('dataExtracted').bind('dataExtracted', onRecorderInstanceDataExtracted);
-                    break;
-                case GR_STATE_SAVE:
-                    $(instance).unbind('saveDataAttached').bind('saveDataAttached', onRecorderInstanceSaveDataAttached);
-                    break;
-            }
+        $(instance).unbind('ready');
+        $(instance).unbind('disconnected');
+        $(instance).unbind('recordingStopped');
+        $(instance).unbind('playbackReady');
+        $(instance).unbind('dataExtracted');
+        $(instance).unbind('saveDataAttached');
+        $(instance).unbind(GR_EVENT_GESTURE_TOO_SHORT);
 
-            $(document).unbind('instanceUpdated').bind('instanceUpdated', onRecorderInstanceUpdated);
+        switch (recorder.state) {
+            case GR_STATE_INITIALIZE:
+                $(instance).bind('ready', onRecorderInstanceReady);
+                $(instance).bind('disconnected', onRecorderInstanceDisconnected);
+//                    console.log('bind ready to instance', instance);
+                break;
+            case GR_STATE_RECORD:
+                $(instance).bind('ready', onRecorderInstanceReady);
+                $(instance).bind('recordingStopped', onRecorderInstanceRecordingStopped);
+                $(instance).bind('playbackReady', onRecorderInstancePlaybackReady);
+                break;
+            case GR_STATE_PLAYBACK:
+                $(instance).bind(GR_EVENT_GESTURE_TOO_SHORT, onRecorderInstanceGestureTooShort);
+                $(instance).bind('dataExtracted', onRecorderInstanceDataExtracted);
+                break;
+            case GR_STATE_SAVE:
+                $(instance).bind('saveDataAttached', onRecorderInstanceSaveDataAttached);
+                break;
         }
+
+        $(document).unbind('instanceUpdated').bind('instanceUpdated', onRecorderInstanceUpdated);
     } else {
         $(instance).unbind('ready').bind('ready', onRecorderInstanceReady);
         $(document).unbind('instanceUpdated').bind('instanceUpdated', onRecorderInstanceUpdated);
@@ -340,7 +383,6 @@ function initInstanceEvents(instance) {
 function onRecorderInstanceUpdated(event, type, newInstance) {
     event.preventDefault();
 
-    console.log('update recorder instance: ', type, newInstance);
     if (recorders && recorders.length > 0) {
         for (var i = 0; i < recorders.length; i++) {
             if (recorders[i].type === type) {
@@ -360,7 +402,8 @@ function initWebcamRecorder(recorderOptions) {
         autoplaySaveSuccess: recorderOptions.autoplaySaveSuccess,
         rawData: recorderOptions.data || null,
         startRecordingTime: recorderOptions.startRecordingTime || null,
-        endRecordingTime: recorderOptions.endRecordingTime || null
+        endRecordingTime: recorderOptions.endRecordingTime || null,
+        recordedData: {images: recorderOptions.images, previewImage: recorderOptions.previewImage, gif: recorderOptions.gif}
     };
     var instance = new WebcamRecorder(options);
     recorderObject.instance = instance;
@@ -369,6 +412,7 @@ function initWebcamRecorder(recorderOptions) {
 
 function initLeapRecorder(recorderOptions) {
     var recorderObject = {type: TYPE_RECORD_LEAP, state: 'uninitialized'};
+    console.log(recorderOptions, recorderOptions.renderTarget);
     var options = {
         parent: recorder.options.recorderTarget,
         offset: {x: 0, y: 200, z: 0},
@@ -379,11 +423,13 @@ function initLeapRecorder(recorderOptions) {
         autoplayPlayback: recorderOptions.autoplayPlayback || false,
         autoplaySave: recorderOptions.autoplaySave || false,
         autoplaySaveSuccess: recorderOptions.autoplaySaveSuccess || false,
-        compressedData: recorderOptions.compressedData || null
+        compressedData: recorderOptions.compressedData || null,
+        renderTarget: recorderOptions.renderTarget || null
     };
     var instance = new LeapRecorder(options);
     recorderObject.instance = instance;
     recorders.push(recorderObject);
+    $(document).find('canvas').css({zIndex: 10000});
 
 }
 
@@ -518,6 +564,7 @@ function onRecorderInstanceRecordingStopped(event, type) {
         if (recorders[i].type === type && recorders[i].state === 'recording') {
             recorders[i].state = 'recordingStopped';
             if (nextStateAllowed(recorders[i].state)) {
+//                console.log('playback instance', type);
                 recorders[i].instance.playback();
             }
             instanceCount++;
@@ -560,7 +607,6 @@ function onRecorderInstancePlaybackReady(event, type) {
 function renderStatePlayback() {
     resetInputs();
 
-    console.log('render playback: ', recorders);
     $(recorder.currentRecorderContent).find('.sensor-source-preview').addClass('hidden');
     for (var i = 0; i < recorders.length; i++) {
         $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
@@ -569,7 +615,6 @@ function renderStatePlayback() {
             $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').click();
         }
 
-        console.log('instance state: ', recorders[i].state, recorders[i].type)
         if (recorders[i].state !== 'playback') {
             recorders[i].state = 'playback';
             recorders[i].instance.playback();
@@ -586,6 +631,7 @@ function renderStatePlayback() {
             clearAlerts($(recorder.options.recorderTarget));
             lockButton(extractButton, true, 'fa-arrow-right');
 
+            console.log('extract: ', recorders);
             for (var i = 0; i < recorders.length; i++) {
                 recorders[i].instance.stop(recorder.currentRecorderContent);
             }
@@ -602,7 +648,6 @@ function renderStatePlayback() {
 
 function onRecorderInstanceGestureTooShort(event, type) {
     event.preventDefault();
-    console.log('stop extraction', type);
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].state === 'extracting') {
             recorders[i].instance.stopExtraction();
@@ -629,6 +674,7 @@ function onRecorderInstanceDataExtracted(event, type) {
     } else {
         console.log('all recorders extracted data successfully');
         instanceCount = 0;
+        recorder.options.hasUpdatedData = true;
         setState(GR_STATE_SAVE);
     }
 }
@@ -654,14 +700,28 @@ function renderStateSave() {
     var associationInput = $(recorder.currentRecorderContent).find('#gestureAssociation');
     var descriptionInput = $(recorder.currentRecorderContent).find('#gestureDescription');
     var jointsInput = $(recorder.currentRecorderContent).find('#gesture-save-form #human-body #joint-container');
-    renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
 
     $(recorder.currentRecorderContent).find('.sensor-source-save').addClass('hidden');
+//    for (var i = 0; i < recorder.options.initRecorders.length; i++) {
+//        var recorderData = recorder.options.initRecorders[i];
+//        var type = null;
+//        if (recorderData.type) {
+//            type = recorderData.type;
+//        } else if (recorderData.sensor) {
+//            type = recorderData.sensor;
+//        }
+//    }
+
     for (var i = 0; i < recorders.length; i++) {
         $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
         if (i === 0) {
             $(recorder.currentRecorderContent).find('[data-sensor-source=' + recorders[i].type + ']').removeClass('hidden');
             $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').click();
+        }
+
+        if (recorder.options.updateData) {
+            recorders[i].instance.showSave();
+            recorders[i].state = 'saving';
         }
     }
 
@@ -697,16 +757,58 @@ function renderStateSave() {
         }
     });
 
-    if (recorder.options.context) {
-        $(contextInput).val(recorder.options.context);
+    if (recorder.options.updateData) {
+
+        if (recorder.options.updateData.context) {
+            $(contextInput).val(recorder.options.updateData.context);
+        }
+
+        if (recorder.options.updateData.association) {
+            $(associationInput).val(recorder.options.updateData.association);
+        }
+
+        if (recorder.options.updateData.execution) {
+            $(typeInput).find('#' + recorder.options.updateData.execution).click();
+        }
+
+        if (recorder.options.updateData.interaction) {
+            $(interactionTypeInput).find('#' + recorder.options.updateData.interaction).click();
+        }
+
+        if (recorder.options.updateData.title) {
+            $(titleInput).val(recorder.options.updateData.title);
+        }
+
+        if (recorder.options.updateData.description) {
+            $(descriptionInput).val(recorder.options.updateData.description);
+        }
+
+        if (recorder.options.updateData.joints) {
+            renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'), recorder.options.updateData.joints);
+        } else {
+            renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
+        }
+    } else {
+        renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
     }
+
 
     $(saveButton).unbind('click').bind('click', function (event) {
         event.preventDefault();
         clearAlerts(recorder.currentRecorderContent);
 
+        var togglePlaybackButtons = $(recorder.currentRecorderContent).find('.btn-toggle-playback');
+        for (var i = 0; i < togglePlaybackButtons.length; i++) {
+            if ($(togglePlaybackButtons[i]).attr('data-state') === 'playing') {
+                $(togglePlaybackButtons[i]).click();
+            }
+        }
+
         if (gestureInputsValid(true) && !$(this).hasClass('disabled')) {
             lockButton(saveButton, true, 'fa-floppy-o');
+            if (recorder.options.updateGesture && recorder.options.updateGesture === true) {
+                initInstancesEvents();
+            }
 
             var title = $(titleInput).val().trim();
             var type = recorder.options.checkType && recorder.options.checkType === true ? $(typeInput).find('.btn-option-checked').attr('id') : null;
@@ -885,7 +987,11 @@ function onRecorderInstanceSaveDataAttached(event, type, updateSaveData) {
     if (instanceCount === recorders.length) {
         console.log('all recorders has data attached successfully');
         if (recorder.options.saveGesture && recorder.options.saveGesture === true) {
-            saveGesture(saveGestureData);
+            if (recorder.options.updateGesture && recorder.options.updateGesture === true) {
+                updateGestureData(saveGestureData);
+            } else {
+                saveGesture(saveGestureData);
+            }
         } else {
             setState(GR_STATE_SAVE_SUCCESS);
         }
@@ -906,6 +1012,35 @@ function saveGesture() {
             appendAlert($(recorder.currentRecorderContent).find('.gr-save'), ALERT_GENERAL_ERROR);
         }
     });
+}
+
+function updateGestureData() {
+    gestureSaveData.id = recorder.options.updateGestureId;
+    console.log('update gesture', gestureSaveData);
+
+    // check if images where updated
+    if (recorder.options.hasUpdatedData && recorder.options.hasUpdatedData === true) {
+        // delete old data from server
+        deleteGestureFiles({gestureId: gestureSaveData.id}, function (result) {
+            if (result.status === RESULT_SUCCESS) {
+                updateGestureDataInDB();
+            }
+        });
+    } else {
+        updateGestureDataInDB();
+    }
+
+    function updateGestureDataInDB() {
+        updateGesture(gestureSaveData, function (result) {
+            if (result.status === RESULT_SUCCESS) {
+                resetInputs(true);
+                $(recorder).trigger(GR_EVENT_UPDATE_SUCCESS, [gestureSaveData]);
+            } else {
+                resetInputs();
+                appendAlert($(recorder.currentRecorderContent).find('.gr-save'), ALERT_GENERAL_ERROR);
+            }
+        });
+    }
 }
 
 

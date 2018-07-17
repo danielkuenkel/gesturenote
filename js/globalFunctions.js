@@ -2329,6 +2329,7 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
     $(clone).find('.gesture-thumbnail').mouseleave(function (event) {
         event.preventDefault();
         if (gesturePreviewOpened === false) {
+            clearTimer();
             resetThumbnails($(this).find('.previewGesture'));
         }
     });
@@ -2339,6 +2340,7 @@ function initMoreInfoGesture(button, clone, data, source, modalId) {
     $(button).click(function (event) {
         event.preventDefault();
         $(button).popover('hide');
+        clearTimer();
         resetThumbnails($(clone).find('.previewGesture'));
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone};
         gesturePreviewOpened = true;
@@ -2366,6 +2368,7 @@ function initCommentGesture(button, clone, source, data) {
     $(button).click(function (event) {
         event.preventDefault();
         $(button).popover('hide');
+        clearTimer();
         resetThumbnails($(clone).find('.previewGesture'));
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'comments'};
         gesturePreviewOpened = true;
@@ -2379,6 +2382,7 @@ function initGestureSet(button, clone, source, data) {
         $(button).click(function (event) {
             event.preventDefault();
             $(button).popover('hide');
+            clearTimer();
             resetThumbnails($(clone).find('.previewGesture'));
             currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'gestureSets'};
             gesturePreviewOpened = true;
@@ -2585,6 +2589,7 @@ function initRatingGesture(button, clone, source, data) {
     $(button).unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(button).popover('hide');
+        clearTimer();
         resetThumbnails($(clone).find('.previewGesture'));
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'rating'};
         gesturePreviewOpened = true;

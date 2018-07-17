@@ -18,16 +18,16 @@ include '../includes/language.php';
     <div class="tab-content" style="margin-top: 20px;">
 
         <div role="tabpanel" class="tab-pane" id="tab-gesture-general">
-            <div class="row">
+            <div class="row" id="gesture-general-info-container">
                 <div class="col-md-5 root" style="margin-bottom: 20px">
                     <div class="sensor-content">
                         <div data-sensor-source="webcam" id="webcam-preview" class="autoplay hidden">
                             <div class="root embed-responsive embed-responsive-4by3">
                                 <div id="" class="webcam-image-container"></div>
                                 <div class="controls-container embed-responsive-item">
-                                    <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                    <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                     <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
-                                    <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single btn-tag-as-preview hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i> <?php echo $lang->previewImage ?>: <span class="preview-image-index">1</span></div>
+                                    <!--<div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single btn-tag-as-preview hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i> <?php echo $lang->previewImage ?>: <span class="preview-image-index">1</span></div>-->
                                 </div>
                             </div>
 
@@ -43,7 +43,7 @@ include '../includes/language.php';
                             <div class="embed-responsive embed-responsive-4by3">
                                 <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
                                 <div class="controls-container embed-responsive-item">
-                                    <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                    <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                     <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
                                     <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
                                 </div>
@@ -114,118 +114,37 @@ include '../includes/language.php';
 
                 <div class="col-md-7">
                     <div id="gesture-data-preview">
-                        <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
-                        <div id="title"><?php echo $lang->title ?>:<span class="address"></span> <span class="text"></span></div>
-                        <div id="type" style="display:flex"><?php echo $lang->gestureType ?>: <div class="gesture-info-symbol symbol-gesture-execution" style="margin-top: 9px; margin-left: 6px; margin-right: 2px;"></div> <span class="address"></span> <span class="text"></span></div>
-                        <div id="interactionType" style="display:flex"><?php echo $lang->gestureInteractionType ?>: <div class="gesture-info-symbol symbol-gesture-interaction" style="margin-top: 9px; margin-left: 6px;margin-right: 2px"></div> <span class="address"></span> <span class="text"></span></div>
-                        <div id="context"><?php echo $lang->gestureContext ?>:<span class="address"></span> <span class="text"></span></div>
-                        <div id="association"><?php echo $lang->gestureAssociation ?>:<span class="address"></span> <span class="text"></span></div>
-                        <div id="description"><?php echo $lang->gestureDescription ?>:<span class="address"></span> <span class="text"></span></div>
-
-                        <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                        <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
-
-                        <div class="preview-joints-humand-body" id="human-body" style="width: 350px; margin: auto; margin-top: 10px">
-                            <div id="joint-container" style="position: absolute"></div>
-                            <img src="img/human_body.svg">
-                        </div>
-                    </div>
-
-                    <div id="gesture-data-edit" class="hidden">
-                        <div class="alert-space alert-missing-fields"></div>
-
-                        <div class="form-group">
-                            <label><?php echo $lang->gestureName ?></label>
-                            <input type="text" class="form-control" id="gesture-name-input" required>
+                        <div style="margin: 0; display: flex">
+                            <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                            <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
                         </div>
 
-                        <div class="form-group root" id="gestureTypeSelect">
-                            <label>
-                                <?php echo $lang->gestureType ?> 
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->executionType ?>"></i>
-                            </label><br>
+                        <div style="margin-top: 10px">
+                            <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
+                            <div id="title"><?php echo $lang->title ?>:<span class="address"></span> <span class="text"></span></div>
+                            <div id="type" style="display:flex"><?php echo $lang->gestureType ?>: <div class="gesture-info-symbol symbol-gesture-execution" style="margin-top: 9px; margin-left: 6px; margin-right: 2px;"></div> <span class="address"></span> <span class="text"></span></div>
+                            <div id="interactionType" style="display:flex"><?php echo $lang->gestureInteractionType ?>: <div class="gesture-info-symbol symbol-gesture-interaction" style="margin-top: 9px; margin-left: 6px;margin-right: 2px"></div> <span class="address"></span> <span class="text"></span></div>
+                            <div id="context"><?php echo $lang->gestureContext ?>:<span class="address"></span> <span class="text"></span></div>
+                            <div id="association"><?php echo $lang->gestureAssociation ?>:<span class="address"></span> <span class="text"></span></div>
+                            <div id="description"><?php echo $lang->gestureDescription ?>:<span class="address"></span> <span class="text"></span></div>
 
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio" name="primary" id="pose">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->gestureTypes->pose ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio" name="primary" id="dynamic">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->gestureTypes->dynamic ?></span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="form-group root" id="gestureInteractionTypeSelect">
-                            <label>
-                                <?php echo $lang->gestureInteractionType ?> 
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->interactionType ?>"></i>
-                            </label><br>
-
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio" name="primary" id="discrete">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->gestureInteractionTypes->discrete ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio" name="primary" id="continuous">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->gestureInteractionTypes->continuous ?></span>
-                                </button>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label><?php echo $lang->gestureContext ?></label>
-                            <input type="text" class="form-control" placeholder="<?php echo $lang->gestureContextQuestion ?>" id="gesture-context-input" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label><?php echo $lang->gestureAssociation ?></label>
-                            <textarea class="form-control" id="gesture-association-input" rows="3" maxlength="500" required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label><?php echo $lang->gestureDescription ?></label>
-                            <textarea class="form-control" id="gesture-description-input" rows="3" maxlength="500" required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label><?php echo $lang->gestureGraphicsQuestion ?></label>
-                            <div class="select-joints-humand-body" id="select-joints-human-body" style="width: 350px; margin: auto; margin-top: 10px">
+                            <div class="preview-joints-humand-body" id="human-body-preview" style="width: 350px; margin: auto; margin-top: 10px">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_body.svg">
                             </div>
                         </div>
                     </div>
 
+                    <!--                    <div id="gesture-data-edit" class="hidden">
+                                            <div class="recorder-content"></div>
+                                        </div>-->
+
                     <div class="row" style="margin-top: 20px" id="gesture-owner-controls">
                         <div class="col-xs-6">
-                            <button type="button" class="btn btn-block btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                            <button type="button" class="btn btn-block btn-default btn-shadow gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
                         </div>
                         <div class="col-xs-6">
-                            <button type="button" class="btn btn-block btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
+                            <button type="button" class="btn btn-block btn-shadow btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
                         </div>
                     </div>
                     <!--                    <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
@@ -233,6 +152,13 @@ include '../includes/language.php';
                                             <button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
                                         </div>-->
 
+                </div>
+            </div>
+
+            <div class="row hidden" id="gesture-edit-general-info-container">
+                <div class="col-xs-12 col-md-8 col-md-offset-2">
+                    <div class="recorder-content"></div>
+                    <button type="button" class="btn btn-default btn-shadow btn-block" id="btn-cancel-edit-gesture" style="margin-top: 10px"><i class="fa fa-close"></i> <?php echo $lang->gesturePreviewable ?></button>
                 </div>
             </div>
         </div>
@@ -249,7 +175,7 @@ include '../includes/language.php';
                         <div class="input-group">
                             <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="<?php echo $lang->createNewGestureSetPlaceholder ?>">
                             <span class="input-group-btn">
-                                <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                                <button class="btn btn-info btn-shadow btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
                             </span>
                         </div>
                     </div>
@@ -277,7 +203,7 @@ include '../includes/language.php';
                     <div class="form-group">
                         <textarea class="form-control" id="comment" rows="4" maxlength="500" placeholder="<?php echo $lang->inputComment ?>" required></textarea>
                     </div>
-                    <button type="button" class="btn btn-default btn-block" id="btn-comment-gesture"><i class="fa fa-send" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->submitComment ?></span></button>
+                    <button type="button" class="btn btn-default btn-shadow btn-block" id="btn-comment-gesture"><i class="fa fa-send" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->submitComment ?></span></button>
                 </div>
                 <div class="col-md-7">
                     <div class="alert-space alert-no-comments"></div>
@@ -302,13 +228,14 @@ include '../includes/language.php';
 </div>
 
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
+    <button type="button" class="btn btn-shadow btn-default" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
 </div>
 
 <script>
     var testRatings = [{physicalContext: 1, adaption: 0, fittingTask: 3}, {physicalContext: 0, adaption: 3, fittingTask: 4}, {physicalContext: 2, adaption: 0, fittingTask: 3}, {physicalContext: 2, adaption: 2, fittingTask: 3}, {physicalContext: 2, adaption: 1, fittingTask: 1}];
     var currentRatings = [{physicalContext: 0, adaption: 0, fittingTask: 0}];
     var leapMotionPreview = null;
+    var gestureUpdateRecorder = null;
 
     $(document).ready(function () {
         renderSensorData();
@@ -320,9 +247,11 @@ include '../includes/language.php';
                     renderGeneralGestureInfo();
                     break;
                 case '#tab-gesture-gesture-sets':
+                    resetGeneralGestureInfo();
                     renderAttachedGestureSets();
                     break;
                 case '#tab-gesture-comments':
+                    resetGeneralGestureInfo();
                     renderGestureComments();
                     break;
             }
@@ -345,7 +274,7 @@ include '../includes/language.php';
 
                     setTimeout(function () {
                         var ratingTop = $('#custom-modal').find('#gesture-rating').position().top;
-                        console.log(ratingTop, $('#custom-modal').find('.modal-content'));
+//                        console.log(ratingTop, $('#custom-modal').find('.modal-content'));
                         $('#custom-modal').animate({
                             scrollTop: ratingTop + 180
                         }, 300);
@@ -368,6 +297,12 @@ include '../includes/language.php';
                 leapMotionPreview.destroy(true);
                 leapMotionPreview = null;
             }
+
+            if (gestureUpdateRecorder) {
+                gestureUpdateRecorder.destroy();
+                gestureUpdateRecorder = null;
+            }
+
             $(this).unbind('hide.bs.modal');
         });
     });
@@ -543,19 +478,19 @@ include '../includes/language.php';
 
     function renderGeneralGestureInfo() {
         var gesture = currentPreviewGesture.gesture;
-//        console.log('renderModalData', currentPreviewGesture);
         if (gesture === null) {
             return false;
         }
 
-//console.log(gesture);
+        var thumbnail = $(currentPreviewGesture.thumbnail);
+
         var container = $('#modal-body');
         container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
         container.find('#title .text').text(gesture.title);
         container.find('#type .text').text(gesture.type === null ? '-' : translation.gestureTypes[gesture.type]);
-        container.find('#type .symbol-gesture-execution').addClass(gesture.type);
+        container.find('#type .symbol-gesture-execution').removeClass('dynamic pose').addClass(gesture.type);
         container.find('#interactionType .text').text(gesture.interactionType === null ? '-' : translation.gestureInteractionTypes[gesture.interactionType]);
-        container.find('#interactionType .symbol-gesture-interaction').addClass(gesture.interactionType);
+        container.find('#interactionType .symbol-gesture-interaction').removeClass('discrete continuous').addClass(gesture.interactionType);
         container.find('#context .text').text(gesture.context);
         container.find('#association .text').text(gesture.association === null ? '-' : gesture.association);
         container.find('#description .text').text(gesture.description);
@@ -601,18 +536,12 @@ include '../includes/language.php';
 
 
         if (gesture.images && gesture.images.length > 0) {
-            renderGesturePreview(container.find('#webcam-preview'), gesture);
-//            $(container).find('#toggle-gesture-recording-source #btn-webcam').removeClass('hidden');
-//            console.log('render Gesture preview', $(container).find('.sensor-content [data-toggle-sensor=webcam]'));
+            renderGesturePreview(container.find('#gesture-general-info-container #webcam-preview'), gesture);
             $(container).find('.sensor-content [data-sensor-source=webcam]').removeClass('hidden');
             $(container).find('.sensor-content [data-toggle-sensor=webcam]').click();
-            $(container).find('.preview-image-index').text((parseInt(gesture.previewImage) + 1));
         }
 
-//        renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
-        renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
-
-        var thumbnail = $(currentPreviewGesture.thumbnail);
+        renderBodyJointsPreview(container.find('.preview-joints-humand-body'), gesture.joints);
 
         updateGestureSharing();
         updateGestureRating();
@@ -620,84 +549,115 @@ include '../includes/language.php';
 
         $('#modal-body #btn-edit-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            var button = $(this);
-            if ($(button).hasClass('gesture-editable')) {
-                if (!$(button).hasClass('disabled') && inputsValid(true)) {
+            var modal = $('#custom-modal');
 
-                    lockButton(button, true, 'fa-pencil');
-                    showCursor($('body'), CURSOR_PROGRESS);
-                    var previewImageIndex = getGesturePreviewIndex($('#modal-body').find('.webcam-image-container'));
-                    var title = $('#gesture-name-input').val().trim();
-                    var type = $(container).find('#gestureTypeSelect .btn-option-checked').attr('id');
-                    var interactionType = $(container).find('#gestureInteractionTypeSelect .btn-option-checked').attr('id');
-                    var context = $('#gesture-context-input').val().trim();
-                    var association = $('#gesture-association-input').val().trim();
-                    var description = $('#gesture-description-input').val().trim();
-                    var joints = getSelectedJoints($('#select-joints-human-body #joint-container'));
-//                    console.log(previewImageIndex, title, type, interactionType, context, association, description, joints);
-
-                    updateGesture({gestureId: gesture.id, title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints, previewImageIndex: previewImageIndex}, function (result) {
-                        showCursor($('body'), CURSOR_DEFAULT);
-                        unlockButton(button, true, 'fa-pencil');
-
-                        $('#modal-body #btn-delete-gesture').removeClass('disabled');
-                        if (result.status === RESULT_SUCCESS) {
-                            updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, type: type, interactionType: interactionType, context: result.context, association: association, description: result.description, joints: result.joints, previewImage: result.previewImage});
-                            $(thumbnail).find('.gesture-name').text(title);
-//                            $('#modal-body #btn-choose-preview-image').addClass('hidden');
-                            $(thumbnail).find('.previewGesture .gestureImage').removeClass('previewImage active ');
-                            $(thumbnail).find('.previewGesture .gestureImage').addClass('hidden');
-                            $($(thumbnail).find('.previewGesture .gestureImage')[previewImageIndex]).addClass('previewImage active');
-                            $($(thumbnail).find('.previewGesture .gestureImage')[previewImageIndex]).removeClass('hidden');
-                            $('#modal-body #webcam-preview').find('.btn-tag-as-preview').addClass('hidden');
-                            $(button).removeClass('gesture-editable').addClass('gesture-previewable');
-                            $(button).find('.btn-text').text(translation.edit);
-                            $('#modal-body #gesture-data-preview').removeClass('hidden');
-                            $('#modal-body #gesture-data-edit').addClass('hidden');
-                            currentPreviewGesture.gesture = getGestureById(result.id, currentPreviewGesture.source);
-                            originalFilterData = getLocalItem(currentPreviewGesture.source);
-                            renderGeneralGestureInfo();
-                        } else {
-                            appendAlert($('#modal-body'), ALERT_GENERAL_ERROR);
-                        }
-                    });
+            var playbackButtons = $(modal).find('#gesture-general-info-container .btn-toggle-playback');
+            for (var i = 0; i < playbackButtons.length; i++) {
+                if ($(playbackButtons[i]).attr('data-state') === 'playing') {
+                    $(playbackButtons[i]).click();
                 }
-            } else {
-//                console.log('edit gesture:', gesture);
-                $(button).removeClass('gesture-previewable').addClass('gesture-editable');
-                $(button).find('.btn-text').text(translation.gesturePreviewable);
-                $('#modal-body #gesture-data-preview').addClass('hidden');
-                $('#modal-body #gesture-data-edit').removeClass('hidden');
-                $('#modal-body #btn-delete-gesture, #modal-body .btn-share').addClass('disabled');
-//                $('#modal-body #btn-choose-preview-image').removeClass('hidden');
-                $('#gesture-name-input').val(gesture.title);
-                if (gesture.type !== "") {
-                    $('#gesture-data-edit #gestureTypeSelect').find('#' + gesture.type).click();
-                }
-                if (gesture.interactionType !== "") {
-                    $('#gesture-data-edit #gestureInteractionTypeSelect').find('#' + gesture.interactionType).click();
-                }
-                
-                if(gesture.images && gesture.images.length > 0) {
-                    $('#modal-body #webcam-preview').find('.btn-tag-as-preview').removeClass('hidden');
-                }
-
-                $('#gesture-association-input').val(gesture.association);
-                $('#gesture-context-input').val(gesture.context);
-                $('#gesture-description-input').val(gesture.description);
-                renderBodyJoints($('#select-joints-human-body'), gesture.joints);
             }
+
+            if (leapMotionPreview && currentPreviewGesture.gesture.sensorData) {
+                leapMotionPreview.destroy(true);
+                leapMotionPreview = null;
+            }
+
+            $(modal).find('#gesture-general-info-container').addClass('hidden');
+            $(modal).find('#gesture-edit-general-info-container').removeClass('hidden');
+            $(modal).find('#gesture-edit-general-info-container .recorder-content').empty();
+
+            var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
+            $(modal).find('#gesture-edit-general-info-container .recorder-content').empty().append(recorder);
+
+            var initRecorders = [];
+            if (gesture.images && !isNaN(parseInt(gesture.previewImage))) {
+                initRecorders.push({type: 'webcam', images: gesture.images, previewImage: gesture.previewImage, gif: gesture.gif, autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true});
+            }
+            if (gesture.sensorData) {
+                var sensorData = gesture.sensorData;
+                switch (sensorData.sensor) {
+                    case TYPE_RECORD_LEAP:
+                        sensorData.type = sensorData.sensor;
+//                        sensorData.autoplayPlayback = true;
+//                        sensorData.autoplaySave = true;
+//                        sensorData.autoplaySaveSuccess = true;
+                        break;
+                }
+//                initRecorders.push(sensorData);
+            }
+
+            var options = {
+                recorderTarget: recorder,
+                alertTarget: $('#recorder-content'),
+                saveGesture: true,
+                updateGesture: true,
+                updateGestureId: gesture.id,
+                checkType: true,
+                checkInteractionType: true,
+                showIntroduction: false,
+                startState: GR_STATE_SAVE,
+                usedStates: [GR_STATE_PRE_INITIALIZE, GR_STATE_INITIALIZE, GR_STATE_RECORD, 'recordingStopped', GR_STATE_PLAYBACK, GR_STATE_SAVE],
+                record: [
+                    {type: 'webcam', autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true},
+                    {type: 'leap', autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true} // , renderTarget: $(recorder).find('#leapRecordRenderArea')
+                ],
+                initRecorders: initRecorders,
+                updateData: {
+                    title: gesture.title,
+                    execution: gesture.type,
+                    interaction: gesture.interactionType,
+                    context: gesture.context,
+                    association: gesture.association,
+                    description: gesture.description,
+                    joints: gesture.joints
+                },
+                userId: gesture.userId,
+                ownerId: gesture.ownerId,
+                source: gesture.source
+            };
+
+            gestureUpdateRecorder = new GestureRecorder(options);
+            $(gestureUpdateRecorder).on(GR_EVENT_UPDATE_SUCCESS, function (event, data) {
+                event.preventDefault();
+
+                updateGestureById(currentPreviewGesture.source, data.id, {title: data.title, type: data.type, interactionType: data.interactionType, context: data.context, association: data.association, description: data.description, joints: data.joints, images: data.images, previewImage: data.previewImage, gif: data.gif, sensorData: data.sensorData});
+                $(thumbnail).find('.gesture-name').text(data.title);
+                $(thumbnail).find('.symbol-gesture-execution').removeClass('pose dynamic').addClass(data.type);
+                $(thumbnail).find('.symbol-gesture-execution').attr('data-content', translation.gestureTypes[data.type + 's'] + ' ' + translation.gestureType);
+                $(thumbnail).find('.text-gesture-execution').text(translation.gestureTypes[data.type + 'Short']);
+                $(thumbnail).find('.symbol-gesture-interaction').removeClass('discrete continuous').addClass(data.interactionType);
+                $(thumbnail).find('.symbol-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[data.interactionType + 's'] + ' ' + translation.gestureInteraction);
+                $(thumbnail).find('.text-gesture-interaction').text(translation.gestureInteractionTypes[data.interactionType + 'Short']);
+
+                currentPreviewGesture.gesture = getGestureById(data.id, currentPreviewGesture.source);
+                originalFilterData = getLocalItem(currentPreviewGesture.source);
+                renderGestureImages($(thumbnail).find('.previewGesture'), currentPreviewGesture.gesture.images, currentPreviewGesture.gesture.previewImage);
+
+                $(modal).find('#gesture-general-info-container').removeClass('hidden');
+                $(modal).find('#gesture-edit-general-info-container').addClass('hidden');
+                $(modal).find('#gesture-edit-general-info-container .edit-content').empty();
+
+                renderGeneralGestureInfo();
+                gestureUpdateRecorder.destroy();
+                gestureUpdateRecorder = null;
+                renderSensorData();
+            });
         });
 
-//        $('#modal-body #btn-choose-preview-image').unbind('click').bind('click', function (event) {
-//            event.preventDefault();
-//
-//            var previewImage = $(this).closest('.root').find('.previewImage');
-//            previewImage.removeClass('previewImage');
-//            var visibleImage = $(this).closest('.root').find('.active');
-//            visibleImage.addClass('previewImage');
-////            console.log('tag as preview image', previewImage, visibleImage);
-//        });
+        $('#modal-body #btn-cancel-edit-gesture').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            var modal = $('#custom-modal');
+
+            $(modal).find('#gesture-general-info-container').removeClass('hidden');
+            $(modal).find('#gesture-edit-general-info-container').addClass('hidden');
+            $(modal).find('#gesture-edit-general-info-container .edit-content').empty();
+
+            renderGeneralGestureInfo();
+            gestureUpdateRecorder.destroy();
+            gestureUpdateRecorder = null;
+            renderSensorData();
+        });
 
         if ($(thumbnail).hasClass('deleteable')) {
             $(container).find('#btn-delete-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
@@ -731,12 +691,30 @@ include '../includes/language.php';
         }
     }
 
+    function resetGeneralGestureInfo() {
+        var modal = $('#custom-modal');
+        $(modal).find('#gesture-general-info-container').removeClass('hidden');
+        $(modal).find('#gesture-edit-general-info-container').addClass('hidden');
+        $(modal).find('#gesture-edit-general-info-container .edit-content').empty();
+
+        renderGeneralGestureInfo();
+        if (gestureUpdateRecorder) {
+            gestureUpdateRecorder.destroy();
+            gestureUpdateRecorder = null;
+        }
+
+        if (leapMotionPreview && currentPreviewGesture.gesture.sensorData) {
+            leapMotionPreview.destroy(true);
+            leapMotionPreview = null;
+        }
+
+        renderSensorData();
+    }
+
     function updateGestureSharing() {
         var modal = $('#custom-modal');
 
-//        console.log('update gesture sharing', currentPreviewGesture);
         getSharedGestureInfos({gestureId: currentPreviewGesture.gesture.id}, function (result) {
-            console.log(result);
             if (result.status === RESULT_SUCCESS) {
                 $(modal).find('#gesture-sharing .shared-with-own-projects').html(new String(translation.gestureSharedInOwnProjects).replace('{x}', result.usedSharedGestureInOwnProjectsCount));
                 $(modal).find('#gesture-sharing .shared-with-other-projects').html(new String(translation.gestureSharedInOtherProjects).replace('{x}', result.usedSharedGestureInOtherProjectsCount));
@@ -950,7 +928,7 @@ include '../includes/language.php';
 
     function inputsValid(showErrors) {
         var container = $('#gesture-data-edit');
-        var title = $('#gesture-data-edit #gesture-name-input').val().trim();
+        var title = $(container).find('#gestureName').val().trim();
         if (title === '') {
             if (showErrors) {
                 appendAlert(container, ALERT_MISSING_FIELDS);
@@ -980,7 +958,7 @@ include '../includes/language.php';
             return false;
         }
 
-        var context = $('#gesture-data-edit #gesture-context-input').val().trim();
+        var context = $(container).find('#gestureContext').val().trim();
         if (context === '') {
             if (showErrors) {
                 appendAlert(container, ALERT_MISSING_FIELDS);
@@ -990,7 +968,7 @@ include '../includes/language.php';
             return false;
         }
 
-        var association = $('#gesture-data-edit #gesture-association-input').val().trim();
+        var association = $(container).find('#gestureAssociation').val().trim();
         if (association === '') {
             if (showErrors) {
                 appendAlert(container, ALERT_MISSING_FIELDS);
@@ -1000,7 +978,7 @@ include '../includes/language.php';
             return false;
         }
 
-        var description = $('#gesture-data-edit #gesture-description-input').val().trim();
+        var description = $(container).find('#gestureDescription').val().trim();
         if (description === '') {
             if (showErrors) {
                 appendAlert(container, ALERT_MISSING_FIELDS);
@@ -1010,7 +988,7 @@ include '../includes/language.php';
             return false;
         }
 
-        var selectedJoints = getSelectedJoints($('#select-joints-human-body #joint-container'));
+        var selectedJoints = getSelectedJoints($(container).find('#human-body #joint-container'));
         if (selectedJoints.length === 0) {
             if (showErrors) {
                 appendAlert(container, ALERT_MISSING_FIELDS);
@@ -1023,31 +1001,8 @@ include '../includes/language.php';
         return true;
     }
 
-    $('#gesture-data-edit #select-joints-human-body').bind('change', function () {
-        if (inputsValid()) {
-            $('#btn-edit-gesture').removeClass('disabled');
-        } else {
-            $('#btn-edit-gesture').addClass('disabled');
-        }
-    });
-
-    $('#gesture-data-edit #gestureTypeSelect, #gesture-data-edit #gestureInteractionTypeSelect').unbind('change').bind('change', function () {
-        if (inputsValid()) {
-            $('#btn-edit-gesture').removeClass('disabled');
-        } else {
-            $('#btn-edit-gesture').addClass('disabled');
-        }
-    });
-
-    $('#gesture-name-input, #gesture-association-input, #gesture-context-input, #gesture-description-input').bind('input', function () {
-        if (inputsValid()) {
-            $('#btn-edit-gesture').removeClass('disabled');
-        } else {
-            $('#btn-edit-gesture').addClass('disabled');
-        }
-    });
-
     function renderSensorData() {
+//        console.log('render Sensor data', currentPreviewGesture.gesture);
         if (currentPreviewGesture.gesture.sensorData !== null && currentPreviewGesture.gesture.sensorData !== '') {
             switch (currentPreviewGesture.gesture.sensorData.sensor) {
                 case 'leap':
@@ -1060,6 +1015,9 @@ include '../includes/language.php';
                 $('#custom-modal').find('#toggle-gesture-recording-source [data-toggle-sensor=webcam]').removeClass('hidden');
                 $('#custom-modal').find('#toggle-gesture-recording-source [data-toggle-sensor=webcam]').click();
             }
+        } else {
+            $('#custom-modal').find('#toggle-gesture-recording-source [data-toggle-sensor=webcam]').click();
+            $('#custom-modal').find('#toggle-gesture-recording-source').addClass('hidden');
         }
     }
 
@@ -1079,7 +1037,7 @@ include '../includes/language.php';
             autoplay: true,
             recording: currentPreviewGesture.gesture.sensorData.url,
             renderTarget: $(container).find('#renderArea'),
-            playbackElement: $(container).find('#btn-toggle-playback'),
+            playbackElement: $(container).find('.btn-toggle-playback'),
             downloadJsonElement: $(container).find('.btn-download-as-json'),
             downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
             playbackSliderElement: $(container).find('#leap-playback-slider')

@@ -33,11 +33,11 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['ass
     $association = filter_input(INPUT_POST, 'association', FILTER_SANITIZE_STRING);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
     $joints = json_encode($_POST['joints']);
-    $imageURLs = $_POST['images'];
     $previewImage = $_POST['previewImage'];
     $gif = $_POST['gif'];
     $encodedSensorData = json_encode($_POST['sensorData']);
     $sensorData = $encodedSensorData === '' ? NULL : $encodedSensorData;
+    $imageURLs = $_POST['images'];
     $dbImageURLs = json_encode($imageURLs);
 
     if (isset($_POST['type'])) {
