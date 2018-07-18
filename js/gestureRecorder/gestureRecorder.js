@@ -412,7 +412,7 @@ function initWebcamRecorder(recorderOptions) {
 
 function initLeapRecorder(recorderOptions) {
     var recorderObject = {type: TYPE_RECORD_LEAP, state: 'uninitialized'};
-    console.log(recorderOptions, recorderOptions.renderTarget);
+//    console.log(recorderOptions, recorderOptions.renderTarget);
     var options = {
         parent: recorder.options.recorderTarget,
         offset: {x: 0, y: 200, z: 0},
@@ -702,6 +702,9 @@ function renderStateSave() {
     var jointsInput = $(recorder.currentRecorderContent).find('#gesture-save-form #human-body #joint-container');
 
     $(recorder.currentRecorderContent).find('.sensor-source-save').addClass('hidden');
+//    if(!recorder.options.hasUpdatedData || (recorder.options.hasUpdatedData && recorder.options.hasUpdatedData === false)) {
+//        initializeRecorders();
+//    }
 //    for (var i = 0; i < recorder.options.initRecorders.length; i++) {
 //        var recorderData = recorder.options.initRecorders[i];
 //        var type = null;
@@ -1027,6 +1030,10 @@ function updateGestureData() {
             }
         });
     } else {
+        console.log(recorder.options);
+        if (recorder.options.originSensorData) {
+            gestureSaveData.sensorData = recorder.options.originSensorData;
+        }
         updateGestureDataInDB();
     }
 

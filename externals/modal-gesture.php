@@ -574,11 +574,14 @@ include '../includes/language.php';
             if (gesture.images && !isNaN(parseInt(gesture.previewImage))) {
                 initRecorders.push({type: 'webcam', images: gesture.images, previewImage: gesture.previewImage, gif: gesture.gif, autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true});
             }
+            
             if (gesture.sensorData) {
                 var sensorData = gesture.sensorData;
                 switch (sensorData.sensor) {
                     case TYPE_RECORD_LEAP:
                         sensorData.type = sensorData.sensor;
+                        sensorData.compressedData = sensorData.url;
+                        sensorData.previewOnly = true;
 //                        sensorData.autoplayPlayback = true;
 //                        sensorData.autoplaySave = true;
 //                        sensorData.autoplaySaveSuccess = true;
@@ -614,7 +617,8 @@ include '../includes/language.php';
                 },
                 userId: gesture.userId,
                 ownerId: gesture.ownerId,
-                source: gesture.source
+                source: gesture.source,
+                originSensorData: gesture.sensorData || null
             };
 
             gestureUpdateRecorder = new GestureRecorder(options);

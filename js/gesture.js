@@ -160,7 +160,7 @@ function resetPlayButton(source) {
 var originalImageWidth = 0;
 function renderGestureImages(container, images, preview, callback) {
     var numImagesLoaded = 0;
-    $(container).empty().addClass('text-center');
+    $(container).empty().addClass('text-center').attr('data-loaded-all-images', false);
     TweenMax.set(container, {opacity: 0});
 
     if (images && images.length > 0) {
@@ -185,6 +185,8 @@ function renderGestureImages(container, images, preview, callback) {
                     if (callback !== null && callback !== undefined) {
                         callback();
                     }
+                    
+                    $(container).attr('data-loaded-all-images', true);
                 }
                 numImagesLoaded++;
             };

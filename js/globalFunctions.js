@@ -2265,7 +2265,6 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
 }
 
 function initGestureThumbnail(data, typeId, layout, panelStyle) {
-//    console.log(data);
     var clone;
     if (typeId && typeId !== null) {
         clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');
@@ -2313,15 +2312,12 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
         }
     }
 
-//    if (!clone.hasClass('deleteable')) {
-//        gesturePreviewDeleteable = false;
-//    }
-
     renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
 
     $(clone).find('.gesture-thumbnail').mouseenter(function (event) {
         event.preventDefault();
-        if (gesturePreviewOpened === false) {
+        var loadedAllImages = $(this).find('.previewGesture').attr('data-loaded-all-images') === 'true';
+        if (gesturePreviewOpened === false && loadedAllImages) {
             playThroughThumbnails($(this).find('.previewGesture'), 0);
         }
     });
