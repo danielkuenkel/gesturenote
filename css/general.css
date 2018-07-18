@@ -1356,3 +1356,19 @@ canvas {
     padding-top: 3px;
     margin-bottom: 20px;
 }
+
+/*
+* carousel control styles
+*/
+.carousel-control {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 12px;
+    background-image: none !important;
+}
+
+.carousel-caption p {
+    line-height: 12pt;
+    padding-bottom: 20px;
+}

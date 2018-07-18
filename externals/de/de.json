@@ -185,7 +185,7 @@
                 "subline": "Hier steht die Analyse und Bewertung von Gesten-Interaktionen durch den Gesten-Designer im Fokus. GestureNote unterstützt Vorgehensweisen und Methoden, die ohne direkten Kontakt zu potentiellen Nutzern von Gesten-Interaktionen auskommen. Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.",
                 "content": {
                     "col01": "<ul><li><strong>Gesten-Recorder:</strong> Aufzeichnung von Gesten mit über Webcam und/oder Leap Motion Controller.</li><li><strong>Gesten-Katalog:</strong> Zugriff auf alle erstellten und von anderen Gesten-Designern freigegebene Gesten.</li></ul>",
-                    "col02": "<ul><li><strong>Klassifizierung:</strong> Einfaches Klassifizieren von nutzerzentriert ermittelten Gesten.</li><li><strong>Potentielle Gesten:</strong> Bewertung klassifizierter Gesten auf Basis bereitgestellter Kennzahlen (Anzahl von Gesten, statische Übereinstimmung nach Wobbrock) und Bewertungsinstrumenten (Checkliste, Sinnzusammenhänge).</li><li><strong>Gesten-Sets:</strong> Fassen Sie potentielle Gesten zu einem Gesten-Set zusammen, um diese für eine Evaluierung zu verwenden.</li></ul>",
+                    "col02": "<ul><li><strong>Klassifizierung:</strong> Einfaches Klassifizieren von nutzerzentriert ermittelten Gesten.</li><li><strong>Potentielle Gesten:</strong> Bewertung klassifizierter Gesten auf Basis bereitgestellter Kennzahlen (Anzahl von Gesten, statische Übereinstimmung nach Wobbrock) und Bewertungsinstrumente (Checkliste, Sinnzusammenhänge).</li><li><strong>Gesten-Sets:</strong> Fassen Sie potentielle Gesten zu einem Gesten-Set zusammen, um diese für eine Evaluierung zu verwenden.</li></ul>",
                     "col03": "<ul><li><strong>Rohdaten:</strong> Sichtung von Rohdaten (Videos, Gesten, Fragebögen, Beobachtungen, etc.).</li><li><strong>Umfangreicher Video-Player:</strong> Automatische Synchronisierung von Videodaten (Moderator, Proband, Prototyp).</li><li><strong>Zeitleiste & Annotationen:</strong> Synchroniserte Darstellung automatische gespeicherter Annotationen. Hinzufügen/Löschen von Annotationen.</li><li><strong>Automatische Score-Berechnung:</strong> SUS-Scores, UEQ-Scales, sowie Scores für <em>Gesten erraten</em> und <em>Funktionen erraten</em> werden automatisch berechnet.</li><li><strong>Notizen:</strong> Fügen Sie wichtige Notizen zu jedem Leitfadenschritt hinzu.</li><li><strong>Teilen von Ergebnissen:</strong> Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.</li><li><strong>Gesten-Katalog:</strong> Teilen Sie ermittelte Gesten mit anderen Gesten-Designern. Diskutieren und bewerten Sie Gesten mit anderen Gesten-Designern.</li></ul>" 
                 }
             }
@@ -1595,8 +1595,11 @@
     "inviteUserViaMail": "Per E-Mail-Adresse einladen",
     "hello": "Hallo",
     "inviteSubject": "Freigabe einer Gesten-Design-Studie",
+    "uninviteSubject": "Freigabe einer Gesten-Design-Studie zurückgezogen",
     "inviteTitle": "Eine Gesten-Design-Studie wurde Ihnen freigegeben",
     "inviteText": "ein anderer Gesten-Designer hat Ihnen eine Studie freigegeben. Diese Studie wird, solange diese freigegeben ist, in Ihrer Studien-Übersicht angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/studies.php'>Link</a> direkt zur Übersicht.",
+    "uninviteTitle": "Eine Gesten-Design-Studie ist nicht mehr für Sie freigegeben",
+    "uninviteText": "ein anderer Gesten-Designer hat Ihre Freigabe zurückgezogen. Diese Studie wird nicht mehr in Ihrer Studien-Übersicht angezeigt und Sie haben keinen Zugriff mehr darauf.",
     "inviteGreetings": "Mit freundlichen Grüßen",
     "inviteTeam": "Ihr GestureNote Team",
     "prepareExecutionSubject": "Ein Proband wartet auf Sie",

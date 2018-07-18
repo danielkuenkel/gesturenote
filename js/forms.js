@@ -644,7 +644,6 @@ function renderQuestionnaire(target, questionnaire, answers, forceFilters) {
 
 
     if (hasFilterQuesitons(questionnaire) && forceFilters && forceFilters === true) {
-
         if (currentQuestionIndex < questionnaire.length) {
             renderQuestions(target, [questionnaire[currentQuestionIndex]], answers);
             $(nextQuestionButton).removeClass('hidden');
@@ -737,6 +736,7 @@ function renderQuestions(target, questionnaire, answers) {
             if (questionnaire.length > 1) {
                 $(item).find('.question').text((i + 1) + '. ' + questionnaire[i].question);
             } else {
+                $(item).removeClass('panel-shadow');
                 $(item).find('.question').text(questionnaire[i].question);
             }
 

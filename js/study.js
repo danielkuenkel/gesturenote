@@ -83,7 +83,7 @@ function renderData(data, hash) {
     // phase view
     if (studyData.phases && studyData.phases.length > 0) {
         var step = document.createElement('ol');
-        $(step).addClass('study-phase-step').css({paddingLeft: '20px'});
+        $(step).addClass('study-phase-step').css({paddingLeft: '15px'});
         $('#phase-steps-container').append(step);
         for (var i = 0; i < studyData.phases.length; i++) {
 
@@ -317,6 +317,7 @@ function renderInvitedUsers() {
             var listItem = $('#shared-list-item').clone().removeAttr('id');
             $(listItem).find('.shared-study-item-email').text(invitedUsers[i].email);
             $(listItem).find('.btn-uninvite-user').attr('data-invite-id', invitedUsers[i].id);
+            $(listItem).find('.btn-uninvite-user').attr('data-invite-mail', invitedUsers[i].email);
             $('#invited-users #shared-studies-list').append(listItem);
         }
     } else {
@@ -375,7 +376,7 @@ $(document).on('click', '.btn-uninvite-user', function (event) {
     var button = $(this);
     if (!$(button).hasClass('disabled')) {
         lockButton(button, true, 'fa-trash');
-        uninviteUser({studyId: study.id, id: $(this).attr('data-invite-id')}, function (result) {
+        uninviteUser({studyId: study.id, id: $(this).attr('data-invite-id'), email: $(this).attr('data-invite-mail')}, function (result) {
             unlockButton(button, true, 'fa-trash');
             if (result.status === RESULT_SUCCESS) {
                 setLocalItem(INVITED_USERS, result.invitedUsers);

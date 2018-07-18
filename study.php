@@ -141,15 +141,18 @@ if (login_check($mysqli) == true) {
                 </div>
 
 
-                <div class="row" style="margin-top: 20px">
+                <div class="row" style="margin-top: 40px">
                     <div class="col-sm-6 col-lg-7">
                         <div id="study-description">
                             <h3 class="address"><?php echo $lang->description ?></h3>
                             <p class="text"></p>
                         </div>
-                        <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
-                        <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
-                        <div class="hidden panel-survey"><i class="fa fa-users" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                        <div style="margin-top: 20px">
+                            <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                            <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                            <div class="hidden panel-survey"><i class="fa fa-users" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                        </div>
+
                     </div>
                     <div class="col-sm-5 col-sm-offset-1 col-lg-4 col-lg-offset-1">
                         <div id="study-phases">
@@ -169,7 +172,7 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
 
-                <div  style="margin-top: 20px" id="invited-users">
+                <div id="invited-users" style="margin-top: 40px">
                     <h3 class="address"><?php echo $lang->sharedStudies ?></h3>
                     <div class="row">
 
