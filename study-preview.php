@@ -75,7 +75,7 @@ if (login_check($mysqli) == true) {
         <div id="template-study"></div>
         <div id="template-gesture-recorder"></div>
 
-        <div id="preview-bar-top" style="padding: 10px; position: fixed">
+        <div id="preview-bar-top" style="padding: 10px; position: fixed; width: 100%">
 
             <div class="input-group">
                 <div class="input-group-btn">

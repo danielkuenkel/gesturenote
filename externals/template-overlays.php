@@ -111,7 +111,7 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">

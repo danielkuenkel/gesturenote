@@ -3201,7 +3201,7 @@ function initQuestionnaireListItemAdded(listContainer, alertContainer) {
         var addedElement = $(event.target).children().last();
         initializeItemType(addedElement);
         clearAlerts(alertContainer);
-        var newScrollTop = Math.max(0, $(addedElement).offset().top + $(addedElement).height() - $(window).height() + 190); // 190 due to padding-top 110px + padding-bottom 80px
+        var newScrollTop = Math.max(0, $(addedElement).offset().top + $(addedElement).height() - $(window).height()); // 190 due to padding-top 110px + padding-bottom 80px
         $('html,body').animate({
             scrollTop: newScrollTop
         }, 200);

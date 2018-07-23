@@ -93,21 +93,21 @@ $(document).on('mousedown', '.btn-step-backward-gesture', function (event) {
     }, 200, $(this).closest('.root').find('.previewGesture'));
 });
 
-//$(document).on('mouseenter', '.previewGesture', function (event) {
-//    event.preventDefault();
+$(document).on('mouseenter', '.mousePlayable', function (event) {
+    event.preventDefault();
 //    if ($(this).hasClass('mousePlayable')) {
 //        console.log('on mouse enter');
-//        $(this).parent().find('.btn-play-gesture').click();
+        $(this).parent().find('.btn-play-gesture').click();
 //    }
-//});
+});
 
-//$(document).on('mouseleave', '.previewGesture', function (event) {
-//    event.preventDefault();
+$(document).on('mouseleave', '.mousePlayable', function (event) {
+    event.preventDefault();
 //    if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
 //        console.log('on mouse leave');
-//        $(this).parent().find('.btn-pause-gesture').click();
+        $(this).parent().find('.btn-pause-gesture').click();
 //    }
-//});
+});
 
 $(document).on('click', '.btn-popover-gesture-preview', function (event) {
     event.preventDefault();

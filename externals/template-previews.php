@@ -712,8 +712,8 @@ include '../includes/language.php';
     <div class="col-xs-12 root" id="wozItemWithScenes">
         <div class="row">
             <div class="col-xs-5 col-sm-6 col-md-4">
-                <div class="btn-shadow ">
-                    <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 0px; border-top-left-radius: 4px; border-top-right-radius: 4px;"></div>
+                <div class="">
+                    <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 0px; border-top-left-radius: 8px; border-top-right-radius: 8px;"></div>
                     <div class="text-center hidden gestureControls">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
@@ -721,7 +721,12 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-success btn-block disabled" id="btn-trigger-woz" style="border-top-left-radius: 0px; border-top-right-radius: 0px"><?php echo $lang->thisGesture ?></button>
+                    <div id="control-continuous-slider" class="hidden">
+                        <input id="continuous-slider" style="width: 100%; height: 10px" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" />
+                    </div>
+
+
+                    <button type="button" class="btn btn-success btn-block btn-shadow disabled" id="btn-trigger-woz" style="border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px"><?php echo $lang->thisGesture ?></button>
                 </div>
             </div>
             <div class="col-xs-7 col-sm-6 col-md-8" id="transition-scenes">

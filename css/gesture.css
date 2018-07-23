@@ -264,6 +264,18 @@ and open the template in the editor.
     opacity: .2;
 }
 
+#control-continuous-slider .slider-handle {
+    opacity: 0;
+}
+#control-continuous-slider .slider-track {
+    margin-top: -15px;
+    border-radius: 0px 0px 8px 8px;
+}
+#control-continuous-slider .slider-selection {
+    background: #0480BE;
+    border-radius: 0px 0px 8px 8px;
+}
+
 
 .sensor-canvas {
     background-color: #eeeeee;

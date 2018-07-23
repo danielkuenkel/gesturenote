@@ -11,7 +11,9 @@ function initWebSocket(debug) {
         }
 
 
-        if (!client.connected) {
+        if (client && !client.connected) {
+        } else {
+            return false;
         }
 
         if (debug && debug === true) {
@@ -32,7 +34,7 @@ function initWebSocket(debug) {
         client.connect(headers, function (frame) {
             console.log('Frame: ' + frame);
             client.debug("connected to Stomp");
-            client.subscribe('/topic/model.simulation.out', function (message) {
+            client.subscribe(APOLLO_DESTINATION, function (message) {
                 handleWebsocketRequest(message);
             });
         });
@@ -43,19 +45,19 @@ function initWebSocket(debug) {
     }
 }
 
-function sendGesture(gestureId, yakindu) {
-    client.send(APOLLO_DESTINATION, {}, gestureId);
+function sendGesture(gestureId) {
+//    client.send(APOLLO_DESTINATION, {}, gestureId);
     client.send(APOLLO_DESTINATION, {}, JSON.stringify({
         messageId: gestureId
     }));
 
     client.debug("send gesture: " + gestureId);
-    if (yakindu) {
-        client.send('/topic/model.simulation.in', {
-            "content-type": "text/plain"
-        }, jsonString);
-        client.debug("send mapping: " + jsonString);
-    }
+//    if (yakindu) {
+//        client.send('/topic/model.simulation.in', {
+//            "content-type": "text/plain"
+//        }, jsonString);
+//        client.debug("send mapping: " + jsonString);
+//    }
 }
 
 function sendContinuousGesture(gestureId, value) {

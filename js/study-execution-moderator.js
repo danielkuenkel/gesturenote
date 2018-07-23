@@ -50,8 +50,6 @@ var Moderator = {
                     item = Moderator.getSUS(source, container, currentPhaseData);
                     break;
                 case UEQ:
-                    console.log('ueq:',currentPhaseData);
-                    
                     item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
                     $(item).find('.headline').text(getCurrentPhase().title);
                     break;
@@ -108,7 +106,7 @@ var Moderator = {
 //        pinRTC();
 //        updateRTCHeight($('#phase-content #column-left').width(), true);
 
-        if (isPidocoSocketNeeded()) {
+        if (isPidocoSocketNeeded() && getBrowser() === BROWSER_FIREFOX) {
             console.log('pidoco socket needed');
             initWebSocket();
         }
@@ -1562,10 +1560,7 @@ var Moderator = {
     },
     getScenario: function getScenario(source, container, data) {
         triggeredHelp, triggeredWoz = null;
-//        $(container).find('#general #task .address').text(translation.scenarioTitle);
-//        $(container).find('#general #task .text').text(data.title);
         $(container).find('#general .headline').text(getCurrentPhase().title);
-//        $(container).find('#general #description .address').text(translation.scenarioDescription);
         $(container).find('#general #description').text(data.description);
         if (!currentWOZScene) {
             currentWOZScene = getSceneById(data.scene);
@@ -1576,8 +1571,6 @@ var Moderator = {
             var currentPhase = getCurrentPhase();
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
             tempData.annotations = new Array();
-//            tempData.transitions = new Array();
-//            tempData.assessments = new Array();
             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
         }
 
@@ -1600,29 +1593,16 @@ var Moderator = {
 
         $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            Moderator.enableScenarioControls(container);
             scenarioPrototypeOpened = true;
-            wobble([container.find('#woz-controls')]);
+
+            $(container).find('#btn-open-prototype').remove();
             $(container).find('#btn-start-screen-sharing').removeClass('hidden');
             $(container).find('#btn-reset-scenes').removeClass('disabled');
-            $(container).find('.btn-feedback-scene').removeClass('disabled');
+//            wobble([container.find('#woz-controls')]);
+//            $(container).find('.btn-feedback-scene').removeClass('disabled');
 
             openPrototypeScene(currentWOZScene, checkSingleScene(data.tasks));
         });
-
-        function checkSingleScene(tasks) {
-            var sceneCount = 0;
-            for (var i = 0; i < tasks.length; i++) {
-                if (tasks[i].woz && tasks[i].woz.length > 0) {
-                    sceneCount += tasks[i].woz.length;
-                }
-            }
-
-            if (tasks.length === 1 && sceneCount <= 1) {
-                return true;
-            }
-            return false;
-        }
 
         $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -1645,6 +1625,9 @@ var Moderator = {
                         peerConnection.sendMessage(MESSAGE_START_SCENARIO);
                     });
                 } else {
+                    if (getBrowser() !== BROWSER_FIREFOX) {
+
+                    }
                     enableControls();
                 }
             }
@@ -1659,17 +1642,11 @@ var Moderator = {
             $(container).find('.btn-feedback-scene').removeClass('disabled');
             $(container).find('.help-container .disabled').removeClass('disabled');
             $(container).find('#assessment-controls-container .disabled').removeClass('disabled');
-            $(container).find('#general #description').addClass('hidden');
+            $(container).find('#general #description').closest('.read-aloud').addClass('hidden');
 
-//            if (!previewModeEnabled && peerConnection) {
-//                getGMT(function (timestamp) {
-//                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-//                    
-////                    tempData.annotations.push({action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
-////                    tempData.transitions.push({scene: currentWOZScene.id, time: timestamp});
-//                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-//                });
-//            }
+            Moderator.enableScenarioControls(container);
+            wobble([container.find('#woz-controls')]);
+            $(container).find('.btn-feedback-scene').removeClass('disabled');
         }
 
         $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
@@ -1692,6 +1669,10 @@ var Moderator = {
             }
         });
 
+        if (checkSingleScene(data.tasks)) {
+            $(container).find('#btn-reset-scenes').remove();
+        }
+
         $(container).find('#btn-reset-scenes').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
@@ -1711,7 +1692,9 @@ var Moderator = {
                             setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                         });
                     }
-                    prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
+
+                    openPrototypeScene(currentWOZScene, checkSingleScene(data.tasks));
+//                    prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                 }
             } else {
                 $(document).scrollTop(0);
@@ -1845,7 +1828,6 @@ var Moderator = {
                 }
             } else if (transitionsLength > 2) {
                 var leftSceneButtons = $(scenesContainer).find('#transition-scene-container').find('.btn-trigger-scene').not('.btn-primary');
-                console.log('transitionsLength', transitionsLength, 'leftSceneButtons', leftSceneButtons.length);
                 if (leftSceneButtons.length > 0) {
                     var button = $(leftSceneButtons).first();
                     currentWOZScene = getSceneById($(button).attr('id'));
@@ -1917,6 +1899,9 @@ var Moderator = {
                         var transitionScenes = wozData[i].transitionScenes;
                         var item = $(source).find('#wozItemWithScenes').clone().removeAttr('id');
                         $(container).find('.woz-container').append(item);
+                        if (i > 0) {
+                            $(item).css({marginTop: '10px'});
+                        }
 
                         if (transitionScenes.length > 1) {
                             var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
@@ -1964,6 +1949,29 @@ var Moderator = {
                             renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
                             $(item).find('.previewGesture').attr('id', gesture.id);
                             TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
+
+                            console.log('interaction type is', gesture.interactionType, currentWOZScene, checkSingleScene(data.tasks));
+                            if (gesture.interactionType === TYPE_GESTURE_CONTINUOUS && currentWOZScene.type === SCENE_PIDOCO) {
+                                $(item).find('#btn-trigger-woz').remove();
+                                $(item).find('#control-continuous-slider').removeClass('hidden');
+
+                                var continuousSlider = $(item).find('#control-continuous-slider #continuous-slider');
+                                console.log('continuous gesture interaction');
+
+                                var sliderOptions = {
+                                    value: 0,
+                                    min: 0,
+                                    max: 100
+                                };
+
+                                $(continuousSlider).slider(sliderOptions);
+                                $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
+                                    event.preventDefault();
+                                    var percent = parseInt(event.value.newValue);
+                                    var gestureId = event.data.gesture.id;
+                                    console.log(gestureId, percent);
+                                });
+                            }
                         }
 
                         item.find('#btn-trigger-woz, .btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
@@ -2122,8 +2130,6 @@ var Moderator = {
         }
     },
     enableScenarioControls: function enableScenarioControls(container) {
-        $(container).find('#btn-open-prototype').remove();
-        $(container).find('#btn-start-screen-sharing').removeClass('hidden');
         var wozItems = $(container).find('.woz-container .disabled');
         wozItems.removeClass('disabled');
         var helpItems = $(container).find('.help-container .disabled');
@@ -3236,7 +3242,7 @@ var Moderator = {
                         unlockButton(activeQuitButton, true);
                         $(activeQuitButton).addClass('hidden');
                         $(activeQuitButton).closest('.root').find('.btn-present-gesture').removeClass('hidden disabled');
-                        
+
                         var gestureId = payload.gestureId;
                         if (gestureId && !previewModeEnabled) {
                             getGMT(function (timestamp) {
@@ -3330,7 +3336,7 @@ var Moderator = {
                         unlockButton(activeQuitButton, true);
                         $(activeQuitButton).addClass('hidden');
                         $(activeQuitButton).closest('.root').find('.btn-present-trigger').removeClass('hidden disabled');
-                        
+
                         var triggerId = payload.triggerId;
                         if (gestureId && !previewModeEnabled) {
                             getGMT(function (timestamp) {
@@ -3347,7 +3353,7 @@ var Moderator = {
                     event.preventDefault();
                     activePresentButton = $(this);
                     activeQuitButton = $(this).parent().find('.btn-quit-trigger-info');
-                    
+
                     if (!$(activePresentButton).hasClass('disabled')) {
                         var triggerId = $(this).attr('data-trigger-id');
                         currentPresentTrigger = getTriggerById(triggerId);
@@ -3356,7 +3362,7 @@ var Moderator = {
                         if (!previewModeEnabled && peerConnection) {
                             lockButton(activePresentButton, true);
                             peerConnection.sendMessage(MESSAGE_OPEN_TRIGGER_INFO, {id: triggerId});
-                            
+
                             getGMT(function (timestamp) {
                                 var currentPhase = getCurrentPhase();
                                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -3609,7 +3615,7 @@ var Moderator = {
             explorationStartTriggered = true;
             $(container).find('#slides').removeClass('hidden');
             wobble([container.find('#slides')]);
-            
+
             $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
 
             if (data.exploration.length === 1) {
@@ -3885,6 +3891,22 @@ function renderObservations(data, container) {
     } else {
         appendAlert($(container).find('#observations'), ALERT_NO_PHASE_DATA);
     }
+}
+
+function checkSingleScene(tasks) {
+    var sceneCount = 0;
+    for (var i = 0; i < tasks.length; i++) {
+        if (tasks[i].woz && tasks[i].woz.length > 0) {
+            sceneCount += tasks[i].woz.length;
+        }
+    }
+    
+    console.log('check single scene: ', tasks.length, sceneCount);
+    
+    if (tasks.length === 1 && sceneCount <= 1) {
+        return true;
+    }
+    return false;
 }
 
 function checkRTCUploadStatus(container) {
