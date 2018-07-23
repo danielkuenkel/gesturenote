@@ -1563,17 +1563,12 @@ function renderEditableOpenQuestion(item, studyData, answer) {
 
 function renderDichotomousQuestion(item, studyData, answer) {
     var options = [{id: 'yes', title: translation.yes}, {id: 'no', title: translation.no}];
-//    renderFilterOptionsData(DICHOTOMOUS_QUESTION, item, studyData.filterOptions, true);
 
     for (var i = 0; i < options.length; i++) {
         var optionItem = $('#template-study-container').find('#dichotomous-question-item').clone();
         $(optionItem).attr('data-id', options[i].id);
         $(optionItem).find('.option-text').text(options[i].title);
         $(item).find('.option-container').append(optionItem);
-
-//        if (i >= 0 && i < options.length) {
-//            $(item).find('.option-container').append(document.createElement('br'));
-//        }
 
         $(item).find('#no-answer').removeClass('hidden');
 
@@ -1602,8 +1597,6 @@ function renderDichotomousQuestion(item, studyData, answer) {
     } else {
         $(item).find('#no-justification').removeClass('hidden');
     }
-
-//    renderFilterOptionsData(DICHOTOMOUS_QUESTION, item, studyData.filterOptions);
 }
 
 function renderEditableDichotomousQuestion(item, studyData, answer) {
