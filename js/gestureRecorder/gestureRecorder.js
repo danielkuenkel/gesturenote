@@ -792,6 +792,10 @@ function renderStateSave() {
             renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
         }
     } else {
+        if (recorder.options.context) {
+            $(contextInput).val(recorder.options.context);
+        }
+        
         renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
     }
 
