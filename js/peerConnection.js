@@ -678,13 +678,13 @@ var snapshotTimer = null;
 PeerConnection.prototype.takeSnapshot = function (upload) {
     var snapshotUrl = getLocalItem(STUDY).snapshot;
 
-
     if (snapshotUrl && snapshotUrl !== '') {
         return snapshotUrl;
     } else {
         clearTimeout(snapshotTimer);
         snapshotTimer = setTimeout(function () {
             var localStream = $('#' + connection.options.localVideoElement)[0];
+//            console.log('take a snapshot of ', $(localStream).width());
 
             // create snapshot from stream
             var canvas = document.createElement('canvas');
@@ -693,16 +693,16 @@ PeerConnection.prototype.takeSnapshot = function (upload) {
             var ctx = canvas.getContext('2d');
 
             ctx.drawImage($(localStream)[0], 0, 0, canvas.width, canvas.height);
-            console.log(canvas, $(localStream).width());
+//            console.log(canvas, $(localStream).width());
             canvas.toBlob(function (blob) {
 //                var url = URL.createObjectURL(blob);
                 var colorThief = new ColorThief();
                 var dominantColor = colorThief.getColor(canvas);
-                console.log('blob created', blob);
+//                console.log('blob created', blob);
 
                 // black frame detection
                 if (dominantColor && (dominantColor[0] + dominantColor[1] + dominantColor[2]) > 0) {
-                    console.log(blob);
+//                    console.log(blob);
 
                     if (upload && upload === true) {
                         var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.jpg';
@@ -717,7 +717,7 @@ PeerConnection.prototype.takeSnapshot = function (upload) {
                         snapshotUploadQueue.upload([blob], filename);
                     }
                 } else {
-                    console.log('black frame ignored');
+                    console.log('black frame of snapshot detected');
                 }
             }, 'image/jpeg', 0.8);
         }, 3000);

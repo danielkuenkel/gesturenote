@@ -28,7 +28,7 @@ include '../includes/language.php';
             if (currentPreviewData.length === 1) {
                 var modal = $('#custom-modal');
                 $(modal).find('.panel').removeClass('panel panel-default');
-                $(modal).find('.panel-body').css({padding: 0});
+//                $(modal).find('.panel-body').css({padding: 0});
                 $(modal).find('.modal-body').css({paddingBottom: 0});
                 $(modal).find('.btn-next-question').remove();
                 $(modal).find('.btn-questionnaire-done').remove();

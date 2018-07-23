@@ -629,11 +629,8 @@ if (login_check($mysqli) == true) {
 
             $('#tab-introduction a').on('click', function (event) {
                 event.preventDefault();
-//                showStudyTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
-//                showExtractionTutorial = parseInt(<?php echo $_SESSION['tutorialExtraction'] ?>);
                 var showTutorial = false;
 
-                console.log('show tutorial', tutorialAutomaticClicked, showStudyTutorial, showExtractionTutorial);
                 if (tutorialAutomaticClicked === false || (tutorialAutomaticClicked === true && (showStudyTutorial === 1 || showExtractionTutorial === 1))) {
                     var activeTab = $('#tab-pane').find('.active a').attr('href');
                     var helpContext = 'study';

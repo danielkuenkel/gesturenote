@@ -246,16 +246,33 @@ function renderSubPageElements(hasTopNavbar, hasNoImprint) {
         gotoIndex();
     });
 
-//    var footer = $('#header-footer-container').find('#sub-page-footer').clone().removeAttr('id');
-//    $('body').append(footer);
-
     if (hasTopNavbar === false) {
         header.find('#main-navigation-dropdown').addClass('hidden');
+    } else {
+        $(header).find('#main-navigation-dropdown .dropdown-toggle').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            var expanded = $(this).attr('aria-expanded');
+            if (expanded === 'false' || expanded === false) {
+                var burgerMenuElements = header.find('#main-navigation-dropdown li').not('.divider');
+                for (var i = 0; i < burgerMenuElements.length; i++) {
+                    TweenMax.from($(burgerMenuElements[i]), .3, {delay: i * .02, opacity: 0, clearProps: 'all'});
+                    TweenMax.from($(burgerMenuElements[i]).find('.fa'), .3, {delay: i * .02, x: '-10', clearProps: 'all'});
+                }
+            }
+        });
     }
 
-    if (hasNoImprint === true) {
-//        header.find('.main-burger-menu .btn-imprint').addClass('hidden');
-    }
+    $(header).find('#language-selection .dropdown-toggle').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        var expanded = $(this).attr('aria-expanded');
+        if (expanded === 'false' || expanded === false) {
+            var burgerMenuElements = header.find('#language-selection li').not('.divider');
+            for (var i = 0; i < burgerMenuElements.length; i++) {
+                TweenMax.from($(burgerMenuElements[i]), .3, {delay: i * .02, opacity: 0, clearProps: 'all'});
+                TweenMax.from($(burgerMenuElements[i]).find('.flag-small'), .3, {delay: i * .02, x: '-10', clearProps: 'all'});
+            }
+        }
+    });
 
     updateLanguageIndicator($(header).find('#language-selection'));
     updateMainBurgerMenu($(header).find('.main-burger-menu'), $('body').find('#breadcrumb'));
@@ -263,7 +280,7 @@ function renderSubPageElements(hasTopNavbar, hasNoImprint) {
 
 function updateMainBurgerMenu(target, breadcrump) {
     var activeId = $(breadcrump).find('.active').attr('data-id');
-    console.log(activeId, $(target).find('.' + activeId));
+//    console.log(activeId, $(target).find('.' + activeId));
     $(target).find('.active').removeClass('active');
     $(target).find('.' + activeId).addClass('active');
 }
@@ -2667,7 +2684,7 @@ function getStudiesCatalogListThumbnail(target, data) {
                 var hourglass = $(clone).find('.study-started .fa');
                 console.log(statusText);
                 TweenMax.to(hourglass, 2, {rotation: '360', repeat: -1, ease: Quad.easeInOut});
-                TweenMax.to($(statusText), 1, {delay: 0, css:{marginLeft:'8'}, yoyo: true, repeat: -1, ease: Quad.easeIn});
+                TweenMax.to($(statusText), 1, {delay: 0, css: {marginLeft: '8'}, yoyo: true, repeat: -1, ease: Quad.easeIn});
             } else if (now < dateFrom) {
                 progress = 100;
                 var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));

@@ -219,7 +219,7 @@ var Tester = {
                 peerConnection.sendMessage(MESSAGE_QUESTIONNAIRE_DONE);
             }
         });
-        
+
         $(container).find('.question-container').unbind('nextQuestion').bind('nextQuestion', function (event) {
             console.log('next question clicked');
             event.preventDefault();
@@ -232,7 +232,7 @@ var Tester = {
                 peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
             }
         });
-        
+
         if (questionnaireDone) {
             $(container).find('#btn-next-step').prev().addClass('hidden');
             $(container).find('#btn-next-step').addClass('hidden');
@@ -1032,16 +1032,17 @@ var Tester = {
                         $(container).find('#scene-container').removeClass('hidden');
                     }
 
-                    animateLiveStream($(container).find('#fixed-rtc-preview'), true, VIEW_TESTER, function () {
-                        gestureRecorder.record();
-                    });
+//                    animateLiveStream($(container).find('#fixed-rtc-preview'), true, VIEW_TESTER, function () {
+                    gestureRecorder.record();
+//                    });
 //                    $(container).find('#fixed-rtc-preview').removeClass('hidden');
                 });
                 $(peerConnection).unbind(MESSAGE_STOP_RECORDING_GESTURE).bind(MESSAGE_STOP_RECORDING_GESTURE, function (event, payload) {
+                    event.preventDefault();
                     $(gestureRecorder).unbind('recorderStopped').bind('recorderStopped', function (event) {
                         event.preventDefault();
                         var recordedData = gestureRecorder.recordedData();
-                        console.log('recorder stopped: ', recordedData);
+//                        console.log('recorder stopped: ', recordedData);
                         for (var i = 0; i < recordedData.length; i++) {
                             if (recordedData[i].type === TYPE_RECORD_WEBCAM) {
                                 peerConnection.transferFile(recordedData[i].data);
@@ -1052,11 +1053,9 @@ var Tester = {
 
                         peerConnection.sendMessage(MESSAGE_GESTURE_DATA, recordedData);
                     });
-                    console.log('stop record gesture');
+//                    console.log('stop record gesture');
                     gestureRecorder.stopRecord();
-                    animateLiveStream($(container).find('#fixed-rtc-preview'), false, VIEW_MODERATOR);
-//                    appendAlert($(container), ALERT_PLEASE_WAIT);
-//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
+//                    animateLiveStream($(container).find('#fixed-rtc-preview'), false, VIEW_MODERATOR);
                     $(container).find('#scene-description').addClass('hidden');
                     $(container).find('#scene-container').addClass('hidden');
                 });
@@ -2125,6 +2124,7 @@ var Tester = {
                     console.log('next step received');
                     nextStep();
                 });
+
                 $(peerConnection).unbind(MESSAGE_CANCEL_SURVEY).bind(MESSAGE_CANCEL_SURVEY, function (event, payload) {
 //                    console.log('on cancel survey');
                     var study = getLocalItem(STUDY);
@@ -2137,6 +2137,7 @@ var Tester = {
                         updateProgress();
                     }, true);
                 });
+
                 $(peerConnection).unbind(MESSAGE_REQUEST_SYNC).bind(MESSAGE_REQUEST_SYNC, function (event, payload) {
                     console.log('on sync request');
                     peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
@@ -2151,6 +2152,7 @@ var Tester = {
                     $('#custom-modal').find('.modal-content').empty();
                     $('#custom-modal').modal('hide');
                 });
+
                 $(peerConnection).unbind(MESSAGE_SYNC_PHASE_STEP).bind(MESSAGE_SYNC_PHASE_STEP, function (event, payload) {
                     console.log('on sync phase step', payload.index);
                     syncPhaseStep = false;
@@ -2158,11 +2160,19 @@ var Tester = {
                     renderPhaseStep();
                     updateProgress();
                 });
-                $(peerConnection).unbind('videoAdded').bind('videoAdded', function () {
+
+                $(peerConnection).unbind('videoAdded').bind('videoAdded', function (event, video) {
+                    event.preventDefault();
                     if (syncPhaseStep) {
                         peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
-                        updateRTCHeight($('#viewTester #column-left').width(), true);
+                        
                     }
+                    
+                    resetRTC();
+//                    console.log('video added');
+//                    if (peerConnection) {
+                    peerConnection.takeSnapshot(true);
+//                    }
                 });
                 $(peerConnection).unbind(CONNECTION_STATE_CONNECTED).bind(CONNECTION_STATE_CONNECTED, function () {
                     console.log('connected');
@@ -2170,12 +2180,8 @@ var Tester = {
                     if (getCurrentPhase().format !== THANKS) {
                         $('#viewTester').find('#phase-content').removeClass('hidden');
                         $('#viewTester').find('#pinnedRTC').css({opacity: 1});
-                        updateRTCHeight($('#viewTester #column-left').width(), true);
                     }
-
-                    if (peerConnection) {
-                        peerConnection.takeSnapshot(true);
-                    }
+                    resetRTC();
 
 //                    TweenMax.to($('#viewTester #phase-content'), 0, {y: -40, opacity: 0});
 //                    TweenMax.to($('#viewTester #phase-content'), .2, {delay: .2, y: 0, opacity: 1});
@@ -2183,6 +2189,7 @@ var Tester = {
 //                        $(document).scrollTop(0);
 //                    }
                 });
+
                 $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
                     console.log('disconnected');
                     clearAlerts($('#viewTester'));
@@ -2192,6 +2199,7 @@ var Tester = {
                         $('#viewTester').find('#pinnedRTC').css({opacity: 0});
                     }
                 });
+
                 $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function () {
                     console.log('videoRemoved');
                     clearAlerts($('#viewTester'));

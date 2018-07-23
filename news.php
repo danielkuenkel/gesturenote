@@ -66,7 +66,7 @@ include_once 'includes/functions.php';
 
             function onAllExternalsLoadedSuccessfully() {
                 var loggedIn = parseInt('<?php echo login_check($mysqli) ?>') === 1;
-                renderSubPageElements(loggedIn, false);
+                renderSubPageElements(loggedIn);
                 animateBreadcrump();
                 
                 if (loggedIn === false) {

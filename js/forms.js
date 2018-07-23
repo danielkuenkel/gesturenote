@@ -731,12 +731,13 @@ function renderQuestions(target, questionnaire, answers) {
     if (questionnaire && questionnaire.length > 0) {
         for (var i = 0; i < questionnaire.length; i++) {
             var item = $('#item-container-inputs').find('#' + questionnaire[i].format).clone(false);
+//            $(item).addClass('.panel-shadow');
             item.attr('name', questionnaire[i].id);
 
             if (questionnaire.length > 1) {
                 $(item).find('.question').text((i + 1) + '. ' + questionnaire[i].question);
             } else {
-                $(item).removeClass('panel-shadow');
+//                $(item).removeClass('panel-shadow');
                 $(item).find('.question').text(questionnaire[i].question);
             }
 
