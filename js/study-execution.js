@@ -243,6 +243,9 @@ function checkIfStopRecordingNeeded(phases) {
 }
 
 function resetConstraints() {
+    $(window).unbind('keydown');
+    $(window).unbind('keyup');
+    
     questionnaireDone = false;
     testerDoneTriggered = false;
 

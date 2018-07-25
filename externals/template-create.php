@@ -1893,19 +1893,52 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label><?php echo $lang->stateCharts->transitionFeedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioFeedback ?>"></i></label>
-                    <div class="alert-space alert-assembled-feedback-removed"></div>
-                    <div class="feedback-input">
-                        <div class="input-group">
-                            <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                            <div class="input-group-btn select feedbackSelect" role="group">
-                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                <div class="row">                    
+                    <div class="col-sm-6">
+                        <div class="form-group invert-continuous-values" style="">
+                            <label><?php echo $lang->invertGestureValues ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->invertContinuousValues ?>"></i></label>
+                            <div class="root">
+                                <div class="btn-group" id="radio" style="margin: 0">
+                                    <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->no ?></span>
+                                    </button>
+                                </div>
+                                <div class="btn-group" id="radio" style="margin: 0">
+                                    <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->yes ?></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label><?php echo $lang->stateCharts->transitionFeedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioFeedback ?>"></i></label>
+                            <div class="alert-space alert-assembled-feedback-removed"></div>
+                            <div class="feedback-input">
+                                <div class="input-group">
+                                    <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                    <div class="input-group-btn select feedbackSelect" role="group">
+                                        <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="row">
                     <div class="col-sm-6">

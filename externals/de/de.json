@@ -623,6 +623,7 @@
     "alwaysJumpTo": "Egal welche",
     "helpText": "Hilfetext",
     "displayOf": "Anzeige der",
+    "invertGestureValues": "Geste invertieren",
     "displayOfFeedback": "Anzeige der Systemrückmeldung",
     "displayOfTransitionState": "Anzeige des Zwischenzustandes",
     "transitionalPeriod": "Übergangszeit (in Sekunden)",
@@ -2027,6 +2028,7 @@
             "gestureTrainingTrigger": "Welche Funktion soll der Benutzer erlernen?",
             "gestureTrainingGesture": "Welche Geste soll ein Benutzer vorführen, damit die Funktion ausgelöst werden kann?",
             "gestureTrainingFeedback": "Soll dem Benutzer eine Systemrückmeldung angezeigt werden? Oder genügt ein Zustandsübergang als Rückmeldung (falls Zustände verwendet werden)?",
+            "invertContinuousValues": "Ist ein Pidoco-Prototyp gekoppelt? Die Werte, welche an Pidoco gesendet werden, zwischen 0 und 100. Sie können für kontinuierliche Gesten-Interaktionen die Gesten-Vorschau invertieren. Eine Invertierung kann auch noch während der Durchführung vorgenommen werden.",
             "gestureTrainingFeedbackMode": "Automatisch bedeudet, dass diese Systemrückmeldung automatisch nach einer Geste angezeigt wird?",
             "gestureTrainingFeedbackTime": "Wie lange soll diese Systemrückmeldung angezeigt werden, bevor der nächste Zustand aufgerufen wird (falls Zustände verwendet werden)?",
             "gestureTrainingRepeats": "Wie oft soll das Training für die gewählte Funktion, Geste und Systemrückmeldung vom Probanden wiederholt werden?",
@@ -2084,6 +2086,10 @@
             "association": "Warum wurde diese Geste gewählt? Welche Zusammenhänge gibt es mit der Anwendungsdomäne?",
             "description": "Beschreiben Sie die Geste genau. Teilt sich die Geste in Abschnitte auf? Sind die Hände geöffnet? Sind die Arme angewinkelt? Sind Bewegungen schnell oder langsam?",
             "bodyParts": "Welche Körperteile werden für die Gesten-Ausführung benötigt?"
+        },
+        "execution": {
+            "valuesNotInverted": "Geste nicht invertiert",
+            "valuesInverted": "Geste invertiert"
         }
     },
     "gestureStyleguides": {

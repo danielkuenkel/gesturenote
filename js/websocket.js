@@ -46,26 +46,39 @@ function initWebSocket(debug) {
 }
 
 function sendGesture(gestureId) {
-//    client.send(APOLLO_DESTINATION, {}, gestureId);
-    client.send(APOLLO_DESTINATION, {}, JSON.stringify({
-        messageId: gestureId
-    }));
+    if (client) {
+        client.send(APOLLO_DESTINATION, {}, JSON.stringify({
+            messageId: gestureId
+        }));
 
-    client.debug("send gesture: " + gestureId);
-//    if (yakindu) {
-//        client.send('/topic/model.simulation.in', {
-//            "content-type": "text/plain"
-//        }, jsonString);
-//        client.debug("send mapping: " + jsonString);
-//    }
+        client.debug("send gesture: " + gestureId);
+    } else {
+        console.warn('no stomp client');
+    }
 }
 
 function sendContinuousGesture(gestureId, value) {
-    client.send(APOLLO_DESTINATION, {}, JSON.stringify({
-        messageId: gestureId,
-        value: value
-    }));
-    client.debug("send continuous gesture: " + gestureId + "value: " + value);
+    if (client) {
+        client.send(APOLLO_DESTINATION, {}, JSON.stringify({
+            messageId: gestureId,
+            value: value
+        }));
+//        client.debug("send continuous gesture: " + gestureId + "value: " + value);
+    } else {
+        console.warn('no stomp client');
+    }
+}
+
+function sendContinuousPosition(gestureId, type, relPosX, relPosY, isClick) {
+    if (client) {
+        client.send(APOLLO_DESTINATION, {}, JSON.stringify({
+            messageId: gestureId,
+            relPosX: relPosX,
+            relPosY: relPosY,
+            type: (type === PIDOCO_TYPE_MOUSE_SIMULATION ? PIDOCO_TYPE_MOUSE_SIMULATION : ''),
+            isClick: isClick
+        }));
+    }
 }
 
 

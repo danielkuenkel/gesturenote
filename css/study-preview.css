@@ -40,6 +40,9 @@ and open the template in the editor.
     border-radius: 5px;
     border: 1px solid #eeeeee;
 }
+.web-rtc-placeholder img {
+    pointer-events: none;
+}
 .web-rtc-placeholder img, #resize-sign {
     user-drag: none; 
     user-select: none;

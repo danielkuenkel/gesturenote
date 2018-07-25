@@ -264,16 +264,58 @@ and open the template in the editor.
     opacity: .2;
 }
 
+/*#control-continuous-slider.disabled, #control-continuous-slider[disabled] {
+    opacity: .65;
+}
+
+#control-continuous-slider.disabled .slider-track, #control-continuous-slider[disabled] .slider-track {
+    cursor: not-allowed;
+    pointer-events: none;
+}*/
+
+#control-continuous-slider .slider {
+    /*height:100%;*/
+}
 #control-continuous-slider .slider-handle {
     opacity: 0;
+    width:0;
+    height:0;
 }
 #control-continuous-slider .slider-track {
-    margin-top: -15px;
+    /*margin-top: -41px;*/
     border-radius: 0px 0px 8px 8px;
+    height:34px;
 }
 #control-continuous-slider .slider-selection {
-    background: #0480BE;
+    background: #5cb85c;
     border-radius: 0px 0px 8px 8px;
+}
+
+.control-continuous-slider-status {
+    background-color: rgba(0,0,0,.6);
+    display: inline;
+    position: absolute;
+    bottom: 0px;
+    font-size: 9pt;
+    padding: 0px 5px;
+    border-top-right-radius: 8px;
+    color:white;
+}
+
+.btn-invert-slider-values {
+    cursor: pointer;
+    background-color: rgba(0,0,0,.6);
+    display: inline;
+    position: absolute;
+    bottom: 0px;
+    right:0px;
+    font-size: 9pt;
+    padding: 0px 5px;
+    border-top-left-radius: 8px;
+    color:white;
+}
+.btn-invert-slider-values:hover {
+    background-color: rgba(0,0,0,.8);
 }
 
 

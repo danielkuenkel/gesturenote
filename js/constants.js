@@ -200,6 +200,9 @@ var CURSOR_POINTER = 'pointer';
 var CURSOR_PROGRESS = 'progress';
 var CURSOR_MOVE = 'move';
 var CURSOR_NWSE_RESIZE = 'nwse-resize';
+var CURSOR_ALL_SCROLL = 'all-scroll';
+var CURSOR_CROSSHAIR = 'crosshair';
+var CURSOR_CELL = 'cell';
 
 // messages
 var MESSAGE_REQUEST_SYNC = 'requestSync';
@@ -295,6 +298,8 @@ var APOLLO_URL = 'wss://progesture.org:61624';
 var APOLLO_LOGIN = 'admin';
 var APOLLO_PASSWORD = 'password';
 var APOLLO_DESTINATION = '/topic/gestures';
+
+var PIDOCO_TYPE_MOUSE_SIMULATION = 'simulateMouse';
 
 var GESTURE_SET_JSON = {
     url: APOLLO_URL,

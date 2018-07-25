@@ -5,6 +5,7 @@
  */
 
 var prototypeWindow = null;
+var rtcStreamControlsTween = null;
 var Moderator = {
     renderView: function renderView() {
 //        $('.alert-space').empty();
@@ -1574,6 +1575,11 @@ var Moderator = {
             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
         }
 
+        var checkedScenes = checkSingleScene(data.tasks);
+        if (checkedScenes.single === true && checkedScenes.pidoco && checkedScenes.pidoco === true) {
+            Moderator.initMousePositionFunctionalities();
+        }
+
         //woz section
         Moderator.renderWOZ(source, container, data);
 
@@ -1601,7 +1607,7 @@ var Moderator = {
 //            wobble([container.find('#woz-controls')]);
 //            $(container).find('.btn-feedback-scene').removeClass('disabled');
 
-            openPrototypeScene(currentWOZScene, checkSingleScene(data.tasks));
+            openPrototypeScene(currentWOZScene, checkedScenes);
         });
 
         $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
@@ -1632,7 +1638,6 @@ var Moderator = {
                 }
             }
         });
-
 
         function enableControls() {
             scenarioStartTriggered = true;
@@ -1669,7 +1674,8 @@ var Moderator = {
             }
         });
 
-        if (checkSingleScene(data.tasks)) {
+//        var singleScene = checkSingleScene(data.tasks);
+        if (checkedScenes.single === true && checkedScenes.pidoco && checkedScenes.pidoco === true) {
             $(container).find('#btn-reset-scenes').remove();
         }
 
@@ -1693,7 +1699,7 @@ var Moderator = {
                         });
                     }
 
-                    openPrototypeScene(currentWOZScene, checkSingleScene(data.tasks));
+                    openPrototypeScene(currentWOZScene, checkedScences);
 //                    prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                 }
             } else {
@@ -1745,6 +1751,52 @@ var Moderator = {
         }
 
         return container;
+    },
+    initMousePositionFunctionalities: function initMousePositionFunctionalities() {
+        var shiftKeyDown = false;
+        $(window).keydown(function (event) {
+            if (event.keyCode === 16) {
+                var mouseTarget = previewModeEnabled ? $('body').find('#web-rtc-placeholder') : $('body').find('#video-caller');
+                shiftKeyDown = true;
+                console.log('shift key down', $(mouseTarget), getMainContent());
+                $(mouseTarget).on('mousemove', function (event) {
+                    if (shiftKeyDown === true) {
+                        var targetDimensions = {width: $(mouseTarget).width(), height: $(mouseTarget).height()};
+                        var targetOffset = $(mouseTarget).offset();
+                        var pageCoords = {x: event.pageX, y: event.pageY};
+                        var relPosX = Math.max(0, Math.min(1, (pageCoords.x - targetOffset.left) / targetDimensions.width));
+                        var relPosY = Math.max(0, Math.min(1, (pageCoords.y - targetOffset.top) / targetDimensions.height));
+//                        console.log(relPosX, relPosY);
+                        showCursor(mouseTarget, CURSOR_CROSSHAIR);
+                        sendContinuousPosition('', PIDOCO_TYPE_MOUSE_SIMULATION, relPosX, relPosY);
+
+                        $(mouseTarget).on('click', function () {
+                            sendContinuousPosition('', PIDOCO_TYPE_MOUSE_SIMULATION, relPosX, relPosY, true);
+                        });
+                    }
+                });
+
+//                    pidocoMouseTrackingActive = true;
+                // check if previewmode is enabled and then 
+            }
+        });
+
+        $(window).keyup(function (event) {
+            var mouseTarget = previewModeEnabled ? $('body').find('#web-rtc-placeholder') : $('body').find('#video-caller');
+            if (event.keyCode === 16) {
+//                var tween = $(mouseTarget).attr('data-tween');
+//                tween.play();
+                shiftKeyDown = false;
+//                $(mouseTarget).unbind('mousemove');
+                console.log('shift key up');
+//                    pidocoMouseTrackingActive = false;
+                if ($(mouseTarget).parent().attr('id') === 'draggableRTC') {
+                    showCursor(mouseTarget, CURSOR_MOVE);
+                } else {
+                    showCursor(mouseTarget, CURSOR_DEFAULT);
+                }
+            }
+        });
     },
     renderWOZ: function renderWOZ(source, container, data) {
         function checkTransitionScenes(scenesContainer) {
@@ -1899,9 +1951,6 @@ var Moderator = {
                         var transitionScenes = wozData[i].transitionScenes;
                         var item = $(source).find('#wozItemWithScenes').clone().removeAttr('id');
                         $(container).find('.woz-container').append(item);
-                        if (i > 0) {
-                            $(item).css({marginTop: '10px'});
-                        }
 
                         if (transitionScenes.length > 1) {
                             var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
@@ -1950,27 +1999,59 @@ var Moderator = {
                             $(item).find('.previewGesture').attr('id', gesture.id);
                             TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
 
-                            console.log('interaction type is', gesture.interactionType, currentWOZScene, checkSingleScene(data.tasks));
                             if (gesture.interactionType === TYPE_GESTURE_CONTINUOUS && currentWOZScene.type === SCENE_PIDOCO) {
                                 $(item).find('#btn-trigger-woz').remove();
                                 $(item).find('#control-continuous-slider').removeClass('hidden');
+                                $(item).find('.continuous-gesture-controls').removeClass('hidden');
+                                $(item).find('#control-continuous-slider-status').removeClass('hidden');
 
                                 var continuousSlider = $(item).find('#control-continuous-slider #continuous-slider');
-                                console.log('continuous gesture interaction');
+//                                console.log('continuous gesture interaction');
 
                                 var sliderOptions = {
                                     value: 0,
                                     min: 0,
-                                    max: 100
+                                    max: 100,
+                                    enabled: false
                                 };
 
                                 $(continuousSlider).slider(sliderOptions);
                                 $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
                                     event.preventDefault();
+                                    var inverted = $(this).hasClass('inverted');
                                     var percent = parseInt(event.value.newValue);
+                                    var imagePercent = inverted ? (100 - percent) : percent;
                                     var gestureId = event.data.gesture.id;
-                                    console.log(gestureId, percent);
+                                    $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
+                                    var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
+                                    $(gestureImages).removeClass('active').addClass('hidden');
+                                    $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
+//                                    console.log(gestureId, percent, gestureImages.length, imagePercent);
+                                    sendContinuousGesture(gestureId, percent);
                                 });
+
+                                var invertValuesButton = $(item).find('.btn-invert-slider-values');
+                                $(invertValuesButton).unbind('click').bind('click', {slider: continuousSlider}, function (event) {
+                                    event.preventDefault();
+                                    $(this).popover('hide');
+                                    if ($(event.data.slider).hasClass('inverted')) {
+                                        $(event.data.slider).removeClass('inverted');
+                                        $(this).attr('data-content', translation.tooltips.execution.valuesNotInverted);
+                                        TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#fff"});
+                                    } else {
+                                        $(event.data.slider).addClass('inverted');
+                                        $(this).attr('data-content', translation.tooltips.execution.valuesInverted);
+                                        TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#5bc0de"});
+                                    }
+                                });
+
+                                if (wozData[i].invertValues === 'yes') {
+                                    $(invertValuesButton).click();
+                                }
+                                initPopover();
+                            } else {
+                                $(item).find('#control-continuous-slider').remove();
+                                $(item).find('.continuous-gesture-controls').remove();
                             }
                         }
 
@@ -2132,6 +2213,12 @@ var Moderator = {
     enableScenarioControls: function enableScenarioControls(container) {
         var wozItems = $(container).find('.woz-container .disabled');
         wozItems.removeClass('disabled');
+
+        var sliders = $(container).find('.woz-container #continuous-slider');
+        $(sliders).slider('enable');
+        console.log('sliders', sliders);
+//        sliders.removeClass('disabled');
+
         var helpItems = $(container).find('.help-container .disabled');
         helpItems.removeClass('disabled');
     },
@@ -3207,7 +3294,7 @@ var Moderator = {
         }
 
         function renderCurrentGesturesToShow() {
-            console.log('render current gestures to show');
+//            console.log('render current gestures to show');
             var gesturesToShow = data.exploration[currentExplorationIndex].gestures;
             explorationShowGestures = true;
 
@@ -3697,15 +3784,19 @@ var Moderator = {
         pinRTC();
         updateRTCHeight($('#viewModerator #column-left').width(), true);
 
+
+        // init mouse events and pidoco tracking, for live execution the peer connection class handles this
         var tween = new TweenMax($(callerElement).find('.stream-controls'), .3, {opacity: 1.0, paused: true});
         $(callerElement).on('mouseenter', function (event) {
             event.preventDefault();
             tween.play();
+//            console.log('mouse tracking active?', pidocoMouseTrackingActive);
         });
 
         $(callerElement).on('mouseleave', function (event) {
             event.preventDefault();
             tween.reverse();
+//            console.log('mouse tracking active?', pidocoMouseTrackingActive);
         });
     },
     initializePeerConnection: function initializePeerConnection() {
@@ -3895,18 +3986,26 @@ function renderObservations(data, container) {
 
 function checkSingleScene(tasks) {
     var sceneCount = 0;
+    var sceneIds = [];
     for (var i = 0; i < tasks.length; i++) {
         if (tasks[i].woz && tasks[i].woz.length > 0) {
+            for (var j = 0; j < tasks[i].woz.length; j++) {
+                for (var k = 0; k < tasks[i].woz[j].transitionScenes.length; k++) {
+                    sceneIds.push(tasks[i].woz[j].transitionScenes[k].sceneId);
+                }
+
+            }
             sceneCount += tasks[i].woz.length;
         }
     }
-    
-    console.log('check single scene: ', tasks.length, sceneCount);
-    
-    if (tasks.length === 1 && sceneCount <= 1) {
-        return true;
+    sceneIds = unique(sceneIds);
+
+//    console.log('check single scene: ', tasks.length, sceneCount, sceneIds);
+
+    if (sceneIds.length === 1) {
+        return {single: true, pidoco: getSceneById(sceneIds[0]).type === SCENE_PIDOCO};
     }
-    return false;
+    return {single: true};
 }
 
 function checkRTCUploadStatus(container) {
@@ -3948,13 +4047,13 @@ function openPrototypeScene(scene, isSingleScene, description, index) {
     var windowSpecs = "location=no,menubar=no,status=no,toolbar=no";
     console.log('open prototype window', scene, isSingleScene, prototypeWindow);
     if (scene !== null) {
-        if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {
+        if (prototypeWindow && !prototypeWindow.closed && !isSingleScene.single) {
             console.log('has prototype window');
             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
-        } else if (!prototypeWindow && !isSingleScene) {
+        } else if (!prototypeWindow && !isSingleScene.single) {
             console.log('has no prototype window, no single scene');
             prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
-        } else if (!prototypeWindow && isSingleScene === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
+        } else if (!prototypeWindow && isSingleScene.single === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
             console.log('has no prototype window, single scene, ', scene.type);
             prototypeWindow = window.open(scene.parameters.url, "_blank", windowSpecs);
         } else {

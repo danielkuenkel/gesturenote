@@ -562,7 +562,7 @@ function initGestureTrainingOverlay(id, formatClone) {
             for (var i = 0; i < trainingItems.length; i++) {
                 var clone = $('#form-item-container').find('#gestureTrainingItem').clone().removeClass('hidden');
                 container.append(clone);
-                
+
                 var gesture = getGestureById(trainingItems[i].gestureId);
                 if (gesture && isGestureAssembled(gesture.id))
                 {
@@ -628,7 +628,7 @@ function initGestureTrainingOverlay(id, formatClone) {
 
                 initAddTransitionSceneButton(clone);
             }
-            
+
             updateBadges(container, 'gestureTrainingItem');
             checkCurrentListState(container);
         } else {
@@ -704,7 +704,7 @@ function initGestureTrainingOverlay(id, formatClone) {
             tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#training .option-container'), 'gestureTrainingItem', true);
             initTransitionFeedbackMode(item);
             initAddTransitionSceneButton(item);
-            
+
             setTimeout(function () {
                 $(item).find('.btn-expand').click();
             }, 400);
@@ -899,7 +899,7 @@ function initScenarioOverlay(id, formatClone) {
                     $(taskItem).attr('data-id', tasks[i].id);
                 }
                 $(formatClone).find('#tasks-container .task-option-container').append(taskItem);
-                
+
                 initAddWOZButton(taskItem);
 //                initExpandTaskButton(taskItem);
                 initTaskTitleChange(taskItem);
@@ -917,6 +917,9 @@ function initScenarioOverlay(id, formatClone) {
                         } else {
                             appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                         }
+                        
+//                        console.log(clone,$(clone).find('.invert-continuous-values'), wozItems[j].invertValues);
+                        $(clone).find('.invert-continuous-values #' + wozItems[j].invertValues).click();
 
                         var trigger = getTriggerById(wozItems[j].triggerId);
                         if (trigger && getTriggerById(trigger.id) !== null) {
@@ -966,7 +969,7 @@ function initScenarioOverlay(id, formatClone) {
                     checkCurrentListState(container);
                 }
             }
-            
+
             updateBadges($(formatClone).find('#tasks-container .task-option-container'), 'taskItem');
             renderAssembledTasks(getAssembledTasks());
             checkCurrentListState($(formatClone).find('#tasks-container .task-option-container'));
@@ -1093,6 +1096,7 @@ function initScenarioOverlay(id, formatClone) {
                 var trigger = getTriggerById(triggerId);
                 var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
                 var gesture = getGestureById(gestureId);
+                var invertContinuousValues = $(item).find('.invert-continuous-values .btn-option-checked').attr('id');
                 var feedbackId = $(item).find('.feedbackSelect .chosen').attr('id');
                 if (feedbackId === 'unselected') {
                     feedbackId = 'none';
@@ -1115,6 +1119,7 @@ function initScenarioOverlay(id, formatClone) {
                 if (trigger && gesture && transitionScenes.length > 0) {
                     woz.push({triggerId: triggerId,
                         gestureId: gestureId,
+                        invertValues: invertContinuousValues,
                         feedbackId: feedbackId,
                         feedbackTransitionMode: feedbackTransitionMode,
                         feedbackTransitionTime: feedbackTransitionTime,
@@ -1450,7 +1455,7 @@ function initGestureSlideshowOverlay(id, formatClone) {
 
                 $(clone).find('#recognition-stepper .stepper-text').val(slideshowItems[i].recognitionTime);
             }
-            
+
             updateBadges(container, 'slideshow-gesture-item');
             checkCurrentListState(container);
         } else {
@@ -1494,7 +1499,7 @@ function initGestureSlideshowOverlay(id, formatClone) {
             clearAlerts($(formatClone).find('#slideshow'));
             var item = $('#form-item-container').find('#slideshow-gesture-item').clone();
             tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#slideshow .option-container'), 'slideshow-gesture-item', true);
-            
+
             setTimeout(function () {
                 $(item).find('.btn-expand').click();
             }, 400);
@@ -1570,7 +1575,7 @@ function initTriggerSlideshowOverlay(id, formatClone) {
                     }
                 }
             }
-            
+
             updateBadges(container, 'slideshow-trigger-item');
             checkCurrentListState(container);
         } else {
@@ -1604,7 +1609,7 @@ function initTriggerSlideshowOverlay(id, formatClone) {
         saveObservations($(formatClone), $(formatClone).find('#observations #list-container').children(), slideshow);
         setLocalItem(id + ".data", slideshow);
     });
-    
+
     $(formatClone).find('.btn-add-slideshowOption').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (event.handled !== true)
@@ -1613,13 +1618,13 @@ function initTriggerSlideshowOverlay(id, formatClone) {
             clearAlerts($(formatClone).find('#slideshow'));
             var item = $('#form-item-container').find('#slideshow-trigger-item').clone();
             tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#slideshow .option-container'), 'slideshow-trigger-item', true);
-            
+
             setTimeout(function () {
                 $(item).find('.btn-expand').click();
             }, 400);
         }
     });
-    
+
     $(formatClone).find('#slideshow .option-container').unbind('change').bind('change', function (event) {
         if ($(this).children().length > 0) {
             clearAlerts($(formatClone).find('#slideshow'));
@@ -1628,7 +1633,7 @@ function initTriggerSlideshowOverlay(id, formatClone) {
         }
         resetDynamicAffixScrolling(formatClone);
     });
-    
+
     initQuestionnaireListItemAdded($(formatClone).find('#slideshow .option-container'), $(formatClone).find('#slideshow'));
     initQuestionnairePreview($(formatClone).find('#observations .btn-preview-questionnaire'), $(formatClone).find('#observations #list-container'));
 }
