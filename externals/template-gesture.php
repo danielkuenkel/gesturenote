@@ -142,6 +142,34 @@ include '../includes/language.php';
         </div>
     </div>
 
+    <div class="root" id="exchangeable-gesture-thumbnail">
+        <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="previewGesture"></div>
+                <div class="text-center hidden gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                        <button type="button" class="btn btn-default btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
+                        <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
+                    </div>
+                </div>
+                <div class="gesture-info-symbols">
+                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
+                    <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
+                    <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                </div>
+            </div>
+            <div class="caption text-center" style="">
+                <p class="gesture-name ellipsis"></p>
+            </div>
+            <div class="thumbnail-footer text-center">
+                <div class="btn-delete-exchangeable-gesture" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteExchangeableGesture ?>"><i class="fa fa-trash"></i></div>
+            </div>
+        </div>
+    </div>
+
     <div class="root " id="rudimentary-gesture-thumbnail">
         <div class="gesture-thumbnail btn-gesture-shadow">
             <div class="embed-responsive embed-responsive-4by3">
@@ -299,15 +327,17 @@ include '../includes/language.php';
                 <button class="btn btn-sm btn-danger btn-shadow" id="btn-delete-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteGestureSet ?>"><span class="fa fa-trash"></span></button>
             </div>
             <span class="panel-heading-text"></span>
-            <div class="btn-group pull-right">
-                <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-download"></i></button>
+            <div class="btn-group pull-right hole-set-control-buttons">
                 <button class="btn btn-sm btn-default btn-shadow" id="btn-mark-hole-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addAllGesturesToStudyGestureSet ?>"><i class="fa fa-plus"></i></button>
+                <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
+                <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-exchangeable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsExchangeable ?>"><i class="fa fa-file-archive-o"></i></button>
             </div>
             <div style="clear: both"></div>
         </div>
 
         <div class="panel-body" id="item-view" style="padding-bottom: 0px">
             <div class="alert-space alert-empty-gesture-set"></div>
+            <div class="alert-space alert-set-missing-gestures"></div>
             <div class="row" id="gestures-list-container">
 
             </div>
@@ -320,19 +350,106 @@ include '../includes/language.php';
                 <button class="btn btn-sm btn-danger btn-shadow" id="btn-delete-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteGestureSet ?>"><span class="fa fa-trash"></span></button>
             </div>
             <span class="panel-heading-text"></span>
-            <div class="btn-group pull-right">
-                <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-download"></i></button>
-                <!--<button class="btn btn-sm btn-default btn-shadow" id="btn-mark-hole-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addAllGesturesToStudyGestureSet ?>"><i class="fa fa-plus"></i></button>-->
+            <div class="btn-group pull-right hole-set-control-buttons">
+                <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
+                <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-exchangeable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsExchangeable ?>"><i class="fa fa-file-archive-o"></i></button>
             </div>
             <div style="clear: both"></div>
         </div>
 
         <div class="panel-body" id="item-view" style="padding-bottom: 0px">
             <div class="alert-space alert-empty-gesture-set"></div>
+            <div class="alert-space alert-set-missing-gestures"></div>
             <div class="row" id="gestures-list-container">
 
             </div>
         </div>
+    </div>
+
+    <div class="root" id="gesture-importer-template">
+        <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <button class="btn btn-default btn-shadow chooseExchangeableFile"><i class="btn-icon fa fa-file-o"></i> <span class="btn-text"><?php echo $lang->chooseExchangeableFile ?></span></button>
+
+                <form enctype="multipart/form-data" id="upload-exchangeable-form" class="hidden">
+                    <input class="exchangeableFileUpload hidden" name="exchangeableFile" type="file" accept="application/x-zip-compressed" />
+                </form>
+            </div>
+            <div class="col-sm-8 col-md-9 file-info">
+                <div class="info-file-name"><span>Name:</span> <span class="text">-</span></div>
+                <div class="info-file-size"><span>Größe:</span> <span class="text">-</span></div>
+                <div class="info-file-last-modified"><span>Modifiziert:</span> <span class="text">-</span></div>
+                <div class="info-gestures-count"><span>Anzahl Gesten:</span> <span class="text">-</span></div>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="alert-space alert-general-error"></div>
+        <div class="alert-space alert-no-exchangeable-file-selected"></div>
+        <div class="alert-space alert-exchangeable-gestures-imported-success"></div>
+        <div id="item-view" class="row">
+
+        </div>
+
+        <hr>
+
+
+        <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <div class="form-group root createExchangeableGestureSet">
+                    <label style="margin: 0">
+                        <?php echo $lang->createNewGestureSet ?>? 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->physicalStressTestSingleGraphic ?>"></i>
+                    </label><br>
+
+                    <div class="btn-group" id="radio" style="">
+                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="">
+                        <button class="btn btn-default btn-radio" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-9">
+                <div class="form-group exchangeableGestureSetTitle">
+                    <label class="text"><?php echo $lang->name ?></label>
+
+                    <div class="alert-space alert-gesture-set-title-too-short"></div>
+
+                    <!--<div class="input-group">-->
+                    <input type="text" class="form-control" id="input-exchangeable-set-title" minlength="8" maxlength="60" placeholder="<?php echo $lang->createNewGestureSetPlaceholder ?>">
+    <!--                <span class="input-group-btn">
+                        <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                    </span>-->
+                    <!--</div>-->
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+        <button class="btn btn-default btn-shadow disabled btn-import-exchangeable-gestures"><i class="btn-icon fa fa-cloud-upload"></i> <span class="btn-text"><?php echo $lang->importExchangeableFile ?></span></button>
+
+        <div id="temp-image-container" class="hidden"></div>
     </div>
 
 </div>

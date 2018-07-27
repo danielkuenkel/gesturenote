@@ -2173,9 +2173,10 @@ include '../includes/language.php';
 
                 <ul class="nav nav-pills hidden-md hidden-lg gesture-catalogs-nav-tab" id="gesture-catalogs-nav-tab-small">
                     <li role="presentation" class="active" style="margin-right: 20px; margin-top: 10px"><a href="#study-gesture-set" role="tab" data-toggle="tab"><?php echo $lang->studyGestureSet ?> <span class="badge" id="study-gesture-set-badge"></span></a></li>
-                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-catalog" role="tab" data-toggle="tab"><?php echo $lang->breadcrump->gestureCatalog ?> <span class="badge" id="gesture-catalog-badge"></span></a></li>
-                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-sets" role="tab" data-toggle="tab"><?php echo $lang->gestureSets ?> <span class="badge" id="gesture-sets-badge"></span></a></li>
-                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-recorder-content" role="tab" data-toggle="tab"><?php echo $lang->gestureRecorder ?></a></li>
+                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-catalog" role="tab" data-toggle="tab"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->allGestures ?> <span class="badge" id="gesture-catalog-badge"></span></a></li>
+                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-sets" role="tab" data-toggle="tab"><i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo $lang->gestureSets ?> <span class="badge" id="gesture-sets-badge"></span></a></li>
+                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-recorder-content" role="tab" data-toggle="tab"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGestures ?></a></li>
+                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-importer" role="tab" data-toggle="tab"><i class="fa fa-file-zip-o" aria-hidden="true"></i> <?php echo $lang->gestureImporter ?></a></li>
                 </ul>
 
                 <div class="tab-content" style="margin-top: 10px">
@@ -2437,6 +2438,8 @@ include '../includes/language.php';
                         </div>
                         <!--</div>-->
                     </div>
+
+                    <div role="tabpanel" class="tab-pane" id="tab-gesture-importer"></div>
                 </div>
             </div>
 
@@ -2445,9 +2448,10 @@ include '../includes/language.php';
                     <ul class="nav nav-pills nav-stacked gesture-catalogs-nav-tab" id="gesture-catalogs-nav-tab">
                         <li role="presentation" class="active"><a href="#study-gesture-set" role="tab" data-toggle="tab"><?php echo $lang->studyGestureSet ?> <span class="badge" id="study-gesture-set-badge"></span></a></li>
                         <h4 style="margin-top: 20px"><?php echo $lang->chooseStudyGestureSet ?></h4>
-                        <li role="presentation"><a href="#gesture-catalog" role="tab" data-toggle="tab"><?php echo $lang->breadcrump->gestureCatalog ?> <span class="badge" id="gesture-catalog-badge"></span></a></li>
-                        <li role="presentation"><a href="#gesture-sets" role="tab" data-toggle="tab"><?php echo $lang->gestureSets ?> <span class="badge" id="gesture-sets-badge"></span></a></li>
-                        <li role="presentation"><a href="#gesture-recorder-content" role="tab" data-toggle="tab"><?php echo $lang->gestureRecorder ?></a></li>
+                        <li role="presentation"><a href="#gesture-catalog" role="tab" data-toggle="tab"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->allGestures ?> <span class="badge" id="gesture-catalog-badge"></span></a></li>
+                        <li role="presentation"><a href="#gesture-sets" role="tab" data-toggle="tab"><i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo $lang->gestureSets ?> <span class="badge" id="gesture-sets-badge"></span></a></li>
+                        <li role="presentation"><a href="#gesture-recorder-content" role="tab" data-toggle="tab"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGestures ?></a></li>
+                        <li role="presentation"><a href="#gesture-importer" role="tab" data-toggle="tab"><i class="fa fa-file-zip-o" aria-hidden="true"></i> <?php echo $lang->gestureImporter ?></a></li>
                     </ul>
                 </div>
             </div>

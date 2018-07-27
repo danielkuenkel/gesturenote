@@ -1393,6 +1393,8 @@
     "linkGestureSetToPidocoQuestion": "Gesten-Set an Pidoco koppeln?",
     "sendGesturesToPidoco": "Gesten an Pidoco übertragen",
     "chooseImage": "Bild auswählen",
+    "chooseExchangeableFile": "ZIP-Datei auswählen",
+    "importExchangeableFile": "Gesten importieren",
     "deleteImage": "Bild löschen",
     "ratio": "Seitenverhältnis",
     "videoEmbedUrl": "Video-Einbettungs-URL", 
@@ -1495,6 +1497,7 @@
     "gestures": "Gesten",
     "studyGestures": "Studien-Gesten",
     "studyGestureSet": "Studien-Gesten-Set",
+    "exchangeableGestureSet": "ProGesture-Gesten-Set",
     "chooseStudyGestureSet": "Studien-Gesten-Set wählen",
     "assignmentToGestureSets": "Zuweisung zu Gesten-Sets",
     "createNewGestureSet": "Neues Gesten-Set anlegen",
@@ -1688,6 +1691,7 @@
     "allGestures": "Alle Gesten",
     "gestureSets": "Gesten-Sets",
     "gestureRecorder": "Gesten-Recorder",
+    "gestureImporter": "Gesten importieren",
     "gestureRecorderDummyURL": "img/de/gesture-recorder-dummy.jpg",
     "comments": "Kommentare",
     "share": "Teilen",
@@ -1731,6 +1735,8 @@
     "removeAllGesturesFromStudyGestureSet": "Alle Gesten vom Studien-Gesten-Set entfernen",
     "downloadAsGIF": "Als GIF herunterladen",
     "downloadAsJSON": "Als JSON-Datei herunterladen",
+    "downloadAsPidocoJSON": "Als Pidoco-Gesten-Set herunterladen",
+    "downloadAsExchangeable": "Als ProGesture-Datei herunterladen",
     "downloadAsCompressed": "Als komprimierte Datei herunterladen",
     "previewImage": "Vorschaubild",
     "tagAsPreviewImage": "Aktuellen Frame als Vorschaubild festlegen",
@@ -4778,6 +4784,11 @@
             "type": "warning",
             "text": "Nicht zu einem Gesten-Set zugeordnet."
         },
+        "setMissingGestures": {
+            "id": "set-missing-gestures",
+            "type": "warning",
+            "text": "Es wurden Gesten gelöscht, die diesem Set zugewiesen wurden."
+        },
         "previewDummy": {
             "id": "preview-dummy",
             "type": "warning",
@@ -4807,6 +4818,16 @@
             "id": "invite-yourself",
             "type": "warning",
             "text": "Sie können sich nicht selbst einladen."
+        },
+        "noExchangeableFileSelected": {
+            "id": "no-exchangeable-file-selected",
+            "type": "warning",
+            "text": "Keine ZIP-Datei ausgewählt."
+        },
+        "exchangeableGesturesImportedSuccess": {
+            "id": "exchangeable-gestures-imported-success",
+            "type": "success",
+            "text": "Gesten erfolgreich in den Gesten-Katalog von GestureNote importiert."
         }
     },
     "introductionCreateStudy": [
@@ -5258,6 +5279,18 @@
                         "<h4>Unterstützte Sensoren</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-03-03.jpg' style='max-width:400px; border-radius:8px' /><div class='image-caption'>Aufzeichnen einer Handgeste mit Leap Motion Controller.</div></div>",
                         "<p>Der Gesten-Recorder von GestureNote unterstützt nicht nur handelsübliche Webcams, sondern auch speziell für die Gesten-Interaktion entwickelte Sensoren. Aktuell bietet GestureNote die Möglichkeit Handgesten mit Hilfe eines Leap Motion Controllers aufzuzeichnen. Eine Erkennung der Gesten bietet GestureNote aktuell jedoch nicht an.</p>"
+                    ]
+        },
+        {
+            "tabId": "gestureImport",
+            "imgSrc": "img/de/introduction/gesture-catalog/carousel-04.jpg",
+            "title": "Gestenaustausch mit ProGesture",
+            "text": "Wie können Gesten aus ProGesture importiert und zu ProGesture exportiert werden?",
+            "popover": "Gestenaustausch mit ProGesture",
+            "description": 
+                    [
+                        "<h4>Expertenbasierte Aufzeichnung</h4><hr>",
+                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-03-01.jpg' style='max-width:700px' /><div class='image-caption'>Beispiel für eine expertenbasierte Gestenaufzeichnung. Gesten-Designer befindet sich im Speichern-Dialog.</div></div>"
                     ]
         }
     ],

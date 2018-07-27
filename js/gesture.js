@@ -190,6 +190,7 @@ function renderGestureImages(container, images, preview, callback) {
                 }
                 numImagesLoaded++;
             };
+//            console.log('load image:', images[i]);
             image.src = images[i];
         }
     } else {

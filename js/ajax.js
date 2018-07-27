@@ -606,6 +606,23 @@ function getGestureSetsForStudyId(data, callback) {
     });
 }
 
+function saveGestureSet(data, callback) {
+    $.ajax({
+        url: 'includes/save-gesture-set.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function saveGestureSetForStudyId(data, callback) {
     $.ajax({
         url: 'includes/save-gesture-set-for-study-id.php',

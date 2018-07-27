@@ -97,6 +97,7 @@ var ALERT_NO_GESTURE_SETS_FOR_STUDY = 'no-gesture-sets-for-study';
 var ALERT_GESTURE_SET_TITLE_TOO_SHORT = 'gesture-set-title-too-short';
 var ALERT_EMPTY_GESTURE_SET = 'empty-gesture-set';
 var ALERT_NOT_ASSIGNED_TO_GESTURE_SET = 'not-assigned-to-gesture-set';
+var ALERT_SET_MISSING_GESTURES = 'set-missing-gestures';
 
 var ALERT_PREVIEW_DUMMY = 'preview-dummy';
 
@@ -109,6 +110,10 @@ var ALERT_NO_ANNOTATIONS = 'no-annotations';
 var ALERT_NO_USERS_INVITED = 'no-users-invited';
 var ALERT_USER_ALREADY_INVITED = 'user-already-invited';
 var ALERT_INVITE_YOURSELF = 'invite-yourself';
+
+// exchangeable file hints
+var ALERT_NO_EXCHANGEABLE_FILE_SELECTED = 'no-exchangeable-file-selected';
+var ALERT_EXCHANGEABLE_GESTURES_IMPORTED_SUCCESS = 'exchangeable-gestures-imported-success';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);

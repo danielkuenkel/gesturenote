@@ -409,10 +409,15 @@ function getStudyCatalogGestures() {
 function renderStudyGestures(gestures) {
     $('#study-gestures-catalog').removeClass('hidden');
     $('#study-gestures-catalog').find('.list-container').empty();
-    for (var i = 0; i < gestures.length; i++) {
-        var item = getGestureCatalogListThumbnail(gestures[i]);
-        $('#study-gestures-catalog .list-container').append(item);
-        TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+    if (gestures && gestures.length > 0) {
+        $('#study-gestures-catalog').find('#btn-download-as-json').removeClass('disabled');
+        $('#study-gestures-catalog').find('#btn-download-as-exchangeable').removeClass('disabled');
+        
+        for (var i = 0; i < gestures.length; i++) {
+            var item = getGestureCatalogListThumbnail(gestures[i]);
+            $('#study-gestures-catalog .list-container').append(item);
+            TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+        }
     }
 }
 

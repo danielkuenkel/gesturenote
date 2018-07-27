@@ -88,10 +88,13 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-data-gus-questionnaire" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noDataGUSQuestionnaire->text ?></span></div>
     <div class="alert alert-warning" id="no-data-ueq-questionnaire" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noDataUEQQuestionnaire->text ?></span></div>
     <div class="alert alert-warning" id="not-assigned-to-gesture-set" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->notAssignedToGestureSet->text ?></span></div>
+    <div class="alert alert-warning" id="set-missing-gestures" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->setMissingGestures->text ?></span></div>
     <div class="alert alert-warning" id="preview-dummy" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->previewDummy->text ?></span></div>
     <div class="alert alert-warning" id="no-more-tasks" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noMoreTasks->text ?></span></div>
     <div class="alert alert-warning" id="no-annotations" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noAnnotations->text ?></span></div>
     <div class="alert alert-warning" id="no-users-invited" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noUsersInvited->text ?></span></div>
     <div class="alert alert-warning" id="user-already-invited" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->userAlreadyInvited->text ?></span></div>
     <div class="alert alert-warning" id="invite-yourself" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->inviteYourself->text ?></span></div>
+    <div class="alert alert-warning" id="no-exchangeable-file-selected" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noExchangeableFileSelected->text ?></span></div>
+    <div class="alert alert-success" id="exchangeable-gestures-imported-success" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->exchangeableGesturesImportedSuccess->text ?></span></div>
 </div>

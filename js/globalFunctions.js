@@ -2293,12 +2293,16 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
     clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
     clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
 
-    clone.find('.symbol-gesture-execution').addClass(data.type);
-    clone.find('.symbol-gesture-execution').attr('data-content', translation.gestureTypes[data.type + 's'] + ' ' + translation.gestureType);
-    clone.find('.text-gesture-execution').text(translation.gestureTypes[data.type + 'Short']);
-    clone.find('.symbol-gesture-interaction').addClass(data.interactionType);
-    clone.find('.symbol-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[data.interactionType + 's'] + ' ' + translation.gestureInteraction);
-    clone.find('.text-gesture-interaction').text(translation.gestureInteractionTypes[data.interactionType + 'Short']);
+    if (data.type && data.interactionType) {
+        clone.find('.symbol-gesture-execution').addClass(data.type);
+        clone.find('.symbol-gesture-execution').attr('data-content', translation.gestureTypes[data.type + 's'] + ' ' + translation.gestureType);
+        clone.find('.text-gesture-execution').text(translation.gestureTypes[data.type + 'Short']);
+        clone.find('.symbol-gesture-interaction').addClass(data.interactionType);
+        clone.find('.symbol-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[data.interactionType + 's'] + ' ' + translation.gestureInteraction);
+        clone.find('.text-gesture-interaction').text(translation.gestureInteractionTypes[data.interactionType + 'Short']);
+    } else {
+        clone.find('.gesture-info-symbols').addClass('hidden');
+    }
     initPopover();
 
     if (panelStyle) {
@@ -2814,8 +2818,9 @@ function getGestureSetPanel(data) {
         }
 
     } else {
-        $(panel).find('#btn-mark-hole-set').addClass('hidden');
-        $(panel).find('#btn-download-as-json').addClass('hidden');
+        $(panel).find('.hole-set-control-buttons').addClass('hidden');
+//        $(panel).find('#btn-mark-hole-set').addClass('hidden');
+//        $(panel).find('#btn-download-as-json').addClass('hidden');
         appendAlert(panel, ALERT_EMPTY_GESTURE_SET);
     }
 
@@ -2868,6 +2873,12 @@ function getGestureSetPanel(data) {
         downloadGestureSetAsJSON($(panel).find('.gesture-thumbnail'), data.title);
     });
 
+    $(panel).find('#btn-download-as-exchangeable').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        $(this).popover('hide');
+        downloadGestureSetAsExchangeable($(panel).find('.gesture-thumbnail'), data.title);
+    });
+
     return panel;
 }
 
@@ -2890,20 +2901,272 @@ function downloadGestureSetAsJSON(gestureThumbnails, title) {
     saveAs(blob, title + ".json");
 }
 
+function downloadGestureSetAsExchangeable(gestureThumbnails, title) {
+//    var actions = [];
+    var zip = new JSZip();
+    var gestures = [];
+
+    for (var i = 0; i < gestureThumbnails.length; i++) {
+        var gestureId = $(gestureThumbnails[i]).closest('.root').attr('id');
+        var gesture = getGestureById(gestureId);
+        if (gesture.gif && gesture.gif !== null) {
+            attachDataToZip(gesture, 'https://gesturenote.de/' + gesture.gif, i);
+//            actions.push({id: gesture.id, name: gesture.title, description: gesture.description, image: 'https://gesturenote.de/' + gesture.gif});
+        } else {
+//            actions.push({id: gesture.id, name: gesture.title, description: gesture.description});
+
+            createGIF(gesture.images, null, false, function (blob) {
+                attachDataToZip(gesture, blob, i);
+            });
+        }
+
+        function attachDataToZip(attachGesture, gif, index) {
+//            zip.folder(index);
+            var previews = [];
+            for (var j = 0; j < attachGesture.images.length; j++) {
+                previews.push(attachGesture.id + "/" + (j + 1) + ".jpg");
+                zip.file(previews[j], urlToPromise(attachGesture.images[j]), {
+                    binary: true
+                });
+            }
+
+            zip.file(attachGesture.id + "/preview.gif", urlToPromise(gif), {
+                binary: true
+            });
+
+            var gesture = {
+                ID: attachGesture.id,
+                name: attachGesture.title,
+                style: attachGesture.type,
+                type: attachGesture.interactionType,
+                description: attachGesture.description,
+                association: attachGesture.association,
+//                bodypart: attachGesture.bodyType,
+                joints: attachGesture.joints,
+                context: attachGesture.context,
+
+//                kinectGesture: gesture.kinectGesture,
+                gifUrl: attachGesture.id + "/preview.gif",
+//                kinectContinuousGesture: gesture.kinectContinuousGesture,
+//                kinectContinuousGesture2: gesture.kinectContinuousGesture2,
+                preview: previews,
+                previewIndex: attachGesture.previewImage
+//                continuousValueType: attachGesture.continuousValueType,
+//                kinectDb: gesture.kinectDb
+            };
+
+            gestures.push(gesture);
+        }
+    }
+
+    var data = {
+        name: title,
+        ID: chance.natural(),
+        trigger: gestures
+    };
+
+    var triggerSet = {
+        type: "trigger set",
+        data: data
+    };
+    console.log(json);
+    var json = JSON.stringify(triggerSet, null, ' ');
+    zip.file(title + ".txt", json);
+
+    zip.generateAsync({
+        type: "blob"
+    }).then(function (blob) {
+        saveAs(blob, title + ".zip");
+    });
+}
+
+function urlToPromise(url) {
+    return new Promise(function (resolve, reject) {
+        JSZipUtils.getBinaryContent(url, function (err, data) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+}
+
+
+
+/*
+ * load exchangeable file
+ */
+function handleFileSelection(event) {
+    var files = event.target.files;
+    if (!files) {
+        console.log("no Files");
+        return;
+    }
+
+    var file = files[0];
+    if (!file) {
+        console.log("Unable to access the file");
+        return;
+    }
+
+    if (file.size === 0) {
+        console.log("File is empty");
+        return;
+    }
+
+    // nur ZIP-Dateien, mp4 videos, jpg Bilder oder Text-Dateien werden angenommen
+    if (!file.type.match('application/x-zip-compressed') && !file.type.match('video/mp4') && !file.type.match('image/jpeg') && !file.type.match('text/plain')) {
+        console.log("unknown zip file type : " + file.type);
+        console.log(file);
+        return;
+    }
+    startFileRead(file);
+}
+
+function startFileRead(fileObject, type) {
+    // Zip Datei behandeln
+    JSZip.loadAsync(fileObject).then(function (zip) {
+        // JSON Datei aus Zip extrahieren
+        // Dateiname der JSOn Datei muss identisch zum Name der ZIP-Datei
+        // sein
+        var filename = fileObject.name;
+        // dateiendung abschneiden und durch .txt ersetzten
+        filename = filename.substr(0, filename.length - 4);
+        filename = filename + '.txt';
+        // JSON Datei parsen
+        zip.file(filename).async("string").then(function (data) {
+            parseFileText(data, zip, type);
+        });
+    }, function (e) {
+        console.log("Error reading " + fileObject.name + " : " + e.message);
+    });
+}
+
+// JSON Datei parsen
+function parseFileText(fileString, zipfile) {
+    var JSONObject = JSON.parse(fileString);
+    // Gesten Set- verarbeiten
+    var setName = JSONObject.data.name;
+    var setId = JSONObject.data.ID;
+    var trigger = new Array();
+    trigger = JSONObject.data.trigger;
+
+    var gestures = new Array();
+    // für alle Gesten durchlaufen
+    for (var i = 0; i < trigger.length; i++) {
+        // durch individuelle Bilder per JSON Datei füllen
+        images = new Array();
+        // Bilder aus ZIP nehmen
+        if (zipfile !== null) {
+            var previewArray = trigger[i].preview;
+            for (var j = 0; j < previewArray.length; j++) {
+                var filepath = previewArray[j];
+                // Bilder asyncron aus ZIP laden
+                createImgUrlAsync(zipfile, filepath, setId, type);
+                // Dateien mit normalen Dataipfad in Array hinterlegen,
+                // werden durch async-Aufruf überschrieben
+                var tempURL = filepath;
+                images.push(tempURL);
+            }
+        } else {
+            // Default Mechanismus von Daniel verwenden
+            for (var j = 0; j < 15; j++) {
+                images.push(PATH_IMAGES_GESTURES + '1/' + (j + 1) + '.jpg');
+            }
+        }
+
+        gestures.push(new Gesture(setName, setId, trigger[i].ID, trigger[i].style,
+                trigger[i].type, trigger[i].bodypart, trigger[i].name,
+                trigger[i].description, images, 1, null, true, trigger[i].kinectDb,
+                trigger[i].kinectGesture,
+                trigger[i].gifUrl,
+                trigger[i].continuousValueType,
+                trigger[i].kinectContinuousGesture,
+                trigger[i].kinectContinuousGesture2)
+                );
+    }
+}
+
+function createImgUrlAsync(zipObject, filepath, setId, type) {
+    zipObject.file(filepath).async("arraybuffer").then(function (data) {
+        // temporäres Blob-Element erstellen
+        var imgBlob = new Blob([data]);
+        var url = URL.createObjectURL(imgBlob);
+        // URL des ursprünglichen Bildes austauschen
+
+        // ersetzt auch Bilder auf vorab geladenen Sets
+        var img = $("img[title=\'" + setId + "/" + filepath + "\']");
+        img.attr("src", url);
+        // URL auch in PREDEFINED_GESTURE_SET ändern, damit die temporären
+        // Bilder auch im modalen Dialog sichtbar sind
+        if (type === "viewer") {
+            var gestures = getLocalItem(PREDEFINED_GESTURE_SET);
+        } else if (type === "editor") {
+            var gestures = getLocalItem(GESTURE_SET_COLLECTION);
+        } else if (type === "mapping") {
+            var gestures = getLocalItem(GESTURE_MAPPING_COLLECTION);
+        }
+        for (var i = 0; i < gestures.length; i++) {
+            for (var j = 0; j < gestures[i].images.length; j++) {
+                if (gestures[i].images[j] == filepath) {
+                    gestures[i].images[j] = url;
+                }
+            }
+        }
+        if (type === "viewer") {
+            setLocalItem(PREDEFINED_GESTURE_SET, gestures);
+        } else if (type === "editor") {
+            setLocalItem(GESTURE_SET_COLLECTION, gestures);
+        } else if (type === "mapping") {
+            setLocalItem(GESTURE_MAPPING_COLLECTION, gestures);
+        }
+    }, function error(e) {
+        // handle the error
+        console.log("error with zip");
+    });
+}
+
+
+function formatBytes(bytes, decimals) {
+    if (bytes === 0)
+        return '0 Bytes';
+
+    var k = 1024,
+            dm = decimals || 2,
+            sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+            i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+
+/*
+ * gesture set panel functionalities
+ */
+
 function getGestureCatalogGestureSetPanel(data, type, layout) {
     var panel = $('#study-gesture-set-panel').clone();
     $(panel).find('.panel-heading .panel-heading-text').text(data.title);
 
     if (data.gestures !== null) {
         clearAlerts(panel);
+        var missingGestures = 0;
         for (var j = 0; j < data.gestures.length; j++) {
             var gesture = getGestureById(data.gestures[j]);
-            var gestureThumbnail = getGestureCatalogListThumbnail(gesture, type ? type : null, layout ? layout : 'col-xs-6 col-sm-6 col-lg-3');
-            $(panel).find('#gestures-list-container').append(gestureThumbnail);
+            if (gesture) {
+                var gestureThumbnail = getGestureCatalogListThumbnail(gesture, type ? type : null, layout ? layout : 'col-xs-6 col-sm-6 col-lg-3');
+                $(panel).find('#gestures-list-container').append(gestureThumbnail);
+            } else {
+                missingGestures++;
+            }
+        }
+
+        if (missingGestures > 0) {
+            appendAlert(panel, ALERT_SET_MISSING_GESTURES);
         }
     } else {
-        $(panel).find('#btn-mark-hole-set').addClass('hidden');
-        $(panel).find('#btn-download-as-json').addClass('hidden');
+        $(panel).find('.hole-set-control-buttons').addClass('hidden');
         appendAlert(panel, ALERT_EMPTY_GESTURE_SET);
     }
 
@@ -2930,6 +3193,12 @@ function getGestureCatalogGestureSetPanel(data, type, layout) {
         event.preventDefault();
         $(this).popover('hide');
         downloadGestureSetAsJSON($(panel).find('.gesture-thumbnail'), data.title);
+    });
+
+    $(panel).find('#btn-download-as-exchangeable').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        $(this).popover('hide');
+        downloadGestureSetAsExchangeable($(panel).find('.gesture-thumbnail'), data.title);
     });
 
     return panel;

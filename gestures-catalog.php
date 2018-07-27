@@ -52,11 +52,14 @@ if (login_check($mysqli) == true) {
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/joint-selection.js"></script>
+        <script src="js/gesture-importer.js"></script>
 
         <script src="js/upload-queue.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script> 
         <script src="js/filesaver/FileSaver.min.js"></script>
+        <script src="js/jszip/jszip.min.js"></script>
+        <script src="js/jszip/jszip-utils.min.js"></script>
 
         <!-- leap and plugins -->
         <script src="js/leapjs/leap-0.6.4.min.js"></script>
@@ -112,6 +115,7 @@ if (login_check($mysqli) == true) {
             <li role="presentation" id="tab-catalog"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->allGestures ?></a></li>
             <li role="presentation" id="tab-sets"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill"><i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo $lang->gestureSets ?></a></li>
             <li role="presentation" id="tab-recorder"><a href="#gesture-recorder" aria-controls="gesture-recorder" role="tab" data-toggle="pill"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGestures ?></a></li>
+            <li role="presentation" id="tab-import"><a href="#gesture-importer" aria-controls="gesture-importer" role="tab" data-toggle="pill"><i class="fa fa-file-zip-o" aria-hidden="true"></i> <?php echo $lang->gestureImporter ?></a></li>
         </ul> 
 
 
@@ -291,6 +295,8 @@ if (login_check($mysqli) == true) {
 
                 <div role="tabpanel" class="tab-pane" id="gesture-recorder"></div>
 
+                <div role="tabpanel" class="tab-pane" id="gesture-importer"></div>
+
             </div>
 
         </div>
@@ -466,6 +472,9 @@ if (login_check($mysqli) == true) {
                 case '#gesture-recorder':
                     getWholeGestureRecorder();
                     break;
+                case '#gesture-importer':
+                    getWholeGestureImporter();
+                    break;
             }
 
             var activeTabId = $(event.target).parent().attr('id').split('-')[1];
@@ -531,37 +540,42 @@ if (login_check($mysqli) == true) {
             currentFilterList = $('#gesture-sets').find('#gesture-sets-container');
             currentFilterList.empty();
 
-            getGestureSets(function (result) {
-
+            getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {
-                    originalFilterData = result.gestureSets;
-                    setLocalItem(GESTURE_SETS, result.gestureSets);
-                    console.log('get gesture sets', result);
+                    setLocalItem(GESTURE_CATALOG, result.gestures);
+                    getGestureSets(function (result) {
 
-                    if (originalFilterData && originalFilterData.length > 0) {
-                        var data = {
-                            pager: {
-                                top: $('#gesture-sets #pager-top .pagination'),
-                                bottom: $('#gesture-sets #pager-bottom .pagination'),
-                                dataLength: originalFilterData.length,
-                                maxElements: parseInt($('#gesture-sets').find('#resultsCountSelect .chosen').attr('id').split('_')[1])
-                            },
-                            filter: {
-                                countSelect: $('#gesture-sets').find('#resultsCountSelect'),
-//                            filter: $('#gesture-sets').find('#filter'),
-                                sort: $('#gesture-sets').find('#sort')
+                        if (result.status === RESULT_SUCCESS) {
+                            originalFilterData = result.gestureSets;
+                            setLocalItem(GESTURE_SETS, result.gestureSets);
+                            console.log('get gesture sets', result);
+
+                            if (originalFilterData && originalFilterData.length > 0) {
+                                var data = {
+                                    pager: {
+                                        top: $('#gesture-sets #pager-top .pagination'),
+                                        bottom: $('#gesture-sets #pager-bottom .pagination'),
+                                        dataLength: originalFilterData.length,
+                                        maxElements: parseInt($('#gesture-sets').find('#resultsCountSelect .chosen').attr('id').split('_')[1])
+                                    },
+                                    filter: {
+                                        countSelect: $('#gesture-sets').find('#resultsCountSelect'),
+                                        sort: $('#gesture-sets').find('#sort')
+                                    }
+                                };
+                                initPagination(data);
+                                $('#gesture-sets').find('#sort #newest').removeClass('selected');
+                                currentFilterData = sort();
+                                renderData(currentFilterData);
+                            } else {
+                                // show alert that no data is there
                             }
-                        };
-                        initPagination(data);
-                        $('#gesture-sets').find('#sort #newest').removeClass('selected');
-//                        $('#gesture-sets').find('#sort #newest').click();
-                        currentFilterData = sort();
-                        renderData(currentFilterData);
-                    } else {
-                        // show alert that no data is there
-                    }
+                        }
+                    });
                 }
             });
+
+
 
             $(currentFilterList).unbind('openGestureInfo').bind('openGestureInfo', function (event) {
                 event.preventDefault();
@@ -611,6 +625,12 @@ if (login_check($mysqli) == true) {
             gestureRecorder = new GestureRecorder(options);
         }
 
+        function getWholeGestureImporter() {
+            var importer = $('#template-gesture').find('#gesture-importer-template').clone().removeAttr('id');
+            $('#gesture-importer').empty().append(importer);
+            appendAlert($('#gesture-importer'), ALERT_NO_EXCHANGEABLE_FILE_SELECTED);
+        }
+
         function getCurrentActiveTab() {
             return $($('#gesture-catalogs-nav-tab').find('.active a').attr('href'));
         }
@@ -633,6 +653,22 @@ if (login_check($mysqli) == true) {
 
         $('#btn-introduction').on('click', function (event) {
             event.preventDefault();
+
+            var activeTab = $('#gesture-catalogs-nav-tab').find('.active a').attr('href');
+            if (activeTab !== '#gesture-catalog') {
+                switch (activeTab) {
+                    case '#gesture-sets':
+                        $('#custom-modal').attr('data-start-tab-id', 'gestureSets');
+                        break;
+                    case '#gesture-recorder':
+                        $('#custom-modal').attr('data-start-tab-id', 'recordGestures');
+                        break;
+                    case '#gesture-importer':
+                        $('#custom-modal').attr('data-start-tab-id', 'gestureImport');
+                        break;
+                }
+            }
+
             $('#custom-modal').attr('data-help-items-key', 'introductionGestureCatalog');
             $('#custom-modal').attr('data-help-context', 'gestureCatalog');
             $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialGestureCatalog'] ?>));

@@ -917,7 +917,7 @@ function initScenarioOverlay(id, formatClone) {
                         } else {
                             appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                         }
-                        
+
 //                        console.log(clone,$(clone).find('.invert-continuous-values'), wozItems[j].invertValues);
                         $(clone).find('.invert-continuous-values #' + wozItems[j].invertValues).click();
 
@@ -2393,6 +2393,7 @@ function initCatalogGesturesOverlay(formatClone) {
             });
         }
     });
+
     function renderData(data, animation) {
         var currentActiveTab = getCurrentActiveTab();
         currentFilterData = data;
@@ -2442,10 +2443,13 @@ function initCatalogGesturesOverlay(formatClone) {
         resetRecorder();
         renderCatalogOverview();
     });
+
     $(formatClone).find('.tab-content #tab-study-gesture-set').attr('id', 'study-gesture-set');
     $(formatClone).find('.tab-content #tab-gesture-catalog').attr('id', 'gesture-catalog');
     $(formatClone).find('.tab-content #tab-gesture-sets').attr('id', 'gesture-sets');
     $(formatClone).find('.tab-content #tab-gesture-recorder-content').attr('id', 'gesture-recorder-content');
+    $(formatClone).find('.tab-content #tab-gesture-importer').attr('id', 'gesture-importer');
+    
     // synchronize two navigation bars
     $(formatClone).find('.nav-pills').on('shown.bs.tab', function (event) {
         var activeTabIndex = $(event.target).closest('.nav').find('a').index($(event.target));
@@ -2455,7 +2459,7 @@ function initCatalogGesturesOverlay(formatClone) {
         $(formatClone).find('.search-input').val('');
         $('#custom-modal').unbind('gestureSetsUpdated');
         resetRecorder();
-
+console.log($(event.target).attr('href'))
         switch ($(event.target).attr('href')) {
             case '#study-gesture-set':
                 getWholeStudyGestures();
@@ -2469,9 +2473,13 @@ function initCatalogGesturesOverlay(formatClone) {
             case '#gesture-recorder-content':
                 getWholeGestureRecorder();
                 break;
+            case '#gesture-importer':
+                getWholeGestureImporter();
+                break;
         }
         updateNavBadges();
     });
+    
     function getCurrentActiveTab() {
         return $(formatClone).find('#gesture-catalogs-nav-tab').find('.active a').attr('href');
     }
@@ -2486,6 +2494,7 @@ function initCatalogGesturesOverlay(formatClone) {
             renderData(currentFilterData, true);
         }
     });
+    
     $(formatClone).find('.sort').unbind('change').bind('change', function (event) {
         event.preventDefault();
         currentFilterData = sort();
@@ -2496,6 +2505,7 @@ function initCatalogGesturesOverlay(formatClone) {
             renderData(currentFilterData, true);
         }
     });
+    
     $(formatClone).find('.resultsCountSelect').unbind('change').bind('change', function (event) {
         event.preventDefault();
         currentFilterData = sort();
@@ -2506,6 +2516,7 @@ function initCatalogGesturesOverlay(formatClone) {
             renderData(currentFilterData, true);
         }
     });
+    
     $(formatClone).unbind('indexChanged').bind('indexChanged', '.pagination', function (event, index) {
         event.preventDefault();
         if (!event.handled) {
@@ -2513,6 +2524,7 @@ function initCatalogGesturesOverlay(formatClone) {
             renderData(sort(), true);
         }
     });
+    
     function updateNavBadges() {
         var studyGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
         var studyGesturesLength = 0;
@@ -2666,6 +2678,7 @@ function initCatalogGesturesOverlay(formatClone) {
     function getWholeGestureSets() {
         currentFilterList = $(formatClone).find('#gesture-sets #gesture-sets-container');
         currentFilterList.empty();
+        
         getGestureSets(function (result) {
             if (result.status === RESULT_SUCCESS) {
                 originalFilterData = result.gestureSets;
@@ -2808,6 +2821,13 @@ function initCatalogGesturesOverlay(formatClone) {
             });
             updateCatalogButtons();
         });
+    }
+
+    function getWholeGestureImporter() {
+        console.log(formatClone, $(formatClone).find('#gesture-importer-content'));
+        var importer = $('#template-gesture').find('#gesture-importer-template').clone().removeAttr('id');
+        $(formatClone).find('#gesture-importer').empty().append(importer);
+        appendAlert($(formatClone).find('#gesture-importer'), ALERT_NO_EXCHANGEABLE_FILE_SELECTED);
     }
 }
 

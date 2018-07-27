@@ -34,6 +34,8 @@ if (login_check($mysqli) == true) {
         <script src="js/gifshot/gifshot.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script> 
         <script src="js/randomColor/randomColor.js"></script>
+        <script src="js/jszip/jszip.min.js"></script>
+        <script src="js/jszip/jszip-utils.min.js"></script>
 
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
@@ -67,6 +69,7 @@ if (login_check($mysqli) == true) {
         <script src="js/overlays.js"></script>
         <script src="js/study-create.js"></script>
         <script src="js/upload-queue.js"></script>
+        <script src="js/gesture-importer.js"></script>
 
         <!-- leap and plugins -->
         <script src="js/leapjs/leap-0.6.4.min.js"></script>
@@ -279,7 +282,8 @@ if (login_check($mysqli) == true) {
                                     <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-gestures">
                                         <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
                                     </button>
-                                    <button class="btn btn-default btn-shadow disabled" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-download"></i></button>
+                                    <button class="btn btn-default btn-shadow disabled" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
+                                    <button class="btn btn-default btn-shadow disabled" id="btn-download-as-exchangeable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsExchangeable ?>"><i class="fa fa-file-archive-o"></i></button>
                                 </div>
                             </div>
 
@@ -754,13 +758,13 @@ if (login_check($mysqli) == true) {
                 event.stopImmediatePropagation();
                 loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-sm');
                 $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
-                    console.log('delete data');
+//                    console.log('delete data');
                     var gotoId = $(button).parent().attr('data-id');
                     if (gotoId === 'btn-study') {
                         var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                         goto("study.php?studyId=" + editableStudyId + "&h=" + hash);
                     } else {
-                        console.log(button);
+//                        console.log(button);
                         switch (gotoId) {
                             case 'btn-dashboard':
                                 gotoDashboard();
@@ -929,7 +933,7 @@ if (login_check($mysqli) == true) {
                             break;
                     }
                 }
-                console.log(activeTab);
+//                console.log(activeTab);
 
                 $('#custom-modal').attr('data-help-items-key', 'introductionCreateStudy');
                 $('#custom-modal').attr('data-help-context', 'studyCreation');
@@ -1007,6 +1011,14 @@ if (login_check($mysqli) == true) {
                 if (!$(this).hasClass('disabled')) {
                     $(this).popover('hide');
                     downloadGestureSetAsJSON($('#gestures-catalog').find('#gestures-list-container .gesture-thumbnail'), translation.studyGestureSet);
+                }
+            });
+
+            $('#gestures-catalog').find('#btn-download-as-exchangeable').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    $(this).popover('hide');
+                    downloadGestureSetAsExchangeable($('#gestures-catalog').find('#gestures-list-container .gesture-thumbnail'), translation.exchangeableGestureSet);
                 }
             });
 

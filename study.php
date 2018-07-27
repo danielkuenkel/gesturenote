@@ -27,6 +27,8 @@ if (login_check($mysqli) == true) {
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
         <script src="js/chart/Chart.bundle.min.js"></script>
+        <script src="js/jszip/jszip.min.js"></script>
+        <script src="js/jszip/jszip-utils.min.js"></script>
 
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
@@ -205,7 +207,13 @@ if (login_check($mysqli) == true) {
                 <div class="alert-space alert-no-phase-data"></div>
 
                 <div id="study-gestures-catalog" class="hidden">
-                    <h4 class="address"><?php echo $lang->studyCatalogs->gestures ?></h4>
+                    <h4 class="address">
+                        <?php echo $lang->studyCatalogs->gestures ?>
+                        <div class="btn-group" style="margin-left: 10px">
+                            <button class="btn btn-default btn-shadow disabled" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
+                            <button class="btn btn-default btn-shadow disabled" id="btn-download-as-exchangeable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsExchangeable ?>"><i class="fa fa-file-archive-o"></i></button>
+                        </div>
+                    </h4>
                     <div class="list-container row" id="gestures-list-container"></div>
                 </div>
 
@@ -682,6 +690,22 @@ if (login_check($mysqli) == true) {
                     }
                 }
                 tutorialAutomaticClicked = false;
+            });
+            
+            $('#study-gestures-catalog').find('#btn-download-as-json').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    $(this).popover('hide');
+                    downloadGestureSetAsJSON($('#study-gestures-catalog').find('#gestures-list-container .gesture-thumbnail'), translation.studyGestureSet);
+                }
+            });
+
+            $('#study-gestures-catalog').find('#btn-download-as-exchangeable').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    $(this).popover('hide');
+                    downloadGestureSetAsExchangeable($('#study-gestures-catalog').find('#gestures-list-container .gesture-thumbnail'), translation.exchangeableGestureSet);
+                }
             });
 
             $('#btn-scroll-to-top').click(function (event) {
