@@ -20,55 +20,56 @@ include '../includes/language.php';
         <div role="tabpanel" class="tab-pane" id="tab-gesture-general">
             <div class="row" id="gesture-general-info-container">
                 <div class="col-md-5 root" style="margin-bottom: 20px">
-                    <div class="sensor-content">
-                        <div data-sensor-source="webcam" id="webcam-preview" class="autoplay hidden">
-                            <div class="root embed-responsive embed-responsive-4by3">
-                                <div id="" class="webcam-image-container"></div>
-                                <div class="controls-container embed-responsive-item">
-                                    <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
-                                    <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
-                                    <!--<div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single btn-tag-as-preview hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i> <?php echo $lang->previewImage ?>: <span class="preview-image-index">1</span></div>-->
+                    <div id="sensor-content-container" class="hidden" style="margin-bottom: 30px">
+                        <div class="sensor-content">
+                            <div data-sensor-source="webcam" id="webcam-preview" class="autoplay hidden">
+                                <div class="root embed-responsive embed-responsive-4by3">
+                                    <div id="" class="webcam-image-container"></div>
+                                    <div class="controls-container embed-responsive-item">
+                                        <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                        <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
+                                        <!--<div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single btn-tag-as-preview hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i> <?php echo $lang->previewImage ?>: <span class="preview-image-index">1</span></div>-->
+                                    </div>
+                                </div>
+
+                                <div id="webcam-playback-slider-controls" class="hidden" style="margin-top: -10px" data-visible="true">
+                                    <div id="webcam-playback-slider-container" class="webcam-playback-slider-container" style="width: 100%;">
+                                        <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                                    </div>
                                 </div>
                             </div>
 
-                            <div id="webcam-playback-slider-controls" class="hidden" style="margin-top: -10px" data-visible="true">
-                                <div id="webcam-playback-slider-container" class="webcam-playback-slider-container" style="width: 100%;">
-                                    <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                            <div data-sensor-source="leap" id="leap-recording-container" class="hidden">
+
+                                <div class="embed-responsive embed-responsive-4by3">
+                                    <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
+                                    <div class="controls-container embed-responsive-item">
+                                        <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                        <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
+                                        <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
+                                    </div>
                                 </div>
+
+                                <div id="playback-controls" style="margin-top: -10px">
+                                    <div id="leap-playback-slider-container" class="leap-playback-slider-container hidden" style="width: 100%;">
+                                        <input id="leap-playback-slider" data-slider-id="sliderLeap" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
-                        <div data-sensor-source="leap" id="leap-recording-container" class="hidden">
-
-                            <div class="embed-responsive embed-responsive-4by3">
-                                <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
-                                <div class="controls-container embed-responsive-item">
-                                    <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
-                                    <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
-                                    <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
-                                </div>
+                        <div id="toggle-gesture-recording-source" class="hidden text-center" style="margin-top: 0px">
+                            <div class="btn-group btn-group-xs">
+                                <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
+                                <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
+                                <!--<button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="kinect" id="btn-kinect"><i class="fa fa-code"></i> <?php echo $lang->sensors->kinect->title ?></button>-->
                             </div>
-
-                            <div id="playback-controls" style="margin-top: -10px">
-                                <div id="leap-playback-slider-container" class="leap-playback-slider-container hidden" style="width: 100%;">
-                                    <input id="leap-playback-slider" data-slider-id="sliderLeap" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
-                                </div>
-                            </div>
-
                         </div>
                     </div>
 
-                    <div id="toggle-gesture-recording-source" class="hidden text-center" style="margin-top: 0px">
-                        <div class="btn-group btn-group-xs">
-                            <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
-                            <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
-                            <!--<button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="kinect" id="btn-kinect"><i class="fa fa-code"></i> <?php echo $lang->sensors->kinect->title ?></button>-->
-                        </div>
-                    </div>
-
-
-                    <div class="gesture-rating" id="gesture-rating" style="margin-top: 30px;">
-                        <h3><i class="fa fa-star-o"></i> <?php echo $lang->valuation ?></h3>
+                    <div class="gesture-rating" id="gesture-rating" style="">
+                        <h3 style="margin-top: 0px"><i class="fa fa-star-o"></i> <?php echo $lang->valuation ?></h3>
                         <div class="rating-container rating-physicalContext row" id="rating-physicalContext">
                             <div class="col-xs-5 col-sm-3 col-md-5 rating-stars-container"></div>
                             <div class="col-xs-7 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text"><?php echo $lang->valuationType ?></span></div>
@@ -537,6 +538,7 @@ include '../includes/language.php';
 
         if (gesture.images && gesture.images.length > 0) {
             renderGesturePreview(container.find('#gesture-general-info-container #webcam-preview'), gesture);
+            $(container).find('#sensor-content-container').removeClass('hidden');
             $(container).find('.sensor-content [data-sensor-source=webcam]').removeClass('hidden');
             $(container).find('.sensor-content [data-toggle-sensor=webcam]').click();
         }
@@ -571,10 +573,12 @@ include '../includes/language.php';
             $(modal).find('#gesture-edit-general-info-container .recorder-content').empty().append(recorder);
 
             var initRecorders = [];
+            var startState = GR_STATE_PRE_INITIALIZE;
             if (gesture.images && !isNaN(parseInt(gesture.previewImage))) {
+                startState = GR_STATE_SAVE;
                 initRecorders.push({type: 'webcam', images: gesture.images, previewImage: gesture.previewImage, gif: gesture.gif, autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true});
             }
-            
+
             if (gesture.sensorData) {
                 var sensorData = gesture.sensorData;
                 switch (sensorData.sensor) {
@@ -599,7 +603,7 @@ include '../includes/language.php';
                 checkType: true,
                 checkInteractionType: true,
                 showIntroduction: false,
-                startState: GR_STATE_SAVE,
+                startState: startState,
                 usedStates: [GR_STATE_PRE_INITIALIZE, GR_STATE_INITIALIZE, GR_STATE_RECORD, 'recordingStopped', GR_STATE_PLAYBACK, GR_STATE_SAVE],
                 record: [
                     {type: 'webcam', autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true},
@@ -622,7 +626,7 @@ include '../includes/language.php';
             };
 
             gestureUpdateRecorder = new GestureRecorder(options);
-            $(gestureUpdateRecorder).on(GR_EVENT_UPDATE_SUCCESS, function (event, data) {
+            $(gestureUpdateRecorder).on('gr-update-success', function (event, data) {
                 event.preventDefault();
 
                 updateGestureById(currentPreviewGesture.source, data.id, {title: data.title, type: data.type, interactionType: data.interactionType, context: data.context, association: data.association, description: data.description, joints: data.joints, images: data.images, previewImage: data.previewImage, gif: data.gif, sensorData: data.sensorData});
@@ -636,7 +640,8 @@ include '../includes/language.php';
 
                 currentPreviewGesture.gesture = getGestureById(data.id, currentPreviewGesture.source);
                 originalFilterData = getLocalItem(currentPreviewGesture.source);
-                renderGestureImages($(thumbnail).find('.previewGesture'), currentPreviewGesture.gesture.images, currentPreviewGesture.gesture.previewImage);
+                renderGestureImages($(thumbnail).find('.previewGesture'), data.images, data.previewImage);
+                $(currentPreviewGesture.gesture);
 
                 $(modal).find('#gesture-general-info-container').removeClass('hidden');
                 $(modal).find('#gesture-edit-general-info-container').addClass('hidden');
@@ -1026,6 +1031,7 @@ include '../includes/language.php';
     }
 
     function initializeLeapmotionPlayer() {
+        $('#custom-modal').find('#sensor-content-container').removeClass('hidden');
         if (currentPreviewGesture.gesture.images && currentPreviewGesture.gesture.images.length > 0) {
             $('#custom-modal').find('#toggle-gesture-recording-source #btn-leap').removeClass('hidden');
         } else {

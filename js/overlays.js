@@ -866,7 +866,6 @@ function initScenarioOverlay(id, formatClone) {
 
     function renderData(data)
     {
-//        $(formatClone).find('#scenarioTitle').val(data.title);
         $(formatClone).find('#scenarioDescription').val(data.description);
         if (data.scene) {
 
@@ -905,7 +904,6 @@ function initScenarioOverlay(id, formatClone) {
                 initTaskTitleChange(taskItem);
 
                 if (wozItems && wozItems.length > 0) {
-
                     container = $(taskItem).find('#woz-item-container .option-container');
                     for (var j = 0; j < wozItems.length; j++) {
                         var clone = $('#form-item-container').find('#wozExperimentItem').clone().removeAttr('id');
@@ -913,12 +911,14 @@ function initScenarioOverlay(id, formatClone) {
                         container.append(clone);
                         var gesture = getGestureById(wozItems[j].gestureId);
                         if (gesture && isGestureAssembled(gesture.id)) {
+                            initGestureWOZGestureSelect(clone);
                             $(clone).find('.gestureSelect #' + gesture.id).click();
+                            console.log($(clone).find('.continuous-value-type'),wozItems[j].continuousValueType);
+                            $(clone).find('.continuous-value-type #' + wozItems[j].continuousValueType).click();
                         } else {
                             appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                         }
 
-//                        console.log(clone,$(clone).find('.invert-continuous-values'), wozItems[j].invertValues);
                         $(clone).find('.invert-continuous-values #' + wozItems[j].invertValues).click();
 
                         var trigger = getTriggerById(wozItems[j].triggerId);
@@ -1097,6 +1097,9 @@ function initScenarioOverlay(id, formatClone) {
                 var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
                 var gesture = getGestureById(gestureId);
                 var invertContinuousValues = $(item).find('.invert-continuous-values .btn-option-checked').attr('id');
+                var continuousValueType = $(item).find('.continuous-value-type .btn-option-checked').attr('id');
+console.log('continuousValueType', continuousValueType)
+
                 var feedbackId = $(item).find('.feedbackSelect .chosen').attr('id');
                 if (feedbackId === 'unselected') {
                     feedbackId = 'none';
@@ -1120,6 +1123,7 @@ function initScenarioOverlay(id, formatClone) {
                     woz.push({triggerId: triggerId,
                         gestureId: gestureId,
                         invertValues: invertContinuousValues,
+                        continuousValueType: continuousValueType,
                         feedbackId: feedbackId,
                         feedbackTransitionMode: feedbackTransitionMode,
                         feedbackTransitionTime: feedbackTransitionTime,
@@ -1312,6 +1316,19 @@ function initScenarioOverlay(id, formatClone) {
                 } else {
                     $(this).closest('.root').find('#gesture-help-select').addClass('hidden');
                 }
+            }
+        });
+    }
+
+    function initGestureWOZGestureSelect(target) {
+        $(target).find('.gestureSelect').unbind('change').bind('change', function (event) {
+            event.preventDefault();
+            var gestureId = $(this).find('.chosen').attr('id');
+            var gesture = getGestureById(gestureId);
+            if (gesture.interactionType === TYPE_GESTURE_CONTINUOUS) {
+                $(target).find('.continuous-value-type').removeClass('hidden');
+            } else {
+                $(target).find('.continuous-value-type').addClass('hidden');
             }
         });
     }
@@ -2449,7 +2466,7 @@ function initCatalogGesturesOverlay(formatClone) {
     $(formatClone).find('.tab-content #tab-gesture-sets').attr('id', 'gesture-sets');
     $(formatClone).find('.tab-content #tab-gesture-recorder-content').attr('id', 'gesture-recorder-content');
     $(formatClone).find('.tab-content #tab-gesture-importer').attr('id', 'gesture-importer');
-    
+
     // synchronize two navigation bars
     $(formatClone).find('.nav-pills').on('shown.bs.tab', function (event) {
         var activeTabIndex = $(event.target).closest('.nav').find('a').index($(event.target));
@@ -2459,7 +2476,7 @@ function initCatalogGesturesOverlay(formatClone) {
         $(formatClone).find('.search-input').val('');
         $('#custom-modal').unbind('gestureSetsUpdated');
         resetRecorder();
-console.log($(event.target).attr('href'))
+        console.log($(event.target).attr('href'))
         switch ($(event.target).attr('href')) {
             case '#study-gesture-set':
                 getWholeStudyGestures();
@@ -2479,7 +2496,7 @@ console.log($(event.target).attr('href'))
         }
         updateNavBadges();
     });
-    
+
     function getCurrentActiveTab() {
         return $(formatClone).find('#gesture-catalogs-nav-tab').find('.active a').attr('href');
     }
@@ -2494,7 +2511,7 @@ console.log($(event.target).attr('href'))
             renderData(currentFilterData, true);
         }
     });
-    
+
     $(formatClone).find('.sort').unbind('change').bind('change', function (event) {
         event.preventDefault();
         currentFilterData = sort();
@@ -2505,7 +2522,7 @@ console.log($(event.target).attr('href'))
             renderData(currentFilterData, true);
         }
     });
-    
+
     $(formatClone).find('.resultsCountSelect').unbind('change').bind('change', function (event) {
         event.preventDefault();
         currentFilterData = sort();
@@ -2516,7 +2533,7 @@ console.log($(event.target).attr('href'))
             renderData(currentFilterData, true);
         }
     });
-    
+
     $(formatClone).unbind('indexChanged').bind('indexChanged', '.pagination', function (event, index) {
         event.preventDefault();
         if (!event.handled) {
@@ -2524,7 +2541,7 @@ console.log($(event.target).attr('href'))
             renderData(sort(), true);
         }
     });
-    
+
     function updateNavBadges() {
         var studyGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
         var studyGesturesLength = 0;
@@ -2678,7 +2695,7 @@ console.log($(event.target).attr('href'))
     function getWholeGestureSets() {
         currentFilterList = $(formatClone).find('#gesture-sets #gesture-sets-container');
         currentFilterList.empty();
-        
+
         getGestureSets(function (result) {
             if (result.status === RESULT_SUCCESS) {
                 originalFilterData = result.gestureSets;

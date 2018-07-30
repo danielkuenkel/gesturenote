@@ -164,6 +164,7 @@ function renderGestureImages(container, images, preview, callback) {
     TweenMax.set(container, {opacity: 0});
 
     if (images && images.length > 0) {
+        removeNoImageIcon($(container).parent());
         addLoadingIcon($(container).parent());
 
         for (var i = 0; i < images.length; i++) {
@@ -179,7 +180,6 @@ function renderGestureImages(container, images, preview, callback) {
                     TweenMax.to(container, .3, {opacity: 1});
 
                     if ($(container).hasClass('autoplay')) {
-//                        $(container).parent().find('.btn-pause-gesture').click();
                         $(container).parent().find('.btn-play-gesture').click();
                     }
                     if (callback !== null && callback !== undefined) {
@@ -422,6 +422,10 @@ function addNoImageIcon(target) {
     icon = document.createElement('i');
     $(icon).addClass('fa fa-ban fa-stack-2x text-danger');
     $(stack).append(icon);
+}
+
+function removeNoImageIcon(target) {
+    $(target).find('#no-image-icon').remove();
 }
 
 function getGestureImagesData(source) {

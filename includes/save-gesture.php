@@ -11,22 +11,22 @@ $target_dir = "../uploads/";
 $target_preview_dir = "uploads/";
 
 session_start();
-if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['images'], $_POST['gif'], $_POST['sensorData'])) {
+if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['sensorData'])) {
     $userId = $_SESSION['user_id'];
     if (isset($_POST['userId']) && $_POST['userId'] != null) {
         $userId = $_POST['userId'];
     }
-    
+
     $ownerId = $_SESSION['user_id'];
     if (isset($_POST['ownerId']) && $_POST['ownerId'] != null) {
         $ownerId = $_POST['ownerId'];
     }
-    
+
     $source = $_SESSION['usertype'];
     if (isset($_POST['source']) && $_POST['source'] != null) {
         $source = $_POST['source'];
     }
-    
+
     $scope = 'private';
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
     $context = filter_input(INPUT_POST, 'context', FILTER_SANITIZE_STRING);
@@ -34,11 +34,11 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['ass
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
     $joints = json_encode($_POST['joints']);
     $previewImage = $_POST['previewImage'];
-    $gif = $_POST['gif'];
+    $gif = isset($_POST['gif']) ? $_POST['gif'] : NULL;
     $encodedSensorData = json_encode($_POST['sensorData']);
     $sensorData = $encodedSensorData === '' ? NULL : $encodedSensorData;
-    $imageURLs = $_POST['images'];
-    $dbImageURLs = json_encode($imageURLs);
+    $imageURLs = isset($_POST['images']) ? $_POST['images'] : NULL;
+    $dbImageURLs = $imageURLs ? json_encode($imageURLs) : NULL;
 
     if (isset($_POST['type'])) {
         $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
@@ -52,19 +52,36 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['ass
         $interactionType = null;
     }
 
-    if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, type, interaction_type, context, association, description, joints, preview_image, images, gif, sensor_data) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$type','$interactionType','$context','$association','$description','$joints','$previewImage','$dbImageURLs', '$gif', '$sensorData')")) {
-        if (!$insert_stmt->execute()) {
-            deleteFiles($target_dir, $imageURLs);
-            echo json_encode(array('status' => 'insertError'));
-            exit();
+    if (isset($_POST['images'], $_POST['gif'])) {
+        if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, type, interaction_type, context, association, description, joints, preview_image, images, gif, sensor_data) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$type','$interactionType','$context','$association','$description','$joints','$previewImage','$dbImageURLs', '$gif', '$sensorData')")) {
+            if (!$insert_stmt->execute()) {
+                deleteFiles($target_dir, $imageURLs);
+                echo json_encode(array('status' => 'insertError'));
+                exit();
+            } else {
+                $insertId = $mysqli->insert_id;
+                echo json_encode(array('status' => 'success', 'gestureId' => $insertId, 'images' => $imageURLs, 'previewImage' => $previewImage, 'gif' => $gif));
+                exit();
+            }
         } else {
-            $insertId = $mysqli->insert_id;
-            echo json_encode(array('status' => 'success', 'gestureId' => $insertId, 'images' => $imageURLs, 'previewImage' => $previewImage, 'gif' => $gif));
-            exit();
+            deleteFiles($target_dir, $imageURLs);
+            echo json_encode(array('status' => 'statemantError'));
         }
     } else {
-        deleteFiles($target_dir, $imageURLs);
-        echo json_encode(array('status' => 'statemantError'));
+        if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, type, interaction_type, context, association, description, joints, preview_image, sensor_data) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$type','$interactionType','$context','$association','$description','$joints','$previewImage','$sensorData')")) {
+            if (!$insert_stmt->execute()) {
+                deleteFiles($target_dir, $imageURLs);
+                echo json_encode(array('status' => 'insertError'));
+                exit();
+            } else {
+                $insertId = $mysqli->insert_id;
+                echo json_encode(array('status' => 'success', 'gestureId' => $insertId, 'previewImage' => $previewImage));
+                exit();
+            }
+        } else {
+            deleteFiles($target_dir, $imageURLs);
+            echo json_encode(array('status' => 'statemantError'));
+        }
     }
 } else {
     echo json_encode(array('status' => 'error'));

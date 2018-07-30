@@ -35,10 +35,10 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
                                 echo json_encode(array('status' => 'deleteError'));
                                 exit();
                             } else {
-                                if ($imageURLs !== NULL) {
+                                if ($imageURLs !== NULL || $imageURLs !== '') {
                                     deleteFiles($target_dir, json_decode($imageURLs));
                                 }
-                                if ($gifUrl !== NULL) {
+                                if ($gifUrl !== NULL || $imageURLs !== '') {
                                     deleteFiles($target_dir, array($gifUrl));
                                 }
                                 $parseSensorData = json_decode($sensorData);

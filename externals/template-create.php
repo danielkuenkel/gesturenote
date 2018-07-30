@@ -1923,6 +1923,44 @@ include '../includes/language.php';
                     </div>
 
                     <div class="col-sm-6">
+                        <div class="form-group continuous-value-type hidden" style="">
+                            <label><?php echo $lang->continuousValueTypeLabel ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i></label>
+                            <div class="root">
+                                <div class="btn-group" id="radio" style="margin: 0">
+                                    <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="manipulationPercent">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->continuousValueType->manipulationPercent ?></span>
+                                    </button>
+                                </div>
+                                <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px">
+                                    <button class="btn btn-default btn-radio" name="primary" id="manipulationMouse">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->continuousValueType->manipulationMouse ?></span>
+                                    </button>
+                                </div>
+                                <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px">
+                                    <button class="btn btn-default btn-radio" name="primary" id="mouseSimulation">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->continuousValueType->mouseSimulation ?></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label><?php echo $lang->stateCharts->transitionFeedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioFeedback ?>"></i></label>
                             <div class="alert-space alert-assembled-feedback-removed"></div>
@@ -1989,14 +2027,19 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <div class="form-group" id="scenes" style="margin-top: 10px">
-                    <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioScenes ?>"></i></label>
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="">
-                        <div class="transition-scenes-option-container"></div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <div class="form-group" id="scenes" style="">
+                            <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioScenes ?>"></i></label>
+                            <div class="alert-space alert-no-phase-data"></div>
+                            <div class="">
+                                <div class="transition-scenes-option-container"></div>
+                            </div>
+                            <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
+                        </div>
                     </div>
-                    <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
                 </div>
+
 
             </div>
         </div>

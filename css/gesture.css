@@ -377,9 +377,25 @@ and open the template in the editor.
     border-radius: 50%;
     background-color: black;
 }
+.gesture-info-symbol.small {
+    width: 6px;
+    height: 6px;
+}
 
+
+.symbol-container-gesture-execution {
+    display: flex;
+    cursor: pointer;
+}
+.symbol-container-gesture-interaction {
+    display: flex;
+    cursor: pointer;
+}
 .symbol-gesture-execution {
     margin-right: 6px;
+}
+.symbol-gesture-execution.small {
+    margin-right: 4px;
 }
 
 .symbol-gesture-execution.pose {
@@ -402,6 +418,14 @@ and open the template in the editor.
     font-size: 8pt; 
     position: relative; 
     top: 5px; 
+    line-height: 0pt;
+    margin-right: 1px;
+    text-transform: uppercase;
+}
+.gesture-info-symbol-text.small {
+    font-size: 6pt; 
+    position: relative; 
+    top: 3px; 
     line-height: 0pt;
     margin-right: 1px;
     text-transform: uppercase;

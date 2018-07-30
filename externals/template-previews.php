@@ -720,16 +720,37 @@ include '../includes/language.php';
                             <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
                         </div>
                     </div>
-                    <div class="continuous-gesture-controls hidden">
+                    <div class="continuous-gesture-controls hidden" style="">
                         <div class="control-continuous-slider-status">0%</div>
                         <div class="btn-invert-slider-values" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->valuesNotInverted ?>"><i class="fa fa-exchange"></i></div>
                     </div>
+
+                    <div class="gesture-info-symbols">
+                        <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                            <span class="gesture-info-symbol-text text-gesture-execution small"></span>
+                            <div class="gesture-info-symbol symbol-gesture-execution small"></div>
+                        </span>
+                        <span class="symbol-container-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                            <span class="gesture-info-symbol-text text-gesture-interaction small"></span>
+                            <div class="gesture-info-symbol symbol-gesture-interaction small"></div>
+                        </span>
+                    </div>
                 </div>
-                <div id="control-continuous-slider" class="hidden" style="margin-top: -10px">
+                <div id="control-continuous-slider" class="hidden" style="margin-top: -10px; margin-bottom: 18px">
                     <input id="continuous-slider" style="width: 100%; height: 34px" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                 </div>
 
                 <button type="button" class="btn btn-success btn-block btn-shadow disabled" id="btn-trigger-woz" style="border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px"><?php echo $lang->thisGesture ?></button>
+
+                <div class="btn-group btn-group-justified hidden static-continuous-controls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-shadow disabled btn-start-static-continuous-gesture" style="border-radius: 0px; border-bottom-left-radius: 8px;"><i class="fa fa-play"></i></button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-shadow disabled btn-stop-static-continuous-gesture" style="border-radius: 0px; border-bottom-right-radius: 8px;"><i class="fa fa-stop"></i></button>
+                    </div>
+                </div>
+
             </div>
             <div class="col-xs-7 col-sm-6 col-md-8" id="transition-scenes">
                 <h4 style="margin:0"><?php echo $lang->stateCharts->currentState ?></h4>
@@ -930,8 +951,8 @@ include '../includes/language.php';
         <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
         <div id="assembled-gestures" class="root row"></div>
         <!--<div style="margin-top: 20px">-->
-<!--            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>-->
-<!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
+    <!--            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>-->
+    <!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
             <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>-->
             <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
         <!--</div>-->
@@ -944,7 +965,7 @@ include '../includes/language.php';
         <div id="assembled-trigger" class="root"></div>
         <!--<div style="margin-top: 10px">-->
             <!--<button class="btn btn-block btn-success btn-shadow disabled" id="btn-show-trigger" name="btn-success"><?php echo $lang->showTrigger ?></span></button>-->
-<!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
+    <!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
             <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>-->
             <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
         <!--</div>-->

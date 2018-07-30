@@ -1871,7 +1871,7 @@ var Moderator = {
                 // this scene has no follow scene, maybe a pidoco prototype
                 if (currentWOZScene.type === SCENE_PIDOCO) {
                     var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
-                    sendGesture(gestureId, null);
+                    sendGesture(gestureId);
                 } else {
                     // if scene has no follow scene and is not a pidoco prototype: delete items
                     $(container).find('.woz-container').empty();
@@ -1938,6 +1938,7 @@ var Moderator = {
         }
 
         if (data.tasks && data.tasks.length > 0) {
+            var checkedScenes = checkSingleScene(data.tasks);
             $(container).find('#assessment-controls #task').text(currentScenarioTask.task);
             $(container).find('#assessment-controls .headline').text(translation.task + ' ' + (currentScenarioTaskIndex + 1) + ' ' + translation.of + ' ' + data.tasks.length)
 
@@ -1997,61 +1998,108 @@ var Moderator = {
                         if (gesture) {
                             renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
                             $(item).find('.previewGesture').attr('id', gesture.id);
+
+                            if (gesture.type && gesture.interactionType) {
+                                item.find('.symbol-gesture-execution').addClass(gesture.type);
+                                item.find('.symbol-container-gesture-execution').attr('data-content', translation.gestureTypes[gesture.type + 's'] + ' ' + translation.gestureType);
+                                item.find('.text-gesture-execution').text(translation.gestureTypes[gesture.type + 'Short']);
+                                item.find('.symbol-gesture-interaction').addClass(gesture.interactionType);
+                                item.find('.symbol-container-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[gesture.interactionType + 's'] + ' ' + translation.gestureInteraction);
+                                item.find('.text-gesture-interaction').text(translation.gestureInteractionTypes[gesture.interactionType + 'Short']);
+                            } else {
+                                item.find('.gesture-info-symbols').addClass('hidden');
+                            }
+                            initPopover();
+
                             TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
 
-                            if (gesture.interactionType === TYPE_GESTURE_CONTINUOUS && currentWOZScene.type === SCENE_PIDOCO) {
-                                $(item).find('#btn-trigger-woz').remove();
-                                $(item).find('#control-continuous-slider').removeClass('hidden');
-                                $(item).find('.continuous-gesture-controls').removeClass('hidden');
-                                $(item).find('#control-continuous-slider-status').removeClass('hidden');
+                            if (checkedScenes.single === true && checkedScenes.pidoco && checkedScenes.pidoco === true) {
+                                if (gesture.type === TYPE_GESTURE_DYNAMIC && gesture.interactionType === TYPE_GESTURE_CONTINUOUS && currentWOZScene.type === SCENE_PIDOCO) {
+                                    $(item).find('#btn-trigger-woz').remove();
+                                    $(item).find('#control-continuous-slider').removeClass('hidden');
+                                    $(item).find('.continuous-gesture-controls').removeClass('hidden');
+                                    $(item).find('#control-continuous-slider-status').removeClass('hidden');
+                                    $(item).find('.static-continuous-controls').remove();
 
-                                var continuousSlider = $(item).find('#control-continuous-slider #continuous-slider');
-//                                console.log('continuous gesture interaction');
+                                    var continuousSlider = $(item).find('#control-continuous-slider #continuous-slider');
 
-                                var sliderOptions = {
-                                    value: 0,
-                                    min: 0,
-                                    max: 100,
-                                    enabled: false
-                                };
+                                    var sliderOptions = {
+                                        value: 0,
+                                        min: 0,
+                                        max: 100,
+                                        enabled: false
+                                    };
 
-                                $(continuousSlider).slider(sliderOptions);
-                                $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
-                                    event.preventDefault();
-                                    var inverted = $(this).hasClass('inverted');
-                                    var percent = parseInt(event.value.newValue);
-                                    var imagePercent = inverted ? (100 - percent) : percent;
-                                    var gestureId = event.data.gesture.id;
-                                    $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
-                                    var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
-                                    $(gestureImages).removeClass('active').addClass('hidden');
-                                    $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
-//                                    console.log(gestureId, percent, gestureImages.length, imagePercent);
-                                    sendContinuousGesture(gestureId, percent);
-                                });
+                                    $(continuousSlider).slider(sliderOptions);
+                                    $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
+                                        event.preventDefault();
+                                        var inverted = $(this).hasClass('inverted');
+                                        var percent = parseInt(event.value.newValue);
+                                        var imagePercent = inverted ? (100 - percent) : percent;
+                                        var gestureId = event.data.gesture.id;
+                                        $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
+                                        var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
+                                        $(gestureImages).removeClass('active').addClass('hidden');
+                                        $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
+                                        sendContinuousGesture(gestureId, percent);
+                                    });
 
-                                var invertValuesButton = $(item).find('.btn-invert-slider-values');
-                                $(invertValuesButton).unbind('click').bind('click', {slider: continuousSlider}, function (event) {
-                                    event.preventDefault();
-                                    $(this).popover('hide');
-                                    if ($(event.data.slider).hasClass('inverted')) {
-                                        $(event.data.slider).removeClass('inverted');
-                                        $(this).attr('data-content', translation.tooltips.execution.valuesNotInverted);
-                                        TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#fff"});
-                                    } else {
-                                        $(event.data.slider).addClass('inverted');
-                                        $(this).attr('data-content', translation.tooltips.execution.valuesInverted);
-                                        TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#5bc0de"});
+                                    var invertValuesButton = $(item).find('.btn-invert-slider-values');
+                                    $(invertValuesButton).unbind('click').bind('click', {slider: continuousSlider}, function (event) {
+                                        event.preventDefault();
+                                        $(this).popover('hide');
+                                        if ($(event.data.slider).hasClass('inverted')) {
+                                            $(event.data.slider).removeClass('inverted');
+                                            $(this).attr('data-content', translation.tooltips.execution.valuesNotInverted);
+                                            TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#fff"});
+                                        } else {
+                                            $(event.data.slider).addClass('inverted');
+                                            $(this).attr('data-content', translation.tooltips.execution.valuesInverted);
+                                            TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#5bc0de"});
+                                        }
+                                    });
+
+                                    if (wozData[i].invertValues === 'yes') {
+                                        $(invertValuesButton).click();
                                     }
-                                });
+                                    initPopover();
+                                } else if (gesture.type === TYPE_GESTURE_POSE && gesture.interactionType === TYPE_GESTURE_CONTINUOUS && currentWOZScene.type === SCENE_PIDOCO) {
+                                    $(item).find('#btn-trigger-woz').remove();
+                                    $(item).find('#control-continuous-slider').remove();
+                                    $(item).find('.continuous-gesture-controls').remove();
+                                    $(item).find('.static-continuous-controls').removeClass('hidden');
 
-                                if (wozData[i].invertValues === 'yes') {
-                                    $(invertValuesButton).click();
+                                    var staticContinuousTimer = null;
+                                    $(item).find('.btn-start-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
+                                        event.preventDefault();
+                                        if (!$(this).hasClass('disabled')) {
+                                            $(this).addClass('disabled');
+                                            $(this).closest('.static-continuous-controls').find('.btn-stop-static-continuous-gesture').removeClass('disabled');
+                                            staticContinuousTimer = setInterval(function() {
+                                                sendGesture(gesture.id);
+                                            }, 500);
+                                        }
+                                    });
+
+                                    $(item).find('.btn-stop-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
+                                        event.preventDefault();
+                                        if (!$(this).hasClass('disabled')) {
+                                            $(this).addClass('disabled');
+                                            $(this).closest('.static-continuous-controls').find('.btn-start-static-continuous-gesture').removeClass('disabled');
+                                            if(staticContinuousTimer) {
+                                                clearInterval(staticContinuousTimer);
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    $(item).find('#control-continuous-slider').remove();
+                                    $(item).find('.continuous-gesture-controls').remove();
+                                    $(item).find('.static-continuous-controls').remove();
                                 }
-                                initPopover();
                             } else {
                                 $(item).find('#control-continuous-slider').remove();
                                 $(item).find('.continuous-gesture-controls').remove();
+                                $(item).find('.static-continuous-controls').remove();
                             }
                         }
 

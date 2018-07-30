@@ -64,7 +64,7 @@ $(document).on('change', '.exchangeableFileUpload', function (event) {
         clearAlerts(container);
 
         JSZip.loadAsync(file).then(function (zip) {
-//            console.log(zip);
+            console.log(zip);
 
             zip.forEach(function (relativePath, zipEntry) {
                 if (zipEntry.name.indexOf('.txt') !== -1) {
@@ -79,20 +79,24 @@ $(document).on('change', '.exchangeableFileUpload', function (event) {
                         temporalGestureSet = [];
 
                         for (var i = 0; i < zippedGestures.length; i++) {
-                            matchedPreviewMax += zippedGestures[i].preview.length;
+                            if (zippedGestures[i].preview && zippedGestures[i].preview.length > 0) {
+                                matchedPreviewMax += zippedGestures[i].preview.length;
+                            }
                         }
 
                         for (var i = 0; i < zippedGestures.length; i++) {
                             var tempId = chance.natural();
-                            var previewArray = zippedGestures[i].preview;
+                            var gestureImages = zippedGestures[i].preview;
                             var gestureImagesElement = document.createElement('div');
                             $(container).find('#temp-image-container').append(gestureImagesElement);
                             matchingPreviews.push({gestureId: tempId, images: []});
 
-                            for (var j = 0; j < previewArray.length; j++) {
-                                var filepath = previewArray[j];
-                                matchingPreviews[i].images.push({zipPath: filepath, objectURL: null, blob: null, index: j});
-                                loadZIPImageUrlAsync(zip, filepath, tempId);
+                            if (gestureImages && gestureImages.length > 0) {
+                                for (var j = 0; j < gestureImages.length; j++) {
+                                    var filepath = gestureImages[j];
+                                    matchingPreviews[i].images.push({zipPath: filepath, objectURL: null, blob: null, index: j});
+                                    loadZIPImageUrlAsync(zip, filepath, tempId);
+                                }
                             }
 
                             var gesture = {
@@ -111,6 +115,12 @@ $(document).on('change', '.exchangeableFileUpload', function (event) {
 
                             temporalGestureSet.push(gesture);
                         }
+
+//                        console.log(temporalGestureSet);
+                        if (matchedPreviewMax === 0) {
+                            $(document).trigger('allZippedImagesLoaded');
+                        }
+
                     });
                 }
             });
@@ -197,7 +207,7 @@ function renderTemporalGestureSet() {
     for (var i = 0; i < temporalGestureSet.length; i++) {
         var thumbnail = getSimpleGestureListThumbnail(temporalGestureSet[i], 'exchangeable-gesture-thumbnail');
         $(container).find('#item-view').append(thumbnail);
-        TweenMax.from(thumbnail, .2, {delay: i * 0.1, opacity: 0, scaleX: .5, scaleY: .5, clearProps: 'all', onComplete: function () {
+        TweenMax.from(thumbnail, .2, {delay: i * 0.05, opacity: 0, scaleX: .5, scaleY: .5, clearProps: 'all', onComplete: function () {
                 initPopover();
             }});
     }
@@ -266,28 +276,31 @@ $(document).on('click', '.btn-import-exchangeable-gestures', function (event) {
 });
 
 function uploadExchangeableImages(gesture) {
-    var uploadQueue = new UploadQueue();
+    if (gesture.images && gesture.images.length > 0 && gesture.blobs && gesture.blobs.length > 0) {
+        var uploadQueue = new UploadQueue();
 
-    $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
-        gesture.images = uploadQueue.getUploadURLs();
+        $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
+            gesture.images = uploadQueue.getUploadURLs();
 
-        var gifUploadQueue = new UploadQueue();
-        $(gifUploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
-            gesture.gif = gifUploadQueue.getUploadURLs()[0];
-            $(document).trigger('exchangableSaveDataAttached', [gesture]);
+            var gifUploadQueue = new UploadQueue();
+            $(gifUploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
+                gesture.gif = gifUploadQueue.getUploadURLs()[0];
+                $(document).trigger('exchangableSaveDataAttached', [gesture]);
+            });
+
+            // create gif from gesture images and upload it
+            var filename = hex_sha512(new Date().getTime() + "" + i) + ".gif";
+            createGIF(gesture.images, filename, false, function (blob) {
+                gifUploadQueue.upload([blob], filename);
+            });
         });
 
-        // create gif from gesture images and upload it
-        var filename = hex_sha512(new Date().getTime() + "" + i) + ".gif";
-        createGIF(gesture.images, filename, false, function (blob) {
-            gifUploadQueue.upload([blob], filename);
-        });
-    });
-
-    for (var i = 0; i < gesture.blobs.length; i++) {
-//        console.log('upload blob', gesture.blobs[i]);
-        var filename = hex_sha512(new Date().getTime() + "" + i) + ".jpg";
-        uploadQueue.upload([gesture.blobs[i]], filename);
+        for (var i = 0; i < gesture.blobs.length; i++) {
+            var filename = hex_sha512(new Date().getTime() + "" + i) + ".jpg";
+            uploadQueue.upload([gesture.blobs[i]], filename);
+        }
+    } else {
+        $(document).trigger('exchangableSaveDataAttached', [gesture]);
     }
 }
 
@@ -350,7 +363,7 @@ $(document).on('exchangeableGestureImported', function (event, gesture) {
         $(container).find('#input-exchangeable-set-title').val('');
         appendAlert(container, ALERT_EXCHANGEABLE_GESTURES_IMPORTED_SUCCESS);
     }
-    
+
     function renderError() {
         unlockButton(importButton, true, 'fa-cloud-upload');
         unlockButton($(container).find('.chooseExchangeableFile'));

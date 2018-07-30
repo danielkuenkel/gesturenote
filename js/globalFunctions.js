@@ -2295,10 +2295,10 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
 
     if (data.type && data.interactionType) {
         clone.find('.symbol-gesture-execution').addClass(data.type);
-        clone.find('.symbol-gesture-execution').attr('data-content', translation.gestureTypes[data.type + 's'] + ' ' + translation.gestureType);
+        clone.find('.symbol-container-gesture-execution').attr('data-content', translation.gestureTypes[data.type + 's'] + ' ' + translation.gestureType);
         clone.find('.text-gesture-execution').text(translation.gestureTypes[data.type + 'Short']);
         clone.find('.symbol-gesture-interaction').addClass(data.interactionType);
-        clone.find('.symbol-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[data.interactionType + 's'] + ' ' + translation.gestureInteraction);
+        clone.find('.symbol-container-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[data.interactionType + 's'] + ' ' + translation.gestureInteraction);
         clone.find('.text-gesture-interaction').text(translation.gestureInteractionTypes[data.interactionType + 'Short']);
     } else {
         clone.find('.gesture-info-symbols').addClass('hidden');

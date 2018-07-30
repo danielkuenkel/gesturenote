@@ -26,10 +26,14 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
-                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
-                    <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
-                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
-                    <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-execution"></span>
+                        <div class="gesture-info-symbol symbol-gesture-execution"></div>
+                    </span>
+                    <span class="symbol-container-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-interaction"></span>
+                        <div class="gesture-info-symbol symbol-gesture-interaction"></div>
+                    </span>
                 </div>
             </div>
             <div class="caption text-center">
@@ -61,10 +65,14 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
-                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
-                    <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
-                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
-                    <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-execution"></span>
+                        <div class="gesture-info-symbol symbol-gesture-execution"></div>
+                    </span>
+                    <span class="symbol-container-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-interaction"></span>
+                        <div class="gesture-info-symbol symbol-gesture-interaction"></div>
+                    </span>
                 </div>
             </div>
             <div class="caption text-center">
@@ -98,10 +106,14 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
-                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
-                    <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
-                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
-                    <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-execution"></span>
+                        <div class="gesture-info-symbol symbol-gesture-execution"></div>
+                    </span>
+                    <span class="symbol-container-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-interaction"></span>
+                        <div class="gesture-info-symbol symbol-gesture-interaction"></div>
+                    </span>
                 </div>
             </div>
             <div class="caption text-center">
@@ -155,10 +167,14 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
-                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
-                    <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
-                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
-                    <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-execution"></span>
+                        <div class="gesture-info-symbol symbol-gesture-execution"></div>
+                    </span>
+                    <span class="symbol-container-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-interaction"></span>
+                        <div class="gesture-info-symbol symbol-gesture-interaction"></div>
+                    </span>
                 </div>
             </div>
             <div class="caption text-center" style="">
@@ -235,10 +251,14 @@ include '../includes/language.php';
                     <i class="fa fa-asterisk"></i>
                 </div>
                 <div class="gesture-info-symbols">
-                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
-                    <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
-                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
-                    <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-execution"></span>
+                        <div class="gesture-info-symbol symbol-gesture-execution"></div>
+                    </span>
+                    <span class="symbol-container-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-interaction"></span>
+                        <div class="gesture-info-symbol symbol-gesture-interaction"></div>
+                    </span>
                 </div>
             </div>
             <div class="caption text-center">
@@ -300,10 +320,14 @@ include '../includes/language.php';
                     <i class="fa fa-asterisk"></i>
                 </div>
                 <div class="gesture-info-symbols">
-                    <span class="gesture-info-symbol-text text-gesture-execution"></span>
-                    <div class="gesture-info-symbol symbol-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
-                    <span class="gesture-info-symbol-text text-gesture-interaction"></span>
-                    <div class="gesture-info-symbol symbol-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></div>
+                    <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-execution"></span>
+                        <div class="gesture-info-symbol symbol-gesture-execution"></div>
+                    </span>
+                    <span class="symbol-container-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-interaction"></span>
+                        <div class="gesture-info-symbol symbol-gesture-interaction"></div>
+                    </span>
                 </div>
             </div>
             <div class="caption text-center">

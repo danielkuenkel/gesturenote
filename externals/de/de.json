@@ -624,6 +624,7 @@
     "helpText": "Hilfetext",
     "displayOf": "Anzeige der",
     "invertGestureValues": "Geste invertieren",
+    "continuousValueTypeLabel": "Manipulationsart",
     "displayOfFeedback": "Anzeige der Systemrückmeldung",
     "displayOfTransitionState": "Anzeige des Zwischenzustandes",
     "transitionalPeriod": "Übergangszeit (in Sekunden)",
@@ -1348,6 +1349,11 @@
         "percent": "Prozent",
         "points": "Punkte"
     },
+    "continuousValueType": {
+        "manipulationPercent": "Prozent (1 Dimension)",
+        "manipulationMouse": "Mausposition (2 Dimensionen)",
+        "mouseSimulation": "Mauszeigersteuerung"
+    },
     "phaseStep": "Phasenschritt",
     "phaseType": {
         "elicitation": "Ermittlung",
@@ -2034,7 +2040,8 @@
             "gestureTrainingTrigger": "Welche Funktion soll der Benutzer erlernen?",
             "gestureTrainingGesture": "Welche Geste soll ein Benutzer vorführen, damit die Funktion ausgelöst werden kann?",
             "gestureTrainingFeedback": "Soll dem Benutzer eine Systemrückmeldung angezeigt werden? Oder genügt ein Zustandsübergang als Rückmeldung (falls Zustände verwendet werden)?",
-            "invertContinuousValues": "Ist ein Pidoco-Prototyp gekoppelt? Die Werte, welche an Pidoco gesendet werden, zwischen 0 und 100. Sie können für kontinuierliche Gesten-Interaktionen die Gesten-Vorschau invertieren. Eine Invertierung kann auch noch während der Durchführung vorgenommen werden.",
+            "invertContinuousValues": "Ist ein Pidoco-Prototyp gekoppelt? Die Werte, welche an Pidoco gesendet werden, liegen für eine kontinuierliche Geste zwischen 0 und 100. Sie können für kontinuierliche Gesten-Interaktionen die Gesten-Vorschau invertieren. Eine Invertierung kann auch noch während der Durchführung vorgenommen werden.",
+            "continuousValueType": "Ist ein Pidoco-Prototyp gekoppelt? Es kann hier die Art der Manipulation gewählt werden, welche Einfluss auf das Verhalten des Pidoco Prototyps hat.",
             "gestureTrainingFeedbackMode": "Automatisch bedeudet, dass diese Systemrückmeldung automatisch nach einer Geste angezeigt wird?",
             "gestureTrainingFeedbackTime": "Wie lange soll diese Systemrückmeldung angezeigt werden, bevor der nächste Zustand aufgerufen wird (falls Zustände verwendet werden)?",
             "gestureTrainingRepeats": "Wie oft soll das Training für die gewählte Funktion, Geste und Systemrückmeldung vom Probanden wiederholt werden?",

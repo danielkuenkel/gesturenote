@@ -1,3 +1,4 @@
+var client = null;
 function initWebSocket(debug) {
     if (window.WebSocket) {
         var url = APOLLO_URL;
