@@ -63,3 +63,11 @@ and open the template in the editor.
 #sumQuestionItem {
     margin-bottom: 8px;
 }
+
+.btn-add-trigger-to-gesture {
+    cursor: pointer;
+}
+
+.btn-add-trigger-to-gesture:hover {
+    color: black;
+}

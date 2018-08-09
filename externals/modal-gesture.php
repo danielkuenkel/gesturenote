@@ -927,6 +927,28 @@ include '../includes/language.php';
 
                 // call ajax update gesture sets, calling php 
                 updateGestureSets({sets: getLocalItem(GESTURE_SETS)}, function (result) {
+                    var gestureSets = getLocalItem(GESTURE_SETS);
+                    if (gestureSets) {
+                        var titles = "";
+                        for (var i = 0; i < gestureSets.length; i++) {
+                            var gestureSetIds = gestureSets[i].gestures;
+                            if (gestureSetIds) {
+                                for (var j = 0; j < gestureSetIds.length; j++) {
+                                    if (parseInt(currentPreviewGesture.gesture.id) === parseInt(gestureSetIds[j])) {
+                                        titles += '<div>' + gestureSets[i].title + '</div>';
+                                    }
+                                }
+                            }
+                        }
+                        if (titles.length > 0) {
+                            $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set').addClass('gesture-is-in-set');
+                            $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set').attr('data-content', titles);
+                        } else {
+                            $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set').removeClass('gesture-is-in-set');
+                            $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set').attr('data-content', translation.notAssignedToGestureSet);
+                        }
+                    }
+
                     $(container).trigger('gestureSetsUpdated', [currentPreviewGesture.gesture.id]);
                 });
             }

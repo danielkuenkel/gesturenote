@@ -589,22 +589,22 @@ function getGestureSets(callback) {
     });
 }
 
-function getGestureSetsForStudyId(data, callback) {
-    $.ajax({
-        url: 'includes/get-gesture-sets-for-study-id.php',
-        data: data,
-        type: 'post',
-        async: true,
-        success: function (result) {
-            if (callback) {
-                callback(result);
-            }
-        },
-        error: function (xhr, desc, err) {
-            ajaxError(xhr, desc, err);
-        }
-    });
-}
+//function getGestureSetsForStudyId(data, callback) {
+//    $.ajax({
+//        url: 'includes/get-gesture-sets-for-study-id.php',
+//        data: data,
+//        type: 'post',
+//        async: true,
+//        success: function (result) {
+//            if (callback) {
+//                callback(result);
+//            }
+//        },
+//        error: function (xhr, desc, err) {
+//            ajaxError(xhr, desc, err);
+//        }
+//    });
+//}
 
 function saveGestureSet(data, callback) {
     $.ajax({
@@ -906,6 +906,24 @@ function updateGesture(data, callback) {
     });
 }
 
+function updateGestureSet(data, callback) {
+    $.ajax({
+        url: 'includes/update-gesture-set.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function deleteGestureFiles(data, callback) {
     $.ajax({
         url: 'includes/delete-gesture-files.php',
@@ -965,6 +983,46 @@ function unshareGesture(data, callback) {
     });
 }
 
+/*
+ * gesture set sharing
+ */
+
+function shareGestureSet(data, callback) {
+    $.ajax({
+        url: 'includes/share-gesture-set.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function unshareGestureSet(data, callback) {
+    $.ajax({
+        url: 'includes/unshare-gesture-set.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 
 /*
  * gesture liking
@@ -991,6 +1049,47 @@ function likeGesture(data, callback) {
 function unlikeGesture(data, callback) {
     $.ajax({
         url: 'includes/unlike-gesture.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+
+/*
+ * gesture set liking
+ */
+
+function likeGestureSet(data, callback) {
+    $.ajax({
+        url: 'includes/like-gesture-set.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function unlikeGestureSet(data, callback) {
+    $.ajax({
+        url: 'includes/unlike-gesture-set.php',
         data: data,
         type: 'post',
         dataType: 'json',
@@ -1050,6 +1149,27 @@ function getCommentsForGesture(data, callback) {
     });
 }
 
+/*
+ * gesture set comments
+ */
+function getCommentsForGestureSet(data, callback) {
+    $.ajax({
+        url: 'includes/get-gesture-set-comments.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getRatingsForGesture(data, callback) {
     $.ajax({
         url: 'includes/get-gesture-ratings.php',
@@ -1086,6 +1206,10 @@ function getLikesForGesture(data, callback) {
     });
 }
 
+
+/*
+ * gesture comments
+ */
 function submitCommentForGesture(data, callback) {
     $.ajax({
         url: 'includes/submit-comment.php',
@@ -1107,6 +1231,46 @@ function submitCommentForGesture(data, callback) {
 function deleteComment(data, callback) {
     $.ajax({
         url: 'includes/delete-comment.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+
+/*
+ * gesture set comments
+ */
+function submitGestureSetComment(data, callback) {
+    $.ajax({
+        url: 'includes/submit-gesture-set-comment.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function deleteGestureSetComment(data, callback) {
+    $.ajax({
+        url: 'includes/delete-gesture-set-comment.php',
         data: data,
         type: 'post',
         dataType: 'json',

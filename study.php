@@ -628,9 +628,15 @@ if (login_check($mysqli) == true) {
                             setStudyData(result);
                             showStudyTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
                             showExtractionTutorial = parseInt(<?php echo $_SESSION['tutorialExtraction'] ?>);
-                            renderData(result, hash);
-                            initPopover();
-                            animateBreadcrump();
+
+                            getGestureSets(function (setResults) {
+                                console.log(setResults);
+                                setLocalItem(GESTURE_SETS, setResults.gestureSets);
+
+                                renderData(result, hash);
+                                initPopover();
+                                animateBreadcrump();
+                            });
                         }
                     });
                 }
@@ -691,7 +697,7 @@ if (login_check($mysqli) == true) {
                 }
                 tutorialAutomaticClicked = false;
             });
-            
+
             $('#study-gestures-catalog').find('#btn-download-as-json').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {

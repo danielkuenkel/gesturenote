@@ -525,16 +525,26 @@ function initGestureTrainingOverlay(id, formatClone) {
     if (assembledGestures()) {
         renderAssembledGestures();
     } else {
-        appendAlert($(formatClone).find('#training'), ALERT_NO_GESTURES_ASSEMBLED);
+        appendAlert($(formatClone).find('#training'), ALERT_NO_STUDY_GESTURES_ASSEMBLED_LINK);
         $(formatClone).find('#training .btn-add-gestureTrainingOption').addClass('hidden');
+        $(formatClone).find('#btn-assemble-study-gesture-set').on('click', function (event) {
+            event.preventDefault();
+            $(formatClone).find('.btn-close-overlay').click();
+            $('.mainContent').find('#catalogs #gestures-catalog .btn-open-overlay').click();
+        });
     }
 
     var trigger = getLocalItem(ASSEMBLED_TRIGGER);
     if (trigger && trigger.length > 0) {
         renderAssembledTriggers();
     } else {
-        appendAlert($(formatClone).find('#training'), ALERT_NO_TRIGGER_ASSEMBLED);
+        appendAlert($(formatClone).find('#training'), ALERT_NO_TRIGGER_ASSEMBLED_LINK);
         $(formatClone).find('#training .btn-add-gestureTrainingOption').addClass('hidden');
+        $(formatClone).find('#btn-assemble-trigger').on('click', function (event) {
+            event.preventDefault();
+            $(formatClone).find('.btn-close-overlay').click();
+            $('.mainContent').find('#catalogs #trigger-catalog .btn-open-overlay').click();
+        });
     }
 
     renderAssembledScenes();
@@ -580,7 +590,7 @@ function initGestureTrainingOverlay(id, formatClone) {
                     }
                 }
 
-                initTransitionFeedbackMode(clone);
+                initTransitionFeedbackMode(clone, formatClone);
                 if (trainingItems[i].feedbackId === 'none') {
                     $(clone).find('.feedbackSelect #none').click();
                 } else {
@@ -608,8 +618,14 @@ function initGestureTrainingOverlay(id, formatClone) {
                         var scene = getSceneById(trainingItems[i].transitionScenes[j].sceneId);
                         var item = $('#form-item-container').find('#woz-transition-scene-option').clone().removeAttr('id');
                         $(clone).find('.transition-scenes-option-container').append(item);
+                        initTransitionWOZSceneSelect(item);
                         if (scene) {
                             $(item).find('.sceneSelect #' + scene.id).click();
+                            if (scene.type === SCENE_PIDOCO) {
+                                $(item).find('.event-bus-settings').removeClass('hidden');
+                            }
+                            $(item).find('.use-event-bus #' + trainingItems[i].transitionScenes[j].useEventBus).click();
+                            $(item).find('.continuous-value-type #' + trainingItems[i].transitionScenes[j].continuousValueType).click();
                         } else if (trainingItems[i].transitionScenes[j].sceneId !== 'unselected') {
                             appendAlert(item, ALERT_ASSEMBLED_SCENE_REMOVED);
                         }
@@ -626,7 +642,7 @@ function initGestureTrainingOverlay(id, formatClone) {
                     checkCurrentListState($(clone).find('.transition-scenes-option-container'));
                 }
 
-                initAddTransitionSceneButton(clone);
+                initAddTransitionSceneButton(clone, formatClone);
             }
 
             updateBadges(container, 'gestureTrainingItem');
@@ -702,8 +718,8 @@ function initGestureTrainingOverlay(id, formatClone) {
             clearAlerts($(formatClone).find('#training'));
             var item = $('#form-item-container').find('#gestureTrainingItem').clone();
             tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#training .option-container'), 'gestureTrainingItem', true);
-            initTransitionFeedbackMode(item);
-            initAddTransitionSceneButton(item);
+            initTransitionFeedbackMode(item, formatClone);
+            initAddTransitionSceneButton(item, formatClone);
 
             setTimeout(function () {
                 $(item).find('.btn-expand').click();
@@ -723,80 +739,85 @@ function initGestureTrainingOverlay(id, formatClone) {
     initQuestionnaireListItemAdded($(formatClone).find('#training .option-container'), $(formatClone).find('#training'));
     initQuestionnairePreview($(formatClone).find('#observations .btn-preview-questionnaire'), $(formatClone).find('#observations #list-container'), true);
 
-    function initTransitionFeedbackMode(item) {
-        $(item).find('.feedbackSelect').unbind('change').bind('change', function (event) {
-            var selectedId = $(this).find('.chosen').attr('id');
-            if (selectedId === 'unselected' || selectedId === 'none') {
-                $(item).find('.transitionFeedback-mode').addClass('hidden');
-                $(item).find('.transitionFeedback-time-stepper').addClass('hidden');
-            } else {
-                $(item).find('.transitionFeedback-mode').removeClass('hidden');
-                if ($(item).find('.transitionFeedback-mode .btn-option-checked').attr('id') === 'automatically') {
-                    $(item).find('.transitionFeedback-time-stepper').removeClass('hidden');
-                } else {
-                    $(item).find('.transitionFeedback-time-stepper').addClass('hidden');
-                }
-            }
-        });
+//    function initTransitionFeedbackMode(item) {
+//        $(item).find('.feedbackSelect').unbind('change').bind('change', function (event) {
+//            var selectedId = $(this).find('.chosen').attr('id');
+//            if (selectedId === 'unselected' || selectedId === 'none') {
+//                $(item).find('.transitionFeedback-mode').addClass('hidden');
+//                $(item).find('.transitionFeedback-time-stepper').addClass('hidden');
+//            } else {
+//                $(item).find('.transitionFeedback-mode').removeClass('hidden');
+//                if ($(item).find('.transitionFeedback-mode .btn-option-checked').attr('id') === 'automatically') {
+//                    $(item).find('.transitionFeedback-time-stepper').removeClass('hidden');
+//                } else {
+//                    $(item).find('.transitionFeedback-time-stepper').addClass('hidden');
+//                }
+//            }
+//        });
+//
+//        $(item).find('.transitionFeedback-mode').unbind('change').bind('change', function (event) {
+////            console.log('feedback transition mode changed', $(this).find('.btn-option-checked').attr('id'));
+//            event.preventDefault();
+//            var selectedId = $(item).find('.feedbackSelect .chosen').attr('id');
+//            if ($(this).find('.btn-option-checked').attr('id') === 'automatically' && selectedId !== 'unselected' && selectedId !== 'none') {
+//                $(this).closest('.row').find('.transitionFeedback-time-stepper').removeClass('hidden');
+//            } else {
+//                $(this).closest('.row').find('.transitionFeedback-time-stepper').addClass('hidden');
+//            }
+//
+//            resetDynamicAffixScrolling(formatClone);
+//        });
+//    }
 
-        $(item).find('.transitionFeedback-mode').unbind('change').bind('change', function (event) {
-//            console.log('feedback transition mode changed', $(this).find('.btn-option-checked').attr('id'));
-            event.preventDefault();
-            var selectedId = $(item).find('.feedbackSelect .chosen').attr('id');
-            if ($(this).find('.btn-option-checked').attr('id') === 'automatically' && selectedId !== 'unselected' && selectedId !== 'none') {
-                $(this).closest('.row').find('.transitionFeedback-time-stepper').removeClass('hidden');
-            } else {
-                $(this).closest('.row').find('.transitionFeedback-time-stepper').addClass('hidden');
-            }
-
-            resetDynamicAffixScrolling(formatClone);
-        });
-    }
-
-    function initAddTransitionSceneButton(clone) {
-        var scenes = getLocalItem(ASSEMBLED_SCENES);
-        if (scenes === null) {
-            $(clone).find('.btn-add-transition-scene').addClass('disabled');
-            appendAlert($(clone).find('#scenes'), ALERT_NO_SCENES_ASSEMBLED_LINK);
-
-        }
-
-        $(clone).find('.btn-add-transition-scene').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (event.handled !== true && !$(this).hasClass('disabled'))
-            {
-                event.handled = true;
-                clearAlerts($(clone).find('#scenes'));
-                var item = $('#form-item-container').find('#woz-transition-scene-option').clone().removeAttr('id');
-                tweenAndAppend(item, $(this), $(clone), $(clone).find('#scenes .transition-scenes-option-container'), null, true);
-            }
-        });
-
-        initQuestionnaireListChange(formatClone, $(clone).find('.transition-scenes-option-container'), clone.find('#scenes'));
-        initQuestionnaireListItemAdded($(clone).find('.transition-scenes-option-container'), clone);
-        $(clone).find('.transition-scenes-option-container').on('listItemAdded change', function (event) {
-            event.stopImmediatePropagation();
-            var optionItems = $(this).children();
-            $(optionItems).find('.transition-mode').removeClass('hidden');
-            $(optionItems).first().find('.transition-mode').addClass('hidden');
-            $(optionItems).last().find('.transition-mode').addClass('hidden');
-            $(optionItems).first().find('.transition-time-stepper').addClass('hidden');
-            $(optionItems).last().find('.transition-time-stepper').addClass('hidden');
-            resetDynamicAffixScrolling(formatClone);
-        });
-
-        $(clone).find('.transition-mode').unbind('change').bind('change', function (event) {
-//            console.log('transition mode changed', $(this).find('.btn-option-checked').attr('id'));
-            event.preventDefault();
-            if ($(this).find('.btn-option-checked').attr('id') === 'automatically') {
-                $(this).closest('.row').find('.transition-time-stepper').removeClass('hidden');
-            } else {
-                $(this).closest('.row').find('.transition-time-stepper').addClass('hidden');
-            }
-
-            resetDynamicAffixScrolling(formatClone);
-        });
-    }
+//    function initAddTransitionSceneButton(clone) {
+//        var scenes = getLocalItem(ASSEMBLED_SCENES);
+//        if (scenes === null) {
+//            $(clone).find('.btn-add-transition-scene').addClass('disabled');
+//            appendAlert($(clone).find('#scenes'), ALERT_NO_SCENES_ASSEMBLED_LINK);
+//
+//            $(formatClone).find('#btn-assemble-scenes').on('click', function (event) {
+//                event.preventDefault();
+//                $(formatClone).find('.btn-close-overlay').click();
+//                $('.mainContent').find('#catalogs #scenes-catalog .btn-open-overlay').click();
+//            });
+//        }
+//
+//        $(clone).find('.btn-add-transition-scene').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//            if (event.handled !== true && !$(this).hasClass('disabled'))
+//            {
+//                event.handled = true;
+//                clearAlerts($(clone).find('#scenes'));
+//                var item = $('#form-item-container').find('#woz-transition-scene-option').clone().removeAttr('id');
+//                tweenAndAppend(item, $(this), $(clone), $(clone).find('#scenes .transition-scenes-option-container'), null, true);
+//            }
+//        });
+//
+//        initQuestionnaireListChange(formatClone, $(clone).find('.transition-scenes-option-container'), clone.find('#scenes'));
+//        initQuestionnaireListItemAdded($(clone).find('.transition-scenes-option-container'), clone);
+//        $(clone).find('.transition-scenes-option-container').on('listItemAdded change', function (event) {
+//            event.stopImmediatePropagation();
+//            var optionItems = $(this).children();
+//            $(optionItems).find('.transition-mode').removeClass('hidden');
+//            $(optionItems).first().find('.transition-mode').addClass('hidden');
+//            $(optionItems).last().find('.transition-mode').addClass('hidden');
+//            $(optionItems).first().find('.transition-time-stepper').addClass('hidden');
+//            $(optionItems).last().find('.transition-time-stepper').addClass('hidden');
+//            resetDynamicAffixScrolling(formatClone);
+//        });
+//
+//        $(clone).find('.transition-mode').unbind('change').bind('change', function (event) {
+////            console.log('transition mode changed', $(this).find('.btn-option-checked').attr('id'));
+//            event.preventDefault();
+//            if ($(this).find('.btn-option-checked').attr('id') === 'automatically') {
+//                $(this).closest('.row').find('.transition-time-stepper').removeClass('hidden');
+//            } else {
+//                $(this).closest('.row').find('.transition-time-stepper').addClass('hidden');
+//            }
+//
+//            resetDynamicAffixScrolling(formatClone);
+//        });
+//    }
 }
 
 function initScenarioOverlay(id, formatClone) {
@@ -911,10 +932,7 @@ function initScenarioOverlay(id, formatClone) {
                         container.append(clone);
                         var gesture = getGestureById(wozItems[j].gestureId);
                         if (gesture && isGestureAssembled(gesture.id)) {
-                            initGestureWOZGestureSelect(clone);
                             $(clone).find('.gestureSelect #' + gesture.id).click();
-                            console.log($(clone).find('.continuous-value-type'),wozItems[j].continuousValueType);
-                            $(clone).find('.continuous-value-type #' + wozItems[j].continuousValueType).click();
                         } else {
                             appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                         }
@@ -928,7 +946,7 @@ function initScenarioOverlay(id, formatClone) {
                             appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
                         }
 
-                        initTransitionFeedbackMode(clone);
+                        initTransitionFeedbackMode(clone, formatClone);
                         if (wozItems[j].feedbackId === 'none') {
                             $(clone).find('.feedbackSelect #none').click();
                         } else {
@@ -946,9 +964,16 @@ function initScenarioOverlay(id, formatClone) {
                             for (var k = 0; k < wozItems[j].transitionScenes.length; k++) {
                                 scene = getSceneById(wozItems[j].transitionScenes[k].sceneId);
                                 var item = $('#form-item-container').find('#woz-transition-scene-option').clone().removeAttr('id');
+                                $(item).attr('id', wozItems[j].transitionScenes[k].id || chance.natural());
                                 $(clone).find('.transition-scenes-option-container').append(item);
+                                initTransitionWOZSceneSelect(item);
                                 if (scene) {
                                     $(item).find('.sceneSelect #' + scene.id).click();
+                                    if (scene.type === SCENE_PIDOCO) {
+                                        $(item).find('.event-bus-settings').removeClass('hidden');
+                                    }
+                                    $(item).find('.use-event-bus #' + wozItems[j].transitionScenes[k].useEventBus).click();
+                                    $(item).find('.continuous-value-type #' + wozItems[j].transitionScenes[k].continuousValueType).click();
                                 } else if (wozItems[j].transitionScenes[k].sceneId !== 'unselected') {
                                     appendAlert(item, ALERT_ASSEMBLED_SCENE_REMOVED);
                                 }
@@ -964,7 +989,7 @@ function initScenarioOverlay(id, formatClone) {
                             }
                             checkCurrentListState($(clone).find('.transition-scenes-option-container'));
                         }
-                        initAddTransitionSceneButton(clone);
+                        initAddTransitionSceneButton(clone, formatClone);
                     }
                     checkCurrentListState(container);
                 }
@@ -1097,8 +1122,7 @@ function initScenarioOverlay(id, formatClone) {
                 var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
                 var gesture = getGestureById(gestureId);
                 var invertContinuousValues = $(item).find('.invert-continuous-values .btn-option-checked').attr('id');
-                var continuousValueType = $(item).find('.continuous-value-type .btn-option-checked').attr('id');
-console.log('continuousValueType', continuousValueType)
+//                console.log('continuousValueType', continuousValueType);
 
                 var feedbackId = $(item).find('.feedbackSelect .chosen').attr('id');
                 if (feedbackId === 'unselected') {
@@ -1109,13 +1133,20 @@ console.log('continuousValueType', continuousValueType)
                 var transitionScenes = [];
                 var transitionItems = $(item).find('.transition-scenes-option-container').children();
                 for (var k = 0; k < transitionItems.length; k++) {
-                    var object = {sceneId: $(transitionItems[k]).find('.sceneSelect .chosen').attr('id')};
+                    var object = {id: $(transitionItems[k]).attr('id'), sceneId: $(transitionItems[k]).find('.sceneSelect .chosen').attr('id')};
                     if (k > 0 && k < transitionItems.length - 1) {
                         object.transitionMode = $(transitionItems[k]).find('.transition-mode .btn-option-checked').attr('id');
+
                         if (object.transitionMode === 'automatically') {
                             object.transitionTime = $(transitionItems[k]).find('.stepper-text').val();
                         }
                     }
+
+                    object.useEventBus = $(transitionItems[k]).find('.use-event-bus .btn-option-checked').attr('id');
+                    if (object.useEventBus === 'yes') {
+                        object.continuousValueType = $(transitionItems[k]).find('.continuous-value-type .btn-option-checked').attr('id');
+                    }
+
                     transitionScenes.push(object);
                 }
 
@@ -1123,7 +1154,8 @@ console.log('continuousValueType', continuousValueType)
                     woz.push({triggerId: triggerId,
                         gestureId: gestureId,
                         invertValues: invertContinuousValues,
-                        continuousValueType: continuousValueType,
+//                        useEventBus: useEventBus,
+//                        continuousValueType: continuousValueType,
                         feedbackId: feedbackId,
                         feedbackTransitionMode: feedbackTransitionMode,
                         feedbackTransitionTime: feedbackTransitionTime,
@@ -1269,15 +1301,15 @@ console.log('continuousValueType', continuousValueType)
                 clearAlerts($(taskItem).find('#woz-item-container'));
                 var item = $('#form-item-container').find('#wozExperimentItem').clone().removeAttr('id');
                 tweenAndAppend(item, $(this), $(formatClone), $(taskItem).find('#woz-item-container .option-container'), null, true);
-                initTransitionFeedbackMode(item);
-                initAddTransitionSceneButton(item);
+                initTransitionFeedbackMode(item, formatClone);
+                initAddTransitionSceneButton(item, formatClone);
                 $(item).find('.btn-add-transition-scene').click();
             }
         });
 
         initQuestionnaireListChange(taskItem, $(taskItem).find('#woz-item-container .option-container'), $(taskItem).find('#woz-item-container'), ALERT_NO_PHASE_DATA);
         initQuestionnaireListItemAdded($(taskItem).find('#woz-item-container .option-container'), $(taskItem).find('#woz-item-container'));
-        initAddTransitionSceneButton(taskItem);
+        initAddTransitionSceneButton(taskItem, formatClone);
     }
 
     $(formatClone).find('.btn-add-helpOption').unbind('click').bind('click', function (event) {
@@ -1320,97 +1352,116 @@ console.log('continuousValueType', continuousValueType)
         });
     }
 
-    function initGestureWOZGestureSelect(target) {
-        $(target).find('.gestureSelect').unbind('change').bind('change', function (event) {
-            event.preventDefault();
-            var gestureId = $(this).find('.chosen').attr('id');
-            var gesture = getGestureById(gestureId);
-            if (gesture.interactionType === TYPE_GESTURE_CONTINUOUS) {
-                $(target).find('.continuous-value-type').removeClass('hidden');
-            } else {
-                $(target).find('.continuous-value-type').addClass('hidden');
-            }
-        });
-    }
-
-    function initTransitionFeedbackMode(item) {
-        $(item).find('.feedbackSelect').unbind('change').bind('change', function (event) {
-            var selectedId = $(this).find('.chosen').attr('id');
-            if (selectedId === 'unselected' || selectedId === 'none') {
-                $(item).find('.transitionFeedback-mode').addClass('hidden');
-                $(item).find('.transitionFeedback-time-stepper').addClass('hidden');
-            } else {
-                $(item).find('.transitionFeedback-mode').removeClass('hidden');
-                if ($(item).find('.transitionFeedback-mode .btn-option-checked').attr('id') === 'automatically') {
-                    $(item).find('.transitionFeedback-time-stepper').removeClass('hidden');
-                } else {
-                    $(item).find('.transitionFeedback-time-stepper').addClass('hidden');
-                }
-            }
-        });
-
-        $(item).find('.transitionFeedback-mode').unbind('change').bind('change', function (event) {
-//            console.log('feedback transition mode changed', $(this).find('.btn-option-checked').attr('id'));
-            event.preventDefault();
-            var selectedId = $(item).find('.feedbackSelect .chosen').attr('id');
-            if ($(this).find('.btn-option-checked').attr('id') === 'automatically' && selectedId !== 'unselected' && selectedId !== 'none') {
-                $(this).closest('.row').find('.transitionFeedback-time-stepper').removeClass('hidden');
-            } else {
-                $(this).closest('.row').find('.transitionFeedback-time-stepper').addClass('hidden');
-            }
-
-            resetDynamicAffixScrolling(formatClone);
-        });
-    }
-
-    function initAddTransitionSceneButton(clone) {
-        $(clone).find('.btn-add-transition-scene').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (event.handled !== true)
-            {
-                event.handled = true;
-                clearAlerts($(clone).find('#scenes'));
-                var item = $('#form-item-container').find('#woz-transition-scene-option').clone().removeAttr('id');
-                tweenAndAppend(item, $(this), $(clone), $(clone).find('#scenes .transition-scenes-option-container'), null, true);
-                initSceneTransitionMode(clone);
-            }
-        });
-
-        initQuestionnaireListChange(formatClone, $(clone).find('.transition-scenes-option-container'), clone.find('#scenes'), ALERT_NO_PHASE_DATA);
-        initQuestionnaireListItemAdded($(clone).find('.transition-scenes-option-container'), clone);
-        initSceneTransitionMode(clone);
-
-        $(clone).find('.transition-scenes-option-container').on('listItemAdded change', function (event) {
-            event.stopImmediatePropagation();
-            var optionItems = $(this).children();
-            $(optionItems).find('.transition-mode').removeClass('hidden');
-            $(optionItems).first().find('.transition-mode').addClass('hidden');
-            $(optionItems).last().find('.transition-mode').addClass('hidden');
-            $(optionItems).first().find('.transition-time-stepper').addClass('hidden');
-            $(optionItems).last().find('.transition-time-stepper').addClass('hidden');
-            resetDynamicAffixScrolling(formatClone);
-        });
-
-        function initSceneTransitionMode(clone) {
-            $(clone).find('.transition-mode').unbind('change').bind('change', function (event) {
-//                console.log('transition mode changed', $(this).find('.btn-option-checked').attr('id'));
-                event.preventDefault();
-                if ($(this).find('.btn-option-checked').attr('id') === 'automatically') {
-                    $(this).closest('.row').find('.transition-time-stepper .stepper-text').attr('value', 1);
-                    $(this).closest('.row').find('.transition-time-stepper .stepper-text').val(1);
-                    $(this).closest('.row').find('.transition-time-stepper').removeClass('hidden');
-                } else {
-                    $(this).closest('.row').find('.transition-time-stepper').addClass('hidden');
-                }
-
-                resetDynamicAffixScrolling(formatClone);
-            });
-        }
-
-    }
-
     initQuestionnairePreview($(formatClone).find('#observations .btn-preview-questionnaire'), $(formatClone).find('#observations #list-container'), true);
 }
+
+/*
+ * transition scene specific functions
+ */
+
+function initTransitionWOZSceneSelect(target) {
+    $(target).find('.sceneSelect').unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        var sceneId = $(this).find('.chosen').attr('id');
+        var scene = getSceneById(sceneId);
+        if (scene.type === SCENE_PIDOCO) {
+            $(target).find('.event-bus-settings').removeClass('hidden');
+        } else {
+            $(target).find('.event-bus-settings').addClass('hidden');
+        }
+    });
+
+    $(target).find('.use-event-bus').unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        var selectedId = $(this).find('.btn-option-checked').attr('id');
+        if (selectedId === 'yes') {
+            $(target).find('.continuous-value-type').removeClass('hidden');
+        } else {
+            $(target).find('.continuous-value-type').addClass('hidden');
+        }
+    });
+}
+
+function initTransitionFeedbackMode(item, formatClone) {
+    $(item).find('.feedbackSelect').unbind('change').bind('change', function (event) {
+        var selectedId = $(this).find('.chosen').attr('id');
+        if (selectedId === 'unselected' || selectedId === 'none') {
+            $(item).find('.transitionFeedback-mode').addClass('hidden');
+            $(item).find('.transitionFeedback-time-stepper').addClass('hidden');
+        } else {
+            $(item).find('.transitionFeedback-mode').removeClass('hidden');
+            if ($(item).find('.transitionFeedback-mode .btn-option-checked').attr('id') === 'automatically') {
+                $(item).find('.transitionFeedback-time-stepper').removeClass('hidden');
+            } else {
+                $(item).find('.transitionFeedback-time-stepper').addClass('hidden');
+            }
+        }
+    });
+
+    $(item).find('.transitionFeedback-mode').unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        var selectedId = $(item).find('.feedbackSelect .chosen').attr('id');
+        if ($(this).find('.btn-option-checked').attr('id') === 'automatically' && selectedId !== 'unselected' && selectedId !== 'none') {
+            $(this).closest('.row').find('.transitionFeedback-time-stepper').removeClass('hidden');
+        } else {
+            $(this).closest('.row').find('.transitionFeedback-time-stepper').addClass('hidden');
+        }
+
+        resetDynamicAffixScrolling(formatClone);
+    });
+}
+
+function initAddTransitionSceneButton(clone, formatClone) {
+    $(clone).find('.btn-add-transition-scene').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        if (event.handled !== true)
+        {
+            event.handled = true;
+            clearAlerts($(clone).find('#scenes'));
+            var item = $('#form-item-container').find('#woz-transition-scene-option').clone().removeAttr('id');
+            $(item).attr('data-id', chance.natural());
+            tweenAndAppend(item, $(this), $(clone), $(clone).find('#scenes .transition-scenes-option-container'), null, true);
+            initSceneTransitionMode(clone);
+            initTransitionWOZSceneSelect(item);
+        }
+    });
+
+    initQuestionnaireListChange(formatClone, $(clone).find('.transition-scenes-option-container'), clone.find('#scenes'), ALERT_NO_PHASE_DATA);
+    initQuestionnaireListItemAdded($(clone).find('.transition-scenes-option-container'), clone);
+    initSceneTransitionMode(clone);
+
+    $(clone).find('.transition-scenes-option-container').on('listItemAdded change', function (event) {
+        event.stopImmediatePropagation();
+        var optionItems = $(this).children();
+        $(optionItems).find('.transition-mode').removeClass('hidden');
+        $(optionItems).first().find('.transition-mode').addClass('hidden');
+        $(optionItems).last().find('.transition-mode').addClass('hidden');
+        $(optionItems).first().find('.transition-time-stepper').addClass('hidden');
+        $(optionItems).last().find('.transition-time-stepper').addClass('hidden');
+        resetDynamicAffixScrolling(formatClone);
+    });
+
+    function initSceneTransitionMode(clone) {
+        $(clone).find('.transition-mode').unbind('change').bind('change', function (event) {
+            event.preventDefault();
+            if ($(this).find('.btn-option-checked').attr('id') === 'automatically') {
+                $(this).closest('.row').find('.transition-time-stepper .stepper-text').attr('value', 1);
+                $(this).closest('.row').find('.transition-time-stepper .stepper-text').val(1);
+                $(this).closest('.row').find('.transition-time-stepper').removeClass('hidden');
+            } else {
+                $(this).closest('.row').find('.transition-time-stepper').addClass('hidden');
+            }
+
+            resetDynamicAffixScrolling(formatClone);
+        });
+    }
+}
+
+
+
+/*
+ * gesture slideshow
+ */
 
 function initGestureSlideshowOverlay(id, formatClone) {
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
@@ -2212,14 +2263,15 @@ function initExplorationOverlay(id, formatClone) {
             }
 
             $(item).find('.btn-add-trigger-to-gesture').on('click', function (event) {
-                if ($(this).hasClass('btn-info')) {
-                    $(this).removeClass('btn-info').addClass('btn-danger');
-                    $(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
-                    $(this).parent().find('.trigger-title').addClass('text');
-                } else {
-                    $(this).removeClass('btn-danger').addClass('btn-info');
-                    $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
+                event.preventDefault();
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
                     $(this).parent().find('.trigger-title').removeClass('text');
+                } else {
+                    $(this).addClass('selected');
+                    $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
+                    $(this).parent().find('.trigger-title').addClass('text');
                 }
             });
         }
@@ -2276,7 +2328,7 @@ function initExplorationOverlay(id, formatClone) {
                     var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
                     var gesture = getGestureById(gestureId);
                     var triggerIds = [];
-                    $(item).find('#assembled-trigger-container .btn-danger').each(function () {
+                    $(item).find('#assembled-trigger-container .selected').each(function () {
                         triggerIds.push($(this).closest('.root').attr("id"));
                     });
 //                    console.log(gesture, triggerIds, transitionScenes);

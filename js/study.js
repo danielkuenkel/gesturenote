@@ -412,7 +412,7 @@ function renderStudyGestures(gestures) {
     if (gestures && gestures.length > 0) {
         $('#study-gestures-catalog').find('#btn-download-as-json').removeClass('disabled');
         $('#study-gestures-catalog').find('#btn-download-as-exchangeable').removeClass('disabled');
-        
+
         for (var i = 0; i < gestures.length; i++) {
             var item = getGestureCatalogListThumbnail(gestures[i]);
             $('#study-gestures-catalog .list-container').append(item);
@@ -1111,7 +1111,7 @@ function renderClassifiedGestures(target, type) {
                         var assignment = classification.assignments[j];
                         if (parseInt(assignment.triggerId) === parseInt(trigger[i].id)) {
                             counter++;
-                            container.find('#headline .badge').text(counter === 1 ? counter + ' ' + translation.gesture : counter + ' ' + translation.gestures);
+                            container.find('#headline .badge').text(counter + ' ' + (counter === 1 ? translation.Class : translation.Classes));
 
                             var appearanceTriggerGesture = $('#template-study-container').find('#appearance-trigger-gesture').clone().removeAttr('id');
                             if (type === POTENTIAL_GESTURES) {
@@ -1119,7 +1119,7 @@ function renderClassifiedGestures(target, type) {
                             }
 
                             appearanceTriggerGesture.attr('data-main-gesture-id', assignment.mainGestureId);
-                            appearanceTriggerGesture.find('#headline-trigger-gesture').text(translation.gesture + ' ' + counter);
+                            appearanceTriggerGesture.find('#headline-trigger-gesture').text(translation.Class + ' ' + counter);
                             container.find('#item-view').append(appearanceTriggerGesture);
                             updateGestureAssignmentInfos(container, type, assignment.mainGestureId, assignment);
                         }
@@ -1594,8 +1594,16 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
 
         // amount
         var triggerId = assignment.triggerId;
+        var trigger = getTriggerById(triggerId);
         var amountRange = getAmountRange(triggerId);
-        $(target).find('#parameters-amount #justification').text(translation.Minimal + ': ' + amountRange.min + ', ' + translation.maximal + ': ' + amountRange.max + ', ' + assignment.gestures.length + ' ' + (assignment.gestures.length === 1 ? translation.classifiedGesture : translation.classifiedGestures));
+        $(target).find('#parameters-amount .trigger .address').text(translation.trigger + ':');
+        $(target).find('#parameters-amount .trigger .text').text(trigger.title);
+        $(target).find('#parameters-amount .amount-specific .text').text(assignment.gestures.length + ' ' + (assignment.gestures.length === 1 ? translation.gesture : translation.gestures));
+        $(target).find('#parameters-amount .amount-specific .address').text(translation.forThisClass);
+        $(target).find('#parameters-amount .amount-minimal-function .text').text(amountRange.min + ' ' + (amountRange.min === 1 ? translation.gesture : translation.gestures) + ' ' + translation.perClass);
+        $(target).find('#parameters-amount .amount-minimal-function .address').text(translation.Minimal + ':');
+        $(target).find('#parameters-amount .amount-maximal-function .text').text(amountRange.max + ' ' + (amountRange.min === 1 ? translation.gesture : translation.gestures) + ' ' + translation.perClass);
+        $(target).find('#parameters-amount .amount-maximal-function .address').text(translation.Maximal + ':');
         if (amountRange.max > amountRange.min) {
             if (assignment.gestures.length === amountRange.max) {
                 target.find('#parameters-amount #well').removeClass('hidden');
@@ -2023,6 +2031,7 @@ function getUniqueTrigger() {
 
     function triggerExists(trigger, pushTrigger) {
         for (var i = 0; i < trigger.length; i++) {
+//            console.log(trigger[i].id,  pushTrigger);
             if (parseInt(trigger[i].id) === parseInt(pushTrigger.id)) {
                 return true;
             }

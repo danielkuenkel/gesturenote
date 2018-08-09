@@ -232,23 +232,6 @@ and open the template in the editor.
 }
 
 
-.shared-list-item {
-    /*display: inline;*/
-    /*font-size: 10pt;*/
-}
-.shared-study-item-email {
-    margin-right: 5px;
-}
-
-.btn-uninvite-user {
-    cursor: pointer;
-    /*font-size: 10pt;*/
-}
-.btn-uninvite-user:hover {
-    color: #d9534f
-}
-
-
 #webcam-video-container.shrinked {
     position: absolute;
     top: 60px;

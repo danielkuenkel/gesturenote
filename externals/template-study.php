@@ -1222,8 +1222,14 @@ include '../includes/language.php';
     <div id="potential-gesture-parameters-appearance-trigger">
         <div id="parameters-amount">
             <div><h4 style="margin: 0"><i class="fa fa-pie-chart" aria-hidden="true"></i> <?php echo $lang->number ?></h4></div>
-            <span class="text" id="justification"></span>
-            <br/>
+            <div class="amount-specific"><span class="text"></span> <span class="address"></span></div>
+            <div class="trigger"><span class="address"></span> <span class="text"></span></div>
+            <div style="font-size: 9pt; margin-top: 4px">
+                <span class="text"><em><?php echo $lang->classesForTrigger ?></em></span>
+                <div class="amount-minimal-function"><span class="address"></span> <span class="text"></span></div>
+                <div class="amount-maximal-function"><span class="address"></span> <span class="text"></span></div>
+            </div>
+
             <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
             <span class="hidden warning" id="even"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notEnoughData ?></span></span>
             <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>

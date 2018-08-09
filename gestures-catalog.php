@@ -324,21 +324,21 @@ if (login_check($mysqli) == true) {
             renderSubPageElements();
             animateBreadcrump();
 
-            var status = window.location.hash.substr(1);
-            var statusNavMatch = getStatusNavMatch(status);
-            if (status !== '' && statusNavMatch !== null) {
-                $('#gesture-catalogs-nav-tab').find('#tab-' + statusNavMatch + ' a').click();
-            } else {
-                $('#gesture-catalogs-nav-tab').children().first().find('a').click();
-            }
+            getGestureSets(function (setResults) {
+                setLocalItem(GESTURE_SETS, setResults.gestureSets)
+                var status = window.location.hash.substr(1);
+                var statusNavMatch = getStatusNavMatch(status);
+                if (status !== '' && statusNavMatch !== null) {
+                    $('#gesture-catalogs-nav-tab').find('#tab-' + statusNavMatch + ' a').click();
+                } else {
+                    $('#gesture-catalogs-nav-tab').children().first().find('a').click();
+                }
 
-            var showTutorial = parseInt(<?php echo $_SESSION['tutorialGestureCatalog'] ?>);
-            if (showTutorial === 1) {
-                $('#btn-introduction').click();
-            }
-
-//            $('#gesture-catalogs-nav-tab a[href="#gesture-catalog"]').tab('show');
-//            getWholeGestureCatalog();
+                var showTutorial = parseInt(<?php echo $_SESSION['tutorialGestureCatalog'] ?>);
+                if (showTutorial === 1) {
+                    $('#btn-introduction').click();
+                }
+            });
         }
 
         function getStatusNavMatch(status) {
@@ -534,6 +534,33 @@ if (login_check($mysqli) == true) {
                 renderGestureInfoData();
                 showGestureInfo($('#gesture-catalog'));
             });
+
+//            $('#custom-modal').unbind('gestureSetsUpdated').bind('gestureSetsUpdated', function (event, gestureId) {
+//                event.preventDefault();
+//                console.log('gesture id', gestureId);
+//                var thumbnail = $('#gesture-catalog').find('#' + gestureId);
+//                var gestureSets = getLocalItem(GESTURE_SETS);
+//                if (gestureSets) {
+//                    var titles = "";
+//                    for (var i = 0; i < gestureSets.length; i++) {
+//                        var gestureSetIds = gestureSets[i].gestures;
+//                        if (gestureSetIds) {
+//                            for (var j = 0; j < gestureSetIds.length; j++) {
+//                                if (parseInt(gestureId) === parseInt(gestureSetIds[j])) {
+//                                    titles += '<div>' + gestureSets[i].title + '</div>';
+//                                }
+//                            }
+//                        }
+//                    }
+//                    if (titles.length > 0) {
+//                        thumbnail.find('.btn-edit-gesture-set').addClass('primary');
+//                        thumbnail.find('.btn-edit-gesture-set').attr('data-content', titles);
+//                    } else {
+//                        thumbnail.find('.btn-edit-gesture-set').removeClass('primary');
+//                        thumbnail.find('.btn-edit-gesture-set').attr('data-content', translation.notAssignedToGestureSet);
+//                    }
+//                }
+//            });
         }
 
         function getWholeGestureSets() {

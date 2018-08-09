@@ -691,6 +691,7 @@ function getVisDataSet(timelineData) {
 //                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
 //                    break;
                 case ACTION_START_PERFORM_GESTURE_IDENTIFICATION:
+//                    console.log(annotations[i].triggerId);
                     var trigger = getTriggerById(annotations[i].triggerId);
                     contentText = translation.annotations[annotations[i].action] + ': ' + trigger.title;
                     break;

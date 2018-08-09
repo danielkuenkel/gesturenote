@@ -161,6 +161,16 @@ and open the template in the editor.
     display: inline-block;
 }
 
+.gesture-set-footer-controls div:not(.btn-show-set-info) {
+    font-size: 14pt;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.gesture-set-footer-controls .btn-show-set-info {
+    display: inline-block;
+}
+
 .gesture-thumbnail .btn-rate,
 .gesture-thumbnail .btn-like,
 .gesture-thumbnail .btn-share,
@@ -171,7 +181,11 @@ and open the template in the editor.
 .gesture-thumbnail .btn-tag-as-main-gesture,
 .gesture-thumbnail .btn-delete-from-classification,
 .gesture-thumbnail .btn-edit-gesture-set,
-.gesture-thumbnail .btn-delete-exchangeable-gesture
+.gesture-thumbnail .btn-delete-exchangeable-gesture,
+.gesture-set-footer-controls .btn-like-set,
+.gesture-set-footer-controls .btn-share-set,
+.gesture-set-footer-controls .btn-comment-set,
+.gesture-set-footer-controls .btn-show-set-info
 {
     cursor: pointer;
 }
@@ -180,27 +194,39 @@ and open the template in the editor.
 .btn-like:hover,
 .btn-share:hover,
 .btn-comment:hover,
+.btn-edit-gesture-set:hover,
 .btn-show-gesture-info:hover,
 .btn-tag-as-favorite-gesture:hover,
 .btn-add-gesture-to-scene:hover,
+.btn-delete-exchangeable-gesture:hover,
 .gesture-shared>.fa:hover,
+.gesture-set-shared>.fa:hover,
 .gesture-liked>.fa:hover,
+.gesture-set-liked>.fa:hover,
 .gesture-rated>.fa:hover,
-.btn-tag-as-favorite-gesture>.fa:hover, 
+.gesture-is-in-set>.fa:hover
+.btn-like-set:hover,
+.btn-like-set>.fa:hover,
+.btn-share-set:hover,
+.btn-share-set>.fa:hover,
+.btn-comment-set:hover,
+.btn-comment-set>.fa:hover,
+.btn-show-set-info:hover
+/*.btn-tag-as-favorite-gesture>.fa:hover, 
 .btn-add-gesture-to-scene>.fa:hover,
 .btn-tag-as-main-gesture>.fa:hover, 
 .btn-delete-from-classification>.fa:hover, 
 .btn-edit-gesture-set>.fa:hover, 
-.btn-delete-exchangeable-gesture>.fa:hover 
+.btn-delete-exchangeable-gesture>.fa:hover */
 {
-    color: black;
+    color: black !important;
 }
 
-.gesture-liked .fa {
+.gesture-liked .fa, .gesture-set-liked .fa {
     color: #D42C29;
 }
 
-.gesture-shared .fa {
+.gesture-shared .fa, .gesture-set-shared .fa {
     color: #0480be;
 }
 
@@ -212,7 +238,12 @@ and open the template in the editor.
     color: #0480be;
 }
 
-.btn-like .amount, .btn-comment .amount, .btn-rate .amount {
+.gesture-is-in-set .fa {
+    color: #0480be;
+}
+
+.btn-like .amount, .btn-comment .amount, .btn-rate .amount, .btn-edit-gesture-set .amount,
+.btn-like-set .amount, .btn-comment-set .amount, .btn-share-set .amount {
     font-size: 9pt;
     position: relative;
     top:-2px;
@@ -371,6 +402,12 @@ and open the template in the editor.
     border-top-right-radius: 4px;
 }
 
+.gesture-info-symbols.small {
+    padding: 4px;
+    border-bottom-left-radius: 6px;
+    border-top-right-radius: 4px;
+}
+
 .gesture-info-symbol {
     width: 10px;
     height: 10px;
@@ -426,6 +463,19 @@ and open the template in the editor.
     font-size: 6pt; 
     position: relative; 
     top: 3px; 
+    line-height: 0pt;
+    margin-right: 1px;
+    text-transform: uppercase;
+}
+.symbol-container-gesture-sets {
+    display: flex;
+    cursor: pointer;
+    margin-left: 6px;
+}
+.gesture-sets-info-symbol-text {
+    font-size: 8pt; 
+    position: relative; 
+    top: 5px; 
     line-height: 0pt;
     margin-right: 1px;
     text-transform: uppercase;

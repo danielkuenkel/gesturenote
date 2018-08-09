@@ -6,6 +6,8 @@
 
 var prototypeWindow = null;
 var rtcStreamControlsTween = null;
+var continuousMouseManipluationGesture = null;
+
 var Moderator = {
     renderView: function renderView() {
 //        $('.alert-space').empty();
@@ -107,10 +109,17 @@ var Moderator = {
 //        pinRTC();
 //        updateRTCHeight($('#phase-content #column-left').width(), true);
 
-        if (isPidocoSocketNeeded() && getBrowser() === BROWSER_FIREFOX) {
+        if (isPidocoSocketNeeded() && getBrowser() === BROWSER_FIREFOX &&
+                (currentPhase.format === SCENARIO ||
+                        currentPhase.format === GESTURE_TRAINING ||
+                        currentPhase.format === EXPLORATION ||
+                        currentPhase.format === IDENTIFICATION)) {
             console.log('pidoco socket needed');
             initWebSocket();
+        } else {
+            destroyWebsocket();
         }
+
     },
     checkPositioning: function checkPositioning(format) {
         if (previewModeEnabled) {
@@ -534,6 +543,7 @@ var Moderator = {
         }
 
         function renderFollowScene(scenesContainer) {
+
             $(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').addClass('btn-primary');
             if (prototypeWindow && prototypeWindow.closed !== true) {
                 if (!previewModeEnabled && currentWOZScene) {
@@ -544,7 +554,7 @@ var Moderator = {
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                     });
                 }
-
+                console.log('check transition scenes', currentWOZScene);
                 prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
             }
         }
@@ -956,7 +966,9 @@ var Moderator = {
             wobble([container.find('#training')]);
             $(this).addClass('hidden');
             $(container).find('#btn-start-screen-sharing, .btn-feedback-scene').removeClass('hidden');
-            openPrototypeScene(currentWOZScene, data.training && data.training.length === 1);
+            console.log(data);
+            var checkedScenes = checkSingleScene(data);
+            openPrototypeScene(currentWOZScene, checkedScenes.single);//data.training && data.training.length === 1);
         });
 
         $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
@@ -1576,9 +1588,10 @@ var Moderator = {
         }
 
         var checkedScenes = checkSingleScene(data.tasks);
-        if (checkedScenes.single === true && checkedScenes.pidoco && checkedScenes.pidoco === true) {
-            Moderator.initMousePositionFunctionalities();
-        }
+//        if (checkedScenes.pidoco && checkedScenes.pidoco === true) {
+//            console.error('init pidoco mouse functionalities');
+//            Moderator.initMousePositionFunctionalities();
+//        }
 
         //woz section
         Moderator.renderWOZ(source, container, data);
@@ -1607,7 +1620,7 @@ var Moderator = {
 //            wobble([container.find('#woz-controls')]);
 //            $(container).find('.btn-feedback-scene').removeClass('disabled');
 
-            openPrototypeScene(currentWOZScene, checkedScenes);
+            openPrototypeScene(currentWOZScene, checkedScenes.single);
         });
 
         $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
@@ -1699,7 +1712,7 @@ var Moderator = {
                         });
                     }
 
-                    openPrototypeScene(currentWOZScene, checkedScences);
+                    openPrototypeScene(currentWOZScene, checkedScenes.single);
 //                    prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                 }
             } else {
@@ -1768,10 +1781,19 @@ var Moderator = {
                         var relPosY = Math.max(0, Math.min(1, (pageCoords.y - targetOffset.top) / targetDimensions.height));
 //                        console.log(relPosX, relPosY);
                         showCursor(mouseTarget, CURSOR_CROSSHAIR);
-                        sendContinuousPosition('', PIDOCO_TYPE_MOUSE_SIMULATION, relPosX, relPosY);
+                        if (continuousMouseManipluationGesture) {
+                            sendContinuousPosition(continuousMouseManipluationGesture, null, relPosX, relPosY);
+                        } else {
+                            sendContinuousPosition('', PIDOCO_TYPE_MOUSE_SIMULATION, relPosX, relPosY);
+                        }
+
 
                         $(mouseTarget).on('click', function () {
-                            sendContinuousPosition('', PIDOCO_TYPE_MOUSE_SIMULATION, relPosX, relPosY, true);
+                            if (continuousMouseManipluationGesture) {
+                                sendContinuousPosition(continuousMouseManipluationGesture, null, relPosX, relPosY, true);
+                            } else {
+                                sendContinuousPosition('', PIDOCO_TYPE_MOUSE_SIMULATION, relPosX, relPosY, true);
+                            }
                         });
                     }
                 });
@@ -1944,6 +1966,7 @@ var Moderator = {
 
             if (currentScenarioTask.woz) {
                 var wozData = getWOZItemsForSceneId(currentScenarioTask.woz, currentWOZScene.id);
+                console.log('woz data', wozData, currentWOZScene);
                 removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
                 $(container).find('.woz-container').empty();
                 if (wozData && wozData.length > 0) {
@@ -1985,7 +2008,6 @@ var Moderator = {
                             TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
                         }
 
-
                         if (wozData[i].feedbackId !== 'none') {
                             $(item).find('#transition-feedback-header, #transition-feedback-container').removeClass('hidden');
                             var feedback = getFeedbackById(wozData[i].feedbackId);
@@ -1998,6 +2020,7 @@ var Moderator = {
                         if (gesture) {
                             renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
                             $(item).find('.previewGesture').attr('id', gesture.id);
+                            checkGestureUI(item, wozData[i]);
 
                             if (gesture.type && gesture.interactionType) {
                                 item.find('.symbol-gesture-execution').addClass(gesture.type);
@@ -2013,94 +2036,8 @@ var Moderator = {
 
                             TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
 
-                            if (checkedScenes.single === true && checkedScenes.pidoco && checkedScenes.pidoco === true) {
-                                if (gesture.type === TYPE_GESTURE_DYNAMIC && gesture.interactionType === TYPE_GESTURE_CONTINUOUS && currentWOZScene.type === SCENE_PIDOCO) {
-                                    $(item).find('#btn-trigger-woz').remove();
-                                    $(item).find('#control-continuous-slider').removeClass('hidden');
-                                    $(item).find('.continuous-gesture-controls').removeClass('hidden');
-                                    $(item).find('#control-continuous-slider-status').removeClass('hidden');
-                                    $(item).find('.static-continuous-controls').remove();
 
-                                    var continuousSlider = $(item).find('#control-continuous-slider #continuous-slider');
 
-                                    var sliderOptions = {
-                                        value: 0,
-                                        min: 0,
-                                        max: 100,
-                                        enabled: false
-                                    };
-
-                                    $(continuousSlider).slider(sliderOptions);
-                                    $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
-                                        event.preventDefault();
-                                        var inverted = $(this).hasClass('inverted');
-                                        var percent = parseInt(event.value.newValue);
-                                        var imagePercent = inverted ? (100 - percent) : percent;
-                                        var gestureId = event.data.gesture.id;
-                                        $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
-                                        var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
-                                        $(gestureImages).removeClass('active').addClass('hidden');
-                                        $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
-                                        sendContinuousGesture(gestureId, percent);
-                                    });
-
-                                    var invertValuesButton = $(item).find('.btn-invert-slider-values');
-                                    $(invertValuesButton).unbind('click').bind('click', {slider: continuousSlider}, function (event) {
-                                        event.preventDefault();
-                                        $(this).popover('hide');
-                                        if ($(event.data.slider).hasClass('inverted')) {
-                                            $(event.data.slider).removeClass('inverted');
-                                            $(this).attr('data-content', translation.tooltips.execution.valuesNotInverted);
-                                            TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#fff"});
-                                        } else {
-                                            $(event.data.slider).addClass('inverted');
-                                            $(this).attr('data-content', translation.tooltips.execution.valuesInverted);
-                                            TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#5bc0de"});
-                                        }
-                                    });
-
-                                    if (wozData[i].invertValues === 'yes') {
-                                        $(invertValuesButton).click();
-                                    }
-                                    initPopover();
-                                } else if (gesture.type === TYPE_GESTURE_POSE && gesture.interactionType === TYPE_GESTURE_CONTINUOUS && currentWOZScene.type === SCENE_PIDOCO) {
-                                    $(item).find('#btn-trigger-woz').remove();
-                                    $(item).find('#control-continuous-slider').remove();
-                                    $(item).find('.continuous-gesture-controls').remove();
-                                    $(item).find('.static-continuous-controls').removeClass('hidden');
-
-                                    var staticContinuousTimer = null;
-                                    $(item).find('.btn-start-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-                                        event.preventDefault();
-                                        if (!$(this).hasClass('disabled')) {
-                                            $(this).addClass('disabled');
-                                            $(this).closest('.static-continuous-controls').find('.btn-stop-static-continuous-gesture').removeClass('disabled');
-                                            staticContinuousTimer = setInterval(function() {
-                                                sendGesture(gesture.id);
-                                            }, 500);
-                                        }
-                                    });
-
-                                    $(item).find('.btn-stop-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-                                        event.preventDefault();
-                                        if (!$(this).hasClass('disabled')) {
-                                            $(this).addClass('disabled');
-                                            $(this).closest('.static-continuous-controls').find('.btn-start-static-continuous-gesture').removeClass('disabled');
-                                            if(staticContinuousTimer) {
-                                                clearInterval(staticContinuousTimer);
-                                            }
-                                        }
-                                    });
-                                } else {
-                                    $(item).find('#control-continuous-slider').remove();
-                                    $(item).find('.continuous-gesture-controls').remove();
-                                    $(item).find('.static-continuous-controls').remove();
-                                }
-                            } else {
-                                $(item).find('#control-continuous-slider').remove();
-                                $(item).find('.continuous-gesture-controls').remove();
-                                $(item).find('.static-continuous-controls').remove();
-                            }
                         }
 
                         item.find('#btn-trigger-woz, .btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
@@ -2127,7 +2064,7 @@ var Moderator = {
                         });
 
                         if (scenarioPrototypeOpened) {
-                            item.find('#btn-trigger-woz, .btn-trigger-scene, .btn-trigger-feedback').removeClass('disabled');
+                            $(item).find('.disabled').removeClass('disabled');
                         }
                     }
                 } else {
@@ -4032,28 +3969,49 @@ function renderObservations(data, container) {
     }
 }
 
-function checkSingleScene(tasks) {
+function checkSingleScene(data) {
     var sceneCount = 0;
     var sceneIds = [];
-    for (var i = 0; i < tasks.length; i++) {
-        if (tasks[i].woz && tasks[i].woz.length > 0) {
-            for (var j = 0; j < tasks[i].woz.length; j++) {
-                for (var k = 0; k < tasks[i].woz[j].transitionScenes.length; k++) {
-                    sceneIds.push(tasks[i].woz[j].transitionScenes[k].sceneId);
-                }
+    var currentPhase = getCurrentPhase();
 
+    switch (currentPhase.format) {
+        case SCENARIO:
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].woz && data[i].woz.length > 0) {
+                    for (var j = 0; j < data[i].woz.length; j++) {
+                        for (var k = 0; k < data[i].woz[j].transitionScenes.length; k++) {
+                            sceneIds.push(data[i].woz[j].transitionScenes[k].sceneId);
+                        }
+
+                    }
+                    sceneCount += data[i].woz.length;
+                }
             }
-            sceneCount += tasks[i].woz.length;
-        }
+            break;
+        case GESTURE_TRAINING:
+            console.log(data);
+            data && data.length === 1;
+            if (data && data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].transitionScenes && data[i].transitionScenes.length > 0) {
+                        for (var j = 0; j < data[i].transitionScenes.length; j++) {
+                            sceneIds.push(data[i].transitionScenes[j].sceneId);
+                        }
+                    }
+                }
+            }
+
+            break;
     }
+
     sceneIds = unique(sceneIds);
 
-//    console.log('check single scene: ', tasks.length, sceneCount, sceneIds);
+    console.log('check single scene: ', sceneIds.length);
 
     if (sceneIds.length === 1) {
         return {single: true, pidoco: getSceneById(sceneIds[0]).type === SCENE_PIDOCO};
     }
-    return {single: true};
+    return {single: sceneIds.length === 1};
 }
 
 function checkRTCUploadStatus(container) {
@@ -4095,13 +4053,13 @@ function openPrototypeScene(scene, isSingleScene, description, index) {
     var windowSpecs = "location=no,menubar=no,status=no,toolbar=no";
     console.log('open prototype window', scene, isSingleScene, prototypeWindow);
     if (scene !== null) {
-        if (prototypeWindow && !prototypeWindow.closed && !isSingleScene.single) {
+        if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {
             console.log('has prototype window');
             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
-        } else if (!prototypeWindow && !isSingleScene.single) {
+        } else if (!prototypeWindow && !isSingleScene) {
             console.log('has no prototype window, no single scene');
             prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
-        } else if (!prototypeWindow && isSingleScene.single === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
+        } else if (!prototypeWindow && isSingleScene === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
             console.log('has no prototype window, single scene, ', scene.type);
             prototypeWindow = window.open(scene.parameters.url, "_blank", windowSpecs);
         } else {
@@ -4129,8 +4087,11 @@ function getWOZTransitionItem(source, transitionScene, disabled, active) {
     var btn = $(source).find('#wozItemWithScenesButton').clone().removeAttr('id');
     $(btn).find('.btn-text').text(scene.title);
     $(btn).find('.btn-trigger-scene').attr('id', scene.id);
+    $(btn).find('.btn-trigger-scene').attr('data-transition-scene-id', transitionScene.id);
+//    $(btn).find('.btn-trigger-scene').attr('data-scene-type', scene.type);
     $(btn).find('.btn-trigger-scene').attr('data-transition-mode', transitionScene.transitionMode);
     $(btn).find('.btn-trigger-scene').attr('data-transition-type', 'scene');
+//    $(btn).find('.btn-trigger-scene').attr('data-use-event-bus', transitionScene.useEventBus);
     $(btn).find('.btn-trigger-scene #scene-' + scene.type).removeClass('hidden');
 
     if (transitionScene.transitionMode === 'automatically') {
@@ -4147,6 +4108,164 @@ function getWOZTransitionItem(source, transitionScene, disabled, active) {
     }
 
     return btn;
+}
+
+function checkGestureUI(item, wozData) {
+    var currentActiveBtn = $(item).find('.btn-primary').last();
+    var gesture = getGestureById($(item).find('.previewGesture').attr('id'));
+    console.log('gesture', gesture, wozData);
+    if (gesture) {
+
+        // find current active transition id for this woz element
+        var activeTransitionScene = null;
+        for (var i = 0; i < wozData.transitionScenes.length; i++) {
+            if (parseInt(wozData.transitionScenes[i].id) === parseInt($(currentActiveBtn).attr('data-transition-scene-id'))) {
+                activeTransitionScene = wozData.transitionScenes[i];
+            }
+        }
+
+        console.log('activeTransitionScene', activeTransitionScene);
+        var scene = getSceneById(activeTransitionScene.sceneId);
+
+        if (activeTransitionScene.useEventBus === 'yes' && scene.type === SCENE_PIDOCO) {
+
+            Moderator.initMousePositionFunctionalities();
+            console.log('show event bus specific controls');
+//            var sceneType = $(currentActiveBtn).attr('data-scene-type');
+            console.log('sceneType', scene.type);
+
+            if (activeTransitionScene.continuousValueType === 'none') {
+                if (gesture.type === TYPE_GESTURE_POSE && gesture.interactionType === TYPE_GESTURE_CONTINUOUS) {
+                    $(item).find('#btn-trigger-woz').remove();
+                    $(item).find('#control-continuous-slider').remove();
+                    $(item).find('.continuous-gesture-controls').remove();
+                    $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
+                    $(item).find('.static-continuous-controls').removeClass('hidden');
+
+                    var staticContinuousTimer = null;
+                    $(item).find('.btn-start-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
+                        event.preventDefault();
+                        if (!$(this).hasClass('disabled')) {
+                            $(this).addClass('disabled');
+                            $(this).closest('.static-continuous-controls').find('.btn-stop-static-continuous-gesture').removeClass('disabled');
+                            staticContinuousTimer = setInterval(function () {
+                                sendGesture(gesture.id);
+                            }, 500);
+                        }
+                    });
+
+                    $(item).find('.btn-stop-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
+                        event.preventDefault();
+                        if (!$(this).hasClass('disabled')) {
+                            $(this).addClass('disabled');
+                            $(this).closest('.static-continuous-controls').find('.btn-start-static-continuous-gesture').removeClass('disabled');
+                            if (staticContinuousTimer) {
+                                clearInterval(staticContinuousTimer);
+                            }
+                        }
+                    });
+                }
+            } else {
+                $(item).find('#btn-trigger-woz').remove();
+                $(item).find('.static-continuous-controls').remove();
+
+                if (activeTransitionScene.continuousValueType === 'manipulationPercent') {
+
+//                if (activeTransitionScene.continuousValueType === 'manipulationPercent') {
+                    $(item).find('#control-continuous-slider').removeClass('hidden');
+                    $(item).find('.continuous-gesture-controls').removeClass('hidden');
+                    $(item).find('#control-continuous-slider-status').removeClass('hidden');
+                    $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
+
+                    var continuousSlider = $(item).find('#control-continuous-slider #continuous-slider');
+
+                    var sliderOptions = {
+                        value: 0,
+                        min: 0,
+                        max: 100,
+                        enabled: scenarioStartTriggered
+                    };
+
+                    $(continuousSlider).slider(sliderOptions);
+                    $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
+                        event.preventDefault();
+                        var inverted = $(this).hasClass('inverted');
+                        var percent = parseInt(event.value.newValue);
+                        var imagePercent = inverted ? (100 - percent) : percent;
+                        var gestureId = event.data.gesture.id;
+                        $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
+                        var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
+                        $(gestureImages).removeClass('active').addClass('hidden');
+                        $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
+                        sendContinuousGesture(gestureId, percent);
+                    });
+
+                    var invertValuesButton = $(item).find('.btn-invert-slider-values');
+                    $(invertValuesButton).unbind('click').bind('click', {slider: continuousSlider}, function (event) {
+                        event.preventDefault();
+                        $(this).popover('hide');
+                        if ($(event.data.slider).hasClass('inverted')) {
+                            $(event.data.slider).removeClass('inverted');
+                            $(this).attr('data-content', translation.tooltips.execution.valuesNotInverted);
+                            TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#fff"});
+                        } else {
+                            $(event.data.slider).addClass('inverted');
+                            $(this).attr('data-content', translation.tooltips.execution.valuesInverted);
+                            TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#5bc0de"});
+                        }
+                    });
+
+                    if (wozData.invertValues === 'yes') {
+                        $(invertValuesButton).click();
+                    }
+
+                    initPopover();
+                } else if (activeTransitionScene.continuousValueType === 'manipulationMouse') {
+                    $(item).find('#control-continuous-slider').remove();
+                    $(item).find('.continuous-gesture-controls').remove();
+                    var toggleButton = $(item).find('.btn-trigger-continuous-mouse-manipulation');
+                    var wozContainer = $(toggleButton).closest('.woz-container');
+                    $(toggleButton).removeClass('hidden');
+                    $(toggleButton).unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
+                        event.preventDefault();
+                        if (!$(this).hasClass('disabled')) {
+                            if ($(this).attr('data-activated') === 'true') {
+                                $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').attr('data-activated', false);
+                                $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').removeClass('btn-success');
+                                continuousMouseManipluationGesture = null;
+                            } else {
+                                $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').attr('data-activated', false);
+                                $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').removeClass('btn-success');
+                                $(this).attr('data-activated', true);
+                                $(this).addClass('btn-success');
+                                continuousMouseManipluationGesture = event.data.gestureId;
+                            }
+                        }
+                    });
+                } else {
+                    $(item).find('#control-continuous-slider').remove();
+                    $(item).find('.continuous-gesture-controls').remove();
+                    $(item).find('.static-continuous-controls').remove();
+                    $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
+                }
+            }
+
+        } else {
+            console.log('show standard controls');
+
+            $(item).find('#control-continuous-slider').remove();
+            $(item).find('.continuous-gesture-controls').remove();
+            $(item).find('.static-continuous-controls').remove();
+            $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
+        }
+
+//        if (checkedScenes.single === true && checkedScenes.pidoco && checkedScenes.pidoco === true) {
+//
+//        } else {
+//            
+//        }
+    }
+
 }
 
 

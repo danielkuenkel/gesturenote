@@ -534,9 +534,10 @@ include '../includes/language.php';
         <div class="row" id="training" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div id="trainingContainer">
-                    <div class="alert-space alert-no-gestures-assembled"></div>
-                    <div class="alert-space alert-no-trigger-assembled"></div>
-                    <div class="alert-space alert-no-feedback-assembled"></div>
+                    <!--<div class="alert-space alert-no-gestures-assembled"></div>-->
+                    <div class="alert-space alert-no-trigger-assembled-link"></div>
+                    <div class="alert-space alert-no-feedback-assembled-link"></div>
+                    <div class="alert-space alert-no-study-gestures-assembled-link"></div>
                     <div class="alert-space alert-no-phase-data"></div>
 
                     <div class="option-container"></div>

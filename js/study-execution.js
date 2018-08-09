@@ -245,7 +245,7 @@ function checkIfStopRecordingNeeded(phases) {
 function resetConstraints() {
     $(window).unbind('keydown');
     $(window).unbind('keyup');
-    
+
     questionnaireDone = false;
     testerDoneTriggered = false;
 
@@ -313,6 +313,11 @@ function resetConstraints() {
     if (gestureRecorder) {
         gestureRecorder.destroy();
         gestureRecorder = null;
+    }
+
+    if (prototypeWindow) {
+        prototypeWindow.close();
+        prototypeWindow = null;
     }
 }
 

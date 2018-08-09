@@ -725,7 +725,7 @@ include '../includes/language.php';
                         <div class="btn-invert-slider-values" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->valuesNotInverted ?>"><i class="fa fa-exchange"></i></div>
                     </div>
 
-                    <div class="gesture-info-symbols">
+                    <div class="gesture-info-symbols small">
                         <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
                             <span class="gesture-info-symbol-text text-gesture-execution small"></span>
                             <div class="gesture-info-symbol symbol-gesture-execution small"></div>
@@ -750,9 +750,11 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-shadow disabled btn-stop-static-continuous-gesture" style="border-radius: 0px; border-bottom-right-radius: 8px;"><i class="fa fa-stop"></i></button>
                     </div>
                 </div>
+                
+                <button type="button" class="btn btn-default btn-block btn-shadow disabled hidden btn-trigger-continuous-mouse-manipulation" data-activated="false" style="border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px"><i class="fa fa-mouse-pointer"></i> <?php echo $lang->cursor ?></button>
 
             </div>
-            <div class="col-xs-7 col-sm-6 col-md-8" id="transition-scenes">
+            <div class="col-xs-7 col-sm-6 col-md-8 transition-scenes" id="transition-scenes">
                 <h4 style="margin:0"><?php echo $lang->stateCharts->currentState ?></h4>
                 <div id="start-scene-container"></div>
                 <h4 style="margin-bottom: 0" id="transition-feedback-header" class="hidden"><?php echo $lang->stateCharts->transitionFeedback ?></h4>

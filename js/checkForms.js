@@ -6,7 +6,7 @@ function loginFormhash(form, email, password) {
     }
 
     // Add the new element to our form. 
-    var passwordString = password.val() + '-' + $(email).val().toLowerCase();
+    var passwordString = password.val() + '-' + $(email).val().trim().toLowerCase();
 //    console.log(passwordString);
     
     if ($(form).find('#p').length > 0) {
@@ -138,7 +138,7 @@ function registerFormhash(form) {
 //    }
 
     // Add the new element to our form. 
-    var passwordString = password.val() + '-' + $(email).val();
+    var passwordString = password.val() + '-' + $(email).val().trim().toLocaleLowerCase();
     if ($(form).find('#p').length > 0) {
         $(form).find('#p').val(hex_sha512(passwordString));
     } else {
@@ -206,7 +206,7 @@ function resetPasswordFormhash(form) {
     }
 
     // Add the new element to our form. 
-    var passwordString = password.val() + '-' + $(email).val();
+    var passwordString = password.val() + '-' + $(email).val().trim().toLowerCase();
     if ($(form).find('#p').length > 0) {
         $(form).find('#p').val(hex_sha512(passwordString));
     } else {

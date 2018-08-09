@@ -64,7 +64,6 @@ function sendContinuousGesture(gestureId, value) {
             messageId: gestureId,
             value: value
         }));
-//        client.debug("send continuous gesture: " + gestureId + "value: " + value);
     } else {
         console.warn('no stomp client');
     }
@@ -79,6 +78,8 @@ function sendContinuousPosition(gestureId, type, relPosX, relPosY, isClick) {
             type: (type === PIDOCO_TYPE_MOUSE_SIMULATION ? PIDOCO_TYPE_MOUSE_SIMULATION : ''),
             isClick: isClick
         }));
+    } else {
+        console.warn('no stomp client');
     }
 }
 
@@ -89,5 +90,12 @@ function handleWebsocketRequest(message) {
         var gestureId = findGestureForMapping(jsonObj.name);
         sendGesture(gestureId, false);
         triggerGestureVideo(gestureId);
+    }
+}
+
+function destroyWebsocket() {
+    if (client) {
+        client.disconnect();
+        client = null;
     }
 }

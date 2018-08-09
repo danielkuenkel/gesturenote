@@ -147,6 +147,28 @@ function updateGestureById(catalog, id, parameters) {
     }
 }
 
+function updateGestureSetById(catalog, id, parameters) {
+    var gestureSetCatalog = getLocalItem(catalog);
+
+    var set;
+    var tempGesturesSets = new Array();
+
+    if (gestureSetCatalog && gestureSetCatalog.length > 0) {
+        for (var i = 0; i < gestureSetCatalog.length; i++) {
+            set = gestureSetCatalog[i];
+
+            if (parseInt(set.id) === parseInt(id)) {
+                for (var key in parameters) {
+                    set[key] = parameters[key];
+                }
+            }
+
+            tempGesturesSets.push(set);
+        }
+        setLocalItem(catalog, tempGesturesSets);
+    }
+}
+
 
 
 
@@ -315,6 +337,19 @@ function getContextualPhaseSteps() {
     return null;
 }
 
+function getGestureSetById(id) {
+    var sets = getLocalItem(GESTURE_SETS);
+
+    if (sets && sets.length > 0) {
+        for (var i = 0; i < sets.length; i++) {
+            if (parseInt(sets[i].id) === parseInt(id)) {
+                return sets[i];
+            }
+        }
+    }
+    return null;
+}
+
 function setStudyData(data) {
     clearLocalItems();
 
@@ -322,12 +357,12 @@ function setStudyData(data) {
     if (data.studyData) {
         setData = data.studyData;
         setData.generalData.studyOwner = data.userId;
-        
+
 //        if (data.isOwner) {
-            console.log('is owner?', data.isOwner);
-            setData.generalData.isOwner = data.isOwner || false;
+        console.log('is owner?', data.isOwner);
+        setData.generalData.isOwner = data.isOwner || false;
 //        }
-        
+
         setData.generalData.id = data.id;
         setData.generalData.urlToken = data.urlToken;
         setLocalItem(STUDY, setData.generalData);

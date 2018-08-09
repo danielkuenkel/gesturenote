@@ -231,6 +231,7 @@ if ($h && $token && $studyId) {
                             setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, result.evaluatorData.observations);
                         }
                     }
+                    
                     checkStorage();
                 });
             }

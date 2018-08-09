@@ -18,7 +18,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
             exit();
         } else {
             $select_stmt->store_result();
-            $select_stmt->bind_result($id, $studyId, $userId, $title, $gestures, $created);
+            $select_stmt->bind_result($id, $studyId, $userId, $title, $gestures, $sensorData, $created);
 
             $gestureSets;
 
@@ -28,6 +28,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                     'userId' => $userId,
                     'title' => json_decode_nice($title, false),
                     'gestures' => json_decode_nice($gestures, false),
+                    'sensorData' => json_decode($sensorData),
                     'created' => $created);
             }
 

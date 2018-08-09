@@ -1372,3 +1372,40 @@ canvas {
     line-height: 12pt;
     padding-bottom: 20px;
 }
+
+.custom-panel-headline {
+    position: relative;
+    background-color: #ddd;
+    border-top-left-radius: 4px;
+    border-bottom-right-radius: 10px;
+    color: #999;
+    padding: 0px 15px 0px 15px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.panel-footer-gesture-set {
+    background-color: white;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+
+.shared-list-item {
+    /*display: inline;*/
+    /*font-size: 10pt;*/
+}
+.shared-study-item-email {
+    margin-right: 5px;
+}
+.shared-gesture-set-item-email {
+    margin-right: 5px;
+}
+
+.btn-uninvite-user {
+    cursor: pointer;
+    /*font-size: 10pt;*/
+}
+.btn-uninvite-user:hover {
+    color: #d9534f
+}

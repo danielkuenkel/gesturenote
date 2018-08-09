@@ -25,7 +25,7 @@ include '../includes/language.php';
 </div>
 
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" id="btn-close-modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
+    <button type="button" class="btn btn-shadow btn-default" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
 </div>
 
 <script>
@@ -34,7 +34,6 @@ include '../includes/language.php';
 
         $('#custom-modal').bind('hidden.bs.modal', function () {
             console.log('modal hidden');
-//            currentPreviewGesture = null;
             gesturePreviewOpened = false;
             $(this).unbind('hidden.bs.modal');
         });
@@ -62,9 +61,10 @@ include '../includes/language.php';
         }
     }
 
-//    $('#btn-close-modal').unbind('click').bind('click', function (event) {
-//        event.preventDefault();
-//        console.log('close modal');
+    $('#btn-close-modal').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        console.log('close modal', $(this).closest('.modal'));
+        $(this).closest('.modal').modal('hide');
 //        $('#custom-modal').modal('hide');
-//    });
+    });
 </script>

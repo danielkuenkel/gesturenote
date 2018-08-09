@@ -110,6 +110,8 @@ var ALERT_NO_ANNOTATIONS = 'no-annotations';
 var ALERT_NO_USERS_INVITED = 'no-users-invited';
 var ALERT_USER_ALREADY_INVITED = 'user-already-invited';
 var ALERT_INVITE_YOURSELF = 'invite-yourself';
+var ALERT_GESTURE_SET_NOT_SHARED = 'gesture-set-not-shared';
+var ALERT_SHARE_GESTURE_SET_TO_YOURSELF = 'share-gesture-set-to-yourself';
 
 // exchangeable file hints
 var ALERT_NO_EXCHANGEABLE_FILE_SELECTED = 'no-exchangeable-file-selected';
