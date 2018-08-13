@@ -139,8 +139,12 @@ if (login_check($mysqli) == true) {
                                             <li id="recorded"><a href="#"><?php echo $lang->filter->ownRecorded ?></a></li>
                                             <li id="tester"><a href="#"><?php echo $lang->filter->tester ?></a></li>
                                             <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
+                                            <li id="sharedWithYou"><a href="#"><?php echo $lang->filter->sharedWithYou ?></a></li>
+                                            <li id="private"><a href="#"><?php echo $lang->filter->private ?></a></li>
                                             <li id="rated"><a href="#"><?php echo $lang->filter->rated ?></a></li>
                                             <li id="liked"><a href="#"><?php echo $lang->filter->liked ?></a></li>
+                                            <li id="generic"><a href="#"><?php echo $lang->gestureNameQualities->generic->title ?></a></li>
+                                            <li id="functional"><a href="#"><?php echo $lang->gestureNameQualities->functional->title ?></a></li>
                                         </ul>
                                     </div>
                                     <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
@@ -238,7 +242,8 @@ if (login_check($mysqli) == true) {
                                             <!--<li id="recorded"><a href="#"><?php echo $lang->filter->ownRecorded ?></a></li>-->
                                             <!--<li id="tester"><a href="#"><?php echo $lang->filter->tester ?></a></li>-->
                                             <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
-                                            <!--<li id="rated"><a href="#"><?php echo $lang->filter->rated ?></a></li>-->
+                                            <li id="sharedWithYou"><a href="#"><?php echo $lang->filter->sharedWithYou ?></a></li>
+                                            <li id="private"><a href="#"><?php echo $lang->filter->private ?></a></li>
                                             <li id="liked"><a href="#"><?php echo $lang->filter->liked ?></a></li>
                                         </ul>
                                     </div>
@@ -274,7 +279,7 @@ if (login_check($mysqli) == true) {
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <div class="text-center custom-pagination" id="pager-top">
@@ -393,8 +398,8 @@ if (login_check($mysqli) == true) {
                             }
                             break;
                         case 'gesture-catalog':
-                            if(currentFilterData[i].setOnly === false)
-                            clone = getGestureCatalogListThumbnail(currentFilterData[i]);
+                            if (currentFilterData[i].setOnly === false)
+                                clone = getGestureCatalogListThumbnail(currentFilterData[i]);
                             $(currentFilterList).append(clone);
                             if (animate && animate === true) {
 //                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
@@ -524,7 +529,7 @@ if (login_check($mysqli) == true) {
                         };
                         initPagination(data);
                         $('#gesture-catalog').find('#sort #newest').removeClass('selected');
-//                        $('#gesture-catalog').find('#sort #newest').click();
+                        $('#gesture-catalog').find('#sort #newest').click();
                         currentFilterData = sort();
                         renderData(currentFilterData);
                     } else {
@@ -607,6 +612,7 @@ if (login_check($mysqli) == true) {
                                 };
                                 initPagination(data);
                                 $('#gesture-sets').find('#sort #newest').removeClass('selected');
+                                $('#gesture-sets').find('#sort #newest').click();
                                 currentFilterData = sort();
                                 renderData(currentFilterData);
                             } else {

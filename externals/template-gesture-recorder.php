@@ -340,6 +340,34 @@ include '../includes/language.php';
                         <input type="text" class="form-control" id="gestureName" required>
                     </div>
 
+                    <div class="form-group root" id="gestureNameQualitySelect">
+                        <label>
+                            <?php echo $lang->gestureNameQuality ?> 
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->executionType ?>"></i>
+                        </label><br>
+
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="generic">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->gestureNameQualities->generic->title ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="functional">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->gestureNameQualities->functional->title ?></span>
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="form-group root" id="gestureTypeSelect">
                         <label>
                             <?php echo $lang->gestureExecutionType ?> 
@@ -371,7 +399,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="gestureInteractionTypeSelect">
                         <label>
                             <?php echo $lang->gestureInteractionType ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->interactionType  ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->interactionType ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -399,25 +427,25 @@ include '../includes/language.php';
 
                     <div class="form-group">
                         <label><?php echo $lang->gestureContext ?></label> 
-                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context  ?>"></i>
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context ?>"></i>
                         <input type="text" class="form-control" id="gestureContext" required>
                     </div>
 
                     <div class="form-group">
                         <label><?php echo $lang->gestureAssociation ?></label> 
-                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->association  ?>"></i>
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->association ?>"></i>
                         <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000" required></textarea>
                     </div>
 
                     <div class="form-group">
                         <label><?php echo $lang->gestureDescription ?></label> 
-                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->description  ?>"></i>
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->description ?>"></i>
                         <textarea class="form-control" id="gestureDescription" rows="3" maxlength="1000" required></textarea>
                     </div>
 
                     <div class="form-group">
                         <label><?php echo $lang->bodyParts ?></label> 
-                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->bodyParts  ?>"></i>
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->bodyParts ?>"></i>
                         <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                             <div id="joint-container" style="position: absolute"></div>
                             <img src="img/human_body.svg">
@@ -771,6 +799,34 @@ include '../includes/language.php';
                         <input type="text" class="form-control" id="gestureName" required>
                     </div>
 
+                    <div class="form-group root" id="gestureNameQualitySelect">
+                        <label>
+                            <?php echo $lang->gestureNameQuality ?> 
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->executionType ?>"></i>
+                        </label><br>
+
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="generic">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->gestureNameQualityGeneric ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="functional">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->gestureNameQualityFunction ?></span>
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="form-group root" id="gestureTypeSelect">
                         <label>
                             <?php echo $lang->gestureExecutionType ?> 
@@ -830,25 +886,25 @@ include '../includes/language.php';
 
                     <div class="form-group">
                         <label><?php echo $lang->gestureContext ?></label> 
-                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context  ?>"></i>
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context ?>"></i>
                         <input type="text" class="form-control" id="gestureContext" required>
                     </div>
 
                     <div class="form-group">
                         <label><?php echo $lang->gestureAssociation ?></label> 
-                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->association  ?>"></i>
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->association ?>"></i>
                         <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000" required></textarea>
                     </div>
 
                     <div class="form-group">
                         <label><?php echo $lang->gestureDescription ?></label> 
-                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->description  ?>"></i>
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->description ?>"></i>
                         <textarea class="form-control" id="gestureDescription" rows="3" maxlength="1000" required></textarea>
                     </div>
 
                     <div class="form-group">
                         <label><?php echo $lang->bodyParts ?></label> 
-                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->bodyParts  ?>"></i>
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->bodyParts ?>"></i>
                         <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                             <div id="joint-container" style="position: absolute"></div>
                             <img src="img/human_body.svg">

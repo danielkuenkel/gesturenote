@@ -934,7 +934,7 @@ var Tester = {
                 $(container).find('#scene-description').removeClass('hidden');
                 if (data.identificationFor === 'gestures') {
                     if (identificationRecordingStartTriggered === true) {
-                        animateLiveStream($(container).find('#fixed-rtc-preview'), true);
+//                        animateLiveStream($(container).find('#fixed-rtc-preview'), true);
                         $(container).find('#scene-description').addClass('hidden');
                         $(container).find('#scene-container').removeClass('hidden');
                     }

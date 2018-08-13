@@ -63,10 +63,10 @@ if (isset($_SESSION['user_id'], $_POST['setId'], $_POST['email'])) {
                                     <title>' . $lang->inviteGestureSetTitle . '</title>
                                     </head>
                                     <body>
-                                        <p style="font-weight:bold">' . $lang->hello . ' ' . $forename . ' ' . $surname . ',</p>
+                                        <p>' . $lang->hello . ' ' . $forename . ' ' . $surname . ',</p>
                                         <p>' . $lang->inviteGestureSetText . '</p>
-                                        <p>' . $lang->inviteGestureSetGreetings . ',</p>
-                                        <p style="font-weight:bold">' . $lang->inviteGestureSetTeam . '</p>
+                                        <p>' . $lang->mailGreetings . ',</p>
+                                        <p>' . $lang->gestureNoteTeam . '</p>
                                     </body>
                                     </html>';
 

@@ -45,10 +45,10 @@ if (isset($_SESSION['user_id'], $_POST['setId'], $_POST['id'], $_POST['email']))
                                     <title>' . $lang->uninviteGestureSetTitle . '</title>
                                     </head>
                                     <body>
-                                        <p style="font-weight:bold">' . $lang->hello . ',</p>
+                                        <p>' . $lang->hello . ',</p>
                                         <p>' . $lang->uninviteGestureSetText . '</p>
-                                        <p>' . $lang->inviteGestureSetGreetings . ',</p>
-                                        <p style="font-weight:bold">' . $lang->inviteGestureSetTeam . '</p>
+                                        <p>' . $lang->mailGreetings . ',</p>
+                                        <p>' . $lang->gestureNoteTeam . '</p>
                                     </body>
                                     </html>';
 

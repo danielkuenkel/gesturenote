@@ -71,6 +71,10 @@ include '../includes/language.php';
                 <div class="col-md-5">
                     <div id="gesture-set-data-preview">
 
+                        <div style="margin: 0; display: flex">
+                            <span class="label label-default" id="gesture-set-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+                        </div>
+
                         <div style="">
                             <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
                             <div id="title"><?php echo $lang->title ?>:<span class="address"></span> <span class="text"></span></div>
@@ -245,30 +249,19 @@ include '../includes/language.php';
                 shareButton.addClass('gesture-set-shared');
                 $(container).find('#gesture-set-sharing .shared-self').text(translation.gestureSetShared);
             }
-
-//            if (set.source !== SOURCE_GESTURE_TESTER) {
-//                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_OWN]);
-//                container.find('#gesture-source #' + SOURCE_GESTURE_OWN).removeClass('hidden');
-//            } else {
-//                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
-//                container.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
-//            }
         } else {
             var shareAmount = set.invitedUsers.length;
             $(container).find('#gesture-set-sharing').remove();
             $(container).find('#gesture-set-owner-controls').remove();
             $(container).find('#gesture-set-sharing-not-owner').removeClass('hidden');
-            $(container).find('.shared-with-others').html(new String(translation.gestureSetSharedWithOthers).replace('{x}', Math.max(shareAmount - 1)));
-
-//            if (set.source !== SOURCE_GESTURE_TESTER) {
-//                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
-//                container.find('#gesture-source #' + SOURCE_GESTURE_EVALUATOR).removeClass('hidden');
-//            } else {
-//                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
-//                container.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
-//            }
+            if (set.scope === SCOPE_GESTURE_PRIVATE) {
+                $(container).find('.shared-with-others').html(new String(translation.gestureSetSharedWithOthers).replace('{x}', Math.max(shareAmount - 1)));
+            } else {
+                $(container).find('.shared-with-others').html(translation.gestureSetShared);
+            }
         }
 
+        updateGestureSetSharingInfos();
         updateGestureSetSharing();
         renderInvitedGestureSetUsers();
         updateGestureSetLikes();
@@ -628,12 +621,61 @@ include '../includes/language.php';
         return true;
     }
 
+    function updateGestureSetSharingInfos() {
+        var set = currentPreviewGestureSet.set;
+        var shareButton = $(modal).find('.btn-share-set');
+        $(modal).find('#gesture-set-scope #public').addClass('hidden');
+        $(modal).find('#gesture-set-scope #private').addClass('hidden');
+        $(modal).find('#gesture-set-scope #' + set.scope).removeClass('hidden');
+        $(modal).find('#gesture-set-scope .label-text').text(translation.gestureScopes[set.scope]);
+
+        if (set.isOwner === true) {
+            $(modal).find('#gesture-rating #btn-rate-gesture').remove();
+
+            $(shareButton).removeClass('hidden');
+            if (set.scope === SCOPE_GESTURE_PRIVATE) {
+                shareButton.removeClass('gesture-shared');
+                $(modal).find('#gesture-sharing .shared-self').text(translation.gestureSetNotShared);
+            } else {
+                shareButton.addClass('gesture-shared');
+                $(modal).find('#gesture-sharing .shared-self').text(translation.gestureSetShared);
+            }
+
+            if (set.source !== SOURCE_GESTURE_TESTER) {
+                modal.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_OWN]);
+                modal.find('#gesture-source #' + SOURCE_GESTURE_OWN).removeClass('hidden');
+            } else {
+                modal.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
+                modal.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
+            }
+        } else {
+            $(modal).find('#gesture-owner-controls').remove();
+            $(shareButton).remove();
+            $(modal).find('#gesture-sharing .shared-self').remove();
+
+            if (set.source !== SOURCE_GESTURE_TESTER) {
+                modal.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
+                modal.find('#gesture-source #' + SOURCE_GESTURE_EVALUATOR).removeClass('hidden');
+            } else {
+                modal.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
+                modal.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
+            }
+        }
+
+        if (set.invitedUsers && set.invitedUsers.length > 0) {
+            $(modal).find('#gesture-set-scope #public').addClass('hidden');
+            $(modal).find('#gesture-set-scope #private').addClass('hidden');
+            $(modal).find('#gesture-set-scope #public').removeClass('hidden');
+            $(modal).find('#gesture-set-scope .label-text').text(translation.gestureScopes.public);
+        }
+    }
+
     function updateGestureSetSharing() {
         var modal = $('#custom-modal');
 
         initShareGestureSetModalButton($(modal).find('#gesture-set-sharing .btn-share-set'), currentPreviewGestureSet.thumbnail, currentPreviewGestureSet.source, currentPreviewGestureSet.set, function () {
             var button = $(modal).find('#gesture-set-sharing .btn-share-set');
-//            console.log(currentPreviewGestureSet.set);
+            updateGestureSetSharingInfos();
 
             if (currentPreviewGestureSet.set.scope === SCOPE_GESTURE_PUBLIC) {
                 $(modal).find('#gesture-set-sharing .shared-self').text(translation.gestureSetShared);
@@ -699,13 +741,8 @@ include '../includes/language.php';
                         $(email).val('');
                         renderInvitedGestureSetUsers();
                         updateGestureSetThumbnailSharing(currentPreviewGestureSet.thumbnail, currentPreviewGestureSet.set);
+                        updateGestureSetSharingInfos();
 
-//                        $(currentPreviewGestureSet.thumbnail).find('.btn-share-set .amount').text(inviteAmount > 0 ? inviteAmount : '');
-//                        if (inviteAmount > 0) {
-//                            $(currentPreviewGestureSet.thumbnail).find('.btn-share-set').addClass('gesture-set-shared');
-//                        } else {
-//                            $(currentPreviewGestureSet.thumbnail).find('.btn-share-set').removeClass('gesture-set-shared');
-//                        }
                     } else if (result.status === 'userAlreadyInvited') {
                         $(email).val('');
                         appendAlert($(modal).find('#invite-users-form'), ALERT_USER_ALREADY_INVITED);
@@ -731,13 +768,7 @@ include '../includes/language.php';
                     originalFilterData = getLocalItem(GESTURE_SETS);
                     renderInvitedGestureSetUsers();
                     updateGestureSetThumbnailSharing(currentPreviewGestureSet.thumbnail, currentPreviewGestureSet.set);
-
-//                    $(currentPreviewGestureSet.thumbnail).find('.btn-share-set .amount').text(inviteAmount > 0 ? inviteAmount : '');
-//                    if (inviteAmount > 0) {
-//                        $(currentPreviewGestureSet.thumbnail).find('.btn-share-set').addClass('gesture-set-shared');
-//                    } else {
-//                        $(currentPreviewGestureSet.thumbnail).find('.btn-share-set').removeClass('gesture-set-shared');
-//                    }
+                    updateGestureSetSharingInfos();
                 }
             });
         }

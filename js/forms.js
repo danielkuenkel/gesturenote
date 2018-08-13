@@ -341,6 +341,7 @@ function renderFormatItem(target, data, currentPhaseFormat, allowFilters) {
 }
 
 function checkFilterOptions(container) {
+    console.log('check filter options',container, $(container).attr('data-allow-filters'));
     if ($(container).attr('data-allow-filters') === 'true') {
         var elements = $(container).children();
         for (var i = 0; i < elements.length; i++) {
@@ -3235,21 +3236,21 @@ $(document).on('click', '.btn-add-groupingQuestionOption', function (event) {
 });
 
 $(document).on('click', '.btn-add-ratingOption', function (event) {
-//    console.log('btn add rating option click event');
     event.preventDefault();
     if (event.handled !== true)
     {
         event.handled = true;
         var item = $('#form-item-container').find('#ratingItem').clone().removeAttr('id');
         $(item).attr('data-id', chance.natural());
-        $(this).prev().find('.option-container').append(item);
+        var container = $(this).prev().find('.option-container');
+        $(container).append(item);
         checkCurrentListState($(this).prev().find('.option-container'));
         $(item).find('.chosen').attr('id', 3);
         $(item).find('.show-dropdown').val(3);
         $(item).find('#scale_3').addClass('selected');
-//        console.log(translation.defaultScales);
         renderScaleItems($(item).find('.ratingScaleItemContainer'), 3, translation.threeDefaultScales);
         TweenMax.from(item, .2, {y: -10, opacity: 0});
+        checkFilterOptions(container.closest('.container-root'));
     }
 });
 

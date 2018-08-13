@@ -14,7 +14,7 @@ if (isset($_SESSION['user_id'])) {
 
     if ($select_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE (owner_id = '$sessionUserId' && scope = 'private') OR scope = 'public' ORDER BY created DESC")) {
         // get variables from result.
-        $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $type, $interactionType, $context, $association, $description, $joints, $previewImage, $images, $gif, $sensorData, $created);
+        $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $context, $association, $description, $joints, $previewImage, $images, $gif, $sensorData, $created);
 
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
@@ -112,6 +112,7 @@ if (isset($_SESSION['user_id'])) {
                     'setOnly' => false,
                     'scope' => $scope,
                     'title' => $title,
+                    'titleQuality' => $titleQuality,
                     'type' => $type,
                     'interactionType' => $interactionType,
                     'context' => $context,
@@ -159,11 +160,11 @@ if (isset($_SESSION['user_id'])) {
                     $decodedGestures = json_decode($sharedSetGestures);
 //                    echo json_encode(array('status' => 'success', 'sharedSetGestures' => json_decode_nice($sharedSetGestures), 'decodedGestures' => $decodedGestures));
 //                    exit();
-                    if($decodedGestures) {
+                    if ($decodedGestures) {
                         $comma_separated = implode(",", $decodedGestures);
 
                         if ($select_stmt = $mysqli2->prepare("SELECT * FROM gestures WHERE id IN ($comma_separated) ORDER BY created DESC")) {
-                            $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $type, $interactionType, $context, $association, $description, $joints, $previewImage, $images, $gif, $sensorData, $created);
+                            $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $context, $association, $description, $joints, $previewImage, $images, $gif, $sensorData, $created);
 
                             if (!$select_stmt->execute()) {
                                 echo json_encode(array('status' => 'selectErrorCommaGestures'));
@@ -262,6 +263,7 @@ if (isset($_SESSION['user_id'])) {
                                         'setOnly' => true,
                                         'scope' => $scope,
                                         'title' => $title,
+                                        'titleQuality' => $titleQuality,
                                         'type' => $type,
                                         'interactionType' => $interactionType,
                                         'context' => $context,

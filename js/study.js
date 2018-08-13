@@ -24,12 +24,14 @@ function renderData(data, hash) {
                     renderStudyParticipants(result.studyResults, hash);
                 } else {
                     $('#tab-pane').find('#participants .badge').text('0');
+                    $('#statistic-participants').addClass('hidden');
                     appendAlert($('#study-participants'), ALERT_NO_PHASE_DATA);
                 }
             }
         });
     } else {
         appendAlert($('#study-participants'), ALERT_NO_PLAN);
+        $('#statistic-participants').addClass('hidden');
         $('#study-range-days .text').text('0 ' + translation.days);
         $('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
     }

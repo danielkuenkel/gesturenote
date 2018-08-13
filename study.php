@@ -239,7 +239,7 @@ if (login_check($mysqli) == true) {
             <div role="tabpanel" class="tab-pane" id="study-participants">
                 <div class="alert-space alert-no-phase-data"></div>
                 <div class="alert-space alert-no-plan"></div>
-                <div class="row">
+                <div class="row" id="statistic-participants">
                     <div class="col-xs-12 text-center">
                         <div class="text text-center"><?php echo $lang->studyStatus ?></div>
                         <canvas id="chart-participant-statistics" style="max-width:400px; margin: 0 auto"></canvas>

@@ -31,12 +31,12 @@ if (isset($_POST['studyId'])) {
 //                $temp = json_decode($json);
 //$temp[] = new data, whatever you want to add...;
 //$json = json_encode($temp);
-                
-                
+
+
                 $decodedData = json_decode_nice($studyData, false);
 //                array_push( $decodedData, array('isOwner' => $studyUserId) );
 //                $decodedData['isOwner'] = ;
-                
+
 
                 if ($select_invited_users_stmt = $mysqli->prepare("SELECT * FROM studies_shared WHERE study_id = '$studyId' AND owner_id = '$sessionUserId'")) {
                     if (!$select_invited_users_stmt->execute()) {
@@ -62,7 +62,7 @@ if (isset($_POST['studyId'])) {
                     } else {
 
                         $select_gesture_stmt->store_result();
-                        $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
+                        $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
 
                         while ($select_gesture_stmt->fetch()) {
                             $commentCount = 0;
@@ -122,6 +122,7 @@ if (isset($_POST['studyId'])) {
                                 'source' => $gestureSource,
                                 'scope' => $gestureScope,
                                 'title' => $gestureTitle,
+                                'titleQuality' => $gestureTitleQuality,
                                 'type' => $gestureType,
                                 'interactionType' => $gestureInteractionType,
                                 'context' => $gestureContext,
@@ -143,7 +144,7 @@ if (isset($_POST['studyId'])) {
                         }
                     }
                 }
-                
+
                 $isStudyOwner = intval($sessionUserId) === intval($studyUserId);
                 echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'isOwner' => $isStudyOwner, 'studyData' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'invitedUsers' => $invitedUsers, 'gestureCatalog' => $gestures));
                 exit();

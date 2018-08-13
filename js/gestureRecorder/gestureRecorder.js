@@ -694,6 +694,7 @@ function renderStateSave() {
     resetInputs(true);
     var saveButton = $(recorder.currentRecorderContent).find('#btn-save-gesture');
     var titleInput = $(recorder.currentRecorderContent).find('#gestureName');
+    var titleQualityInput = $(recorder.currentRecorderContent).find('#gestureNameQualitySelect');
     var typeInput = $(recorder.currentRecorderContent).find('#gestureTypeSelect');
     var interactionTypeInput = $(recorder.currentRecorderContent).find('#gestureInteractionTypeSelect');
     var contextInput = $(recorder.currentRecorderContent).find('#gestureContext');
@@ -702,18 +703,6 @@ function renderStateSave() {
     var jointsInput = $(recorder.currentRecorderContent).find('#gesture-save-form #human-body #joint-container');
 
     $(recorder.currentRecorderContent).find('.sensor-source-save').addClass('hidden');
-//    if(!recorder.options.hasUpdatedData || (recorder.options.hasUpdatedData && recorder.options.hasUpdatedData === false)) {
-//        initializeRecorders();
-//    }
-//    for (var i = 0; i < recorder.options.initRecorders.length; i++) {
-//        var recorderData = recorder.options.initRecorders[i];
-//        var type = null;
-//        if (recorderData.type) {
-//            type = recorderData.type;
-//        } else if (recorderData.sensor) {
-//            type = recorderData.sensor;
-//        }
-//    }
 
     for (var i = 0; i < recorders.length; i++) {
         $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
@@ -778,6 +767,11 @@ function renderStateSave() {
             $(interactionTypeInput).find('#' + recorder.options.updateData.interaction).click();
         }
 
+        console.log('title quality', recorder.options.updateData.titleQuality)
+        if (recorder.options.updateData.titleQuality) {
+            $(titleQualityInput).find('#' + recorder.options.updateData.titleQuality).click();
+        }
+
         if (recorder.options.updateData.title) {
             $(titleInput).val(recorder.options.updateData.title);
         }
@@ -795,7 +789,7 @@ function renderStateSave() {
         if (recorder.options.context) {
             $(contextInput).val(recorder.options.context);
         }
-        
+
         renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
     }
 
@@ -818,6 +812,7 @@ function renderStateSave() {
             }
 
             var title = $(titleInput).val().trim();
+            var titleQuality = $(titleQualityInput).find('.btn-option-checked').attr('id');
             var type = recorder.options.checkType && recorder.options.checkType === true ? $(typeInput).find('.btn-option-checked').attr('id') : null;
             var interactionType = recorder.options.checkInteractionType && recorder.options.checkInteractionType === true ? $(interactionTypeInput).find('.btn-option-checked').attr('id') : null;
             var context = $(contextInput).val().trim();
@@ -830,6 +825,7 @@ function renderStateSave() {
 
             gestureSaveData = {
                 title: title,
+                titleQuality: titleQuality,
                 type: type,
                 interactionType: interactionType,
                 context: context,
@@ -856,6 +852,16 @@ function renderStateSave() {
     function gestureInputsValid(showErrors) {
         var title = $(titleInput).val();
         if (title !== undefined && title.trim() === '') {
+            if (showErrors) {
+                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
+        var titleQuality = $(titleQualityInput).find('.btn-option-checked').attr('id');
+        if (titleQuality === undefined) {
             if (showErrors) {
                 appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             } else {

@@ -107,8 +107,8 @@ include '../includes/language.php';
                         <h3><i class="fa fa-share-alt"></i> <?php echo $lang->share ?></h3>
                         <div style="" class="shared-with-own-projects"></div>
                         <div style="" class="shared-with-other-projects"></div>
-                        <div style="margin-top: 10px"><label class="text"><?php echo $lang->inviteAllUsersForGesture ?></label></div>
-                        <div style="margin-top: -10px">
+                        <div style="margin-top: 10px" class="share-with-all"><label class="text"><?php echo $lang->inviteAllUsersForGesture ?></label></div>
+                        <div style="margin-top: -10px" class="share-with-all">
                             <div class="btn-share" style="display: inline-block; cursor: pointer"><span style="font-size: 28pt; line-height: 16px; top: 8px; position: relative;">&infin;</span></div>
                             <div style="display: inline-block" class="shared-self"></div>
                         </div>
@@ -146,7 +146,7 @@ include '../includes/language.php';
 
                         <div style="margin-top: 10px">
                             <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
-                            <div id="title"><?php echo $lang->title ?>:<span class="address"></span> <span class="text"></span></div>
+                            <div id="title"><?php echo $lang->title ?>: <span class="label label-default" id="gesture-title-quality"></span> <span class="text"></span></div>
                             <div id="type" style="display:flex"><?php echo $lang->gestureType ?>: <div class="gesture-info-symbol symbol-gesture-execution" style="margin-top: 9px; margin-left: 6px; margin-right: 2px;"></div> <span class="address"></span> <span class="text"></span></div>
                             <div id="interactionType" style="display:flex"><?php echo $lang->gestureInteractionType ?>: <div class="gesture-info-symbol symbol-gesture-interaction" style="margin-top: 9px; margin-left: 6px;margin-right: 2px"></div> <span class="address"></span> <span class="text"></span></div>
                             <div id="context"><?php echo $lang->gestureContext ?>:<span class="address"></span> <span class="text"></span></div>
@@ -523,6 +523,7 @@ include '../includes/language.php';
         var container = $('#modal-body');
         container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
         container.find('#title .text').text(gesture.title);
+        container.find('#title #gesture-title-quality').text(translation.gestureNameQualities[gesture.titleQuality].title);
         container.find('#type .text').text(gesture.type === null ? '-' : translation.gestureTypes[gesture.type]);
         container.find('#type .symbol-gesture-execution').removeClass('dynamic pose').addClass(gesture.type);
         container.find('#interactionType .text').text(gesture.interactionType === null ? '-' : translation.gestureInteractionTypes[gesture.interactionType]);
@@ -532,43 +533,8 @@ include '../includes/language.php';
         container.find('#description .text').text(gesture.description);
         container.find('#btn-edit-gesture .btn-text').text(translation.edit);
         container.find('#btn-delete-gesture .btn-text').text(translation.deleteGesture);
-        container.find('#gesture-scope .label-text').text(translation.gestureScopes[gesture.scope]);
-        container.find('#gesture-scope #' + gesture.scope).removeClass('hidden');
         container.find('#tab-gesture-general .btn-download-as-gif').attr('data-gesture-id', gesture.id);
 
-        var shareButton = $(container).find('.btn-share');
-        if (gesture.isOwner === true) {
-            $(container).find('#gesture-rating #btn-rate-gesture').remove();
-
-            $(shareButton).removeClass('hidden');
-            if (gesture.scope === SCOPE_GESTURE_PRIVATE) {
-                shareButton.removeClass('gesture-shared');
-                $(container).find('#gesture-sharing .shared-self').text(translation.gestureNotShared);
-            } else {
-                shareButton.addClass('gesture-shared');
-                $(container).find('#gesture-sharing .shared-self').text(translation.gestureShared);
-            }
-
-            if (gesture.source !== SOURCE_GESTURE_TESTER) {
-                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_OWN]);
-                container.find('#gesture-source #' + SOURCE_GESTURE_OWN).removeClass('hidden');
-            } else {
-                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
-                container.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
-            }
-        } else {
-            $(container).find('#gesture-owner-controls').remove();
-            $(shareButton).remove();
-            (container).find('#gesture-sharing .shared-self').remove();
-
-            if (gesture.source !== SOURCE_GESTURE_TESTER) {
-                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
-                container.find('#gesture-source #' + SOURCE_GESTURE_EVALUATOR).removeClass('hidden');
-            } else {
-                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
-                container.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
-            }
-        }
 
 
         if (gesture.images && gesture.images.length > 0) {
@@ -580,6 +546,7 @@ include '../includes/language.php';
 
         renderBodyJointsPreview(container.find('.preview-joints-humand-body'), gesture.joints);
 
+        updateSharingInfos();
         updateGestureSharing();
         updateGestureRating();
         updateGestureLikes();
@@ -647,6 +614,7 @@ include '../includes/language.php';
                 initRecorders: initRecorders,
                 updateData: {
                     title: gesture.title,
+                    titleQuality: gesture.titleQuality,
                     execution: gesture.type,
                     interaction: gesture.interactionType,
                     context: gesture.context,
@@ -664,8 +632,9 @@ include '../includes/language.php';
             $(gestureUpdateRecorder).on('gr-update-success', function (event, data) {
                 event.preventDefault();
 
-                updateGestureById(currentPreviewGesture.source, data.id, {title: data.title, type: data.type, interactionType: data.interactionType, context: data.context, association: data.association, description: data.description, joints: data.joints, images: data.images, previewImage: data.previewImage, gif: data.gif, sensorData: data.sensorData});
+                updateGestureById(currentPreviewGesture.source, data.id, {title: data.title, titleQuality: data.titleQuality, type: data.type, interactionType: data.interactionType, context: data.context, association: data.association, description: data.description, joints: data.joints, images: data.images, previewImage: data.previewImage, gif: data.gif, sensorData: data.sensorData});
                 $(thumbnail).find('.gesture-name').text(data.title);
+                $(thumbnail).find('.gesture-name').attr('data-content', translation.gestureNameQualities[data.titleQuality].title);
                 $(thumbnail).find('.symbol-gesture-execution').removeClass('pose dynamic').addClass(data.type);
                 $(thumbnail).find('.symbol-gesture-execution').attr('data-content', translation.gestureTypes[data.type + 's'] + ' ' + translation.gestureType);
                 $(thumbnail).find('.text-gesture-execution').text(translation.gestureTypes[data.type + 'Short']);
@@ -755,6 +724,55 @@ include '../includes/language.php';
         renderSensorData();
     }
 
+    function updateSharingInfos() {
+        var gesture = currentPreviewGesture.gesture;
+        var shareButton = $(modal).find('.btn-share');
+        $(modal).find('#gesture-scope #public').addClass('hidden');
+        $(modal).find('#gesture-scope #private').addClass('hidden');
+        $(modal).find('#gesture-scope #' + gesture.scope).removeClass('hidden');
+        $(modal).find('#gesture-scope .label-text').text(translation.gestureScopes[gesture.scope]);
+
+        if (gesture.isOwner === true) {
+            $(modal).find('#gesture-rating #btn-rate-gesture').remove();
+
+            $(shareButton).removeClass('hidden');
+            if (gesture.scope === SCOPE_GESTURE_PRIVATE) {
+                shareButton.removeClass('gesture-shared');
+                $(modal).find('#gesture-sharing .shared-self').text(translation.gestureNotShared);
+            } else {
+                shareButton.addClass('gesture-shared');
+                $(modal).find('#gesture-sharing .shared-self').text(translation.gestureShared);
+            }
+
+            if (gesture.source !== SOURCE_GESTURE_TESTER) {
+                modal.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_OWN]);
+                modal.find('#gesture-source #' + SOURCE_GESTURE_OWN).removeClass('hidden');
+            } else {
+                modal.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
+                modal.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
+            }
+        } else {
+            $(modal).find('#gesture-owner-controls').remove();
+            $(shareButton).remove();
+            $(modal).find('#gesture-sharing .shared-self').remove();
+
+            if (gesture.source !== SOURCE_GESTURE_TESTER) {
+                modal.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
+                modal.find('#gesture-source #' + SOURCE_GESTURE_EVALUATOR).removeClass('hidden');
+            } else {
+                modal.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
+                modal.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
+            }
+        }
+
+        if (gesture.invitedUsers && gesture.invitedUsers.length > 0) {
+            $(modal).find('#gesture-scope #public').addClass('hidden');
+            $(modal).find('#gesture-scope #private').addClass('hidden');
+            $(modal).find('#gesture-scope #public').removeClass('hidden');
+            $(modal).find('#gesture-scope .label-text').text(translation.gestureScopes.public);
+        }
+    }
+
     function updateGestureSharing() {
         var modal = $('#custom-modal');
 
@@ -766,16 +784,7 @@ include '../includes/language.php';
         });
 
         initShareGestureModalButton($(modal).find('#gesture-sharing .btn-share'), currentPreviewGesture.thumbnail, currentPreviewGesture.source, currentPreviewGesture.gesture, function () {
-            var button = $(modal).find('#gesture-sharing .btn-share');
-            console.log(currentPreviewGesture.gesture);
-
-            if (currentPreviewGesture.gesture.scope === SCOPE_GESTURE_PUBLIC) {
-                $(modal).find('#gesture-sharing .shared-self').text(translation.gestureShared);
-                $(button).addClass('gesture-shared');
-            } else {
-                $(modal).find('#gesture-sharing .shared-self').text(translation.gestureNotShared);
-                $(button).removeClass('gesture-shared');
-            }
+            updateSharingInfos();
 
             getSharedGestureInfos({gestureId: currentPreviewGesture.gesture.id}, function (result) {
                 if (result.status === RESULT_SUCCESS) {
@@ -803,9 +812,7 @@ include '../includes/language.php';
         getLikesForGesture({gestureId: currentPreviewGesture.gesture.id}, function (result) {
             if (result.status === RESULT_SUCCESS) {
                 $('#gesture-likes').find('#liked-by').html(new String(parseInt(result.likeAmount) === 1 ? translation.likedByUser : translation.likedByUsers).replace('{x}', result.likeAmount || 0));
-//                $('#gesture-likes').find('#liked-users-count').text(result.likeAmount || 0);
-//                $('#liked-by-users').text(parseInt(result.likeAmount) === 1 ? translation.likedByUser : translation.likedByUsers);
-
+                
                 initLikeGesture($('#gesture-likes').find('.btn-like'), currentPreviewGesture.source, {id: currentPreviewGesture.gesture.id, hasLiked: result.hasLiked, likeAmount: result.likeAmount}, function () {
                     if ($('#gesture-likes').find('.btn-like').hasClass('gesture-liked')) {
                         $('#gesture-likes').find('.liked-self').text(translation.likedByMyself);
@@ -1130,58 +1137,60 @@ include '../includes/language.php';
 
     var modal = $('#custom-modal');
     function renderInvitedGestureUsers() {
-        var invitedUsers = currentPreviewGesture.gesture.invitedUsers;
-        $(modal).find('#shared-gesture-list').empty();
-        clearAlerts($(modal).find('#invited-users'));
+        if (currentPreviewGesture.gesture.isOwner === true) {
+            var invitedUsers = currentPreviewGesture.gesture.invitedUsers;
+            $(modal).find('#shared-gesture-list').empty();
+            clearAlerts($(modal).find('#invited-users'));
 
-        if (invitedUsers && invitedUsers.length > 0) {
-            for (var i = 0; i < invitedUsers.length; i++) {
-                var listItem = $('#shared-gesture-list-item').clone().removeAttr('id');
-                $(listItem).find('.shared-gesture-item-email').text(invitedUsers[i].email);
-                $(listItem).find('.btn-uninvite-user').attr('data-invite-id', invitedUsers[i].id);
-                $(listItem).find('.btn-uninvite-user').attr('data-invite-mail', invitedUsers[i].email);
-                $(modal).find('#shared-gesture-list').append(listItem);
+            if (invitedUsers && invitedUsers.length > 0) {
+                for (var i = 0; i < invitedUsers.length; i++) {
+                    var listItem = $('#shared-gesture-list-item').clone().removeAttr('id');
+                    $(listItem).find('.shared-gesture-item-email').text(invitedUsers[i].email);
+                    $(listItem).find('.btn-uninvite-user').attr('data-invite-id', invitedUsers[i].id);
+                    $(listItem).find('.btn-uninvite-user').attr('data-invite-mail', invitedUsers[i].email);
+                    $(modal).find('#shared-gesture-list').append(listItem);
+                }
+            } else {
+                appendAlert($(modal).find('#invited-users'), ALERT_GESTURE_NOT_SHARED);
             }
-        } else {
-            appendAlert($(modal).find('#invited-users'), ALERT_GESTURE_NOT_SHARED);
-        }
 
-        $(modal).find('#invited-users #input-email').unbind('keyup').bind('keyup', function (event) {
-            event.preventDefault();
-            clearAlerts($(modal).find('#invite-users-form'));
-        });
+            $(modal).find('#invited-users #input-email').unbind('keyup').bind('keyup', function (event) {
+                event.preventDefault();
+                clearAlerts($(modal).find('#invite-users-form'));
+            });
 
-        $(modal).find('#invited-users #btn-invite-user').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            var button = $(this);
-            if (!$(button).hasClass('disabled')) {
-                lockButton(button, true, 'fa-paper-plane');
+            $(modal).find('#invited-users #btn-invite-user').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                var button = $(this);
+                if (!$(button).hasClass('disabled')) {
+                    lockButton(button, true, 'fa-paper-plane');
 
-                var email = $(modal).find('#invited-users #input-email');
-                if ($(email).val().trim() === '') {
-                    appendAlert($(modal).find('#invited-users'), ALERT_MISSING_EMAIL);
-                    unlockButton(button, true, 'fa-paper-plane');
-                    $(email).focus();
-                    return false;
-                }
+                    var email = $(modal).find('#invited-users #input-email');
+                    if ($(email).val().trim() === '') {
+                        appendAlert($(modal).find('#invited-users'), ALERT_MISSING_EMAIL);
+                        unlockButton(button, true, 'fa-paper-plane');
+                        $(email).focus();
+                        return false;
+                    }
 
-                // validate email
-                if (!validateEmail($(email).val().trim())) {
-                    appendAlert($(modal).find('#invited-users'), ALERT_INVALID_EMAIL);
-                    unlockButton(button, true, 'fa-paper-plane');
-                    $(email).focus();
-                    return false;
-                }
+                    // validate email
+                    if (!validateEmail($(email).val().trim())) {
+                        appendAlert($(modal).find('#invited-users'), ALERT_INVALID_EMAIL);
+                        unlockButton(button, true, 'fa-paper-plane');
+                        $(email).focus();
+                        return false;
+                    }
 
-                shareGestureForUser({gestureId: currentPreviewGesture.gesture.id, email: email.val().trim()}, function (result) {
-                    unlockButton(button, true, 'fa-paper-plane');
-                    if (result.status === RESULT_SUCCESS) {
-                        updateGestureById(GESTURE_CATALOG, currentPreviewGesture.gesture.id, {invitedUsers: result.invitedUsers});
-                        currentPreviewGesture.gesture = getGestureById(currentPreviewGesture.gesture.id);
-                        originalFilterData = getLocalItem(GESTURE_SETS);
-                        $(email).val('');
-                        renderInvitedGestureUsers();
-                        updateGestureThumbnailSharing(currentPreviewGesture.thumbnail, currentPreviewGesture.gesture);
+                    shareGestureForUser({gestureId: currentPreviewGesture.gesture.id, email: email.val().trim()}, function (result) {
+                        unlockButton(button, true, 'fa-paper-plane');
+                        if (result.status === RESULT_SUCCESS) {
+                            updateGestureById(GESTURE_CATALOG, currentPreviewGesture.gesture.id, {invitedUsers: result.invitedUsers});
+                            currentPreviewGesture.gesture = getGestureById(currentPreviewGesture.gesture.id);
+                            originalFilterData = getLocalItem(GESTURE_SETS);
+                            $(email).val('');
+                            renderInvitedGestureUsers();
+                            updateGestureThumbnailSharing(currentPreviewGesture.thumbnail, currentPreviewGesture.gesture);
+                            updateSharingInfos();
 
 //                        $(currentPreviewGesture.thumbnail).find('.btn-share .amount').text(inviteAmount > 0 ? inviteAmount : '');
 //                        if (inviteAmount > 0) {
@@ -1189,16 +1198,20 @@ include '../includes/language.php';
 //                        } else {
 //                            $(currentPreviewGesture.thumbnail).find('.btn-share').removeClass('gesture-shared');
 //                        }
-                    } else if (result.status === 'userAlreadyInvited') {
-                        $(email).val('');
-                        appendAlert($(modal).find('#invite-users-form'), ALERT_USER_ALREADY_INVITED);
-                    } else if (result.status === 'notInviteYourself') {
-                        $(email).val('');
-                        appendAlert($(modal).find('#invite-users-form'), ALERT_SHARE_GESTURE_TO_YOURSELF);
-                    }
-                });
-            }
-        });
+                        } else if (result.status === 'userAlreadyInvited') {
+                            $(email).val('');
+                            appendAlert($(modal).find('#invite-users-form'), ALERT_USER_ALREADY_INVITED);
+                        } else if (result.status === 'notInviteYourself') {
+                            $(email).val('');
+                            appendAlert($(modal).find('#invite-users-form'), ALERT_SHARE_GESTURE_TO_YOURSELF);
+                        }
+                    });
+                }
+            });
+        } else {
+            $(modal).find('.share-with-all').remove();
+            $(modal).find('#invited-users').remove();
+        }
     }
 
     $(modal).on('click', '.btn-uninvite-user', function (event) {
@@ -1209,20 +1222,14 @@ include '../includes/language.php';
             unshareGestureForUser({gestureId: currentPreviewGesture.gesture.id, id: $(this).attr('data-invite-id'), email: $(this).attr('data-invite-mail')}, function (result) {
                 unlockButton(button, true, 'fa-trash');
                 if (result.status === RESULT_SUCCESS) {
-                    var inviteAmount = result.invitedUsers && result.invitedUsers.length > 0 ? result.invitedUsers.length : 0;
-                    console.log('invite amount', inviteAmount);
+//                    var inviteAmount = result.invitedUsers && result.invitedUsers.length > 0 ? result.invitedUsers.length : 0;
                     updateGestureById(GESTURE_CATALOG, currentPreviewGesture.gesture.id, {invitedUsers: result.invitedUsers});
                     currentPreviewGesture.gesture = getGestureById(currentPreviewGesture.gesture.id);
                     originalFilterData = getLocalItem(GESTURE_CATALOG);
                     renderInvitedGestureUsers();
                     updateGestureThumbnailSharing(currentPreviewGesture.thumbnail, currentPreviewGesture.gesture);
-
-//                    $(currentPreviewGesture.thumbnail).find('.btn-share .amount').text(inviteAmount > 0 ? inviteAmount : '');
-//                    if (inviteAmount > 0) {
-//                        $(currentPreviewGesture.thumbnail).find('.btn-share').addClass('gesture-shared');
-//                    } else {
-//                        $(currentPreviewGesture.thumbnail).find('.btn-share').removeClass('gesture-shared');
-//                    }
+                    renderGeneralGestureInfo();
+                    updateSharingInfos();
                 }
             });
         }

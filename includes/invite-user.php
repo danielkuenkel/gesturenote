@@ -62,10 +62,10 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['email'])) {
                                     <title>' . $lang->inviteTitle . '</title>
                                     </head>
                                     <body>
-                                        <p style="font-weight:bold">' . $lang->hello . ' ' . $forename . ' ' . $surname . ',</p>
+                                        <p>' . $lang->hello . ' ' . $forename . ' ' . $surname . ',</p>
                                         <p>' . $lang->inviteText . '</p>
-                                        <p>' . $lang->inviteGreetings . ',</p>
-                                        <p style="font-weight:bold">' . $lang->inviteTeam . '</p>
+                                        <p>' . $lang->mailGreetings . ',</p>
+                                        <p>' . $lang->gestureNoteTeam . '</p>
                                     </body>
                                     </html>';
 

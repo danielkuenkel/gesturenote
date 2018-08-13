@@ -32,11 +32,11 @@ if (isset($_POST['studyId'], $_POST['executionUrl'])) {
                                     <title>' . $lang->prepareExecutionTitle . '</title>
                                     </head>
                                     <body>
-                                        <p style="font-weight:bold">' . $lang->hello . ' ' . $forename . ' ' . $surname . ',</p>
+                                        <p' . $lang->hello . ' ' . $forename . ' ' . $surname . ',</p>
                                         <p>' . $lang->prepareExecutionText . '</p>
                                         <p>' . $lang->studyTitle . ': ' . $decodedData->generalData->title . ' <a href="' . $executionUrl . '">' . $lang->executeStudy . '</a></p>
-                                        <p>' . $lang->prepareExecutionGreetings . ',</p>
-                                        <p style="font-weight:bold">' . $lang->prepareExecutionTeam . '</p>
+                                        <p>' . $lang->mailGreetings . ',</p>
+                                        <p>' . $lang->gestureNoteTeam . '</p>
                                     </body>
                                     </html>';
 

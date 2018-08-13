@@ -175,7 +175,7 @@ function initQuestionnairePreview(button, list, getAssembledGestures, additional
 
     $(list).bind('change listItemAdded', function (event, data) {
 
-//        console.log('change listItemAdded', event);
+        console.log('change listItemAdded', event);
         if ($(this).children().length > 0) {
             $(button).removeClass('disabled');
             if (additionalFunction) {
@@ -224,7 +224,7 @@ function initQuestionnairePreview(button, list, getAssembledGestures, additional
                     }
                 }
             } else if (event.type === 'listItemAdded') {
-//            console.log('list item added');
+                console.log('list item added');
                 checkFilterOptions(list);
             }
         } else {

@@ -45,10 +45,10 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['id'], $_POST['email']
                                     <title>' . $lang->uninviteTitle . '</title>
                                     </head>
                                     <body>
-                                        <p style="font-weight:bold">' . $lang->hello . ',</p>
+                                        <p>' . $lang->hello . ',</p>
                                         <p>' . $lang->uninviteText . '</p>
-                                        <p>' . $lang->inviteGreetings . ',</p>
-                                        <p style="font-weight:bold">' . $lang->inviteTeam . '</p>
+                                        <p>' . $lang->mailGreetings . ',</p>
+                                        <p>' . $lang->gestureNoteTeam . '</p>
                                     </body>
                                     </html>';
 

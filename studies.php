@@ -114,6 +114,7 @@ if (login_check($mysqli) == true) {
                             <li id="evaluation"><a href="#"><?php echo $lang->filter->evaluation ?></a></li>
                             <li id="unmoderated"><a href="#"><?php echo $lang->filter->unmoderated ?></a></li>
                             <li id="moderated"><a href="#"><?php echo $lang->filter->moderated ?></a></li>
+                            <li id="sharedWithYou"><a href="#"><?php echo $lang->filter->sharedWithYou ?></a></li>
                         </ul>
                     </div>
                     <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>

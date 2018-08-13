@@ -57,16 +57,16 @@ if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['email'])) {
                                 }
 
                                 $to = $inviteMail;
-                                $subject = $lang->inviteGestureSetSubject;
+                                $subject = $lang->inviteGestureSubject;
                                 $message = '<html>
                                     <head>
-                                    <title>' . $lang->inviteGestureSetTitle . '</title>
+                                    <title>' . $lang->inviteGestureTitle . '</title>
                                     </head>
                                     <body>
-                                        <p style="font-weight:bold">' . $lang->hello . ' ' . $forename . ' ' . $surname . ',</p>
-                                        <p>' . $lang->inviteGestureSetText . '</p>
-                                        <p>' . $lang->inviteGestureSetGreetings . ',</p>
-                                        <p style="font-weight:bold">' . $lang->inviteGestureSetTeam . '</p>
+                                        <p' . $lang->hello . ' ' . $forename . ' ' . $surname . ',</p>
+                                        <p>' . $lang->inviteGestureText . '</p>
+                                        <p>' . $lang->mailGreetings . ',</p>
+                                        <p>' . $lang->gestureNoteTeam . '</p>
                                     </body>
                                     </html>';
 

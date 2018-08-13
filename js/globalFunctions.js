@@ -1978,30 +1978,46 @@ function sort() {
  * filtering
  */
 
-function filter(scope) {
+function filter(filterId) {
     var array = new Array();
-    if (!scope) {
-        scope = $(currentPaginationData.filter.filter).find('.chosen').attr('id');
+    if (!filterId) {
+        filterId = $(currentPaginationData.filter.filter).find('.chosen').attr('id');
     }
 
-//    console.log('filter', scope, array);
+    console.log('filter', filterId, originalFilterData);
 
-    if (scope === 'all') {
+    if (filterId === 'all') {
         return originalFilterData;
     } else if (originalFilterData && originalFilterData.length > 0) {
         for (var i = 0; i < originalFilterData.length; i++) {
-            if (originalFilterData[i].setOnly === false) {
-                if (scope === SOURCE_GESTURE_RECORDED && originalFilterData[i].isOwner === true) {
+            if (originalFilterData[i].setOnly === false || !originalFilterData[i].setOnly) {
+                if (filterId === SOURCE_GESTURE_RECORDED && originalFilterData[i].isOwner === true) {
                     if (originalFilterData[i].source === SOURCE_GESTURE_EVALUATOR) {
                         array.push(originalFilterData[i]);
                     }
-                } else if (scope === SCOPE_GESTURE_LIKED && originalFilterData[i].hasLiked === true) {
+                } else if (filterId === SCOPE_GESTURE_LIKED && originalFilterData[i].hasLiked === true) {
                     array.push(originalFilterData[i]);
-                } else if (scope === SCOPE_GESTURE_RATED && originalFilterData[i].hasRated === true) {
+                } else if (filterId === SCOPE_GESTURE_RATED && originalFilterData[i].hasRated === true) {
                     array.push(originalFilterData[i]);
-                } else if (originalFilterData[i].scope === scope || originalFilterData[i].source === scope) {
+                } else if (originalFilterData[i].data && originalFilterData[i].data.generalData && (originalFilterData[i].data.generalData.phase === filterId || originalFilterData[i].data.generalData.surveyType === filterId)) {
                     array.push(originalFilterData[i]);
-                } else if (originalFilterData[i].data && originalFilterData[i].data.generalData && (originalFilterData[i].data.generalData.phase === scope || originalFilterData[i].data.generalData.surveyType === scope)) {
+                } else if ((filterId === 'generic' && originalFilterData[i].titleQuality === 'generic') || (filterId === 'functional' && originalFilterData[i].titleQuality === 'functional')) {
+                    array.push(originalFilterData[i]);
+                } else if (filterId === 'public') {
+                    if (originalFilterData[i].isOwner === true && (originalFilterData[i].scope === filterId || (originalFilterData[i].invitedUsers && originalFilterData[i].invitedUsers.length > 0))) {
+                        array.push(originalFilterData[i]);
+                    }
+                } else if (filterId === 'sharedWithYou') {
+                    if (originalFilterData[i].isOwner === false) {
+                        array.push(originalFilterData[i]);
+                    }
+                } else if (filterId === 'private') {
+                    if (originalFilterData[i].scope === filterId && originalFilterData[i].isOwner === true && !originalFilterData[i].invitedUsers) {
+                        array.push(originalFilterData[i]);
+                    }
+                } else if (filterId === 'recorded' && originalFilterData[i].source === 'evaluator') {
+                    array.push(originalFilterData[i]);
+                } else if (filterId === 'tester' && originalFilterData[i].source === 'tester') {
                     array.push(originalFilterData[i]);
                 }
             }
@@ -2289,6 +2305,7 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
     }
     clone.attr('id', data.id);
     clone.find('.gesture-name').text(data.title);
+    clone.find('.gesture-name').attr('data-content', translation.gestureNameQualities[data.titleQuality].title);
     clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
     clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
 
@@ -2394,7 +2411,6 @@ function initCommentGesture(button, clone, source, data) {
 }
 
 function initGestureSet(button, clone, source, data) {
-//    console.log('init Gesture set', button);
     if (button && button !== undefined) {
         var gestureSets = getLocalItem(GESTURE_SETS);
         if (gestureSets) {
@@ -2530,7 +2546,7 @@ function initShareGestureModalButton(button, clone, source, data, callback) {
 
 function initShareGestureSetModalButton(button, clone, source, data, callback) {
     updateGestureSetThumbnailSharing(clone, data);
-    
+
     $(button).click(function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
@@ -2604,14 +2620,27 @@ function initShareGestureSetModalButton(button, clone, source, data, callback) {
 
 function updateGestureThumbnailSharing(thumbnail, gesture) {
     var button = $(thumbnail).find('.btn-share');
-    console.log(gesture, button);
 
     if (gesture.scope === SCOPE_GESTURE_PRIVATE) {
         var shareAmount = gesture.invitedUsers ? gesture.invitedUsers.length : 0;
         $(button).find('.amount').text(shareAmount > 0 ? shareAmount : '');
         if (shareAmount > 0) {
             if (gesture.isOwner === true) {
-                $(button).attr('data-content', translation.gestureShared);
+                if (shareAmount > 7) {
+                    $(button).attr('data-content', new String(translation.gestureSharedWithOthers).replace('{x}', shareAmount));
+                } else {
+                    var titles = '';
+                    var setCount = 0;
+                    for (var i = 0; i < gesture.invitedUsers.length; i++) {
+                        var email = gesture.invitedUsers[i].email;
+                        if (email) {
+                            titles += '<div>' + email + '</div>';
+                            setCount++;
+                        }
+                    }
+
+                    button.attr('data-content', titles);
+                }
             } else {
                 $(button).attr('data-content', translation.gestureSharedWithYou);
             }
@@ -2630,14 +2659,27 @@ function updateGestureThumbnailSharing(thumbnail, gesture) {
 
 function updateGestureSetThumbnailSharing(thumbnail, set) {
     var button = $(thumbnail).find('.btn-share-set');
-    console.log(set, button);
 
     if (set.scope === SCOPE_GESTURE_PRIVATE) {
         var shareAmount = set.invitedUsers ? set.invitedUsers.length : 0;
         $(button).find('.amount').text(shareAmount > 0 ? shareAmount : '');
         if (shareAmount > 0) {
             if (set.isOwner === true) {
-                $(button).attr('data-content', new String(translation.gestureSetSharedWithOthers).replace('{x}', shareAmount));
+                if (shareAmount > 7) {
+                    $(button).attr('data-content', new String(translation.gestureSetSharedWithOthers).replace('{x}', shareAmount));
+                } else {
+                    var titles = '';
+                    var setCount = 0;
+                    for (var i = 0; i < set.invitedUsers.length; i++) {
+                        var email = set.invitedUsers[i].email;
+                        if (email) {
+                            titles += '<div>' + email + '</div>';
+                            setCount++;
+                        }
+                    }
+
+                    button.attr('data-content', titles);
+                }
             } else {
                 $(button).attr('data-content', translation.gestureSetSharedWithYou);
             }

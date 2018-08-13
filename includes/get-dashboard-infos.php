@@ -15,7 +15,7 @@ include_once 'psl-config.php';
 session_start();
 if (isset($_SESSION['user_id'])) {
     $sessionUserId = $_SESSION['user_id'];
-    if ($gestures_stmt = $mysqli->prepare("SELECT * FROM gestures ORDER BY created ASC")) {
+    if ($gestures_stmt = $mysqli->prepare("SELECT id, owner_id, source, scope FROM gestures ORDER BY created ASC")) {
         if (!$gestures_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();
@@ -27,7 +27,7 @@ if (isset($_SESSION['user_id'])) {
             $publicGestures = 0;
             $publicUserGestures = 0;
 
-            $gestures_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $type, $interactionType, $context, $association, $description, $joints, $previewImage, $images, $gif, $sensorData, $created);
+            $gestures_stmt->bind_result($id, $ownerId, $source, $scope);
             while ($gestures_stmt->fetch()) {
                 if ($sessionUserId == $ownerId) {
                     if ($source == 'evaluator') {

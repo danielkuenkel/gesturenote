@@ -210,12 +210,13 @@ and open the template in the editor.
 .btn-share-set>.fa:hover,
 .btn-comment-set:hover,
 .btn-comment-set>.fa:hover,
-.btn-show-set-info:hover
+.btn-show-set-info:hover,
+.gesture-is-in-set>.fa:hover,
 /*.btn-tag-as-favorite-gesture>.fa:hover, 
 .btn-add-gesture-to-scene>.fa:hover,
 .btn-tag-as-main-gesture>.fa:hover, 
 .btn-delete-from-classification>.fa:hover, 
-.btn-edit-gesture-set>.fa:hover, 
+*/.btn-edit-gesture-set>.fa:hover /*
 .btn-delete-exchangeable-gesture>.fa:hover */
 {
     color: black !important;
