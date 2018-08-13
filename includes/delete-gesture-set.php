@@ -19,6 +19,36 @@ if (isset($_SESSION['user_id']) && isset($_POST['setId'])) {
             echo json_encode(array('status' => 'deleteError'));
             exit();
         } else {
+            if ($delete_stmt = $mysqli->prepare("DELETE FROM comments_gesture_sets WHERE set_id = '$setId'")) {
+                if (!$delete_stmt->execute()) {
+                    echo json_encode(array('status' => 'deleteError'));
+                    exit();
+                }
+            } else {
+                echo json_encode(array('status' => 'deleteCommentsStatemantError'));
+                exit();
+            }
+
+            if ($delete_stmt = $mysqli->prepare("DELETE FROM likes_sets WHERE set_id = '$setId'")) {
+                if (!$delete_stmt->execute()) {
+                    echo json_encode(array('status' => 'deleteError'));
+                    exit();
+                }
+            } else {
+                echo json_encode(array('status' => 'deleteLikesStatemantError'));
+                exit();
+            }
+
+            if ($delete_stmt = $mysqli->prepare("DELETE FROM gesture_sets_shared WHERE set_id = '$setId'")) {
+                if (!$delete_stmt->execute()) {
+                    echo json_encode(array('status' => 'deleteError'));
+                    exit();
+                }
+            } else {
+                echo json_encode(array('status' => 'deleteSharedStatemantError'));
+                exit();
+            }
+
             echo json_encode(array('status' => 'success'));
             exit();
         }

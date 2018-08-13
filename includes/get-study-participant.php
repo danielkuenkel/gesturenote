@@ -69,7 +69,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                     } else {
 
                         $select_stmt->store_result();
-                        $select_stmt->bind_result($id, $studyId, $userId, $data, $created);
+                        $select_stmt->bind_result($id, $studyId, $userId, $data, $executionPhase, $created);
                         $select_stmt->fetch();
 
                         if ($select_stmt->num_rows == 1) {
@@ -135,6 +135,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                 'userId' => $userId,
                                 'results' => json_decode_nice($data, false),
                                 'elicitedGestures' => $elicitedGestures,
+                                'executionPhase' => $executionPhase,
 //                                'elicitedTrigger' => $elicitedTrigger,
                                 'created' => $created);
                         } else {
@@ -154,7 +155,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                         exit();
                     } else {
                         $select_stmt->store_result();
-                        $select_stmt->bind_result($id, $studyId, $evaluatorId, $testerId, $data, $observations, $notes, $created);
+                        $select_stmt->bind_result($id, $studyId, $evaluatorId, $testerId, $data, $observations, $notes, $executionPhase, $created);
                         $select_stmt->fetch();
 
                         if ($select_stmt->num_rows == 1) {
@@ -225,6 +226,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
 //                                'elicitedTrigger' => $elicitedTrigger,
                                 'observations' => json_decode_nice($observations, false),
                                 'notes' => json_decode_nice($notes, false),
+                                'executionPhase' => $executionPhase,
                                 'created' => $created);
                         } else {
 //                            echo json_encode(array('status' => 'rowsError', 'num_rows' => $select_stmt->num_rows, 'studyId' => $selectStudyId, "evaluatorId" => $sessionUserId, 'testerId' => $selectParticipantId));

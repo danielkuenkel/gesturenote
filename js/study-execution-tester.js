@@ -432,11 +432,11 @@ var Tester = {
         function onTrainingTriggered() {
             currentPreviewGesture = {gesture: getGestureById(data[currentGestureTrainingIndex].gestureId)};
             loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
-            $('#custom-modal').on('hide.bs.modal', function (event) {
-                event.preventDefault();
+            $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
                 if (!previewModeEnabled && peerConnection) {
                     peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: data[currentGestureTrainingIndex].gestureId});
                 }
+                gesturePreviewOpened = false;
                 trainingShowGesture = false;
             });
         }
@@ -1922,7 +1922,7 @@ var Tester = {
             if (data.explorationType === 'gesture' && currentPresentGesture) {
                 currentPreviewGesture = {gesture: currentPresentGesture};
                 loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
-                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
+                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
                     $('#custom-modal').unbind('hide.bs.modal');
                     if (!previewModeEnabled && peerConnection) {
                         peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
@@ -1975,11 +1975,8 @@ var Tester = {
                 console.log('open gesture info', payload);
 
                 currentPreviewGesture = {gesture: getGestureById(payload.id)};
-//                console.log(currentPreviewGesture);
                 loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
-                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
-//                    var gestureId = currentPreviewGesture.gesture.id;
-//                    console.log(currentPreviewGesture);
+                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
                     $('#custom-modal').unbind('hide.bs.modal');
                     if (!previewModeEnabled && peerConnection) {
                         peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
@@ -2165,9 +2162,9 @@ var Tester = {
                     event.preventDefault();
                     if (syncPhaseStep) {
                         peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
-                        
+
                     }
-                    
+
                     resetRTC();
 //                    console.log('video added');
 //                    if (peerConnection) {

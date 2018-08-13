@@ -231,7 +231,7 @@ function studyExecutionExists($studyId, $mysqli) {
             return false;
         } else {
             $select_stmt->store_result();
-            $select_stmt->bind_result($id, $studyId, $userId, $data, $created);
+            $select_stmt->bind_result($id, $studyId, $userId, $data, $executionPhase, $created);
             $select_stmt->fetch();
 
             if ($select_stmt->num_rows == 1) {

@@ -112,6 +112,8 @@ var ALERT_USER_ALREADY_INVITED = 'user-already-invited';
 var ALERT_INVITE_YOURSELF = 'invite-yourself';
 var ALERT_GESTURE_SET_NOT_SHARED = 'gesture-set-not-shared';
 var ALERT_SHARE_GESTURE_SET_TO_YOURSELF = 'share-gesture-set-to-yourself';
+var ALERT_GESTURE_NOT_SHARED = 'gesture-not-shared';
+var ALERT_SHARE_GESTURE_TO_YOURSELF = 'share-gesture-to-yourself';
 
 // exchangeable file hints
 var ALERT_NO_EXCHANGEABLE_FILE_SELECTED = 'no-exchangeable-file-selected';

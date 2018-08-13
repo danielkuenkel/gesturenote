@@ -7,11 +7,11 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 
 session_start();
-if (isset($_SESSION['user_id'], $_POST['setId'], $_POST['title'], $_POST['gestures'], $_POST['ownerId'])) {
+if (isset($_SESSION['user_id'], $_POST['setId'], $_POST['title'], $_POST['ownerId'])) {
     $sessionUserId = $_SESSION['user_id'];
     $setId = $_POST['setId'];
     $title = mysqli_real_escape_string($mysqli, json_encode($_POST['title']));
-    $gestures = mysqli_real_escape_string($mysqli, json_encode($_POST['gestures']));
+    $gestures = isset($_POST['gestures']) ? mysqli_real_escape_string($mysqli, json_encode($_POST['gestures'])) : NULL;
 //    $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
 //    $interactionType = filter_input(INPUT_POST, 'interactionType', FILTER_SANITIZE_STRING);
 //    $context = filter_input(INPUT_POST, 'context', FILTER_SANITIZE_STRING);

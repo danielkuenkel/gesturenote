@@ -14,7 +14,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['surveyType'])) {
     $surveyType = $_POST['surveyType'];
 
     if ($surveyType === 'unmoderated') {
-        if ($select_stmt = $mysqli->prepare("SELECT data FROM study_results_tester WHERE study_id = '$selectStudyId'")) {
+        if ($select_stmt = $mysqli->prepare("SELECT data FROM study_results_tester WHERE study_id = '$selectStudyId' AND execution_phase = 'real'")) {
             if (!$select_stmt->execute()) {
                 echo json_encode(array('status' => 'selectError'));
                 exit();
@@ -113,7 +113,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['surveyType'])) {
             }
         }
     } else if ($surveyType === 'moderated') {
-        if ($select_stmt = $mysqli->prepare("SELECT data FROM study_results_evaluator WHERE study_id = '$selectStudyId'")) {
+        if ($select_stmt = $mysqli->prepare("SELECT data FROM study_results_evaluator WHERE study_id = '$selectStudyId' AND execution_phase = 'real'")) {
             if (!$select_stmt->execute()) {
                 echo json_encode(array('status' => 'selectError'));
                 exit();

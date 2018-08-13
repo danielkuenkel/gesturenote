@@ -135,6 +135,32 @@ if (login_check($mysqli) == true) {
                             <span class="label label-default hidden" id="execution-duration"><i class="fa fa-clock-o"></i> <span class="label-text"></span></span>
                         </div>
 
+                        <div class="form-group form-group-margin-top root pretest-select" style="opacity:0">
+                            <label style="margin: 0"><?php echo $lang->isPretest ?></label><br>
+
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="real">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->no ?></span>
+                                </button>
+                            </div>
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="pretest">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->yes ?></span>
+                                </button>
+                            </div>
+
+                        </div>
+
                         <div class="btn-group-vertical btn-block" id="phase-results-nav" style="margin-top: 20px"></div>
                         <div class="btn-group-vertical btn-block" id="delete-results-nav" style="margin-top: 20px">
                             <button class="btn btn-danger" id="btn-delete-result" style="opacity: 0"><i class="fa fa-trash"></i> <?php echo $lang->deleteParticipantResults ?></button>
@@ -217,6 +243,15 @@ if (login_check($mysqli) == true) {
                 var studyData = data.studyData;
                 var resultData = data.resultData;
                 var results = resultData.results;
+
+                $('.pretest-select').attr('data-participant-id', data.resultData.id);
+                $('.pretest-select').attr('data-evaluator-id', null);
+                if (data.evaluatorData) {
+                    $('.pretest-select').attr('data-evaluator-id', data.evaluatorData.id);
+                }
+                $('.pretest-select').addClass('disabled');
+                $('.pretest-select').find('#' + data.resultData.executionPhase).click();
+                $('.pretest-select').removeClass('disabled');
 
                 // general data view
                 $('#execution-date').text(convertSQLTimestampToDate(resultData.created).toLocaleString());
@@ -324,6 +359,7 @@ if (login_check($mysqli) == true) {
                 });
 
                 // phase nav view
+                TweenMax.to($('.pretest-select'), .3, {opacity: 1, clearProps: 'all'});
                 if (studyData.phases && studyData.phases.length > 0) {
 
                     for (var i = 0; i < studyData.phases.length; i++) {
@@ -1381,8 +1417,21 @@ if (login_check($mysqli) == true) {
                 $('#custom-modal').attr('data-help-context', 'participant');
                 $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialParticipant'] ?>));
                 loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
-            }
-            );
+            });
+
+            $('.pretest-select').unbind('change').bind('change', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    var participantId = $(this).attr('data-participant-id');
+                    var evaluatorId = $(this).attr('data-evaluator-id') || null;
+                    var executionPhase = $(this).find('.btn-option-checked').attr('id');
+
+                    console.log('pretest selection changed', participantId, evaluatorId, executionPhase);
+                    updateExecutionPhase(evaluatorId ? {participantId: participantId, evaluatorId: evaluatorId, executionPhase: executionPhase} : {participantId: participantId, executionPhase: executionPhase}, function (result) {
+
+                    });
+                }
+            });
 
         </script>
     </body>

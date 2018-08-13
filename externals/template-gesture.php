@@ -48,8 +48,46 @@ include '../includes/language.php';
             <div class="thumbnail-footer text-center">
                 <div class="btn-rate" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->rateGesture ?>"><i class="fa fa-star-o"></i> <span class="amount"></span></div>
                 <div class="btn-like update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->likeGesture ?>"><i class="fa fa-heart-o"></i> <span class="amount"></span></div>
-                <div class="btn-share update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->shareGesture ?>"><i class="fa fa-share-alt"></i></div>
+                <div class="btn-share update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->shareGesture ?>"><i class="fa fa-share-alt"></i> <span class="amount"></span></div>
                 <div class="btn-edit-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" title="<?php echo $lang->assignmentToGestureSets ?>" data-content=""><i class="fa fa-paperclip"></i> <span class="amount"></span></div>
+                <div class="btn-comment" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->commentGesture ?>"><i class="fa fa-comment-o"></i> <span class="amount"></span></div>
+                <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="root deleteable" id="gesture-set-thumbnail">
+        <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="previewGesture"></div>
+                <div class="text-center hidden gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                        <button type="button" class="btn btn-default btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
+                        <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
+                    </div>
+                </div>
+                <div class="gesture-info-symbols">
+                    <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-execution"></span>
+                        <div class="gesture-info-symbol symbol-gesture-execution"></div>
+                    </span>
+                    <span class="symbol-container-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-interaction"></span>
+                        <div class="gesture-info-symbol symbol-gesture-interaction"></div>
+                    </span>
+                </div>
+            </div>
+            <div class="caption text-center">
+                <p class="gesture-name ellipsis"></p>
+            </div>
+
+            <div class="thumbnail-footer text-center">
+                <div class="btn-delete-gesture-from-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteGestureFromSet ?>" data-content=""><i class="fa fa-trash"></i></div>
+                <div class="btn-rate" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->rateGesture ?>"><i class="fa fa-star-o"></i> <span class="amount"></span></div>
+                <div class="btn-like update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->likeGesture ?>"><i class="fa fa-heart-o"></i> <span class="amount"></span></div>
+                <div class="btn-share update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->shareGesture ?>"><i class="fa fa-share-alt"></i></div>
                 <div class="btn-comment" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->commentGesture ?>"><i class="fa fa-comment-o"></i> <span class="amount"></span></div>
                 <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
             </div>
@@ -384,9 +422,19 @@ include '../includes/language.php';
 
             </div>
         </div>
+
+        <div class="panel-footer panel-footer-gesture-set">
+            <div class="gesture-set-footer-controls text-center">
+                <!--<div class="btn-rate" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->rateGesture ?>"><i class="fa fa-star-o"></i> <span class="amount"></span></div>-->
+                <div class="btn-like-set update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->likeGesture ?>"><i class="fa fa-heart-o"></i> <span class="amount"></span></div>
+                <div class="btn-share-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->shareGesture ?>"><i class="fa fa-share-alt"></i> <span class="amount"></span></div>
+                <div class="btn-comment-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->commentGesture ?>"><i class="fa fa-comment-o"></i> <span class="amount"></span></div>
+                <div class="btn-show-set-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
+            </div>
+        </div>
     </div>
 
-    <div class="panel panel-shadow panel-default" id="study-gesture-set-panel">
+    <div class="panel panel-shadow panel-default deleteable" id="study-gesture-set-panel">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">
                 <button class="btn btn-sm btn-danger btn-shadow" id="btn-delete-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteGestureSet ?>"><span class="fa fa-trash"></span></button>
@@ -502,7 +550,8 @@ include '../includes/language.php';
 
         <div id="temp-image-container" class="hidden"></div>
     </div>
-    
+
     <div id="shared-gesture-set-list-item" class="shared-list-item"><span class="shared-gesture-set-item-email text"></span> <span class="btn-uninvite-user"><i class="fa fa-trash"></i> <?php echo $lang->delete ?></span></div>
+    <div id="shared-gesture-list-item" class="shared-list-item"><span class="shared-gesture-item-email text"></span> <span class="btn-uninvite-user"><i class="fa fa-trash"></i> <?php echo $lang->delete ?></span></div>
 
 </div>

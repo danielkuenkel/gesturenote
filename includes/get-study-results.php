@@ -18,12 +18,13 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
             exit();
         } else {
             $results = null;
-            $select_stmt->bind_result($id, $studyId, $userId, $data, $created);
+            $select_stmt->bind_result($id, $studyId, $userId, $data, $executionPhase, $created);
             while ($select_stmt->fetch()) {
                 $results[] = array('id' => $id,
                     'studyId' => $studyId,
                     'userId' => $userId,
                     'data' => json_decode_nice($data, false),
+                    'executionPhase' => $executionPhase,
                     'created' => $created);
             }
 

@@ -99,4 +99,6 @@ include '../includes/language.php';
     <div class="alert alert-success" id="exchangeable-gestures-imported-success" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->exchangeableGesturesImportedSuccess->text ?></span></div>
     <div class="alert alert-warning" id="gesture-set-not-shared" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->gestureSetNotShared->text ?></span></div>
     <div class="alert alert-warning" id="share-gesture-set-to-yourself" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->shareGestureSetToYourself->text ?></span></div>
+    <div class="alert alert-warning" id="gesture-not-shared" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->gestureNotShared->text ?></span></div>
+    <div class="alert alert-warning" id="share-gesture-to-yourself" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->shareGestureToYourself->text ?></span></div>
 </div>

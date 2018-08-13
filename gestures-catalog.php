@@ -229,10 +229,23 @@ if (login_check($mysqli) == true) {
                         <div>
                             <div class="form-group form-group-no-margin">
                                 <div class="input-group">
+                                    <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
+                                    <div class="input-group-btn select filter" id="filter" role="group">
+                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
+                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                            <li id="all" class="selected"><a href="#"><?php echo $lang->filter->all ?></a></li>
+                                            <!--<li id="recorded"><a href="#"><?php echo $lang->filter->ownRecorded ?></a></li>-->
+                                            <!--<li id="tester"><a href="#"><?php echo $lang->filter->tester ?></a></li>-->
+                                            <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
+                                            <!--<li id="rated"><a href="#"><?php echo $lang->filter->rated ?></a></li>-->
+                                            <li id="liked"><a href="#"><?php echo $lang->filter->liked ?></a></li>
+                                        </ul>
+                                    </div>
                                     <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
                                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                     <div class="input-group-btn select sort" id="sort" role="group">
-                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                             <li class="dropdown-header"><?php echo $lang->sorting->dateHeadline ?></li>
                                             <li id="oldest"><a href="#"><?php echo $lang->sorting->DESC ?></a></li>
@@ -243,6 +256,12 @@ if (login_check($mysqli) == true) {
                                             <li id="desc"><a href="#"><?php echo $lang->sorting->ZToA ?></a></li>
                                         </ul>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-margin-top">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><?php echo $lang->search->name ?></span>
+                                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
                                     <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
                                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="4"/>
                                     <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
@@ -255,13 +274,7 @@ if (login_check($mysqli) == true) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group form-group-margin-top">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><?php echo $lang->search->name ?></span>
-                                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
-
-                                </div>
-                            </div>
+                            
                         </div>
 
                         <div class="text-center custom-pagination" id="pager-top">
@@ -380,6 +393,7 @@ if (login_check($mysqli) == true) {
                             }
                             break;
                         case 'gesture-catalog':
+                            if(currentFilterData[i].setOnly === false)
                             clone = getGestureCatalogListThumbnail(currentFilterData[i]);
                             $(currentFilterList).append(clone);
                             if (animate && animate === true) {
@@ -569,7 +583,7 @@ if (login_check($mysqli) == true) {
 
             getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {
-                    setLocalItem(GESTURE_CATALOG, result.gestures);
+//                    setLocalItem(GESTURE_CATALOG, result.gestures);
                     getGestureSets(function (result) {
 
                         if (result.status === RESULT_SUCCESS) {
@@ -587,6 +601,7 @@ if (login_check($mysqli) == true) {
                                     },
                                     filter: {
                                         countSelect: $('#gesture-sets').find('#resultsCountSelect'),
+                                        filter: $('#gesture-sets').find('#filter'),
                                         sort: $('#gesture-sets').find('#sort')
                                     }
                                 };

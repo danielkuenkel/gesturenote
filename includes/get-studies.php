@@ -12,6 +12,7 @@ if (isset($_SESSION['user_id'])) {
     $sessionUserId = $_SESSION['user_id'];
     $sessionUserMail = $_SESSION['email'];
 
+    // get all studies, which you are the owner of
     if ($select_stmt = $mysqli->prepare("SELECT	studies.*, COALESCE(totalParticipants, 0) AS totalParticipants,	COALESCE(totalShared, 0) AS totalShared FROM studies LEFT JOIN (SELECT study_id, COUNT(*) AS totalParticipants FROM study_results_tester GROUP BY study_id) totalParticipants ON totalParticipants.study_id = studies.id LEFT JOIN (SELECT study_id, COUNT(*) AS totalShared FROM studies_shared GROUP BY study_id) totalShared ON totalShared.study_id = studies.id WHERE studies.user_id = '$sessionUserId' ORDER BY studies.created ASC")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
@@ -29,14 +30,13 @@ if (isset($_SESSION['user_id'])) {
                     'participants' => $participants,
                     'shared' => $sharedStudies);
             }
-
-            
         }
     } else {
         echo json_encode(array('status' => 'statementError'));
         exit();
     }
 
+    // get all studies, which were shared with you
     if ($select_stmt = $mysqli->prepare("SELECT studies.*, COUNT(study_results_tester.id) AS totalShared FROM studies LEFT JOIN studies_shared ON studies.id = studies_shared.study_id LEFT JOIN study_results_tester ON studies.id = study_results_tester.study_id WHERE studies_shared.email = '$sessionUserMail' GROUP BY studies.id ORDER BY studies.created ASC")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectInvitedError'));

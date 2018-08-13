@@ -876,6 +876,33 @@ function getGestureCatalog(callback) {
         success: function (result) {
             if (result.status === RESULT_SUCCESS) {
                 setLocalItem(GESTURE_CATALOG, result.gestures);
+
+                var gestureCatalog = getLocalItem(GESTURE_CATALOG);
+                if (result.sharedSetGestures && result.sharedSetGestures.length > 0) {
+                    if (gestureCatalog && gestureCatalog.length > 0) {
+                        var tempGestures = [];
+                        for (var i = 0; i < result.sharedSetGestures.length; i++) {
+                            var sharedSetGestureExistsInCatalog = false;
+                            var sharedSetGesture = result.sharedSetGestures[i];
+                            for (var j = 0; j < gestureCatalog.length; j++) {
+                                var gesture = gestureCatalog[j];
+                                if (parseInt(sharedSetGesture.id) === parseInt(gesture.id)) {
+                                    sharedSetGestureExistsInCatalog = true;
+                                }
+                            }
+
+                            if (sharedSetGestureExistsInCatalog === false) {
+                                tempGestures.push(sharedSetGesture);
+                            }
+                        }
+
+                        gestureCatalog = gestureCatalog.concat(tempGestures);
+                        setLocalItem(GESTURE_CATALOG, gestureCatalog);
+                        console.log(tempGestures, getLocalItem(GESTURE_CATALOG));
+                    } else {
+                        setLocalItem(GESTURE_CATALOG, result.sharedSetGestures);
+                    }
+                }
             }
 
             if (callback) {
@@ -984,6 +1011,47 @@ function unshareGesture(data, callback) {
 }
 
 /*
+ * gesture sharing for specific user
+ */
+
+function shareGestureForUser(data, callback) {
+    $.ajax({
+        url: 'includes/share-gesture-for-user.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function unshareGestureForUser(data, callback) {
+    $.ajax({
+        url: 'includes/unshare-gesture-for-user.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+
+/*
  * gesture set sharing
  */
 
@@ -1023,6 +1091,46 @@ function unshareGestureSet(data, callback) {
     });
 }
 
+
+/*
+ * gesture set sharing for specific user
+ */
+
+function shareGestureSetForUser(data, callback) {
+    $.ajax({
+        url: 'includes/share-gesture-set-for-user.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function unshareGestureSetForUser(data, callback) {
+    $.ajax({
+        url: 'includes/unshare-gesture-set-for-user.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
 
 /*
  * gesture liking
@@ -1426,6 +1534,27 @@ function saveExecutionModerator(data, callback) {
 function getServerTime(callback) {
     $.ajax({
         url: 'includes/get-time.php',
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+/*
+ * execution analysis 
+ */
+function updateExecutionPhase(data, callback) {
+    $.ajax({
+        url: 'includes/update-execution-phase.php',
+        data: data,
         type: 'post',
         dataType: 'json',
         async: true,

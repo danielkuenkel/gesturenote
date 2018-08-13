@@ -126,6 +126,7 @@ function checkAssembledGestures(gestures, gestureCatalog) {
 }
 
 function updateGestureById(catalog, id, parameters) {
+    console.log(catalog, id, parameters);
     var gestureCatalog = getLocalItem(catalog);
 
     var gesture;

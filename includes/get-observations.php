@@ -20,19 +20,22 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
             exit();
         } else {
             $select_stmt->store_result();
-            $select_stmt->bind_result($id, $studyId, $evaluatorId, $testerId, $data, $observations, $notes, $created);
+            $select_stmt->bind_result($id, $studyId, $evaluatorId, $testerId, $data, $observations, $notes, $executionPhase, $created);
             $select_stmt->fetch();
             if ($select_stmt->num_rows == 0) {
                 echo json_encode(array('status' => 'success', 'evaluatorData' => null));
             } else if ($select_stmt->num_rows == 1) {
-                $studyResultsEvaluator = array('id' => $id,
+                $studyResultsEvaluator = array(
+                    'id' => $id,
                     'studyId' => $studyId,
                     'evaluatorId' => $evaluatorId,
                     'testerId' => $testerId,
                     'results' => json_decode_nice($data, false),
                     'observations' => json_decode_nice($observations, false),
                     'notes' => json_decode_nice($notes, false),
-                    'created' => $created);
+                    'executionPhase' => $executionPhase,
+                    'created' => $created
+                );
 
                 echo json_encode(array('status' => 'success', 'evaluatorData' => $studyResultsEvaluator));
             } else {

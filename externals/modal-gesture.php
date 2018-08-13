@@ -107,8 +107,32 @@ include '../includes/language.php';
                         <h3><i class="fa fa-share-alt"></i> <?php echo $lang->share ?></h3>
                         <div style="" class="shared-with-own-projects"></div>
                         <div style="" class="shared-with-other-projects"></div>
-                        <div class="btn-share" style="display: inline-block; margin-right: 5px; font-size: 16pt; cursor: pointer"><i class="fa fa-share-alt"></i></div>
-                        <div style="display: inline-block" class="shared-self"></div>
+                        <div style="margin-top: 10px"><label class="text"><?php echo $lang->inviteAllUsersForGesture ?></label></div>
+                        <div style="margin-top: -10px">
+                            <div class="btn-share" style="display: inline-block; cursor: pointer"><span style="font-size: 28pt; line-height: 16px; top: 8px; position: relative;">&infin;</span></div>
+                            <div style="display: inline-block" class="shared-self"></div>
+                        </div>
+
+                        <div id="invited-users" style="margin-top: 10px">
+
+                            <div class="form-group" id="invite-users-form">
+                                <label class="text"><?php echo $lang->inviteUserViaMail ?></label>
+                                <div class="alert-space alert-gesture-not-shared"></div>
+                                <div class="alert-space alert-missing-email"></div>
+                                <div class="alert-space alert-invalid-email"></div>
+                                <div class="alert-space alert-user-already-invited"></div>
+                                <div class="alert-space alert-share-gesture-to-yourself"></div>
+
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="input-email" minlength="8" maxlength="50" placeholder="<?php echo $lang->email ?>">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" id="btn-invite-user"><i class="fa fa-paper-plane"></i> <span class="btn-text"><?php echo $lang->invite ?></span></button>
+                                    </span>
+                                </div>
+
+                                <div id="shared-gesture-list" style="margin-top: 10px"></div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -246,6 +270,7 @@ include '../includes/language.php';
             switch ($(event.target).attr('href')) {
                 case '#tab-gesture-general':
                     renderGeneralGestureInfo();
+                    renderInvitedGestureUsers();
                     break;
                 case '#tab-gesture-gesture-sets':
                     resetGeneralGestureInfo();
@@ -275,7 +300,17 @@ include '../includes/language.php';
 
                     setTimeout(function () {
                         var ratingTop = $('#custom-modal').find('#gesture-rating').position().top;
-//                        console.log(ratingTop, $('#custom-modal').find('.modal-content'));
+                        $('#custom-modal').animate({
+                            scrollTop: ratingTop + 180
+                        }, 300);
+                    }, 300);
+
+                    break;
+                case 'shareGesture':
+                    $('#gesture-info-nav-tab a[href="#tab-gesture-general"]').tab('show');
+
+                    setTimeout(function () {
+                        var ratingTop = $('#custom-modal').find('#gesture-sharing').position().top;
                         $('#custom-modal').animate({
                             scrollTop: ratingTop + 180
                         }, 300);
@@ -730,14 +765,24 @@ include '../includes/language.php';
             }
         });
 
-        initShareGesture($(modal).find('#gesture-sharing .btn-share'), currentPreviewGesture.thumbnail, currentPreviewGesture.source, currentPreviewGesture.gesture, function () {
-            if ($(modal).find('#gesture-sharing .btn-share').hasClass('gesture-shared')) {
+        initShareGestureModalButton($(modal).find('#gesture-sharing .btn-share'), currentPreviewGesture.thumbnail, currentPreviewGesture.source, currentPreviewGesture.gesture, function () {
+            var button = $(modal).find('#gesture-sharing .btn-share');
+            console.log(currentPreviewGesture.gesture);
+
+            if (currentPreviewGesture.gesture.scope === SCOPE_GESTURE_PUBLIC) {
                 $(modal).find('#gesture-sharing .shared-self').text(translation.gestureShared);
-                $(currentPreviewGesture.thumbnail).find('.btn-share').addClass('gesture-shared');
+                $(button).addClass('gesture-shared');
             } else {
                 $(modal).find('#gesture-sharing .shared-self').text(translation.gestureNotShared);
-                $(currentPreviewGesture.thumbnail).find('.btn-share').removeClass('gesture-shared');
+                $(button).removeClass('gesture-shared');
             }
+
+            getSharedGestureInfos({gestureId: currentPreviewGesture.gesture.id}, function (result) {
+                if (result.status === RESULT_SUCCESS) {
+                    $(modal).find('#gesture-sharing .shared-with-own-projects').html(new String(translation.gestureSharedInOwnProjects).replace('{x}', result.usedSharedGestureInOwnProjectsCount));
+                    $(modal).find('#gesture-sharing .shared-with-other-projects').html(new String(translation.gestureSharedInOtherProjects).replace('{x}', result.usedSharedGestureInOtherProjectsCount));
+                }
+            });
         });
     }
 
@@ -930,22 +975,28 @@ include '../includes/language.php';
                     var gestureSets = getLocalItem(GESTURE_SETS);
                     if (gestureSets) {
                         var titles = "";
+                        var assignCount = 0;
+
                         for (var i = 0; i < gestureSets.length; i++) {
                             var gestureSetIds = gestureSets[i].gestures;
                             if (gestureSetIds) {
                                 for (var j = 0; j < gestureSetIds.length; j++) {
                                     if (parseInt(currentPreviewGesture.gesture.id) === parseInt(gestureSetIds[j])) {
                                         titles += '<div>' + gestureSets[i].title + '</div>';
+                                        assignCount++;
                                     }
                                 }
                             }
                         }
-                        if (titles.length > 0) {
+
+                        if (assignCount > 0) {
                             $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set').addClass('gesture-is-in-set');
                             $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set').attr('data-content', titles);
+                            $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set .amount').text(assignCount);
                         } else {
                             $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set').removeClass('gesture-is-in-set');
                             $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set').attr('data-content', translation.notAssignedToGestureSet);
+                            $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set .amount').text('');
                         }
                     }
 
@@ -1076,4 +1127,104 @@ include '../includes/language.php';
         };
         leapMotionPreview = new LeapRecorder(options);
     }
+
+    var modal = $('#custom-modal');
+    function renderInvitedGestureUsers() {
+        var invitedUsers = currentPreviewGesture.gesture.invitedUsers;
+        $(modal).find('#shared-gesture-list').empty();
+        clearAlerts($(modal).find('#invited-users'));
+
+        if (invitedUsers && invitedUsers.length > 0) {
+            for (var i = 0; i < invitedUsers.length; i++) {
+                var listItem = $('#shared-gesture-list-item').clone().removeAttr('id');
+                $(listItem).find('.shared-gesture-item-email').text(invitedUsers[i].email);
+                $(listItem).find('.btn-uninvite-user').attr('data-invite-id', invitedUsers[i].id);
+                $(listItem).find('.btn-uninvite-user').attr('data-invite-mail', invitedUsers[i].email);
+                $(modal).find('#shared-gesture-list').append(listItem);
+            }
+        } else {
+            appendAlert($(modal).find('#invited-users'), ALERT_GESTURE_NOT_SHARED);
+        }
+
+        $(modal).find('#invited-users #input-email').unbind('keyup').bind('keyup', function (event) {
+            event.preventDefault();
+            clearAlerts($(modal).find('#invite-users-form'));
+        });
+
+        $(modal).find('#invited-users #btn-invite-user').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            var button = $(this);
+            if (!$(button).hasClass('disabled')) {
+                lockButton(button, true, 'fa-paper-plane');
+
+                var email = $(modal).find('#invited-users #input-email');
+                if ($(email).val().trim() === '') {
+                    appendAlert($(modal).find('#invited-users'), ALERT_MISSING_EMAIL);
+                    unlockButton(button, true, 'fa-paper-plane');
+                    $(email).focus();
+                    return false;
+                }
+
+                // validate email
+                if (!validateEmail($(email).val().trim())) {
+                    appendAlert($(modal).find('#invited-users'), ALERT_INVALID_EMAIL);
+                    unlockButton(button, true, 'fa-paper-plane');
+                    $(email).focus();
+                    return false;
+                }
+
+                shareGestureForUser({gestureId: currentPreviewGesture.gesture.id, email: email.val().trim()}, function (result) {
+                    unlockButton(button, true, 'fa-paper-plane');
+                    if (result.status === RESULT_SUCCESS) {
+                        updateGestureById(GESTURE_CATALOG, currentPreviewGesture.gesture.id, {invitedUsers: result.invitedUsers});
+                        currentPreviewGesture.gesture = getGestureById(currentPreviewGesture.gesture.id);
+                        originalFilterData = getLocalItem(GESTURE_SETS);
+                        $(email).val('');
+                        renderInvitedGestureUsers();
+                        updateGestureThumbnailSharing(currentPreviewGesture.thumbnail, currentPreviewGesture.gesture);
+
+//                        $(currentPreviewGesture.thumbnail).find('.btn-share .amount').text(inviteAmount > 0 ? inviteAmount : '');
+//                        if (inviteAmount > 0) {
+//                            $(currentPreviewGesture.thumbnail).find('.btn-share').addClass('gesture-shared');
+//                        } else {
+//                            $(currentPreviewGesture.thumbnail).find('.btn-share').removeClass('gesture-shared');
+//                        }
+                    } else if (result.status === 'userAlreadyInvited') {
+                        $(email).val('');
+                        appendAlert($(modal).find('#invite-users-form'), ALERT_USER_ALREADY_INVITED);
+                    } else if (result.status === 'notInviteYourself') {
+                        $(email).val('');
+                        appendAlert($(modal).find('#invite-users-form'), ALERT_SHARE_GESTURE_TO_YOURSELF);
+                    }
+                });
+            }
+        });
+    }
+
+    $(modal).on('click', '.btn-uninvite-user', function (event) {
+        event.preventDefault();
+        var button = $(this);
+        if (!$(button).hasClass('disabled')) {
+            lockButton(button, true, 'fa-trash');
+            unshareGestureForUser({gestureId: currentPreviewGesture.gesture.id, id: $(this).attr('data-invite-id'), email: $(this).attr('data-invite-mail')}, function (result) {
+                unlockButton(button, true, 'fa-trash');
+                if (result.status === RESULT_SUCCESS) {
+                    var inviteAmount = result.invitedUsers && result.invitedUsers.length > 0 ? result.invitedUsers.length : 0;
+                    console.log('invite amount', inviteAmount);
+                    updateGestureById(GESTURE_CATALOG, currentPreviewGesture.gesture.id, {invitedUsers: result.invitedUsers});
+                    currentPreviewGesture.gesture = getGestureById(currentPreviewGesture.gesture.id);
+                    originalFilterData = getLocalItem(GESTURE_CATALOG);
+                    renderInvitedGestureUsers();
+                    updateGestureThumbnailSharing(currentPreviewGesture.thumbnail, currentPreviewGesture.gesture);
+
+//                    $(currentPreviewGesture.thumbnail).find('.btn-share .amount').text(inviteAmount > 0 ? inviteAmount : '');
+//                    if (inviteAmount > 0) {
+//                        $(currentPreviewGesture.thumbnail).find('.btn-share').addClass('gesture-shared');
+//                    } else {
+//                        $(currentPreviewGesture.thumbnail).find('.btn-share').removeClass('gesture-shared');
+//                    }
+                }
+            });
+        }
+    });
 </script>

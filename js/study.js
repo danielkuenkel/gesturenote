@@ -478,6 +478,9 @@ function renderStudyParticipants(data, hash) {
         var item = $('#template-study-container').find('#participant-thumbnail').clone().removeAttr('id');
         $(item).find('#heading-text').text(convertSQLTimestampToDate(data[i].created).toLocaleString());
         $('#study-participants .list-container').append(item);
+        console.log(data[i].executionPhase);
+        $(item).find('#execution-phase-' + data[i].executionPhase).removeClass('hidden');
+        initPopover();
 
         if (result.aborted === 'no' && result.studySuccessfull === 'yes') {
             success++;
@@ -1178,24 +1181,26 @@ function updateGestureAssignmentInfos(container, type, updateId, assignment) {
 
     for (var k = 0; k < assignment.gestures.length; k++) {
         var gesture = getGestureById(assignment.gestures[k], ELICITED_GESTURES);
-        var gestureType = 'classified-gestures-catalog-thumbnail';
-        if (type === POTENTIAL_GESTURES) {
-            gestureType = 'potential-gestures-catalog-thumbnail';
-        }
-
-        var involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-6 col-md-4 col-lg-4', ELICITED_GESTURES);
-        if ((type === POTENTIAL_GESTURES && parseInt(assignment.mainGestureId) !== parseInt(gesture.id)) || type !== POTENTIAL_GESTURES) {
-            $(target).find('#gestures-list-container').append(involvedGesture);
-
-            if (parseInt(assignment.mainGestureId) === parseInt(gesture.id)) {
-                $(involvedGesture).find('.gesture-thumbnail').addClass('assembled');
-                $(involvedGesture).find('.btn-tag-as-main-gesture').addClass('gesture-tagged');
-                $(involvedGesture).find('.btn-tag-as-main-gesture').attr('data-content', translation.gestureTaggedAsMain);
+        if (gesture) {
+            var gestureType = 'classified-gestures-catalog-thumbnail';
+            if (type === POTENTIAL_GESTURES) {
+                gestureType = 'potential-gestures-catalog-thumbnail';
             }
-        } else if (type === POTENTIAL_GESTURES && parseInt(assignment.mainGestureId) === parseInt(gesture.id)) {
-            involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-12 col-md-5', ELICITED_GESTURES);
-            $(target).find('#potential-parameters-container').prepend(involvedGesture);
-        }
+
+            var involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-6 col-md-4 col-lg-4', ELICITED_GESTURES);
+            if ((type === POTENTIAL_GESTURES && parseInt(assignment.mainGestureId) !== parseInt(gesture.id)) || type !== POTENTIAL_GESTURES) {
+                $(target).find('#gestures-list-container').append(involvedGesture);
+
+                if (parseInt(assignment.mainGestureId) === parseInt(gesture.id)) {
+                    $(involvedGesture).find('.gesture-thumbnail').addClass('assembled');
+                    $(involvedGesture).find('.btn-tag-as-main-gesture').addClass('gesture-tagged');
+                    $(involvedGesture).find('.btn-tag-as-main-gesture').attr('data-content', translation.gestureTaggedAsMain);
+                }
+            } else if (type === POTENTIAL_GESTURES && parseInt(assignment.mainGestureId) === parseInt(gesture.id)) {
+                involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-12 col-md-5', ELICITED_GESTURES);
+                $(target).find('#potential-parameters-container').prepend(involvedGesture);
+            }
+        } // else the participant data is marked as pretest
     }
 
     if (type === POTENTIAL_GESTURES) {
@@ -1526,36 +1531,162 @@ function renderPotentialGestures() {
 }
 
 function renderGestureSets() {
-    $('#content-btn-gesture-sets #gesture-sets-container').empty();
+    var formatClone = $('#content-btn-gesture-sets');
+    currentFilterList = $(formatClone).find('#gesture-sets-container').empty();
 
     getGestureSets(function (result) {
         if (result.status === RESULT_SUCCESS) {
+            originalFilterData = result.gestureSets;
             setLocalItem(GESTURE_SETS, result.gestureSets);
-
-            if (result.gestureSets && result.gestureSets.length > 0) {
-                for (var i = 0; i < result.gestureSets.length; i++) {
-                    var set = result.gestureSets[i];
-                    var setPanel = getGestureCatalogGestureSetPanel(set, 'potential-gestures-catalog-thumbnail', 'col-xs-6 col-md-4');
-
-                    $('#content-btn-gesture-sets #gesture-sets-container').append(setPanel);
-                    TweenMax.from(setPanel, .2, {delay: i * .1, opacity: 0, y: -20});
-
-                    $(setPanel).unbind('gestureSetDeleted').bind('gestureSetDeleted', function (event) {
-                        event.preventDefault();
-                        renderGestureSets();
-                    });
-                }
-
-                $('#custom-modal').unbind('gestureSetsUpdated').bind('gestureSetsUpdated', function (event) {
-                    event.preventDefault();
-                    renderGestureSets();
-                });
+            if (originalFilterData && originalFilterData.length > 0) {
+                var data = {
+                    pager: {
+                        top: $(formatClone).find('#pager-top .pagination'),
+                        bottom: $(formatClone).find('#pager-bottom .pagination'),
+                        dataLength: originalFilterData.length,
+                        maxElements: parseInt($(formatClone).find('#resultsCountSelect .chosen').attr('id').split('_')[1])
+                    },
+                    filter: {
+                        countSelect: $(formatClone).find('#resultsCountSelect'),
+                        filter: $(formatClone).find('#filter'),
+                        sort: $(formatClone).find('#sort')
+                    }
+                };
+                initPagination(data);
+                $(formatClone).find('#sort #newest').removeClass('selected');
+                $(formatClone).find('#sort #newest').click();
             } else {
-                // append alert, no gesture set(s) available
+                // show alert that no data is there
             }
-            initPopover(300);
+
+
+
+//            setLocalItem(GESTURE_SETS, result.gestureSets);
+//
+//            if (result.gestureSets && result.gestureSets.length > 0) {
+//                for (var i = 0; i < result.gestureSets.length; i++) {
+//                    var set = result.gestureSets[i];
+//                    var setPanel = getGestureCatalogGestureSetPanel(set, 'potential-gestures-catalog-thumbnail', 'col-xs-6 col-md-4');
+//
+//                    $('#content-btn-gesture-sets #gesture-sets-container').append(setPanel);
+//                    TweenMax.from(setPanel, .2, {delay: i * .1, opacity: 0, y: -20});
+//
+//                    $(setPanel).unbind('gestureSetDeleted').bind('gestureSetDeleted', function (event) {
+//                        event.preventDefault();
+//                        renderGestureSets();
+//                    });
+//                }
+//
+//                $('#custom-modal').unbind('gestureSetsUpdated').bind('gestureSetsUpdated', function (event) {
+//                    event.preventDefault();
+//                    renderGestureSets();
+//                });
+//            } else {
+//                // append alert, no gesture set(s) available
+//            }
+//            initPopover(300);
         }
     });
+//
+    $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble, rerender) {
+        console.log('current  filter list changed');
+//        event.preventDefault();
+//        var tweenParams = initAddGestureToStudyGestures($(event.target), formatClone);
+//        if (assemble) {
+//            assembleGesture(gestureId);
+//            TweenMax.to(tweenParams.tweenElement, .4, {x: tweenParams.alphaX, y: tweenParams.alphaY, opacity: 0, scale: 0, rotation: tweenParams.rotation, transformOrigin: "left top", clearProps: 'all', ease: Quad.easeOut, onComplete: function () {
+//                    if (rerender) {
+//                        renderData(originalFilterData);
+//                    }
+//                    updateCatalogButtons();
+//                    updateNavBadges();
+//                }});
+//        } else {
+//            reassembleGesture(gestureId);
+//            if (rerender) {
+//                renderData(originalFilterData);
+//            }
+//            updateCatalogButtons();
+//            updateNavBadges();
+//        }
+    });
+
+    $(formatClone).find('.filter').unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        currentFilterData = sort();
+        updatePaginationItems();
+        if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+            $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+        } else {
+            renderGestureSetList(currentFilterData, true);
+        }
+    });
+
+    $(formatClone).find('.sort').unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        currentFilterData = sort();
+        updatePaginationItems();
+        if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+            $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+        } else {
+            renderGestureSetList(currentFilterData, true);
+        }
+    });
+
+    $(formatClone).find('.resultsCountSelect').unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        currentFilterData = sort();
+        updatePaginationItems();
+        if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+            $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+        } else {
+            renderGestureSetList(currentFilterData, true);
+        }
+    });
+
+    $(formatClone).unbind('indexChanged').bind('indexChanged', '.pagination', function (event, index) {
+        event.preventDefault();
+        if (!event.handled) {
+            event.handled = true;
+            renderGestureSetList(sort(), true);
+        }
+    });
+
+    $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
+        event.preventDefault();
+        renderGestureSetList(data);
+    });
+
+
+    function renderGestureSetList(data, animation) {
+        var currentActiveTab = formatClone;
+        currentFilterData = data;
+        $(currentFilterList).empty();
+        var index = getCurrentPaginationIndex();
+        var listCount = parseInt($(currentPaginationData.filter.countSelect).find('.chosen').attr('id').split('_')[1]);
+        var viewFromIndex = index * listCount;
+        var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
+        var count = 0;
+
+        if (currentFilterData.length > 0) {
+            clearAlerts($(currentActiveTab).find('#item-view'));
+            for (var i = viewFromIndex; i < viewToIndex; i++) {
+                var clone = getGestureCatalogGestureSetPanel(currentFilterData[i], null, 'col-xs-12 col-sm-12 col-md-6 col-lg-4');
+                $(currentFilterList).append(clone);
+                if (animation && animation === true) {
+                    TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, y: -10});
+                }
+            }
+        } else {
+            appendAlert($(currentActiveTab).find('#item-view'), ALERT_NO_SEARCH_RESULTS);
+            $(currentActiveTab).find('#item-view #pager-top .pagination').addClass('hidden');
+            $(currentActiveTab).find('#item-view #pager-bottom .pagination').addClass('hidden');
+        }
+
+        initPopover();
+        initTooltips();
+//        updateNavBadges();
+    }
 
     $('#btn-add-gesture-set').unbind('click').bind('click', function (event) {
         event.preventDefault();
@@ -1571,7 +1702,14 @@ function renderGestureSets() {
                         unlockButton(button, true, 'fa-plus');
                         if (result.status === RESULT_SUCCESS) {
                             $('#content-btn-gesture-sets').find('#input-new-set-title').val('');
-                            renderGestureSets();
+//                            renderGestureSets();
+                            getGestureSets(function (result) {
+                                if (result.status === RESULT_SUCCESS) {
+                                    originalFilterData = result.gestureSets;
+                                    setLocalItem(GESTURE_SETS, result.gestureSets);
+                                    renderGestureSetList();
+                                }
+                            });
                         }
                     });
                 } else {
@@ -1602,7 +1740,7 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
         $(target).find('#parameters-amount .amount-specific .address').text(translation.forThisClass);
         $(target).find('#parameters-amount .amount-minimal-function .text').text(amountRange.min + ' ' + (amountRange.min === 1 ? translation.gesture : translation.gestures) + ' ' + translation.perClass);
         $(target).find('#parameters-amount .amount-minimal-function .address').text(translation.Minimal + ':');
-        $(target).find('#parameters-amount .amount-maximal-function .text').text(amountRange.max + ' ' + (amountRange.min === 1 ? translation.gesture : translation.gestures) + ' ' + translation.perClass);
+        $(target).find('#parameters-amount .amount-maximal-function .text').text(amountRange.max + ' ' + (amountRange.max === 1 ? translation.gesture : translation.gestures) + ' ' + translation.perClass);
         $(target).find('#parameters-amount .amount-maximal-function .address').text(translation.Maximal + ':');
         if (amountRange.max > amountRange.min) {
             if (assignment.gestures.length === amountRange.max) {

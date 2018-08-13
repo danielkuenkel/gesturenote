@@ -1513,6 +1513,7 @@
     "exchangeableGestureSet": "ProGesture-Gesten-Set",
     "chooseStudyGestureSet": "Studien-Gesten-Set wählen",
     "assignmentToGestureSets": "Zuweisung zu Gesten-Sets",
+    "deleteGestureFromSet": "Aus Gesten-Set entfernen",
     "createNewGestureSet": "Neues Gesten-Set anlegen",
     "createNewGestureSetPlaceholder": "Name des Gesten-Sets (mindestens 8 Zeichen)",
     "assignToGestureSet": "Zu vorhandenen Gesten-Sets zuweisen",
@@ -1596,6 +1597,8 @@
             "hex": "#337ab7"
         }
     },
+    "pretest": "Pretest",
+    "isPretest": "Ist ein Pretest?",
     "nextTask": "nächste Aufgabe",
     "nextStep": "nächster Leitfadenschritt",
     "NextStep": "Nächstem Leitfadenschritt",
@@ -1609,7 +1612,9 @@
     "sharedInfo": "Mal freigegeben",
     "sharedStudy": "Diese Studie wurde Ihnen freigegeben",
     "invite": "Einladen",
-    "inviteUserViaMail": "Per E-Mail-Adresse einladen",
+    "inviteAllUsersForGesture": "Geste allen freigeben",
+    "inviteAllUsersForGestureSet": "Gesten-Set allen freigeben",
+    "inviteUserViaMail": "Per E-Mail-Adresse freigeben",
     "hello": "Hallo",
     "inviteSubject": "Freigabe einer Gesten-Design-Studie",
     "uninviteSubject": "Freigabe einer Gesten-Design-Studie zurückgezogen",
@@ -1723,8 +1728,12 @@
     "shareGestureSet": "Mit anderen teilen",
     "unshareGestureSet": "Nicht mit anderen teilen",
     "gestureNotShared": "Geste nicht mit anderen geteilt",
-    "gestureShared": "Geste mit anderen geteilt",
-    "gestureSetShared": "Gesten-Set mit anderen geteilt",
+    "gestureSharedWithYou": "Geste mit Ihnen geteilt",
+    "gestureShared": "Geste mit allen anderen geteilt",
+    "gestureSetNotShared": "Gesten-Set nicht mit anderen geteilt",
+    "gestureSetShared": "Gesten-Set mit allen anderen geteilt",
+    "gestureSetSharedWithYou": "Gesten-Set mit Ihnen geteilt",
+    "gestureSetSharedWithOthers": "Gesten-Set mit <span style='color:black; font-weight:bold'>{x}</span> weiteren Gesten-Designern geteilt",
     "gestureSharedInOwnProjects": "<span class='text font-bold'>{x}</span> Mal in eigenen Projekten genutzt.",
     "gestureSharedInOtherProjects": "<span class='text font-bold'>{x}</span> Mal in Projekten anderer genutzt.",
     "edit": "Bearbeiten",
@@ -2130,7 +2139,8 @@
         },
         "execution": {
             "valuesNotInverted": "Geste nicht invertiert",
-            "valuesInverted": "Geste invertiert"
+            "valuesInverted": "Geste invertiert",
+            "participantPretest": "Diese Befragung ist ein Pretest"
         }
     },
     "gestureStyleguides": {
@@ -4867,12 +4877,22 @@
         "gestureSetNotShared": {
             "id": "gesture-set-not-shared",
             "type": "success",
-            "text": "Gesten-Set noch nicht freigegeben."
+            "text": "Gesten-Set nicht per E-Mail freigegeben."
         },
         "shareGestureSetToYourself": {
             "id": "share-gesture-set-to-yourself",
             "type": "success",
             "text": "Sie können sich das Gesten-Set nicht selbst freigeben."
+        },
+        "gestureNotShared": {
+            "id": "gesture-not-shared",
+            "type": "success",
+            "text": "Geste nicht per E-Mail freigegeben."
+        },
+        "shareGestureToYourself": {
+            "id": "share-gesture-to-yourself",
+            "type": "success",
+            "text": "Sie können sich die Geste nicht selbst freigeben."
         }
     },
     "introductionCreateStudy": [

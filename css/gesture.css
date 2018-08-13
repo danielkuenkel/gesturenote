@@ -154,7 +154,7 @@ and open the template in the editor.
 
 .gesture-thumbnail .thumbnail-footer div:not(.btn-show-gesture-info) {
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 .gesture-thumbnail .thumbnail-footer .btn-show-gesture-info {
@@ -164,7 +164,7 @@ and open the template in the editor.
 .gesture-set-footer-controls div:not(.btn-show-set-info) {
     font-size: 14pt;
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 .gesture-set-footer-controls .btn-show-set-info {
@@ -199,7 +199,6 @@ and open the template in the editor.
 .btn-tag-as-favorite-gesture:hover,
 .btn-add-gesture-to-scene:hover,
 .btn-delete-exchangeable-gesture:hover,
-.gesture-shared>.fa:hover,
 .gesture-set-shared>.fa:hover,
 .gesture-liked>.fa:hover,
 .gesture-set-liked>.fa:hover,
@@ -222,11 +221,15 @@ and open the template in the editor.
     color: black !important;
 }
 
+.btn-delete-gesture-from-set:hover {
+    color: #d9534f;
+}
+
 .gesture-liked .fa, .gesture-set-liked .fa {
     color: #D42C29;
 }
 
-.gesture-shared .fa, .gesture-set-shared .fa {
+.gesture-shared, .gesture-set-shared {
     color: #0480be;
 }
 
@@ -242,11 +245,13 @@ and open the template in the editor.
     color: #0480be;
 }
 
-.btn-like .amount, .btn-comment .amount, .btn-rate .amount, .btn-edit-gesture-set .amount,
+.btn-like .amount, .btn-comment .amount, .btn-rate .amount, .btn-share .amount, .btn-edit-gesture-set .amount,
 .btn-like-set .amount, .btn-comment-set .amount, .btn-share-set .amount {
     font-size: 9pt;
     position: relative;
     top:-2px;
+    left:-2px;
+    color: #4d4d4d;
 }
 
 #dev-leap-playback-slider-container .slider-selection {

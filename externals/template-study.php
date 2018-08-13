@@ -65,6 +65,7 @@ include '../includes/language.php';
                 </div>
                 <div class="panel-content text-center">
                     <div class="text" id="heading-text"></div>
+                    <span class="label label-default hidden" id="execution-phase-pretest" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->participantPretest ?>"><i class="fa fa-user-times"></i> <span class="label-text hidden-xs hidden-sm"><?php echo $lang->pretest ?></span></span>
                     <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
                     <span class="label label-warning hidden" id="execution-error"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
                     <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>

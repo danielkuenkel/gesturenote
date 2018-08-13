@@ -2762,7 +2762,7 @@ function initCatalogGesturesOverlay(formatClone) {
                         },
                         filter: {
                             countSelect: $(formatClone).find('#gesture-sets #resultsCountSelect'),
-//                            filter: $('#gesture-sets').find('#filter'),
+                            filter: $('#gesture-sets').find('#filter'),
                             sort: $(formatClone).find('#gesture-sets #sort')
                         }
                     };
