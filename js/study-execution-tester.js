@@ -178,18 +178,44 @@ var Tester = {
             event.preventDefault();
             gotoIndex();
         });
+
         $(container).find('#static-study-url').unbind('click').bind('click', function () {
             $(container).find('#static-study-url').select();
         });
+
         $(container).find('#btn-retry-upload').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (previewModeEnabled === false) {
                 submitFinalData(container);
             }
         });
+
         if (previewModeEnabled === false) {
             checkRTCUploadStatus(container);
         }
+
+        // heart icon animation
+        var heartIcon = $(content).find('#heart-icon');
+        $(heartIcon).css({cursor: 'pointer'});
+        function animateHeartIcon() {
+            var heartOffset = $(heartIcon).offset();
+            console.log(heartOffset);
+            for (var i = 0; i < 4; i++) {
+                var heartCopy = $(heartIcon).clone().removeAttr('id');
+                $(heartCopy).insertAfter(heartIcon);
+                $(heartCopy).css({position: 'fixed', top: heartOffset.top, left: heartOffset.left, opacity: .4});
+                TweenMax.to(heartCopy, .5, {delay: i * .2, scaleX: 1.5, scaleY: 1.5, opacity: 0, onCompleteParams: [heartCopy], onComplete: function (element) {
+                        $(element).remove();
+                    }});
+            }
+        }
+
+        setTimeout(animateHeartIcon, 1000);
+        $(heartIcon).on('click', function (event) {
+            console.log('heart icon clicked');
+            event.preventDefault();
+            animateHeartIcon();
+        });
 
         return container;
     },
@@ -265,7 +291,19 @@ var Tester = {
     getInterview: function getInterview(container, data) {
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
             var content = $(getSourceContainer(VIEW_TESTER)).find('#interview-' + getLocalItem(STUDY).surveyType).clone();
+            $(content).find('.headline').text(getCurrentPhase().title);
             $(container).append(content);
+
+            for (var i = 0; i < data.length; i++) {
+                var questionItem = document.createElement('div');
+                $(questionItem).addClass('panel panel-shadow');
+                $(questionItem).css({marginBottom: '5px'});
+                var panelBody = document.createElement('div');
+                $(panelBody).addClass('panel-body text');
+                $(panelBody).text((i + 1) + '. ' + data[i].question);
+                $(questionItem).append(panelBody);
+                $(content).find('.question-container').append(questionItem);
+            }
         }
         return container;
     },

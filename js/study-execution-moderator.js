@@ -396,8 +396,10 @@ var Moderator = {
         // general data section
         $(container).find('#general .headline').text(getCurrentPhase().title);
         $(container).find('#general #description').text(data.description);
+
         // gestures section
         Moderator.renderGestureTraining(source, container, data.training);
+
         // observation section
         renderObservations(data, container);
         return container;
@@ -409,6 +411,8 @@ var Moderator = {
         renderTrainingControls(training);
 
         function checkTransitionScenes(scenesContainer) {
+//            $(container).find('#next-gesture, #training-done').addClass('disabled');
+
             var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
             var feedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback');
             var leftFeedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback').not('.btn-primary');
@@ -464,25 +468,35 @@ var Moderator = {
 
                 if (transitionsLength > 0) {
                     currentTransitionSceneIndex = 1;
-                    if (transitionsLength > 1) {
-                        $(container).find('#btn-repeat-training').addClass('disabled');
-                        $(container).find('#next-gesture, #training-done').addClass('disabled');
-                    } else {
-                        $(container).find('#btn-repeat-training').removeClass('disabled');
-                        $(container).find('#next-gesture, #training-done').removeClass('disabled');
-                    }
+//                    if (transitionsLength > 1) {
+//                        $(container).find('#btn-repeat-training').addClass('disabled');
+//                        $(container).find('#next-gesture, #training-done').addClass('disabled');
+//                    } else {
+//                        $(container).find('#btn-repeat-training').removeClass('disabled');
+//                        $(container).find('#next-gesture, #training-done').removeClass('disabled');
+//                    }
                 } else {
-                    $(container).find('#btn-repeat-training').addClass('disabled');
-                    $(container).find('#next-gesture, #training-done').addClass('disabled');
+//                    $(container).find('#btn-repeat-training').addClass('disabled');
+//                    $(container).find('#next-gesture, #training-done').addClass('disabled');
                 }
 
-                return false;
+//                return false;
             }
+
+            var leftSceneButtons = $(scenesContainer).find('#transition-scene-container').find('.btn-trigger-scene').not('.btn-primary');
+//            if (leftFeedbackButtons.length === 0 || !leftSceneButtons) {
+//                $(container).find('#btn-repeat-training').removeClass('disabled');
+//                $(container).find('#next-gesture, #training-done').removeClass('disabled');
+//                return false;
+//            } else {
+//                $(container).find('#btn-repeat-training').addClass('disabled');
+//                $(container).find('#next-gesture, #training-done').addClass('disabled');
+//            }
 
             $(feedbackButtons).find('#waiting-indicator').addClass('hidden');
             var feedbackLength = $(feedbackButtons).length;
 
-            var leftSceneButtons = $(scenesContainer).find('#transition-scene-container').find('.btn-trigger-scene').not('.btn-primary');
+
             if (transitionsLength === 1) {
                 // this scene has no follow scene
             } else if (transitionsLength > 2) {
@@ -528,9 +542,10 @@ var Moderator = {
                 renderFollowScene(scenesContainer);
             }
 
-            if (leftSceneButtons.length === 0) {
-                if (currentTrainingIndex < training.repeats - 1) {
-                    $(container).find('#btn-repeat-training').removeClass('disabled');
+            console.log('enable btn-repeat button', leftSceneButtons.length === 0, currentTrainingIndex < parseInt(training.repeats) - 1);
+            if ((leftSceneButtons && leftSceneButtons.length === 0) || (leftFeedbackButtons && leftFeedbackButtons.length === 0)) {
+                if (currentTrainingIndex < parseInt(training.repeats) - 1) {
+                    $(container).find('#btn-repeat-training').removeClass('hidden disabled');
                     $(container).find('#next-gesture, #training-done').addClass('disabled');
                 } else {
                     $(container).find('#btn-repeat-training').addClass('disabled');
@@ -573,15 +588,15 @@ var Moderator = {
                 $(container).find('#trainingContainer').empty().append(item);
                 item.find('#repeats .address').text(translation.repeats + ":");
 
-                if (!areThereScenes(data)) {
-                    $(item).find('#btn-repeat-training').addClass('hidden disabled');
-                    item.find('#repeats .text').text(trainingData.repeats);
+//                if (!areThereScenes(data)) {
+                $(item).find('#btn-repeat-training').addClass('disabled');
+                item.find('#repeats .text').text(trainingData.repeats - currentTrainingIndex - 1);
 //                    if (gestureTrainingStartTriggered) {
 //                        $(container).find('#next-gesture, #training-done').removeClass('disabled');
 //                    }
-                } else {
-                    item.find('#repeats .text').text(trainingData.repeats - currentTrainingIndex - 1);
-                }
+//                } else {
+//                    item.find('#repeats .text').text(trainingData.repeats - currentTrainingIndex - 1);
+//                }
 
                 var gesture = getGestureById(trainingData.gestureId);
                 if (parseInt(trainingData.repeats) > 0) {
@@ -669,9 +684,9 @@ var Moderator = {
                                     $(container).find('.btn-trigger-scene').removeClass('disabled');
                                     $(container).find('.btn-trigger-feedback').removeClass('disabled');
                                     trainingShowGesture = false;
-                                    if (!areThereScenes(data)) {
-                                        $(container).find('#next-gesture, #training-done').removeClass('disabled');
-                                    }
+//                                    if (!areThereScenes(data)) {
+//                                        $(container).find('#next-gesture, #training-done').removeClass('disabled');
+//                                    }
                                 });
 
                                 getGMT(function (timestamp) {
@@ -717,9 +732,9 @@ var Moderator = {
                                     $(container).find('.btn-trigger-feedback').removeClass('disabled');
 //                                    peerConnection.sendMessage(MESSAGE_TRAINING_TRIGGERED, {currentGestureTrainingIndex: currentGestureTrainingIndex});
                                     wobble(container.find('#transition-scenes'));
-                                    if (!areThereScenes(data)) {
-                                        $(container).find('#next-gesture, #training-done').removeClass('disabled');
-                                    }
+//                                    if (!areThereScenes(data)) {
+//                                        $(container).find('#next-gesture, #training-done').removeClass('disabled');
+//                                    }
 
 //                                    getGMT(function (timestamp) {
 //                                        var currentPhase = getCurrentPhase();
@@ -737,9 +752,9 @@ var Moderator = {
                                 $(container).find('.btn-trigger-scene').removeClass('disabled');
                                 $(container).find('.btn-trigger-feedback').removeClass('disabled');
                                 wobble(container.find('#transition-scenes'));
-                                if (!areThereScenes(data)) {
-                                    $(container).find('#next-gesture, #training-done').removeClass('disabled');
-                                }
+//                                if (!areThereScenes(data)) {
+//                                    $(container).find('#next-gesture, #training-done').removeClass('disabled');
+//                                }
                             }
 
                             trainingShowGesture = false;
@@ -792,10 +807,10 @@ var Moderator = {
                         TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
                     }
 
-                    if (currentTrainingIndex < training.repeats - 1) {
+                    if (currentTrainingIndex < parseInt(training.repeats) - 1) {
                         $(container).find('#btn-repeat-training').removeClass('hidden');
                     } else {
-                        $(container).find('#btn-repeat-training').addClass('hidden');
+                        $(container).find('#btn-repeat-training').addClass('disabled');
                     }
                 }
 
@@ -1608,6 +1623,9 @@ var Moderator = {
         // controls handling
         if (scenarioPrototypeOpened) {
             Moderator.enableScenarioControls(container);
+            $(container).find('#btn-open-prototype').remove();
+            $(container).find('#btn-start-screen-sharing').removeClass('hidden');
+            $(container).find('#btn-reset-scenes').removeClass('disabled');
         }
 
         $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
@@ -1656,11 +1674,10 @@ var Moderator = {
             scenarioStartTriggered = true;
             $(container).find('#btn-reset-scenes').click();
             $(container).find('#btn-start-screen-sharing').addClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+//            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
             $(container).find('.btn-feedback-scene').removeClass('disabled');
             $(container).find('.help-container .disabled').removeClass('disabled');
             $(container).find('#assessment-controls-container .disabled').removeClass('disabled');
-            $(container).find('#general #description').closest('.read-aloud').addClass('hidden');
 
             Moderator.enableScenarioControls(container);
             wobble([container.find('#woz-controls')]);
@@ -1744,7 +1761,7 @@ var Moderator = {
         } else if (scenarioPrototypeOpened && scenarioStartTriggered) {
             $(container).find('#btn-reset-scenes').removeClass('disabled');
             $(container).find('#btn-start-screen-sharing').addClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+//            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
             $(container).find('#assessment-controls-container .disabled').removeClass('disabled');
             $(container).find('#general #description').addClass('hidden');
         }
@@ -2147,6 +2164,7 @@ var Moderator = {
                             Moderator.renderWOZ(source, container, data);
                             Moderator.renderHelp(source, container, data);
                         } else {
+                            $(container).find('#general').removeClass('hidden');
                             $(container).find('#assessment-controls').addClass('hidden');
                             $(container).find('#woz-controls').addClass('hidden');
                             $(container).find('#help-controls').addClass('hidden');
@@ -2196,13 +2214,14 @@ var Moderator = {
         }
     },
     enableScenarioControls: function enableScenarioControls(container) {
+        $(container).find('#general #description').closest('.read-aloud').remove();
+        $(container).find('#general').addClass('hidden');
+
         var wozItems = $(container).find('.woz-container .disabled');
         wozItems.removeClass('disabled');
 
         var sliders = $(container).find('.woz-container #continuous-slider');
         $(sliders).slider('enable');
-        console.log('sliders', sliders);
-//        sliders.removeClass('disabled');
 
         var helpItems = $(container).find('.help-container .disabled');
         helpItems.removeClass('disabled');
@@ -3279,7 +3298,6 @@ var Moderator = {
         }
 
         function renderCurrentGesturesToShow() {
-//            console.log('render current gestures to show');
             var gesturesToShow = data.exploration[currentExplorationIndex].gestures;
             explorationShowGestures = true;
 
@@ -3287,11 +3305,11 @@ var Moderator = {
                 for (var i = 0; i < gesturesToShow.length; i++) {
                     var gesture = getGestureById(gesturesToShow[i]);
                     var presentItem = $('#item-container-moderator').find('#present-gesture-item').clone().removeAttr('id');
-                    $(presentItem).find('.thumbnail-container').empty().append(getGestureCatalogListThumbnail(gesture, 'gestures-catalog-thumbnail', 'col-xs-12'));
+                    $(presentItem).find('.thumbnail-container').empty().append(getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-12'));
                     $(presentItem).find('.btn-present-gesture').attr('data-gesture-id', gesture.id);
                     $(presentItem).find('.btn-quite-gesture-info').attr('data-gesture-id', gesture.id);
                     $(container).find('#assembled-gestures').append(presentItem);
-//                    console.log(gesture);
+                    initPopover();
 
                     if (currentPresentGesture && parseInt(currentPresentGesture.id) === parseInt(gesture.id)) {
                         $(presentItem).find('.btn-present-gesture').click();
@@ -3310,7 +3328,6 @@ var Moderator = {
 
                     $(peerConnection).unbind(MESSAGE_GESTURE_INFO_CLOSED).bind(MESSAGE_GESTURE_INFO_CLOSED, function (event, payload) {
                         event.preventDefault();
-                        console.log(activeQuitButton);
                         unlockButton(activeQuitButton, true);
                         $(activeQuitButton).addClass('hidden');
                         $(activeQuitButton).closest('.root').find('.btn-present-gesture').removeClass('hidden disabled');
@@ -3375,7 +3392,6 @@ var Moderator = {
         }
 
         function renderCurrentTriggersToShow() {
-            console.log('render current triggers to show');
             var triggerToShow = data.exploration[currentExplorationIndex].trigger;
 
             if (triggerToShow.length > 0) {

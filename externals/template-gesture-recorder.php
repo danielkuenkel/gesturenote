@@ -343,7 +343,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="gestureNameQualitySelect">
                         <label>
                             <?php echo $lang->gestureNameQuality ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->executionType ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->gestureNameQuality ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -802,7 +802,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="gestureNameQualitySelect">
                         <label>
                             <?php echo $lang->gestureNameQuality ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->executionType ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->gestureNameQuality ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">

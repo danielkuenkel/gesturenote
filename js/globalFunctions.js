@@ -1910,7 +1910,6 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
 
 $(document).on('click', '.btn-add-gesture-to-scene', function (event) {
     event.preventDefault();
-
     if (!event.handled) {
         event.handled = true;
 
@@ -2319,7 +2318,6 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
     } else {
         clone.find('.gesture-info-symbols').addClass('hidden');
     }
-    initPopover();
 
     if (panelStyle) {
         clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
@@ -2366,6 +2364,9 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
             resetThumbnails($(this).find('.previewGesture'));
         }
     });
+    
+    initPopover();
+    
     return clone;
 }
 
@@ -2428,7 +2429,7 @@ function initGestureSet(button, clone, source, data) {
                 if (gestureSetIds) {
                     for (var j = 0; j < gestureSetIds.length; j++) {
                         if (parseInt(data.id) === parseInt(gestureSetIds[j])) {
-                            titles += '<div>' + sets[i].title + '</div>';
+                            titles += '<div class="ellipsis">' + sets[i].title + '</div>';
                             setCount++;
                         }
                     }
@@ -2634,7 +2635,7 @@ function updateGestureThumbnailSharing(thumbnail, gesture) {
                     for (var i = 0; i < gesture.invitedUsers.length; i++) {
                         var email = gesture.invitedUsers[i].email;
                         if (email) {
-                            titles += '<div>' + email + '</div>';
+                            titles += '<div class="ellipsis">' + email + '</div>';
                             setCount++;
                         }
                     }
@@ -2673,7 +2674,7 @@ function updateGestureSetThumbnailSharing(thumbnail, set) {
                     for (var i = 0; i < set.invitedUsers.length; i++) {
                         var email = set.invitedUsers[i].email;
                         if (email) {
-                            titles += '<div>' + email + '</div>';
+                            titles += '<div class="ellipsis">' + email + '</div>';
                             setCount++;
                         }
                     }
@@ -3363,6 +3364,7 @@ function downloadGestureSetAsExchangeable(gestureThumbnails, title) {
             var gesture = {
                 ID: attachGesture.id,
                 name: attachGesture.title,
+                nameQuality: attachGesture.titleQuality,
                 style: attachGesture.type,
                 type: attachGesture.interactionType,
                 description: attachGesture.description,

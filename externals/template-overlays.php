@@ -5,7 +5,7 @@ include '../includes/language.php';
 <div id="overlays-item-container" class="hidden">
 
     <div id="letterOfAcceptance">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -15,7 +15,7 @@ include '../includes/language.php';
                         <h3><span id="phase-step-title"><?php echo $lang->formats->letterOfAcceptance->text ?></span></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
             </div>
@@ -33,11 +33,11 @@ include '../includes/language.php';
             </div>
         </div>
 
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right" style="margin-top: 10px"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right" style="margin-top: 10px"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
     <div id="thanks">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -47,7 +47,7 @@ include '../includes/language.php';
                         <h3><span id="phase-step-title"><?php echo $lang->formats->thanks->text ?></span></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
             </div>
@@ -64,12 +64,12 @@ include '../includes/language.php';
             </div>
         </div>
 
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right" style="margin-top: 10px"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right" style="margin-top: 10px"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
 
     <div id="questionnaire">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row">
             <div class="col-md-7">
@@ -85,7 +85,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
                 <div style="margin-top: 20px">
@@ -159,11 +159,11 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
     <div id="interview">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row">
             <div class="col-md-7">
@@ -179,7 +179,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
                 <div style="margin-top: 20px">
@@ -253,12 +253,12 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
 
     <div id="gus">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row">
             <div class="col-md-7">
@@ -275,7 +275,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
                 <div id="general" style="margin-top: 16px">
@@ -335,11 +335,11 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
     <div id="questionnaireGestures">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row">
             <div class="col-md-7">
@@ -356,7 +356,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
                 <div style="margin-top: 16px">
@@ -381,11 +381,11 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
     <div id="sus">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row">
             <div class="col-md-7">
@@ -402,7 +402,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
                 <div style="margin-top: 16px">
@@ -420,11 +420,11 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
     <div id="ueq">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row">
             <div class="col-md-7">
@@ -441,7 +441,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
                 <div style="margin-top: 16px">
@@ -466,7 +466,7 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
 
@@ -480,7 +480,7 @@ include '../includes/language.php';
 
 
     <div id="gestureTraining">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -497,7 +497,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
             </div>
             <div class="col-md-4"></div>
@@ -656,11 +656,11 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
     <div id="scenario">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-6">
@@ -677,7 +677,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
             </div>
             <div class="col-md-5"></div>
@@ -890,11 +890,11 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
     <div id="gestureSlideshow">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -911,7 +911,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
             </div>
             <div class="col-md-4"></div>
@@ -1070,11 +1070,11 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
     <div id="triggerSlideshow">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -1091,7 +1091,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
             </div>
             <div class="col-md-4"></div>
@@ -1230,11 +1230,11 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
     <div id="physicalStressTest">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -1251,7 +1251,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
             </div>
             <div class="col-md-4"></div>
@@ -1701,7 +1701,7 @@ include '../includes/language.php';
 
 
     <div id="identification">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -1718,7 +1718,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
             </div>
             <div class="col-md-4"></div>
@@ -1912,12 +1912,12 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
 
     <div id="exploration">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -1934,7 +1934,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
             </div>
             <div class="col-md-4"></div>
@@ -2151,7 +2151,7 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
     </div>
 
@@ -2160,7 +2160,7 @@ include '../includes/language.php';
 
 
     <div id="catalog-gestures">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row root">
             <div class="col-md-9">
@@ -2169,7 +2169,7 @@ include '../includes/language.php';
                         <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
                 <ul class="nav nav-pills hidden-md hidden-lg gesture-catalogs-nav-tab" id="gesture-catalogs-nav-tab-small">
@@ -2485,12 +2485,12 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
 
     <div id="catalog-trigger">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row">
             <div class="col-md-7">
@@ -2499,7 +2499,7 @@ include '../includes/language.php';
                         <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
                 <div style="margin-top: 20px">
@@ -2524,11 +2524,11 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
     <div id="catalog-feedback">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row">
             <div class="col-md-7">
@@ -2537,7 +2537,7 @@ include '../includes/language.php';
                         <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
                 <div style="margin-top: 20px">
@@ -2569,11 +2569,11 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
     <div id="catalog-scenes">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
 
         <div class="row">
             <div class="col-md-7">
@@ -2582,7 +2582,7 @@ include '../includes/language.php';
                         <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
                 </div>
 
                 <div style="margin-top: 20px">
@@ -2626,7 +2626,7 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
     </div>
 
 </div>

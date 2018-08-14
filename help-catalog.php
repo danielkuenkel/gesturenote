@@ -53,10 +53,10 @@ include_once 'includes/functions.php';
 
         <div class="container mainContent" style="margin-top: 0px">
             <div class="row">
-                <div class="col-md-4 col-lg-3" id="link-list" style="margin-bottom: 30px">
+                <div class="col-md-5 col-lg-4" id="link-list" style="margin-bottom: 30px">
                     <!--<a href="#createStudy" class="smooth-goto">1. Gesten-Design-Studien</a>-->
                 </div>
-                <div class="col-md-8 col-lg-9" id="help-description">
+                <div class="col-md-7 col-lg-8" id="help-description">
 
                 </div>
             </div>

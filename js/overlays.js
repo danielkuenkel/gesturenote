@@ -2235,23 +2235,29 @@ function initExplorationOverlay(id, formatClone) {
         }
     }
 
-    function renderAssembledGesturesItems(container, gestureIds) {
+    function renderAssembledGesturesItems(container, gestureIds, preselect) {
         var assemGestures = assembledGestures();
         for (var i = 0; i < assemGestures.length; i++) {
             var thumbnail = getGestureSceneListThumbnail(assemGestures[i], 'add-gesture-to-scene-thumbnail', 'col-xs-6 col-sm-4 col-md-6 col-lg-4');
             $(container).append(thumbnail);
         }
-
         initPopover(300);
+
+        if (preselect && preselect === true) {
+            setTimeout(function () {
+                $(container).find('.btn-add-gesture-to-scene').click();
+            }, 500);
+        }
+
+
         if (gestureIds && gestureIds.length > 0) {
             for (var i = 0; i < gestureIds.length; i++) {
-//                console.log($(container).find('#' + gestureIds[i] + ' .btn-add-gesture-to-scene'));
                 $(container).find('#' + gestureIds[i] + ' .btn-add-gesture-to-scene').click();
             }
         }
     }
 
-    function renderAssembledTriggerItems(container, triggerIds) {
+    function renderAssembledTriggerItems(container, triggerIds, preselect) {
         var assemTrigger = getLocalItem(ASSEMBLED_TRIGGER);
         for (var i = 0; i < assemTrigger.length; i++) {
             var item = $('#form-item-container').find('#assembled-trigger-option').clone().removeAttr('id');
@@ -2274,6 +2280,12 @@ function initExplorationOverlay(id, formatClone) {
                     $(this).parent().find('.trigger-title').addClass('text');
                 }
             });
+        }
+
+        if (preselect && preselect === true) {
+            setTimeout(function () {
+                $(container).find('.btn-add-trigger-to-gesture').click();
+            }, 500);
         }
 
         if (triggerIds && triggerIds.length > 0) {
@@ -2367,10 +2379,10 @@ function initExplorationOverlay(id, formatClone) {
                 var item = $('#form-item-container').find('#explorationItem-' + explorationType).clone();
                 tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#explorationElements .option-container'), 'explorationItem-' + explorationType, true);
                 if (explorationType === 'gestures') {
-                    renderAssembledGesturesItems(item.find('#assembled-gestures-container'));
+                    renderAssembledGesturesItems(item.find('#assembled-gestures-container'), null, true);
                     initAddTransitionSceneButton(item);
                 } else {
-                    renderAssembledTriggerItems(item.find('#assembled-trigger-container'));
+                    renderAssembledTriggerItems(item.find('#assembled-trigger-container'), null, true);
                     initAddTransitionSceneButton(item);
                 }
 

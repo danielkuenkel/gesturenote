@@ -169,7 +169,7 @@
         },
         "analysis": {
             "title": "Analyse",
-            "content": "Bereitstellung von Rohdaten (Videodaten, Fragebögen, etc.),<br/>Berechnung des SUS-Scores,</br>Teilen von Ergebnissen,<br/>Kommentieren, Bewerten und Teilen von Gesten.",
+            "content": "Bereitstellung von Rohdaten (Videodaten, Fragebögen, etc.),<br/>Berechnung des SUS-Scores,</br>Freigeben von Ergebnissen,<br/>Kommentieren, Bewerten und Freigeben von Gesten.",
             "videoPlaceholderUrl": "img/de/analysis-placeholder.jpg",
             "videoUrl": "video/analysis.mp4"
         },
@@ -184,11 +184,11 @@
                 }
             },
             "expertbased": {
-                "subline": "Hier steht die Analyse und Bewertung von Gesten-Interaktionen durch den Gesten-Designer im Fokus. GestureNote unterstützt Vorgehensweisen und Methoden, die ohne direkten Kontakt zu potentiellen Nutzern von Gesten-Interaktionen auskommen. Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.",
+                "subline": "Hier steht die Analyse und Bewertung von Gesten-Interaktionen durch den Gesten-Designer im Fokus. GestureNote unterstützt Vorgehensweisen und Methoden, die ohne direkten Kontakt zu potentiellen Nutzern von Gesten-Interaktionen auskommen. Geben Sie Studien-Ergebnisse für andere registrierte Gesten-Designe frei.",
                 "content": {
                     "col01": "<ul><li><strong>Gesten-Recorder:</strong> Aufzeichnung von Gesten mit über Webcam und/oder Leap Motion Controller.</li><li><strong>Gesten-Katalog:</strong> Zugriff auf alle erstellten und von anderen Gesten-Designern freigegebene Gesten.</li></ul>",
                     "col02": "<ul><li><strong>Klassifizierung:</strong> Einfaches Klassifizieren von nutzerzentriert ermittelten Gesten.</li><li><strong>Potentielle Gesten:</strong> Bewertung klassifizierter Gesten auf Basis bereitgestellter Kennzahlen (Anzahl von Gesten, statische Übereinstimmung nach Wobbrock) und Bewertungsinstrumente (Checkliste, Sinnzusammenhänge).</li><li><strong>Gesten-Sets:</strong> Fassen Sie potentielle Gesten zu einem Gesten-Set zusammen, um diese für eine Evaluierung zu verwenden.</li></ul>",
-                    "col03": "<ul><li><strong>Rohdaten:</strong> Sichtung von Rohdaten (Videos, Gesten, Fragebögen, Beobachtungen, etc.).</li><li><strong>Umfangreicher Video-Player:</strong> Automatische Synchronisierung von Videodaten (Moderator, Proband, Prototyp).</li><li><strong>Zeitleiste & Annotationen:</strong> Synchroniserte Darstellung automatische gespeicherter Annotationen. Hinzufügen/Löschen von Annotationen.</li><li><strong>Automatische Score-Berechnung:</strong> SUS-Scores, UEQ-Scales, sowie Scores für <em>Gesten erraten</em> und <em>Interaktionsaufgaben erraten</em> werden automatisch berechnet.</li><li><strong>Notizen:</strong> Fügen Sie wichtige Notizen zu jedem Leitfadenschritt hinzu.</li><li><strong>Teilen von Ergebnissen:</strong> Teilen Sie Studien-Ergebnisse mit anderen registrierten Gesten-Designern.</li><li><strong>Gesten-Katalog:</strong> Teilen Sie ermittelte Gesten mit anderen Gesten-Designern. Diskutieren und bewerten Sie Gesten mit anderen Gesten-Designern.</li></ul>" 
+                    "col03": "<ul><li><strong>Rohdaten:</strong> Sichtung von Rohdaten (Videos, Gesten, Fragebögen, Beobachtungen, etc.).</li><li><strong>Umfangreicher Video-Player:</strong> Automatische Synchronisierung von Videodaten (Moderator, Proband, Prototyp).</li><li><strong>Zeitleiste & Annotationen:</strong> Synchroniserte Darstellung automatische gespeicherter Annotationen. Hinzufügen/Löschen von Annotationen.</li><li><strong>Automatische Score-Berechnung:</strong> SUS-Scores, UEQ-Scales, sowie Scores für <em>Gesten erraten</em> und <em>Interaktionsaufgaben erraten</em> werden automatisch berechnet.</li><li><strong>Notizen:</strong> Fügen Sie wichtige Notizen zu jedem Leitfadenschritt hinzu.</li><li><strong>Freigeben von Ergebnissen:</strong> Geben Sie Studien-Ergebnisse für andere registrierte Gesten-Designern frei.</li><li><strong>Gesten-Katalog:</strong> Geben Sie ermittelte Gesten für andere Gesten-Designern frei. Diskutieren und bewerten Sie Gesten mit anderen Gesten-Designern.</li></ul>" 
                 }
             }
         }
@@ -377,7 +377,7 @@
     "cancelExecution": "Die Befragung wirklich abbrechen?",
     "deleteStudyModal": "Wollen Sie diese Studie wirklich löschen? Alle Studien-Daten gehen dabei verloren. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.",
     "deleteStudyResultModal": "Wollen Sie alle Daten dieser Befragung wirklich löschen? Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.",
-    "deleteCreateModal": "Die Erstellung dieser Studie wirklich beenden? Es werden alle Daten gelöscht!",
+    "deleteCreateModal": "Die Erstellung dieser Studie wirklich beenden? Sollen die gemachten Änderungen gespeichert werden?",
     "executeStudy": "Befragung starten",
     "showIntroduction": "Zeige Einführung",
     "introduction": "Einführung",
@@ -453,7 +453,7 @@
     "stats": {
         "studies": "Studien erstellt",
         "gestures": "Gesten erstellt",
-        "gesturesShared": "Gesten geteilt",
+        "gesturesShared": "Gesten freigegeben",
         "gesturesLiked": "Gesten favorisiert",
         "gesturesRated": "Gesten bewertet"
     },
@@ -709,7 +709,7 @@
     "copy": "Kopieren",
     "studyUrl": "Studien-URL",
     "openStudyUrl": "Studien-URL aufrufen",
-    "studyURLDescription": "Um eine Studie aufzurufen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke.",
+    "studyURLDescription": "Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke.",
     "totalGestures": "Gesten insgesamt",
     "totalGesture": "Geste insgesamt",
     "gesturesForTrigger": "Gesten für Interaktionsaufgabe",
@@ -1397,7 +1397,7 @@
     "thanksSaveError": "Es gab einen Fehler. Die Daten konnten nicht gespeichert werden. Bitte noch einmal versuchen.",
     "thanksSaveSuccess": "Die Studien-Daten wurden erfolgreich übertragen. Sie können das Fenster nun schließen oder an weiteren Studien teilnehmen.",
     "thanksResave": "Noch einmal probieren",
-    "thanksShare": "Einfach den Link kopieren um die Studie zu teilen.",
+    "thanksShare": "Diesen Link kopieren um die Studie zu teilen.",
     "leaveExecution": "Befragung verlassen",
     "noTriggerPresent": "Keine Interaktionsaufgaben vorhanden",
     "noGestureSetPresent": "Kein Studien-Gesten-Set vorhanden",
@@ -1515,8 +1515,8 @@
     "studyGestureSet": "Studien-Gesten-Set",
     "exchangeableGestureSet": "ProGesture-Gesten-Set",
     "chooseStudyGestureSet": "Studien-Gesten-Set wählen",
-    "gestureSharedWith": "Geste geteilt mit",
-    "gestureSetSharedWith": "Geste-Set geteilt mit",
+    "gestureSharedWith": "Geste freigegeben für",
+    "gestureSetSharedWith": "Geste-Set freigegeben für",
     "assignmentToGestureSets": "Zuweisung zu Gesten-Sets",
     "deleteGestureFromSet": "Aus Gesten-Set entfernen",
     "createNewGestureSet": "Neues Gesten-Set anlegen",
@@ -1613,13 +1613,13 @@
     "nextParticipant": "Nächster Teilnehmer",
     "previousParticipant": "Vorheriger Teilnehmer",
     "description": "Beschreibung",
-    "sharedStudies": "Studie teilen",
+    "sharedStudies": "Studie freigeben",
     "sharedInfo": "Mal freigegeben",
-    "sharedStudy": "Diese Studie wurde mit Ihnen geteilt",
+    "sharedStudy": "Diese Studie wurde Ihnen freigegeben",
     "invite": "Einladen",
-    "inviteAllUsersForGesture": "Geste mit allen teilen",
-    "inviteAllUsersForGestureSet": "Gesten-Set mit allen teilen",
-    "inviteUserViaMail": "Per E-Mail-Adresse teilen",
+    "inviteAllUsersForGesture": "Geste für alle freigegeben",
+    "inviteAllUsersForGestureSet": "Gesten-Set für alle freigegeben",
+    "inviteUserViaMail": "Per E-Mail-Adresse freigeben",
     "hello": "Hallo",
     "inviteSubject": "Freigabe einer Gesten-Design-Studie",
     "uninviteSubject": "Freigabe einer Gesten-Design-Studie zurückgezogen",
@@ -1731,20 +1731,20 @@
     "gestureImporter": "Gesten importieren",
     "gestureRecorderDummyURL": "img/de/gesture-recorder-dummy.jpg",
     "comments": "Kommentare",
-    "share": "Teilen",
-    "unshare": "Nicht Teilen",
-    "shareGesture": "Keinem anderen freigegeben",
-    "unshareGesture": "Nicht mit anderen teilen",
-    "shareGestureSet": "Keinem anderen freigegeben",
-    "unshareGestureSet": "Nicht mit anderen teilen",
-    "gestureNotShared": "Geste nicht mit anderen geteilt",
-    "gestureSharedWithYou": "Geste mit Ihnen geteilt",
-    "gestureSharedWithOthers": "Geste mit <span style='color:black; font-weight:bold'>{x}</span> weiteren Gesten-Designern geteilt",
-    "gestureShared": "Geste mit allen anderen geteilt",
-    "gestureSetNotShared": "Gesten-Set nicht mit anderen geteilt",
-    "gestureSetShared": "Gesten-Set mit allen anderen geteilt",
-    "gestureSetSharedWithYou": "Gesten-Set mit Ihnen geteilt",
-    "gestureSetSharedWithOthers": "Gesten-Set mit <span style='color:black; font-weight:bold'>{x}</span> weiteren Gesten-Designern geteilt",
+    "share": "Freigeben",
+    "unshare": "Nicht freigeben",
+    "shareGesture": "Keinen anderen freigegeben",
+    "unshareGesture": "Anderen nicht freigeben",
+    "shareGestureSet": "Keinen anderen freigegeben",
+    "unshareGestureSet": "Anderen nicht freigeben",
+    "gestureNotShared": "Geste nicht für andere freigegeben",
+    "gestureSharedWithYou": "Geste für Sie freigegeben",
+    "gestureSharedWithOthers": "Geste für <span style='color:black; font-weight:bold'>{x}</span> weitere Gesten-Designer freigegeben",
+    "gestureShared": "Für alle freigegeben",
+    "gestureSetNotShared": "Gesten-Set nicht freigegeben",
+    "gestureSetShared": "Für alle freigegeben",
+    "gestureSetSharedWithYou": "Gesten-Set für Sie freigegeben",
+    "gestureSetSharedWithOthers": "Gesten-Set für <span style='color:black; font-weight:bold'>{x}</span> weitere Gesten-Designer freigegeben",
     "gestureSharedInOwnProjects": "<span class='text font-bold'>{x}</span> Mal in eigenen Projekten genutzt.",
     "gestureSharedInOtherProjects": "<span class='text font-bold'>{x}</span> Mal in Projekten anderer genutzt.",
     "edit": "Bearbeiten",
@@ -1947,9 +1947,9 @@
     },
     "gesturesCatalog": {
         "totalGestures": "Gesten insgesamt",
-        "publicGestures": "Von anderen geteilte Gesten",
+        "publicGestures": "Von anderen freigegebene Gesten",
         "userGestures": "Erstellte Gesten",
-        "publicUserGestures": "Geteilte Gesten",
+        "publicUserGestures": "freigegebene Gesten",
         "elicitedGestures": "Ermittelte Gesten"
     },
     "mainDimensions": {
@@ -2152,6 +2152,7 @@
             "sound": "Laden Sie eine MP3-Datei hoch, um dem Probanden Rückmeldung über Töne zu geben. Dies ist z.B. wichtig, wenn es kein grafisches User Interface gibt. Die Datei darf bis zu 8 MB groß sein."
         },
         "gestures": {
+            "gestureNameQuality": "Bezieht sich auf den gewählten Namen einer Geste. <em>Funktional</em> bedeutet, dass der gewählte Name an eine bestimmte Interaktionsaufgabe gekoppelt ist. <em>Generisch</em> bedeutet, dass der Name unabhängig von der Interaktionsaufgabe ist.",
             "executionType": "Eine Pose ist eine bestimmte Position von Körperteilen ohne Bewegung (z.B. Daumen-Hoch-Geste). Eine dynamische Geste beinaltet immer eine Bewegung (z.B. Push-Geste).",
             "interactionType": "Kommt die Systemrückmeldung erst nach der Gesten-Ausführung (z.B. Seitenwechsel nach Daumen-Hoch-Geste)? Dann spricht man von einer diskreten Gesten-Interaktion. Wird die Systemrückmeldung bereits während der Gesten-Ausführung aktiviert (z.B. bei einer Sliderbedienung), spricht man von kontinuierlicher Gesten-Interaktion.",
             "context": "Wo soll die Geste eingesetzt werden?",
@@ -5042,11 +5043,11 @@
                         "<h4>Exploration</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-04-08.jpg' style='max-width:880px' />",
                         "<p>Ziel dieser Methode ist es, den Probanden einen Überblick über die ermittelten Gesten oder Interaktionsaufgaben zu geben. In der Befragung können dann entweder die favorisierten Interaktionsaufgaben für eine Gesten oder die favorisierten Gesten für eine Interaktionsaufgabe identifiziert werden.</p>",
-                        "<p>Für Sie für jede Geste bzw. Interaktionsaufgabe ein Explorationselement hinzu, für das Sie favorisierte Interaktionsaufgaben (für eine Geste) bzw. Gesten (für eine Interaktionsaufgabe) abfragen möchten. Fügen Sie Zustände hinzu, wenn sie dem Probanden einen Prototyp präsentieren wollen.</p>",
+                        "<p>Fügen Sie für jede Geste bzw. Interaktionsaufgabe ein Explorationselement hinzu, für das favorisierte Interaktionsaufgaben (für eine Geste) bzw. Gesten (für eine Interaktionsaufgabe) abfragen werden sollen. Fügen Sie Zustände hinzu, wenn sie dem Probanden einen Prototyp präsentieren wollen.</p>",
                         "<h4>Gesten-Training</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-04-09.jpg' style='max-width:836px' />",
                         "<p>Bevor Gesten (z.B. in einem szenariobasierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Interaktionsaufgaben und Systemrückmeldungen nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich muss das Gesten-Training mit einem vorhandenen Prototypen durch unterschiedlich hinterlegt Zustände bereichert werden.</p>",
-                        "<h4>Szenario</h4><hr>",
+                        "<h4>Benutzertest</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-04-10.jpg' style='max-width:781px' />",
                         "<p>Gesten-Interaktionen werden typischerweise mit szenariobasierten Aufgaben in Verbindung mit Wizard-of-Oz (WOZ)-Experimenten evaluiert. Bei einem WOZ-Experiment glaubt der Nutzer (Proband), dass dieser mit einem autonomen System interagiert. In Wirklichkeit steuert jedoch ein anderer Mensch die Reaktionen des Systems im Verborgenen. Der Vorteil dieser Methode ist, dass sie schon in einem sehr frühen Entwicklungsstadium eingesetzt werden kann.</p>",
                         "<p>In GestureNote liegt der Fokus auf der Erstellung explorativer WOZ-Experimente. Mit szenariobaiserten Aufgaben können nicht nur verschiedene Quellen (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge definiert werden. Daran gekoppelt sind einzelne Gesten und deren Systemrückmeldung. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten und Erfolgsfaktoren für jede Aufgabe zu definieren.</p>",
@@ -5100,10 +5101,10 @@
                         "<p>Der WebRTC Stream und der Beobachtungsleitfaden ist immer auf der linken Seite zu finden. Die hinterlegten Texte für eine Methodeneinführung und die Steuerelemente sind immer auf der rechten Seite zu finden.</p>",
                         "<h4>Screen-Sharing</h4><hr>",
                         "<p>Einige Methoden nutzen Screen-Sharing, um hinterlegte Zustände beim Probanden anzuzeigen.</p>",
-                        "<p><ul><li>Ermittlung mit Zuständen</li><li>Exploration mit Zuständen</li><li>Gesten-Training</li><li>Benutzertest mit Wizard-of-Oz-Experiment</li></ul></p>",
+                        "<p><ul><li>Ermittlung mit Zuständen</li><li>Exploration mit Zuständen</li><li>Gesten-Training</li><li>Benutzertest</li></ul></p>",
                         "<span>Abgesehen von den Methoden und deren unterschiedlichem Workflow, ist das Initiieren und Beenden eines Screen-Sharings immer gleich.</span>",
                         "<div class='image-with-caption text-center'><img class='img-image' style='max-width:741px' src='img/de/introduction/study-preview/carousel-02-01.png' /><div class='image-caption'>Dialog für das Starten des Screen-Sharings. Auswahl des Prototyp-Fensters über den Reiter <em>Anwendungsfenster</em>.</div></div>",
-                        "<p>Klicken Sie als erstes auf den Button <button class='btn btn-success btn-xs'>Prototyp öffnen</button>. Es öffnet sich ein neues Browserfenster (siehe oben) in dem die Zustände gerendert werden. Dieses Fenster soll dem Probanden übertragen werden. Klicken Sie anschließen in GestureNote auf <button class='btn btn-success btn-xs'>Screen-Sharing starten</button>. Es öffnet sich nun ein Dialog, in dem Sie das zu übertragende Browserfester unter dem Reiter Anwendungsfenster auswählen können. Bestätigen Sie die Auswahl mit einem Klick auf Teilen. Der Prototyp wird nun zum Probanden übertragen. Ändert sich der Zustand, sieht dies somit auch der Proband. Sie können das Browserfenster verschieben, ohne dass dies einen Einfluss auf die Darstellung beim Probanden hat. Ändern Sie die Größe des Fensters, wird die Ansicht beim Probanden passend skaliert (scale-to-fit).</p>",
+                        "<p>Klicken Sie als erstes auf den Button <button class='btn btn-success btn-xs'>Prototyp öffnen</button>. Es öffnet sich ein neues Browserfenster (siehe oben) in dem die Zustände gerendert werden. Dieses Fenster soll dem Probanden übertragen werden. Klicken Sie anschließen in GestureNote auf <button class='btn btn-success btn-xs'>Screen-Sharing starten</button>. Es öffnet sich nun ein Dialog, in dem Sie das zu übertragende Browserfenster unter dem Reiter Anwendungsfenster auswählen können. Bestätigen Sie die Auswahl mit einem Klick auf Teilen. Der Prototyp wird nun zum Probanden übertragen. Ändert sich der Zustand, sieht dies somit auch der Proband. Sie können das Browserfenster verschieben, ohne dass dies einen Einfluss auf die Darstellung beim Probanden hat. Ändern Sie die Größe des Fensters, wird die Ansicht beim Probanden passend skaliert (scale-to-fit).</p>",
                         "<h4>Fragebögen</h4><hr>",
                         "<p>Alle Fragebögen, sei es ein benutzerdefinierte Fragebogen, ein GUS, SUS oder UEQ, basieren auf den selben Funktionalitäten. Der Proband beantwortet die Fragen auf seinem Gerät. Die Antworten werden in Echtzeit zum Moderator übertragen, d.h. Sie sehen immer an welcher Stelle im Fragebogen sich ein Proband befindet und welche Antworten er gewählt hat. So können Sie nochmal nachhaken, falls es bei einer Frage Schwierigkeiten gibt. Bei einem Interview liest der Moderator die Fragen vor und gibt die Antworten des Probanden in das Formular ein.</p>",
                         "<p>Sie können für eigene Fragebögen Filterfragen anlegen. Wurden Filterfragen angelegt, werden diese Infos entweder neben den einzelnen Auswahloptionen oder für die ganze Frage eingeblendet (wenn z.B. die Antwort/Auswahl egal ist, oder bei einer Summenfrage alle Antwortmöglichkeiten >= 2 sind). Scrollen Sie mit der Maus über das Symbol <b><i class='fa fa-info-circle'></i> Filter</b>, um die Informationen abzurufen. Sind Filterfragen vorhanden, werden die einzelnen Fragen sequentiell eingeblendet. Ohne Filterfragen werden alle Fragen eines Fragebogens gezeigt.</p>",
@@ -5143,11 +5144,11 @@
                 "<img class='img-image' src='img/de/introduction/study/carousel-01-01.png' style='max-width:456px' />",
                 "<p>Die Studien-Seite teilt sich in die Bereiche <em>Allgemeines</em>, <em>Kataloge</em> und <em>Teilnahmen</em> auf. Falls eine Extraktion durchgeführt wurde, erscheint zusätzlich der Bereich <em>Exktraktion</em> in der Navigation.</p>",
                 "<h4>Studien-URL & Infos</h4><hr>",
-                "<p>Um eine Studie aufzurufen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet.</p>",
+                "<p>Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet.</p>",
                 "<h4>Leitfaden</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/study/carousel-01-03.png' style='max-width:390px' />",
                 "<p>Auf der rechten Seite wird nochmals der Leitfaden angezeigt. Zusätzlich kann die Studie bearbeitet, die Vorschau aufgerufen oder die Studie gelöscht werden. Beim Löschen einer Studie gehen alle Daten verloren. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.</p>",
-                "<h4>Studie teilen</h4><hr>",
+                "<h4>Studie freigeben</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/study/carousel-01-04.png' style='max-width:471px' />",
                 "<p>Geben Sie eine Studie für andere Gesten-Designer frei. Freigaben können mit einem Klick auf <span class='btn-uninvite-user'><i class='fa fa-trash'></i> löschen</span> rückgängig gemacht werden.</p>"
             ]
@@ -5273,7 +5274,7 @@
                 "<p>Für eine tiefergehende Analyse kann das UEQ Data Analysis Tool in Form einer Excel Tabelle von <a href='https://www.ueq-online.org' target='_blank'>hier</a> genutzt werden. Bei einer Übertragung der Werte aus GestureNote in das UEQ Analyse Tool ist auf die Zahlen in den runden Flächen zu achten. Diese Zahlen spiegeln die jeweilige Itemnummer wieder.</p>",
                 "<h4>Ermittlung</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/participant/carousel-02-05.jpg' style='max-width:513px' />",
-                "<p>Unterhalb der Videovorschau werden alle ermittelten Daten (Gesten oder Interaktionsaufgaben) aufgelistet. Falls eine Gesten-Ermittlung durchgeführt wurde, können Sie hier die Gesten-Informationen bearbeiten, Gesten teilen, kommentieren oder zu Gesten-Sets hinzufügen. Um eine Extraktion durchzuführen, gehen Sie zurück zur Studie und rufen den Reiter <em>Extraktion</em> auf.</p>",
+                "<p>Unterhalb der Videovorschau werden alle ermittelten Daten (Gesten oder Interaktionsaufgaben) aufgelistet. Falls eine Gesten-Ermittlung durchgeführt wurde, können Sie hier die Gesten-Informationen bearbeiten, Gesten freigeben, kommentieren oder zu Gesten-Sets hinzufügen. Um eine Extraktion durchzuführen, gehen Sie zurück zur Studie und rufen den Reiter <em>Extraktion</em> auf.</p>",
                 "<h4>Exploration</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/participant/carousel-02-06.jpg' style='max-width:719px' />",
                 "<p>Während einer Exploration werden entweder favorisierte Gesten oder favorisierte Interaktionsaufgaben nutzer-zentriert abgefragt. Diese Daten stehen Ihnen - zusätzlich zur Videovorschau - als beantworteter Fragebogen zur Verfügung.</p>",
@@ -5303,13 +5304,14 @@
             "popover": "Allgemeines über Gesten",
             "description": 
                     [
-                        "<p>Das Arbeiten mit Gesten stellt sich in aktuellen Design-Studien immer wieder als aufwendig und zeitraubend heraus. GestureNote wurde entwickelt, um das Design von Gesten-Interaktionen zu vereinfachen und eine breitere Zielgruppe zu befragen. Die einzelnen Gesten, egal ob nutzerzentriert ermittelt oder vom Gesten-Designer aufgezeichnet, stehen dabei im Fokus. Der Zugriff auf alle Gesten kann über den Gesten-Katalog erfolgen. Hier stehen nicht nur eigene aufgezeichnete und ermittelte Gesten, sondern auch von anderen Gesten-Designern geteilte Gesten zentral zur Verfügung.</p>",
+                        "<p>Das Arbeiten mit Gesten stellt sich in aktuellen Design-Studien immer wieder als aufwendig und zeitraubend heraus. GestureNote wurde entwickelt, um das Design von Gesten-Interaktionen zu vereinfachen und eine breitere Zielgruppe zu befragen. Die einzelnen Gesten, egal ob nutzerzentriert ermittelt oder vom Gesten-Designer aufgezeichnet, stehen dabei im Fokus. Der Zugriff auf alle Gesten kann über den Gesten-Katalog erfolgen. Hier stehen nicht nur eigene aufgezeichnete und ermittelte Gesten, sondern auch von anderen Gesten-Designern freigegebene Gesten zentral zur Verfügung.</p>",
                         "<h4>Gesten in GestureNote</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-01.jpg' style='max-width:280px' /><div class='image-caption'>Standard-Thumbnail einer Geste in GestureNote.</div></div>",
                         "<p>Die obere Abbildung zeigt das typische Thumbnail, das in GestureNote eine Geste repräsentiert. Wird die Maus über das Thumbnail bewegt, wird die Vorschau der Geste als Loop abgespielt. Unterhalb der Vorschau wird der Titel der Geste und Symbole eingeblendet, die weitere Informationen über die Geste anzeigen. Diese Vorschau wird gespiegelt angezeigt, d.h. sie ist wie ein Spiegelbild zu behandeln.</p>",
                         "<p><strong>Bewertungen</strong><br/>Das Sternsymbol <i class='fa fa-star-o'></i> zeigt an, ob und wie die Geste von anderen Gesten-Designer bewertet ist. Ein leerer Stern gibt an, dass die Geste noch nicht bewertet wurde. Ein gefüllter gelber Stern <span class='btn-rate gesture-rated'><i class='fa fa-star' style='color:#f0ad4e'></i> <span class='amount' style='font-size: 9pt;position: relative;top: -1px; left:-2px'>45</span></span> zeigt an, dass die Geste bewertet ist und die Zahl daneben, von wie vielen Gesten-Designern sie bewertet wurde. Eigene Gesten, d.h. selbst aufgezeichnete oder in Studien ermittelte Gesten können nicht bewertet werden. Mit einem Klick auf das Symbol gelangt man zu den Bewertungen</p>",
                         "<p><strong>Favoriten</strong><br/>Analog zum Sternsymbol verhält sich das Herzsymbol <i class='fa fa-heart-o'></i>, welches anzeigt, ob und von wie vielen Gesten-Designer diese Geste favorisiert wird. Ein leeres Herz gibt an, dass die Geste noch nicht favorisiert wurde. Ein gefülltes rotes Herz <span class='btn-like gesture-liked'><i class='fa fa-heart' style='color:#D42C29'></i> <span class='amount' style='font-size: 9pt;position: relative;top: -1px; left:-2px'>15</span></span> zeigt an, dass die Geste favorisiert wird und die Zahl daneben, von wie vielen Gesten-Designern sie favorisiert wird. Es können auch eigene Gesten favorisiert werden.</p>",
-                        "<p><strong>Teilen</strong><br/>Das Sharingsymbol <i class='fa fa-share-alt'></i> verhält sich wie ein Switch. Ist es grau, wurde diese Geste nicht von Ihnen mit anderen Gesten-Designer geteilt. Ist es hingegen blau <i class='fa fa-share-alt' style='color:#0480be'></i>, wurde es von Ihnen in der Vergangenheit für andere Gesten-Designer freigegeben. Es können nur eigene Geste, d.h. selbst aufgezeichnete Gesten und in Studien ermittelte Gesten für andere Gesten-Designer freigegeben werden.</p>",
+                        "<p><strong>Freigaben</strong><br/>Das Sharingsymbol <i class='fa fa-share-alt'></i> ist grau, wenn diese Geste nicht von Ihnen freigegeben wurde. Ist es hingegen blau <i class='fa fa-share-alt' style='color:#0480be'></i>, ist die Geste für andere Gesten-Designer freigegeben. Es können nur eigene, d.h. selbst aufgezeichnete Gesten und in Studien ermittelte Gesten für andere Gesten-Designer freigegeben werden. Sie können Gesten für alle anderen oder für bestimmte Gesten-Designer freigeben. Wurden Gesten für alle freigegeben, erscheint zusätzlich eine liegende Acht &infin;. Wurde die Geste hingegen nur für bestimmte Gesten-Designer per E-Mail freigegeben, erscheint die Anzahl. Wurde die Geste per E-Mail und für alle anderen freigegeben, wird die liegende Acht priorisiert angezeigt.</p>",
+                        "<p><strong>Gesten-Set-Zuweisung</strong><br/>Eine Geste ein oder mehreren Gesten-Sets zugewisen werden. Das Symbol <i class='fa fa-paperclip'></i> ist grau, wenn diese Geste keinem Gesten-Set zugewiesen ist. Ist es hingegen blau <i class='fa fa-paperclip' style='color:#0480be'></i>, ist die Geste mindestens einem Gesten-Set zugewiesen. Eine Zahl zeigt an, zu wie vielen Gesten-Sets eine Geste zugewiesen ist. Scrollen Sie mit der Maus über das Symbol, erscheint eine Liste der Gesten-Sets.</p>",
                         "<p><strong>Kommentare</strong><br/>Das Symbol <i class='fa fa-comments'></i> zeigt an, ob und wie viele Kommentare es für eine Geste gibt. Man gelangt zu den Kommentaren, in dem man auf das Symbol klickt. Sind noch keine Kommtanre zu dieser Geste vorhanden, wird eine leere Sprechblase <i class='fa fa-comment-o'></i> angezeigt.</p>",
                         "<p><strong>Alle Informationen abrufen</strong><br/>Über einem Klick auf das Symbol <i class='fa fa-ellipsis-h'></i>, können alle Informationen über eine Geste abgerufen werden. Ist man „Besitzer“ dieser Geste, kann diese zusätzlich bearbeitet und gelöscht werden.</p><br/>",
                         "<p>Oben rechts werden Informationen über die Art der Gesten-Ausführung und Gesten-Interaktion dargestellt. Es können jeweils zwei Arten der Gesten-Ausführung und Gesten-Interaktion unteschieden werden. Diese sind in GestureNote mit spezifischen Farben gekennzeichnet.</p>",
@@ -5319,12 +5321,10 @@
                         "<p>Je nachdem, in welchem Bereich man sich gerade in GestureNote aufhält, unterscheiden sich die angezeigten Symbole unterhalb der Vorschau. Soll ein Studien-Gesten-Set für eine Gesten-Design-Studie zusammengestellt werden, werden dort die Symbole <i class='fa fa-plus-square></i> oder <i class='fa fa-minus-square'></i> aufgeführt.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-02.jpg' style='max-width:277px' /><div class='image-caption'>Thumbnail einer Geste für den Bereich <em>Gesten-Klassifizierung</em> in der Gesten-Extraktion.</div></div>",
                         "<p>Im Bereich <em>Gesten-Klassifizierung</em> bei einer Gesten-Extraktion werden Thumbnails mit dem Symbol <i class='fa fa-tag'></i> für das Markieren als Stellvertretergeste und dem Symbol <i class='fa fa-trash'></i> für das Löschen aus der Klassifizierung ausgestattet.</p>",
-                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-03.jpg' style='max-width:283px' /><div class='image-caption'>Thumbnail einer Geste für den Bereich <em>Potentielle Gesten</em> in der Gesten-Extraktion.</div></div>",
-                        "<p>Im Bereich der <em>Potentiellen Gesten</em> werden Thumbnails mit einem Quicklink <i class='fa fa-paperclip'></i> zu Gesten-Sets eingeblendet. Dies ermöglicht ein schnelles Zusammenstellen von potentiellen Gesten-Sets (z.B. für eine Gesten-Evaluierung). Man gelangt in den Bereich <em>Gesten-Sets</em> indem man auf das Symbol klickt.</p>",
-                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-04.jpg' style='max-width:284px' /><div class='image-caption'>Thumbnail einer Geste für den Bereich <em>Studien-Gesten-Set</em> in der Erstellung einer Studie.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-04.jpg' style='max-width:276px' /><div class='image-caption'>Thumbnail einer Geste für den Bereich <em>Studien-Gesten-Set</em> in der Erstellung einer Studie.</div></div>",
                         "<p>Für das Zusammenstellen eines <em>Studien-Gesten-Sets</em> im Bereich der <em>Studien-Erstellung</em> werden Thumbnails mit einem Plus <i class='fa fa-plus-square'></i> zum Hinzufügen zum Studien-Gesten-Set oder einem Minus <i class='fa fa-minus-square'></i> zum Entfernen von einem Studien-Gesten-Set eingeblendet. In der linken oberen Ecke erscheint zudem ein Sternsymbol <i class='fa fa-asterisk'></i>, welches anzeigt, ob diese Geste dem Studien-Gesten-Set angehört.</p>",
                         "<h4>Infofenster</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-05.jpg' style='max-width:600px' /><div class='image-caption'>Alle Informationen über eine Geste werden in einem Infofenster dargestellt. Unter anderem mit den Funktionen Teilen, Bewerten, Favorisieren, Kommentieren und Bearbeiten einer Geste. Sowie die Zuteilung einer Geste zu einem bestimmten Gesten-Set.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-05.jpg' style='max-width:600px' /><div class='image-caption'>Alle Informationen über eine Geste werden in einem Infofenster dargestellt. Unter anderem mit den Funktionen Freigeben, Bewerten, Favorisieren, Kommentieren und Bearbeiten einer Geste. Sowie die Zuteilung einer Geste zu einem bestimmten Gesten-Set.</div></div>",
                         "<p>Im Infofenster können alle Informationen über eine Geste im Detail abgerufen werden. Das Bearbeiten einer Geste betrifft die Daten auf der rechten Seite (Titel, Kontext, Beschreibung, etc.).</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-08.jpg' style='max-width:350px' /><div class='image-caption'>Vorschau einer Gesten-Aufzeichnung mit Auswahl des Vorschaubildes (unten links) und Kontrollelement zum Herunterladen eines GIFs (oben links).</div></div>",
                         "<p>Die Vorschau einer Geste kann als GIF mit einem Klick auf das Symbol <i class='fa fa-file-image-o'></i> heruntergeladen werden. Es kann jedes Einzelbild über einen Klick auf den blauen Slider unter der Vorschau angewählt werden. Scrollen Sie mit der Maus über die Vorschau, um den Play- und Pause-Button anzuzeigen.</p>",
@@ -5346,7 +5346,9 @@
                     [
                         "<p>Führen Sie Gesten zu einem sog. Gesten-Set zusammen. Es kann z.B. bei einer Gesten-Extraktion ein potentielles Gesten-Set für eine Evaluierung zusammengeführt werden, um dann bei einer Studien-Erstellung alle Gesten aus dem Set einfach und schnell als Studien-Gesten-Set zu übernehmen.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-02-01.jpg' style='max-width:350px' /><div class='image-caption'>Zuordnung zu Gesten-Sets im Infofenster für eine Geste.</div></div>",
-                        "<p>Erstellen Sie neue Gesten-Sets im Gesten-Katalog, im Infofenster für Gesten oder bei der Studien-Erstellung im Katalog für die Studien-Gesten. Eine Geste kann mehreren Gesten-Sets zugewiesen werden.</p>"
+                        "<p>Erstellen Sie neue Gesten-Sets im Gesten-Katalog, im Infofenster für Gesten oder bei der Studien-Erstellung im Katalog für die Studien-Gesten. Eine Geste kann mehreren Gesten-Sets zugewiesen werden.</p>",
+                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-02-02.jpg' style='max-width:961px' /><div class='image-caption'>Zusatzfunktionen und Informationen für einzelne Gesten-Sets.</div></div>",
+                        "<p>Zusätzlich zur Anzeige der einzelnen Gesten in einem Gesten-Set, gibt es die Funktionen Freigeben <i class='fa fa-share-alt'></i>, Kommentieren <i class='fa fa-comment'></i> und Favorisieren <i class='fa fa-heart'></i> analog wie bei Gesten. Die Funktionesweise ist die Gleiche.</p>"
                     ]
         },
         {
@@ -5376,8 +5378,8 @@
             "popover": "Gestenaustausch mit ProGesture",
             "description": 
                     [
-                        "<h4>Expertenbasierte Aufzeichnung</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-03-01.jpg' style='max-width:700px' /><div class='image-caption'>Beispiel für eine expertenbasierte Gestenaufzeichnung. Gesten-Designer befindet sich im Speichern-Dialog.</div></div>"
+                        "<h4>Exportieren</h4><hr>",
+                        "<h4>Importieren</h4><hr>"
                     ]
         }
     ],

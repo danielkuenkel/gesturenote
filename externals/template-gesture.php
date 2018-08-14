@@ -80,7 +80,7 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="caption text-center">
-                <p class="gesture-name ellipsis"></p>
+                <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></p>
             </div>
 
             <div class="thumbnail-footer text-center">
@@ -121,7 +121,7 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="caption text-center">
-                <p class="gesture-name ellipsis"></p>
+                <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></p>
 <!--                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
                 <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>-->
             </div>
@@ -166,7 +166,7 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="caption text-center">
-                <p class="gesture-name ellipsis"></p>
+                <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></p>
 <!--                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
                 <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>-->
             </div>
@@ -194,9 +194,19 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
                     </div>
                 </div>
+                <div class="gesture-info-symbols">
+                    <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-execution"></span>
+                        <div class="gesture-info-symbol symbol-gesture-execution"></div>
+                    </span>
+                    <span class="symbol-container-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-interaction"></span>
+                        <div class="gesture-info-symbol symbol-gesture-interaction"></div>
+                    </span>
+                </div>
             </div>
             <div class="caption text-center" style="padding-bottom: 10px">
-                <p class="gesture-name ellipsis"></p>
+                <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></p>
 <!--                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
                 <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>-->
             </div>
@@ -227,7 +237,7 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="caption text-center" style="">
-                <p class="gesture-name ellipsis"></p>
+                <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></p>
             </div>
             <div class="thumbnail-footer text-center">
                 <div class="btn-delete-exchangeable-gesture" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteExchangeableGesture ?>"><i class="fa fa-trash"></i></div>
@@ -314,7 +324,7 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="caption text-center">
-                <p class="gesture-name ellipsis"></p>
+                <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></p>
                 <!--<span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text hidden-xs"></span></span>-->
                 <!--<span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text hidden-xs"></span></span>-->
             </div>
@@ -387,7 +397,7 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="caption text-center">
-                <p class="gesture-name ellipsis"></p>
+                <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></p>
                 <!--<span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>-->
                 <!--<span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>-->
             </div>

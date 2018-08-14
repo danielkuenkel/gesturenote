@@ -102,6 +102,7 @@ $(document).on('change', '.exchangeableFileUpload', function (event) {
                             var gesture = {
                                 id: tempId,
                                 title: zippedGestures[i].name,
+                                titleQuality: zippedGestures[i].nameQuality || 'functional',
                                 description: zippedGestures[i].description || '',
                                 context: zippedGestures[i].context || '',
                                 association: zippedGestures[i].association || '',

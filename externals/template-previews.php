@@ -646,20 +646,23 @@ include '../includes/language.php';
         </div>
 
         <div class="col-sm-6 col-md-7" id="column-right">
-            <div class="" id="general">
+            <div class="" id="general" style="margin-bottom: 20px">
                 <h3 class="headline" style="margin-top: 0px"><?php echo $lang->general ?></h3>
                 <div class="">
                     <div class="alert-space alert-no-more-tasks"></div>
                     <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudScenario ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
                     <!--<div id="description"><span class="address"></span>: <span class="text font-bold"></span></div>-->
-                    <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
-                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
-                    <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
-                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+                    <div>
+                        <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype"><?php echo $lang->openPrototype ?></button>
+                        <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" ><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
+                        <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-stop-screen-sharing" ><?php echo $lang->stopScreensharing ?></button>
+                        <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+                    </div>
+
                 </div>
             </div>
             <div class="" id="assessment-controls">
-                <h3 class="headline"><?php echo $lang->task ?> </h3>
+                <h3 class="headline" style="margin-top: 0"><?php echo $lang->task ?> </h3>
                 <div class="" style="padding-bottom: 0">
                     <div class="alert-space alert-no-phase-data"></div>
                     <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudTask ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="task"></span></div>
@@ -750,7 +753,7 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-shadow disabled btn-stop-static-continuous-gesture" style="border-radius: 0px; border-bottom-right-radius: 8px;"><i class="fa fa-stop"></i></button>
                     </div>
                 </div>
-                
+
                 <button type="button" class="btn btn-default btn-block btn-shadow disabled hidden btn-trigger-continuous-mouse-manipulation" data-activated="false" style="border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px"><i class="fa fa-mouse-pointer"></i> <?php echo $lang->cursor ?></button>
 
             </div>
@@ -1183,7 +1186,15 @@ include '../includes/language.php';
     <div class="root" id="interview" style="margin-top: 80px;"></div>
 
     <div id="interview-moderated">
-        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4" id="fixed-rtc-preview" style="margin-bottom: 15px;"></div>
+        <div class="col-md-6" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-6" id="column-right" style="margin-bottom: 80px;">
+            <h3 class="headline" style="margin: 0"></h3>
+            <hr>
+            <div class="question-container"></div>
+            <!--<hr>-->
+            <!--<button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
+        </div>
+        <!--<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4" id="fixed-rtc-preview" style="margin-bottom: 15px;"></div>-->
     </div>
 
 
@@ -1907,7 +1918,7 @@ include '../includes/language.php';
             <hr>
             <div class="row">
                 <div class="col-sm-6" style="margin-bottom: 20px;">
-                    <i class="fa fa-heart" style="font-size: 70pt; color: #ca3667"></i>
+                    <i class="fa fa-heart" id="heart-icon" style="font-size: 70pt; color: #ca3667"></i>
                     <div class="text" id="thanks-text"></div>
                 </div>
                 <div class="col-sm-6" id="upload-instructions" style="margin-bottom: 20px;">
@@ -1951,7 +1962,7 @@ include '../includes/language.php';
         <hr>
         <div class="row">
             <div class="col-sm-6" style="margin-bottom: 20px;">
-                <i class="fa fa-heart" style="font-size: 70pt; color: #ca3667"></i>
+                <i class="fa fa-heart" id="heart-icon" style="font-size: 70pt; color: #ca3667"></i>
                 <div class="text" id="thanks-text"></div>
             </div>
             <div class="col-sm-6" id="upload-instructions" style="margin-bottom: 20px;">

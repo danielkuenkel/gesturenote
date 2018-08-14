@@ -38,7 +38,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['email'])) {
                         echo json_encode(array('status' => 'insertError'));
                         exit();
                     } else {
-                        if ($select_invited_users_stmt = $mysqli->prepare("SELECT studies_shared.*, users.forename, users.surname FROM studies_shared LEFT JOIN users ON studies_shared.owner_id = users.id WHERE studies_shared.study_id = '$studyId' AND studies_shared.owner_id = '$sessionUserId'")) {
+                        if ($select_invited_users_stmt = $mysqli->prepare("SELECT studies_shared.*, users.forename, users.surname FROM studies_shared LEFT JOIN users ON studies_shared.email = users.email WHERE studies_shared.study_id = '$studyId' AND studies_shared.owner_id = '$sessionUserId'")) {
                             if (!$select_invited_users_stmt->execute()) {
                                 echo json_encode(array('status' => 'selectSharedStudiesError'));
                                 exit();

@@ -534,7 +534,7 @@ if (login_check($mysqli) == true) {
                     editableStudyId = null;
                     init();
                 }
-                
+
                 animateBreadcrump();
             }
 
@@ -735,7 +735,8 @@ if (login_check($mysqli) == true) {
             $('.breadcrumb li a').click(function (event) {
                 var button = $(this);
                 event.stopImmediatePropagation();
-                loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-sm');
+                loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
+
                 $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
                     if ($(button).attr('id') === 'btn-study') {
                         var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -750,6 +751,10 @@ if (login_check($mysqli) == true) {
                     }
 
                     clearLocalItems();
+                });
+
+                $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
+                    $('#btn-save-study').click();
                 });
             });
 
