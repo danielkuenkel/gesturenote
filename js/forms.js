@@ -341,7 +341,7 @@ function renderFormatItem(target, data, currentPhaseFormat, allowFilters) {
 }
 
 function checkFilterOptions(container) {
-    console.log('check filter options',container, $(container).attr('data-allow-filters'));
+    console.log('check filter options', container, $(container).attr('data-allow-filters'));
     if ($(container).attr('data-allow-filters') === 'true') {
         var elements = $(container).children();
         for (var i = 0; i < elements.length; i++) {
@@ -1563,15 +1563,15 @@ function renderEditableOpenQuestion(item, studyData, answer) {
 }
 
 function renderDichotomousQuestion(item, studyData, answer) {
+    console.log(studyData, answer);
     var options = [{id: 'yes', title: translation.yes}, {id: 'no', title: translation.no}];
+    $(item).find('#no-answer').removeClass('hidden');
 
     for (var i = 0; i < options.length; i++) {
         var optionItem = $('#template-study-container').find('#dichotomous-question-item').clone();
         $(optionItem).attr('data-id', options[i].id);
         $(optionItem).find('.option-text').text(options[i].title);
         $(item).find('.option-container').append(optionItem);
-
-        $(item).find('#no-answer').removeClass('hidden');
 
         if (answer && answer.selectedSwitch === options[i].id) {
             $(item).find('#no-answer').addClass('hidden');

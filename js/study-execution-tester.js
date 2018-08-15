@@ -1912,39 +1912,142 @@ var Tester = {
         });
     },
     getExploration: function getExploration(source, container, data) {
-//        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
-        Tester.renderModeratedExploration(source, container, data);
-        Tester.initScreenSharing(container.find('#scene-container'));
-//        } else {
-//            Tester.renderUnmoderatedExploration(source, container, data);
-//        }
-
-        return container;
-    },
-    renderModeratedExploration: function renderModeratedExploration(source, container, data) {
         if (!data.exploration || (data.exploration && data.exploration.length === 0)) {
             return false;
         }
 
         container.empty().append($(source).find('#exploration-moderated').clone().removeAttr('id'));
-//        if (previewModeEnabled) {
-//            $(container).find('#scene-container').css({top: '-108px'});
-//        }
 
-        // handle states in preview mode
-        if (explorationStartTriggered === true) {
+        renderCurrentPhaseState();
+        function renderCurrentPhaseState() {
+            if (currentPhaseState === null) {
+                currentPhaseState = 'initialize';
+            }
+
+            switch (currentPhaseState) {
+                case 'initialize':
+                    renderStateInitialize();
+                    break;
+                case 'prototypeOpened':
+                    renderStatePrototypeOpened();
+                    break;
+                case 'explorationStarted':
+                    renderStateExplorationStarted();
+                    break;
+                case 'askPreferredGestures':
+                    renderStateAskPreferredGestures();
+                    break;
+                case 'askResponsePreferredGestures':
+                    renderStateAskResponsePreferredGestures();
+                    break;
+                case 'askPreferredTrigger':
+                    renderStateAskPreferredTrigger();
+                    break;
+                case 'askResponsePreferredTrigger':
+                    renderStateAskResponsePreferredTrigger();
+                    break;
+                case 'screenSharingStopped':
+                    renderStateScreenSharingStopped();
+                    break;
+                case 'explorationDone':
+                    renderStateExplorationDone();
+                    break;
+            }
+        }
+
+        function renderStateInitialize() {
+            console.log('render state: ', currentPhaseState, scenesUsedForExploration(data.exploration));
             if (scenesUsedForExploration(data.exploration) === true) {
-//                clearAlerts(container);
-//            $(container).find('#fixed-rtc-preview').removeClass('hidden');
+                Tester.initScreenSharing(container.find('#scene-container'));
+            } else {
+
+            }
+        }
+
+        function renderStatePrototypeOpened() {
+            console.log('render state: ', currentPhaseState);
+        }
+
+        function renderStateExplorationStarted() {
+            console.log('render state: ', currentPhaseState);
+            renderCurrentScene();
+
+            if (data.explorationType === 'gestures' && currentPreviewGesture) {
+                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
+                    $('#custom-modal').unbind('hide.bs.modal');
+                    if (!previewModeEnabled && peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
+                    }
+                    currentPresentGesture = null;
+                });
+                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
+            } else if (data.explorationType === 'trigger' && currentPreviewTrigger) {
+                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
+                    $('#custom-modal').unbind('hide.bs.modal');
+                    currentPresentTrigger = null;
+                    if (!previewModeEnabled && peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
+                    }
+                });
+                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
+            }
+        }
+
+        function renderStateAskPreferredGestures() {
+            console.log('render state: ', currentPhaseState);
+
+            $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                event.preventDefault();
+                currentPhaseState = 'askResponsePreferredGestures';
+                renderCurrentPhaseState();
+            });
+            loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
+        }
+
+        function renderStateAskResponsePreferredGestures() {
+            console.log('render state: ', currentPhaseState);
+            $(container).find('#scene-description').addClass('hidden');
+            $(container).find('#scene-container').addClass('hidden');
+        }
+
+        function renderStateAskPreferredTrigger() {
+            console.log('render state: ', currentPhaseState);
+
+            $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                event.preventDefault();
+                currentPhaseState = 'askResponsePreferredTrigger';
+                renderCurrentPhaseState();
+            });
+            loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
+        }
+
+        function renderStateAskResponsePreferredTrigger() {
+            console.log('render state: ', currentPhaseState);
+            $(container).find('#scene-description').addClass('hidden');
+            $(container).find('#scene-container').addClass('hidden');
+        }
+
+        function renderStateScreenSharingStopped() {
+            console.log('render state: ', currentPhaseState);
+        }
+
+        function renderStateExplorationDone() {
+            console.log('render state: ', currentPhaseState);
+        }
+
+        function renderCurrentScene() {
+            if (scenesUsedForExploration(data.exploration) === true) {
                 if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene] && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description !== '') {
                     $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
                     $(container).find('#scene-description').removeClass('hidden');
+                } else {
+                    $(container).find('#scene-description').addClass('hidden');
                 }
 
                 if (previewModeEnabled) {
                     // render scene manually
                     console.log('render scene manually:', data.exploration[currentExplorationIndex]);
-                    if (data.exploration[currentExplorationIndex] && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
+                    if (data.exploration[currentExplorationIndex] && data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
                         renderSceneItem(source, container, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId);
                     } else {
                         renderSceneItem(source, container, null);
@@ -1954,47 +2057,25 @@ var Tester = {
                 $(container).find('#scene-container').removeClass('hidden');
             } else {
                 $(container).find('#scene-description').addClass('hidden');
-                $(container).find('#scene-container').addClass('hidden');
             }
-
-            if (data.explorationType === 'gesture' && currentPresentGesture) {
-                currentPreviewGesture = {gesture: currentPresentGesture};
-                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
-                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-                    $('#custom-modal').unbind('hide.bs.modal');
-                    if (!previewModeEnabled && peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
-                    }
-                    currentPresentGesture = null;
-                });
-            } else if (data.explorationType === 'trigger' && currentPresentTrigger) {
-                currentPreviewTrigger = currentPresentTrigger;
-                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
-                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
-                    $('#custom-modal').unbind('hide.bs.modal');
-                    currentPresentTrigger = null;
-                    if (!previewModeEnabled && peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
-                    }
-                });
-            }
-        } else {
-//            appendAlert($(container), ALERT_PLEASE_WAIT);
-//            $(container).find('#fixed-rtc-preview').addClass('hidden');
-            $(container).find('#scene-description').addClass('hidden');
-            $(container).find('#scene-container').addClass('hidden');
         }
 
-        // handle live mode
-        if (!previewModeEnabled && peerConnection) {
-
-            // generic exploration live events
-            $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
-                explorationStartTriggered = true;
-                if (scenesUsedForExploration(data.exploration) === true) {
-                    $(container).find('#scene-description').removeClass('hidden');
-                    $(container).find('#scene-container').removeClass('hidden');
+        function scenesUsedForExploration(data) {
+            if (data && data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].transitionScenes && data[i].transitionScenes.length > 0) {
+                        return true;
+                    }
                 }
+            }
+            return false;
+        }
+
+        // exploration live events
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
+                currentPhaseState = 'explorationStarted';
+                renderCurrentStatePhase();
             });
 
             $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
@@ -2013,28 +2094,164 @@ var Tester = {
                 console.log('open gesture info', payload);
 
                 currentPreviewGesture = {gesture: getGestureById(payload.id)};
-                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
                 $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
+                    currentPresentGesture = null;
                     $('#custom-modal').unbind('hide.bs.modal');
                     if (!previewModeEnabled && peerConnection) {
                         peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
                     }
-//                    currentPreviewGesture = null;
                 });
+                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
             });
 
             $(peerConnection).unbind(MESSAGE_OPEN_TRIGGER_INFO).bind(MESSAGE_OPEN_TRIGGER_INFO, function (event, payload) {
                 console.log('open trigger info', payload);
 
                 currentPreviewTrigger = getTriggerById(payload.id);
-                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
-                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
+                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
                     currentPreviewTrigger = null;
                     $('#custom-modal').unbind('hide.bs.modal');
                     if (!previewModeEnabled && peerConnection) {
                         peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
                     }
                 });
+                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
+            });
+
+            $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
+                currentPhaseState = 'screenSharingStopped';
+                renderCurrentPhaseState();
+            });
+
+            if (data.explorationType === 'gestures') {
+                $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_GESTURES).bind(MESSAGE_REQUEST_PREFERRED_GESTURES, function (event, payload) {
+//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
+                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                        event.preventDefault();
+                        currentPhaseState = 'askResponsePreferredGestures';
+                        renderCurrentPhaseState();
+//                        appendAlert($(container), ALERT_PLEASE_WAIT);
+//                        $(container).find('#scene-description').addClass('hidden');
+//                        $(container).find('#scene-container').addClass('hidden');
+                    });
+                    currentExplorationIndex = payload.currentExplorationIndex;
+                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
+                });
+            } else {
+                $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_TRIGGER).bind(MESSAGE_REQUEST_PREFERRED_TRIGGER, function (event, payload) {
+//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
+                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                        event.preventDefault();
+                        currentPhaseState = 'askResponsePreferredTrigger';
+                        renderCurrentPhaseState();
+//                        appendAlert($(container), ALERT_PLEASE_WAIT);
+//                        $(container).find('#scene-description').addClass('hidden');
+//                        $(container).find('#scene-container').addClass('hidden');
+                    });
+                    currentExplorationIndex = payload.currentExplorationIndex;
+                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-trigger.php', 'modal-md');
+                });
+            }
+        }
+
+        return container;
+    },
+    renderModeratedExploration: function renderModeratedExploration(source, container, data) {
+//        if (!data.exploration || (data.exploration && data.exploration.length === 0)) {
+//            return false;
+//        }
+
+//        container.empty().append($(source).find('#exploration-moderated').clone().removeAttr('id'));
+//        if (previewModeEnabled) {
+//            $(container).find('#scene-container').css({top: '-108px'});
+//        }
+
+        // handle states in preview mode
+        if (explorationStartTriggered === true) {
+//            if (scenesUsedForExploration(data.exploration) === true) {
+////                clearAlerts(container);
+////            $(container).find('#fixed-rtc-preview').removeClass('hidden');
+//                if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene] && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description !== '') {
+//                    $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
+//                    $(container).find('#scene-description').removeClass('hidden');
+//                }
+//
+//                if (previewModeEnabled) {
+//                    // render scene manually
+//                    console.log('render scene manually:', data.exploration[currentExplorationIndex]);
+//                    if (data.exploration[currentExplorationIndex] && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
+//                        renderSceneItem(source, container, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId);
+//                    } else {
+//                        renderSceneItem(source, container, null);
+//                    }
+//                }
+//
+//                $(container).find('#scene-container').removeClass('hidden');
+//            } else {
+//                $(container).find('#scene-description').addClass('hidden');
+//                $(container).find('#scene-container').addClass('hidden');
+//            }
+
+
+        } else {
+//            appendAlert($(container), ALERT_PLEASE_WAIT);
+//            $(container).find('#fixed-rtc-preview').addClass('hidden');
+            $(container).find('#scene-description').addClass('hidden');
+            $(container).find('#scene-container').addClass('hidden');
+        }
+
+        // handle live mode
+        if (!previewModeEnabled && peerConnection) {
+
+            // generic exploration live events
+            $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
+                currentPhaseState = 'explorationStarted';
+                renderCurrentStatePhase();
+//                explorationStartTriggered = true;
+//                if (scenesUsedForExploration(data.exploration) === true) {
+//                    $(container).find('#scene-description').removeClass('hidden');
+//                    $(container).find('#scene-container').removeClass('hidden');
+//                }
+            });
+
+            $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
+                currentExplorationIndex = payload.index;
+                currentExplorationScene = payload.sceneIndex;
+
+                if (payload.description) {
+                    $(container).find('#scene-description p').text(payload.description);
+                    $(container).find('#scene-container').removeClass('hidden');
+                } else {
+                    $(container).find('#scene-container').addClass('hidden');
+                }
+            });
+
+            $(peerConnection).unbind(MESSAGE_OPEN_GESTURE_INFO).bind(MESSAGE_OPEN_GESTURE_INFO, function (event, payload) {
+                console.log('open gesture info', payload);
+
+                currentPreviewGesture = {gesture: getGestureById(payload.id)};
+                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
+                    currentPresentGesture = null;
+                    $('#custom-modal').unbind('hide.bs.modal');
+                    if (!previewModeEnabled && peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
+                    }
+                });
+                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
+            });
+
+            $(peerConnection).unbind(MESSAGE_OPEN_TRIGGER_INFO).bind(MESSAGE_OPEN_TRIGGER_INFO, function (event, payload) {
+                console.log('open trigger info', payload);
+
+                currentPreviewTrigger = getTriggerById(payload.id);
+                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
+                    currentPreviewTrigger = null;
+                    $('#custom-modal').unbind('hide.bs.modal');
+                    if (!previewModeEnabled && peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
+                    }
+                });
+                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
             });
 
             $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
@@ -2098,16 +2315,7 @@ var Tester = {
             }
         }
 
-        function scenesUsedForExploration(data) {
-            if (data && data.length > 0) {
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].transitionScenes && data[i].transitionScenes.length > 0) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
+
     },
     renderUnmoderatedExploration: function renderUnmoderatedExploration(source, container, data) {
         // general data section

@@ -904,7 +904,7 @@ include '../includes/language.php';
                     <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
                 </div>
                 <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
-                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-exploration" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-exploration" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
                 <!--<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>-->
@@ -939,10 +939,16 @@ include '../includes/language.php';
     </div>
 
     <div id="explorationItem">
-        <div><?php echo $lang->scenes ?></div>
-        <div id="transition-scenes" class="root"></div>
-        <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
-        <div id="assembled-gestures" class="root row"></div>
+        <div class="scenes-container" style="margin-bottom: 20px">
+            <div><?php echo $lang->scenes ?></div>
+            <div id="transition-scenes" class="root"></div>
+        </div>
+
+        <div class="assembled-gestures-container">
+            <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
+            <div id="assembled-gestures" class="root row"></div>
+        </div>
+
         <!--<div style="margin-top: 10px">-->
             <!--<button class="btn btn-block btn-success btn-shadow disabled" id="btn-show-gestures" name="btn-success"><?php echo $lang->showGestures ?></span></button>-->
 
@@ -951,10 +957,14 @@ include '../includes/language.php';
     </div>
 
     <div id="explorationItem-ask">
-        <div><?php echo $lang->scenes ?></div>
-        <div id="transition-scenes" class="root"></div>
-        <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
-        <div id="assembled-gestures" class="root row"></div>
+        <div class="scenes-container" style="margin-bottom: 20px">
+            <div><?php echo $lang->scenes ?></div>
+            <div id="transition-scenes" class="root"></div>
+        </div>
+        <div class="assembled-gestures-container">
+            <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
+            <div id="assembled-gestures" class="root row"></div>
+        </div>
         <!--<div style="margin-top: 20px">-->
     <!--            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>-->
     <!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
@@ -964,10 +974,14 @@ include '../includes/language.php';
     </div>
 
     <div id="explorationItem-trigger">
-        <div><?php echo $lang->scenes ?></div>
-        <div id="transition-scenes" class="root"></div>
-        <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
-        <div id="assembled-trigger" class="root"></div>
+        <div class="scenes-container" style="margin-bottom: 20px">
+            <div><?php echo $lang->scenes ?></div>
+            <div id="transition-scenes" class="root"></div>
+        </div>
+        <div class="assembled-trigger-container">
+            <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
+            <div id="assembled-trigger" class="root"></div>
+        </div>
         <!--<div style="margin-top: 10px">-->
             <!--<button class="btn btn-block btn-success btn-shadow disabled" id="btn-show-trigger" name="btn-success"><?php echo $lang->showTrigger ?></span></button>-->
     <!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
@@ -977,10 +991,14 @@ include '../includes/language.php';
     </div>
 
     <div id="explorationItem-trigger-ask">
-        <div><?php echo $lang->scenes ?></div>
-        <div id="transition-scenes" class="root"></div>
-        <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
-        <div id="assembled-trigger" class="root"></div>
+        <div class="scenes-container" style="margin-bottom: 20px">
+            <div><?php echo $lang->scenes ?></div>
+            <div id="transition-scenes" class="root"></div>
+        </div>
+        <div class="assembled-trigger-container">
+            <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
+            <div id="assembled-trigger" class="root"></div>
+        </div>
         <!--<div style="margin-top: 20px">-->
 
 <!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>

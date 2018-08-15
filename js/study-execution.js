@@ -60,6 +60,7 @@ var previewModeEnabled = false;
 var currentTransitionSceneIndex = 0;
 var currentGUSData = null;
 
+var currentPhaseState = null;
 var syncPhaseStep = false;
 var peerConnection = null;
 
@@ -245,6 +246,8 @@ function checkIfStopRecordingNeeded(phases) {
 function resetConstraints() {
     $(window).unbind('keydown');
     $(window).unbind('keyup');
+    
+    currentPhaseState = null;
 
     questionnaireDone = false;
     testerDoneTriggered = false;
