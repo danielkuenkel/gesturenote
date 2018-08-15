@@ -1962,29 +1962,37 @@ var Tester = {
             } else {
 
             }
+
+            appendAlert($(container), ALERT_PLEASE_WAIT);
         }
 
         function renderStatePrototypeOpened() {
             console.log('render state: ', currentPhaseState);
+            appendAlert($(container), ALERT_PLEASE_WAIT);
         }
 
         function renderStateExplorationStarted() {
             console.log('render state: ', currentPhaseState);
             renderCurrentScene();
+            clearAlerts($(container));
 
-            if (data.explorationType === 'gestures' && currentPreviewGesture) {
+            // check if there are previews triggered in study preview
+            if (currentPreviewGesture) {
                 $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
                     $('#custom-modal').unbind('hide.bs.modal');
+                    console.log('hide.bs.modal gesture info');
                     if (!previewModeEnabled && peerConnection) {
                         peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
                     }
-                    currentPresentGesture = null;
+                    currentPreviewGesture = null;
                 });
                 loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
-            } else if (data.explorationType === 'trigger' && currentPreviewTrigger) {
+            }
+
+            if (data.explorationType === 'trigger' && currentPreviewTrigger) {
                 $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
                     $('#custom-modal').unbind('hide.bs.modal');
-                    currentPresentTrigger = null;
+                    currentPreviewTrigger = null;
                     if (!previewModeEnabled && peerConnection) {
                         peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
                     }
@@ -1996,8 +2004,9 @@ var Tester = {
         function renderStateAskPreferredGestures() {
             console.log('render state: ', currentPhaseState);
 
-            $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                event.preventDefault();
+            $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function () {
+                $('#custom-modal').unbind('hidden.bs.modal');
+                console.log('hide.bs.modal ask prefered gestures');
                 currentPhaseState = 'askResponsePreferredGestures';
                 renderCurrentPhaseState();
             });
@@ -2008,13 +2017,14 @@ var Tester = {
             console.log('render state: ', currentPhaseState);
             $(container).find('#scene-description').addClass('hidden');
             $(container).find('#scene-container').addClass('hidden');
+            appendAlert($(container), ALERT_PLEASE_WAIT);
         }
 
         function renderStateAskPreferredTrigger() {
             console.log('render state: ', currentPhaseState);
 
-            $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                event.preventDefault();
+            $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function () {
+                $('#custom-modal').unbind('hidden.bs.modal');
                 currentPhaseState = 'askResponsePreferredTrigger';
                 renderCurrentPhaseState();
             });
@@ -2025,14 +2035,17 @@ var Tester = {
             console.log('render state: ', currentPhaseState);
             $(container).find('#scene-description').addClass('hidden');
             $(container).find('#scene-container').addClass('hidden');
+            appendAlert($(container), ALERT_PLEASE_WAIT);
         }
 
         function renderStateScreenSharingStopped() {
             console.log('render state: ', currentPhaseState);
+            appendAlert($(container), ALERT_PLEASE_WAIT);
         }
 
         function renderStateExplorationDone() {
             console.log('render state: ', currentPhaseState);
+            appendAlert($(container), ALERT_PLEASE_WAIT);
         }
 
         function renderCurrentScene() {
@@ -2095,7 +2108,7 @@ var Tester = {
 
                 currentPreviewGesture = {gesture: getGestureById(payload.id)};
                 $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-                    currentPresentGesture = null;
+                    currentPreviewGesture = null;
                     $('#custom-modal').unbind('hide.bs.modal');
                     if (!previewModeEnabled && peerConnection) {
                         peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
@@ -2128,6 +2141,7 @@ var Tester = {
 //                    $(container).find('#fixed-rtc-preview').addClass('hidden');
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                         event.preventDefault();
+                        $('#custom-modal').unbind('hide.bs.modal');
                         currentPhaseState = 'askResponsePreferredGestures';
                         renderCurrentPhaseState();
 //                        appendAlert($(container), ALERT_PLEASE_WAIT);
@@ -2142,6 +2156,7 @@ var Tester = {
 //                    $(container).find('#fixed-rtc-preview').addClass('hidden');
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                         event.preventDefault();
+                        $('#custom-modal').unbind('hide.bs.modal');
                         currentPhaseState = 'askResponsePreferredTrigger';
                         renderCurrentPhaseState();
 //                        appendAlert($(container), ALERT_PLEASE_WAIT);
@@ -2231,7 +2246,7 @@ var Tester = {
 
                 currentPreviewGesture = {gesture: getGestureById(payload.id)};
                 $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-                    currentPresentGesture = null;
+                    currentPreviewGesture = null;
                     $('#custom-modal').unbind('hide.bs.modal');
                     if (!previewModeEnabled && peerConnection) {
                         peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});

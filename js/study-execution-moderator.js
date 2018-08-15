@@ -1746,6 +1746,7 @@ var Moderator = {
             $(container).find('#btn-open-prototype').addClass('hidden');
             $(container).find('#btn-done-scenario').removeClass('hidden');
         } else if (scenarioDone === true) {
+            $(container).find('#general').removeClass('hidden');
             $(container).find('#assessment-controls').addClass('hidden');
             $(container).find('#woz-controls').addClass('hidden');
             $(container).find('#help-controls').addClass('hidden');
@@ -3115,7 +3116,7 @@ var Moderator = {
             $(container).find('#btn-start-screen-sharing').remove();
 
             if (data.explorationType === 'trigger') {
-                currentPresentTrigger = null;
+                currentPreviewTrigger = null;
                 $(container).find('#identified-trigger').addClass('hidden');
                 renderExplorationForTrigger();
                 renderCurrentTriggersToShow();
@@ -3183,7 +3184,7 @@ var Moderator = {
             $(container).find('#btn-next-trigger').addClass('disabled');
             $(container).find('#identified-gestures .question-container').empty();
             appendAlert($(container).find('#identified-gestures'), ALERT_WAITING_FOR_TESTER);
-            currentPresentTrigger = null;
+            currentPreviewTrigger = null;
         }
 
         function renderStateAskResponsePreferredTrigger() {
@@ -3274,11 +3275,11 @@ var Moderator = {
         function renderExplorationForGestures() {
             $(container).find('#slides .headline').text(translation.userCenteredGestureExtraction + " " + (currentExplorationIndex + 1) + " " + translation.of + " " + data.exploration.length);
             var item;
-            if (data.askPreferredGesture === 'yes') {
-                item = $(source).find('#explorationItem-ask').clone().removeAttr('id');
-            } else {
-                item = $(source).find('#explorationItem').clone().removeAttr('id');
-            }
+//            if (data.askPreferredGesture === 'yes') {
+//                item = $(source).find('#explorationItem-ask').clone().removeAttr('id');
+//            } else {
+            item = $(source).find('#explorationItem').clone().removeAttr('id');
+//            }
 
             var searchedData = getTriggerById(data.exploration[currentExplorationIndex].triggerId);
             $(item).find('#search-for .address').text(translation.GestureForTrigger + ':');
@@ -3306,8 +3307,8 @@ var Moderator = {
                     }
                 }
             }
-            
-            if(!data.exploration[currentExplorationIndex].transitionScenes) {
+
+            if (!data.exploration[currentExplorationIndex].transitionScenes) {
                 $(item).find('.scenes-container').remove();
             }
         }
@@ -3315,15 +3316,27 @@ var Moderator = {
         function renderExplorationForTrigger() {
             $(container).find('#slides .headline').text(translation.userCenteredTriggerExtraction + " " + (currentExplorationIndex + 1) + " " + translation.of + " " + data.exploration.length);
             var item;
-            if (data.askPreferredTrigger === 'yes') {
-                item = $(source).find('#explorationItem-trigger-ask').clone().removeAttr('id');
-            } else {
-                item = $(source).find('#explorationItem-trigger').clone().removeAttr('id');
-            }
+//            if (data.askPreferredTrigger === 'yes') {
+//                item = $(source).find('#explorationItem-trigger-ask').clone().removeAttr('id');
+//            } else {
+            item = $(source).find('#explorationItem-trigger').clone().removeAttr('id');
+//            }
 
             var searchedData = getGestureById(data.exploration[currentExplorationIndex].gestureId);
-            $(item).find('#search-for .address').text(translation.TriggerForGesture + ':');
-            $(item).find('#search-for .text').text(searchedData.title);
+//            $(item).find('#search-for .address').text(translation.TriggerForGesture + ':');
+//            $(item).find('#search-for .text').text(searchedData.title);
+
+            var gestureThumbnail = $('#item-container-moderator').find('#present-gesture-item').clone().removeAttr('id');
+            $(gestureThumbnail).css({marginBottom: '10px'});
+            $(gestureThumbnail).find('.thumbnail-container').empty().append(getSimpleGestureListThumbnail(searchedData, 'simple-gesture-thumbnail', 'col-xs-12'));
+            $(gestureThumbnail).find('.btn-present-gesture').attr('data-gesture-id', searchedData.id);
+            $(gestureThumbnail).find('.btn-quite-gesture-info').attr('data-gesture-id', searchedData.id);
+            $(gestureThumbnail).find('.gesture-thumbnail').css({marginBottom: '10px'});
+            $(gestureThumbnail).insertBefore($(item).find('#assembled-trigger-container'));
+
+            if (currentPreviewGesture && parseInt(currentPreviewGesture.gesture.id) === parseInt(searchedData.id)) {
+                $(gestureThumbnail).find('.btn-present-gesture').click();
+            }
 
             $(container).find('#exploration-container').empty().append(item);
             renderSceneTriggerItems(item, container, data);
@@ -3350,8 +3363,8 @@ var Moderator = {
                     }
                 }
             }
-            
-            if(!data.exploration[currentExplorationIndex].transitionScenes) {
+
+            if (!data.exploration[currentExplorationIndex].transitionScenes) {
                 $(item).find('.scenes-container').remove();
             }
         }
@@ -3415,11 +3428,11 @@ var Moderator = {
             }
             return false;
         }
-        
-        
-        
+
+
+
         // gesture requestion functionalities
-        
+
         function renderCurrentGesturesToShow() {
             var gesturesToShow = data.exploration[currentExplorationIndex].gestures;
 
@@ -3435,7 +3448,7 @@ var Moderator = {
                     $(container).find('#assembled-gestures').append(presentItem);
                     initPopover();
 
-                    if (currentPresentGesture && parseInt(currentPresentGesture.id) === parseInt(gesture.id)) {
+                    if (currentPreviewGesture && parseInt(currentPreviewGesture.gesture.id) === parseInt(gesture.id)) {
                         $(presentItem).find('.btn-present-gesture').click();
                     }
                 }
@@ -3468,50 +3481,52 @@ var Moderator = {
                     });
                 }
 
-                $(container).find('.btn-present-gesture').unbind('click').bind('click', function (event) {
-                    event.preventDefault();
-                    activePresentButton = $(this);
-                    activeQuitButton = $(this).parent().find('.btn-quit-gesture-info');
-                    if (!$(activePresentButton).hasClass('disabled')) {
-                        var gestureId = $(this).attr('data-gesture-id');
-                        currentPreviewGesture = {gesture: getGestureById(gestureId)};
+                initPreviewGestureButtons();
 
-                        $(activePresentButton).closest('.root').find('.btn-present-gesture').addClass('disabled');
-                        if (!previewModeEnabled && peerConnection) {
-                            lockButton(activePresentButton, true);
-                            peerConnection.sendMessage(MESSAGE_OPEN_GESTURE_INFO, {id: gestureId});
-                        } else {
-                            $(activePresentButton).addClass('hidden');
-                            $(activePresentButton).parent().find('.btn-quit-gesture-info').removeClass('hidden');
-                        }
-
-                        if (gestureId && !previewModeEnabled) {
-                            getGMT(function (timestamp) {
-                                var currentPhase = getCurrentPhase();
-                                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_GESTURE_INFO, time: timestamp, gestureId: gestureId});
-                                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                            });
-                        }
-                    }
-                });
-
-                $(container).find('.btn-quit-gesture-info').unbind('click').bind('click', function (event) {
-                    event.preventDefault();
-                    activeQuitButton = $(this);
-                    if (!$(activeQuitButton).hasClass('disabled')) {
-                        var gestureId = $(this).attr('data-gesture-id');
-                        currentPreviewGesture = null;
-
-                        if (!previewModeEnabled && peerConnection) {
-                            lockButton(activeQuitButton, true);
-                            peerConnection.sendMessage(MESSAGE_CLOSE_GESTURE_INFO, {id: gestureId});
-                        } else {
-                            $(activeQuitButton).addClass('hidden');
-                            $(activeQuitButton).closest('.root').find('.btn-present-gesture').removeClass('hidden disabled');
-                        }
-                    }
-                });
+//                $(container).find('.btn-present-gesture').unbind('click').bind('click', function (event) {
+//                    event.preventDefault();
+//                    activePresentButton = $(this);
+//                    activeQuitButton = $(this).parent().find('.btn-quit-gesture-info');
+//                    if (!$(activePresentButton).hasClass('disabled')) {
+//                        var gestureId = $(this).attr('data-gesture-id');
+//                        currentPreviewGesture = {gesture: getGestureById(gestureId)};
+//
+//                        $(activePresentButton).closest('.root').find('.btn-present-gesture').addClass('disabled');
+//                        if (!previewModeEnabled && peerConnection) {
+//                            lockButton(activePresentButton, true);
+//                            peerConnection.sendMessage(MESSAGE_OPEN_GESTURE_INFO, {id: gestureId});
+//                        } else {
+//                            $(activePresentButton).addClass('hidden');
+//                            $(activePresentButton).parent().find('.btn-quit-gesture-info').removeClass('hidden');
+//                        }
+//
+//                        if (gestureId && !previewModeEnabled) {
+//                            getGMT(function (timestamp) {
+//                                var currentPhase = getCurrentPhase();
+//                                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_GESTURE_INFO, time: timestamp, gestureId: gestureId});
+//                                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                            });
+//                        }
+//                    }
+//                });
+//
+//                $(container).find('.btn-quit-gesture-info').unbind('click').bind('click', function (event) {
+//                    event.preventDefault();
+//                    activeQuitButton = $(this);
+//                    if (!$(activeQuitButton).hasClass('disabled')) {
+//                        var gestureId = $(this).attr('data-gesture-id');
+//                        currentPreviewGesture = null;
+//
+//                        if (!previewModeEnabled && peerConnection) {
+//                            lockButton(activeQuitButton, true);
+//                            peerConnection.sendMessage(MESSAGE_CLOSE_GESTURE_INFO, {id: gestureId});
+//                        } else {
+//                            $(activeQuitButton).addClass('hidden');
+//                            $(activeQuitButton).closest('.root').find('.btn-present-gesture').removeClass('hidden disabled');
+//                        }
+//                    }
+//                });
             }
         }
 
@@ -3571,7 +3586,7 @@ var Moderator = {
                     $(presentItem).find('.btn-quite-trigger-info').attr('data-trigger-id', trigger.id);
                     $(container).find('#assembled-trigger').append(presentItem);
 
-                    if (currentPresentTrigger && parseInt(currentPresentTrigger.id) === parseInt(trigger.id)) {
+                    if (currentPreviewTrigger && parseInt(currentPreviewTrigger.id) === parseInt(trigger.id)) {
                         $(presentItem).find('.btn-present-trigger').click();
                     }
                 }
@@ -3604,6 +3619,8 @@ var Moderator = {
                     });
                 }
 
+                initPreviewGestureButtons();
+
                 $(container).find('.btn-present-trigger').unbind('click').bind('click', function (event) {
                     event.preventDefault();
                     activePresentButton = $(this);
@@ -3614,6 +3631,8 @@ var Moderator = {
                         currentPreviewTrigger = getTriggerById(triggerId);
 
                         $(activePresentButton).closest('.root').find('.btn-present-trigger').addClass('disabled');
+                        $(container).find('.btn-present-gesture').addClass('disabled');
+
                         if (!previewModeEnabled && peerConnection) {
                             lockButton(activePresentButton, true);
                             peerConnection.sendMessage(MESSAGE_OPEN_TRIGGER_INFO, {id: triggerId});
@@ -3644,6 +3663,7 @@ var Moderator = {
                         } else {
                             $(activeQuitButton).addClass('hidden');
                             $(activeQuitButton).closest('.root').find('.btn-present-trigger').removeClass('hidden disabled');
+                            $(container).find('.btn-present-gesture').removeClass('hidden disabled');
                         }
                     }
                 });
@@ -3684,7 +3704,56 @@ var Moderator = {
             }
         });
 
+        function initPreviewGestureButtons() {
+            var activePresentButton, activeQuitButton;
+            $(container).find('.btn-present-gesture').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                activePresentButton = $(this);
+                activeQuitButton = $(this).parent().find('.btn-quit-gesture-info');
+                if (!$(activePresentButton).hasClass('disabled')) {
+                    var gestureId = $(this).attr('data-gesture-id');
+                    currentPreviewGesture = {gesture: getGestureById(gestureId)};
 
+                    $(activePresentButton).closest('.root').find('.btn-present-gesture').addClass('disabled');
+                    $(activePresentButton).closest('.root').find('.btn-present-trigger').addClass('disabled');
+
+                    if (!previewModeEnabled && peerConnection) {
+                        lockButton(activePresentButton, true);
+                        peerConnection.sendMessage(MESSAGE_OPEN_GESTURE_INFO, {id: gestureId});
+                    } else {
+                        $(activePresentButton).addClass('hidden');
+                        $(activePresentButton).parent().find('.btn-quit-gesture-info').removeClass('hidden');
+                    }
+
+                    if (gestureId && !previewModeEnabled) {
+                        getGMT(function (timestamp) {
+                            var currentPhase = getCurrentPhase();
+                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_GESTURE_INFO, time: timestamp, gestureId: gestureId});
+                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                        });
+                    }
+                }
+            });
+
+            $(container).find('.btn-quit-gesture-info').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                var activeQuitButton = $(this);
+                if (!$(activeQuitButton).hasClass('disabled')) {
+                    var gestureId = $(this).attr('data-gesture-id');
+                    currentPreviewGesture = null;
+
+                    if (!previewModeEnabled && peerConnection) {
+                        lockButton(activeQuitButton, true);
+                        peerConnection.sendMessage(MESSAGE_CLOSE_GESTURE_INFO, {id: gestureId});
+                    } else {
+                        $(activeQuitButton).addClass('hidden');
+                        $(activeQuitButton).closest('.root').find('.btn-present-gesture').removeClass('hidden disabled');
+                        $(activeQuitButton).closest('.root').find('.btn-present-trigger').removeClass('hidden disabled');
+                    }
+                }
+            });
+        }
 
 
 

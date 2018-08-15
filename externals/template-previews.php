@@ -946,7 +946,7 @@ include '../includes/language.php';
 
         <div class="assembled-gestures-container">
             <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
-            <div id="assembled-gestures" class="root row"></div>
+            <div id="assembled-gestures" class="root row" style="margin-top: 5px"></div>
         </div>
 
         <!--<div style="margin-top: 10px">-->
@@ -956,31 +956,36 @@ include '../includes/language.php';
         <!--</div>-->
     </div>
 
-    <div id="explorationItem-ask">
-        <div class="scenes-container" style="margin-bottom: 20px">
-            <div><?php echo $lang->scenes ?></div>
-            <div id="transition-scenes" class="root"></div>
-        </div>
-        <div class="assembled-gestures-container">
-            <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
-            <div id="assembled-gestures" class="root row"></div>
-        </div>
-        <!--<div style="margin-top: 20px">-->
-    <!--            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>-->
-    <!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
-            <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>-->
-            <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
-        <!--</div>-->
-    </div>
+    <!--    <div id="explorationItem-ask">
+            <div class="scenes-container" style="margin-bottom: 20px">
+                <div><?php echo $lang->scenes ?></div>
+                <div id="transition-scenes" class="root"></div>
+            </div>
+            <div class="assembled-gestures-container">
+                <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
+                <div id="assembled-gestures" class="root row"></div>
+            </div>-->
+    <!--<div style="margin-top: 20px">-->
+<!--            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>-->
+<!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
+        <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>-->
+        <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
+    <!--</div>-->
+    <!--</div>-->
 
     <div id="explorationItem-trigger">
         <div class="scenes-container" style="margin-bottom: 20px">
             <div><?php echo $lang->scenes ?></div>
             <div id="transition-scenes" class="root"></div>
         </div>
-        <div class="assembled-trigger-container">
-            <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
-            <div id="assembled-trigger" class="root"></div>
+        <div class="assembled-trigger-container" style="margin-top: 20px">
+            <div class="row container-root">
+                <div class="col-xs-12 col-sm-8" id="assembled-trigger-container">
+                    <div id="search-for"><span class="address"><?php echo $lang->triggerForGesture ?></span></div>
+                    <div id="assembled-trigger" class="root"></div>
+                </div>
+            </div>
+
         </div>
         <!--<div style="margin-top: 10px">-->
             <!--<button class="btn btn-block btn-success btn-shadow disabled" id="btn-show-trigger" name="btn-success"><?php echo $lang->showTrigger ?></span></button>-->
@@ -989,23 +994,23 @@ include '../includes/language.php';
             <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
         <!--</div>-->
     </div>
-
-    <div id="explorationItem-trigger-ask">
-        <div class="scenes-container" style="margin-bottom: 20px">
-            <div><?php echo $lang->scenes ?></div>
-            <div id="transition-scenes" class="root"></div>
-        </div>
-        <div class="assembled-trigger-container">
-            <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
-            <div id="assembled-trigger" class="root"></div>
-        </div>
-        <!--<div style="margin-top: 20px">-->
+    <!--
+        <div id="explorationItem-trigger-ask">
+            <div class="scenes-container" style="margin-bottom: 20px">
+                <div><?php echo $lang->scenes ?></div>
+                <div id="transition-scenes" class="root"></div>
+            </div>
+            <div class="assembled-trigger-container">
+                <div id="search-for"><span class="address" style="margin-top: 20px"></span> <span class="text"></span></div>
+                <div id="assembled-trigger" class="root"></div>
+            </div>-->
+    <!--<div style="margin-top: 20px">-->
 
 <!--            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>-->
 <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
-        <!--</div>-->
-    </div>
+    <!--</div>-->
+    <!--</div>-->
 
     <div id="present-gesture-item" class="col-xs-6 col-sm-4 col-md-6 col-lg-4">
         <div class="thumbnail-container row"></div>
@@ -1526,7 +1531,7 @@ include '../includes/language.php';
 
     <div id="exploration-moderated">
         <div id="scene-container" class="text-center" style="position: fixed; top:0px; width: 100%;" allowtransparency></div>
-        <div class="text-shadow-black text-center" id="scene-description" style="position: absolute;  left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
+        <div class="text-shadow-black text-center hidden" id="scene-description" style="position: absolute;  left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
         <div id="fixed-rtc-preview" class="rtc-shadow" style="position: fixed; width: 300px; left: 10px; pointer-events: none; opacity: 0.8"></div>
 
         <!--        <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
@@ -1534,8 +1539,12 @@ include '../includes/language.php';
         
                 <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>-->
 
-        <div class="" style="margin-top: 55px; padding: 20px">
-            <div class="alert-space alert-please-wait"></div>
+        <div class="row" style="margin-top: 55px; padding: 20px">
+            <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3"></div>
+            <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
+                <div class="alert-space alert-please-wait"></div>
+            </div>
+
         </div>
     </div>
 
