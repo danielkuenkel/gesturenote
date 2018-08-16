@@ -28,7 +28,7 @@ $(document).ready(function () {
 
 
 function gotoIndex() {
-    goto('index.php');
+    goto('dashboard.php');
 }
 
 function gotoImprint() {

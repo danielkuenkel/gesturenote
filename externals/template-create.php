@@ -2334,6 +2334,7 @@ include '../includes/language.php';
 
             <div class="form-group">
                 <label><?php echo $lang->gestureContext ?></label>
+                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context ?>"></i>
                 <input class="form-control" id="context-input" placeholder="<?php echo $lang->gestureContextQuestion ?>" />
             </div>
 
