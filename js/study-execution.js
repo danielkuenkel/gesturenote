@@ -65,6 +65,7 @@ var syncPhaseStep = false;
 var peerConnection = null;
 
 var currentQuestionnaireAnswers = null;
+var prototypeWindow = null;
 
 function checkStorage() {
     if (isLocalStorageSupported()) {

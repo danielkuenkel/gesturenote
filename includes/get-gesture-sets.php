@@ -245,7 +245,7 @@ if (isset($_SESSION['user_id'])) {
             }
 
             $result = [];
-            if ($studies && count($gestureSets) > 0 && $invitedGestureSets && count($invitedGestureSets) > 0) {
+            if ($gestureSets && count($gestureSets) > 0 && $invitedGestureSets && count($invitedGestureSets) > 0) {
                 $result = array_merge($gestureSets, $invitedGestureSets);
             } else if ($gestureSets && count($gestureSets) > 0) {
                 $result = $gestureSets;

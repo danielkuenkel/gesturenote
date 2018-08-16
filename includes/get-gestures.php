@@ -144,7 +144,7 @@ if (isset($_SESSION['user_id'])) {
 
 
     $sharedSetGesturesArray = null;
-    if ($select_shared_stmt = $mysqli->prepare("SELECT gesture_sets.gestures FROM gesture_sets LEFT JOIN gesture_sets_shared ON gesture_sets.id = gesture_sets_shared.set_id WHERE gesture_sets_shared.email = '$sessionUserMail' GROUP BY gesture_sets.id ORDER BY gesture_sets.created ASC")) {
+    if ($select_shared_stmt = $mysqli->prepare("SELECT gesture_sets.gestures FROM gesture_sets LEFT JOIN gesture_sets_shared ON gesture_sets.id = gesture_sets_shared.set_id WHERE gesture_sets_shared.email = '$sessionUserMail' OR gesture_sets.scope = 'public' GROUP BY gesture_sets.id ORDER BY gesture_sets.created ASC")) {
         // get variables from result.
         $select_shared_stmt->bind_result($sharedSetGestures);
 

@@ -20,7 +20,6 @@ if (isset($_SESSION['user_id'], $_POST['setId'], $_POST['email'])) {
     }
 
     if ($select_stmt = $mysqli->prepare("SELECT * FROM gesture_sets_shared WHERE gesture_sets_shared.set_id = '$shareId' && gesture_sets_shared.email = '$inviteMail' LIMIT 1")) {
-//    if ($select_stmt = $mysqli->prepare("SELECT users.id, users.email, studies_shared.* FROM users LEFT JOIN studies_shared ON users.email = '$inviteMail' WHERE studies_shared.study_id = '$studyId' && studies_shared.email = '$inviteMail' LIMIT 1")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();
