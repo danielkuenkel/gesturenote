@@ -534,7 +534,7 @@ if ($h && $token && $studyId) {
                         enableWebcamStream: true,
                         enableDataChannels: true,
                         autoRequestMedia: true,
-                        roomId: rtcToken,
+                        roomId: rtcToken + '.prepare',
                         localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
                         remoteStream: {audio: 'yes', video: 'yes'}
                     };
@@ -544,7 +544,6 @@ if ($h && $token && $studyId) {
 
                     // a peer video has been added
                     $(peerConnection).on('videoAdded', function () {
-//                        checkRTC();
 
                         clearAlerts($('#study-participation'));
                         $('#study-details #initialize-recorders-list').empty();

@@ -49,7 +49,7 @@ include './includes/language.php';
         </div>
 
         <!-- Container (Landing Section) --> 
-        <div class="container-fluid text-center bg-grey" id="landingText">
+        <div class="container-fluid text-center" id="landingText">
             <div class="container">
                 <h1><i class="fa fa-exclamation-triangle" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase">Fehler</span></h1>
                 <p class="text"><?php echo $lang->ThereWasAnError ?></p>

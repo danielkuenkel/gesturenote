@@ -26,10 +26,10 @@ if (isset($_POST['email'])) {
                         exit();
                     } else {
                         $to = $email;
-                        $subject = 'Password Reset';
+                        $subject = 'Passwort zurücksetzen';
                         $message = '<html>
                         <head>
-                        <title>Passwort zurücksetzen</title>
+                        <title>GestureNote Passwort zurücksetzen</title>
                         </head>
                         <body>
                             <h3>Passwort zurücksetzen</h3>

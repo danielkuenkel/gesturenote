@@ -129,9 +129,11 @@ function appendAlert(target, alertType) {
 }
 
 function removeAlert(target, alertType) {
+     console.log('remove alert', target, alertType);
     $(target).find('.alert-' + alertType).empty();
 }
 
 function clearAlerts(target) {
+    console.log('clear alerts', target);
     $(target).find('.alert-space').children().remove();
 }

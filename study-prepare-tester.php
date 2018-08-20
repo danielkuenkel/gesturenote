@@ -324,7 +324,7 @@ if ($h && $token && $studyId) {
                     }
 
                     if (DetectRTC.hasWebcam === false) {
-                        errors++
+                        errors++;
                         indicator = $(target).find('.check-webcam .status-check-indicator');
                         $(indicator).find('.status-wait').addClass('hidden');
                         $(indicator).find('.status-warn').removeClass('hidden');
@@ -360,7 +360,7 @@ if ($h && $token && $studyId) {
                     if (errors === 0) {
                         var progressBar = $('#init-timer-progress-bar');
                         $(progressBar).css({width: '100%'});
-                        TweenMax.to(progressBar, 5, {width: '0%', ease: Linear.easeNone, onComplete: function () {
+                        TweenMax.to(progressBar, 3, {width: '0%', ease: Linear.easeNone, onComplete: function () {
                                 initVideoCaller(rtcToken);
                             }});
                     } else {
@@ -386,7 +386,7 @@ if ($h && $token && $studyId) {
                 enableWebcamStream: true,
                 enableDataChannels: true,
                 autoRequestMedia: true,
-                roomId: rtcToken,
+                roomId: rtcToken + '.prepare',
                 localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
                 remoteStream: {audio: 'yes', video: 'yes'}
             };
