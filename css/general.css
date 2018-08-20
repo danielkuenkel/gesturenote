@@ -96,14 +96,14 @@ body {
     padding-bottom: 100px;
     z-index: 10000;
 }
-.btn-close-overlay {
+/*.btn-close-overlay {
     font-size: 12pt;
     color: #696969;
     cursor: pointer
 }
 .btn-close-overlay:hover{
     color: #303030;
-} 
+} */
 
 .overlay-title-editable {
     cursor: pointer;
@@ -551,6 +551,11 @@ footer .fa {
 
 li.selected {
     background-color: #e7e7e7;
+}
+
+.btn-radio.active.focus, .btn-radio.active:focus, .btn-radio.focus, .btn-radio:active.focus, .btn-radio:active:focus, .btn-radio:focus,
+.btn-checkbox.active.focus, .btn-checkbox.active:focus, .btn-checkbox.focus, .btn-checkbox:active.focus, .btn-checkbox:active:focus, .btn-checkbox:focus{
+    background-color: #337ab7;
 }
 
 .checkbox .option-text, .radio .option-text {
@@ -1065,17 +1070,17 @@ li.disabledTab > a[data-toggle="tab"] {
     .overlay-header-container {
         padding-right: 110px;
     }
-    .btn-close-overlay {
+/*    .btn-close-overlay {
         margin-top: -31px;
-    }
+    }*/
 
 }
 @media (min-width: 992px) {
-    .btn-close-overlay {
+/*    .btn-close-overlay {
         position: fixed;
         margin-top: 2px;
         right: 15px; 
-    }
+    }*/
     .toggle-affix {
         position: fixed;
         top: 154px;

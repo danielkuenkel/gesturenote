@@ -18,7 +18,7 @@ if (login_check($mysqli) == true) {
         <title><?php echo $lang->gestureNoteStudies ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -26,7 +26,7 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
@@ -88,7 +88,7 @@ if (login_check($mysqli) == true) {
         <div class="container" id="breadcrumb" style="margin-top: 40px">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                    <!--<li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li class="active" data-id="btn-studies"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></li>
                 </ol>
@@ -100,6 +100,11 @@ if (login_check($mysqli) == true) {
         <div class="container mainContent" style="margin-top: 0px;" id="item-view">
 
             <button type="button" class="btn btn-success btn-block btn-shadow" onclick="gotoCreateStudy()"><i class="fa fa-plus"></i> <?php echo $lang->createNewStudy ?></button>
+
+            <div style="margin-top: 50px">
+                <h3><?php echo $lang->breadcrump->studies ?></h3>
+                <!--<hr>-->
+            </div>
 
             <div class="form-group form-group-no-margin" style="margin-top: 20px">
                 <div class="input-group">
@@ -148,14 +153,6 @@ if (login_check($mysqli) == true) {
                 </div>
             </div>
 
-            <div style="margin-top: 15px;" class="text-center">
-                <span class="text"><?php echo $lang->studyColors->whatDoTheColorsMean ?></span>
-                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #EEAC57"></i> <span class="text"><?php echo $lang->studyColors->notStarted ?></span></span>
-                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5cb85c"></i> <span class="text"><?php echo $lang->studyColors->running ?></span></span>
-                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5bc0de"></i> <span class="text"><?php echo $lang->studyColors->stopped ?></span></span>
-                <!--<span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #d9534f"></i> <span class="text"><?php echo $lang->studyColors->noSchedule ?></span></span>-->
-            </div>
-
             <div class="text-center custom-pagination" id="pager-top">
                 <nav>
                     <ul class="pagination pagination-custom hidden" data-clipping="7">
@@ -182,6 +179,14 @@ if (login_check($mysqli) == true) {
 
             <div class="alert-space alert-no-search-results"></div>
             <div class="alert-space alert-no-studies"></div>
+
+            <div style="margin-top: 35px;" class="text-center">
+                <span class="text"><?php echo $lang->studyColors->whatDoTheColorsMean ?></span>
+                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #EEAC57"></i> <span class="text"><?php echo $lang->studyColors->notStarted ?></span></span>
+                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5cb85c"></i> <span class="text"><?php echo $lang->studyColors->running ?></span></span>
+                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5bc0de"></i> <span class="text"><?php echo $lang->studyColors->stopped ?></span></span>
+                <!--<span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #d9534f"></i> <span class="text"><?php echo $lang->studyColors->noSchedule ?></span></span>-->
+            </div>
 
         </div>
 
@@ -237,7 +242,7 @@ if (login_check($mysqli) == true) {
                         } else {
                             appendAlert($('#item-view'), ALERT_NO_STUDIES);
                         }
-                        
+
                         animateBreadcrump();
                     }
                 });
@@ -261,7 +266,7 @@ if (login_check($mysqli) == true) {
                 if (currentFilterData.length > 0) {
                     clearAlerts($('#item-view'));
                     initPopover();
-                    
+
                     for (var i = viewFromIndex; i < viewToIndex; i++) {
                         var clone = getStudiesCatalogListThumbnail(currentFilterList, currentFilterData[i]);
                         if (animate) {

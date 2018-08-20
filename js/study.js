@@ -9,8 +9,8 @@ function renderData(data, hash) {
 
     // date range view
     var now = new Date().getTime();
-    var dateFrom = studyData.generalData.dateFrom * 1000;
-    var dateTo = addDays(studyData.generalData.dateTo * 1000, 1).getTime();
+    var dateFrom = parseInt(studyData.generalData.dateFrom) * 1000;
+    var dateTo = addDays(parseInt(studyData.generalData.dateTo) * 1000, 1).getTime(); // add one day because of date selection
     var totalDays = rangeDays(dateFrom, dateTo);
     if ((studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
             (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
@@ -55,13 +55,14 @@ function renderData(data, hash) {
         });
 
         // prepare study
+        console.log(now > dateFrom, now < dateTo, now, dateFrom, dateTo);
         if (now > dateFrom && now < dateTo) {
             if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
                 if (studyData.phases && studyData.phases.length > 2) {
                     $('#btn-prepare-study, #btn-open-static-study-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
                         event.preventDefault();
                         if (!$(this).hasClass('disabled')) {
-                            goto(event.data.url);
+                            goto(relativeStaticStudyUrl);
                         }
                     });
                 } else {
@@ -235,28 +236,38 @@ function renderData(data, hash) {
         var studyScenes = getLocalItem(ASSEMBLED_SCENES);
         var studyTrigger = getLocalItem(ASSEMBLED_TRIGGER);
         var noCatalogData = true;
+
         if (studyGestures && studyGestures.length > 0) {
             renderStudyGestures(getStudyCatalogGestures());
             noCatalogData = false;
+        } else {
+            $('#study-gestures-catalog').remove();
         }
 
         if (studyScenes && studyScenes.length > 0) {
             renderStudyScenes(studyScenes);
             noCatalogData = false;
+        } else {
+            $('#study-scenes-catalog').remove();
         }
 
         if (studyTrigger && studyTrigger.length > 0) {
             renderStudyTrigger(studyTrigger);
             noCatalogData = false;
+        } else {
+            $('#study-trigger-catalog').remove();
         }
 
         if (studyFeedback && studyFeedback.length > 0) {
             renderStudyFeedback(studyFeedback);
             noCatalogData = false;
+            $('#study-feedback-catalog').remove();
         }
 
         if (noCatalogData) {
             appendAlert($('#study-catalogs'), ALERT_NO_PHASE_DATA);
+        } else {
+            $('#study-catalogs').find('.study-catalog').first().css({marginTop: '0px'});
         }
     }
 

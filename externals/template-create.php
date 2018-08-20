@@ -1440,15 +1440,17 @@ include '../includes/language.php';
                         <div class="input-group">
                             <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="3"/>
                             <div class="input-group-btn select scaleSelect" role="group">
-                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen" id="scale_3"></span><span class="caret"></span></button>
+                                <button class="btn btn-default btn-shadow dropdown-toggle" style="border-radius: 0px" type="button" data-toggle="dropdown"><span class="chosen" id="scale_3"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                    <li id="scale_3" class="selected"><a href="#">3</a></li>
+                                    <li id="scale_3"><a href="#">3</a></li>
                                     <li id="scale_4"><a href="#">4</a></li>
                                     <li id="scale_5"><a href="#">5</a></li>
                                     <li id="scale_6"><a href="#">6</a></li>
                                     <li id="scale_7"><a href="#">7</a></li>
                                 </ul>
+                                <div class="btn btn-default btn-shadow btn-copy-scale" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->copyScale ?>"><i class="fa fa-copy"></i></div>
                             </div>
+                            
                         </div>
                     </div>
 
@@ -2306,6 +2308,7 @@ include '../includes/language.php';
     </div>
 
 
+
     <div class="panel panel-default panel-shadow root" id="identificationItem-gestures" style="margin-bottom: 15px">
         <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
@@ -2338,15 +2341,18 @@ include '../includes/language.php';
                 <input class="form-control" id="context-input" placeholder="<?php echo $lang->gestureContextQuestion ?>" />
             </div>
 
-            <div class="form-group" id="scenes">
-                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationScenesForGestures ?>"></i></label>
-                <div class="alert-space alert-no-scenes-assembled-link"></div>
-                <div class="">
-                    <div class="transition-scenes-option-container">
+            <div class="row">
+                <div class="form-group col-sm-11" id="scenes">
+                    <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationScenesForGestures ?>"></i></label>
+                    <div class="alert-space alert-no-scenes-assembled-link"></div>
+                    <div class="">
+                        <div class="transition-scenes-option-container">
+                        </div>
                     </div>
+                    <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
                 </div>
-                <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
             </div>
+
 
         </div>
 
@@ -2378,16 +2384,18 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="form-group" id="scenes">
-                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationScenesForTrigger ?>"></i></label>
-                <div class="alert-space alert-no-scenes-assembled-link"></div>
-                <div class="">
-                    <div class="transition-scenes-option-container">
+            <div class="row">
+                <div class="form-group col-sm-11" id="scenes">
+                    <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationScenesForTrigger ?>"></i></label>
+                    <div class="alert-space alert-no-scenes-assembled-link"></div>
+                    <div class="">
+                        <div class="transition-scenes-option-container">
+                        </div>
                     </div>
+                    <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
                 </div>
-                <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
-            </div>
 
+            </div>
         </div>
     </div>
 

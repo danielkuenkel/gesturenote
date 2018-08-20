@@ -428,19 +428,19 @@ include '../includes/language.php';
                     <div class="form-group">
                         <label><?php echo $lang->gestureContext ?></label> 
                         <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context ?>"></i>
-                        <input type="text" class="form-control" id="gestureContext" required>
+                        <input type="text" class="form-control" id="gestureContext" required value="<?php echo $lang->notSpecified ?>" />
                     </div>
 
                     <div class="form-group">
                         <label><?php echo $lang->gestureAssociation ?></label> 
                         <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->association ?>"></i>
-                        <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000" required></textarea>
+                        <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000" required><?php echo $lang->notSpecified ?></textarea>
                     </div>
 
                     <div class="form-group">
                         <label><?php echo $lang->gestureDescription ?></label> 
                         <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->description ?>"></i>
-                        <textarea class="form-control" id="gestureDescription" rows="3" maxlength="1000" required></textarea>
+                        <textarea class="form-control" id="gestureDescription" rows="3" maxlength="1000" required><?php echo $lang->notSpecified ?></textarea>
                     </div>
 
                     <div class="form-group">
@@ -887,19 +887,19 @@ include '../includes/language.php';
                     <div class="form-group">
                         <label><?php echo $lang->gestureContext ?></label> 
                         <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context ?>"></i>
-                        <input type="text" class="form-control" id="gestureContext" required>
+                        <input type="text" class="form-control" id="gestureContext" required value="<?php echo $lang->notSpecified ?>" />
                     </div>
 
                     <div class="form-group">
                         <label><?php echo $lang->gestureAssociation ?></label> 
                         <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->association ?>"></i>
-                        <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000" required></textarea>
+                        <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000" required><?php echo $lang->notSpecified ?></textarea>
                     </div>
 
                     <div class="form-group">
                         <label><?php echo $lang->gestureDescription ?></label> 
                         <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->description ?>"></i>
-                        <textarea class="form-control" id="gestureDescription" rows="3" maxlength="1000" required></textarea>
+                        <textarea class="form-control" id="gestureDescription" rows="3" maxlength="1000" required><?php echo $lang->notSpecified ?></textarea>
                     </div>
 
                     <div class="form-group">

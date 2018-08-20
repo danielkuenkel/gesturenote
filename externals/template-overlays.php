@@ -5,7 +5,11 @@ include '../includes/language.php';
 <div id="overlays-item-container" class="hidden">
 
     <div id="letterOfAcceptance">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -15,7 +19,7 @@ include '../includes/language.php';
                         <h3><span id="phase-step-title"><?php echo $lang->formats->letterOfAcceptance->text ?></span></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn btn-default btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
             </div>
@@ -33,11 +37,18 @@ include '../includes/language.php';
             </div>
         </div>
 
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right" style="margin-top: 10px"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
     <div id="thanks">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -47,11 +58,11 @@ include '../includes/language.php';
                         <h3><span id="phase-step-title"><?php echo $lang->formats->thanks->text ?></span></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-5"></div>
         </div>
 
         <div class="row">
@@ -59,17 +70,24 @@ include '../includes/language.php';
                 <textarea class="form-control" id="declaration" rows="10" placeholder="<?php echo $lang->thanksInput ?>" style="margin-top: 6px"></textarea>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div style=""><?php echo $lang->tooltips->studyCreate->thanksOverlay ?></div>
             </div>
         </div>
 
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right" style="margin-top: 10px"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
 
     <div id="questionnaire">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row">
             <div class="col-md-7">
@@ -85,7 +103,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 20px">
@@ -159,11 +177,18 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
     <div id="interview">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row">
             <div class="col-md-7">
@@ -179,7 +204,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 20px">
@@ -253,12 +278,19 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
 
     <div id="gus">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row">
             <div class="col-md-7">
@@ -275,7 +307,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div id="general" style="margin-top: 16px">
@@ -335,11 +367,18 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
     <div id="questionnaireGestures">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row">
             <div class="col-md-7">
@@ -356,7 +395,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 16px">
@@ -381,11 +420,18 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
     <div id="sus">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row">
             <div class="col-md-7">
@@ -402,7 +448,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 16px">
@@ -420,11 +466,24 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
     <div id="ueq">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <!--<div class="row">-->
+        <!--<div class="col-xs-12">-->
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
+        <!--</div>-->
+
+        <!--</div>-->
+
 
         <div class="row">
             <div class="col-md-7">
@@ -441,7 +500,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn btn-default btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 16px">
@@ -466,7 +525,10 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
 
@@ -480,7 +542,11 @@ include '../includes/language.php';
 
 
     <div id="gestureTraining">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -497,10 +563,10 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-5"></div>
         </div>
 
         <div class="row" style="margin-bottom: 30px;">
@@ -519,18 +585,18 @@ include '../includes/language.php';
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div style=""><?php echo $lang->tooltips->studyCreate->gestureTrainingOverlay ?></div>
             </div>
         </div>
 
 
         <h3 style="margin-top: 20px;"><?php echo $lang->trainingElements ?></h3>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--<div class="row">-->
+        <!--<div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--</div>-->
+        <!--</div>-->
         <div class="row" id="training" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div id="trainingContainer">
@@ -557,11 +623,11 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--<div class="row">-->
+        <!--<div class="col-md-12">-->
+        <hr style="margin-top: 10px">
+        <!--</div>-->
+        <!--</div>-->
 
         <div class="row hidden" id="observations">
             <div class="col-md-7">
@@ -656,11 +722,18 @@ include '../includes/language.php';
         </div>
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
     <div id="scenario">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-6">
@@ -677,10 +750,10 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
             </div>
-            <div class="col-md-5"></div>
+            <div class="col-md-6"></div>
         </div>
 
         <div class="row" style="margin-bottom: 30px;">
@@ -707,7 +780,7 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div style=""><?php echo $lang->tooltips->studyCreate->scenarioOverlay ?></div>
             </div>
         </div>
@@ -720,11 +793,11 @@ include '../includes/language.php';
                             <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
                         </div>-->
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--<div class="row">-->
+        <!--<div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--</div>-->
+        <!--</div>-->
         <div class="row" id="tasks-container" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-phase-data"></div>
@@ -740,11 +813,11 @@ include '../includes/language.php';
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->taskAssessment ?></h3>
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--<div class="row">-->
+        <!--<div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--</div>-->
+        <!--</div>-->
         <div class="row" id="task-assessment-container" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-phase-data"></div>
@@ -764,11 +837,11 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--<div class="row">-->
+        <!--<div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--</div>-->
+        <!--</div>-->
         <div class="row hidden" id="help" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-phase-data"></div>
@@ -791,11 +864,11 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--<div class="row">-->
+        <!--<div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--</div>-->
+        <!--</div>-->
         <div class="row hidden" id="observations">
             <div class="col-md-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
@@ -890,11 +963,18 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
     <div id="gestureSlideshow">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -911,10 +991,10 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-5"></div>
         </div>
 
         <div class="row" style="margin-bottom: 30px;">
@@ -932,18 +1012,18 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div style=""><?php echo $lang->tooltips->studyCreate->gestureSlideshowOverlay ?></div>
             </div>
         </div>
 
 
         <h3 style="margin-top: 20px;"><?php echo $lang->elements ?></h3>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
 
         <div class="row" id="slideshow" style="margin-bottom: 30px;">
             <div class="col-md-7">
@@ -971,11 +1051,11 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
         <div class="row hidden" id="observations">
             <div class="col-md-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
@@ -1070,11 +1150,18 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
     <div id="triggerSlideshow">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -1091,16 +1178,14 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-5"></div>
         </div>
 
         <div class="row" style="margin-bottom: 30px;">
             <div class="col-md-7">
-
-
 
                 <div id="general" style="">
                     <!--                    <div class="form-group">
@@ -1123,11 +1208,11 @@ include '../includes/language.php';
 
 
         <h3 style="margin-top: 20px;"><?php echo $lang->elements ?></h3>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
         <div class="row" id="slideshow" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-gestures-assembled"></div>
@@ -1153,11 +1238,11 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
         <div class="row hidden" id="observations">
             <div class="col-md-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
@@ -1230,11 +1315,18 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
     <div id="physicalStressTest">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -1251,10 +1343,10 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-5"></div>
         </div>
 
         <div class="row" style="margin-bottom: 30px;">
@@ -1290,7 +1382,7 @@ include '../includes/language.php';
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div style=""><?php echo $lang->tooltips->studyCreate->physicalStressTestOverlay ?></div>
             </div>
         </div>
@@ -1299,11 +1391,11 @@ include '../includes/language.php';
 
 
         <h3 style="margin-top: 20px;"><?php echo $lang->gestures ?></h3>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
         <div class="row" id="stressTest" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-gestures-assembled"></div>
@@ -1327,11 +1419,11 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
         <div class="row hidden" id="singleStressQuestions">
             <div class="col-md-6 col-lg-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
@@ -1461,11 +1553,11 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
         <div class="row hidden" id="sequenceStressQuestions">
             <div class="col-md-6 col-lg-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
@@ -1596,11 +1688,11 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
         <div class="row hidden" id="observations">
             <div class="col-md-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
@@ -1692,6 +1784,12 @@ include '../includes/language.php';
 
             </div>
         </div>
+
+        <br/>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
 
@@ -1701,7 +1799,11 @@ include '../includes/language.php';
 
 
     <div id="identification">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -1718,10 +1820,10 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-5"></div>
         </div>
 
         <div class="row">
@@ -1748,11 +1850,11 @@ include '../includes/language.php';
 
 
         <h3 style="margin-top: 20px;"><?php echo $lang->elements ?></h3>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
         <div class="row" id="identificationElements" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-study-gestures-assembled-link"></div>
@@ -1835,11 +1937,11 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
         <div class="row hidden" id="observations">
             <div class="col-md-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
@@ -1912,12 +2014,19 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
 
     <div id="exploration">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
@@ -1934,10 +2043,10 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-5"></div>
         </div>
 
         <div class="row">
@@ -1952,7 +2061,7 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div style=""><?php echo $lang->tooltips->studyCreate->explorationOverlay ?></div>
             </div>
         </div>
@@ -1960,11 +2069,11 @@ include '../includes/language.php';
 
 
         <h3 style="margin-top: 20px;"><?php echo $lang->elements ?></h3>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
         <div class="row" id="explorationElements" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-study-gestures-assembled-link"></div>
@@ -2074,11 +2183,11 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
+        <!--        <div class="row">
+                    <div class="col-md-11">-->
+        <hr style="margin-top: 10px">
+        <!--            </div>
+                </div>-->
         <div class="row hidden" id="observations">
             <div class="col-md-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
@@ -2151,7 +2260,10 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
 
     </div>
 
@@ -2160,16 +2272,20 @@ include '../includes/language.php';
 
 
     <div id="catalog-gestures">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right hidden-md hidden-lg">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row root">
-            <div class="col-md-9">
+            <div class="col-md-8 col-lg-9">
                 <div class="overlay-header">
                     <div class="overlay-header-container">
                         <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <ul class="nav nav-pills hidden-md hidden-lg gesture-catalogs-nav-tab" id="gesture-catalogs-nav-tab-small">
@@ -2468,8 +2584,15 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="col-md-3 hidden-xs hidden-sm">
+            <div class="col-md-4 col-lg-3 hidden-xs hidden-sm">
                 <div class="toggle-affix">
+                    <div class="btn-group pull-right">
+                        <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+                        <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+                    </div>
+
+                    <br/><br/><br/>
+
                     <ul class="nav nav-pills nav-stacked gesture-catalogs-nav-tab" id="gesture-catalogs-nav-tab">
                         <li role="presentation" class="active"><a href="#study-gesture-set" role="tab" data-toggle="tab"><?php echo $lang->studyGestureSet ?> <span class="badge" id="study-gesture-set-badge"></span></a></li>
                         <h4 style="margin-top: 20px"><?php echo $lang->chooseStudyGestureSet ?></h4>
@@ -2485,12 +2608,20 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right hidden-md hidden-lg">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+
     </div>
 
 
     <div id="catalog-trigger">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row">
             <div class="col-md-7">
@@ -2499,7 +2630,7 @@ include '../includes/language.php';
                         <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 20px">
@@ -2524,11 +2655,18 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
     <div id="catalog-feedback">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row">
             <div class="col-md-7">
@@ -2537,7 +2675,7 @@ include '../includes/language.php';
                         <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 20px">
@@ -2569,11 +2707,18 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
     <div id="catalog-scenes">
-        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
 
         <div class="row">
             <div class="col-md-7">
@@ -2582,7 +2727,7 @@ include '../includes/language.php';
                         <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
                     </div>
 
-                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 20px">
@@ -2626,7 +2771,10 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->saveAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
     </div>
 
 </div>

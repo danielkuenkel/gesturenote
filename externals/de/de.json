@@ -37,7 +37,7 @@
         "studyPrepare": "An Studie teilnehmen",
         "gestureStyleguides": "Gesten-Styleguides",
         "gestureCatalog": "Gesten-Katalog",
-        "profile": "Profil",
+        "profile": "Ihr Profil",
         "publications": "Veröffentlichungen",
         "resetPassword": "Passwort zurücksetzen",
         "imprint": "Impressum",
@@ -153,7 +153,7 @@
     "acceptCookies": "OK",
     "infosContent": {
         "general": {
-            "content": "<p>GestureNote entsteht im Rahmen der Promotion mit dem Titel <em>Werkzeuggestütztes Remote-Design gestenbasierter Interaktionen</em>. Das Promotionsvorhaben beschäftigt sich mit den theoretischen und praktischen Grundlagen bekannter Methoden und Vorgehensweisen für den Gesten-Design-Prozess. Die Leitfrage, die man sich für Gesten-Interaktionen in der Mensch-Computer-Interaktion immer wieder stellen muss, ist: Was sind gute Gesten und wie kann man sie designen?</p><div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px;' src='img/de/introduction/study-create/gesture-design-process.svg'><div class='image-caption'>Die drei Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluieurng</em> im Gesten-Design-Prozess. Blaue Boxen stellen mögliche Einstiegspunkte dar. Gelbe Boxen stellen die Ergebnisse der jeweiligen Phase dar.</div></div><p>Um an gute Gesten zu gelangen durchläuft ein sog. Gesten-Designer in der Regel drei Phasen im Gesten-Design-Prozess: Ermittlung, Extraktion und Evaluierung. Bei der <strong>Ermittlung</strong> werden Gesten für Interaktionsaufgaben wie z.B. <em>Musik lauter stellen</em> gesucht. Der Gesten-Designer erfragt diese aktuell entweder in einem Usability-Lab oder vorort mit Hilfe szenariobasierter Aufgaben. Die Gesten werden aufgezeichnet und anschließend ausgewertet. Danach erfolgt meist eine Klassifizierung in der <strong>Exkration</strong>, d.h. der Gesten-Designer gruppiert die ermittelten Gesten und analysiert, welche Gesten für eine Evaluierung in Frage kämen (sog. potentielle Gesten). Die potentiellen Gesten werden dann in einem Gesten-Set zusammengefasst. Bei der <strong>Evaluierung</strong> werden dann die potentiellen Gesten auf ihre Gebrauchstauglichkeit und weitere Aspete (z.B. Erlernbarkeit, Ergonomie, etc.) hin überprüft. Wie in der oberen Abbildung zu sehen ist, gibt es nicht nur den einen Weg um an gute Gesten zu gelangen. Der Gesten-Designer kann z.B. ohne potentielle Nutzer Gesten expertenbasiert für eine Evaluierung zusammenstellen. Eine Extraktion kann ebenso auch nutzerzentriert durchgeführt werden.</p><p>Der nutzerzentrierte Anteil ist in der Regel sehr hoch. Dadurch können potentielle Endanwender früh in den Design-Prozess eingebunden werden. Es hat sich jedoch gezeigt, dass diese Vorgehensweise sehr aufwendig und zeitraubend ist. Die ortsgebundenen Befragungen erlauben zudem eine geringe und oft nur regionale Stichprobe. Des Weiteren kommt hinzu, dass unerfahrene Gesten-Designer (wie z.B. Studierende) nicht wissen, auf was beispielsweise bei einer Gesten-Evaluierung alles zu achten ist. Für jede Design-Phase stehen unterschiedliche Methoden und Vorgehensweisen zur Verfügung. Um einen schnellen Überblick zu bekommen, muss man in Erfahrung bringen welche Methoden es gibt und was die Besonderheiten sind.</p><p>Mit GestureNote wird versucht, diese Probleme zu lösen und darüber hinaus die Phasen des Gesten-Design-Prozesses in der Planung, Durchführung und Analyse zu unterstützen. Zum einen wurden bekannte Methoden und Vorgehensweisen aus der Literatur in GestureNote integriert und erweitert (z.B. Wizard-of-Oz-Experimente, Gesten-Training, Physischer Belastungstest, etc.). Zum anderen wurden neue Ansätze identifiziert und entwickelt (z.B. Gesture Usability Scale, Gesten-Katalog, etc.).</p><p>Nachfolgend sind auszugsweise Beispiele für die Planung, Durchführung und Analyse dargestellt. Eine Übersicht über die wichtigesten Features ist weiter unten zu finden.</p>"
+            "content": "<p>GestureNote entsteht im Rahmen der Promotion mit dem Titel <em>Werkzeuggestütztes Remote-Design gestenbasierter Interaktionen</em>. Das Promotionsvorhaben beschäftigt sich mit den theoretischen und praktischen Grundlagen bekannter Methoden und Vorgehensweisen für den Gesten-Design-Prozess. Die Leitfrage, die man sich für Gesten-Interaktionen in der Mensch-Computer-Interaktion immer wieder stellen muss, ist: Was sind gute Gesten und wie kann man sie designen?</p><div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px;' src='img/de/introduction/study-create/gesture-design-process.svg'><div class='image-caption'>Die drei Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluieurng</em> im Gesten-Design-Prozess. Blaue Boxen stellen mögliche Einstiegspunkte dar. Gelbe Boxen stellen die Ergebnisse der jeweiligen Phase dar.</div></div><p>Um an gute Gesten zu gelangen durchläuft ein sog. Gesten-Designer in der Regel drei Phasen im Gesten-Design-Prozess: Ermittlung, Extraktion und Evaluierung. Bei der <strong>Ermittlung</strong> werden Gesten für Interaktionsaufgaben wie z.B. <em>Musik lauter stellen</em> gesucht. Der Gesten-Designer erfragt diese aktuell entweder in einem Usability-Lab oder vorort mit Hilfe szenariobasierter Aufgaben. Die Gesten werden aufgezeichnet und anschließend ausgewertet. Danach erfolgt meist eine Klassifizierung in der <strong>Exkration</strong>, d.h. der Gesten-Designer gruppiert die ermittelten Gesten und analysiert, welche Gesten für eine Evaluierung in Frage kämen (sog. potentielle Gesten). Die potentiellen Gesten werden dann in einem Gesten-Set zusammengefasst. Bei der <strong>Evaluierung</strong> werden dann die potentiellen Gesten auf ihre Gebrauchstauglichkeit und weitere Aspete (z.B. Erlernbarkeit, Ergonomie, etc.) hin überprüft. Wie in der oberen Abbildung zu sehen ist, gibt es nicht nur den einen Weg um an gute Gesten zu gelangen. Der Gesten-Designer kann z.B. ohne Probanden Gesten expertenbasiert für eine Evaluierung zusammenstellen. Eine Extraktion kann ebenso auch nutzerzentriert durchgeführt werden.</p><p>Der nutzerzentrierte Anteil ist in der Regel sehr hoch. Dadurch können potentielle Endanwender früh in den Design-Prozess eingebunden werden. Es hat sich jedoch gezeigt, dass diese Vorgehensweise sehr aufwendig und zeitraubend ist. Die ortsgebundenen Befragungen erlauben zudem eine geringe und oft nur regionale Stichprobe. Des Weiteren kommt hinzu, dass unerfahrene Gesten-Designer (wie z.B. Studierende) nicht wissen, auf was beispielsweise bei einer Gesten-Evaluierung alles zu achten ist. Für jede Design-Phase stehen unterschiedliche Methoden und Vorgehensweisen zur Verfügung. Um einen schnellen Überblick zu bekommen, muss man in Erfahrung bringen welche Methoden es gibt und was die Besonderheiten sind.</p><p>Mit GestureNote wird versucht, diese Probleme zu lösen und darüber hinaus die Phasen des Gesten-Design-Prozesses in der Planung, Durchführung und Analyse zu unterstützen. Zum einen wurden bekannte Methoden und Vorgehensweisen aus der Literatur in GestureNote integriert und erweitert (z.B. Wizard-of-Oz-Experimente, Gesten-Training, Physischer Belastungstest, etc.). Zum anderen wurden neue Ansätze identifiziert und entwickelt (z.B. Gesture Usability Scale, Gesten-Katalog, etc.).</p><p>Nachfolgend sind auszugsweise Beispiele für die Planung, Durchführung und Analyse dargestellt. Eine Übersicht über die wichtigesten Features ist weiter unten zu finden.</p>"
         },
         "planning": {
             "title": "Planung",
@@ -176,7 +176,7 @@
         "features": {
             "title": "Funktionsumfang",
             "usercentered": {
-                "subline": "Gesten-Designer treten in Kontakt mit potentiellen Nutzern von Gesten-Interaktionen. Ortsungebunden! Probanden können in alle drei Phasen des Gesten-Designs-Prozesses eingebunden werden. Nutzen Sie Screen-Sharing, um ihren Probanden zu veranschaulichen, wofür Gesten gesucht, extrahiert oder berwertet werden sollen. Binden Sie dazu Bilder, Videos oder Webseiten in ihren Leitfaden ein. Zeichnen Sie Gesten ganz einfach über die Webcam ihrer Probanden auf. Nutzen Sie vordefinierte Fragebögen, um schnell und einfach Gesten-Interaktionen bewerten zu lassen. Koppeln Sie Gesten an vorhandene Prototypen, um Gesten-Interaktionen zu evaluieren. Akquirieren Sie Probanden aus aller Welt über soziale Netzwerke.",
+                "subline": "Interaktions-Designer treten in Kontakt mit potentiellen Nutzern von Gesten-Interaktionen. Ortsungebunden! Probanden können in alle drei Phasen des Gesten-Designs-Prozesses eingebunden werden. Nutzen Sie Screen-Sharing, um ihren Probanden zu veranschaulichen, wofür Gesten gesucht, extrahiert oder berwertet werden sollen. Binden Sie dazu Bilder, Videos oder Webseiten in ihren Leitfaden ein. Zeichnen Sie Gesten ganz einfach über die Webcam ihrer Probanden auf. Nutzen Sie vordefinierte Fragebögen, um schnell und einfach Gesten-Interaktionen bewerten zu lassen. Koppeln Sie Gesten an vorhandene Prototypen, um Gesten-Interaktionen zu evaluieren. Akquirieren Sie Probanden aus aller Welt über soziale Netzwerke.",
                 "content": {
                     "col01": "<ul><li><strong>Ermittlung (Top-Down):</strong> Gesten für vorhandene Interaktionsaufgaben ermitteln.</li><li><strong>Ermittlung (Bottom-Up):</strong> Interaktionsaufgaben für vorhandene Gesten ermitteln.</li></ul>",
                     "col02": "<ul><li><strong>Exploration (Top-Down):</strong> Abfrage favorisierter Gesten für vorhandene Interaktionsaufgaben.</li><li><strong>Exploration (Bottom-Up):</strong> Abfrage favorisierter Interaktionsaufgaben für vorhandene Gesten.</li></ul>",
@@ -359,7 +359,7 @@
     "still": "noch",
     "deleteParticipantResults": "Resultate löschen",
     "deleteAllData": "Alle Eingaben löschen",
-    "studyPreview": "Vorschau der Studie",
+    "studyPreview": "Vorschau der Studien-Durchführung",
     "saveStudy": "Studie speichern",
     "studyCreateNav": {
         "general": "Allgemeine Daten",
@@ -372,7 +372,6 @@
     "participations": "Teilnahmen",
     "noParticipations": "Keine Teilnahmen",
     "editStudy": "Studie bearbeiten",
-    "previewStudy": "Vorschau der Studie",
     "deleteStudy": "Studie löschen",
     "cancelExecution": "Die Befragung wirklich abbrechen?",
     "deleteStudyModal": "Wollen Sie diese Studie wirklich löschen? Alle Studien-Daten gehen dabei verloren. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.",
@@ -506,9 +505,12 @@
     "seeYourselfQuestion": "Können Sie sich sehen?",
     "seeBrowserQuestion": "Sehen Sie eine Meldung mit dem Hinweis einen anderen Browser zu nutzen?",
     "openSet": "Öffnen",
+    "editCatalog": "Katalog bearbeiten",
     "arrangeSet": "Katalog zusammenstellen",
     "close": "Schließen",
+    "cache": "Zwischenspeichern",
     "saveAndClose": "Speichern & Schließen",
+    "acceptAndClose": "Übernehmen & Schließen",
     "next": "Weiter",
     "previous": "Zurück",
     "furtherUp": "Weiter nach oben",
@@ -535,6 +537,7 @@
     "fitnessOfTrigger": "Eignung der Interaktionsaufgabe",
     "noAnswer": "Keine Antwort",
     "noJustification": "Keine Begründung",
+    "notSpecified": "Keine Angaben",
     "Is": "Ist",
     "is": "ist",
     "and": "und",
@@ -699,7 +702,7 @@
         "studiesPanelBody": "Katalog der erstellten und durchgeführten Gesten-Designstudien. Sie können hier auch eine neue Studie erstellen.",
         "gesturesStyleguidesPanelBody": "Erfahren Sie hier, welchen Kriterien gebrauchstaugliche Gesten unterliegen und welche Aspekte und Fragen im GUS zur Verfügung stehen.",
         "newsPanelBody": "Neuigkeiten und Updates rund um GestureNote auf einen Blick.",
-        "profilePanelBody": "Anzeigen und bearbeiten der Nutzerdaten.",
+        "profilePanelBody": "Bearbeiten Sie ihre Profildaten.",
         "publicationsPanelBody": "Wissenschaftliche Beiträge zum Thema Gesten-Design-Prozess",
         "helpPanelBody": "Zugriff auf sämtliche Inhalte der bereitgestellten Hilfebeiträge.",
         "informationsPanelBody": "Informationen über den Funktionsumfang von GestureNote.",
@@ -707,9 +710,9 @@
     },
     "createNewStudy": "Neue Studie erstellen",
     "copy": "Kopieren",
-    "studyUrl": "Studien-URL",
-    "openStudyUrl": "Studien-URL aufrufen",
-    "studyURLDescription": "Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke.",
+    "studyUrl": "Akquirierungs-URL",
+    "openStudyUrl": "Akquirierungs-URL aufrufen",
+    "studyURLDescription": "Um Probanden zu akquirieren, teilen Sie die Akquirierungs-URL z.B. über E-Mails oder soziale Netzwerke. Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Akquirierungs-URL. Oder kopieren Sie die Akquirierungs-URL in das Adressfeld Ihres Browsers.",
     "totalGestures": "Gesten insgesamt",
     "totalGesture": "Geste insgesamt",
     "gesturesForTrigger": "Gesten für Interaktionsaufgabe",
@@ -1459,15 +1462,15 @@
     "userTypes": {
         "guest": "Gast",
         "registered": "Registriert",
-        "tester": "Tester",
+        "tester": "Proband",
         "evaluator": "Moderator"
     },
     "userTypesRegister": {
-        "tester": "Ich möchte an interessanten Studien als Tester teilnehmen.",
+        "tester": "Ich möchte an interessanten Studien als Proband teilnehmen.",
         "evaluator": "Ich möchte Studien erstellen und durchführen."
     },
     "gestureSources": {
-        "tester": "Tester",
+        "tester": "Proband",
         "evaluator": "Moderator",
         "recorded": "Aufgezeichnet",
         "own": "Eigene"
@@ -1613,13 +1616,14 @@
     "nextParticipant": "Nächster Teilnehmer",
     "previousParticipant": "Vorheriger Teilnehmer",
     "description": "Beschreibung",
-    "sharedStudies": "Studie freigeben",
+    "sharedStudies": "Studie für andere Interaktions-Designer freigeben",
+    "withdraw": "Einladung zurückziehen",
     "sharedInfo": "Mal freigegeben",
     "sharedStudy": "Diese Studie wurde Ihnen freigegeben",
     "invite": "Einladen",
     "inviteAllUsersForGesture": "Geste für alle freigegeben",
     "inviteAllUsersForGestureSet": "Gesten-Set für alle freigegeben",
-    "inviteUserViaMail": "Per E-Mail-Adresse freigeben",
+    "inviteUserViaMail": "Interaktions-Designer per E-Mail-Adresse einladen",
     "hello": "Hallo",
     "inviteSubject": "Freigabe einer Gesten-Design-Studie",
     "uninviteSubject": "Freigabe einer Gesten-Design-Studie zurückgezogen",
@@ -1857,8 +1861,8 @@
     "gestureContext": "Gesten-Kontext",
     "gestureExecutionType": "Gesten-Ausführung",
     "gestureType": "Gesten-Ausführung",
-    "studyStatus": "Studien-Durchführung",
-    "studiesSucceeded": "Erfolgreich",
+    "studyExecutionStatistic": "Abgebrochene Befragungen",
+    "studiesSucceeded": "Durchgeführt",
     "studiesAborted": "Abgebrochen",
     "gestureInteraction": "Gesten-Interaktion",
     "gestureInteractions": "Gesten-Interaktionen",
@@ -2149,7 +2153,8 @@
             "videoEmbed": "Hinterlegen Sie eine Embed-URL von YouTube oder Vimeo. Die URL kann dem Teilen-Dialog der jeweiligen Plattform entnommen werden.",
             "embedURL": "Die Einbettungs-URL finden Sie bei YouTube und Vimeo im Teilen-Dialog. Gehen Sie dort auf Einbetten und kopieren Sie den kompletten Text.",
             "text": "Erstellen Sie eine Text-Rückmeldung, der beim Probanden angezeigt werden kann, z.B. während eines Benutzertests.",
-            "sound": "Laden Sie eine MP3-Datei hoch, um dem Probanden Rückmeldung über Töne zu geben. Dies ist z.B. wichtig, wenn es kein grafisches User Interface gibt. Die Datei darf bis zu 8 MB groß sein."
+            "sound": "Laden Sie eine MP3-Datei hoch, um dem Probanden Rückmeldung über Töne zu geben. Dies ist z.B. wichtig, wenn es kein grafisches User Interface gibt. Die Datei darf bis zu 8 MB groß sein.",
+            "copyScale": "Diese Skala auf alle anderen Zeilen dieser Matrix übertragen"
         },
         "gestures": {
             "gestureNameQuality": "Bezieht sich auf den gewählten Namen einer Geste. <em>Funktional</em> bedeutet, dass der gewählte Name an eine bestimmte Interaktionsaufgabe gekoppelt ist. <em>Generisch</em> bedeutet, dass der Name unabhängig von der Interaktionsaufgabe ist.",
@@ -4875,12 +4880,12 @@
         "noUsersInvited": {
             "id": "no-users-invited",
             "type": "warning",
-            "text": "Es wurden keine Nutzer zu dieser Studie eingeladen."
+            "text": "Es wurden keine Interaktions-Designer zu dieser Studie eingeladen."
         },
         "userAlreadyInvited": {
             "id": "user-already-invited",
             "type": "warning",
-            "text": "Nutzer mit dieser E-Mail-Adress wurde bereits eingeladen."
+            "text": "Interaktions-Designer mit dieser E-Mail-Adress wurde bereits eingeladen."
         },
         "inviteYourself": {
             "id": "invite-yourself",
@@ -4983,7 +4988,7 @@
                         "<p>Dienen Zustandsübergänge als Systemrückmeldungen, werden keine Systemrückmeldungen benötigt.</p>",
                         "<h4>Zustände</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-03-04.jpg' style='max-width:909px' />",
-                        "<p>Zustände sind z.B. für ein WOZ-Experiment während einer szenariobasierten Aufgabe von Bedeutung, um eine gewisse Immersion für potenzielle Nutzer zu gewährleisten. Mit Zuständen können explorative Gesten-Trainings, Gesten-Ermittlungen oder WOZ-Experimente erstellt werden. In GestureNote werden aktuell vier unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:</p>",
+                        "<p>Zustände sind z.B. für ein WOZ-Experiment während einer szenariobasierten Aufgabe von Bedeutung, um eine gewisse Immersion für Probanden zu gewährleisten. Mit Zuständen können explorative Gesten-Trainings, Gesten-Ermittlungen oder WOZ-Experimente erstellt werden. In GestureNote werden aktuell vier unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:</p>",
                         "<p><strong>Bild</strong>: Es können Bilder im Format JPEG und PNG hinterlegt werden.<p/>",
                         "<p><strong>Webseite</strong>: Ähnlich wie in typischen Online-Usability-Tools, können in GestureNote Webseiten hinterlegt werden. Aus Sicherheitsgründen überprüfen einige Webseiten den sog. Same-Origin. Wenn eine Webseite in der Zustands-Vorschau (z.B. bei der Katalog-Übersicht) nicht angezeigt wird, dann ist diese als Zustand für eine Befragung ungeeignet. Die Webseite kann in GestureNote nicht integriert, bzw. geladen werden.<p/>",
                         "<p><strong>Video-Embed</strong>: Embed-URLs von YouTube oder Vimeo. Diese URLs können über die Teilen-Funktion der jeweiligen Portale abgefragt und kopiert werden.<p/>",
@@ -5034,7 +5039,7 @@
                         "<p>Der System Usability Scale ist ein einfacher und technologieunabhängiger Fragebogen, mit dem die Gebrauchstauglichkeit eines Systems bewertet werden kann. Es handelt sich um eine etablierte Methode zur quantitativen Analyse der Gebrauchstauglichkeit. Der Scorewert (zwischen 0 und 100) wird in GestureNote automatisch berechnet. Sie müssen deshalb nichts weiter tun als diesen Fragebogen in den Leitfaden hinzuzufügen.</p>",
                         "<h4>User Experience Questionnaire (UEQ)</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-04-06.jpg' style='max-width:975px' />",
-                        "<p>Der User Experience Questionnaire (UEQ) ermöglicht eine schnelle Beurteilung der Benutzererfahrung mit interaktiven Produkten. Das Format des Fragebogens unterstützt Benutzer ihre Gefühle, Eindrücke und Einstellungen, die entstehen, wenn sie ein Produkt verwenden, sofort auszudrücken. Die Skalen des Fragebogens decken einen umfassenden Eindruck der Benutzererfahrung ab, d.h. messen sowohl klassische Usability-Aspekte (Effizienz, Übersichtlichkeit, Zuverlässigkeit) als auch Aspekte der Benutzererfahrung (Originalität, Stimulation).</p>",
+                        "<p>Der User Experience Questionnaire (UEQ) ermöglicht eine schnelle Beurteilung der Benutzererfahrung mit interaktiven Produkten. Das Format des Fragebogens unterstützt Probanden ihre Gefühle, Eindrücke und Einstellungen, die entstehen, wenn sie ein Produkt verwenden, sofort auszudrücken. Die Skalen des Fragebogens decken einen umfassenden Eindruck der Benutzererfahrung ab, d.h. messen sowohl klassische Usability-Aspekte (Effizienz, Übersichtlichkeit, Zuverlässigkeit) als auch Aspekte der Benutzererfahrung (Originalität, Stimulation).</p>",
                         "<h4>Ermittlung</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-04-07.jpg' style='max-width:961px' />",
                         "<p>Wählen Sie aus, ob Sie Gesten oder Interaktionsaufgaben ermitteln wollen. Je nachdem was ermittelt werden soll, müssen entsprechende Katalog vorliegen.</p>",
@@ -5046,19 +5051,19 @@
                         "<p>Fügen Sie für jede Geste bzw. Interaktionsaufgabe ein Explorationselement hinzu, für das favorisierte Interaktionsaufgaben (für eine Geste) bzw. Gesten (für eine Interaktionsaufgabe) abfragen werden sollen. Fügen Sie Zustände hinzu, wenn sie dem Probanden einen Prototyp präsentieren wollen.</p>",
                         "<h4>Gesten-Training</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-04-09.jpg' style='max-width:836px' />",
-                        "<p>Bevor Gesten (z.B. in einem szenariobasierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Interaktionsaufgaben und Systemrückmeldungen nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich muss das Gesten-Training mit einem vorhandenen Prototypen durch unterschiedlich hinterlegt Zustände bereichert werden.</p>",
+                        "<p>Bevor Gesten (z.B. in einem szenariobasierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Probanden mit dazugehörigen Interaktionsaufgaben und Systemrückmeldungen nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich muss das Gesten-Training mit einem vorhandenen Prototypen durch unterschiedlich hinterlegt Zustände bereichert werden.</p>",
                         "<h4>Benutzertest</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-04-10.jpg' style='max-width:781px' />",
-                        "<p>Gesten-Interaktionen werden typischerweise mit szenariobasierten Aufgaben in Verbindung mit Wizard-of-Oz (WOZ)-Experimenten evaluiert. Bei einem WOZ-Experiment glaubt der Nutzer (Proband), dass dieser mit einem autonomen System interagiert. In Wirklichkeit steuert jedoch ein anderer Mensch die Reaktionen des Systems im Verborgenen. Der Vorteil dieser Methode ist, dass sie schon in einem sehr frühen Entwicklungsstadium eingesetzt werden kann.</p>",
+                        "<p>Gesten-Interaktionen werden typischerweise mit szenariobasierten Aufgaben in Verbindung mit Wizard-of-Oz (WOZ)-Experimenten evaluiert. Bei einem WOZ-Experiment glaubt der Proband, dass dieser mit einem autonomen System interagiert. In Wirklichkeit steuert jedoch ein anderer Mensch die Reaktionen des Systems im Verborgenen. Der Vorteil dieser Methode ist, dass sie schon in einem sehr frühen Entwicklungsstadium eingesetzt werden kann.</p>",
                         "<p>In GestureNote liegt der Fokus auf der Erstellung explorativer WOZ-Experimente. Mit szenariobaiserten Aufgaben können nicht nur verschiedene Quellen (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge definiert werden. Daran gekoppelt sind einzelne Gesten und deren Systemrückmeldung. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten und Erfolgsfaktoren für jede Aufgabe zu definieren.</p>",
                         "<h4>Gesten erraten</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-04-11.jpg' style='max-width:839px' />",
-                        "<p>Die Erinnerbarkeit und Intuitivität von Gesten kann mit einer Gesten-Slideshow abgefragt werden. Es werden die hinterlegten Interaktionsaufgaben angezeigt. Der Proband muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Konnte der Proband der Interaktionsaufgabe nicht die korrekte Geste zuordnen, beginnt die Slideshow erneut. Der Benutzer bekommt bei einem Neustart alle Gesten nochmals eingeblendet. GestureNote bietet, neben der Erstellung von Gesten-Interaktionsaufgaben-Paaren, die Möglichkeit das Zeitfenster für jedes Paar zu definieren.</p>",
+                        "<p>Die Erinnerbarkeit und Intuitivität von Gesten kann mit einer Gesten-Slideshow abgefragt werden. Es werden die hinterlegten Interaktionsaufgaben angezeigt. Der Proband muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Konnte der Proband der Interaktionsaufgabe nicht die korrekte Geste zuordnen, beginnt die Slideshow erneut. Der Proband bekommt bei einem Neustart alle Gesten nochmals eingeblendet. GestureNote bietet, neben der Erstellung von Gesten-Interaktionsaufgaben-Paaren, die Möglichkeit das Zeitfenster für jedes Paar zu definieren.</p>",
                         "<h4>Interaktionsaufgaben erraten</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-04-12.jpg' style='max-width:834px' /><div class='image-caption'>Eine Liste von Interaktionsaufgaben-Gesten-Paaren.</div></div>",
                         "<p>Hier werden dem Probanden nacheinander die Gesten eines Vokabulars und eine Liste von Interaktionsaufgaben gezeigt. Der Proband soll die dazugehörige Interaktionsaufgabe auswählen. In GestureNote wurde dies mit Hilfe von Eingruppierungsfragen (für die Interaktionsaufgabenliste) und der Vorschau jeder einzelnen Geste realisiert. Legen Sie hier einfach eine Liste mit Interaktionsaufgaben-Gesten-Paaren an.</p>",
                         "<h4>Physischer Belastungstest</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-04-13.jpg' style='max-width:982px' /><div class='image-caption'>Eine Liste von Gesten deren Belastung auf den Körper gemessen werden sollen (oben). Unten ein Teil des Fragebogens, welcher nach jeder Gesten-Ausführung dem Benutzer zur Beantwortung gestellt werden soll.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-04-13.jpg' style='max-width:982px' /><div class='image-caption'>Eine Liste von Gesten deren Belastung auf den Körper gemessen werden sollen (oben). Unten ein Teil des Fragebogens, welcher nach jeder Gesten-Ausführung dem Probanden zur Beantwortung gestellt werden soll.</div></div>",
                         "<p>Ziel dieser Methode ist es, die physische Belastung von Gesten bei der Benutzung herauszufinden. Dies geschieht mit einem Test, bei dem der Proband jede Geste aus einem Vokabular X-Mal vorführt, um Rückschlüsse auf eine besondere Beanspruchung der ausführenden Körperteile zu schließen. Es wird vorgeschlagen die Gesten eines Vokabulares in Summe 200 Mal durchführen zu lassen. In GestureNote können Sie diese Anzahl erhöhen oder verringern, da die Anzahl der Durchläufe an die Gesten gekoppelt sind (d.h. man gibt den Wert 10 an, dann werden für jede Geste 10 Wiederholungen veranschlagt. Für 3 Gesten entpspricht das 30 Durchläufen). Nach jedem Vorführen einer Geste haben Sie die Möglichkeit, die Beanspruchung bewerten zu lassen. Zusätzlich sollte nach jeder Gesten-Sequenz die Beanspruchung insgesamt bewertet werden. In GestureNote stehen dafür die bekannten Fragenformate (z.B. offene Fragen, Ja-/Nein-Frage, Summenfrage, etc.) zur Verfügung. Darüber hinaus gibt es in GestureNote auch die Möglichkeit den Probanden mit Hilfe einer Grafik über besondere Beanspruchungen zu befragen. Der Proband kann einfach die jeweiligen Bereiche auswählen. Aktuell können Körper, Handgesten oder beide Gestenarten abgefragt werden.</p>"
                     ]
         }
@@ -5075,7 +5080,7 @@
                         "<p>Die Studien-Vorschau dient dazu, sich als Moderator mit dem Leitfaden und der Durchführung einer Studie vertraut zu machen. Es ist wichtig, dass vorab die Workflows der einzelnen Methoden verinnerlicht sind, damit es bei einer Befragung nicht zu Problemen oder Verzögerungen kommt. Des Weiteren kann man so sehen, wie die hinterlegten Studien-Daten für die Befragung visualisiert sind. GestureNote stellt aus diesem Grund die interaktive Vorschau zur Verfügung.</p>",
                         "<h4>Ablauf einer Durchführung</h4><hr>",
                         "<img class='svg-image' style='max-width:300px' src='img/de/introduction/study-preview/execution.svg' />",
-                        "<p>Bei einer moderierten Befragung wird eine Web-Echtzeitkommunikation mit Hilfe von WebRTC zwischen Moderator und Proband aufgebaut. Wie in der oberen Grafik zu sehen, gelangen die Studienteilnehmer beim Aufruf einer Studien-URL zuerst auf eine Übersichtsseite, auf der allgemeine Informationen bereitgestellt werden. Bei einer moderierten Befragung muss der Moderator aus einer Liste der wartenden Teilnehmer einen Probanden auswählen. Es wird eine erste Verbindung zwischen Moderator und Proband hergestellt und der Moderator kann den Probanden begrüßen und diesen über die Studie aufklären. Klickt der Moderator dann auf <em>Befragung starten</em>, gelangen beide Teilnehmer zur eigentlichen Durchführungsseite. Die Verbindung wird dabei kurz unterbrochen.</p>",
+                        "<p>Bei einer moderierten Befragung wird eine Web-Echtzeitkommunikation mit Hilfe von WebRTC zwischen Moderator und Proband aufgebaut. Wie in der oberen Grafik zu sehen, gelangen die Studienteilnehmer beim Aufruf einer Akquirierungs-URL zuerst auf eine Übersichtsseite, auf der allgemeine Informationen bereitgestellt werden. Bei einer moderierten Befragung muss der Moderator aus einer Liste der wartenden Teilnehmer einen Probanden auswählen. Es wird eine erste Verbindung zwischen Moderator und Proband hergestellt und der Moderator kann den Probanden begrüßen und diesen über die Studie aufklären. Klickt der Moderator dann auf <em>Befragung starten</em>, gelangen beide Teilnehmer zur eigentlichen Durchführungsseite. Die Verbindung wird dabei kurz unterbrochen.</p>",
                         "<p>Die Durchführungsseite wird dabei hier von der Vorschau repräsentiert. Die Vorschau stellt also nicht den kompletten Ablauf einer Durchführung dar, sondern nur den hinterlegten Leitfaden.</p>",
                         "<p>Bei einer unmoderierten Befragung ist der Ablauf ähnlich, jedoch wird keine Verbindung zwischen Moderator und Tester hergestellt, da kein Moderator benötigt wird. Der Tester startet die Befragung selbst und folgt den hinterlegten Anweisungen im Leitfaden.</p>",
                         "<h4>Vorschau vs. Durchführung</h4><hr>",
@@ -5143,8 +5148,8 @@
                 "<h4>Bereiche</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/study/carousel-01-01.png' style='max-width:456px' />",
                 "<p>Die Studien-Seite teilt sich in die Bereiche <em>Allgemeines</em>, <em>Kataloge</em> und <em>Teilnahmen</em> auf. Falls eine Extraktion durchgeführt wurde, erscheint zusätzlich der Bereich <em>Exktraktion</em> in der Navigation.</p>",
-                "<h4>Studien-URL & Infos</h4><hr>",
-                "<p>Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet.</p>",
+                "<h4>Akquirierungs-URL & Infos</h4><hr>",
+                "<p>Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Akquirierungs-URL. Oder kopieren Sie die Akquirierungs-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Akquirierungs-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet.</p>",
                 "<h4>Leitfaden</h4><hr>",
                 "<img class='img-image' src='img/de/introduction/study/carousel-01-03.png' style='max-width:390px' />",
                 "<p>Auf der rechten Seite wird nochmals der Leitfaden angezeigt. Zusätzlich kann die Studie bearbeitet, die Vorschau aufgerufen oder die Studie gelöscht werden. Beim Löschen einer Studie gehen alle Daten verloren. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.</p>",
@@ -5330,7 +5335,7 @@
                         "<p>Die Vorschau einer Geste kann als GIF mit einem Klick auf das Symbol <i class='fa fa-file-image-o'></i> heruntergeladen werden. Es kann jedes Einzelbild über einen Klick auf den blauen Slider unter der Vorschau angewählt werden. Scrollen Sie mit der Maus über die Vorschau, um den Play- und Pause-Button anzuzeigen.</p>",
                         "<p>Das Vorschaubild einer Geste kann in GestureNote im Bearbeiten-Modus geändert werden. Navigieren Sie dazu mit der Maus auf der blauen Statusleiste unter der Vorschau zum gewünschen Einzelbild. Klicken Sie anschließend auf <span><i class='fa fa-bookmark-o'></i> Vorschaubild</span>. Das Vorschaubild wird erst gespeichert, wenn der Bearbeiten-Modus beendet wird. Wurde die Geste nicht mit Hilfe einer Webcam aufgezeichnet, ist es nicht möglich ein Vorschaubild auszuwählen.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-06.jpg' style='max-width:345px' /><div class='image-caption'>Vorschau von einer mit dem Leap Motion Controller aufgezeichneten Geste.</div></div>",
-                        "<p>Wurde eine Geste mit dem unterstützten Leap Motion Controller aufgezeichnet werden die Daten als 3D-Modell in der Vorschau dargestellt. Liegen mehrere Quellen vor, können diese über die Button-Leiste unter der Vorschau umgeschaltet werden. Diese Vorschau wird aus Sicht des Benutzers dargestellt, d.h. sie ist nicht wie die Bildvorschau (gespiegelt), sondern aus Nutzerperspektive zu behandeln.</p>",
+                        "<p>Wurde eine Geste mit dem unterstützten Leap Motion Controller aufgezeichnet werden die Daten als 3D-Modell in der Vorschau dargestellt. Liegen mehrere Quellen vor, können diese über die Button-Leiste unter der Vorschau umgeschaltet werden. Diese Vorschau wird aus Sicht des Menschen dargestellt, welcher die Geste aufgezeichnet hat. D.h. sie ist nicht wie die Bildvorschau (gespiegelt), sondern aus Nutzerperspektive zu behandeln.</p>",
                         "<p>Sie können die Rohdaten der Geste über einen Klick auf <i class='fa fa-file-code-o'></i> (unkomprimiert) oder <i class='fa fa-file-zip-o'></i> (komprimiert) herunterladen.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-07.jpg' style='max-width:700px' /><div class='image-caption'>Kommentarfunktion im Infofenster einer Geste.</div></div>",
                         "<p>Alle registrierten Gesten-Designer können Kommentare bei ihren eigenen und bei Gesten anderer Hinterlassen. Ist Ihnen etwas bei einer freigegebenen Geste unklar? Zögern Sie nicht und hinterlassen Sie dem Besitzer der Geste einen Kommentar. Sie können ihre Kommentare nachträglich wieder löschen.</p>"

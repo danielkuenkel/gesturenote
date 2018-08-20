@@ -44,7 +44,7 @@ if (login_check($mysqli) == true) {
         <link rel="stylesheet" href="css/gesture.css">
 
         <script src="js/moment/moment.js"></script>
-        <link rel="stylesheet" href="js/bootstrap-datepicker/css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" href="js/bootstrap-datepicker/css/bootstrap-datetimepicker.css">
         <script src="js/bootstrap-datepicker/js/bootstrap-datetimepicker.min.js"></script>
         <script src="js/moment/locale/de.js" charset="UTF-8"></script>
         <script src="js/moment/locale/en-gb.js" charset="UTF-8"></script>
@@ -105,7 +105,7 @@ if (login_check($mysqli) == true) {
         <div class="container" id="breadcrumb" style="padding-top: 40px">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                    <!--<li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-studies"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></a></li>
                     <li class="hidden"><a class="breadcrump-btn" id="btn-study"><i class="fa fa-clipboard"></i> <?php echo $lang->breadcrump->study ?></a></li>
@@ -130,7 +130,7 @@ if (login_check($mysqli) == true) {
             <div id="overlay-content-placeholder"></div>
         </div>
 
-        <div id="creation-content-background" style="visibility: hidden;position: fixed; background-color: rgba(255,255,255,0.9); top: 0px; left: 0; width: 100%; height: 100%; z-index: 100;"></div>
+        <div id="creation-content-background" style="visibility: hidden;position: fixed; background-color: rgba(255,255,255,1); top: 0px; left: 0; width: 100%; height: 100%; z-index: 100;"></div>
 
 
         <div class="container mainContent">
@@ -250,14 +250,14 @@ if (login_check($mysqli) == true) {
                             <div class='col-sm-6'>
                                 <div class="form-group">
                                     <label><?php echo $lang->studyRunsFrom ?></label>
-                                    <div class='input-group date' id='from-date-picker' style="width: 100%; background-color: #F8F8F8; padding: 10px; border-radius: 5px">
+                                    <div class='input-group date' id='from-date-picker' style="width: 100%; background-color: #F8F8F8; padding: 10px; border-radius: 8px">
                                     </div>
                                 </div>
                             </div>
                             <div class='col-sm-6'>
                                 <div class="form-group">
                                     <label><?php echo $lang->studyRunsTo ?></label>
-                                    <div class='input-group date' id='to-date-picker' style="width: 100%; background-color: #F8F8F8; padding: 10px; border-radius: 5px">
+                                    <div class='input-group date' id='to-date-picker' style="width: 100%; background-color: #F8F8F8; padding: 10px; border-radius: 8px">
                                     </div>
                                 </div>
                             </div>
@@ -272,67 +272,67 @@ if (login_check($mysqli) == true) {
 
                 <div role="tabpanel" class="tab-pane" id="catalogs">
 
-                    <div class="row">
-                        <div class="col-md-12" id="gestures-catalog">
-                            <div style="display: inline">
-                                <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->studyGestures ?> 
-                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogGestures ?>"></i>
-                                </h4>
-                                <div class="btn-group">
-                                    <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-gestures">
-                                        <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
-                                    </button>
-                                    <button class="btn btn-default btn-shadow disabled" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
-                                    <button class="btn btn-default btn-shadow disabled" id="btn-download-as-exchangeable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsExchangeable ?>"><i class="fa fa-file-archive-o"></i></button>
-                                </div>
-                            </div>
-
-                            <div style="margin-top: 10px" class="row" id="gestures-list-container"></div>
-                            <div class="alert-space alert-no-phase-data"></div>
-                        </div>
-
-                        <div class="col-md-6" id="trigger-catalog" style="margin-top: 20px">
-                            <div style="display: inline">
-                                <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->triggers ?> 
-                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogTrigger ?>"></i>
-                                </h4>
-                                <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-trigger">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
+                    <!--<div class="row">-->
+                    <div class="" id="gestures-catalog">
+                        <div style="display: inline">
+                            <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->studyGestures ?> 
+                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogGestures ?>"></i>
+                            </h4>
+                            <div class="btn-group">
+                                <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-gestures">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editCatalog ?></span>
                                 </button>
+                                <button class="btn btn-default btn-shadow disabled" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
+                                <button class="btn btn-default btn-shadow disabled" id="btn-download-as-exchangeable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsExchangeable ?>"><i class="fa fa-file-archive-o"></i></button>
                             </div>
-
-                            <div class="list-container"></div>
-                            <div class="alert-space alert-no-phase-data" style="margin-top: 10px"></div>
                         </div>
 
-                        <div class="col-md-6" id="feedback-catalog" style="margin-top: 20px">
-                            <div style="display: inline">
-                                <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->feedbacks ?> 
-                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogFeedback ?>"></i>
-                                </h4>
-                                <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-feedback">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
-                                </button>
-                            </div>
-
-                            <div class="list-container"></div>
-                            <div class="alert-space alert-no-phase-data" style="margin-top: 10px"></div>
-                        </div>
-
-                        <div class="col-md-12" id="scenes-catalog" style="margin-top: 20px">
-                            <div style="display: inline">
-                                <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->scenes ?> 
-                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogScenes ?>"></i>
-                                </h4>
-                                <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-scenes">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
-                                </button>
-                            </div>
-
-                            <div class="list-container"></div>
-                            <div class="alert-space alert-no-phase-data" style="margin-top: 10px"></div>
-                        </div>
+                        <div style="margin-top: 10px" class="row" id="gestures-list-container"></div>
+                        <div class="alert-space alert-no-phase-data"></div>
                     </div>
+
+                    <div class="" id="trigger-catalog" style="margin-top: 40px">
+                        <div style="display: inline">
+                            <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->triggers ?> 
+                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogTrigger ?>"></i>
+                            </h4>
+                            <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-trigger">
+                                <i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editCatalog ?></span>
+                            </button>
+                        </div>
+
+                        <div class="list-container"></div>
+                        <div class="alert-space alert-no-phase-data" style="margin-top: 10px"></div>
+                    </div>
+
+                    <div class="" id="scenes-catalog" style="margin-top: 40px">
+                        <div style="display: inline">
+                            <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->scenes ?> 
+                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogScenes ?>"></i>
+                            </h4>
+                            <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-scenes">
+                                <i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editCatalog ?></span>
+                            </button>
+                        </div>
+
+                        <div class="list-container"></div>
+                        <div class="alert-space alert-no-phase-data" style="margin-top: 10px"></div>
+                    </div>
+
+                    <div class="" id="feedback-catalog" style="margin-top: 40px">
+                        <div style="display: inline">
+                            <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->feedbacks ?> 
+                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogFeedback ?>"></i>
+                            </h4>
+                            <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-feedback">
+                                <i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editCatalog ?></span>
+                            </button>
+                        </div>
+
+                        <div class="list-container"></div>
+                        <div class="alert-space alert-no-phase-data" style="margin-top: 10px"></div>
+                    </div>
+                    <!--</div>-->
                 </div>
 
 
@@ -467,6 +467,7 @@ if (login_check($mysqli) == true) {
                 <!-- submit form button group -->
                 <div class="btn-group-vertical btn-block" role="group">
                     <button type="button" class="btn btn-default btn-shadow disabled" id="btn-preview-study"><i class="fa fa-eye"></i> <?php echo $lang->studyPreview ?></button>
+                    <button type="button" class="btn btn-default btn-shadow" id="btn-cache-study"><i class="fa fa-save"></i> <?php echo $lang->cache ?></button>
                     <button type="button" class="btn btn-success btn-shadow" id="btn-save-study"><i class="fa fa-save"></i> <?php echo $lang->saveAndClose ?></button>
                 </div>
             </div>
@@ -540,19 +541,32 @@ if (login_check($mysqli) == true) {
 
             function init() {
                 var study = getLocalItem(STUDY);
+                var minDate = false;
+                if (studyEditable === false || !study) {
+                    // set min date to current date
+                    minDate = new Date();
+                    minDate.setHours(0, 0, 0);
+                    minDate.setMilliseconds(0);
+                } else {
+                    // set min date to saved beginning date
+                    minDate = new Date(parseInt(study.dateFrom) * 1000);
+                }
+
                 $('#from-date-picker').datetimepicker({
                     format: 'DD/MM/YYYY',
                     inline: true,
                     useCurrent: !study,
-                    defaultDate: study && study.dateFrom ? new Date(study.dateFrom * 1000) : null,
+                    defaultDate: study && study.dateFrom ? new Date(parseInt(study.dateFrom) * 1000) : false,
+                    minDate: minDate,
                     locale: translation.languages[currentLanguage].locale
                 });
 
                 $('#to-date-picker').datetimepicker({
                     format: 'DD/MM/YYYY',
                     inline: true,
-                    useCurrent: false, //Important! See issue #1075
-                    defaultDate: study && study.dateTo ? new Date(study.dateTo * 1000) : null,
+                    useCurrent: !study, //Important! See issue #1075
+                    defaultDate: study && study.dateTo ? new Date(parseInt(study.dateTo) * 1000) : false,
+                    minDate: minDate,
                     locale: translation.languages[currentLanguage].locale
                 });
 
@@ -850,7 +864,7 @@ if (login_check($mysqli) == true) {
                         updateStudy(updateData, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('#btn-clear-data, #btn-preview-study').removeClass('disabled');
+                            $('#btn-cache-study, #btn-preview-study').removeClass('disabled');
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
                                 var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -863,11 +877,55 @@ if (login_check($mysqli) == true) {
                         saveStudy(getStudyData(), function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('#btn-clear-data, #btn-preview-study').removeClass('disabled');
+                            $('#btn-cache-study, #btn-preview-study').removeClass('disabled');
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
                                 var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                                 goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+                            } else {
+                                //                            appendAlert()
+                            }
+                        });
+                    }
+                } else {
+                    $('#create-tab-navigation').children().first().find('a').click();
+                }
+            });
+
+            $('#btn-cache-study').click(function (event) {
+                event.preventDefault();
+                if (checkInputs() === true) {
+                    var button = $(this);
+                    $('#btn-save-study, #btn-preview-study').addClass('disabled');
+                    saveGeneralData();
+                    showCursor($('body'), CURSOR_POINTER);
+                    lockButton(button, true, 'fa-save');
+                    if (studyEditable === true) {
+                        var updateData = getStudyData();
+                        updateData.studyId = editableStudyId;
+                        updateStudy(updateData, function (result) {
+                            showCursor($('body'), CURSOR_DEFAULT);
+                            $(button).removeClass('disabled');
+                            $('#btn-save-study, #btn-preview-study').removeClass('disabled');
+                            unlockButton(button, true, 'fa-save');
+                            if (result.status === RESULT_SUCCESS) {
+//                                clearLocalItems();
+//                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+//                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+                            } else {
+                                //                            appendAlert()
+                            }
+                        });
+                    } else {
+                        saveStudy(getStudyData(), function (result) {
+                            showCursor($('body'), CURSOR_DEFAULT);
+                            $(button).removeClass('disabled');
+                            $('#tn-save-study, #btn-preview-study').removeClass('disabled');
+                            unlockButton(button, true, 'fa-save');
+                            if (result.status === RESULT_SUCCESS) {
+//                                clearLocalItems();
+//                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+//                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
                             } else {
                                 //                            appendAlert()
                             }
@@ -977,8 +1035,10 @@ if (login_check($mysqli) == true) {
 
             var overlayTween = new TimelineMax({paused: true, onReverseComplete: onReverseComplete});
             overlayTween.add("parallel", .3)
-                    .to($('.mainContent'), .3, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel')
-                    .to($('#breadcrumb'), .3, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel')
+                    .to($('.mainContent'), .3, {autoAlpha: 0}, 'parallel')
+                    .to($('#breadcrumb'), .3, {autoAlpha: 0}, 'parallel')
+//                    .to($('.mainContent'), .3, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel')
+//                    .to($('#breadcrumb'), .3, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel')
                     .to($('#creation-content'), .3, {autoAlpha: 1}, 'parallel')
                     .to($('#creation-content-background'), .3, {autoAlpha: 1}, 'parallel');
 
@@ -997,18 +1057,20 @@ if (login_check($mysqli) == true) {
                         scrollTop: 0
                     }, 200);
                 }, 300);
+                $('.mainContent').addClass('hidden');
             });
 
             function onReverseComplete() {
                 resetOverlayContent($('#overlay-content-placeholder'));
             }
 
-            $(document).on('click', '.btn-close-overlay', function (event) {
+            $(document).on('click', '.btn-close-overlay, .btn-cancel-overlay', function (event) {
                 event.preventDefault();
                 $('html,body').animate({
                     scrollTop: 0
                 }, 200);
                 overlayTween.reverse();
+                $('.mainContent').removeClass('hidden');
             });
 
             $('#gestures-catalog').find('#btn-download-as-json').unbind('click').bind('click', function (event) {

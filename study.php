@@ -100,7 +100,7 @@ if (login_check($mysqli) == true) {
         <div class="container" id="breadcrumb" style="padding-top: 40px">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                    <!--<li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-studies"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></a></li>
                     <li class="active"><i class="fa fa-clipboard"></i> <?php echo $lang->breadcrump->study ?></li>
@@ -112,6 +112,7 @@ if (login_check($mysqli) == true) {
             <ul class="nav nav-tabs" role="tablist" id="tab-pane">
                 <li role="presentation" id="general"><a href="#general-infos" aria-controls="general-infos" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->general ?></a></li>
                 <li role="presentation" id="catalogs"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
+                <li role="presentation" id="phase-steps"><a href="#study-phase-steps" aria-controls="study-phase-steps" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->phases ?></a></li>
                 <li role="presentation" id="participants"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab"><?php echo $lang->participations ?> <span class="badge"></span></a></li>
                 <li role="presentation" class="hidden" id="extraction"><a href="#gesture-extraction" aria-controls="gesture-extraction" role="tab" data-toggle="tab"><?php echo $lang->phaseType->extraction ?></a></li>
                 <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>
@@ -120,7 +121,7 @@ if (login_check($mysqli) == true) {
 
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent tab-content" id="main-content">
+        <div class="container mainContent tab-content" id="main-content" style="padding-bottom: 20px">
 
 
             <div role="tabpanel" class="tab-pane" id="general-infos">
@@ -129,9 +130,95 @@ if (login_check($mysqli) == true) {
                 <div class="label label-default" id="type-survey"></div>
                 <div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>
 
-                <div class="row" style="margin-top: 20px">
-                    <div class="col-sm-12" id="copy-to-clipboard">
-                        <h3 class="address"><?php echo $lang->studyUrl ?></h3>
+                <div class="" style="margin-top: 20px">
+                    <div class="">
+                        <div id="study-description">
+                            <h3 class="address"><?php echo $lang->description ?></h3>
+                            <p class="text"></p>
+                        </div>
+                        <div style="margin-top: 0px">
+                            <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                            <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                            <div class="hidden panel-survey"><i class="fa fa-users" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="invited-users" style="margin-top: 60px">
+                    <h3 class="address"><?php echo $lang->sharedStudies ?></h3>
+
+                    <!--<div class="row">-->
+
+                    <div class="">
+                        <label>Eingeladene Interaktions-Designer</label>
+                        <div class="alert-space alert-no-users-invited"></div>
+                        <div id="shared-studies-list"></div>
+                    </div>
+                    <div class="" id="invite-users-form" style="margin-top: 20px">
+                        <label class="text"><?php echo $lang->inviteUserViaMail ?></label>
+
+                        <div class="alert-space alert-missing-email"></div>
+                        <div class="alert-space alert-invalid-email"></div>
+                        <div class="alert-space alert-user-already-invited"></div>
+                        <div class="alert-space alert-invite-yourself"></div>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="input-email" minlength="8" maxlength="50" placeholder="<?php echo $lang->email ?>">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="btn-invite-user"><i class="fa fa-paper-plane"></i> <span class="btn-text"><?php echo $lang->invite ?></span></button>
+                            </span>
+                        </div>
+                    </div>
+                    <!--</div>-->
+                </div>
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="study-catalogs">
+                <div class="alert-space alert-no-phase-data"></div>
+
+                <div id="study-gestures-catalog" class="study-catalog hidden">
+                    <h3 class="address" style="margin-top: 0">
+                        <?php echo $lang->studyCatalogs->gestures ?>
+                        <div class="btn-group" style="margin-left: 10px">
+                            <button class="btn btn-default btn-shadow disabled" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
+                            <button class="btn btn-default btn-shadow disabled" id="btn-download-as-exchangeable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsExchangeable ?>"><i class="fa fa-file-archive-o"></i></button>
+                        </div>
+                    </h3>
+                    <div class="list-container row" id="gestures-list-container"></div>
+                </div>
+
+                <div id="study-scenes-catalog" class="study-catalog hidden" style="margin-top: 50px;">
+                    <h3 class="address" style="margin-top: 0"><?php echo $lang->studyCatalogs->scenes ?></h3>
+                    <div class="list-container"></div>
+                </div>
+
+
+                <div id="study-trigger-catalog" class="study-catalog hidden" style="margin-top: 50px">
+                    <h3 class="address" style="margin-top: 0"><?php echo $lang->studyCatalogs->trigger ?></h3>
+                    <div class="list-container"></div>
+                </div>
+
+                <div id="study-feedback-catalog" class="study-catalog hidden" style="margin-top: 50px">
+                    <h3 class="address" style="margin-top: 0"><?php echo $lang->studyCatalogs->feedback ?></h3>
+                    <div class="list-container"></div>
+                </div>
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="study-phase-steps">
+                <div id="study-phases">
+                    <!--<h3 class="address"><?php echo $lang->phases ?></h3>-->
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div id="phase-steps-container" style="margin-top: 10px"></div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="study-participants">
+                <div class="" style="">
+                    <div class="" id="copy-to-clipboard">
+                        <h3 class="address" style="margin-top: 0"><?php echo $lang->studyUrl ?></h3>
                         <p class="text"><?php echo $lang->studyURLDescription ?></p>
                         <div class="input-group">
                             <!--<div class="input-group-addon"><?php echo $lang->studyUrl ?></div>-->
@@ -142,110 +229,21 @@ if (login_check($mysqli) == true) {
                         </div>
                     </div>
                 </div>
+                <!--<hr style="">-->
 
-
-                <div class="row" style="margin-top: 40px">
-                    <div class="col-sm-6 col-lg-7">
-                        <div id="study-description">
-                            <h3 class="address"><?php echo $lang->description ?></h3>
-                            <p class="text"></p>
-                        </div>
-                        <div style="margin-top: 20px">
-                            <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
-                            <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
-                            <div class="hidden panel-survey"><i class="fa fa-users" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
-                        </div>
-
-                    </div>
-                    <div class="col-sm-5 col-sm-offset-1 col-lg-4 col-lg-offset-1">
-                        <div id="study-phases">
-                            <h3 class="address"><?php echo $lang->phases ?></h3>
-                            <div class="alert-space alert-no-phase-data"></div>
-                            <div id="phase-steps-container" style="margin-top: 10px"></div>
-                        </div>
-                        <div class="btn-group-vertical btn-block" style="margin-top: 20px">
-                            <button class="btn btn-default btn-shadow" type="button" id="btn-edit-study"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editStudy ?></span></button>
-                            <button class="btn btn-default btn-shadow" type="button" id="btn-preview-study"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previewStudy ?></span></button>
-
-<!--<button class="btn btn-default btn-shadow" type="button" id="btn-prepare-study"><i class="fa fa-inbox" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->executeStudy ?></span></button>-->
-                        </div>
-                        <div class="btn-group-vertical btn-block" style="margin-top: 20px">
-                            <button class="btn btn-danger btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="invited-users" style="margin-top: 40px">
-                    <h3 class="address"><?php echo $lang->sharedStudies ?></h3>
-                    <div class="row">
-
-                        <div class="col-sm-6 col-lg-7">
-                            <div class="alert-space alert-no-users-invited"></div>
-                            <div id="shared-studies-list"></div>
-                        </div>
-                        <div class="col-sm-6 col-lg-5" id="invite-users-form">
-                            <label class="text"><?php echo $lang->inviteUserViaMail ?></label>
-
-                            <div class="alert-space alert-missing-email"></div>
-                            <div class="alert-space alert-invalid-email"></div>
-                            <div class="alert-space alert-user-already-invited"></div>
-                            <div class="alert-space alert-invite-yourself"></div>
-
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="input-email" minlength="8" maxlength="50" placeholder="<?php echo $lang->email ?>">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" id="btn-invite-user"><i class="fa fa-paper-plane"></i> <span class="btn-text"><?php echo $lang->invite ?></span></button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div role="tabpanel" class="tab-pane" id="study-catalogs">
-                <div class="alert-space alert-no-phase-data"></div>
-
-                <div id="study-gestures-catalog" class="hidden">
-                    <h4 class="address">
-                        <?php echo $lang->studyCatalogs->gestures ?>
-                        <div class="btn-group" style="margin-left: 10px">
-                            <button class="btn btn-default btn-shadow disabled" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
-                            <button class="btn btn-default btn-shadow disabled" id="btn-download-as-exchangeable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsExchangeable ?>"><i class="fa fa-file-archive-o"></i></button>
-                        </div>
-                    </h4>
-                    <div class="list-container row" id="gestures-list-container"></div>
-                </div>
-
-                <div id="study-scenes-catalog" class="hidden" style="margin-top: 20px;">
-                    <h4 class="address"><?php echo $lang->studyCatalogs->scenes ?></h4>
-                    <div class="list-container"></div>
-                </div>
-
-                <div class="row" style="margin-top: 20px;">
-                    <div id="study-trigger-catalog" class="hidden col-sm-6" style="margin-bottom: 20px">
-                        <h4 class="address"><?php echo $lang->studyCatalogs->trigger ?></h4>
-                        <div class="list-container"></div>
-                    </div>
-
-                    <div id="study-feedback-catalog" class="hidden col-sm-6">
-                        <h4 class="address"><?php echo $lang->studyCatalogs->feedback ?></h4>
-                        <div class="list-container"></div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div role="tabpanel" class="tab-pane" id="study-participants">
+                <div style="margin-top: 50px"><h3><?php echo $lang->participations ?></h3></div>
                 <div class="alert-space alert-no-phase-data"></div>
                 <div class="alert-space alert-no-plan"></div>
                 <div class="row" id="statistic-participants">
                     <div class="col-xs-12 text-center">
-                        <div class="text text-center"><?php echo $lang->studyStatus ?></div>
-                        <canvas id="chart-participant-statistics" style="max-width:400px; margin: 0 auto"></canvas>
-                        <div class="text text-center" style="font-size: 10pt">
-                            <span id="amount-participants-success"></span>, <span id="amount-participants-aborted"></span>, <span id="amount-participants-total"></span>
+                        <div style="border: 1px solid #eee; border-radius: 8px; padding: 15px">
+                            <!--<div class="text text-center"><?php echo $lang->studyExecutionStatistic ?></div>-->
+                            <canvas id="chart-participant-statistics" style="max-width:400px; margin: 0 auto"></canvas>
+                            <div class="text text-center" style="font-size: 10pt">
+                                <span id="amount-participants-success"></span>, <span id="amount-participants-aborted"></span>, <span id="amount-participants-total"></span>
+                            </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="list-container row" style="margin-top: 20px"></div>
@@ -385,7 +383,7 @@ if (login_check($mysqli) == true) {
                                     </span>
                                 </div>
                             </div>
-                            
+
                             <hr>
 
                             <div id="item-view">
@@ -678,6 +676,18 @@ if (login_check($mysqli) == true) {
         </div>
 
 
+        <div class="container hidden" id="study-owner-controls">
+            <hr style="margin-top: 0">
+            <div class="btn-group-vertical btn-block" style="margin-top: 20px">
+                <button class="btn btn-default btn-shadow" type="button" id="btn-preview-study"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->studyPreview ?></span></button>
+                <button class="btn btn-default btn-shadow" type="button" id="btn-edit-study"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editStudy ?></span></button>
+            </div>
+            <div class="btn-group-vertical btn-block" style="margin-top: 20px">
+                <button class="btn btn-danger btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>
+            </div>
+        </div>
+
+
         <div id="btn-scroll-to-top" class="hidden" style="cursor:pointer; display: block; position: fixed; bottom: 65px; right: 15px; padding: 8px 10px; color:white; border-radius: 5px; background-color: rgba(0,0,0,.6)"><i class="fa fa-arrow-up fa-2x"></i></div>
 
 
@@ -728,8 +738,15 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 var showTutorial = false;
 
+                var activeTab = $('#tab-pane').find('.active a').attr('href');
+                if (activeTab !== '#gesture-extraction' && activeTab !== '#study-participants') {
+                    $('#study-owner-controls').removeClass('hidden');
+                } else {
+                    $('#study-owner-controls').addClass('hidden');
+                }
+
                 if (tutorialAutomaticClicked === false || (tutorialAutomaticClicked === true && (showStudyTutorial === 1 || showExtractionTutorial === 1))) {
-                    var activeTab = $('#tab-pane').find('.active a').attr('href');
+
                     var helpContext = 'study';
                     var helpKey = 'introductionStudy';
 
@@ -741,6 +758,10 @@ if (login_check($mysqli) == true) {
                                 break;
                             case '#study-catalogs':
                                 $('#custom-modal').attr('data-start-tab-id', 'study-catalogs');
+                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
+                                break;
+                            case '#study-phase-steps':
+                                $('#custom-modal').removeAttr('data-start-tab-id');
                                 showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
                                 break;
                             case '#study-participants':

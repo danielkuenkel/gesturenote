@@ -835,7 +835,7 @@ function initScenarioOverlay(id, formatClone) {
     if (scenes === null) {
         appendAlert($(formatClone).find('#wozExperiment'), ALERT_NO_SCENES_ASSEMBLED_LINK);
         $(formatClone).find('#wozExperiment .btn-add-woz-experimentOption').addClass('hidden');
-        $(formatClone).find('#help .btn-add-helpOption').addClass('hidden');
+//        $(formatClone).find('#help .btn-add-helpOption').addClass('hidden');
         $(formatClone).find('#btn-assemble-scenes').on('click', function (event) {
             event.preventDefault();
             $(formatClone).find('.btn-close-overlay').click();

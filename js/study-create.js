@@ -410,46 +410,46 @@ function updateCatalogButtons() {
 //    console.log('update catalog buttons', $('#gestures-catalog .btn-open-overlay .btn-text'));
     var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
     if (gestures && gestures.length > 0) {
-        $('#gestures-catalog .btn-open-overlay .btn-text').text(translation.openSet);
-        $('#gestures-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+        $('#gestures-catalog .btn-open-overlay .btn-text').text(translation.editCatalog);
+//        $('#gestures-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
 //        $('#btn-clear-study-gestures').removeClass('hidden');
     } else {
         $('#gestures-catalog .btn-open-overlay .btn-text').text(translation.arrangeSet);
-        $('#gestures-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
+//        $('#gestures-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
 //        $('#btn-clear-study-gestures').addClass('hidden');
     }
 
     var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
     if (feedback && feedback.length > 0) {
 //        $('#btn-clear-feedback').removeClass('hidden');
-        $('#feedback-catalog .btn-open-overlay .btn-text').text(translation.openSet);
-        $('#feedback-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+        $('#feedback-catalog .btn-open-overlay .btn-text').text(translation.editCatalog);
+//        $('#feedback-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
     } else {
 //        $('#btn-clear-feedback').addClass('hidden');
         $('#feedback-catalog .btn-open-overlay .btn-text').text(translation.arrangeSet);
-        $('#feedback-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
+//        $('#feedback-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
     }
 
     var trigger = getLocalItem(ASSEMBLED_TRIGGER);
     if (trigger && trigger.length > 0) {
 //        $('#btn-clear-trigger').removeClass('hidden');
-        $('#trigger-catalog .btn-open-overlay .btn-text').text(translation.openSet);
-        $('#trigger-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+        $('#trigger-catalog .btn-open-overlay .btn-text').text(translation.editCatalog);
+//        $('#trigger-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
     } else {
 //        $('#btn-clear-trigger').addClass('hidden');
         $('#trigger-catalog .btn-open-overlay .btn-text').text(translation.arrangeSet);
-        $('#trigger-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
+//        $('#trigger-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
     }
 
     var scenes = getLocalItem(ASSEMBLED_SCENES);
     if (scenes && scenes.length > 0) {
 //        $('#btn-clear-scenes').removeClass('hidden');
-        $('#scenes-catalog .btn-open-overlay .btn-open-overlay .btn-text').text(translation.openSet);
-        $('#scenes-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+        $('#scenes-catalog .btn-open-overlay .btn-open-overlay .btn-text').text(translation.editCatalog);
+//        $('#scenes-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
     } else {
 //        $('#btn-clear-scenes').addClass('hidden');
         $('#scenes-catalog .btn-open-overlay .btn-text').text(translation.arrangeSet);
-        $('#scenes-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
+//        $('#scenes-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
     }
 }
 
@@ -477,7 +477,7 @@ function saveGeneralData() {
     var dateFrom = new Date(new Date(dateFromInput._d).toDateString());
     var dateToInput = $('#to-date-picker').data("DateTimePicker").viewDate();
     var dateTo = new Date(new Date(dateToInput._d).toDateString());
-    console.log(dateFrom, dateTo);
+//    console.log(dateFrom, dateTo);
     study.dateFrom = dateFrom.getTime() / 1000;
     study.dateTo = dateTo.getTime() / 1000;
 

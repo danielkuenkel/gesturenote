@@ -57,6 +57,8 @@ PeerConnection.prototype.initialize = function (options) {
         this.options = options;
 
         webrtc = new SimpleWebRTC({
+//            debug: true,
+//            iceTransports: 'relay',
             // the id/element dom element that will hold "our" video
             localVideoEl: options.localVideoElement,
             // the id/element dom element that will hold remote videos

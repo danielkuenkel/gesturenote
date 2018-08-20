@@ -42,7 +42,7 @@ include_once 'includes/functions.php';
         <div class="container" id="breadcrumb"style="margin-top: 40px">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                    <!--<li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li class="active" data-id="btn-informations"><i class="fa fa-file-text-o"></i> <?php echo $lang->breadcrump->informations ?></li>
                 </ol>
