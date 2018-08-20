@@ -66,6 +66,9 @@ var ALERT_NO_GESTURES = 'no-gestures';
 var ALERT_NO_STUDIES = 'no-studies';
 var ALERT_STUDY_UNMODERATED = 'study-unmoderated';
 var ALERT_NO_PLAN = 'no-plan';
+var ALERT_PLAN_EXPIRED = 'plan-expired';
+var ALERT_PLAN_NOT_STARTED = 'plan-not-started';
+var ALERT_NO_PARTICIPANT_DATA = 'no-participant-data';
 var ALERT_NO_MORE_TASKS = 'no-more-tasks';
 
 var ALERT_RATING_SUBMITTED = 'rating-submitted';

@@ -428,7 +428,7 @@ if ($h && $token && $studyId) {
             function returnToStudyDetails() {
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                goto("study.php?studyId=" + query.studyId + "&h=" + hash);
+                goto("study.php?studyId=" + query.studyId + "&h=" + hash + '#participants');
             }
 
             function checkRTC(target) {

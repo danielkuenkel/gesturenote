@@ -14,8 +14,9 @@ function renderData(data, hash) {
     var totalDays = rangeDays(dateFrom, dateTo);
     if ((studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
             (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
+        var renderDateTo = addSeconds(dateTo, -1);
         $('.study-plan').find('.address').text(translation.studyRun + ": ");
-        $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + translation.from + ' ' + new Date(dateFrom).toLocaleDateString() + ' (' + translation.zeroOClick + ') ' + translation.to + " " + new Date(dateTo).toLocaleDateString() + ' (' + translation.zeroOClick + ')');
+        $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + translation.from + ' ' + new Date(dateFrom).toLocaleDateString() + ' (' + translation.zeroOClick + ') ' + translation.to + " " + renderDateTo.toLocaleDateString() + ' (' + renderDateTo.getHours() + ':' + renderDateTo.getMinutes() + ')');
         $('.study-plan').removeClass('hidden');
 
         getStudyResults({studyId: data.id}, function (result) {
@@ -25,7 +26,7 @@ function renderData(data, hash) {
                 } else {
                     $('#tab-pane').find('#participants .badge').text('0');
                     $('#statistic-participants').addClass('hidden');
-                    appendAlert($('#study-participants'), ALERT_NO_PHASE_DATA);
+                    appendAlert($('#study-participants'), ALERT_NO_PARTICIPANT_DATA);
                 }
             }
         });
@@ -34,6 +35,14 @@ function renderData(data, hash) {
         $('#statistic-participants').addClass('hidden');
         $('#study-range-days .text').text('0 ' + translation.days);
         $('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
+    }
+
+    // participant URL check
+    if (now > dateTo) {
+        $('.study-plan').find('.address').text(translation.studyRuns + ": ");
+        appendAlert($('#study-participants'), ALERT_PLAN_EXPIRED);
+    } else if(now < dateFrom) {
+        appendAlert($('#study-participants'), ALERT_PLAN_NOT_STARTED);
     }
 
     initPopover();
@@ -50,13 +59,15 @@ function renderData(data, hash) {
         var absoluteStaticStudyUrl = origin + '/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
         var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
         $('#copy-to-clipboard #static-study-url').val(absoluteStaticStudyUrl);
-        $('#copy-to-clipboard #static-study-url').click(function () {
-            $('#copy-to-clipboard #static-study-url').select();
-        });
 
         // prepare study
         console.log(now > dateFrom, now < dateTo, now, dateFrom, dateTo);
         if (now > dateFrom && now < dateTo) {
+            $('#copy-to-clipboard #static-study-url').removeClass('readonly');
+            $('#copy-to-clipboard #static-study-url').click(function () {
+                $('#copy-to-clipboard #static-study-url').select();
+            });
+
             if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
                 if (studyData.phases && studyData.phases.length > 2) {
                     $('#btn-prepare-study, #btn-open-static-study-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
@@ -481,6 +492,7 @@ function renderStudyFeedback(feedback) {
 
 
 function renderStudyParticipants(data, hash) {
+    console.log('render study participants');
     $('#study-participants .list-container').empty();
     $('#tab-pane').find('#participants .badge').text(data.length);
     var aborted = 0;

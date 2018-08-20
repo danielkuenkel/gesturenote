@@ -216,24 +216,28 @@ if (login_check($mysqli) == true) {
             </div>
 
             <div role="tabpanel" class="tab-pane" id="study-participants">
-                <div class="" style="">
-                    <div class="" id="copy-to-clipboard">
-                        <h3 class="address" style="margin-top: 0"><?php echo $lang->studyUrl ?></h3>
-                        <p class="text"><?php echo $lang->studyURLDescription ?></p>
-                        <div class="input-group">
-                            <!--<div class="input-group-addon"><?php echo $lang->studyUrl ?></div>-->
-                            <input type="text" class="form-control" id="static-study-url">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default btn-shadow" type="button" id="btn-open-static-study-url" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->staticStudyURLExecute ?>"><i class="fa fa-external-link" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
-                            </span>
-                        </div>
+                <!--<div class="" style="">-->
+                <div class="" id="copy-to-clipboard">
+                    <h3 class="address" style="margin-top: 0"><?php echo $lang->studyUrl ?></h3>
+                    <p class="text"><?php echo $lang->studyURLDescription ?></p>
+                    <div class="alert-space alert-plan-expired"></div>
+                    <div class="alert-space alert-plan-not-started"></div>
+                    <div class="alert-space alert-no-plan"></div>
+
+                    <div class="input-group">
+                        <!--<div class="input-group-addon"><?php echo $lang->studyUrl ?></div>-->
+                        <input type="text" class="form-control readonly" id="static-study-url">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default btn-shadow" type="button" id="btn-open-static-study-url" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->staticStudyURLExecute ?>"><i class="fa fa-external-link" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
+                        </span>
                     </div>
                 </div>
+                <!--</div>-->
                 <!--<hr style="">-->
 
                 <div style="margin-top: 50px"><h3><?php echo $lang->participations ?></h3></div>
-                <div class="alert-space alert-no-phase-data"></div>
-                <div class="alert-space alert-no-plan"></div>
+                <div class="alert-space alert-no-participant-data"></div>
+
                 <div class="row" id="statistic-participants">
                     <div class="col-xs-12 text-center">
                         <div style="border: 1px solid #eee; border-radius: 8px; padding: 15px">

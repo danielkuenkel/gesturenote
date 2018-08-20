@@ -80,6 +80,9 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-more-gestures-for-classification" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noMoreGesturesForClassification->text ?></span></div>
     <div class="alert alert-warning" id="no-more-trigger-for-classification" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noMoreTriggerForClassification->text ?></span></div>
     <div class="alert alert-warning" id="no-plan" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noPlan->text ?></span></div>
+    <div class="alert alert-warning" id="plan-expired" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->planExpired->text ?></span></div>
+    <div class="alert alert-warning" id="plan-not-started" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->planNotStarted->text ?></span></div>
+    <div class="alert alert-warning" id="no-participant-data" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noParticipantData->text ?></span></div>
     <div class="alert alert-warning" id="no-gesture-sets-for-study" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noGestureSetsForStudy->text ?></span></div>
     <div class="alert alert-warning" id="gesture-set-title-too-short" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->gestureSetTitleTooShort->text ?></span></div>
     <div class="alert alert-warning" id="empty-gesture-set" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->emptyGestureSet->text ?></span></div>

@@ -542,14 +542,20 @@ if (login_check($mysqli) == true) {
             function init() {
                 var study = getLocalItem(STUDY);
                 var minDate = false;
+                var now = new Date();
+                now.setHours(0, 0, 0);
+                now.setMilliseconds(0);
+
                 if (studyEditable === false || !study) {
                     // set min date to current date
-                    minDate = new Date();
-                    minDate.setHours(0, 0, 0);
-                    minDate.setMilliseconds(0);
+                    minDate = now;
                 } else {
                     // set min date to saved beginning date
-                    minDate = new Date(parseInt(study.dateFrom) * 1000);
+                    if (parseInt(study.dateFrom) * 1000 > now.getTime()) {
+                        minDate = now;
+                    } else {
+                        minDate = new Date(parseInt(study.dateFrom) * 1000);
+                    }
                 }
 
                 $('#from-date-picker').datetimepicker({
@@ -609,9 +615,10 @@ if (login_check($mysqli) == true) {
                 var dateToInput = $('#to-date-picker').data("DateTimePicker").viewDate();
                 var dateTo = addDays(new Date(new Date(dateToInput._d).toDateString()), 1);
                 var totalDays = rangeDays(dateFrom.getTime(), dateTo.getTime());
+                var renderDateTo = addSeconds(dateTo, -1);
 
                 $('.study-plan').find('.address').text(translation.studyRun + ": ");
-                $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + translation.from + ' ' + dateFrom.toLocaleDateString() + ' (' + translation.zeroOClick + ') ' + translation.to + " " + dateTo.toLocaleDateString() + ' (' + translation.zeroOClick + ')');
+                $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + translation.from + ' ' + dateFrom.toLocaleDateString() + ' (' + translation.zeroOClick + ') ' + translation.to + " " + renderDateTo.toLocaleDateString() + ' (' + renderDateTo.getHours() + ':' + renderDateTo.getMinutes() + ')');
                 $('.study-plan').removeClass('hidden');
             }
 

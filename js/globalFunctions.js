@@ -2104,6 +2104,10 @@ function addDays(date, amount) {
     return new Date(new Date(date).getTime() + (1000 * 60 * 60 * 24 * amount));
 }
 
+function addSeconds(date, amount) {
+    return new Date(new Date(date).getTime() + (1000 * amount));
+}
+
 function rangeDays(dateFrom, dateTo) {
     return Math.round((dateTo - dateFrom) / (1000 * 60 * 60 * 24));
 }
@@ -2364,9 +2368,9 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
             resetThumbnails($(this).find('.previewGesture'));
         }
     });
-    
+
     initPopover();
-    
+
     return clone;
 }
 
