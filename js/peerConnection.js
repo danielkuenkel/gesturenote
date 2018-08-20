@@ -38,7 +38,7 @@ var STUN = {
 };
 
 var TURN = {
-    urls: 'turn:numb.viagenie.ca:86400',
+    urls: 'turn:numb.viagenie.ca',
     username: 'danielkuenkel@googlemail.com',
     credential: 'GpE-y3D-9YC-d9o'
 };
@@ -70,13 +70,16 @@ PeerConnection.prototype.initialize = function (options) {
                 mirror: true, // flip the local video to mirror mode (for UX)
                 muted: true // mute local video stream to prevent echo
             },
-//            peerConnectionConfig: {'iceServers': [STUN, TURN]},
+            peerConnectionConfig: {'iceServers': [STUN, TURN]},
+//            iceTransports: 'relay',
             enableDataChannels: options.enableDataChannels
 //            receiveMedia: {
 //                offerToReceiveAudio: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0,
 //                offerToReceiveVideo: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0
 //            }
         });
+        
+        webrtc.webrtc.config.peerConnectionConfig.iceTransports = "relay";
 
 
         if (options.localMuteElement && options.callerElement) {
@@ -216,16 +219,10 @@ PeerConnection.prototype.initialize = function (options) {
         // local screen obtained
         webrtc.on('localScreenAdded', function (video) {
             console.log('local screen added', video);
-//            video.onclick = function () {
-//                video.style.width = video.videoWidth + 'px';
-//                video.style.height = video.videoHeight + 'px';
-//            };
             if (options.target && options.remoteVideoElement) {
                 $(video).addClass('hidden');
                 $(options.target).find('#' + options.remoteVideoElement).append(video);
             }
-//            $('#localScreenContainer').empty().append(video);
-//            $('#localScreenContainer').show();
         });
 
         // a peer video has been added
@@ -364,6 +361,7 @@ PeerConnection.prototype.initialize = function (options) {
         // local p2p/ice failure
         webrtc.on('iceFailed', function (peer) {
             var pc = peer.pc;
+            console.log('local p2p/ice failure');
             console.log('had local relay candidate', pc.hadLocalRelayCandidate);
             console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
 
@@ -375,20 +373,19 @@ PeerConnection.prototype.initialize = function (options) {
         // remote p2p/ice failure
         webrtc.on('connectivityError', function (peer) {
             var pc = peer.pc;
+            console.log('remote p2p/ice failure');
             console.log('had local relay candidate', pc.hadLocalRelayCandidate);
             console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
             connection.stopRecording(null, false);
         });
 
 //        // called when a peer is created
-//        webrtc.on('createdPeer', function (peer) {
-//            console.log('webrtc created peer', peer);
-//            if (!webRTCPeer) {
-//                webRTCPeer = peer;
-//
-//                
-//            }
-//        });
+        webrtc.on('createdPeer', function (peer) {
+            console.log('webrtc created peer', peer);
+            if (!webRTCPeer) {
+                webRTCPeer = peer;
+            }
+        });
     } else {
         console.log('no options for webrtc');
     }
@@ -422,7 +419,7 @@ PeerConnection.prototype.update = function (options) {
             // check specific phase step constraints
             if (currentOptions.localStream.video === 'yes' && currentOptions.localStream.visualize === 'yes') {
                 connection.showLocalStream();
-                
+
                 if (currentOptions.remoteStream.video === 'yes') {
                     $('#' + currentOptions.remoteVideoElement).removeClass('hidden');
                     connection.showRemoteStream();

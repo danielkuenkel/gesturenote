@@ -334,7 +334,7 @@ include_once 'includes/functions.php';
                     // the id/element dom element that will hold "our" video
                     localVideoEl: 'localVideo',
                     // the id/element dom element that will hold remote videos
-                    remoteVideosEl: 'remotesVideos',
+                    remoteVideosEl: 'remoteVideo',
                     // immediately ask for camera access
                     autoRequestMedia: true,
                     peerConnectionConfig: {'iceServers': iceServers}

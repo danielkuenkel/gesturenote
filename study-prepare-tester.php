@@ -361,7 +361,7 @@ if ($h && $token && $studyId) {
                         var progressBar = $('#init-timer-progress-bar');
                         $(progressBar).css({width: '100%'});
                         TweenMax.to(progressBar, 3, {width: '0%', ease: Linear.easeNone, onComplete: function () {
-                                initVideoCaller(rtcToken);
+                                initVideoCaller(rtcToken + '.prepare');
                             }});
                     } else {
                     }
@@ -386,7 +386,7 @@ if ($h && $token && $studyId) {
                 enableWebcamStream: true,
                 enableDataChannels: true,
                 autoRequestMedia: true,
-                roomId: rtcToken + '.prepare',
+                roomId: rtcToken,
                 localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
                 remoteStream: {audio: 'yes', video: 'yes'}
             };

@@ -147,14 +147,14 @@ if ($h && $token && $studyId) {
                             </span>
                             <span class="status-check-text text">Audioausgabe</span>
                         </div>
-<!--                        <div class="check-stream-capturing">
-                            <span class="status-check-indicator">
-                                <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
-                                <i class="status-warn fa fa-warning warning hidden"></i>
-                                <i class="status-supported fa fa-check success hidden"></i>
-                            </span>
-                            <span class="status-check-text text">Streaming</span>
-                        </div>-->
+                        <!--                        <div class="check-stream-capturing">
+                                                    <span class="status-check-indicator">
+                                                        <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                                        <i class="status-warn fa fa-warning warning hidden"></i>
+                                                        <i class="status-supported fa fa-check success hidden"></i>
+                                                    </span>
+                                                    <span class="status-check-text text">Streaming</span>
+                                                </div>-->
                         <div class="check-screen-capturing">
                             <span class="status-check-indicator">
                                 <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
@@ -284,28 +284,28 @@ if ($h && $token && $studyId) {
                         // check rtc is needed
 //                        if (isWebRTCSupported()) {
 //                            $('#participation-queue').removeClass('hidden');
-                            appendAlert($('#participation-queue'), ALERT_SEARCH_PARTICIPATION_REQUESTS);
+                        appendAlert($('#participation-queue'), ALERT_SEARCH_PARTICIPATION_REQUESTS);
 
-                            getParticipationRequests({studyId: studyData.generalData.id}, function (result) {
-                                if (result.status === RESULT_SUCCESS) {
-                                    currentRequests = result.requests;
-                                    requestParticipations();
-                                }
-                            });
+                        getParticipationRequests({studyId: studyData.generalData.id}, function (result) {
+                            if (result.status === RESULT_SUCCESS) {
+                                currentRequests = result.requests;
+                                requestParticipations();
+                            }
+                        });
 
-                            $('#btn-enter-study').on('click', function (event) {
-                                event.preventDefault();
-                                if (!$(this).hasClass('disabled')) {
-                                    var name = $('#call-screen').attr('name').split('_');
-                                    var rtcToken = name[1];
-                                    var testerId = name[2];
+                        $('#btn-enter-study').on('click', function (event) {
+                            event.preventDefault();
+                            if (!$(this).hasClass('disabled')) {
+                                var name = $('#call-screen').attr('name').split('_');
+                                var rtcToken = name[1];
+                                var testerId = name[2];
 //                                console.log(rtcToken);
-                                    peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken});
-                                    var query = getQueryParams(document.location.search);
-                                    goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId);
+                                peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken});
+                                var query = getQueryParams(document.location.search);
+                                goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId);
 
-                                }
-                            });
+                            }
+                        });
 //                        } else {
 //                            console.log('no webRTC supported in this browser');
 //                            appendAlert($('#study-details'), ALERT_WEB_RTC_NOT_SUPPORTED);
@@ -382,7 +382,7 @@ if ($h && $token && $studyId) {
                         var current = convertSQLTimestampToDate(request.current);
                         var waitingTime = getTimeBetweenTimestamps(created.getTime(), current.getTime());
                         $(item).find('#waiting .text').text(getTimeString(waitingTime, true));
-                        console.log(request.testerId);
+//                        console.log(request.testerId);
                         if (isNaN(request.testerId)) {
                             $(item).find('#user .label-text').text(translation.userTypes.guest);
                         } else {
@@ -392,12 +392,12 @@ if ($h && $token && $studyId) {
                         $(item).find('.panel').on('click', {requestId: request.id}, function (event) {
                             clearInterval(requestInterval);
                             approveParticipation({requestId: event.data.requestId}, function (result) {
-                                console.log(result);
+//                                console.log(result);
                                 if (result.status === RESULT_SUCCESS) {
                                     $('#participation-queue, #check-rtc-status').addClass('hidden');
                                     $('#call-screen').removeClass('hidden');
-                                    $('#call-screen').attr('name', event.data.requestId + '_' + result.data.rtcToken + '_' + result.data.testerId);
-                                    initPeerConnection(result.data.rtcToken);
+                                    $('#call-screen').attr('name', event.data.requestId + '_' + result.data.rtcToken + '.prepare' + '_' + result.data.testerId);
+                                    initPeerConnection(result.data.rtcToken + '.prepare');
                                 }
                             });
                         });
@@ -507,8 +507,8 @@ if ($h && $token && $studyId) {
                             $(indicator).find('.status-wait').addClass('hidden');
                             $(indicator).find('.status-supported').removeClass('hidden');
                         }
-                        
-                        if(errors === 0) {
+
+                        if (errors === 0) {
                             $('#participation-queue').removeClass('hidden');
                         }
                     });
@@ -534,7 +534,7 @@ if ($h && $token && $studyId) {
                         enableWebcamStream: true,
                         enableDataChannels: true,
                         autoRequestMedia: true,
-                        roomId: rtcToken + '.prepare',
+                        roomId: rtcToken,
                         localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
                         remoteStream: {audio: 'yes', video: 'yes'}
                     };

@@ -305,7 +305,8 @@ var chromeShim = {
       if (pcConfig && pcConfig.iceTransportPolicy) {
         pcConfig.iceTransports = pcConfig.iceTransportPolicy;
       }
-
+      
+      console.log(pcConfig, pcConstraints);
       var pc = new webkitRTCPeerConnection(pcConfig, pcConstraints);
       var origGetStats = pc.getStats.bind(pc);
       pc.getStats = function(selector, successCallback, errorCallback) {
@@ -15652,12 +15653,12 @@ function SimpleWebRTC(opts) {
     connection.on('stunservers', function (args) {
         // resets/overrides the config
 //        self.webrtc.config.peerConnectionConfig.iceServers = args;
-//        self.emit('stunservers', args);
+        self.emit('stunservers', args);
     });
     connection.on('turnservers', function (args) {
         // appends to the config
 //        self.webrtc.config.peerConnectionConfig.iceServers = self.webrtc.config.peerConnectionConfig.iceServers.concat(args);
-//        self.emit('turnservers', args);
+        self.emit('turnservers', args);
     });
 
     this.webrtc.on('iceFailed', function (peer) {
@@ -15994,6 +15995,16 @@ var localMedia = require('localmedia');
 var Peer = require('./peer');
 
 function WebRTC(opts) {
+//    var stunServers = {
+//    urls: 'stun:stun.l.google.com:19302'
+//};
+//
+//var turnServers = {
+//    urls: 'turn:numb.viagenie.ca',
+//    username: 'danielkuenkel@googlemail.com',
+//    credential: 'GpE-y3D-9YC-d9o'
+//};
+
     var self = this;
     var options = opts || {};
     var config = this.config = {
