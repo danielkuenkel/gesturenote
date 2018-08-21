@@ -1350,6 +1350,11 @@ $(document).on('click', '.btn-checkbox, .btn-radio', function (event) {
     }
 });
 
+$(document).on('mouseleave', '.btn-checkbox, .btn-radio', function (event) {
+    event.preventDefault();
+    $(this).blur();
+});
+
 function uncheckOption(optionItem) {
     $(optionItem).removeClass('btn-option-checked');
     $(optionItem).find('#normal').removeClass('hidden');
@@ -2011,7 +2016,7 @@ function filter(filterId) {
                         array.push(originalFilterData[i]);
                     }
                 } else if (filterId === 'private') {
-                    if (originalFilterData[i].scope === filterId && originalFilterData[i].isOwner === true && !originalFilterData[i].invitedUsers) {
+                    if (originalFilterData[i].isOwner === true && (originalFilterData[i].scope === filterId || !originalFilterData[i].invitedUsers || (originalFilterData[i].shared && parseInt(originalFilterData[i].shared) > 0))) {
                         array.push(originalFilterData[i]);
                     }
                 } else if (filterId === 'recorded' && originalFilterData[i].source === 'evaluator') {
@@ -2866,6 +2871,8 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
         clone.find('.btn-tag-as-favorite-gesture').addClass('assembled');
         clone.find('.btn-tag-as-favorite-gesture .fa').removeClass('fa-plus-square').addClass('fa-minus-square');
         clone.find('.tagged-symbol').removeClass('hidden');
+        clone.find('.tagged-symbol').attr('data-content', 'Dem Studien-Gesten-Set zugewiesen');
+        initPopover();
     }
 
     return clone;
@@ -2914,7 +2921,7 @@ function getStudiesCatalogListThumbnail(target, data) {
             $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
 
             if (now > dateFrom && now < dateTo) {
-                console.log(dateFrom, dateTo.getTime(), now);
+//                console.log(dateFrom, dateTo.getTime(), now);
                 var left = getTimeLeftForTimestamp(dateTo, 1);
 //                var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
                 var statusText = $(clone).find('.study-started').removeClass('hidden').find('.status-text');
@@ -2923,7 +2930,7 @@ function getStudiesCatalogListThumbnail(target, data) {
                 $(clone).find('.progress-bar').addClass('progress-bar-success');
                 $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
                 var hourglass = $(clone).find('.study-started .fa');
-                console.log(statusText);
+//                console.log(statusText);
                 TweenMax.to(hourglass, 2, {rotation: '360', repeat: -1, ease: Quad.easeInOut});
                 TweenMax.to($(statusText), 1, {delay: 0, css: {marginLeft: '8'}, yoyo: true, repeat: -1, ease: Quad.easeIn});
             } else if (now < dateFrom) {
@@ -2941,16 +2948,40 @@ function getStudiesCatalogListThumbnail(target, data) {
 
             if (parseInt(data.participants) > 0) {
                 $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(data.participants);
-                $(clone).find('#participant-count').attr('data-content', data.participants + ' ' + translation.participants).data('bs.popover').setContent();
+                $(clone).find('#participant-count').attr('data-content', data.participants + ' ' + (parseInt(data.participants) === 1 ? translation.participation : translation.participations)).data('bs.popover').setContent();
+
+                $(clone).find('#participant-count').unbind('click').bind('click', {studyId: data.id}, function (event) {
+                    event.stopImmediatePropagation();
+                    event.preventDefault();
+                    $(clone).trigger('gotoStudyParticipants', [{studyId: event.data.studyId}]);
+                    console.log('goto trigger');
+                });
             }
 
-//            console.log(data, data.isOwner);
             if (data.isOwner === false) {
                 $(clone).find('#shared-study').removeClass('hidden');
                 $(clone).find('#shared-study').attr('data-content', translation.sharedStudy);
-            } else if (data.isOwner === true && parseInt(data.shared) > 0) {
-                $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.shared);
-                $(clone).find('#shared-study').attr('data-content', data.shared + ' ' + translation.sharedInfo);
+            } else if (data.isOwner === true) {
+                var shareAmount = data.invitedUsers && data.invitedUsers.length > 0 ? data.invitedUsers && data.invitedUsers.length : 0;
+                if (shareAmount > 7) {
+                    $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.invitedUsers.length);
+                    $(clone).find('#shared-study').attr('data-content', data.invitedUsers.length + ' ' + translation.sharedInfo);
+                } else if (shareAmount > 0) {
+                    $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.invitedUsers.length);
+                    var titles = '';
+                    var setCount = 0;
+                    for (var i = 0; i < data.invitedUsers.length; i++) {
+                        var email = data.invitedUsers[i].email;
+                        if (email) {
+                            titles += '<div class="ellipsis">' + email + '</div>';
+                            setCount++;
+                        }
+                    }
+
+                    $(clone).find('#shared-study').attr('data-content', titles);
+                } else {
+                    $(clone).find('#shared-study').addClass('hidden');
+                }
             }
 
 
@@ -3070,7 +3101,7 @@ function getGestureSetPanel(data, type, layout) {
     initShareGestureSet($(panel).find('.btn-share-set'), panel, data);
     initCommentGestureSet($(panel).find('.btn-comment-set'), panel, data);
     initMoreInfoGestureSet($(panel).find('.btn-show-set-info'), panel, data);
-    initStandardGestureSetList(panel, data, type, layout);
+    initAssembledGestureSetList(panel, data, type, layout);
 
     $(panel).find('#btn-mark-hole-set').unbind('click').bind('click', function (event) {
         event.preventDefault();
@@ -3289,28 +3320,28 @@ function initStandardGestureSetList(panel, data, type, layout) {
     }
 }
 
-//function initStandardGestureSetList(panel, data, type, layout) {
-//    if (data.gestures !== null) {
-//        clearAlerts(panel);
-//        for (var j = 0; j < data.gestures.length; j++) {
-//            var gesture = getGestureById(data.gestures[j]);
-//            var isGestureAss = isGestureAssembled(gesture.id);
-//            var gestureThumbnail = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-md-3', null, isGestureAss ? 'panel-info' : null);
-//            $(panel).find('#gestures-list-container').append(gestureThumbnail);
-//        }
-//        var assembledGesturesLength = $(panel).find('#gestures-list-container .gesture-thumbnail.assembled').length;
-//        if (assembledGesturesLength === $(panel).find('#gestures-list-container .gesture-thumbnail').length) {
-//            $(panel).find('#btn-mark-hole-set').addClass('marked');
-//            $(panel).find('#btn-mark-hole-set').find('.fa').removeClass('fa-plus').addClass('fa-minus');
-//        }
-//
-//    } else {
-//        $(panel).find('.hole-set-control-buttons').addClass('hidden');
-//        appendAlert(panel, ALERT_EMPTY_GESTURE_SET);
-//    }
-//
-//    initPopover();
-//}
+function initAssembledGestureSetList(panel, data, type, layout) {
+    if (data.gestures !== null) {
+        clearAlerts(panel);
+        for (var j = 0; j < data.gestures.length; j++) {
+            var gesture = getGestureById(data.gestures[j]);
+            var isGestureAss = isGestureAssembled(gesture.id);
+            var gestureThumbnail = getCreateStudyGestureListThumbnail(gesture, type ? type : 'favorite-gesture-catalog-thumbnail', layout ? layout : 'col-xs-6 col-md-3', null, isGestureAss ? 'panel-info' : null);
+            $(panel).find('#gestures-list-container').append(gestureThumbnail);
+        }
+        var assembledGesturesLength = $(panel).find('#gestures-list-container .gesture-thumbnail.assembled').length;
+        if (assembledGesturesLength === $(panel).find('#gestures-list-container .gesture-thumbnail').length) {
+            $(panel).find('#btn-mark-hole-set').addClass('marked');
+            $(panel).find('#btn-mark-hole-set').find('.fa').removeClass('fa-plus').addClass('fa-minus');
+        }
+
+    } else {
+        $(panel).find('.hole-set-control-buttons').addClass('hidden');
+        appendAlert(panel, ALERT_EMPTY_GESTURE_SET);
+    }
+
+    initPopover();
+}
 
 function downloadGestureSetAsJSON(gestureThumbnails, title) {
     var actions = [];

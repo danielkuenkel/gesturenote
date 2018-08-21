@@ -118,8 +118,11 @@ if (login_check($mysqli) == true) {
             <li role="presentation" id="tab-import"><a href="#gesture-importer" aria-controls="gesture-importer" role="tab" data-toggle="pill"><i class="fa fa-file-zip-o" aria-hidden="true"></i> <?php echo $lang->gestureImporter ?></a></li>
         </ul> 
 
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
 
-        <div class="container mainContent" id="gesture-catalog-content" style="margin-top: 0px;">
+        <div class="container mainContent hidden" id="gesture-catalog-content" style="margin-top: 0px;">
 
 
             <!-- Tab panes -->
@@ -343,11 +346,12 @@ if (login_check($mysqli) == true) {
             animateBreadcrump();
 
             getGestureSets(function (setResults) {
-                setLocalItem(GESTURE_SETS, setResults.gestureSets)
+                setLocalItem(GESTURE_SETS, setResults.gestureSets);
                 var status = window.location.hash.substr(1);
                 var statusNavMatch = getStatusNavMatch(status);
-                if (status !== '' && statusNavMatch !== null) {
+                if (status !== '' && statusNavMatch !== null && statusNavMatch !== 'catalog') {
                     $('#gesture-catalogs-nav-tab').find('#tab-' + statusNavMatch + ' a').click();
+                    showPageContent();
                 } else {
                     $('#gesture-catalogs-nav-tab').children().first().find('a').click();
                 }
@@ -369,6 +373,13 @@ if (login_check($mysqli) == true) {
             return null;
         }
 
+        function showPageContent() {
+            $('#gesture-catalog-content').removeClass('hidden');
+            TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete:function() {
+                $('#loading-indicator').remove();
+            }});
+            TweenMax.from($('#gesture-catalog-content'), .3, {delay: .3, opacity: 0});
+        }
 
         var currentFilterList;
         function renderData(data, animate) {
@@ -512,6 +523,7 @@ if (login_check($mysqli) == true) {
 
             getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {
+                    showPageContent();
                     originalFilterData = result.gestures;
                     if (originalFilterData && originalFilterData.length > 0) {
                         var data = {

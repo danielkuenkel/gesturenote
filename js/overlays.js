@@ -2491,7 +2491,7 @@ function initCatalogGesturesOverlay(formatClone) {
                 var clone;
                 switch ($(currentActiveTab).attr('id')) {
                     case 'gesture-sets':
-                        clone = getGestureSetPanel(currentFilterData[i]);
+                        clone = getGestureSetPanel(currentFilterData[i], 'favorite-gesture-catalog-thumbnail');
                         $(currentFilterList).append(clone);
                         if (animation && animation === true) {
                             TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, y: -10});

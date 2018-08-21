@@ -21,6 +21,30 @@ if (isset($_SESSION['user_id'])) {
             $select_stmt->bind_result($id, $userId, $data, $urlToken, $created, $participants, $sharedStudies);
             $studies = null;
             while ($select_stmt->fetch()) {
+                $invitedUsers = null;
+                if ($select_invited_users_stmt = $mysqli2->prepare("SELECT studies_shared.*, users.forename, users.surname FROM studies_shared LEFT JOIN users ON studies_shared.owner_id = users.id WHERE studies_shared.study_id = '$id' AND studies_shared.owner_id = '$sessionUserId'")) {
+                    if (!$select_invited_users_stmt->execute()) {
+                        echo json_encode(array('status' => 'selectSharedStudiesError'));
+                        exit();
+                    } else {
+                        $select_invited_users_stmt->store_result();
+                        $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited, $forename, $surname);
+
+                        while ($select_invited_users_stmt->fetch()) {
+                            $sharedCount++;
+                            $hasShared = true;
+
+                            $invitedUsers[] = array('id' => $sharedStudyRowId,
+                                'ownerId' => $sharedStudyOwner,
+                                'studyId' => $sharedId,
+                                'email' => $invitedUserMail,
+                                'edit' => $sharedStudyEditable,
+                                'created' => $userInvited
+                            );
+                        }
+                    }
+                }
+
                 $studies[] = array('id' => $id,
                     'userId' => $userId,
                     'isOwner' => intval($userId) === intval($sessionUserId),
@@ -28,7 +52,7 @@ if (isset($_SESSION['user_id'])) {
                     'urlToken' => $urlToken,
                     'created' => $created,
                     'participants' => $participants,
-                    'shared' => $sharedStudies);
+                    'invitedUsers' => $invitedUsers);
             }
         }
     } else {
@@ -53,13 +77,13 @@ if (isset($_SESSION['user_id'])) {
                     'created' => $created,
                     'participants' => $participants);
             }
-            
+
             $result = [];
-            if($studies && count($studies) > 0 && $invitedStudies && count($invitedStudies) > 0) {
+            if ($studies && count($studies) > 0 && $invitedStudies && count($invitedStudies) > 0) {
                 $result = array_merge($studies, $invitedStudies);
-            } else if($studies && count($studies) > 0) {
+            } else if ($studies && count($studies) > 0) {
                 $result = $studies;
-            } else if($invitedStudies && count($invitedStudies) > 0) {
+            } else if ($invitedStudies && count($invitedStudies) > 0) {
                 $result = $invitedStudies;
             }
             echo json_encode(array('status' => 'success', 'studies' => $result));

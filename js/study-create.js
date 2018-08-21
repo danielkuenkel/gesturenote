@@ -307,6 +307,8 @@ function renderStudyGestures(gestures, animate) {
             if (animate && animate === true) {
                 TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
             }
+            
+            
         }
     } else {
         appendAlert($('#gestures-catalog'), ALERT_NO_PHASE_DATA);

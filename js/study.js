@@ -41,7 +41,7 @@ function renderData(data, hash) {
     if (now > dateTo) {
         $('.study-plan').find('.address').text(translation.studyRuns + ": ");
         appendAlert($('#study-participants'), ALERT_PLAN_EXPIRED);
-    } else if(now < dateFrom) {
+    } else if (now < dateFrom) {
         appendAlert($('#study-participants'), ALERT_PLAN_NOT_STARTED);
     }
 
@@ -97,7 +97,7 @@ function renderData(data, hash) {
     // phase view
     if (studyData.phases && studyData.phases.length > 0) {
         var step = document.createElement('ol');
-        $(step).addClass('study-phase-step').css({paddingLeft: '15px'});
+//        $(step).addClass('study-phase-step').css({paddingLeft: '15px'});
         $('#phase-steps-container').append(step);
         for (var i = 0; i < studyData.phases.length; i++) {
 
@@ -202,7 +202,7 @@ function renderData(data, hash) {
 
     $('#tab-pane').on('change', function (event, activeId) {
         event.preventDefault();
-        $('#btn-scroll-to-top').addClass('hidden');
+//        $('#btn-scroll-to-top').addClass('hidden');
         if (activeId !== 'tab-introduction') {
             switch (activeId) {
                 case 'catalogs':
@@ -213,13 +213,21 @@ function renderData(data, hash) {
                     break;
                 case 'extraction':
                     renderExtraction();
-                    $('#btn-scroll-to-top').removeClass('hidden');
+//                    $('#btn-scroll-to-top').removeClass('hidden');
                     break;
             }
 
             window.location.hash = activeId;
             $(document).scrollTop(0);
             TweenMax.from($('#main-content'), .2, {y: -10, opacity: 0.0, clearProps: 'all'});
+
+//            if ($('#study-owner-controls').hasClass('hidden')) {
+//                $('#study-owner-controls').css({opacity: 0});
+//                TweenMax.to($('#study-owner-controls'), .3, {opacity: 1});
+//            } else {
+//                TweenMax.from($('#study-owner-controls'), .3, {y: -20});
+//            }
+
 
             setTimeout(function () {
                 tutorialAutomaticClicked = true;

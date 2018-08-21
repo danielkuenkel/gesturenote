@@ -306,7 +306,7 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
                     </div>
                 </div>
-                <div class="tagged-symbol hidden">
+                <div class="tagged-symbol hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
                     <i class="fa fa-asterisk"></i>
                 </div>
                 <div class="gesture-info-symbols">

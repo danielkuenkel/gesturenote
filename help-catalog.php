@@ -78,7 +78,7 @@ include_once 'includes/functions.php';
                 animateBreadcrump();
 
                 var allHelp = [];
-                allHelp.push({id: 'gestureCatalog', content: translation.introductionGestureCatalog});
+                allHelp.push({id: 'gesturesGestureSets', content: translation.introductionGestureCatalog});
                 allHelp.push({id: 'createStudy', content: translation.introductionCreateStudy});
                 allHelp.push({id: 'studyPreview', content: translation.introductionPreviewStudy});
                 allHelp.push({id: 'study', content: translation.introductionStudy});

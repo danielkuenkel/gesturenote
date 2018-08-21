@@ -2273,8 +2273,8 @@ include '../includes/language.php';
 
     <div id="catalog-gestures">
         <div class="btn-group pull-right hidden-md hidden-lg">
-            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
-            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+            <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
         <br/>
 
@@ -2587,8 +2587,8 @@ include '../includes/language.php';
             <div class="col-md-4 col-lg-3 hidden-xs hidden-sm">
                 <div class="toggle-affix">
                     <div class="btn-group pull-right">
-                        <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
-                        <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+                        <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
+                        <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                     </div>
 
                     <br/><br/><br/>
@@ -2609,8 +2609,8 @@ include '../includes/language.php';
 
         <br/>
         <div class="btn-group pull-right hidden-md hidden-lg">
-            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
-            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+            <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
 
     </div>

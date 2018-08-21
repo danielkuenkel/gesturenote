@@ -144,11 +144,11 @@ if (login_check($mysqli) == true) {
                 <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>
             </ul>
 
-            <div id="loading-indicator" class="text-center" style="margin-top: 10px; margin: 0 auto">
-                <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <div id="loading-indicator" class="window-sized-loading text-center">
+                <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
             </div>
 
-            <div class="tab-content" id="create-study-tab-content">
+            <div class="tab-content hidden" id="create-study-tab-content">
 
                 <div role="tabpanel" class="tab-pane" id="generalData">
 
@@ -461,7 +461,7 @@ if (login_check($mysqli) == true) {
 
             </div>
 
-            <div  id="btn-group-submit" style="z-index: 0">
+            <div  id="btn-group-submit" style="z-index: 0; opacity: 0">
                 <hr>
 
                 <!-- submit form button group -->
@@ -577,13 +577,25 @@ if (login_check($mysqli) == true) {
                 });
 
                 $("#from-date-picker").on("dp.change", function (e) {
-                    $('#to-date-picker').data("DateTimePicker").minDate(e.date);
+                    var selectedDate = e.date;
+                    $('#to-date-picker').data("DateTimePicker").minDate(selectedDate);
+                    selectedDate = new Date(selectedDate);
+                    var selectedDateTo = $("#to-date-picker").data("DateTimePicker").viewDate();
+                    selectedDateTo = new Date(selectedDateTo._d);
+                    selectedDateTo.setHours(0);
+                    selectedDateTo.setMinutes(0);
+                    selectedDateTo.setSeconds(0);
+                    selectedDateTo.setMilliseconds(0);
+
+                    if (selectedDate.getTime() >= selectedDateTo.getTime()) {
+                        $('#to-date-picker').data('DateTimePicker').defaultDate(selectedDate);
+                    }
                     updateScheduleInfo();
                     saveGeneralData();
                 });
 
                 $("#to-date-picker").on("dp.change", function (e) {
-                    $('#from-date-picker').data("DateTimePicker").maxDate(e.date);
+//                    $('#from-date-picker').data("DateTimePicker").maxDate(e.date);
                     updateScheduleInfo();
                     saveGeneralData();
                 });
@@ -598,15 +610,26 @@ if (login_check($mysqli) == true) {
                 } else {
                     $('#create-tab-navigation').children().first().find('a').click();
                 }
-                $('#loading-indicator').remove();
+//                $('#loading-indicator').remove();
 
                 var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>);
                 if (showTutorial === 1) {
                     $('#tab-introduction a').click();
                 }
-
+                
+                TweenMax.to($('#btn-group-submit'), .3, {autoAlpha: 1});
+                
+                showPageContent();
                 initTooltips();
                 initPopover();
+            }
+
+            function showPageContent() {
+                $('#create-study-tab-content').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('#create-study-tab-content'), .3, {delay: .3, opacity: 0});
             }
 
             function updateScheduleInfo() {

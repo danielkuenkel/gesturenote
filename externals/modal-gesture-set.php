@@ -4,7 +4,7 @@ include '../includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title"><?php echo $lang->gesturePreview ?></h4>
+    <h4 class="modal-title"><?php echo $lang->gestureSetPreview ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
 

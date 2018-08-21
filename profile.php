@@ -62,9 +62,13 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
 
         <!-- Container (Landing Section) -->
-        <div class="container mainContent" style="margin-top: 0px">
+        <div class="container mainContent" id="profile-content" style="margin-top: 0px">
             <div class="row">
                 <div class="col-md-7">
                     <h4><?php echo $lang->general ?></h4>
@@ -313,7 +317,7 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
                 animateBreadcrump();
-                
+
                 $('#btn-edit-profile .btn-text').text(translation.editProfile);
                 $('#general-preview .panel-title').text(translation.general);
                 $('#general-edit .panel-title').text(translation.generalEdit);
@@ -365,7 +369,17 @@ if (login_check($mysqli) == true) {
                         $('#stats-gestures-liked .amount').text(user.statistics.likedGestures);
                         $('#stats-gestures-rated .amount').text(user.statistics.ratedGestures);
                     }
+                    
+                    showPageContent();
                 });
+            }
+
+            function showPageContent() {
+                $('#profile-content').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('#profile-catalog-content'), .3, {delay: .3, opacity: 0});
             }
 
             $('#btn-edit-profile').on('click', function (event) {

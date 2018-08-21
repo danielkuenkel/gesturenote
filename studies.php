@@ -70,7 +70,7 @@ if (login_check($mysqli) == true) {
                         <div class="label label-default" id="type-phase"></div>
                         <div class="label label-default" id="type-survey"></div>
                         <div class="label label-default hidden" id="participant-count" data-toggle="popover" data-trigger="hover" data-placement="auto"><i class="fa fa-users"></i> <span class="label-text"></span></div>
-                        <div class="label label-default hidden" id="shared-study" data-toggle="popover" data-trigger="hover" data-placement="auto"><i class="fa fa-share-alt"></i> <span class="label-text"></span></div>
+                        <div class="label label-default hidden" id="shared-study" data-toggle="popover" data-trigger="hover" title="<?php echo $lang->studySharedWith ?>" data-placement="auto"><i class="fa fa-share-alt"></i> <span class="label-text"></span></div>
                     </div>
 
                     <div>
@@ -119,7 +119,9 @@ if (login_check($mysqli) == true) {
                             <li id="evaluation"><a href="#"><?php echo $lang->filter->evaluation ?></a></li>
                             <li id="unmoderated"><a href="#"><?php echo $lang->filter->unmoderated ?></a></li>
                             <li id="moderated"><a href="#"><?php echo $lang->filter->moderated ?></a></li>
+                            <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
                             <li id="sharedWithYou"><a href="#"><?php echo $lang->filter->sharedWithYou ?></a></li>
+                            <li id="private"><a href="#"><?php echo $lang->filter->private ?></a></li>
                         </ul>
                     </div>
                     <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
@@ -219,6 +221,7 @@ if (login_check($mysqli) == true) {
                 getStudiesCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         if (result.studies && result.studies.length > 0) {
+                            console.log(result.studies)
                             originalFilterData = sortByKey(result.studies, 'created');
 
                             var data = {
@@ -273,6 +276,13 @@ if (login_check($mysqli) == true) {
                             TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                         }
 
+                        $(clone).unbind('gotoStudyParticipants').bind('gotoStudyParticipants', function (event, payload) {
+                            event.preventDefault();
+                            console.log('catch gotoStudyParticipants', payload.studyId);
+                            var hash = hex_sha512(parseInt(payload.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                            goto("study.php?studyId=" + payload.studyId + "&h=" + hash + '#participants');
+                        });
+
                         $(clone).find('.panel').click({studyId: currentFilterData[i].id}, function (event) {
                             event.preventDefault();
                             var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -280,7 +290,7 @@ if (login_check($mysqli) == true) {
                         });
                     }
                 } else {
-                    appendAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
+                    appendAlert($('#item-view'), ALERT_NO_STUDIES);
                     $('#item-view #pager-top .pagination').addClass('hidden');
                     $('#item-view #pager-bottom .pagination').addClass('hidden');
                 }

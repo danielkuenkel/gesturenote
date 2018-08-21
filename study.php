@@ -119,10 +119,13 @@ if (login_check($mysqli) == true) {
             </ul>
         </div>
 
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent tab-content" id="main-content" style="padding-bottom: 20px">
-
+        <div class="container mainContent tab-content hidden" id="main-content" style="padding-bottom: 20px">
 
             <div role="tabpanel" class="tab-pane" id="general-infos">
                 <h2 id="study-headline" style="margin-top: 0px; margin-bottom: 0px"></h2>
@@ -732,10 +735,21 @@ if (login_check($mysqli) == true) {
                                 renderData(result, hash);
                                 initPopover();
                                 animateBreadcrump();
+                                showPageContent();
                             });
+                        } else {
+                            showPageContent();
                         }
                     });
                 }
+            }
+
+            function showPageContent() {
+                $('#main-content').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+//                TweenMax.from($('#main-content'), .3, {delay: .3, opacity: 0});
             }
 
             $('#tab-introduction a').on('click', function (event) {
@@ -765,7 +779,7 @@ if (login_check($mysqli) == true) {
                                 showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
                                 break;
                             case '#study-phase-steps':
-                                $('#custom-modal').removeAttr('data-start-tab-id');
+                                $('#custom-modal').attr('data-start-tab-id', 'study-phase-steps');
                                 showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
                                 break;
                             case '#study-participants':
