@@ -112,7 +112,7 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="col-md-5">
-                <div class="toggle-affix" style="margin-top: 10px">
+                <div class="toggle-affix" style="">
                     <div class="add-button-group" id="add-question-button-group">
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
@@ -213,7 +213,7 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="col-md-5">
-                <div class="toggle-affix" style="margin-top: 10px">
+                <div class="toggle-affix" style="">
                     <div class="add-button-group" id="add-question-button-group">
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
@@ -310,7 +310,7 @@ include '../includes/language.php';
                     <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
-                <div id="general" style="margin-top: 16px">
+                <div id="general" style="margin-top: 24px">
                     <div class="alert-space alert-assembled-gesture-removed"></div>
                     <div class="alert-space alert-assembled-trigger-removed"></div>
 
@@ -398,7 +398,7 @@ include '../includes/language.php';
                     <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
-                <div style="margin-top: 16px">
+                <div style="margin-top: 24px">
                     <div class="alert-space alert-no-data-gus-questionnaire"></div>
                     <div class="container-root" id="list-container"></div>
                 </div>
@@ -451,7 +451,7 @@ include '../includes/language.php';
                     <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
-                <div style="margin-top: 16px">
+                <div style="margin-top: 20px">
                     <div class="alert-space alert-no-data-sus"></div>
                     <div class="container-root" id="list-container"></div>
                 </div>
@@ -459,7 +459,7 @@ include '../includes/language.php';
 
             <div class="col-md-5">
                 <div class="toggle-affix">
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style=""><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
             </div>
 
@@ -503,7 +503,7 @@ include '../includes/language.php';
                     <!--<div class="btn btn-default btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
-                <div style="margin-top: 16px">
+                <div style="margin-top: 24px">
                     <div class="alert-space alert-no-data-ueq-questionnaire"></div>
                     <div class="container-root" id="list-container"></div>
                 </div>
@@ -586,7 +586,7 @@ include '../includes/language.php';
             </div>
 
             <div class="col-md-5">
-                <div style=""><?php echo $lang->tooltips->studyCreate->gestureTrainingOverlay ?></div>
+                <div style="margin-top: 24px"><?php echo $lang->tooltips->studyCreate->gestureTrainingOverlay ?></div>
             </div>
         </div>
 
@@ -781,7 +781,7 @@ include '../includes/language.php';
             </div>
 
             <div class="col-md-6">
-                <div style=""><?php echo $lang->tooltips->studyCreate->scenarioOverlay ?></div>
+                <div style="margin-top: 24px"><?php echo $lang->tooltips->studyCreate->scenarioOverlay ?></div>
             </div>
         </div>
 
@@ -1013,7 +1013,7 @@ include '../includes/language.php';
             </div>
 
             <div class="col-md-5">
-                <div style=""><?php echo $lang->tooltips->studyCreate->gestureSlideshowOverlay ?></div>
+                <div style="margin-top: 24px"><?php echo $lang->tooltips->studyCreate->gestureSlideshowOverlay ?></div>
             </div>
         </div>
 
@@ -1200,7 +1200,7 @@ include '../includes/language.php';
             </div>
 
             <div class="col-md-4">
-                <div style=""><?php echo $lang->tooltips->studyCreate->triggerSlideshowOverlay ?></div>
+                <div style="margin-top: 24px"><?php echo $lang->tooltips->studyCreate->triggerSlideshowOverlay ?></div>
             </div>
         </div>
 
@@ -1383,7 +1383,7 @@ include '../includes/language.php';
             </div>
 
             <div class="col-md-5">
-                <div style=""><?php echo $lang->tooltips->studyCreate->physicalStressTestOverlay ?></div>
+                <div style="margin-top: 24px"><?php echo $lang->tooltips->studyCreate->physicalStressTestOverlay ?></div>
             </div>
         </div>
 
@@ -1842,7 +1842,7 @@ include '../includes/language.php';
             </div>
 
             <div class="col-md-4">
-                <div class="text"><?php echo $lang->tooltips->studyCreate->identificationOverlay ?></div>
+                <div class="text" style="margin-top: 24px"><?php echo $lang->tooltips->studyCreate->identificationOverlay ?></div>
             </div>
         </div>
 
@@ -2062,7 +2062,7 @@ include '../includes/language.php';
             </div>
 
             <div class="col-md-5">
-                <div style=""><?php echo $lang->tooltips->studyCreate->explorationOverlay ?></div>
+                <div style="margin-top: 24px"><?php echo $lang->tooltips->studyCreate->explorationOverlay ?></div>
             </div>
         </div>
 
@@ -2271,15 +2271,242 @@ include '../includes/language.php';
 
 
 
+
+
+
+    <div id="focusGroupInterview">
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+        <br/>
+
+        <div class="row" style="margin-bottom: 16px">
+            <div class="col-md-6">
+
+                <div class="overlay-header">
+                    <div class="overlay-header-container">
+                        <h3 class="overlay-title-editable" id="overlay-title"><span id="phase-step-title"></span> <i class="fa fa-pencil" id="btn-edit-phase-step-title"></i></h3>
+
+                        <div class="input-group hidden" id="phase-step-title-input-container">
+                            <input class="form-control item-input-text" id="phase-step-title-input" type="text" value="" maxlength="30"/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default btn-success btn-shadow" id="btn-save-phase-step-title" data-toggle="tooltip"><i class="fa fa-check"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
+                </div>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-md-6">
+
+                <div id="general" style="">
+                    <div class="form-group">
+                        <label for="focusGroupDescription"><?php echo $lang->description ?></label>
+                        <textarea class="form-control" id="focusGroupDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
+                    </div>
+
+                    <!--                    <div class="alert-space alert-assembled-scene-removed"></div>
+                    
+                                        <div class="form-group" id="start-scene-select">
+                                            <label><?php echo $lang->stateCharts->inputState ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioStartScene ?>"></i></label>
+                                            <div class="input-group"> 
+                                                <input class="form-control item-input-text show-dropdown option-scene readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                                <div class="input-group-btn select sceneSelect" role="group">
+                                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                                                </div>
+                                            </div>
+                                        </div>-->
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div style="margin-top: 25px"><?php echo $lang->tooltips->studyCreate->focusGroupInterviewOverlay ?></div>
+            </div>
+        </div>
+
+
+        <div style="display: inline;">
+            <h3 style="display:inline-block"><?php echo $lang->studyCreateNav->catalogs ?></h3>
+        </div>
+
+        <hr style="margin-top: 10px">
+
+        <div class="row" id="tasks-container" style="margin-bottom: 30px;">
+            <div class="col-md-12">
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="task-option-container"></div>
+            </div>
+<!--            <div class="col-md-5">
+                <div class="toggle-dynamic-affix">
+                    <button class="btn btn-info btn-shadow font-bold btn-add-taskOption" type="button" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addTaskElement ?></span></button>
+                </div>
+            </div>-->
+        </div>
+
+        <div style="display: inline;">
+            <h3 style="display:inline-block"><?php echo $lang->annotations ?></h3>
+        </div>
+
+        <hr style="margin-top: 10px">
+
+        <div class="row" id="annotations-container" style="margin-bottom: 30px;">
+            <div class="col-md-7">
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="option-container"></div>
+            </div>
+            <div class="col-md-5">
+                <div class="toggle-dynamic-affix">
+                    <button class="btn btn-info btn-shadow font-bold btn-add-annotationOption" type="button" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addAnnotationElement ?></span></button>
+                </div>
+            </div>
+        </div>
+
+        <!--        <div style="display: inline;">
+                    <h3 style="display:inline-block"><?php echo $lang->help ?></h3>
+                    <div class="btn-group" id="useHelpSwitch" style="margin-top: -9px; margin-left: 10px">
+                        <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                        <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    </div>
+                </div>
+                
+                <hr style="margin-top: 10px">
+        
+                <div class="row hidden" id="help" style="margin-bottom: 30px;">
+                    <div class="col-md-7">
+                        <div class="alert-space alert-no-phase-data"></div>
+                        <div class="alert-space alert-no-scenes-assembled-link"></div>
+                        <div class="alert-space alert-no-study-gestures-assembled-link"></div>
+                        <div class="option-container"></div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="toggle-dynamic-affix">
+                            <button type="button" class="btn btn-info btn-shadow font-bold btn-add-helpOption" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addHelp ?></span></button>
+                        </div>
+                    </div>
+                </div>-->
+
+
+        <div style="display: inline;">
+            <h3 style="display:inline-block"><?php echo $lang->focusGroupForm ?></h3>
+<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+            </div>-->
+        </div>
+
+        <hr style="margin-top: 10px">
+
+        <div class="row" id="observations">
+            <div class="col-md-7">
+                <div class="alert-space alert-no-data-questionnaire"></div>
+                <div class="form-group container-root" id="list-container"></div>
+            </div>
+            <div class="col-md-5">
+                <div class="toggle-dynamic-affix">
+                    <!--                    <div id="dimension-controls">
+                                            <div class="dimension-container">
+                                                <h4 style="margin-top: 0"><?php echo $lang->aspects ?></h4>
+                                                <div class="dimension-btn-group">
+                                                    <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                </div>
+                                            </div>
+                    
+                                        </div>-->
+
+                    <h4><?php // echo $lang->userDefined ?></h4>
+                    <div class="add-button-group" id="add-observation-button-group">
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <br/>
+        <div class="btn-group pull-right">
+            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        </div>
+    </div>
+
+
+
+
+
+
+
     <div id="catalog-gestures">
-        <div class="btn-group pull-right hidden-md hidden-lg">
+        <div class="btn-group pull-right">
             <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
         <br/>
 
         <div class="row root">
-            <div class="col-md-8 col-lg-9">
+            <div class="col-md-9">
                 <div class="overlay-header">
                     <div class="overlay-header-container">
                         <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
@@ -2584,15 +2811,8 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="col-md-4 col-lg-3 hidden-xs hidden-sm">
-                <div class="toggle-affix">
-                    <div class="btn-group pull-right">
-                        <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
-                        <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
-                    </div>
-
-                    <br/><br/><br/>
-
+            <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
+                <div class="" style="margin-top: 36px">
                     <ul class="nav nav-pills nav-stacked gesture-catalogs-nav-tab" id="gesture-catalogs-nav-tab">
                         <li role="presentation" class="active"><a href="#study-gesture-set" role="tab" data-toggle="tab"><?php echo $lang->studyGestureSet ?> <span class="badge" id="study-gesture-set-badge"></span></a></li>
                         <h4 style="margin-top: 20px"><?php echo $lang->chooseStudyGestureSet ?></h4>
@@ -2608,7 +2828,7 @@ include '../includes/language.php';
 
 
         <br/>
-        <div class="btn-group pull-right hidden-md hidden-lg">
+        <div class="btn-group pull-right">
             <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
@@ -2641,7 +2861,7 @@ include '../includes/language.php';
 
             <div class="col-md-5">
 
-                <div class="add-button-group toggle-affix" id="add-trigger-button-group" style="margin-top: 10px">
+                <div class="add-button-group toggle-affix" id="add-trigger-button-group" style="">
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="triggerItem">
                             <i class="fa fa-plus"></i> <?php echo $lang->addTrigger ?>
@@ -2686,7 +2906,7 @@ include '../includes/language.php';
 
             <div class="col-md-5">
 
-                <div class="add-button-group toggle-affix" id="add-feedback-button-group" style="margin-top: 10px">
+                <div class="add-button-group toggle-affix" id="add-feedback-button-group" style="">
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="text">
                             <i class="fa fa-plus"></i> <?php echo $lang->text ?> 
@@ -2738,7 +2958,7 @@ include '../includes/language.php';
 
             <div class="col-md-5">
 
-                <div class="add-button-group toggle-affix" id="add-scenes-button-group" style="margin-top: 10px">
+                <div class="add-button-group toggle-affix" id="add-scenes-button-group" style="">
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="web">
                             <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->web ?> 

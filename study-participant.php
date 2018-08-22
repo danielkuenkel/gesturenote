@@ -83,7 +83,7 @@ if (login_check($mysqli) == true) {
         <div id="template-previews"></div>
 
         <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb" style="padding-top: 40px">
+        <div class="container" id="breadcrumb" style="">
             <div class="row">
                 <ol class="breadcrumb">
                     <!--<li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
@@ -420,19 +420,13 @@ if (login_check($mysqli) == true) {
                             var visibleHeight = $(window).height() - 100 - 35;
                             var scrollTop = $(window).scrollTop();
 
-//                            var visisbleBarOffset = $(navigationBarContent).offset();
-
-
                             var scrollOffset = 0;
                             if (barHeight > visibleHeight) {
                                 var scrollOffset = barHeight - visibleHeight;
                             }
-//                            console.log('barHeight: ' + barHeight + ', visibleHeight: ' + visibleHeight + ", scrollOffset: " + scrollOffset + ', scrollTop: ' + scrollTop);
 
                             if (scrollTop >= 220 + scrollOffset) {
-//                                var top = 65 - (visibleBarHeight > windowHeight ? (visibleBarHeight - 190) : 0);
-                                var top = 65 - scrollOffset;
-//                                console.log(top, visibleBarHeight, windowHeight, (visibleBarHeight > windowHeight ? (visibleBarHeight - 190) : 0));
+                                var top = 46 - scrollOffset;
                                 $(navigationBarContent).addClass('affix');
                                 $(navigationBarContent).css({top: top + 'px'});
                                 if (scrollOffset > 0) {

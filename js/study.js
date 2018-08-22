@@ -137,25 +137,25 @@ function renderData(data, hash) {
         $('#btn-preview-study').addClass('disabled');
     }
 
-    $('#btn-edit-study').on('click', {studyId: data.id}, function (event) {
+    $('.btn-edit-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
             goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash);
         }
     });
 
-    $('#btn-preview-study').on('click', {studyId: data.id}, function (event) {
+    $('.btn-preview-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
             goto("study-preview.php?studyId=" + event.data.studyId + "&h=" + hash);
         }
     });
 
-    $('#btn-delete-study').on('click', {studyId: data.id}, function (event) {
+    $('.btn-delete-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
         var button = $(this);
         var deleteStudyId = event.data.studyId;
-        lockButton($('#btn-preview-study, #btn-edit-study'));
+        lockButton($('.btn-preview-study, .btn-edit-study'));
 
         if (!$(button).hasClass('disabled')) {
             lockButton(button, true, 'fa-trash');
@@ -166,13 +166,13 @@ function renderData(data, hash) {
                         gotoStudies();
                     } else {
                         unlockButton(button, true, 'fa-trash');
-                        unlockButton($('#btn-preview-study, #btn-edit-study'));
+                        unlockButton($('.btn-preview-study, .btn-edit-study'));
                         // append error alert
                     }
                 });
             });
             $('#custom-modal').unbind('cancel').bind('cancel', function () {
-                unlockButton($('#btn-preview-study, #btn-edit-study'));
+                unlockButton($('.btn-preview-study, .btn-edit-study'));
                 unlockButton(button, true, 'fa-trash');
             });
         }
@@ -183,8 +183,9 @@ function renderData(data, hash) {
         renderInvitedUsers();
     } else {
         $('#invited-users').remove();
-        $('#btn-delete-study').remove();
-        $('#btn-edit-study').remove();
+        $('.btn-delete-study').remove();
+        $('.btn-edit-study').remove();
+        $('#fixed-study-owner-controls').find('.btn-preview-study').css({borderBottomLeftRadius: '0px'});
     }
 
 
@@ -221,18 +222,17 @@ function renderData(data, hash) {
             $(document).scrollTop(0);
             TweenMax.from($('#main-content'), .2, {y: -10, opacity: 0.0, clearProps: 'all'});
 
-//            if ($('#study-owner-controls').hasClass('hidden')) {
-//                $('#study-owner-controls').css({opacity: 0});
-//                TweenMax.to($('#study-owner-controls'), .3, {opacity: 1});
-//            } else {
-//                TweenMax.from($('#study-owner-controls'), .3, {y: -20});
-//            }
-
-
             setTimeout(function () {
                 tutorialAutomaticClicked = true;
                 $('#tab-introduction a').click();
             }, 300);
+
+            var status = window.location.hash.substr(1);
+            if (status !== 'extraction') {
+                fixedOwnerControlsTween.play();
+            } else {
+                fixedOwnerControlsTween.reverse();
+            }
         }
     });
 
@@ -242,10 +242,6 @@ function renderData(data, hash) {
     } else {
         $('#tab-pane').find('#general a').click();
     }
-
-//    if (showStudyTutorial === 1 || showExtractionTutorial === 1) {
-//        $('#tab-introduction a').click();
-//    }
 
     function renderCatalogs() {
         // catalogs view

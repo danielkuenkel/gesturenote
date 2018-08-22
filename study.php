@@ -85,6 +85,14 @@ if (login_check($mysqli) == true) {
         <div id="template-general"></div>
         <div id="template-study"></div>
 
+        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 180px; z-index: 1; opacity: 0">
+            <div class="btn-group-vertical">
+                <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->studyPreview ?>" style="border-top-left-radius: 0px; border-top-right-radius: 8px"><i class="fa fa-eye"></i></button>
+                <button type="button" class="btn btn-lg btn-default btn-shadow btn-edit-study" id="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->editStudy ?>"><i class="fa fa-pencil"></i></button>
+                <button type="button" class="btn btn-lg btn-danger btn-shadow btn-delete-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteStudy ?>" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 8px"><i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+
         <!-- Modal -->
         <div id="custom-modal" class="modal fade custom-modal" role="dialog">
             <div class="modal-dialog">
@@ -97,7 +105,7 @@ if (login_check($mysqli) == true) {
 
 
         <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb" style="padding-top: 40px">
+        <div class="container" id="breadcrumb" style="">
             <div class="row">
                 <ol class="breadcrumb">
                     <!--<li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
@@ -108,7 +116,7 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="container">
+        <div class="container" style="margin-top: 20px">
             <ul class="nav nav-tabs" role="tablist" id="tab-pane">
                 <li role="presentation" id="general"><a href="#general-infos" aria-controls="general-infos" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->general ?></a></li>
                 <li role="presentation" id="catalogs"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
@@ -683,14 +691,14 @@ if (login_check($mysqli) == true) {
         </div>
 
 
-        <div class="container hidden" id="study-owner-controls">
+        <div class="container hidden hidden-md hidden-lg study-owner-controls">
             <hr style="margin-top: 0">
             <div class="btn-group-vertical btn-block" style="margin-top: 20px">
-                <button class="btn btn-default btn-shadow" type="button" id="btn-preview-study"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->studyPreview ?></span></button>
-                <button class="btn btn-default btn-shadow" type="button" id="btn-edit-study"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editStudy ?></span></button>
+                <button class="btn btn-default btn-shadow btn-preview-study" type="button"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->studyPreview ?></span></button>
+                <button class="btn btn-default btn-shadow btn-edit-study" type="button"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editStudy ?></span></button>
             </div>
             <div class="btn-group-vertical btn-block" style="margin-top: 20px">
-                <button class="btn btn-danger btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>
+                <button class="btn btn-danger btn-shadow btn-delete-study" type="button"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>
             </div>
         </div>
 
@@ -699,6 +707,8 @@ if (login_check($mysqli) == true) {
 
 
         <script>
+//            var firstInit = true;
+            var fixedOwnerControlsTween = null;
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();
@@ -719,6 +729,13 @@ if (login_check($mysqli) == true) {
             var tutorialAutomaticClicked = false;
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+
+                fixedOwnerControlsTween = new TimelineMax({paused: true});
+                fixedOwnerControlsTween.add("parallel", .3)
+                        .to($('#fixed-study-owner-controls'), .2, {opacity: 1, ease: Quad.easeInOut}, 'parallel')
+                        .from($('#fixed-study-owner-controls'), .2, {x: -20, ease: Quad.easeInOut}, 'parallel');
+
+
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 if (query.studyId && query.h === hash) {
@@ -740,6 +757,8 @@ if (login_check($mysqli) == true) {
                         } else {
                             showPageContent();
                         }
+
+
                     });
                 }
             }
@@ -749,7 +768,6 @@ if (login_check($mysqli) == true) {
                 TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
                         $('#loading-indicator').remove();
                     }});
-//                TweenMax.from($('#main-content'), .3, {delay: .3, opacity: 0});
             }
 
             $('#tab-introduction a').on('click', function (event) {
@@ -757,10 +775,10 @@ if (login_check($mysqli) == true) {
                 var showTutorial = false;
 
                 var activeTab = $('#tab-pane').find('.active a').attr('href');
-                if (activeTab !== '#gesture-extraction' && activeTab !== '#study-participants') {
-                    $('#study-owner-controls').removeClass('hidden');
+                if (activeTab !== '#gesture-extraction') {
+                    $('.study-owner-controls').removeClass('hidden');
                 } else {
-                    $('#study-owner-controls').addClass('hidden');
+                    $('.study-owner-controls').addClass('hidden');
                 }
 
                 if (tutorialAutomaticClicked === false || (tutorialAutomaticClicked === true && (showStudyTutorial === 1 || showExtractionTutorial === 1))) {

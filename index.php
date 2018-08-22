@@ -48,7 +48,7 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
 
         <div class="nav-wrapper" style="min-height: 366px">
-            <div class="navbar-fixed-index-container" data-spy="affix" data-offset-top="267">
+            <div class="navbar-fixed-index-container" data-spy="affix" data-offset-top="266">
                 <div class="jumbotron text-center">
                     <div><h1><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gestureNote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 8pt; top: -15px"><?php echo $lang->beta ?></span></sup></h1></div>
                     <p><?php echo $lang->gesturenoteSubline ?></p> 
@@ -56,21 +56,30 @@ if (login_check($mysqli) == true) {
 
                 <nav class="navbar navbar-default navbar-fixed-index" id="sub-page-header">
                     <div class="container">
-                        <div class="navbar-header" id="affix-logo" style="opacity: 0">
-                            <button class="navbar-toggle"><span class="icon-bar"></span></button>
-                            <a class="navbar-brand" style="color: white !important"><i class="glyphicon glyphicon-stats"></i> <span style="letter-spacing: 0pt; margin-left: -5px"><?php echo $lang->gestureNote ?></span> <sup><span class="label label-success uppercase" style="position: relative; font-size: 6pt; letter-spacing: normal"><?php echo $lang->beta ?></span></sup></a>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="navbar-header" id="affix-logo" style="opacity: 0">
+                                    <!--<button class="navbar-toggle"><span class="icon-bar"></span></button>-->
+                                    <a class="navbar-brand" style="color: white !important"><i class="glyphicon glyphicon-stats"></i> <span style="letter-spacing: 0pt; margin-left: -5px"><?php echo $lang->gestureNote ?></span> <sup><span class="label label-success uppercase" style="position: relative; font-size: 6pt; letter-spacing: normal"><?php echo $lang->beta ?></span></sup></a>
+                                </div>
+
+                                <div class="pull-right" style="display: flex">
+                                    <div id="btn-imprint" class="btn-imprint" data-id="btn-imprint" style="padding-right: 10px; cursor: pointer">
+                                        <span style="position: relative; top: 17px; letter-spacing: normal; color: white; text-transform: uppercase"><i class="fa fa-info-circle" aria-hidden="true"></i> <?php echo $lang->breadcrump->imprint ?></span>
+                                    </div>
+                                    <div class="dropdown pull-right language-selection" id="language-selection" style="padding-left: 10px;">
+                                        <div class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="height: 49px">
+                                            <img class="flag-small" src="" style="top: 16px; position: relative">
+                                        </div>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" id="de" style="margin-top: 1px"><img class="flag-small" src="img/flags/Germany.png"> <span><?php echo $lang->languages->de->language ?></span></a></li>
+                                            <li><a href="#" id="en"><img class="flag-small" src="img/flags/en.png"> <span><?php echo $lang->languages->en->language ?></span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <ul class="nav navbar-nav navbar-right">
-                            <li id="btn-imprint" class="btn-imprint" data-id="btn-imprint"><a href="#"><span style="position: relative; top:2px"><i class="fa fa-info-circle" aria-hidden="true"></i> <?php echo $lang->breadcrump->imprint ?></span></a></li>
-                            <li class="dropdown language-selection" id="language-selection">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="flag-small" src="" style="margin-top: 0px"></a>
-                                <ul class="dropdown-menu" style=" margin-top: 2px;">
-                                    <li><a href="#" id="de" style="margin-top: -1px"><img class="flag-small" src="img/flags/Germany.png"> <span><?php echo $lang->languages->de->language ?></span></a></li>
-                                    <li><a href="#" id="en"><img class="flag-small" src="img/flags/en.png"> <span><?php echo $lang->languages->en->language ?></span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
                     </div>
                 </nav>
                 <div class="line"></div>
@@ -302,7 +311,7 @@ if (login_check($mysqli) == true) {
                 <div class="fa fa-chevron-up" id="btn-to-top"></div>
             </a>	
         </footer>
-        
+
         <div class="text-center">
             <i class="fa fa-copyright"></i> <?php echo $lang->copyrightName ?>
         </div>
@@ -369,7 +378,7 @@ if (login_check($mysqli) == true) {
                         $(newsItem).css({marginTop: '40px'});
                     }
                 }
-                
+
                 initPopover();
             }
 
@@ -454,12 +463,12 @@ if (login_check($mysqli) == true) {
             function resetContactFormInput() {
                 unlockButton($('#contact-form').find('#btn-contact-us'), true, 'fa-send');
             }
-            
-            $(window).on('scroll', function() {
-                if($('.navbar-fixed-index-container').hasClass('affix')) {
-                    TweenMax.to($('#affix-logo'), .2, {opacity:1});
+
+            $(window).on('scroll', function () {
+                if ($('.navbar-fixed-index-container').hasClass('affix')) {
+                    TweenMax.to($('#affix-logo'), .2, {opacity: 1});
                 } else {
-                    TweenMax.to($('#affix-logo'), .2, {opacity:0});
+                    TweenMax.to($('#affix-logo'), .2, {opacity: 0});
                 }
             });
         </script>

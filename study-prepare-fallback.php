@@ -71,7 +71,7 @@ if ($h && $studyId) {
 
 
         <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb" style="padding-top: 40px">
+        <div class="container" id="breadcrumb" style="">
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>

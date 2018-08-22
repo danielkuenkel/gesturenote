@@ -59,37 +59,20 @@ if (login_check($mysqli) == true) {
         </div>
 
         <!-- Container (Landing Section) --> 
-        <div class="container" id="breadcrumb" style="margin-top: 40px">
+        <div class="container hidden" id="breadcrumb" style="">
             <div class="row">
                 <ol class="breadcrumb">
-                    <!--<li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
+                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                     <li class="active" data-id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></li>
                 </ol>
             </div>
         </div>
-<!--        <div class="container-fluid bg-grey wall" id="landingText">
-
-             Container (Breadcrump) 
-            <div class="container" id="breadcrumb">
-                <div class="row">
-                    <ol class="breadcrumb" style="margin: 0">
-                        <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
-                        <li class="active" data-id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></li>
-                    </ol>
-                </div>
-            </div>
-
-             headline 
-            <div class="container text-center dropShadowText">
-                <h1 class="greenGrey"><i class="fa fa-tachometer" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->breadcrump->dashboard ?></span></h1>
-                <h2><?php echo htmlentities($_SESSION['forename']) . ' ' . htmlentities($_SESSION['surname']); ?></h2>
-            </div>
-        </div>-->
 
         <!-- Container (Panel Section) -->
         <div class="container center-text mainContent" style="margin-top: 0px">
+            <h3><?php echo $lang->breadcrump->dashboard ?></h3>
 
-            <div class="row" id="dashboard-items-container">
+            <div class="row" id="dashboard-items-container" style="margin-top: 20px">
                 <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-studies">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></div>
@@ -169,7 +152,7 @@ if (login_check($mysqli) == true) {
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
-                
+
                 getDashboardInfos(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         // gestures catalog infos
@@ -189,7 +172,7 @@ if (login_check($mysqli) == true) {
                     } else {
 
                     }
-                    
+
                     animateBreadcrump();
                 });
             }

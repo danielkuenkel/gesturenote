@@ -49,7 +49,7 @@ if (login_check($mysqli) == true) {
 
 
         <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb" style="margin-top: 40px">
+        <div class="container" id="breadcrumb" style="">
             <div class="row">
                 <ol class="breadcrumb">
                     <!--<li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
@@ -61,7 +61,7 @@ if (login_check($mysqli) == true) {
 
 
         <div class="container" id="general-styleguides" style="margin-top: 0px">
-            <h2 style="margin-top: 40px"><?php echo $lang->gestureStyleguides->process->headline ?></h2>
+            <h2 style="margin-top: 20px"><?php echo $lang->gestureStyleguides->process->headline ?></h2>
             <hr>
             <div id="help-description" class="text">
                 <?php echo $lang->gestureStyleguides->process->info ?>

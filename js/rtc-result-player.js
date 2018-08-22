@@ -669,7 +669,7 @@ function getVisDataSet(timelineData) {
     if (annotations) {
         for (var i = 0; i < annotations.length; i++) {
             var className = 'item-primary-full';
-            var contentText = translation.annotations[annotations[i].action];
+            var contentText = translation.annotationsList[annotations[i].action];
             switch (annotations[i].action) {
                 case ACTION_CUSTOM:
                     contentText = annotations[i].content;
@@ -684,25 +684,25 @@ function getVisDataSet(timelineData) {
                 case ACTION_START_PERFORM_TRIGGER_IDENTIFICATION:
                 case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
                     var gesture = getGestureById(annotations[i].gestureId);
-                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+                    contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
                     break;
 //                case ACTION_START_PERFORM_GESTURE:
 //                    var gesture = getGestureById(annotations[i].gestureId);
-//                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+//                    contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
 //                    break;
                 case ACTION_START_PERFORM_GESTURE_IDENTIFICATION:
 //                    console.log(annotations[i].triggerId);
                     var trigger = getTriggerById(annotations[i].triggerId);
-                    contentText = translation.annotations[annotations[i].action] + ': ' + trigger.title;
+                    contentText = translation.annotationsList[annotations[i].action] + ': ' + trigger.title;
                     break;
 //                case ACTION_START_PERFORM_TRIGGER_IDENTIFICATION:
 //                    var gesture = getGestureById(annotations[i].gestureId);
-//                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+//                    contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
 //                    break;
                 case ACTION_SELECT_GESTURE:
                     var gesture = getGestureById(annotations[i].selectedGestureId);
                     className = 'item-success-full';
-                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+                    contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
                     break;
                 case ACTION_NO_GESTURE_DEMONSTRATED:
                 case ACTION_NO_GESTURE_FIT_FOUND:
@@ -710,7 +710,7 @@ function getVisDataSet(timelineData) {
                     break;
 //                case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
 //                    var gesture = getGestureById(annotations[i].gestureId);
-//                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+//                    contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
 //                    break;
                 case ACTION_START_TASK:
                     var task = getTaskById(annotations[i].taskId);
@@ -742,22 +742,22 @@ function getVisDataSet(timelineData) {
                 case ACTION_HIDE_FEEDBACK:
                     break;
                 case ACTION_ALL_RECORDER_READY:
-                    contentText = translation.annotations[annotations[i].action];
+                    contentText = translation.annotationsList[annotations[i].action];
                     className = 'item-success-full';
                     break;
                 case ACTION_RECORDER_LOST:
-                    contentText = translation.annotations[annotations[i].action];
+                    contentText = translation.annotationsList[annotations[i].action];
                     className = 'item-danger-full';
                     break;
                 case ACTION_SHOW_GESTURE_INFO:
                 case ACTION_HIDE_GESTURE_INFO:
                     var gesture = getGestureById(annotations[i].gestureId);
-                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+                    contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
                     break;
                 case ACTION_SHOW_TRIGGER_INFO:
                 case ACTION_HIDE_TRIGGER_INFO:
                     var trigger = getTriggerById(annotations[i].triggerId);
-                    contentText = translation.annotations[annotations[i].action] + ': ' + trigger.title;
+                    contentText = translation.annotationsList[annotations[i].action] + ': ' + trigger.title;
                     break;
             }
 

@@ -42,6 +42,9 @@ function initOverlayContentFunctionalities(format, id, formatClone) {
         case INTERVIEW:
             initInterviewOverlay(id, formatClone);
             break;
+        case FOCUS_GROUP_INTERVIEW:
+            initFocusGroupInterviewOverlay(id, formatClone);
+            break;
         case GUS_SINGLE_GESTURES:
             initGUSSingleGesturesOverlay(id, formatClone);
             break;
@@ -117,6 +120,7 @@ function initQuestionnaireOverlay(id, formatClone) {
         renderData(data);
     } else {
         appendAlert($(formatClone), ALERT_NO_DATA_QUESTIONNAIRE);
+        $(formatClone).find('#list-container').css({marginBottom: '120px'});
     }
 
     function renderData(data) {
@@ -139,6 +143,13 @@ function initQuestionnaireOverlay(id, formatClone) {
     });
 
     initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), listContainer);
+    $(listContainer).bind('change listItemAdded', function () {
+        if ($(this).children().length > 0) {
+            $(formatClone).find('#list-container').css({marginBottom: '0px'});
+        } else {
+            $(formatClone).find('#list-container').css({marginBottom: '120px'});
+        }
+    });
 }
 
 
@@ -245,6 +256,7 @@ function initInterviewOverlay(id, formatClone) {
         renderData(data);
     } else {
         appendAlert($(formatClone), ALERT_NO_DATA_QUESTIONNAIRE);
+        $(formatClone).find('#list-container').css({marginBottom: '120px'});
     }
 
     function renderData(data) {
@@ -267,6 +279,50 @@ function initInterviewOverlay(id, formatClone) {
     });
 
     initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), $(formatClone).find('#list-container'));
+
+    $(listContainer).bind('change listItemAdded', function () {
+        if ($(this).children().length > 0) {
+            $(formatClone).find('#list-container').css({marginBottom: '0px'});
+        } else {
+            $(formatClone).find('#list-container').css({marginBottom: '120px'});
+        }
+    });
+}
+
+function initFocusGroupInterviewOverlay(id, formatClone) {
+    renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
+
+//    var listContainer = $(formatClone).find('#list-container');
+//    initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-question-button-group'), listContainer, $(formatClone), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
+//    $(listContainer).attr('data-allow-filters', 'true');
+
+    var data = getLocalItem(id + '.data');
+    if (data !== null && data.length > 0) {
+        renderData(data);
+    } else {
+//        appendAlert($(formatClone), ALERT_NO_DATA_QUESTIONNAIRE);
+    }
+
+    function renderData(data) {
+//        for (var i = 0; i < data.length; i++) {
+//            renderFormatItem(listContainer, data[i], null, true);
+//            updateBadges(listContainer, data[i].format);
+//        }
+//        checkCurrentListState(listContainer);
+    }
+
+    $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        $(formatClone).find('#btn-save-phase-step-title').click();
+//        var itemList = $(formatClone).find('#list-container').children();
+//        var questionnaire = new Array();
+//        for (var i = 0; i < itemList.length; i++) {
+//            questionnaire.push(getFormatData(itemList[i]));
+//        }
+//        setLocalItem(id + '.data', questionnaire);
+    });
+
+//    initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), $(formatClone).find('#list-container'));
 }
 
 function initGUSSingleGesturesOverlay(id, formatClone) {
@@ -400,17 +456,19 @@ function initGUSSingleGesturesOverlay(id, formatClone) {
 }
 
 function initGUSMultipleGesturesOverlay(id, formatClone) {
+    var listContainer = $(formatClone).find('#list-container');
     renderAssembledGestures($(formatClone).find('#forGesture'));
     renderAssembledTriggers($(formatClone).find('#gesture-trigger'));
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
-    renderDimensions($(formatClone).find('#dimension-controls'), translation.multipleGUS, $(formatClone).find('#list-container'), translation.dimensions);
-    initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone), true, true, ALERT_NO_DATA_GUS_QUESTIONNAIRE);
+    renderDimensions($(formatClone).find('#dimension-controls'), translation.multipleGUS, listContainer, translation.dimensions);
+    initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), listContainer, $(formatClone), true, true, ALERT_NO_DATA_GUS_QUESTIONNAIRE);
 
     var data = getLocalItem(id + '.data');
     if (data !== null && data.gus && data.gus.length > 0) {
         renderData(data);
     } else {
         appendAlert($(formatClone), ALERT_NO_DATA_GUS_QUESTIONNAIRE);
+        $(formatClone).find('#list-container').css({marginBottom: '120px'});
     }
 
     function renderData(data) {
@@ -425,7 +483,7 @@ function initGUSMultipleGesturesOverlay(id, formatClone) {
 
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
         $(formatClone).find('#btn-save-phase-step-title').click();
-        var itemList = $(formatClone).find('#list-container').children();
+        var itemList = $(listContainer).children();
         var questionnaire = new Array();
         for (var i = 0; i < itemList.length; i++) {
             questionnaire.push(getFormatData(itemList[i], GUS_MULTIPLE_GESTURES));
@@ -434,7 +492,14 @@ function initGUSMultipleGesturesOverlay(id, formatClone) {
         setLocalItem(id + '.data', {gus: questionnaire});
     });
 
-    initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), $(formatClone).find('#list-container'), true, null, GUS_MULTIPLE_GESTURES);
+    initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), listContainer, true, null, GUS_MULTIPLE_GESTURES);
+    $(listContainer).bind('change listItemAdded', function () {
+        if ($(this).children().length > 0) {
+            $(listContainer).css({marginBottom: '0px'});
+        } else {
+            $(listContainer).css({marginBottom: '120px'});
+        }
+    });
 }
 
 
@@ -3233,7 +3298,7 @@ function initDynamicAffixScrolling(target) {
 
                     if (parseInt(element.attr('data-originalTop')) > elementOffset.top) {
                         $(element).removeClass('toggle-affix');
-                    } else if (elementOffset.top - documentScroll < 155) {
+                    } else if (elementOffset.top - documentScroll < 151) {
                         $(element).addClass('toggle-affix');
                     }
                 } else {

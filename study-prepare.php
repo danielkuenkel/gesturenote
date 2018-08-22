@@ -19,6 +19,6 @@ if ($h && $studyId) {
         header('Location: https://gesturenote.de/study-prepare-fallback.php?studyId=' . $studyId . '&h=' . $h);
     }
 } else {
-//    header('Location: https://gesturenote.de/study-prepare-failure.php');
+    header('Location: https://gesturenote.de/study-prepare-failure.php');
 }
 ?>

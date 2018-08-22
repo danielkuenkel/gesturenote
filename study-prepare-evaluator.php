@@ -68,7 +68,7 @@ if ($h && $token && $studyId) {
         <div id="template-previews"></div>
 
         <!-- Container (Breadcrump) --> 
-        <div class="container" id="breadcrumb" style="padding-top: 40px">
+        <div class="container" id="breadcrumb" style="">
             <div class="row">
                 <ol class="breadcrumb">
                     <!--<li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
@@ -93,7 +93,7 @@ if ($h && $token && $studyId) {
             </div>
 
             <div class="row hidden" id="study-details">
-                <div class="col-sm-5 col-md-7" style="margin-bottom: 20px">
+                <div class="col-sm-5 col-md-7" style="margin-bottom: 40px">
                     <div id="study-description">
                         <h3 class="address"></h3>
                         <p class="text"></p>
@@ -165,7 +165,7 @@ if ($h && $token && $studyId) {
                         </div>
                     </div>
 
-                    <div id="participation-queue" class="hidden">
+                    <div id="participation-queue" class="hidden" style="margin-top: 40px">
                         <h3>Wartende Probanden</h3>
 
                         <div class="alert-space alert-search-participation-requests"></div>

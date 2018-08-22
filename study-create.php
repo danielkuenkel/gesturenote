@@ -101,8 +101,17 @@ if (login_check($mysqli) == true) {
         <div id="template-subpages"></div>
         <div id="template-gesture-recorder"></div>
 
+
+        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 180px; z-index: 1; opacity: 0">
+            <div class="btn-group-vertical">
+                <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->studyPreview ?>" style="border-top-left-radius: 0px; border-top-right-radius: 8px"><i class="fa fa-eye"></i></button>
+                <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" id="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->cache ?>"><i class="fa fa-archive"></i></button>
+                <button type="button" class="btn btn-lg btn-success btn-shadow btn-save-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->saveAndClose ?>" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 8px"><i class="fa fa-save"></i></button>
+            </div>
+        </div>
+
         <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb" style="padding-top: 40px">
+        <div class="container" id="breadcrumb" style="">
             <div class="row">
                 <ol class="breadcrumb">
                     <!--<li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
@@ -124,7 +133,7 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="container-fluid" id="creation-content" style="visibility: hidden;position: absolute; top: 0px; left: 0; width: 100%; height: auto; z-index: 101; padding-top: 110px; padding-bottom: 80px;">
+        <div class="container-fluid" id="creation-content" style="visibility: hidden; position: absolute; top: 0px; left: 0; width: 100%; height: auto; z-index: 101; padding-top: 70px; padding-bottom: 20px;">
             <div style="background-color: white; width: 100%; height: 100%; display: block; position: relative"></div>
 
             <div id="overlay-content-placeholder"></div>
@@ -360,12 +369,6 @@ if (login_check($mysqli) == true) {
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->questionnaire ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="moderated">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="interview">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->interview->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->interview ?>"></i>
-                                        </div>
-                                    </div>
                                     <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="gus">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->gus->text ?>
@@ -394,6 +397,18 @@ if (login_check($mysqli) == true) {
 
                                 <h4 style="margin-top: 20px"><?php echo $lang->miscellaneous ?></h4>
                                 <div class="add-button-group" id="add-phase-step-format-group-miscellaneous">
+                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="moderated">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="interview">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->interview->text ?>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->interview ?>"></i>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="moderated">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="focusGroupInterview">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->focusGroupInterview->text ?>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->focusGroupInterview ?>"></i>
+                                        </div>
+                                    </div>
                                     <div class="btn-group" data-study-phase="elicitation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="identification">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->identification->text ?>
@@ -461,14 +476,17 @@ if (login_check($mysqli) == true) {
 
             </div>
 
-            <div  id="btn-group-submit" style="z-index: 0; opacity: 0">
+            <div class="hidden-md hidden-lg study-edit-controls" id="btn-group-submit" style="z-index: 0; opacity: 0">
                 <hr>
 
                 <!-- submit form button group -->
                 <div class="btn-group-vertical btn-block" role="group">
-                    <button type="button" class="btn btn-default btn-shadow disabled" id="btn-preview-study"><i class="fa fa-eye"></i> <?php echo $lang->studyPreview ?></button>
-                    <button type="button" class="btn btn-default btn-shadow" id="btn-cache-study"><i class="fa fa-save"></i> <?php echo $lang->cache ?></button>
-                    <button type="button" class="btn btn-success btn-shadow" id="btn-save-study"><i class="fa fa-save"></i> <?php echo $lang->saveAndClose ?></button>
+                    <button type="button" class="btn btn-default btn-shadow disabled btn-preview-study"><i class="fa fa-eye"></i> <?php echo $lang->studyPreview ?></button>
+                    <button type="button" class="btn btn-default btn-shadow btn-cache-study"><i class="fa fa-archive"></i> <?php echo $lang->cache ?></button>
+
+                </div>
+                <div class="btn-group-vertical btn-block" style="margin-top: 20px">
+                    <button type="button" class="btn btn-success btn-shadow btn-save-study"><i class="fa fa-save"></i> <?php echo $lang->saveAndClose ?></button>
                 </div>
             </div>
 
@@ -505,7 +523,7 @@ if (login_check($mysqli) == true) {
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 if (query.studyId && query.h === hash) {
-                    $('#btn-clear-data').remove();
+//                    $('#btn-clear-data').remove();
                     studyEditable = true;
                     editableStudyId = query.studyId;
                     $('#btn-study').parent().removeClass('hidden');
@@ -523,7 +541,7 @@ if (login_check($mysqli) == true) {
                         });
                     }
                 } else if (query.edit && (query.edit === true || query.edit === "true") && query.studyId) {
-                    $('#btn-clear-data').remove();
+//                    $('#btn-clear-data').remove();
                     studyEditable = true;
                     editableStudyId = query.studyId;
                     $('#btn-study').parent().removeClass('hidden');
@@ -616,9 +634,7 @@ if (login_check($mysqli) == true) {
                 if (showTutorial === 1) {
                     $('#tab-introduction a').click();
                 }
-                
-                TweenMax.to($('#btn-group-submit'), .3, {autoAlpha: 1});
-                
+
                 showPageContent();
                 initTooltips();
                 initPopover();
@@ -630,6 +646,10 @@ if (login_check($mysqli) == true) {
                         $('#loading-indicator').remove();
                     }});
                 TweenMax.from($('#create-study-tab-content'), .3, {delay: .3, opacity: 0});
+
+                TweenMax.to($('.study-edit-controls'), .3, {autoAlpha: 1});
+                TweenMax.to($('#fixed-study-edit-controls'), .3, {opacity: 1});
+                TweenMax.from($('#fixed-study-edit-controls'), .3, {x: -20, ease: Quad.easeInOut});
             }
 
             function updateScheduleInfo() {
@@ -662,9 +682,9 @@ if (login_check($mysqli) == true) {
             function checkPreviewAvailability() {
                 var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
                 if (phaseSteps && phaseSteps.length > 0) {
-                    $('#btn-preview-study').removeClass('disabled');
+                    $('.btn-preview-study').removeClass('disabled');
                 } else {
-                    $('#btn-preview-study').addClass('disabled');
+                    $('.btn-preview-study').addClass('disabled');
                 }
             }
 
@@ -798,7 +818,7 @@ if (login_check($mysqli) == true) {
                 });
 
                 $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
-                    $('#btn-save-study').click();
+                    $('.btn-save-study').click();
                 });
             });
 
@@ -857,17 +877,17 @@ if (login_check($mysqli) == true) {
                 });
             });
 
-            $('#btn-clear-data').click(function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    clearSceneImages();
-                    clearSounds();
-                    clearLocalItems();
-                    location.reload(true);
-                }
-            });
+//            $('#btn-clear-data').click(function (event) {
+//                event.preventDefault();
+//                if (!$(this).hasClass('disabled')) {
+//                    clearSceneImages();
+//                    clearSounds();
+//                    clearLocalItems();
+//                    location.reload(true);
+//                }
+//            });
 
-            $('#btn-preview-study').click(function (event) {
+            $('.btn-preview-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true && !$(this).hasClass('disabled')) {
                     saveGeneralData();
@@ -881,11 +901,11 @@ if (login_check($mysqli) == true) {
                 }
             });
 
-            $('#btn-save-study').click(function (event) {
+            $('.btn-save-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
                     var button = $(this);
-                    $('#btn-clear-data, #btn-preview-study').addClass('disabled');
+                    $('.btn-preview-study').addClass('disabled');
                     saveGeneralData();
                     showCursor($('body'), CURSOR_POINTER);
                     if (studyEditable === true) {
@@ -894,7 +914,7 @@ if (login_check($mysqli) == true) {
                         updateStudy(updateData, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('#btn-cache-study, #btn-preview-study').removeClass('disabled');
+                            $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
                                 var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -907,7 +927,7 @@ if (login_check($mysqli) == true) {
                         saveStudy(getStudyData(), function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('#btn-cache-study, #btn-preview-study').removeClass('disabled');
+                            $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
                                 var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -922,11 +942,11 @@ if (login_check($mysqli) == true) {
                 }
             });
 
-            $('#btn-cache-study').click(function (event) {
+            $('.btn-cache-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
                     var button = $(this);
-                    $('#btn-save-study, #btn-preview-study').addClass('disabled');
+                    $('.btn-save-study, .btn-preview-study').addClass('disabled');
                     saveGeneralData();
                     showCursor($('body'), CURSOR_POINTER);
                     lockButton(button, true, 'fa-save');
@@ -936,7 +956,7 @@ if (login_check($mysqli) == true) {
                         updateStudy(updateData, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('#btn-save-study, #btn-preview-study').removeClass('disabled');
+                            $('.btn-save-study, .btn-preview-study').removeClass('disabled');
                             unlockButton(button, true, 'fa-save');
                             if (result.status === RESULT_SUCCESS) {
 //                                clearLocalItems();
@@ -950,7 +970,7 @@ if (login_check($mysqli) == true) {
                         saveStudy(getStudyData(), function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('#tn-save-study, #btn-preview-study').removeClass('disabled');
+                            $('.tn-save-study, .btn-preview-study').removeClass('disabled');
                             unlockButton(button, true, 'fa-save');
                             if (result.status === RESULT_SUCCESS) {
 //                                clearLocalItems();
@@ -1065,12 +1085,14 @@ if (login_check($mysqli) == true) {
 
             var overlayTween = new TimelineMax({paused: true, onReverseComplete: onReverseComplete});
             overlayTween.add("parallel", .3)
+                    .to($('.sub-page-header'), .3, {autoAlpha: 0}, 'parallel')
                     .to($('.mainContent'), .3, {autoAlpha: 0}, 'parallel')
                     .to($('#breadcrumb'), .3, {autoAlpha: 0}, 'parallel')
 //                    .to($('.mainContent'), .3, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel')
 //                    .to($('#breadcrumb'), .3, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel')
                     .to($('#creation-content'), .3, {autoAlpha: 1}, 'parallel')
-                    .to($('#creation-content-background'), .3, {autoAlpha: 1}, 'parallel');
+                    .to($('#fixed-study-edit-controls'), .2, {autoAlpha: 0, x: -20}, 'parallel')
+//                    .to($('#creation-content-background'), .3, {autoAlpha: 1}, 'parallel');
 
             $(document).on('click', '.btn-open-overlay', function (event) {
                 event.preventDefault();

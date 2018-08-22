@@ -396,6 +396,7 @@
     "trainingElements": "Trainingselemente",
     "addTrainingElement": "Trainingselement hinzufügen",
     "observationForm": "Beobachtungsbogen",
+    "focusGroupForm": "Leitfragen",
     "studyDescription": "Studien-Beschreibung",
     "insertDescription": "Beschreibung einfügen",
     "studyPhase": "Gesten-Design-Phase",
@@ -841,6 +842,45 @@
         },
         "interview": {
             "text": "Interview",
+            "class": "both",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
+            "notes": "yes"
+        },
+        "focusGroupInterview": {
+            "text": "Fokusgruppen-Interview",
             "class": "both",
             "moderated": {
                 "tester": {
@@ -1557,6 +1597,8 @@
     "tasks": "Szenariobasierte Aufgaben",
     "taskTitle": "Aufgaben-Titel",
     "insertTaskTitle": "Aufgaben-Titel einfügen",
+    "annotation": "Annotation",
+    "annotations": "Annotationen",
     "taskAssessment": "Aufgaben-Beurteilung",
     "assessment": "Beurteilung",
     "taskAssessments": {
@@ -1832,7 +1874,7 @@
     "wrongGesture": "Falsche Geste",
     "answer": "Antwort",
     "answers": "Antworten",
-    "statePreview": "UI Vorschau",
+    "statePreview": "Vorschau",
     "triggerSelection": "Interaktionsaufgabenauswahl",
     "gestureSelection": "Gestenauswahl",
     "tutorialStudyCreationQuestion": "Hilfe für Studien-Erstellung automatisch einblenden?",
@@ -1881,7 +1923,8 @@
     "addTaskElement": "Aufgabe hinzufügen",
     "assessment": "Beurteilung",
     "insertAssessment": "Beurteilung einfügen",
-    "addTaskAssessmentElement": "Beurteilungs-Element hinzufügen",
+    "addTaskAssessmentElement": "Aufgaben-Beurteilung hinzufügen",
+    "addAnnotationElement": "Annotation hinzufügen",
     "afterAssessment": "Was soll nach der Beurteilung geschehen?",
     "addGesture": "Geste hinzufügen",
     "addTrigger": "Interaktionsaufgabe hinzufügen",
@@ -2015,7 +2058,7 @@
             "popover": "Können andere vorbeilaufende Personen irritiert werden? Wie fühlt sich der Benutzer beim Ausführen der Gesten vor anderen?"
         }
     },
-    "annotations": {
+    "annotationsList": {
         "startGestureTraning": "Start Training",
         "showInfo": "Infos anzeigen",
         "hideInfo": "Infos ausblenden",
@@ -2072,6 +2115,8 @@
             "thanksOverlay": "Hier haben Sie die Möglichkeit den Probanden für die Teilnahme an Ihrer Studie zu danken. Des Weiteren umfasst dieser Schritt den finalen Upload der erhobenen Daten und Videoaufzeichnung, sowie eine Info-Anzeige, wann der Proband den Tab oder Browser schließen kann. Die Danksagung sollte im Leitfaden immer unten, d.h. am Ende des Leitfadens stehen.",
             "questionnaire": "Setzen Sie Fragebögen ein, um z.B. Eingangsfragen zu definieren. Infos zu unterstützten Frage- und Antwortformaten finden sich in der Hilfe.",
             "interview": "Ein Interview ist wie ein Fragebogen zu behandeln, nur dass nicht der Proband die Antworten in das Formular eingibt, sondern der Moderator.",
+            "focusGroupInterview": "Beschreibung, Artefakte (Interaktionsaufgaben, UIs, Systemrückmeldung und Gesten), Annotationen, Leitfragen.",
+            "focusGroupInterviewOverlay": "Beschreibung, Artefakte (Interaktionsaufgaben, UIs, Systemrückmeldung und Gesten), Annotationen, Leitfragen.",
             "counter": "Mit einem Zähler kann z.B. das Alter eines Probanden einfach abgefragt werden. Der Start- und Endpunkt eines Zählers kann eingegrenzt werden.",
             "openQuestion": "Der Proband beantwortet die Frage mit einem Wort oder einem längeren Text, z.B. mit der Frage 'Woher kommen Sie?'",
             "dichotomousQuestion": "Ja/nein-Fragen lassen nur zwei Antwortmöglichkeiten zu. Es können Begründungen angefordert werden, z.B. wenn 'Nein' ausgewählt wurde.",
@@ -2177,7 +2222,7 @@
     "gestureStyleguides": {
         "process": {
             "headline": "Gesten-Design-Prozess",
-            "info": "Die Leitfrage, die man sich für Gesten-Interaktionen in der Mensch-Computer-Interaktion immer wieder stellen muss, ist: Was sind gute Gesten und wie kann man sie designen?</p><div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px;' src='img/de/introduction/study-create/gesture-design-process.svg'><div class='image-caption'>Die drei Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluieurng</em> im Gesten-Design-Prozess. Blaue Boxen stellen mögliche Einstiegspunkte dar. Gelbe Boxen stellen die Ergebnisse der jeweiligen Phase dar.</div></div><p>Um an gute Gesten zu gelangen durchläuft ein sog. Gesten-Designer in der Regel drei Phasen im Gesten-Design-Prozess: Ermittlung, Extraktion und Evaluierung. Bei der <strong>Ermittlung</strong> werden Gesten für Interaktionsaufgaben wie z.B. <em>Musik lauter stellen</em> gesucht. Der Gesten-Designer erfragt diese aktuell entweder in einem Usability-Lab oder vorort mit Hilfe szenariobasierter Aufgaben. Die Gesten werden aufgezeichnet und anschließend ausgewertet. Danach erfolgt meist eine Klassifizierung in der <strong>Exkration</strong>, d.h. der Gesten-Designer gruppiert die ermittelten Gesten und analysiert, welche Gesten für eine Evaluierung in Frage kämen (sog. potentielle Gesten). Die potentiellen Gesten werden dann in einem Gesten-Set zusammengefasst. Bei der <strong>Evaluierung</strong> werden dann die potentiellen Gesten auf ihre Gebrauchstauglichkeit und weitere Aspete (z.B. Erlernbarkeit, Ergonomie, etc.) hin überprüft.</p><p>Der nutzerzentrierte Anteil ist in der Regel sehr hoch. Dadurch können potentielle Endanwender früh in den Design-Prozess eingebunden werden. Nutzer werden im Anschluss jedes Benutzertests über die Gebrauchstauglichkeit von Gesten befragt (mit Hilfe von Fragebögen oder Interviews). In jeder Studie gibt es andere Anforderungen und Ziele, weshalb die Fragen stark varrieren können. Mit dem bereitgestellten Gesture Usability Scale (GUS) bietet GestureNote einen Fragebogenbaukasten an, der speziell für die subjektive Bewertung von Gesten-Interaktionen in der Evaluierungsphase genutzt werden kann. Es können unterschiedliche Aspekte wie z.B. <em>Aufgabenangemessenheit</em>, <em>Erlern- & Erinnerbarkeit</em> oder <em>Soziale Akzeptanz</em> abgefragt werden. Dabei können alle genutzten Gesten auf einmal oder einzelne Gesten nacheinander abgefragt werden. Zudem stellt GestureNote allgemeine Styleguides, die den Gesten-Design-Prozess betreffen, zur Verfügung.</p><p>Die bereitgestellten Items für den GUS und die allgemeinen Styleguides wurden auf Basis von Literaturrecherchen und eigenen Erfahrungen im Kontext der gestenbasierten Mensch-Computer-Interaktion entwickelt. Der GUS wird in Lehrveranstaltungen mit Schwerpunkt Usability Engineering eingesetzt und weiter entwickelt.</p>"
+            "info": "Die Leitfrage, die man sich für Gesten-Interaktionen in der Mensch-Computer-Interaktion immer wieder stellen muss, ist: Was sind gute Gesten und wie kann man sie designen?</p><div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px;' src='img/de/introduction/study-create/gesture-design-process.svg'><div class='image-caption'>Die drei Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluieurng</em> im Gesten-Design-Prozess. Blaue Boxen stellen mögliche Einstiegspunkte dar. Gelbe Boxen stellen die Ergebnisse der jeweiligen Phase dar.</div></div><p>Um an gute Gesten zu gelangen, durchläuft ein sog. Gesten-Designer in der Regel drei Phasen im Gesten-Design-Prozess: Ermittlung, Extraktion und Evaluierung. Bei der <strong>Ermittlung</strong> werden Gesten für Interaktionsaufgaben wie z.B. <em>Musik lauter stellen</em> gesucht. Der Gesten-Designer erfragt diese aktuell entweder in einem Usability-Lab oder vorort mit Hilfe szenariobasierter Aufgaben. Die Gesten werden aufgezeichnet und anschließend ausgewertet. Danach erfolgt meist eine Klassifizierung in der <strong>Exkration</strong>, d.h. der Gesten-Designer gruppiert die ermittelten Gesten und analysiert, welche Gesten für eine Evaluierung in Frage kämen (sog. potentielle Gesten). Die potentiellen Gesten werden dann in einem Gesten-Set zusammengefasst. Bei der <strong>Evaluierung</strong> werden dann die potentiellen Gesten auf ihre Gebrauchstauglichkeit und weitere Aspete (z.B. Erlernbarkeit, Ergonomie, etc.) hin überprüft.</p><p>Der nutzerzentrierte Anteil ist in der Regel sehr hoch. Dadurch können potentielle Endanwender früh in den Design-Prozess eingebunden werden. Nutzer werden im Anschluss jedes Benutzertests über die Gebrauchstauglichkeit von Gesten befragt (mit Hilfe von Fragebögen oder Interviews). In jeder Studie gibt es andere Anforderungen und Ziele, weshalb die Fragen stark varrieren können. Mit dem bereitgestellten Gesture Usability Scale (GUS) bietet GestureNote einen Fragebogenbaukasten an, der speziell für die subjektive Bewertung von Gesten-Interaktionen in der Evaluierungsphase genutzt werden kann. Es können unterschiedliche Aspekte wie z.B. <em>Aufgabenangemessenheit</em>, <em>Erlern- & Erinnerbarkeit</em> oder <em>Soziale Akzeptanz</em> abgefragt werden. Dabei können alle genutzten Gesten auf einmal oder einzelne Gesten nacheinander abgefragt werden. Zudem stellt GestureNote allgemeine Styleguides, die den Gesten-Design-Prozess betreffen, zur Verfügung.</p><p>Die bereitgestellten Items für den GUS und die allgemeinen Styleguides wurden auf Basis von Literaturrecherchen und eigenen Erfahrungen im Kontext der gestenbasierten Mensch-Computer-Interaktion entwickelt. Der GUS wird in Lehrveranstaltungen mit Schwerpunkt Usability Engineering eingesetzt und weiter entwickelt.</p>"
         },
         "processStyleguides": {
             "headline": "Allgemeine Styleguides",
