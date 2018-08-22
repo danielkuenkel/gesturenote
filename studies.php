@@ -95,13 +95,19 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
+        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-studies-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 1; opacity: 0">
+            <div class="btn-group-vertical">
+                <button type="button" class="btn btn-lg btn-success btn-shadow btn-delete-study" onclick="gotoCreateStudy()" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createNewStudy ?>" style="border-bottom-left-radius: 0px; border-top-left-radius: 0px; border-top-right-radius: 8px; border-bottom-right-radius: 8px"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent" style="margin-top: 0px;" id="item-view">
+        <div class="container mainContent" style="margin-top: 0px; padding-top: 0px" id="item-view">
 
-            <button type="button" class="btn btn-success btn-block btn-shadow" onclick="gotoCreateStudy()"><i class="fa fa-plus"></i> <?php echo $lang->createNewStudy ?></button>
+            <button type="button" class="btn btn-success hidden-md hidden-lg btn-block btn-shadow" onclick="gotoCreateStudy()" style="margin-top: 20px"><i class="fa fa-plus"></i> <?php echo $lang->createNewStudy ?></button>
 
-            <div style="margin-top: 50px">
+            <div style="margin-top: 30px">
                 <h3><?php echo $lang->breadcrump->studies ?></h3>
                 <!--<hr>-->
             </div>
@@ -247,6 +253,8 @@ if (login_check($mysqli) == true) {
                         }
 
                         animateBreadcrump();
+                        TweenMax.to($('#fixed-studies-controls'), .3, {opacity: 1});
+                        TweenMax.from($('#fixed-studies-controls'), .3, {x: -20, ease: Quad.easeInOut});
                     }
                 });
             }
