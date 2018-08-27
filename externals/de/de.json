@@ -1924,8 +1924,9 @@
     "assessment": "Beurteilung",
     "insertAssessment": "Beurteilung einfügen",
     "addTaskAssessmentElement": "Aufgaben-Beurteilung hinzufügen",
-    "addAnnotationElement": "Annotation hinzufügen",
     "afterAssessment": "Was soll nach der Beurteilung geschehen?",
+    "addAnnotationElement": "Annotation hinzufügen",
+    "insertAnnotation": "Annotation einfügen",
     "addGesture": "Geste hinzufügen",
     "addTrigger": "Interaktionsaufgabe hinzufügen",
     "addToState": "Zum UI hinzufügen",
@@ -4584,6 +4585,11 @@
         },
         "noStudyGesturesAssembledLink": {
             "id": "no-study-gestures-assembled-link",
+            "type": "danger",
+            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt! <a href='#' class='alert-link' id='btn-assemble-study-gesture-set'>Jetzt zusammenstellen</a>"
+        },
+        "noStudyGesturesAssembledLinkWarning": {
+            "id": "no-study-gestures-assembled-link-warning",
             "type": "warning",
             "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt! <a href='#' class='alert-link' id='btn-assemble-study-gesture-set'>Jetzt zusammenstellen</a>"
         },
@@ -4601,6 +4607,11 @@
             "id": "no-trigger-assembled-link",
             "type": "danger",
             "text": "Bitte zuerst ein Interaktionsaufgaben-Set für diese Studie erstellen! <a href='#' class='alert-link' id='btn-assemble-trigger'>Jetzt zusammenstellen</a>"
+        },
+        "noTriggerAssembledLinkWarning": {
+            "id": "no-trigger-assembled-link-warning",
+            "type": "warning",
+            "text": "Es wurden noch keine Interaktionsaufgaben für diese Studie hinterlegt! <a href='#' class='alert-link' id='btn-assemble-trigger'>Jetzt zusammenstellen</a>"
         },
         "assembledTriggerRemoved": {
             "id": "assembled-trigger-removed",
@@ -4622,6 +4633,11 @@
             "type": "danger",
             "text": "Bitte zuerst Systemrückmeldungen für diese Studie zusammenstellen! <a href='#' class='alert-link' id='btn-assemble-feedback'>Jetzt zusammenstellen</a>"
         },
+        "noFeedbackAssembledLinkWarning": {
+            "id": "no-feedback-assembled-link-warning",
+            "type": "warning",
+            "text": "Es wurden noch keine Systemrückmeldungen für diese Studie hinterlegt! <a href='#' class='alert-link' id='btn-assemble-feedback'>Jetzt zusammenstellen</a>"
+        },
         "assembledFeedbackRemoved": {
             "id": "assembled-feedback-removed",
             "type": "warning",
@@ -4641,6 +4657,11 @@
             "id": "no-scenes-assembled-link",
             "type": "danger",
             "text": "Bitte zuerst User Interfaces für diese Studie zusammenstellen! <a href='#' class='alert-link' id='btn-assemble-scenes'>Jetzt zusammenstellen</a>"
+        },
+        "noScenesAssembledLinkWarning": {
+            "id": "no-scenes-assembled-link-warning",
+            "type": "warning",
+            "text": "Es wurden noch keine User Interfaces für diese Studie hinterlegt! <a href='#' class='alert-link' id='btn-assemble-scenes'>Jetzt zusammenstellen</a>"
         },
         "assembledSceneRemoved": {
             "id": "assembled-scene-removed",

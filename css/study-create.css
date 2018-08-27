@@ -64,10 +64,13 @@ and open the template in the editor.
     margin-bottom: 8px;
 }
 
-.btn-add-trigger-to-gesture {
+.btn-add-trigger-to-gesture, .btn-add-feedback-to-favorite, .btn-add-scene-to-favorite {
     cursor: pointer;
 }
+.btn-add-trigger-to-gesture .fa, .btn-add-feedback-to-favorite .fa, .btn-add-scene-to-favorite .fa {
+    font-size: 14pt;
+}
 
-.btn-add-trigger-to-gesture:hover {
+.btn-add-trigger-to-gesture:hover, .btn-add-feedback-to-favorite:hover, .btn-add-scene-to-favorite:hover {
     color: black;
 }

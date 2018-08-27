@@ -1450,7 +1450,7 @@ include '../includes/language.php';
                                 </ul>
                                 <div class="btn btn-default btn-shadow btn-copy-scale" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->copyScale ?>"><i class="fa fa-copy"></i></div>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -2291,6 +2291,67 @@ include '../includes/language.php';
     </div>
 
 
+
+
+
+    <div class="panel panel-default panel-shadow root annotation-item" id="annotation-item">
+        <div class="panel-heading panel-heading-expandable" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
+            <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+                <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
+                <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+            </div>
+            <span><?php echo $lang->annotation ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
+        </div>
+        <div class="panel-body panel-body-expandable hidden">
+
+            <div class="row">
+                <div class="col-sm-7 col-md-6 col-lg-7">
+                    <div class="form-group">
+                        <label><?php echo $lang->title ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioTaskAssessment ?>"></i></label>
+                        <input class="form-control input-title" type="text" value="" placeholder="<?php echo $lang->insertAnnotation ?>"/>
+                    </div>
+                </div>
+                <div class="col-sm-5 col-md-6 col-lg-5">
+                    <!--                    <div class="form-group">
+                                            <label><?php echo $lang->afterAssessment ?></label>
+                                            <div class="input-group">
+                                                <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                                <div class="input-group-btn select assessmentTriggerSelect" role="group">
+                                                    <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                        <li id="nextTask"><a href="#"><?php echo $lang->nextTask ?></a></li>
+                                                        <li id="nextStep"><a href="#"><?php echo $lang->nextStep ?></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>-->
+
+                    <div class="form-group form-group-no-margin">
+                        <label><?php echo $lang->annotationColor ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioTaskAssessmentColor ?>"></i></label>
+                        <div class="color-selector">
+                            <div class="btn-color-selector darkblue" data-id='darkblue'></div>
+                            <div class="btn-color-selector green" data-id='green'></div>
+                            <div class="btn-color-selector blue" data-id='blue'></div>
+                            <div class="btn-color-selector yellow" data-id='yellow'></div>
+                            <div class="btn-color-selector red" data-id='red'></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
     <div class="panel panel-default panel-shadow root" id="triggerItem">
         <div class="panel-heading">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
@@ -2784,6 +2845,25 @@ include '../includes/language.php';
         <div>
             <div class="btn-add-trigger-to-gesture" style="display: inline"><i class="fa fa-plus-square"></i></div> 
             <span class="trigger-title" style="display: inline; margin-left: 5px"></span>
+        </div> 
+    </div>
+
+    <div class="root" id="assembled-scene-option">
+        <div>
+            <div class="btn-add-scene-to-favorite" style="display: inline"><i class="fa fa-plus-square"></i></div> 
+            <span class="scene-title" style="display: inline; margin-left: 5px"></span> 
+            <button type="button" class="btn btn-default btn-xs" id="btn-preview-scene" style="position: relative; top: -1px; margin-left: 5px"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->statePreview ?></span></button>
+        </div> 
+    </div>
+
+    <div class="root" id="assembled-feedback-option">
+        <div>
+            <div class="btn-add-feedback-to-favorite" style="display: inline"><i class="fa fa-plus-square"></i></div> 
+            <div class="label label-default" style="margin-left: 5px; position: relative; top: -3px">
+                <span class="hidden" id="feedback-text"><i class="fa fa-font"></i> <?php echo $lang->text ?></span>
+                <span class="hidden" id="feedback-sound"><i class="fa fa-volume-up"></i> <?php echo $lang->sound ?></span>
+            </div>
+            <span class="feedback-title" style="display: inline; margin-left: 5px"></span>
         </div> 
     </div>
 

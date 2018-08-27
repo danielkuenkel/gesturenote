@@ -385,6 +385,8 @@ function checkFilterOptions(container) {
                 $(elements[i]).find('.filter-options').addClass('hidden');
             }
         }
+    } else {
+        $(container).find('.filter-options').remove();
     }
 }
 

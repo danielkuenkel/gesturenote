@@ -2338,16 +2338,38 @@ include '../includes/language.php';
 
         <hr style="margin-top: 10px">
 
-        <div class="row" id="tasks-container" style="margin-bottom: 30px;">
-            <div class="col-md-12">
-                <div class="alert-space alert-no-phase-data"></div>
-                <div class="task-option-container"></div>
-            </div>
-<!--            <div class="col-md-5">
-                <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-taskOption" type="button" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addTaskElement ?></span></button>
+        <div class="row" id="catalogs-container" style="margin-bottom: 30px;">
+            <div class="col-md-7">
+                <div id="catalogs-study-gestures">
+                    <h4 style="margin-top: 0px"><?php echo $lang->studyCatalogs->gestures ?></h4>
+                    <div class="alert-space alert-no-study-gestures-assembled-link-warning"></div>
+                    <div class="row option-container"></div>
                 </div>
-            </div>-->
+
+                <div id="catalogs-trigger" style="margin-top: 25px">
+                    <h4 style="margin-top: 0px"><?php echo $lang->studyCatalogs->trigger ?></h4>
+                    <div class="alert-space alert-no-trigger-assembled-link-warning"></div>
+                    <div class="option-container"></div>
+                </div>
+
+                <div id="catalogs-scenes" style="margin-top: 40px">
+                    <h4 style="margin-top: 0px"><?php echo $lang->studyCatalogs->scenes ?></h4>
+                    <div class="alert-space alert-no-scenes-assembled-link-warning"></div>
+                    <div class="option-container"></div>
+                </div>
+
+                <div id="catalogs-feedback" style="margin-top: 40px">
+                    <h4 style="margin-top: 0px"><?php echo $lang->studyCatalogs->feedback ?></h4>
+                    <div class="alert-space alert-no-feedback-assembled-link-warning"></div>
+                    <div class="option-container"></div>
+                </div>    
+            </div>
+
+            <div class="col-md-5">
+                Infos dazu stehen hier
+            </div>
+
+
         </div>
 
         <div style="display: inline;">
@@ -2395,15 +2417,15 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->focusGroupForm ?></h3>
-<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>-->
+            <!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+                            <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                            <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                        </div>-->
         </div>
 
         <hr style="margin-top: 10px">
 
-        <div class="row" id="observations">
+        <div class="row" id="key-questions">
             <div class="col-md-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
                 <div class="form-group container-root" id="list-container"></div>
@@ -2420,8 +2442,8 @@ include '../includes/language.php';
                     
                                         </div>-->
 
-                    <h4><?php // echo $lang->userDefined ?></h4>
-                    <div class="add-button-group" id="add-observation-button-group">
+                    <!--<h4><?php echo $lang->userDefined ?></h4>-->
+                    <div class="add-button-group" id="add-question-button-group">
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 

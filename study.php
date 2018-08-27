@@ -85,7 +85,7 @@ if (login_check($mysqli) == true) {
         <div id="template-general"></div>
         <div id="template-study"></div>
 
-        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 180px; z-index: 1; opacity: 0">
+        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 1; opacity: 0">
             <div class="btn-group-vertical">
                 <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->studyPreview ?>" style="border-top-left-radius: 0px; border-top-right-radius: 8px"><i class="fa fa-eye"></i></button>
                 <button type="button" class="btn btn-lg btn-default btn-shadow btn-edit-study" id="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->editStudy ?>"><i class="fa fa-pencil"></i></button>
