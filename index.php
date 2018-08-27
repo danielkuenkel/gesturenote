@@ -54,11 +54,11 @@ if (login_check($mysqli) == true) {
                     <p><?php echo $lang->gesturenoteSubline ?></p> 
                 </div>
 
-                <nav class="navbar navbar-default navbar-fixed-index" id="sub-page-header">
+                <nav class="navbar-fixed-index" id="">
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-12">
-                                <div class="navbar-header" id="affix-logo" style="opacity: 0">
+                                <div class="" id="affix-logo" style="opacity: 0">
                                     <!--<button class="navbar-toggle"><span class="icon-bar"></span></button>-->
                                     <a class="navbar-brand" style="color: white !important"><i class="glyphicon glyphicon-stats"></i> <span style="letter-spacing: 0pt; margin-left: -5px"><?php echo $lang->gestureNote ?></span> <sup><span class="label label-success uppercase" style="position: relative; font-size: 6pt; letter-spacing: normal"><?php echo $lang->beta ?></span></sup></a>
                                 </div>

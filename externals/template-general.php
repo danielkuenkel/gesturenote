@@ -199,7 +199,7 @@ include '../includes/language.php';
 
         </div>
         
-        <div class="line"></div>
+        <div class="subpage-line"></div>
     </div>
 
 
