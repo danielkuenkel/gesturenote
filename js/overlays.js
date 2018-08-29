@@ -301,14 +301,15 @@ function initFocusGroupInterviewOverlay(id, formatClone) {
     if (data) {
         renderData(data);
     } else {
-        appendAlert($(formatClone), ALERT_NO_DATA_QUESTIONNAIRE);
+        appendAlert(formatClone, ALERT_NO_DATA_QUESTIONNAIRE);
+        appendAlert(formatClone, ALERT_NO_ANNOTATIONS);
     }
 
-    renderAssembledGesturesItems($(formatClone).find('#catalogs-study-gestures .option-container'), data.gestures, true);
-    renderAssembledTriggerItems($(formatClone).find('#catalogs-trigger .option-container'), data.trigger, true);
-    renderAssembledSceneItems($(formatClone).find('#catalogs-scenes .option-container'), data.scenes, true);
-    renderAssembledFeedbackItems($(formatClone).find('#catalogs-feedback .option-container'), data.feedback, true);
-    
+    renderAssembledGesturesItems($(formatClone).find('#catalogs-study-gestures .option-container'), data && data.gestures ? data.gestures : null, true);
+    renderAssembledTriggerItems($(formatClone).find('#catalogs-trigger .option-container'), data && data.trigger ? data.trigger : null, true);
+    renderAssembledSceneItems($(formatClone).find('#catalogs-scenes .option-container'), data && data.scenes ? data.scenes : null, true);
+    renderAssembledFeedbackItems($(formatClone).find('#catalogs-feedback .option-container'), data && data.feedback ? data.feedback : null, true);
+
     initDynamicAffixScrolling(formatClone);
 
     function renderData(data) {
@@ -330,6 +331,8 @@ function initFocusGroupInterviewOverlay(id, formatClone) {
 
             updateBadges(container, 'annotation-item');
             checkCurrentListState(container);
+        } else {
+            appendAlert(formatClone, ALERT_NO_ANNOTATIONS);
         }
 
         // render key questions
@@ -602,7 +605,7 @@ function initFocusGroupInterviewOverlay(id, formatClone) {
         }
     });
 
-    initQuestionnaireListChange(formatClone, $(formatClone).find('#annotations-container .option-container'), $(formatClone).find('#annotations-container'), ALERT_NO_PHASE_DATA);
+    initQuestionnaireListChange(formatClone, $(formatClone).find('#annotations-container .option-container'), $(formatClone).find('#annotations-container'), ALERT_NO_ANNOTATIONS);
     initQuestionnaireListItemAdded($(formatClone).find('#annotations-container .option-container'), $(formatClone).find('#annotations-container'));
 
     initQuestionnairePreview($(formatClone).find('#key-questions .btn-preview-questionnaire'), $(formatClone).find('#list-container'));

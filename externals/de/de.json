@@ -594,9 +594,8 @@
     "recordGesture": "Geste aufzeichnen",
     "rerecordGesture": "Geste neu aufzeichnen",
     "stopRecordGesture": "Aufzeichnung stoppen",
-    "negativeQuestionmark": "Negativ?",
+    "negativeQuestionmark": "Negieren?",
     "positive": "positiv",
-    "negative": "negativ",
     "allPointsDistributed": "Alle Punkte verteilt",
     "notAllPointsDistributed": "Nicht alle Punkte verteilt",
     "enterStudyAsTester": "An Studie teilnehmen",
@@ -640,7 +639,7 @@
     "useEventBus": "Event-Bus nutzen?",
     "continuousValueTypeLabel": "Manipulationsart",
     "displayOfFeedback": "Anzeige der Systemrückmeldung",
-    "displayOfTransitionState": "Anzeige des Zwischenzustandes",
+    "displayOfTransitionState": "Anzeige des Zwischen-UIs",
     "transitionalPeriod": "Übergangszeit (in Sekunden)",
     "reactionPeriod": "Reaktionszeit (in Sekunden)",
     "showGestureAgainQuestion": "Geste bei Bedarf nochmals anzeigen?",
@@ -712,9 +711,11 @@
     },
     "createNewStudy": "Neue Studie erstellen",
     "copy": "Kopieren",
-    "studyUrl": "Akquirierungs-URL",
-    "openStudyUrl": "Akquirierungs-URL aufrufen",
-    "studyURLDescription": "Um Probanden zu akquirieren, teilen Sie die Akquirierungs-URL z.B. über E-Mails oder soziale Netzwerke. Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Akquirierungs-URL. Oder kopieren Sie die Akquirierungs-URL in das Adressfeld Ihres Browsers.",
+    "openStudyUrl": "Befragung durchführen",
+    "executionTester": "Probanden zur Befragung einladen",
+    "executionEvaluator": "Befragung durchführen",
+    "studyURLDescriptionTester": "Um Probanden zu einer Befragung einzuladen, teilen Sie die angezeigte URL z.B. über E-Mails oder soziale Netzwerke.",
+    "studyURLDescriptionEvaluator": "Um eine Befragung durchzuführen, klicken Sie auf den Button. Oder kopieren Sie die URL in das Adressfeld Ihres Browsers.",
     "totalGestures": "Gesten insgesamt",
     "totalGesture": "Geste insgesamt",
     "gesturesForTrigger": "Gesten für Interaktionsaufgabe",
@@ -1523,13 +1524,13 @@
     "stateCharts": {
         "state": "User Interface",
         "states": "User Interfaces",
-        "currentState": "Aktueller Zustand",
-        "inputState": "Ausgangszustand",
+        "currentState": "Aktuelles UI",
+        "inputState": "Ausgangs-UI",
         "transition": "Interaktionsaufgabe",
         "transitionCondition": "Geste",
-        "intermediateStates": "Zwischenzustände",
-        "entryAction": "Folgezustand",
-        "entryActions": "Folgezustände",
+        "intermediateStates": "Zwischen-UI",
+        "entryAction": "Folge-UI",
+        "entryActions": "Folge-UIs",
         "transitionFeedback": "Systemrückmeldung",
         "wozElements": "WOZ-Elemente"
     },
@@ -2140,17 +2141,17 @@
             "identificationSensor": "Sollen Daten von einem angeschlossenen Sensor aufgezeichnet werden? Die Sensordaten werden an GestureNote übertragen und aufgezeichnet.",
             "identificationScenesForGestures": "Soll dem Probanden nicht nur die Interaktionsaufgabe mitgeteilt werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden? Es kann für den Probanden einfacher sein geeignete Gesten zu demonstrieren, wenn dieser weiß, wie das User Interface aussieht.",
             "identificationScenesForTrigger": "Soll dem Probanden nicht nur die Geste gezeigt werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden? Es kann für den Probanden einfacher sein geeignete Interaktionsaufgaben zu finden, wenn dieser weiß, wie das User Interface aussieht.",
-            "identificationScene": "Greifen Sie auf die hinterlegten User Interafaces aus den Interaktionsdaten zurück. Wird mehr als 1 UI hinterlegt, dann ist das erste UI der Ausgangszustand und das letzte UI der Folgezustand. Zwischenzustände sind ab 3 UIs möglich.",
+            "identificationScene": "Greifen Sie auf die hinterlegten User Interafaces aus den Interaktionsdaten zurück. Wird mehr als 1 UI hinterlegt, dann ist das erste UI das Ausgangs-UI und das letzte UI das Folge-UI. Zwischen-UIs sind ab 3 UIs möglich.",
             "identificationSceneDescription": "Beschreiben Sie, was in diesem UI passiert, bzw. was der Proband über das UI wissen muss. Was passiert z.B. nach der Gesten-Ausführung?",
             "gus": "Dieser Variante des GUS hat den Vorteil, dass Probanden sich die Geste nochmals ansehen können und wissen, welche Interaktionsaufgabe und welche Systemrückmeldung daran gekoppelt ist. Der Proband bewertet nur diese eine Geste.",
             "questionnaireGestures": "Diese Variante des GUS fragt - im Gegensatz zur Variante 'einzelne Geste' - mehrere Gesten zeitgleich ab.",
             "sus": "Dies ist ein einfacher und technologieunabhängiger Fragebogen, mit dem die Gebrauchstauglichkeit eines Systems bewertet werden kann. Der errechnete Scorewert (zwischen 0 und 100) kann zur quantitativen Analyse der Gebrauchstauglichkeit herangezogen werden. Sie müssen deshalb nichts weiter tun als diesen Fragebogen dem Leitfaden hinzuzufügen.",
             "ueq": "Der User Experience Questionnaire (UEQ) ermöglicht eine schnelle Beurteilung der Benutzererfahrung mit interaktiven Produkten. Das Format des Fragebogens unterstützt Benutzer sich über Gefühle, Eindrücke und Einstellungen auszudrücken, die entstehen, wenn sie ein Produkt verwenden.",
-            "gestureTraining": "Bevor Gesten (z.B. in einem Benutzertest) zum Einsatz kommen, können diese unter Umständen vorab explorativ trainiert werden. Dem Probanden kann dabei ein UI mit dazugehöriger Funktionalität (Gesten, Systemrückmeldung, Zustandsübergänge) gezeigt werden. Alternativ können nur die Gesten mit dazugehöriger Interaktionsaufgabe trainiert werden.",
+            "gestureTraining": "Bevor Gesten (z.B. in einem Benutzertest) zum Einsatz kommen, können diese unter Umständen vorab explorativ trainiert werden. Dem Probanden kann dabei ein UI mit dazugehöriger Funktionalität (Gesten, Systemrückmeldung, UI-Übergänge) gezeigt werden. Alternativ können nur die Gesten mit dazugehöriger Interaktionsaufgabe trainiert werden.",
             "gestureTrainingOverlay": "Bevor Gesten (z.B. in einem szenariobasierten WOZ-Experiment) zum Einsatz kommen, sollten diese unter Umständen vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Interaktionsaufgaben und Systemrückmeldungen nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich kann ein Gesten-Training durch hinterlegte User Interfaces angereichert werden.",
             "gestureTrainingTrigger": "Welche Interaktionsaufgabe soll der Benutzer erlernen?",
             "gestureTrainingGesture": "Welche Geste soll ein Benutzer vorführen, damit die Funktion ausgelöst werden kann?",
-            "gestureTrainingFeedback": "Soll dem Benutzer eine Systemrückmeldung angezeigt werden? Oder genügt ein Zustandsübergang als Rückmeldung (falls UIs verwendet werden)?",
+            "gestureTrainingFeedback": "Soll dem Benutzer eine Systemrückmeldung angezeigt werden? Oder genügt ein UI-Übergang als Rückmeldung (falls UIs verwendet werden)?",
             "invertContinuousValues": "Ist ein Pidoco-Prototyp als UI gekoppelt? Die Werte, welche an Pidoco gesendet werden, liegen für eine kontinuierliche Geste zwischen 0 und 100. Sie können für kontinuierliche Gesten-Interaktionen die Gesten-Vorschau invertieren. Eine Invertierung kann auch noch während der Durchführung vorgenommen werden.",
             "useEventBus": "",
             "continuousValueType": "Es kann hier die Art der Manipulation gewählt werden, welche Einfluss auf das Verhalten des Pidoco-Prototyps hat. Bei Auswahl <em>Keine</em> wird nur die Geste an Pidoco gesendet.",
@@ -2158,18 +2159,18 @@
             "gestureTrainingFeedbackTime": "Wie lange soll diese Systemrückmeldung angezeigt werden, bevor das nächste UI aufgerufen wird (falls UI's verwendet werden)?",
             "gestureTrainingRepeats": "Wie oft soll das Training für die gewählte Interaktionsaufgabe, Geste und Systemrückmeldung vom Probanden wiederholt werden?",
             "gestureTrainingScenes": "Soll dem Probanden nicht nur die Geste mit dazugehöriger Interaktionsaufgabe und Systemrückmeldung trainiert werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden?",
-            "gestureTrainingScene": "Greifen Sie auf den UIs aus den Interaktionsdaten zurück. Wird mehr als 1 UI hinterlegt, dann ist das erste als Ausgangszustand und das letzte als Folgezustand festgehalten. Zwischenzustände sind ab 3 UIs möglich.",
-            "gestureTrainingSceneTransitionMode": "Automatisch bedeudet, dass dieses UI z.B. automatisch nach einer Geste oder nach einem anderen Zwischenzustand angezeigt wird.",
-            "gestureTrainingSceneTransitionTime": "Wie lange soll dieser Zwischenzustand angezeigt werden?",
-            "scenario": "Mit szenariobaiserten Aufgaben können nicht nur verschiedene UI-Formate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge definiert werden. Daran gekoppelt sind einzelne Gesten und deren Systemrückmeldung. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten.",
-            "scenarioOverlay": "Gesten-Interaktionen werden typischerweise mit szenariobasierten Aufgaben in Verbindung mit einem WOZ-Experiment evaluiert. D.h. es müssen in GestureNote entsprechende Daten und Strukturen hinterlegt werden, um solch einen Test durchführen zu können. Ein Benutzertest besteht dabei aus einer oder mehreren Aufgaben. An die jeweiligen Aufgaben sind einzelne User Interfaces gekoppelt (Bild, Video, Webseite, Pidoco). Des Weiteren können auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelne Gesten und deren Feedback. Der Erfolg einer Aufgabe muss beurteilt werden. Dazu können die vordefinierten Aufgaben-Beurteilungen genutzt, diese ergänzt oder eigene angelegt werden. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten, die dann abhängig von der jeweiligen Aufgabe und einem Zustand angezeigt werden kann.",
+            "gestureTrainingScene": "Greifen Sie auf den UIs aus den Interaktionsdaten zurück. Wird mehr als 1 UI hinterlegt, dann ist das erste als Ausgangs-UI und das letzte als Folge-UI festgehalten. Zwischen-UIs sind ab 3 UIs möglich.",
+            "gestureTrainingSceneTransitionMode": "Automatisch bedeudet, dass dieses UI z.B. automatisch nach einer Geste oder nach einem anderen Zwischen-UI angezeigt wird.",
+            "gestureTrainingSceneTransitionTime": "Wie lange soll das gewählte Zwischen-UI angezeigt werden?",
+            "scenario": "Mit szenariobaiserten Aufgaben können nicht nur verschiedene UI-Formate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch UI-Übergänge definiert werden. Daran gekoppelt sind einzelne Gesten und deren Systemrückmeldung. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten.",
+            "scenarioOverlay": "Gesten-Interaktionen werden typischerweise mit szenariobasierten Aufgaben in Verbindung mit einem WOZ-Experiment evaluiert. D.h. es müssen in GestureNote entsprechende Daten und Strukturen hinterlegt werden, um solch einen Test durchführen zu können. Ein Benutzertest besteht dabei aus einer oder mehreren Aufgaben. An die jeweiligen Aufgaben sind einzelne User Interfaces gekoppelt (Bild, Video, Webseite, Pidoco). Des Weiteren können auch UI-Übergänge definiert werden. Daran gekoppelt sind einzelne Gesten und deren Feedback. Der Erfolg einer Aufgabe muss beurteilt werden. Dazu können die vordefinierten Aufgaben-Beurteilungen genutzt, diese ergänzt oder eigene angelegt werden. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten, die dann abhängig von der jeweiligen Aufgabe und dem UI angezeigt werden kann.",
             "scenarioStartScene": "Geben Sie hier das UI an, von dem aus ein Benutzertest durchgespielt werden soll. Liegt ein Pidoco-Prototyp als UI mit daran gekoppelten Gesten vor? Dann reicht es, wenn die Startseite des Prototypen hier angegeben wird.",
             "scenarioTaskTitle": "Der Aufgaben-Titel dient analytischen Zwecken und wird bei den Ergebnissen einer Durchführung angezeigt.",
             "scenarioTaskDescription": "Welche Aufgabe soll ein Proband bewältigen? Formulieren Sie diese Aufgabe in der Sprache des Benutzers.",
             "scenarioWOZElements": "Hinterlegen Sie die für diese Aufgabe wichtigen Daten.",
             "scenarioTrigger": "Welche Funktion kann der Benutzer während der Aufgabenbewältigung auslösen?",
             "scenarioGesture": "Welche Geste soll ein Benutzer vorführen, damit die Funktion genutzt werden kann?",
-            "scenarioFeedback": "Soll dem Benutzer eine Systemrückmeldung angezeigt werden? Oder genügt ein Zustandsübergang als Rückmeldung? Dann wählen Sie <em>Keine</em>.",
+            "scenarioFeedback": "Soll dem Benutzer eine Systemrückmeldung angezeigt werden? Oder genügt ein UI-Übergang als Rückmeldung? Dann wählen Sie <em>Keine</em>.",
             "scenarioFeedbackTime": "Wie lange soll diese Systemrückmeldung angezeigt werden, bevor das nächste UI aufgerufen wird?",
             "scenarioScenes": "Hinterlegen Sie User Interfaces, die für diese Interaktionsaufgabe und Geste benötigt werden, um dem Benutzer ein funktionierendes System vorzutäuschen.",
             "scenarioTaskAssessment": "Wie hat der Proband eine Aufgabe gelöst? Hat er z.B. Hilfe benötigt?",
@@ -2206,7 +2207,7 @@
             "copyScale": "Diese Skala auf alle anderen Zeilen dieser Matrix übertragen"
         },
         "gestures": {
-            "gestureNameQuality": "Bezieht sich auf den gewählten Namen einer Geste. <em>Funktional</em> bedeutet, dass der gewählte Name an eine bestimmte Interaktionsaufgabe gekoppelt ist. <em>Generisch</em> bedeutet, dass der Name unabhängig von der Interaktionsaufgabe ist.",
+            "gestureNameQuality": "<em>Funktional</em> bedeutet, dass der gewählte Name an eine bestimmte Interaktionsaufgabe gekoppelt ist (z.B. <em>Musik lauter stellen</em>). <em>Generisch</em> bedeutet, dass der Name unabhängig von der Interaktionsaufgabe ist (z.B. <em>Swipe-Geste</em>).",
             "executionType": "Eine Pose ist eine bestimmte Position von Körperteilen ohne Bewegung (z.B. Daumen-Hoch-Geste). Eine dynamische Geste beinaltet immer eine Bewegung (z.B. Push-Geste).",
             "interactionType": "Kommt die Systemrückmeldung erst nach der Gesten-Ausführung (z.B. Seitenwechsel nach Daumen-Hoch-Geste)? Dann spricht man von einer diskreten Gesten-Interaktion. Wird die Systemrückmeldung bereits während der Gesten-Ausführung aktiviert (z.B. bei einer Sliderbedienung), spricht man von kontinuierlicher Gesten-Interaktion.",
             "context": "Wo soll die Geste eingesetzt werden?",
@@ -2411,7 +2412,9 @@
                 {
                     "id": "46783524653624543",
                     "title": "Stimme voll und ganz zu"
-                }]
+                }
+            ],
+            "showRatingInfo": "yes"
         },
         {
             "id": "89573",
@@ -2440,7 +2443,8 @@
                 {
                     "id": "46783524653624543",
                     "title": "Stimme voll und ganz zu"
-                }]
+                }],
+            "showRatingInfo": "yes"
         },
         {
             "id": "28263",
@@ -2469,7 +2473,8 @@
                 {
                     "id": "46783524653624543",
                     "title": "Stimme voll und ganz zu"
-                }]
+                }],
+            "showRatingInfo": "yes"
         },
         {
             "id": "94429",
@@ -2498,7 +2503,8 @@
                 {
                     "id": "46783524653624543",
                     "title": "Stimme voll und ganz zu"
-                }]
+                }],
+            "showRatingInfo": "yes"
         },
         {
             "id": "37143",
@@ -2527,7 +2533,8 @@
                 {
                     "id": "46783524653624543",
                     "title": "Stimme voll und ganz zu"
-                }]
+                }],
+            "showRatingInfo": "yes"
         },
         {
             "id": "28732",
@@ -2556,7 +2563,8 @@
                 {
                     "id": "46783524653624543",
                     "title": "Stimme voll und ganz zu"
-                }]
+                }],
+            "showRatingInfo": "yes"
         },
         {
             "id": "53457",
@@ -2585,7 +2593,8 @@
                 {
                     "id": "46783524653624543",
                     "title": "Stimme voll und ganz zu"
-                }]
+                }],
+            "showRatingInfo": "yes"
         },
         {
             "id": "97896",
@@ -2614,7 +2623,8 @@
                 {
                     "id": "46783524653624543",
                     "title": "Stimme voll und ganz zu"
-                }]
+                }],
+            "showRatingInfo": "yes"
         },
         {
             "id": "97528",
@@ -2643,7 +2653,8 @@
                 {
                     "id": "46783524653624543",
                     "title": "Stimme voll und ganz zu"
-                }]
+                }],
+            "showRatingInfo": "yes"
         },
         {
             "id": "52525",
@@ -2672,7 +2683,8 @@
                 {
                     "id": "46783524653624543",
                     "title": "Stimme voll und ganz zu"
-                }]
+                }],
+            "showRatingInfo": "yes"
         }
     ],
     "pragmaticHedonicQuality": "Pragmatische & Hedonische Qualität",
@@ -2784,7 +2796,8 @@
                     "left": "annoying",
                     "right": "enjoyable"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "2",
@@ -2798,7 +2811,8 @@
                     "left": "notUnderstandable",
                     "right": "understandable"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "3",
@@ -2812,7 +2826,8 @@
                     "left": "creative",
                     "right": "dull"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "4",
@@ -2826,7 +2841,8 @@
                     "left": "easyToLearn",
                     "right": "difficultToLearn"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "5",
@@ -2840,7 +2856,8 @@
                     "left": "valuable",
                     "right": "inferior"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "6",
@@ -2854,7 +2871,8 @@
                     "left": "boring",
                     "right": "exiting"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "7",
@@ -2868,7 +2886,8 @@
                     "left": "notInteresting",
                     "right": "interesting"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "8",
@@ -2882,7 +2901,8 @@
                     "left": "unpredictable",
                     "right": "predictable"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "9",
@@ -2896,7 +2916,8 @@
                     "left": "fast",
                     "right": "slow"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "10",
@@ -2910,7 +2931,8 @@
                     "left": "inventive",
                     "right": "conventional"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "11",
@@ -2924,7 +2946,8 @@
                     "left": "obstructive",
                     "right": "supportive"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "12",
@@ -2938,7 +2961,8 @@
                     "left": "good",
                     "right": "bad"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "13",
@@ -2952,7 +2976,8 @@
                     "left": "complicated",
                     "right": "easy"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "14",
@@ -2966,7 +2991,8 @@
                     "left": "unlikable",
                     "right": "pleasing"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "15",
@@ -2980,7 +3006,8 @@
                     "left": "usual",
                     "right": "leadingEdge"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "16",
@@ -2994,7 +3021,8 @@
                     "left": "unpleasant",
                     "right": "pleasant"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "17",
@@ -3008,7 +3036,8 @@
                     "left": "secure",
                     "right": "notSecure"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "18",
@@ -3022,7 +3051,8 @@
                     "left": "motivating",
                     "right": "demotivating"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "19",
@@ -3036,7 +3066,8 @@
                     "left": "meetsExpectations",
                     "right": "doesNotMeetExpectations"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "20",
@@ -3050,7 +3081,8 @@
                     "left": "inefficient",
                     "right": "efficient"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "21",
@@ -3064,7 +3096,8 @@
                     "left": "clear",
                     "right": "confusing"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "22",
@@ -3078,7 +3111,8 @@
                     "left": "impractical",
                     "right": "practical"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "23",
@@ -3092,7 +3126,8 @@
                     "left": "organized",
                     "right": "cluttered"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "24",
@@ -3106,7 +3141,8 @@
                     "left": "attractive",
                     "right": "unattractive"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "25",
@@ -3120,7 +3156,8 @@
                     "left": "friendly",
                     "right": "unfriendly"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         },
         {
             "id": "26",
@@ -3134,7 +3171,8 @@
                     "left": "conservative",
                     "right": "innovative"
                 }
-            }
+            },
+            "showRatingInfo": "yes"
         }
     ],
     "favoriteGesturesQuestionnaire": [
@@ -4488,6 +4526,16 @@
             "type": "warning",
             "text": "Bitte geben Sie eine E-Mail-Adresse an!"
         },
+        "missingName": {
+            "id": "missing-name",
+            "type": "warning",
+            "text": "Bitte geben Sie einen Namen an!"
+        },
+        "insertName": {
+            "id": "insert-name",
+            "type": "warning",
+            "text": "Bitte geben Sie einen Namen an! Dieser Name wird nur für die Kontaktaufnahme mit dem Moderator benötigt und nicht gespeichert."
+        },
         "checkEmail": {
             "id": "check-email",
             "type": "warning",
@@ -5027,7 +5075,7 @@
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-01-02.jpg' style='max-width:391px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
                         "<p>Hinter jedem Info-Symbol <i class='fa fa-info-circle'></i> sind weitere hilfreiche Informationen hinterlegt. Bewegen Sie die Maus über diese Symbole und die Informationen werden angezeigt. Rufen Sie die Hilfe über das Symbol <i class='fa fa-support'></i> auf, um an weitere Informationen zu gelangen.</p>",
                         "<h4>Speichern</h4><hr>",
-                        "<p>Eine Studie wird erst final gespeichert und erstellt, wenn Sie den grünen Button <button type='button' class='btn btn-success btn-shadow btn-xs'><i class='fa fa-save'></i> Speichern & Schließen</button> klicken. Sie können die Seite neu laden, ohne das Ihre Daten verloren gehen. Laden Sie jedoch die Seite neu, wenn ein Dialog geöffnet ist, werden die Eignaben im Dialog nicht gespeichert. Dialogdaten werden erst gespeichert, wenn ein Dialog geschlossen wird. <br/><br/>Wird eine Studie gespeichert, gelangt man zur Studien-Übersicht. Für die Akquirierung von Probanden stellt GestureNote eine URL bereit, die dann z.B. in sozialen Netzwerken oder per E-Mail geteilt werden kann. Weitere Informationen erhalten Sie über die Hilfe auf der Studien-Seite oder im Hilfe-Katalog auf dem Dashboard.</p>"
+                        "<p>Eine Studie wird erst final gespeichert und erstellt, wenn Sie den grünen Button <button type='button' class='btn btn-success btn-shadow btn-xs'><i class='fa fa-save'></i> Speichern & Schließen</button> klicken. Sie können die Seite neu laden, ohne das Ihre Daten verloren gehen. Laden Sie jedoch die Seite neu, wenn ein Dialog geöffnet ist, werden die Eignaben im Dialog nicht gespeichert. Dialogdaten werden erst gespeichert, wenn ein Dialog geschlossen wird. <br/><br/>Wird eine Studie gespeichert, gelangt man zur Studien-Übersicht. Für das Einladen von Probanden zu einer erstellten Studie stellt GestureNote eine URL bereit, die dann z.B. in sozialen Netzwerken oder per E-Mail geteilt werden kann. Weitere Informationen erhalten Sie über die Hilfe auf der Studien-Seite oder im Hilfe-Katalog auf dem Dashboard.</p>"
                     ]
         },
         {
@@ -5070,14 +5118,14 @@
                         "<h4>Systemrückmeldung</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-03-03.jpg' style='max-width:782px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
                         "<p>Um dem Probanden eine Systemrückmeldung für eine Gesten-Interaktion zu bieten, können Text- (Hinweistext nach Geste) und Audio-Rückmeldungen hinterlegt werden. Diese können dann z.B. für einen Benutzertest, ein Gesten-Training oder einem Gesture Usability Scale genutzt werden. Standardmäßig sind zwei Text-Rückmeldungen hinterlegt.</p>",
-                        "<p>Dienen Zustandsübergänge von UIs als Systemrückmeldungen, werden keine Systemrückmeldungen benötigt.</p>",
+                        "<p>Dienen UI-Übergänge als Systemrückmeldungen, werden ggf. keine zusätzlichen Systemrückmeldungen benötigt.</p>",
                         "<h4>User Interfaces</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-03-04.jpg' style='max-width:909px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
                         "<p>User Interfaces sind z.B. für ein WOZ-Experiment während einer szenariobasierten Aufgabe von Bedeutung, um eine gewisse Immersion für Probanden zu gewährleisten. Mit User Interfaces können explorative Gesten-Trainings, Gesten-Ermittlungen oder WOZ-Experimente erstellt werden. In GestureNote werden aktuell vier unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:</p>",
                         "<p><strong>Bild</strong>: Es können Bilder im Format JPEG und PNG hinterlegt werden.<p/>",
-                        "<p><strong>Webseite</strong>: Ähnlich wie in typischen Online-Usability-Tools, können in GestureNote Webseiten hinterlegt werden. Aus Sicherheitsgründen überprüfen einige Webseiten den sog. Same-Origin. Wenn eine Webseite in der Zustands-Vorschau (z.B. bei der Interaktionsdaten-Übersicht) nicht angezeigt wird, dann ist diese als Zustand für eine Befragung ungeeignet. Die Webseite kann in GestureNote nicht integriert, bzw. geladen werden.<p/>",
+                        "<p><strong>Webseite</strong>: Ähnlich wie in typischen Online-Usability-Tools, können in GestureNote Webseiten hinterlegt werden. Aus Sicherheitsgründen überprüfen einige Webseiten den sog. Same-Origin. Wenn eine Webseite in der Vorschau (z.B. bei der Interaktionsdaten-Übersicht) nicht angezeigt wird, dann ist diese als User Interface für eine Befragung ungeeignet. Die Webseite kann in GestureNote nicht integriert, bzw. geladen werden.<p/>",
                         "<p><strong>Video-Embed</strong>: Embed-URLs von YouTube oder Vimeo. Diese URLs können über die Teilen-Funktion der jeweiligen Portale abgefragt und kopiert werden.<p/>",
-                        "<p><strong>Pidoco</strong>: Pidoco-URLs können wie bei Webseiten zu hinterlegen. Der Unterschied zu <em>normalen</em> Webseiten ist, dass ein Studien-Gesten-Set in Pidoco-Prototypen importiert werden kann. In Pidoco selbst lassen sich dann Interaktionen mit den importierten Gesten anlagen (z.B. wenn Swipe-Geste nach links, dann rufe Willkommensseite auf). Dies hat den Vorteil, dass ein in Pidoco angelegter Prototyp in GestureNote mit einem einzigen Zustand hinterlegt werden und dann z.B. bei einem WOZ-Experiment direkt gesteuert werden kann. In GestureNote erfolgt zudem eine Prüfung, ob die URL valide ist.</p>"
+                        "<p><strong>Pidoco</strong>: Pidoco-URLs können wie bei Webseiten zu hinterlegen. Der Unterschied zu <em>normalen</em> Webseiten ist, dass ein Studien-Gesten-Set in Pidoco-Prototypen importiert werden kann. In Pidoco selbst lassen sich dann Interaktionen mit den importierten Gesten anlagen (z.B. wenn Swipe-Geste nach links, dann rufe Willkommensseite auf). Dies hat den Vorteil, dass ein in Pidoco angelegter Prototyp in GestureNote mit einem einzigen User Interface hinterlegt werden und dann z.B. bei einem WOZ-Experiment direkt gesteuert werden kann. In GestureNote erfolgt zudem eine Prüfung, ob die URL valide ist.</p>"
                     ]
         },
         {
@@ -5140,7 +5188,7 @@
                         "<h4>Benutzertest</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-04-10.jpg' style='max-width:781px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
                         "<p>Gesten-Interaktionen werden typischerweise mit szenariobasierten Aufgaben in Verbindung mit Wizard-of-Oz (WOZ)-Experimenten evaluiert. Bei einem WOZ-Experiment glaubt der Proband, dass dieser mit einem autonomen System interagiert. In Wirklichkeit steuert jedoch ein anderer Mensch die Reaktionen des Systems im Verborgenen. Der Vorteil dieser Methode ist, dass sie schon in einem sehr frühen Entwicklungsstadium eingesetzt werden kann.</p>",
-                        "<p>In GestureNote liegt der Fokus auf der Erstellung explorativer WOZ-Experimente. Mit szenariobaiserten Aufgaben können nicht nur verschiedene Quellen (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge definiert werden. Daran gekoppelt sind einzelne Gesten und deren Systemrückmeldung. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten und Erfolgsfaktoren für jede Aufgabe zu definieren.</p>",
+                        "<p>In GestureNote liegt der Fokus auf der Erstellung explorativer WOZ-Experimente. Mit szenariobaiserten Aufgaben können nicht nur verschiedene Quellen (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch UI-Übergänge definiert werden. Daran gekoppelt sind einzelne Gesten und deren Systemrückmeldung. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten und Erfolgsfaktoren für jede Aufgabe zu definieren.</p>",
                         "<h4>Gesten erraten</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-04-11.jpg' style='max-width:839px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
                         "<p>Die Erinnerbarkeit und Intuitivität von Gesten kann mit einer Gesten-Slideshow abgefragt werden. Es werden die hinterlegten Interaktionsaufgaben angezeigt. Der Proband muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Konnte der Proband der Interaktionsaufgabe nicht die korrekte Geste zuordnen, beginnt die Slideshow erneut. Der Proband bekommt bei einem Neustart alle Gesten nochmals eingeblendet. GestureNote bietet, neben der Erstellung von Gesten-Interaktionsaufgaben-Paaren, die Möglichkeit das Zeitfenster für jedes Paar zu definieren.</p>",
@@ -5165,7 +5213,7 @@
                         "<p>Die Studien-Vorschau dient dazu, sich als Moderator mit dem Leitfaden und der Durchführung einer Studie vertraut zu machen. Es ist wichtig, dass vorab die Workflows der einzelnen Methoden verinnerlicht sind, damit es bei einer Befragung nicht zu Problemen oder Verzögerungen kommt. Des Weiteren kann man so sehen, wie die hinterlegten Studien-Daten für die Befragung visualisiert sind. GestureNote stellt aus diesem Grund die interaktive Vorschau zur Verfügung.</p>",
                         "<h4>Ablauf einer Durchführung</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:300px' src='img/de/introduction/study-preview/execution.svg' /><div class='image-caption'>Bildbeschreibung.</div></div>",
-                        "<p>Bei einer moderierten Befragung wird eine Web-Echtzeitkommunikation mit Hilfe von WebRTC zwischen Moderator und Proband aufgebaut. Wie in der oberen Grafik zu sehen, gelangen die Studienteilnehmer beim Aufruf einer Akquirierungs-URL zuerst auf eine Übersichtsseite, auf der allgemeine Informationen bereitgestellt werden. Bei einer moderierten Befragung muss der Moderator aus einer Liste der wartenden Teilnehmer einen Probanden auswählen. Es wird eine erste Verbindung zwischen Moderator und Proband hergestellt und der Moderator kann den Probanden begrüßen und diesen über die Studie aufklären. Klickt der Moderator dann auf <em>Befragung starten</em>, gelangen beide Teilnehmer zur eigentlichen Durchführungsseite. Die Verbindung wird dabei kurz unterbrochen.</p>",
+                        "<p>Bei einer moderierten Befragung wird eine Web-Echtzeitkommunikation mit Hilfe von WebRTC zwischen Moderator und Proband aufgebaut. Wie in der oberen Grafik zu sehen, gelangen die Studienteilnehmer beim Aufruf der Befragungs-URL zuerst auf eine Übersichtsseite, auf der allgemeine Informationen bereitgestellt werden. Bei einer moderierten Befragung muss der Moderator aus einer Liste der wartenden Teilnehmer einen Probanden auswählen. Es wird eine erste Verbindung zwischen Moderator und Proband hergestellt und der Moderator kann den Probanden begrüßen und diesen über die Studie aufklären. Klickt der Moderator dann auf <em>Befragung starten</em>, gelangen beide Teilnehmer zur eigentlichen Durchführungsseite. Die Verbindung wird dabei kurz unterbrochen.</p>",
                         "<p>Die Durchführungsseite wird dabei hier von der Vorschau repräsentiert. Die Vorschau stellt also nicht den kompletten Ablauf einer Durchführung dar, sondern nur den hinterlegten Leitfaden.</p>",
                         "<p>Bei einer unmoderierten Befragung ist der Ablauf ähnlich, jedoch wird keine Verbindung zwischen Moderator und Tester hergestellt, da kein Moderator benötigt wird. Der Tester startet die Befragung selbst und folgt den hinterlegten Anweisungen im Leitfaden.</p>",
                         "<h4>Vorschau vs. Durchführung</h4><hr>",
@@ -5269,7 +5317,7 @@
             "popover": "Teilnahmen",
             "description": [
                 "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study/carousel-04-01.jpg' style='max-width:722px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
-                "<p>Um Probanden zu akquirieren, teilen Sie die Akquirierungs-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet. Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Akquirierungs-URL. Oder kopieren Sie die Akquirierungs-URL in das Adressfeld Ihres Browsers.</p>",
+                "<p>Um Probanden zu akquirieren, teilen Sie die Befragungs-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet. Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Befragungs-URL. Oder kopieren Sie die Befragungs-URL in das Adressfeld Ihres Browsers.</p>",
                 "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study/carousel-04-02.jpg' style='max-width:735px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
                 "<p>Falls bereits Probanden an einer Studie teilgenommen haben, werden diese hier angezeigt. Um die erhobenen Daten zu sichten, klicken Sie auf eine Teilnahme. Darüber hinaus wird für jede Teilnahme der Erfolg und die Durchführungsdauer angzeigt (falls erfolgreich).</p>",
                 "<p>Im Falle eines Abbruchs liegen nur die erhobenen Daten bis zum Zeitpunkt des Abbruchs vor. Möglicherweise gab es Probleme mit der Technik, oder der Proband/Moderator musste die Befragung abbrechen.</p>"

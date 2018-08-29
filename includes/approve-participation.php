@@ -22,7 +22,7 @@ if (isset($_SESSION['user_id'], $_POST['requestId'])) {
             exit();
         } else {
             $select_stmt->store_result();
-            $select_stmt->bind_result($id, $studyId, $testerId, $moderatorId, $rtcToken, $created, $current);
+            $select_stmt->bind_result($id, $studyId, $testerId, $moderatorId, $rtcToken, $name, $created, $current);
             $select_stmt->fetch();
 
             if ($select_stmt->num_rows == 1) {

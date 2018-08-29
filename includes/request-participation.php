@@ -14,10 +14,11 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 
 session_start();
-if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['rtcToken'])) {
+if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['rtcToken'], $_POST['name'])) {
     $currentTesterId = $_SESSION['user_id'];
     $currentStudyId = $_POST['studyId'];
     $currentRTCToken = $_POST['rtcToken'];
+    $insertName = $_POST['name'];
 
     if ($select_stmt = $mysqli->prepare("SELECT * FROM participation_requests WHERE tester_id = '$currentTesterId' && study_id = '$currentStudyId' LIMIT 1")) {
         if (!$select_stmt->execute()) {
@@ -25,12 +26,12 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['rtcToken'])) {
             exit();
         } else {
             $select_stmt->store_result();
-            $select_stmt->bind_result($id, $studyId, $testerId, $moderatorId, $rtcToken, $created, $current);
+            $select_stmt->bind_result($id, $studyId, $testerId, $moderatorId, $rtcToken, $name, $created, $current);
             $select_stmt->fetch();
             $data = null;
             if ($select_stmt->num_rows == 1) {
                 $data = array('id' => $id, 'studyId' => $studyId, "testerId" => $testerId, "moderatorId" => $moderatorId, "rtcToken" => $rtcToken);
-                if ($update_stmt = $mysqli->prepare("UPDATE participation_requests SET current = now() WHERE id = '$id'")) {
+                if ($update_stmt = $mysqli->prepare("UPDATE participation_requests SET current = now(), name = '$insertName' WHERE id = '$id'")) {
                     if (!$update_stmt->execute()) {
                         echo json_encode(array('status' => 'updateError'));
                         exit();
@@ -43,7 +44,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['rtcToken'])) {
                     exit();
                 }
             } else {
-                if ($insert_stmt = $mysqli->prepare("INSERT INTO participation_requests (study_id, tester_id, rtc_token) VALUES ('$currentStudyId','$currentTesterId','$currentRTCToken')")) {
+                if ($insert_stmt = $mysqli->prepare("INSERT INTO participation_requests (study_id, tester_id, rtc_token, name) VALUES ('$currentStudyId','$currentTesterId','$currentRTCToken', '$insertName')")) {
                     if (!$insert_stmt->execute()) {
                         echo json_encode(array('status' => 'insertError'));
                         exit();

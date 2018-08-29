@@ -57,6 +57,25 @@ if (login_check($mysqli) == true) {
         <script src="js/study-execution-tester-save.js"></script>
         <script src="js/study-execution-moderator.js"></script>
 
+        <!-- phase step formats -->
+        <script src="js/execution/exploration.js"></script>
+        <script src="js/execution/focus-group-interview.js"></script>
+        <script src="js/execution/gesture-slideshow.js"></script>
+        <script src="js/execution/gesture-training.js"></script>
+        <script src="js/execution/gesture-usability-scale-multiple.js"></script>
+        <script src="js/execution/gesture-usability-scale-single.js"></script>
+        <script src="js/execution/identification.js"></script>
+        <script src="js/execution/interview.js"></script>
+        <script src="js/execution/letter-of-acceptance.js"></script>
+        <script src="js/execution/physical-stress-test.js"></script>
+        <script src="js/execution/questionnaire.js"></script>
+        <script src="js/execution/system-usability-scale.js"></script>
+        <script src="js/execution/thanks.js"></script>
+        <script src="js/execution/trigger-slideshow.js"></script>
+        <script src="js/execution/user-experience-questionnaire.js"></script>
+        <script src="js/execution/user-test.js"></script>
+
+
         <!--gesture recorder--> 
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>

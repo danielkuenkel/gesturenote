@@ -162,11 +162,10 @@ include '../includes/language.php';
             <!-- initialization -->
             <div class="recorder-content hidden gr-initialize text-center">
                 <div class="embed-responsive embed-responsive-4by3" style="">
-                    <div class="embed-responsive-item" id="initialize-recorders-list">
-                    </div>
-                    <div class="embed-responsive-item" style="display: flex; flex-direction: column; justify-content: center;">
+                    <div class="embed-responsive-item" style="display: flex; flex-direction: column; justify-content: center; background-color: #eee; border-radius: 5px">
                         <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
                     </div>
+                    <div class="embed-responsive-item" id="initialize-recorders-list" style="padding-top: 10px"></div>
                 </div>
             </div>
 
@@ -347,11 +346,11 @@ include '../includes/language.php';
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="generic">
+                            <button class="btn btn-default btn-radio" name="primary" id="generic">
                                 <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle-thin" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle" id="checked"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
                                 </span>
                                 <span class="option-text"><?php echo $lang->gestureNameQualities->generic->title ?></span>
                             </button>
@@ -428,7 +427,7 @@ include '../includes/language.php';
                     <div class="form-group">
                         <label><?php echo $lang->gestureContext ?></label> 
                         <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context ?>"></i>
-                        <input type="text" class="form-control" id="gestureContext" required value="<?php echo $lang->notSpecified ?>" />
+                        <input type="text" class="form-control" id="gestureContext" required value="<?php echo $lang->notSpecified ?>">
                     </div>
 
                     <div class="form-group">
@@ -619,11 +618,10 @@ include '../includes/language.php';
             <!-- initialization -->
             <div class="recorder-content hidden gr-initialize text-center">
                 <div class="embed-responsive embed-responsive-4by3" style="">
-                    <div class="embed-responsive-item" id="initialize-recorders-list">
-                    </div>
-                    <div class="embed-responsive-item" style="display: flex; flex-direction: column; justify-content: center;">
+                    <div class="embed-responsive-item" style="display: flex; flex-direction: column; justify-content: center; background-color: #eee; border-radius: 5px">
                         <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
                     </div>
+                    <div class="embed-responsive-item" id="initialize-recorders-list" style="padding-top: 10px"></div>
                 </div>
             </div>
 
@@ -806,11 +804,11 @@ include '../includes/language.php';
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="generic">
+                            <button class="btn btn-default btn-radio" name="primary" id="generic">
                                 <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle-thin" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle" id="checked"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
                                 </span>
                                 <span class="option-text"><?php echo $lang->gestureNameQualityGeneric ?></span>
                             </button>
@@ -887,7 +885,7 @@ include '../includes/language.php';
                     <div class="form-group">
                         <label><?php echo $lang->gestureContext ?></label> 
                         <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context ?>"></i>
-                        <input type="text" class="form-control" id="gestureContext" required value="<?php echo $lang->notSpecified ?>" />
+                        <input type="text" class="form-control" id="gestureContext" required value="<?php echo $lang->notSpecified ?>">
                     </div>
 
                     <div class="form-group">

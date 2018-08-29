@@ -7,6 +7,8 @@ include '../includes/language.php';
     <div class="alert alert-danger"  id="general-error" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->generalError->text ?></span></div>
     <div class="alert alert-warning" id="missing-fields" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->missingFields->text ?></span></div>
     <div class="alert alert-warning" id="missing-email" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->missingEmail->text ?></span></div>
+    <div class="alert alert-warning" id="insert-name" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->insertName->text ?></span></div>
+    <div class="alert alert-warning" id="missing-name" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->missingName->text ?></span></div>
     <div class="alert alert-warning" id="login-failed" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->loginFailed->text ?></span></div>
     <div class="alert alert-danger"  id="account-logged" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->accountLogged->text ?></span></div>
     <div class="alert alert-warning" id="invalid-email" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->invalidEmail->text ?></span></div>

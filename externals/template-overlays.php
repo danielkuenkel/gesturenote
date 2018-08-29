@@ -2380,7 +2380,7 @@ include '../includes/language.php';
 
         <div class="row" id="annotations-container" style="margin-bottom: 30px;">
             <div class="col-md-7">
-                <div class="alert-space alert-no-phase-data"></div>
+                <div class="alert-space alert-no-annotations"></div>
                 <div class="option-container"></div>
             </div>
             <div class="col-md-5">

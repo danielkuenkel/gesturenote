@@ -96,6 +96,9 @@
                     case GESTURE_TRAINING:
                         startScene = getSceneById(phaseStepData.training[0].transitionScenes[0].sceneId);
                         break;
+                    case FOCUS_GROUP_INTERVIEW:
+                        startScene = getSceneById(phaseStepData.scenes[0]);
+                        break;
                 }
 
                 console.log(query.phaseId, phaseStepData, startScene);

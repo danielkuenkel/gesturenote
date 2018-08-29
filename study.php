@@ -89,17 +89,16 @@ if (login_check($mysqli) == true) {
             <div class="btn-group-vertical">
                 <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->studyPreview ?>" style="border-top-left-radius: 0px; border-top-right-radius: 8px"><i class="fa fa-eye"></i></button>
                 <button type="button" class="btn btn-lg btn-default btn-shadow btn-edit-study" id="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->editStudy ?>"><i class="fa fa-pencil"></i></button>
+                <button type="button" class="btn btn-lg btn-default btn-shadow btn-open-static-execution-url hidden" id="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->staticStudyURLExecute ?>"><i class="fa fa-street-view"></i></button>
                 <button type="button" class="btn btn-lg btn-danger btn-shadow btn-delete-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteStudy ?>" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 8px"><i class="fa fa-trash"></i></button>
             </div>
         </div>
 
         <!-- Modal -->
-        <div id="custom-modal" class="modal fade custom-modal" role="dialog">
+        <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
             <div class="modal-dialog">
-
                 <!-- Modal content-->
-                <div class="modal-content root">
-                </div>
+                <div class="modal-content root"></div>
             </div>
         </div>
 
@@ -222,29 +221,30 @@ if (login_check($mysqli) == true) {
                 <div id="study-phases">
                     <!--<h3 class="address"><?php echo $lang->phases ?></h3>-->
                     <div class="alert-space alert-no-phase-data"></div>
-                    <div id="phase-steps-container" style="margin-top: 10px"></div>
+                    <div id="phase-steps-container" style=""></div>
                 </div>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="study-participants">
-                <!--<div class="" style="">-->
-                <div class="" id="copy-to-clipboard">
-                    <h3 class="address" style="margin-top: 0"><?php echo $lang->studyUrl ?></h3>
-                    <p class="text"><?php echo $lang->studyURLDescription ?></p>
-                    <div class="alert-space alert-plan-expired"></div>
-                    <div class="alert-space alert-plan-not-started"></div>
-                    <div class="alert-space alert-no-plan"></div>
 
-                    <div class="input-group">
-                        <!--<div class="input-group-addon"><?php echo $lang->studyUrl ?></div>-->
-                        <input type="text" class="form-control readonly" id="static-study-url">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default btn-shadow" type="button" id="btn-open-static-study-url" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->staticStudyURLExecute ?>"><i class="fa fa-external-link" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
-                        </span>
+                <h3 class="address" style="margin-top: 0"><?php echo $lang->executionTester ?></h3>
+                <div class="alert-space alert-plan-expired"></div>
+                <div class="alert-space alert-plan-not-started"></div>
+                <div class="alert-space alert-no-plan"></div>
+
+                <div class="hidden" id="copy-to-clipboard">
+
+                    <p class="text"><?php echo $lang->studyURLDescriptionTester ?></p>
+
+                    <input type="text" class="form-control readonly" id="static-study-url">
+
+                    <div style="margin-top: 50px">
+                        <h3 class="address" style="margin-top: 0px"><?php echo $lang->executionEvaluator ?></h3>
+                        <p class="text"><?php echo $lang->studyURLDescriptionEvaluator ?></p>
+                        <button class="btn btn-default btn-shadow btn-open-static-execution-url" type="button"><i class="fa fa-street-view" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
                     </div>
+
                 </div>
-                <!--</div>-->
-                <!--<hr style="">-->
 
                 <div style="margin-top: 50px"><h3><?php echo $lang->participations ?></h3></div>
                 <div class="alert-space alert-no-participant-data"></div>
@@ -696,8 +696,7 @@ if (login_check($mysqli) == true) {
             <div class="btn-group-vertical btn-block" style="margin-top: 20px">
                 <button class="btn btn-default btn-shadow btn-preview-study" type="button"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->studyPreview ?></span></button>
                 <button class="btn btn-default btn-shadow btn-edit-study" type="button"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editStudy ?></span></button>
-            </div>
-            <div class="btn-group-vertical btn-block" style="margin-top: 20px">
+                <button class="btn btn-default btn-shadow btn-open-static-execution-url hidden" type="button"><i class="fa fa-street-view"></i> <span class="btn-text"><?php echo $lang->staticStudyURLExecute ?></span></button>
                 <button class="btn btn-danger btn-shadow btn-delete-study" type="button"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>
             </div>
         </div>

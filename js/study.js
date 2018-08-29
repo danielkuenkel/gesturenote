@@ -37,105 +37,86 @@ function renderData(data, hash) {
         $('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
     }
 
+    // url copy clipboard view
+    var origin = window.location.origin;
+    if (origin.includes('localhost')) {
+        origin += '/gesturenote';
+    }
+
+    var absoluteStaticStudyUrl = origin + '/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
+    var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
+    $('#copy-to-clipboard #static-study-url').val(absoluteStaticStudyUrl);
+
     // participant URL check
     if (now > dateTo) {
         $('.study-plan').find('.address').text(translation.studyRuns + ": ");
         appendAlert($('#study-participants'), ALERT_PLAN_EXPIRED);
     } else if (now < dateFrom) {
         appendAlert($('#study-participants'), ALERT_PLAN_NOT_STARTED);
+    } else if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
+        $('#copy-to-clipboard').removeClass('hidden');
+        $('.btn-open-static-execution-url').removeClass('hidden');
+        
+        $('#copy-to-clipboard #static-study-url').removeClass('readonly');
+            $('#copy-to-clipboard #static-study-url').click(function () {
+            $('#copy-to-clipboard #static-study-url').select();
+        });
+
+        $('.btn-open-static-execution-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                goto(relativeStaticStudyUrl);
+            }
+        });
     }
 
     initPopover();
-    if (studyData.phases && studyData.phases.length > 0 &&
-            (studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
-            (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
-
-        // url copy clipboard view
-        var origin = window.location.origin;
-        if (origin.includes('localhost')) {
-            origin += '/gesturenote';
-        }
-
-        var absoluteStaticStudyUrl = origin + '/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
-        var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
-        $('#copy-to-clipboard #static-study-url').val(absoluteStaticStudyUrl);
+//    if (studyData.phases && studyData.phases.length > 0 &&
+//            (studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
+//            (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
+//
+//        // url copy clipboard view
+//        var origin = window.location.origin;
+//        if (origin.includes('localhost')) {
+//            origin += '/gesturenote';
+//        }
+//
+//        var absoluteStaticStudyUrl = origin + '/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
+//        var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
+//        $('#copy-to-clipboard #static-study-url').val(absoluteStaticStudyUrl);
 
         // prepare study
-        console.log(now > dateFrom, now < dateTo, now, dateFrom, dateTo);
-        if (now > dateFrom && now < dateTo) {
-            $('#copy-to-clipboard #static-study-url').removeClass('readonly');
-            $('#copy-to-clipboard #static-study-url').click(function () {
-                $('#copy-to-clipboard #static-study-url').select();
-            });
-
-            if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
-                if (studyData.phases && studyData.phases.length > 2) {
-                    $('#btn-prepare-study, #btn-open-static-study-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
-                        event.preventDefault();
-                        if (!$(this).hasClass('disabled')) {
-                            goto(relativeStaticStudyUrl);
-                        }
-                    });
-                } else {
-                    $('#btn-open-static-study-url').addClass('disabled');
-                    $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLNoPhasesteps).data('bs.popover').setContent();
-                }
-            } else {
-                $('#btn-open-static-study-url').addClass('disabled');
-                $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLOnlyModerated).data('bs.popover').setContent();
-            }
-        } else {
-            $('#btn-open-static-study-url').addClass('disabled');
-            $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck).data('bs.popover').setContent();
-        }
-    } else {
-        $('#btn-open-static-study-url').addClass('disabled');
-        $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck).data('bs.popover').setContent();
-    }
-
-
-    // phase view
-    if (studyData.phases && studyData.phases.length > 0) {
-        var step = document.createElement('ol');
-//        $(step).addClass('study-phase-step').css({paddingLeft: '15px'});
-        $('#phase-steps-container').append(step);
-        for (var i = 0; i < studyData.phases.length; i++) {
-
-
-//            var iconContainer = document.createElement('ul');
-//            $(iconContainer).addClass('study-phase-icon-container');
-//            $(step).append(iconContainer);
-
-//            var colorIcon = document.createElement('i');
-//            $(colorIcon).addClass('study-phase-step-color-icon fa fa-circle');
-//            $(colorIcon).css({color: '#337ab7'}); // studyData.phases[i].color // #5bb85c
-//            $(iconContainer).append(colorIcon);
-
-//            var icon = document.createElement('i');
-//            $(icon).addClass('study-phase-step-icon fa fa-circle-thin');
-//            $(iconContainer).append(icon);
-
-//            var iconMiddle = document.createElement('span');
-//            $(iconMiddle).addClass((i > 8) ? 'study-phase-step-middle-icon-small' : 'study-phase-step-middle-icon');
-//            $(iconMiddle).text(i + 1);
-//            $(iconContainer).append(iconMiddle);
-
-            var text = document.createElement('li');
-            $(text).addClass('text');
-            $(text).text(studyData.phases[i].title);
-            $(step).append(text);
-//            if (i < studyData.phases.length - 1) {
-//                var transition = document.createElement('i');
-//                $(transition).addClass('study-phase-step-transition fa fa-long-arrow-down');
-//                $('#phase-steps-container').append(transition);
-//                TweenMax.from($(transition), .2, {delay: (i * .05), y: -10, opacity: 0.0, clearProps: 'all'});
+//        console.log(now > dateFrom, now < dateTo, now, dateFrom, dateTo);
+//        if (now > dateFrom && now < dateTo) {
+//            $('#copy-to-clipboard #static-study-url').removeClass('readonly');
+//            $('#copy-to-clipboard #static-study-url').click(function () {
+//                $('#copy-to-clipboard #static-study-url').select();
+//            });
+//
+//            if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
+//                if (studyData.phases && studyData.phases.length > 2) {
+//                    $('.btn-open-static-execution-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
+//                        event.preventDefault();
+//                        if (!$(this).hasClass('disabled')) {
+//                            goto(relativeStaticStudyUrl);
+//                        }
+//                    });
+//                } else {
+//                    $('.btn-open-static-execution-url').addClass('disabled');
+//                    $('.btn-open-static-execution-url').attr('data-content', translation.staticStudyURLNoPhasesteps).data('bs.popover').setContent();
+//                }
+//            } else {
+//                $('.btn-open-static-execution-url').addClass('disabled');
+//                $('.btn-open-static-execution-url').attr('data-content', translation.staticStudyURLOnlyModerated).data('bs.popover').setContent();
 //            }
-//            TweenMax.from($(step), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0});
-        }
-    } else {
-        appendAlert($('#main-content'), ALERT_NO_PHASE_DATA);
-        $('#btn-preview-study').addClass('disabled');
-    }
+//        } else {
+//            $('.btn-open-static-execution-url').addClass('disabled');
+//            $('.btn-open-static-execution-url').attr('data-content', translation.staticStudyURLCheck).data('bs.popover').setContent();
+//        }
+//    } else {
+//        $('.btn-open-static-execution-url').addClass('disabled');
+//        $('.btn-open-static-execution-url').attr('data-content', translation.staticStudyURLCheck).data('bs.popover').setContent();
+//    }
 
     $('.btn-edit-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
@@ -208,6 +189,9 @@ function renderData(data, hash) {
             switch (activeId) {
                 case 'catalogs':
                     renderCatalogs();
+                    break;
+                case 'phase-steps':
+                    renderPhaseSteps();
                     break;
                 case 'participants':
                     renderParticipants();
@@ -283,6 +267,25 @@ function renderData(data, hash) {
             appendAlert($('#study-catalogs'), ALERT_NO_PHASE_DATA);
         } else {
             $('#study-catalogs').find('.study-catalog').first().css({marginTop: '0px'});
+        }
+    }
+
+    function renderPhaseSteps() {
+        // phase view
+        if (studyData.phases && studyData.phases.length > 0) {
+            var step = document.createElement('ol');
+            $(step).css({paddingLeft: '15px'});
+            $('#phase-steps-container').empty().append(step);
+            for (var i = 0; i < studyData.phases.length; i++) {
+                var text = document.createElement('li');
+                $(text).addClass('text');
+                $(text).text(studyData.phases[i].title);
+                $(step).append(text);
+                TweenMax.from(text, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+            }
+        } else {
+            appendAlert($('#main-content'), ALERT_NO_PHASE_DATA);
+            $('#btn-preview-study').addClass('disabled');
         }
     }
 

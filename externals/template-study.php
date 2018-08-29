@@ -68,7 +68,7 @@ include '../includes/language.php';
                     <span class="label label-default hidden" id="execution-phase-pretest" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->participantPretest ?>"><i class="fa fa-user-times"></i> <span class="label-text hidden-xs hidden-sm"><?php echo $lang->pretest ?></span></span>
                     <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
                     <span class="label label-warning hidden" id="execution-error"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
-                    <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
+                    <span class="label label-danger hidden"  id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
                     <span class="label label-default hidden" id="execution-duration"><i class="fa fa-clock-o"></i> <span class="label-text"></span></span>
                 </div>
 
@@ -312,8 +312,8 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="counter" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-default" id="counter-label"><span class="counter-from"></span> <span class="counter-to"></span></span>
+<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-default" id="counter-label"><span class="counter-from"></span> <span class="counter-to"></span></span>-->
             </div>
             <label class="question"></label>
             <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
@@ -329,7 +329,7 @@ include '../includes/language.php';
         <div class="panel-body">
             <div>
                 <!--<span id="filter-option-item" class="filter-options-popover" ></span>-->
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             </div>
             <label class="question"></label>
             <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
@@ -346,7 +346,7 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="openQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             </div>
             <label class="question"></label>
         </div>
@@ -360,21 +360,19 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
                 <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
                 <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
                 <span class="label label-default hidden" id="yes"><?php echo $lang->justificationForYes ?></span>
                 <span class="label label-default hidden" id="no"><?php echo $lang->justificationForNo ?></span>
-                <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
+                <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>-->
             </div>
             <label class="question"></label>
             <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <div class="option-container">
-
-            </div>
+            <div class="option-container"></div>
             <!--            <div class="text">
                             <div class="option-text yes"><?php echo $lang->yes ?></div>
                             <div class="option-text no"><?php echo $lang->no ?></div>
@@ -394,12 +392,12 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
                 <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
                 <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
                 <span class="label label-default hidden" id="yes"><?php echo $lang->justificationForYes ?></span>
                 <span class="label label-default hidden" id="no"><?php echo $lang->justificationForNo ?></span>
-                <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
+                <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>-->
             </div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <!--                <div class="label label-primary" id="factor-main"></div>
@@ -410,8 +408,9 @@ include '../includes/language.php';
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
+            <div class="option-container"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
-            <div id="selection"><span id="address"><?php echo $lang->selection ?>:</span> <span class="text"></span></div>
+            <!--<div id="selection"><span id="address"><?php echo $lang->selection ?>:</span> <span class="text"></span></div>-->
             <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
         </div>
@@ -420,10 +419,10 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
                 <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
                 <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
-                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
+                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>-->
             </div>
             <label class="question"></label>
             <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
@@ -444,11 +443,11 @@ include '../includes/language.php';
 
     <span id="grouping-question-item">
         <div>
-            <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
+<!--            <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
             <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
             <span class="label label-default hidden" id="selectOne"><?php echo $lang->justificationForSelection ?></span>
             <span class="label label-default hidden" id="selectNothing"><?php echo $lang->justificationForNoChoice ?></span>
-            <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
+            <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>-->
         </div>
         <div><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
         <!--<div class="option-text text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></div>-->
@@ -461,10 +460,10 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="groupingQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
                 <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
                 <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
-                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
+                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>-->
             </div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <!--                <div class="label label-primary" id="factor-main"></div>
@@ -497,10 +496,10 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="groupingQuestionOptions" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
                 <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
                 <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
-                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
+                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>-->
             </div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <!--                <div class="label label-primary" id="factor-main"></div>
@@ -527,9 +526,9 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
-                <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
+                <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
+                <!--<span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>-->
+                <!--<span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>-->
             </div>
             <label class="question"></label>
             <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
@@ -552,7 +551,7 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="matrix" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             </div>
             <label class="question"></label>
         </div>
@@ -564,8 +563,8 @@ include '../includes/language.php';
 
     <div id="matrix-item">
         <span id="rating-option" style="margin-right: 5px"></span>
-        <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
-        <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
+<!--        <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
+        <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>-->
         <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         <div class="pull-right text" id="score-container" style="margin-top: 9px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
         <div id="scale-container" style="margin-top: 10px;"></div>
@@ -575,9 +574,9 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="sumQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
                 <span class="label label-default" id="maximum"><span class="label-text"></span></span>
-                <span class="label label-default" id="allocation"><span class="label-text"></span></span>
+                <span class="label label-default" id="allocation"><span class="label-text"></span></span>-->
             </div>
             <label class="question"></label>
             <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
@@ -598,7 +597,7 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="ranking" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             </div>
             <label class="question"></label>
             <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
@@ -617,7 +616,7 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="alternativeQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
                 <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
                 <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
                 <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
@@ -627,7 +626,7 @@ include '../includes/language.php';
                 <span class="label label-default hidden" id="gesturesForGesture"><?php echo $lang->alternativeGesturesForGesture ?></span>
                 <span class="label label-default hidden" id="triggersForGesture"><?php echo $lang->alternativeTriggerForGesture ?></span>
                 <span class="label label-default hidden" id="triggersForTrigger"><?php echo $lang->alternativeTriggerForTrigger ?></span>
-                <span class="label label-default hidden" id="gesturesForTrigger"><?php echo $lang->alternativeGesturesForTrigger ?></span>
+                <span class="label label-default hidden" id="gesturesForTrigger"><?php echo $lang->alternativeGesturesForTrigger ?></span>-->
             </div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <!--                <div class="label label-primary" id="factor-main"></div>
@@ -657,9 +656,9 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="gusSingle" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
                 <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
-                <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
+                <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>-->
             </div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <!--                <div class="label label-primary" id="factor-main"></div>
@@ -681,9 +680,9 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="susItem" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
                 <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
-                <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
+                <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>-->
             </div>
             <label class="question"></label>
         </div>
@@ -702,9 +701,9 @@ include '../includes/language.php';
     <div class="panel panel-default panel-shadow" id="ueqItem" style="margin-bottom: 5px;">
         <div class="panel-body" style="position: relative">
             <div>
-                <span class="label label-default" id="format"><span class="format-text"></span></span>
+<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
                 <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
-                <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
+                <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>-->
             </div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
@@ -712,7 +711,7 @@ include '../includes/language.php';
                 <div class="label label-primary" id="factor-primary"></div>
             </div>
             <label class="question"></label> <span class="original-ueq-item-id text-center" style="margin-left: 5px; background-color: #777777; border-radius: 50%; width: 20px; height: 20px; display: inline-block; color: white; font-weight: bold; font-size: 8pt;"></span><br/>
-            <div class="text" id="score-container" style="position: absolute; right:15px; top:70px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
+            <div class="text" id="score-container" style="position: absolute; right:15px; bottom:15px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
         </div>
     </div>

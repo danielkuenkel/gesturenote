@@ -1322,8 +1322,8 @@ function renderRankingPosition(target, length) {
 
 
 var wobbling = false;
-function wobble(elements) {
-    if (!wobbling) {
+function wobble(elements, overrideWobbling) {
+    if (!wobbling || (overrideWobbling && overrideWobbling === true)) {
         wobbling = true;
         TweenMax.fromTo(elements, 0.3, {x: -3, y: -1}, {x: 3, y: 1, ease: RoughEase.ease.config({strength: 8, points: 20, template: Linear.easeNone, randomize: false}), clearProps: "x", onComplete: onWobbleComplete});
     }

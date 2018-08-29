@@ -215,11 +215,11 @@ if ($h && $token && $studyId) {
             </div>
         </div>
 
-        <div class="root col-xs-12 col-lg-6 hidden" id="queue-thumbnail">
-            <div class="panel panel-default panel-sm btn-shadow">
+        <div class="root col-xs-12 hidden" id="queue-thumbnail">
+            <div class="panel panel-shadow panel-sm btn-shadow">
                 <div class="panel-body">
-                    <span class="label label-default" id="user"><i class="fa fa-user"></i> <span class="label-text"></span></span>
-                    <span id="waiting" style="margin-left: 6px; font-size: 9pt"><span class="address"><?php echo $lang->waiting ?>:</span> <span class="text"></span></span>
+                    <!--<span class="label label-default" id="user"><i class="fa fa-user"></i> <span class="label-text"></span></span>-->
+                    <span id="waiting" style="font-size: 9pt;"><span class="participant-name" style="font-weight: bold; color: black;"></span> <span class="address"><?php echo $lang->waiting ?>:</span> <span class="text"></span></span>
                 </div>
             </div>
         </div>
@@ -382,6 +382,7 @@ if ($h && $token && $studyId) {
                         var current = convertSQLTimestampToDate(request.current);
                         var waitingTime = getTimeBetweenTimestamps(created.getTime(), current.getTime());
                         $(item).find('#waiting .text').text(getTimeString(waitingTime, true));
+                        $(item).find('#waiting .participant-name').text(request.name);
 //                        console.log(request.testerId);
                         if (isNaN(request.testerId)) {
                             $(item).find('#user .label-text').text(translation.userTypes.guest);
@@ -392,7 +393,7 @@ if ($h && $token && $studyId) {
                         $(item).find('.panel').on('click', {requestId: request.id}, function (event) {
                             clearInterval(requestInterval);
                             approveParticipation({requestId: event.data.requestId}, function (result) {
-//                                console.log(result);
+                                console.log(result);
                                 if (result.status === RESULT_SUCCESS) {
                                     $('#participation-queue, #check-rtc-status').addClass('hidden');
                                     $('#call-screen').removeClass('hidden');

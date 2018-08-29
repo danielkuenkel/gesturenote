@@ -105,8 +105,8 @@ if (login_check($mysqli) == true) {
         <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 1; opacity: 0">
             <div class="btn-group-vertical">
                 <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->studyPreview ?>" style="border-top-left-radius: 0px; border-top-right-radius: 8px"><i class="fa fa-eye"></i></button>
-                <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" id="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->cache ?>"><i class="fa fa-archive"></i></button>
-                <button type="button" class="btn btn-lg btn-success btn-shadow btn-save-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->saveAndClose ?>" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 8px"><i class="fa fa-save"></i></button>
+                <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" id="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->cache ?>"><i class="fa fa-folder-open-o"></i></button>
+                <button type="button" class="btn btn-lg btn-default btn-shadow btn-save-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->saveAndClose ?>" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 8px"><i class="fa fa-save"></i></button>
             </div>
         </div>
 
@@ -482,11 +482,11 @@ if (login_check($mysqli) == true) {
                 <!-- submit form button group -->
                 <div class="btn-group-vertical btn-block" role="group">
                     <button type="button" class="btn btn-default btn-shadow disabled btn-preview-study"><i class="fa fa-eye"></i> <?php echo $lang->studyPreview ?></button>
-                    <button type="button" class="btn btn-default btn-shadow btn-cache-study"><i class="fa fa-archive"></i> <?php echo $lang->cache ?></button>
+                    <button type="button" class="btn btn-default btn-shadow btn-cache-study"><i class="fa fa-folder-open-o"></i> <?php echo $lang->cache ?></button>
 
                 </div>
                 <div class="btn-group-vertical btn-block" style="margin-top: 20px">
-                    <button type="button" class="btn btn-success btn-shadow btn-save-study"><i class="fa fa-save"></i> <?php echo $lang->saveAndClose ?></button>
+                    <button type="button" class="btn btn-default btn-shadow btn-save-study"><i class="fa fa-save"></i> <?php echo $lang->saveAndClose ?></button>
                 </div>
             </div>
 
@@ -495,6 +495,8 @@ if (login_check($mysqli) == true) {
 
         <script>
             var firstInit = false;
+            var jumpToId = null;
+
             $(document).ready(function () {
                 firstInit = true;
                 checkDomain();
@@ -799,22 +801,18 @@ if (login_check($mysqli) == true) {
             $('.breadcrumb li a').click(function (event) {
                 var button = $(this);
                 event.stopImmediatePropagation();
+                var clickedId = $(button).attr('id');
+                jumpToId = clickedId;
                 loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
 
                 $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
-                    if ($(button).attr('id') === 'btn-study') {
-                        var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                        goto("study.php?studyId=" + editableStudyId + "&h=" + hash);
-                    } else {
-                        $(button).unbind('click').click();
-                    }
-
                     if (editableStudyId === null) {
                         clearSceneImages();
                         clearSounds();
                     }
 
                     clearLocalItems();
+                    checkJumpId();
                 });
 
                 $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
@@ -825,16 +823,32 @@ if (login_check($mysqli) == true) {
             $('body').on('click', '.main-burger-menu li a', function (event) {
                 var button = $(this);
                 event.stopImmediatePropagation();
-                loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-sm');
+                var clickedId = $(button).parent().attr('data-id');
+                jumpToId = clickedId;
+                loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
+
+                $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
+                    $('.btn-save-study').click();
+                });
+
                 $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
-//                    console.log('delete data');
-                    var gotoId = $(button).parent().attr('data-id');
-                    if (gotoId === 'btn-study') {
+                    if (editableStudyId === null) {
+                        clearSceneImages();
+                        clearSounds();
+                    }
+
+                    clearLocalItems();
+                    checkJumpId();
+                });
+            });
+
+            function checkJumpId() {
+                if (jumpToId !== null) {
+                    if (jumpToId === 'btn-study') {
                         var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                         goto("study.php?studyId=" + editableStudyId + "&h=" + hash);
                     } else {
-//                        console.log(button);
-                        switch (gotoId) {
+                        switch (jumpToId) {
                             case 'btn-dashboard':
                                 gotoDashboard();
                                 break;
@@ -867,25 +881,10 @@ if (login_check($mysqli) == true) {
                                 break;
                         }
                     }
+                }
 
-                    if (editableStudyId === null) {
-                        clearSceneImages();
-                        clearSounds();
-                    }
-
-                    clearLocalItems();
-                });
-            });
-
-//            $('#btn-clear-data').click(function (event) {
-//                event.preventDefault();
-//                if (!$(this).hasClass('disabled')) {
-//                    clearSceneImages();
-//                    clearSounds();
-//                    clearLocalItems();
-//                    location.reload(true);
-//                }
-//            });
+                jumpToId = null;
+            }
 
             $('.btn-preview-study').click(function (event) {
                 event.preventDefault();
@@ -917,10 +916,13 @@ if (login_check($mysqli) == true) {
                             $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
-                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
-                            } else {
-                                //                            appendAlert()
+
+                                if (jumpToId !== null) {
+                                    checkJumpId();
+                                } else {
+                                    var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                    goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+                                }
                             }
                         });
                     } else {
@@ -930,10 +932,13 @@ if (login_check($mysqli) == true) {
                             $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
-                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
-                            } else {
-                                //                            appendAlert()
+
+                                if (jumpToId !== null) {
+                                    checkJumpId();
+                                } else {
+                                    var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                    goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+                                }
                             }
                         });
                     }

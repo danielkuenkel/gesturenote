@@ -55,7 +55,8 @@ include '../includes/language.php';
     <span class="label label-default" id="option-item" style="margin-right: 3px; display: inline-block"></span>
 
     <div id="rating-item">
-        <span id="rating-header"></span> <span class="label label-danger hidden" id="reversed"><?php echo $lang->negated ?></span>
+        <span id="rating-header"></span> 
+        <!--<span class="label label-danger hidden" id="reversed"><?php echo $lang->negated ?></span>-->
         <div id="scales-container" style="margin-top: -6px;"></div>
     </div>
 
@@ -63,15 +64,15 @@ include '../includes/language.php';
     <!-- single question formats -->
     <div class="panel panel-default panel-shadow root" id="counter" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             <div class="question text"></div>
-            <span class="label label-default" id="counter-label"><span class="counter-from"></span> <span class="counter-to"></span></span>
+            <!--<span class="label label-default" id="counter-label"><span class="counter-from"></span> <span class="counter-to"></span></span>-->
         </div>
     </div>
 
     <div class="panel panel-default panel-shadow root" id="openQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             <div class="question text"></div>
             <span class="label label-default hidden" id="dimension"></span>
         </div>
@@ -90,47 +91,48 @@ include '../includes/language.php';
 
     <div class="panel panel-default panel-shadow root" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             <div class="question text"></div>
-            <span class="label label-default hidden" id="select-gestures"><?php echo $lang->selectOneOrMoreGestures ?></span>
+<!--            <span class="label label-default hidden" id="select-gestures"><?php echo $lang->selectOneOrMoreGestures ?></span>
             <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
             <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
             <span class="label label-default hidden" id="yes"><?php echo $lang->justificationForYes ?></span>
             <span class="label label-default hidden" id="no"><?php echo $lang->justificationForNo ?></span>
-            <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
+            <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>-->
             <span class="label label-default hidden" id="dimension"></span>
+            <div class="option-container"></div>
         </div>
     </div>
 
     <div class="panel panel-default panel-shadow root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <!--                <div class="label label-primary" id="factor-main"></div>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">-->
                 <div class="label label-primary" id="factor-primary"></div>
             </div>
-            <span class="label label-default hidden" id="select-gestures"><?php echo $lang->selectOneOrMoreGestures ?></span>
+<!--            <span class="label label-default hidden" id="select-gestures"><?php echo $lang->selectOneOrMoreGestures ?></span>
             <span class="label label-default hidden" id="justification"<?php echo $lang->withJustification ?></span>
             <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
             <span class="label label-default hidden" id="yes"><?php echo $lang->justificationForYes ?></span>
             <span class="label label-default hidden" id="no"><?php echo $lang->justificationForNo ?></span>
-            <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
+            <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>-->
             <span class="label label-default hidden" id="dimension"></span>
         </div>
     </div>
 
     <div class="panel panel-default panel-shadow root" id="alternativeQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <!--                <div class="label label-primary" id="factor-main"></div>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">-->
                 <div class="label label-primary" id="factor-primary"></div>
             </div>
-            <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
+<!--            <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
             <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
             <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
             <span class="label label-default hidden" id="selectOne"><?php echo $lang->justificationForAChoice ?></span>
@@ -139,22 +141,22 @@ include '../includes/language.php';
             <span class="label label-default hidden" id="gesturesForGesture"><?php echo $lang->alternativeGesturesForGesture ?></span>
             <span class="label label-default hidden" id="triggersForGesture"><?php echo $lang->alternativeTriggerForGesture ?></span>
             <span class="label label-default hidden" id="triggersForTrigger"><?php echo $lang->alternativeTriggerForTrigger ?></span>
-            <span class="label label-default hidden" id="gesturesForTrigger"><?php echo $lang->alternativeGesturesForTrigger ?></span>
+            <span class="label label-default hidden" id="gesturesForTrigger"><?php echo $lang->alternativeGesturesForTrigger ?></span>-->
         </div>
     </div>
 
     <div class="panel panel-default panel-shadow root" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             <div class="question text"></div>
-            <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
+<!--            <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
             <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
             <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
             <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
             <span class="label label-default hidden" id="selectOne"><?php echo $lang->justificationForAChoice ?></span>
             <span class="label label-default hidden" id="selectNothing"><?php echo $lang->justificationNoChoice ?></span>
             <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
-            <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
+            <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>-->
             <span class="label label-default hidden" id="dimension"></span>
             <div><?php echo $lang->groupingOptions ?></div>
             <div class="option-container"></div>
@@ -163,21 +165,21 @@ include '../includes/language.php';
 
     <div class="panel panel-default panel-shadow root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <!--                <div class="label label-primary" id="factor-main"></div>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">-->
                 <div class="label label-primary" id="factor-primary"></div>
             </div>
-            <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
+<!--            <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
             <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
             <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
             <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
             <span class="label label-default hidden" id="selectOne"><?php echo $lang->justificationForAChoice ?></span>
             <span class="label label-default hidden" id="selectNothing"><?php echo $lang->justificationNoChoice ?></span>
             <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
-            <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
+            <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>-->
             <div><?php echo $lang->groupingOptions ?></div>
             <div class="option-container"></div>
         </div>
@@ -185,21 +187,21 @@ include '../includes/language.php';
 
     <div class="panel panel-default panel-shadow root" id="groupingQuestionOptions" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <!--                <div class="label label-primary" id="factor-main"></div>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">-->
                 <div class="label label-primary" id="factor-primary"></div>
             </div>
-            <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
+<!--            <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
             <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
             <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
             <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
             <span class="label label-default hidden" id="selectOne"><?php echo $lang->justificationForAChoice ?></span>
             <span class="label label-default hidden" id="selectNothing"><?php echo $lang->justificationNoChoice ?></span>
             <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
-            <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
+            <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>-->
             <div><?php echo $lang->groupingOptions ?></div>
             <div class="option-container"></div>
         </div>
@@ -207,7 +209,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default panel-shadow root" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             <div class="question text"></div>
             <span class="label label-default hidden" id="dimension"></span>
             <div><?php echo $lang->ratingOptions ?></div>
@@ -227,7 +229,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default panel-shadow root" id="ranking" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             <div class="question text"></div>
             <span class="label label-default hidden" id="dimension"></span>
             <div><?php echo $lang->rankingOptions ?></div>
@@ -317,7 +319,7 @@ include '../includes/language.php';
     <div class="row root" id="questionnaireGestures">
         <div class="col-md-4" id="column-left"></div>
         <div class="col-md-8" id="column-right">
-
+            
             <h3 style="margin-top: 0"><?php echo $lang->gus ?></h3>
 
             <div class="question-container"></div>
@@ -347,7 +349,7 @@ include '../includes/language.php';
 
         <div class="col-sm-5 col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0"><?php echo $lang->thanksHeadline ?></h3>
+            <h3 class="headline" style="margin-top: 0"><?php echo $lang->thanksHeadline ?></h3>
             <div class="row " style="margin-top: 20px">
 
                 <div class="col-sm-12" id="upload-instructions" style="margin-bottom: 20px;">
@@ -565,7 +567,7 @@ include '../includes/language.php';
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-stress-test" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
-            <div class=" " id="controls">
+            <div id="controls">
                 <h3 class="headline"></h3>
                 <div class="">
                     <div class="row">
@@ -817,7 +819,7 @@ include '../includes/language.php';
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
             <div class="" id="general">
-                <h3 class="headline" style="margin: 0"></h3>
+                <h3 class="headline" style="margin-top: 0"></h3>
                 <div style="margin-bottom: 10px">
                     <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
                     <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
@@ -898,7 +900,7 @@ include '../includes/language.php';
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
             <div class="" id="general">
-                <h3 class="headline" style="margin: 0"></h3>
+                <h3 class="headline" style="margin-top: 0"></h3>
                 <div style="margin-bottom: 10px">
                     <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
                     <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
@@ -1083,6 +1085,73 @@ include '../includes/language.php';
 
 
 
+    <!-- focus group interview container -->
+    <div class="row root" id="focusGroupInterview">
+        <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left">
+            <div class="" id="keyQuestions">
+                <h3 class="panel-heading-text"><?php echo $lang->focusGroupForm ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-7" id="column-right">
+            <div class="" id="general">
+                <h3 class="headline" style="margin-top: 0"></h3>
+                <div style="margin-bottom: 10px">
+                    <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
+                    <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
+                </div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-focus-group" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
+            </div>
+
+            <div class="hidden" id="annotation-controls" style="margin-bottom: 30px">
+                <h3 class="headline" style="margin-top: 0px"><?php echo $lang->annotations ?></h3>
+                <div id="annotations-container"></div>
+            </div>
+
+            <div class="hidden" id="catalog-data">
+                <h3 class="headline" style="margin-top: 0px"><?php echo $lang->studyCreateNav->catalogs ?></h3>
+                <div class="hidden" id="catalogs-study-gestures">
+                    <h4 style="margin-top: 0px"><?php echo $lang->studyCatalogs->gestures ?></h4>
+                    <div class="alert-space alert-no-study-gestures-assembled-link-warning"></div>
+                    <div class="row option-container"></div>
+                </div>
+
+                <div class="hidden" id="catalogs-trigger" style="margin-top: 25px">
+                    <h4 style="margin-top: 0px"><?php echo $lang->studyCatalogs->trigger ?></h4>
+                    <div class="alert-space alert-no-trigger-assembled-link-warning"></div>
+                    <div class="option-container"></div>
+                </div>
+
+                <div class="hidden" id="catalogs-scenes" style="margin-top: 40px">
+                    <h4 style="margin-top: 0px"><?php echo $lang->studyCatalogs->scenes ?></h4>
+                    <div class="alert-space alert-no-scenes-assembled-link-warning"></div>
+                    <div class="option-container"></div>
+                </div>
+
+                <div class="hidden" id="catalogs-feedback" style="margin-top: 40px">
+                    <h4 style="margin-top: 0px"><?php echo $lang->studyCatalogs->feedback ?></h4>
+                    <div class="alert-space alert-no-feedback-assembled-link-warning"></div>
+                    <div class="option-container"></div>
+                </div>    
+            </div>
+
+            <div style="margin-top: 10px">
+                <!--<button type="button" class="btn btn-block btn-success btn-shadow hidden disabled" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>-->
+                <!--<button type="button" class="btn btn-block btn-success btn-shadow hidden disabled" id="btn-request-trigger" name="btn-success"><?php echo $lang->inquireFavoriteTrigger ?></span></button>-->
+                <!--<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>-->
+                <!--<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>-->
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-focus-group" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <div id="web">
         <span><?php echo $lang->title ?>: </span><span class="title"></span><br/>
@@ -1154,7 +1223,7 @@ include '../includes/language.php';
         </div>
 
         <div class="col-md-7" id="column-right" style="margin-bottom: 60px">
-            <h3 class="headline" style="margin: 0" ><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
+            <h3 class="headline" style="margin-top: 0" ><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
             <hr>
             <div class="letter-text text"></div>
             <hr>
@@ -1167,7 +1236,7 @@ include '../includes/language.php';
 
 
     <div class="container" id="letterOfAcceptance-unmoderated">
-        <h3 class="headline" style="margin: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
+        <h3 class="headline" style="margin-top: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
         <hr>
         <div class="letter-text"></div>
         <hr>
@@ -1184,11 +1253,11 @@ include '../includes/language.php';
     <div id="questionnaire-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaire ?></h3>
-            <hr>
+            <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaire ?></h3>
+            <!--<hr>-->
             <div class="alert-space alert-waiting-for-moderator"></div>
             <div class="question-container"></div>
-            <hr>
+            <!--<hr>-->
             <div class="clearfix" style="margin-top: 10px">
                 <button class="btn btn-success btn-shadow hidden btn-next-question pull-right"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></button>
                 <button class="btn btn-success btn-shadow hidden btn-questionnaire-done pull-right" id="btn-next-step"><i class="fa fa-check"></i> <?php echo $lang->done ?></button>
@@ -1197,27 +1266,22 @@ include '../includes/language.php';
     </div>
 
     <div class="container" id="questionnaire-unmoderated">
-        <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaire ?></h3>
-        <hr>
+        <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaire ?></h3>
+        <!--<hr>-->
         <div class="question-container"></div>
-        <hr>
+        <!--<hr>-->
         <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
 
     <!-- interview container & item -->
-    <div class="root" id="interview" style="margin-top: 80px;"></div>
-
-    <div id="interview-moderated">
+    <div class="root" id="interview" style="margin-top: 80px;">
         <div class="col-md-6" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-6" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0"></h3>
-            <hr>
-            <div class="question-container"></div>
+            <h3 class="headline" style="margin-top: 0"></h3>
             <!--<hr>-->
-            <!--<button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
+            <div class="question-container"></div>
         </div>
-        <!--<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4" id="fixed-rtc-preview" style="margin-bottom: 15px;"></div>-->
     </div>
 
 
@@ -1227,19 +1291,19 @@ include '../includes/language.php';
     <div id="sus-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireSystem ?></h3>
-            <hr>
+            <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireSystem ?></h3>
+            <!--<hr>-->
             <div class="question-container"></div>
-            <hr>
+            <!--<hr>-->
             <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
     <div class="container" id="sus-unmoderated">
-        <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireSystem ?></h3>
-        <hr>
+        <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireSystem ?></h3>
+        <!--<hr>-->
         <div class="question-container"></div>
-        <hr>
+        <!--<hr>-->
         <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
@@ -1249,7 +1313,7 @@ include '../includes/language.php';
     <div id="gus-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireGesture ?></h3>
+            <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireGesture ?></h3>
             <div class="row">
                 <div class="col-sm-6 right" style="margin-bottom: 10px;">
                     <div id="gesture"><span class="address"></span> <span class="text"></span></div>
@@ -1266,15 +1330,15 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            <hr>
-            <div class="question-container"></div>
-            <hr>
+            <!--<hr>-->
+            <div class="question-container" style="margin-top: 20px; margin-bottom: 10px"></div>
+            <!--<hr>-->
             <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
     <div class="container" id="gus-unmoderated">
-        <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireGesture ?></h3>
+        <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireGesture ?></h3>
         <div class="row">
             <div class="col-sm-6 right" style="margin-bottom: 10px;">
                 <div id="gesture"><span class="address"></span> <span class="text"></span></div>
@@ -1291,9 +1355,9 @@ include '../includes/language.php';
                 </div>
             </div>
         </div>
-        <hr>
-        <div class="question-container"></div>
-        <hr>
+        <!--<hr>-->
+        <div class="question-container" style="margin-top: 20px; margin-bottom: 10px"></div>
+        <!--<hr>-->
         <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
@@ -1304,19 +1368,19 @@ include '../includes/language.php';
     <div id="questionnaireGestures-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireGestures ?></h3>
-            <hr>
+            <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireGestures ?></h3>
+            <!--<hr>-->
             <div class="question-container"></div>
-            <hr>
+            <!--<hr>-->
             <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
     <div class="container" id="questionnaireGestures-unmoderated">
-        <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaireGestures ?></h3>
-        <hr>
+        <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireGestures ?></h3>
+        <!--<hr>-->
         <div class="question-container"></div>
-        <hr>
+        <!--<hr>-->
         <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
@@ -1412,12 +1476,12 @@ include '../includes/language.php';
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
             <div id="general">
-                <h3 style="margin: 0" class="headline"></h3>
+                <h3 style="margin-top: 0" class="headline"></h3>
                 <div class="description"></div>
                 <hr>
             </div>
             <div id="restart" class="hidden">
-                <h3 style="margin: 0" class="headline"><?php pleaseRestart ?></h3>
+                <h3 style="" class="headline"><?php pleaseRestart ?></h3>
                 <hr>
             </div>
             <div class="alert-space alert-please-wait"></div>
@@ -1477,7 +1541,7 @@ include '../includes/language.php';
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right">
             <div id="general">
-                <h3 style="margin: 0"  class="headline"></h3>
+                <h3 style="margin-top: 0"  class="headline"></h3>
                 <div class="description"></div>
                 <hr>
             </div>
@@ -1492,7 +1556,7 @@ include '../includes/language.php';
 
     <div class="container" id="triggerSlideshow-unmoderated">
         <div id="general">
-            <h3 style="margin: 0"  class="headline"></h3>
+            <h3 style="margin-top: 0"  class="headline"></h3>
             <div class="description"></div>
             <hr>
         </div>
@@ -1552,7 +1616,7 @@ include '../includes/language.php';
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
             <div id="general">
-                <h3 style="margin: 0"  class="headline"></h3>
+                <h3 style="margin-top: 0"  class="headline"></h3>
                 <div class="description"></div>
                 <hr>
             </div>
@@ -1586,7 +1650,7 @@ include '../includes/language.php';
         <div class="row">
             <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
                 <div>
-                    <h3 class="headline" style="margin: 0"></h3>
+                    <h3 class="headline" style="margin-top: 0"></h3>
                     <div class="description" style="color: #303030"></div>
                     <hr>
                     <button class="btn btn-block btn-success btn-shadow" id="btn-start-identification" style="margin-top: 20px"><?php echo $lang->startNow ?></button>
@@ -1666,7 +1730,7 @@ include '../includes/language.php';
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
             <div id="general">
-                <h3 class="headline" style="margin: 0"></h3>
+                <h3 class="headline" style="margin-top: 0"></h3>
                 <div class="description"></div>
                 <hr>
             </div>
@@ -1697,7 +1761,7 @@ include '../includes/language.php';
 
         <div class="col-sm-12 hidden" id="stress-test-questionnaire">
             <div id="questionnaire-heading" class="hidden">
-                <h3 class="headline" style="margin: 0"><?php echo $lang->pleaseAnswerQuestions ?></h3>
+                <h3 class="headline" style="margin-top: 0"><?php echo $lang->pleaseAnswerQuestions ?></h3>
                 <hr>
             </div>
             <div id="single-questions" class="hidden">
@@ -1766,7 +1830,7 @@ include '../includes/language.php';
     <div class="root" id="physicalStressTestUnmoderated">
         <div class="col-xs-12">
             <div id="general-repeats">
-                <h3 class="headline" style="margin: 0">Bitte die Geste ausführen</h3>
+                <h3 class="headline" style="margin-top: 0">Bitte die Geste ausführen</h3>
                 <hr>
             </div>
             <div id="questionnaire-heading" class="hidden">
@@ -1941,7 +2005,7 @@ include '../includes/language.php';
     <div id="thanks-moderated">
         <div class="col-sm-5 col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0"><?php echo $lang->thanksHeadline ?></h3>
+            <h3 class="headline" style="margin-top: 0"><?php echo $lang->thanksHeadline ?></h3>
             <hr>
             <div class="row">
                 <div class="col-sm-6" style="margin-bottom: 20px;">
@@ -1985,7 +2049,7 @@ include '../includes/language.php';
     </div>
 
     <div class="container" id="thanks-unmoderated">
-        <h3 class="headline" style="margin: 0"><?php echo $lang->thanksHeadline ?></h3>
+        <h3 class="headline" style="margin-top: 0"><?php echo $lang->thanksHeadline ?></h3>
         <hr>
         <div class="row">
             <div class="col-sm-6" style="margin-bottom: 20px;">
@@ -2053,7 +2117,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default panel-shadow root" id="openQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <div class="form-group">
+            <div class="form-group form-group-no-margin">
                 <label class="question text"></label> 
                 <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
             </div>
@@ -2062,7 +2126,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default panel-shadow root" id="openQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <div class="form-group">
+            <div class="form-group form-group-no-margin">
                 <label class="question text"></label> 
                 <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
             </div>
@@ -2071,7 +2135,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default panel-shadow root" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body" id="panel-body">
-            <div class="form-group">
+            <div class="form-group form-group-no-margin">
                 <label class="question text"></label> 
                 <div class="switch root">
                     <div class="btn-group" style="margin: 0">
@@ -2101,7 +2165,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default panel-shadow root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <div class="form-group">
+            <div class="form-group form-group-no-margin">
                 <label class="question text"></label> 
                 <div class="switch root">
                     <div class="btn-group" style="margin: 0">
@@ -2315,7 +2379,7 @@ include '../includes/language.php';
         <textarea class="form-control" id="justificationInput" rows="3"></textarea>
     </div>
 
-    <button type="button" class="btn btn-default btn-popover-gesture-preview" id="btn-show-gesture" style="border: none; height: 34px;"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+    <button type="button" class="btn btn-default btn-popover-gesture-preview" id="btn-show-gesture" style="border: none; height: 34px; background-color: #eee"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
 
 </div>
 

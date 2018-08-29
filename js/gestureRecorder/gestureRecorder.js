@@ -701,7 +701,10 @@ function renderStateSave() {
     var associationInput = $(recorder.currentRecorderContent).find('#gestureAssociation');
     var descriptionInput = $(recorder.currentRecorderContent).find('#gestureDescription');
     var jointsInput = $(recorder.currentRecorderContent).find('#gesture-save-form #human-body #joint-container');
-
+    $(contextInput).val(translation.notSpecified);
+    $(associationInput).val(translation.notSpecified);
+    $(descriptionInput).val(translation.notSpecified);
+    
     $(recorder.currentRecorderContent).find('.sensor-source-save').addClass('hidden');
 
     for (var i = 0; i < recorders.length; i++) {
@@ -767,7 +770,6 @@ function renderStateSave() {
             $(interactionTypeInput).find('#' + recorder.options.updateData.interaction).click();
         }
 
-        console.log('title quality', recorder.options.updateData.titleQuality)
         if (recorder.options.updateData.titleQuality) {
             $(titleQualityInput).find('#' + recorder.options.updateData.titleQuality).click();
         }
@@ -792,6 +794,8 @@ function renderStateSave() {
 
         renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
     }
+    
+    console.log()
 
 
     $(saveButton).unbind('click').bind('click', function (event) {

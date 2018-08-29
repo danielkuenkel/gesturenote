@@ -116,7 +116,18 @@ if ($h && $token && $studyId) {
                         <div class="col-sm-7 col-md-6 hidden" id="study-participation">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <div id="check-rtc-status" class="">
+                                    <div id="participant-name">
+                                        <div class="alert-space alert-insert-name" style=""></div>
+                                        <div class="form-group">
+                                            <label><?php echo $lang->name ?></label>
+                                            <div class="alert-space alert-missing-name" style=""></div>
+                                            <input type="text"class="form-control" id="name-input" maxlength="100">
+                                        </div>
+
+                                        <button type="button" class="btn btn-block btn-default btn-shadow" id="btn-request-participation">Teilnahme anfragen</button>
+                                    </div>
+
+                                    <div id="check-rtc-status" class="hidden">
                                         <h3>Technische Überprüfung</h3>
                                         <div class="check-web-rtc">
                                             <span class="status-check-indicator">
@@ -259,29 +270,42 @@ if ($h && $token && $studyId) {
                     var rtcToken = hex_sha512(new Date().getTime() + " " + chance.natural());
                     var study = getLocalItem(STUDY);
 
-                    requestParticipation({studyId: study.id, rtcToken: rtcToken}, function (result) {
-                        if (result.status === RESULT_SUCCESS && result.data) {
-                            checkRTC($('#check-rtc-status'), result.data.rtcToken);
-                        } else {
-                            console.log('an error occured');
-                        }
-                    });
+                    appendAlert($('#study-participation'), ALERT_INSERT_NAME);
 
-//                    if (getBrowser() !== BROWSER_CHROME) {
-//                        appendAlert($('#alert-hints'), ALERT_WEB_RTC_NOT_SUPPORTED);
-//                    } else {
-                    appendAlert($('#video-caller-container'), ALERT_WAITING_FOR_MODERATOR);
-                    requestInterval = setInterval(function () {
-                        requestParticipation({studyId: study.id, rtcToken: rtcToken}, function (result) {
-                            if (result.status === RESULT_SUCCESS) {
-                                if (!result.data) {
-                                    appendAlert($('#video-caller-container'), ALERT_WAITING_FOR_MODERATOR);
-                                }
+                    $('#btn-request-participation').on('click', function (event) {
+                        event.preventDefault();
+                        var nameInput = $('#name-input');
+                        clearAlerts($('#study-participation'));
+                        if ($(nameInput).val().trim() === '') {
+                            $(nameInput).addClass();
+
+                            appendAlert($('#study-participation'), ALERT_MISSING_NAME);
+                            return false;
+                        }
+
+                        $(this).remove();
+                        $('#check-rtc-status').removeClass('hidden');
+                        requestParticipation({studyId: study.id, rtcToken: rtcToken, name: $(nameInput).val().trim()}, function (result) {
+                            if (result.status === RESULT_SUCCESS && result.data) {
+                                checkRTC($('#check-rtc-status'), result.data.rtcToken);
+                            } else {
+                                console.log('an error occured');
                             }
                         });
-                    }, 1000);
-//                    }
+
+                        appendAlert($('#video-caller-container'), ALERT_WAITING_FOR_MODERATOR);
+                        requestInterval = setInterval(function () {
+                            requestParticipation({studyId: study.id, rtcToken: rtcToken, name: $(nameInput).val().trim()}, function (result) {
+                                if (result.status === RESULT_SUCCESS) {
+                                    if (!result.data) {
+                                        appendAlert($('#video-caller-container'), ALERT_WAITING_FOR_MODERATOR);
+                                    }
+                                }
+                            });
+                        }, 1000);
+                    });
                 } else {
+                    $('#participant-name').remove();
                     $('#btn-enter-study').on('click', function (event) {
                         event.preventDefault();
                         var query = getQueryParams(document.location.search);

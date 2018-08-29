@@ -453,9 +453,9 @@ WebcamRecorder.prototype.showSave = function () {
     $(playbackVideo).css({borderRadius: "4px 4px 0px 0px"});
 
     renderGesturePreview($(webcamRecorder.options.parent).find('.gr-save #webcam-save-preview'), webcamSaveGestureData);
-    if (webcamRecorder.options.context) {
-        $(webcamRecorder.options.parent).find('.gr-save #gestureContext').val(webcamRecorder.options.context);
-    }
+//    if (webcamRecorder.options.context) {
+//        $(webcamRecorder.options.parent).find('.gr-save #gestureContext').val(webcamRecorder.options.context);
+//    }
 
     var savePreview = $(webcamRecorder.options.parent).find('.gr-save #webcam-save-preview');
     var togglePlaybackButton = $(savePreview).find('.btn-toggle-playback');

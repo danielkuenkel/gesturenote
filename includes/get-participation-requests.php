@@ -16,12 +16,12 @@ session_start();
 if (isset($_SESSION['user_id'], $_POST['studyId'])) {
     $studyId = $_POST['studyId'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT * FROM participation_requests WHERE study_id = '$studyId' ORDER BY created DESC")) {
+    if ($select_stmt = $mysqli->prepare("SELECT * FROM participation_requests WHERE study_id = '$studyId' ORDER BY created ASC")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();
         } else {
-            $select_stmt->bind_result($id, $studyId, $testerId, $moderatorId, $rtcToken, $created, $current);
+            $select_stmt->bind_result($id, $studyId, $testerId, $moderatorId, $rtcToken, $name, $created, $current);
 
             if (!$select_stmt->execute()) {
                 echo json_encode(array('status' => 'selectError'));
@@ -34,39 +34,12 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                         'testerId' => $testerId,
                         'moderatorId' => $moderatorId,
                         'rtcToken' => $rtcToken,
+                        'name' => $name,
                         'created' => $created,
                         'current' => $current);
                 }
                 echo json_encode(array('status' => 'success', 'requests' => $requests));
             }
-
-//            if ($select_stmt->num_rows == 1) {
-//                if ($update_stmt = $mysqli->prepare("UPDATE participation_requests SET created = now() WHERE id = '$id'")) {
-//                    if (!$update_stmt->execute()) {
-//                        echo json_encode(array('status' => 'updateError'));
-//                        exit();
-//                    } else {
-//                        echo json_encode(array('status' => 'success', 'data' => $data));
-//                        exit();
-//                    }
-//                } else {
-//                    echo json_encode(array('status' => 'statemantError'));
-//                    exit();
-//                }
-//            } else {
-//                if ($insert_stmt = $mysqli->prepare("INSERT INTO participation_requests (study_id, tester_id, rtc_token) VALUES ('$studyId','$testerId','$rtcToken')")) {
-//                    if (!$insert_stmt->execute()) {
-//                        echo json_encode(array('status' => 'insertError'));
-//                        exit();
-//                    } else {
-//                        echo json_encode(array('status' => 'success', 'data' => $data));
-//                        exit();
-//                    }
-//                } else {
-//                    echo json_encode(array('status' => 'statemantError'));
-//                    exit();
-//                }
-//            }
         }
     } else {
         echo json_encode(array('status' => 'statemantError'));

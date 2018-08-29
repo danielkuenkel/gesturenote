@@ -37,32 +37,48 @@ var Tester = {
             var container = $(source).find('#' + currentPhase.format).clone(false);
             switch (currentPhase.format) {
                 case LETTER_OF_ACCEPTANCE:
-                    item = Tester.getLetterOfAcceptance(container, currentPhaseData);
+                    currentClass = new LetterOfAcceptance();
+                    item = currentClass.renderTesterView();
+//                    item = Tester.getLetterOfAcceptance(container, currentPhaseData);
                     break;
                 case THANKS:
-                    item = Tester.getThanks(container, currentPhaseData);
+                    currentClass = new Thanks();
+                    item = currentClass.renderTesterView();
+//                    item = Tester.getThanks(container, currentPhaseData);
                     break;
                 case QUESTIONNAIRE:
-                    item = Tester.getQuestionnaire(container, currentPhaseData, true);
+                    currentClass = new Questionnaire({isPreview: false, append: true});
+                    item = currentClass.renderTesterView();
+//                    item = Tester.getQuestionnaire(container, currentPhaseData, true);
                     break;
                 case UEQ:
-                    item = Tester.getQuestionnaire(container, currentPhaseData, true);
+                    currentClass = new UserExperienceQuestionnaire();
+                    item = currentClass.renderTesterView();
+//                    item = Tester.getQuestionnaire(container, currentPhaseData, true);
                     $(item).find('.question-container').css({display: 'table', margin: '0 auto'});
                     break;
                 case INTERVIEW:
-                    item = Tester.getInterview(container, currentPhaseData);
+                    currentClass = new Interview();
+                    item = currentClass.renderTesterView();
+//                    item = Tester.getInterview(container, currentPhaseData);
                     break;
                 case IDENTIFICATION:
                     item = Tester.getIdentification(source, container, currentPhaseData);
                     break;
                 case GUS_SINGLE_GESTURES:
-                    item = Tester.getGUS(container, currentPhaseData);
+                    currentClass = new GestureUsabilityScaleSingle();
+                    item = currentClass.renderTesterView();
+//                    item = Tester.getGUS(container, currentPhaseData);
                     break;
                 case GUS_MULTIPLE_GESTURES:
-                    item = Tester.getQuestionnaire(container, getAssembledItems(currentPhaseData.gus), true);
+                    currentClass = new GestureUsabilityScaleMultiple();
+                    item = currentClass.renderTesterView();
+//                    item = Tester.getQuestionnaire(container, getAssembledItems(currentPhaseData.gus), true);
                     break;
                 case SUS:
-                    item = Tester.getSUS(source, container, currentPhaseData);
+                    currentClass = new SystemUsabilityScale();
+                    item = currentClass.renderTesterView();
+//                    item = Tester.getSUS(source, container, currentPhaseData);
                     break;
                 case GESTURE_TRAINING:
                     item = Tester.getGestureTraining(source, container, currentPhaseData);
@@ -80,7 +96,9 @@ var Tester = {
                     item = Tester.getPhysicalStressTest(source, container, currentPhaseData);
                     break;
                 case EXPLORATION:
-                    item = Tester.getExploration(source, container, currentPhaseData);
+                    currentClass = new Exploration();
+                    item = currentClass.renderTesterView();
+//                    item = Tester.getExploration(source, container, currentPhaseData);
                     break;
             }
 
@@ -135,228 +153,222 @@ var Tester = {
         $('#viewTester #phase-content').append(alert);
         appendAlert(alert, ALERT_NO_PHASE_DATA);
     },
-    getLetterOfAcceptance: function getLetterOfAcceptance(container, data) {
-        var source = getSourceContainer(VIEW_TESTER);
-        var content = $(source).find('#letterOfAcceptance-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
-        $(container).append(content);
-        $(container).find('.letter-text').text(data);
-        $(container).find('#letter-agreed').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (!previewModeEnabled) {
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.accepted = 'yes';
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                if (peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-                }
-            }
-
-            nextStep();
-        });
-        $(container).find('#letter-decline').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (!previewModeEnabled) {
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.accepted = 'no';
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-            }
-
-            $('.btn-cancel').click();
-        });
-        return container;
-    },
-    getThanks: function getThanks(container, data) {
-
-        var content = $(getSourceContainer(VIEW_TESTER)).find('#thanks-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
-        $(container).append(content);
-        TweenMax.to(container.find('.fa-upload'), .5, {yoyo: true, repeat: -1, opacity: .4});
-        $(container).find('#thanks-text').text(data);
-        var study = getLocalItem(STUDY);
-        var absoluteStaticStudyUrl = 'https://gesturenote.de/study-prepare.php?studyId=' + study.id + '&h=' + study.urlToken;
-        $(container).find('#static-study-url').text(absoluteStaticStudyUrl);
-        $(container).find('#btn-execution-done').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            gotoIndex();
-        });
-
-        $(container).find('#static-study-url').unbind('click').bind('click', function () {
-            $(container).find('#static-study-url').select();
-        });
-
-        $(container).find('#btn-retry-upload').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (previewModeEnabled === false) {
-                submitFinalData(container);
-            }
-        });
-
-        if (previewModeEnabled === false) {
-            checkRTCUploadStatus(container);
-        }
-
-        // heart icon animation
-        var heartIcon = $(content).find('#heart-icon');
-        $(heartIcon).css({cursor: 'pointer'});
-        function animateHeartIcon() {
-            var heartOffset = $(heartIcon).offset();
-            console.log(heartOffset);
-            for (var i = 0; i < 4; i++) {
-                var heartCopy = $(heartIcon).clone().removeAttr('id');
-                $(heartCopy).insertAfter(heartIcon);
-                $(heartCopy).css({position: 'fixed', top: heartOffset.top, left: heartOffset.left, opacity: .4});
-                TweenMax.to(heartCopy, .5, {delay: i * .2, scaleX: 1.5, scaleY: 1.5, opacity: 0, onCompleteParams: [heartCopy], onComplete: function (element) {
-                        $(element).remove();
-                    }});
-            }
-        }
-
-        setTimeout(animateHeartIcon, 1000);
-        $(heartIcon).on('click', function (event) {
-            console.log('heart icon clicked');
-            event.preventDefault();
-            animateHeartIcon();
-        });
-
-        return container;
-    },
-    getQuestionnaire: function getQuestionnaire(container, data, appendContainer) {
-        if (appendContainer === true) {
-            var content = $(getSourceContainer(VIEW_TESTER)).find('#questionnaire-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
-            $(container).append(content);
-        }
-
-        console.log('currentQuestionnaireAnswers', currentQuestionnaireAnswers);
-        container = renderQuestionnaire(container, data, currentQuestionnaireAnswers, true);
-        $(container).find('.headline').text(getCurrentPhase().title);
-//        console.log('get questionnaire:', container, data, currentQuestionnaireAnswers);
-
-        $(container).find('.question-container').unbind('questionnaireDone').bind('questionnaireDone', function (event) {
-            event.preventDefault();
-            console.log('questionnaire done triggered');
-            $(container).find('#btn-next-step').prev().addClass('hidden');
-            $(container).find('#btn-next-step').addClass('hidden');
-            questionnaireDone = true;
-            currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
-            if (!previewModeEnabled && peerConnection) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.answers = currentQuestionnaireAnswers.answers;
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                peerConnection.sendMessage(MESSAGE_QUESTIONNAIRE_DONE);
-            }
-        });
-
-        $(container).find('.question-container').unbind('nextQuestion').bind('nextQuestion', function (event) {
-            console.log('next question clicked');
-            event.preventDefault();
-            currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
-            if (previewModeEnabled === false && peerConnection) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.answers = currentQuestionnaireAnswers.answers;
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
-            }
-        });
-
-        if (questionnaireDone) {
-            $(container).find('#btn-next-step').prev().addClass('hidden');
-            $(container).find('#btn-next-step').addClass('hidden');
-            appendAlert(container, ALERT_WAITING_FOR_MODERATOR);
-        } else {
-//            $(container).find('#btn-next-step').unbind('click').bind('click', function (event) {
-//                event.preventDefault();
+//    getLetterOfAcceptance: function getLetterOfAcceptance(container, data) {
+//        var source = getSourceContainer(VIEW_TESTER);
+//        var content = $(source).find('#letterOfAcceptance-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
+//        $(container).append(content);
+//        $(container).find('.letter-text').text(data);
+//        $(container).find('#letter-agreed').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//            if (!previewModeEnabled) {
+//                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                tempData.accepted = 'yes';
+//                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//                if (peerConnection) {
+//                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+//                }
+//            }
 //
+//            nextStep();
+//        });
+//        
+//        $(container).find('#letter-decline').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//            if (!previewModeEnabled) {
+//                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                tempData.accepted = 'no';
+//                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//            }
+//
+//            $('.btn-cancel').click();
+//        });
+//        return container;
+//    },
+//    getThanks: function getThanks(container, data) {
+//
+//        var content = $(getSourceContainer(VIEW_TESTER)).find('#thanks-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
+//        $(container).append(content);
+//        TweenMax.to(container.find('.fa-upload'), .5, {yoyo: true, repeat: -1, opacity: .4});
+//        $(container).find('#thanks-text').text(data);
+//        var study = getLocalItem(STUDY);
+//        var absoluteStaticStudyUrl = 'https://gesturenote.de/study-prepare.php?studyId=' + study.id + '&h=' + study.urlToken;
+//        $(container).find('#static-study-url').text(absoluteStaticStudyUrl);
+//        $(container).find('#btn-execution-done').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//            gotoIndex();
+//        });
+//
+//        $(container).find('#static-study-url').unbind('click').bind('click', function () {
+//            $(container).find('#static-study-url').select();
+//        });
+//
+//        $(container).find('#btn-retry-upload').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//            if (previewModeEnabled === false) {
+//                submitFinalData(container);
+//            }
+//        });
+//
+//        if (previewModeEnabled === false) {
+//            checkRTCUploadStatus(container);
+//        }
+//
+//        // heart icon animation
+//        var heartIcon = $(content).find('#heart-icon');
+//        $(heartIcon).css({cursor: 'pointer'});
+//        function animateHeartIcon() {
+//            var heartOffset = $(heartIcon).offset();
+//            console.log(heartOffset);
+//            for (var i = 0; i < 4; i++) {
+//                var heartCopy = $(heartIcon).clone().removeAttr('id');
+//                $(heartCopy).insertAfter(heartIcon);
+//                $(heartCopy).css({position: 'fixed', top: heartOffset.top, left: heartOffset.left, opacity: .4});
+//                TweenMax.to(heartCopy, .5, {delay: i * .2, scaleX: 1.5, scaleY: 1.5, opacity: 0, onCompleteParams: [heartCopy], onComplete: function (element) {
+//                        $(element).remove();
+//                    }});
+//            }
+//        }
+//
+//        setTimeout(animateHeartIcon, 1000);
+//        $(heartIcon).on('click', function (event) {
+//            console.log('heart icon clicked');
+//            event.preventDefault();
+//            animateHeartIcon();
+//        });
+//
+//        return container;
+//    },
+//    getQuestionnaire: function getQuestionnaire(container, data, appendContainer) {
+//        if (appendContainer === true) {
+//            var content = $(getSourceContainer(VIEW_TESTER)).find('#questionnaire-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
+//            $(container).append(content);
+//        }
+//
+//        console.log('currentQuestionnaireAnswers', currentQuestionnaireAnswers);
+//        container = renderQuestionnaire(container, data, currentQuestionnaireAnswers, true);
+//        $(container).find('.headline').text(getCurrentPhase().title);
+//
+//        $(container).find('.question-container').unbind('questionnaireDone').bind('questionnaireDone', function (event) {
+//            event.preventDefault();
+//            console.log('questionnaire done triggered');
+//            $(container).find('#btn-next-step').prev().addClass('hidden');
+//            $(container).find('#btn-next-step').addClass('hidden');
+//            questionnaireDone = true;
+//            currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
+//            if (!previewModeEnabled && peerConnection) {
+//                var currentPhase = getCurrentPhase();
+//                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                tempData.answers = currentQuestionnaireAnswers.answers;
+//                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                peerConnection.sendMessage(MESSAGE_QUESTIONNAIRE_DONE);
+//            }
+//        });
+//
+//        $(container).find('.question-container').unbind('nextQuestion').bind('nextQuestion', function (event) {
+//            console.log('next question clicked');
+//            event.preventDefault();
+//            currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
+//            if (previewModeEnabled === false && peerConnection) {
+//                var currentPhase = getCurrentPhase();
+//                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                tempData.answers = currentQuestionnaireAnswers.answers;
+//                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
+//            }
+//        });
+//
+//        if (questionnaireDone) {
+//            $(container).find('#btn-next-step').prev().addClass('hidden');
+//            $(container).find('#btn-next-step').addClass('hidden');
+//            appendAlert(container, ALERT_WAITING_FOR_MODERATOR);
+//        }
+//
+//        var currentPhase = getCurrentPhase();
+//        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED && currentPhase.format !== PHYSICAL_STRESS_TEST && currentPhase.format !== SLIDESHOW_TRIGGER) {
+//            $(container).unbind('change').bind('change', function (event) {
+//                event.preventDefault();
+//                currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
+//                if (previewModeEnabled === false && peerConnection) {
+//                    var currentPhase = getCurrentPhase();
+//                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                    tempData.answers = currentQuestionnaireAnswers.answers;
+//                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                    peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
+//                }
 //            });
-        }
-
-        var currentPhase = getCurrentPhase();
-        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED && currentPhase.format !== PHYSICAL_STRESS_TEST && currentPhase.format !== SLIDESHOW_TRIGGER) {
-            $(container).unbind('change').bind('change', function (event) {
-                event.preventDefault();
-                currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
-                if (previewModeEnabled === false && peerConnection) {
-                    var currentPhase = getCurrentPhase();
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    tempData.answers = currentQuestionnaireAnswers.answers;
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                    peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
-                }
-            });
-        }
-
-
-        return container;
-    },
-    getInterview: function getInterview(container, data) {
-        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
-            var content = $(getSourceContainer(VIEW_TESTER)).find('#interview-' + getLocalItem(STUDY).surveyType).clone();
-            $(content).find('.headline').text(getCurrentPhase().title);
-            $(container).append(content);
-
-            for (var i = 0; i < data.length; i++) {
-                var questionItem = document.createElement('div');
-                $(questionItem).addClass('panel panel-shadow');
-                $(questionItem).css({marginBottom: '5px'});
-                var panelBody = document.createElement('div');
-                $(panelBody).addClass('panel-body text');
-                $(panelBody).text((i + 1) + '. ' + data[i].question);
-                $(questionItem).append(panelBody);
-                $(content).find('.question-container').append(questionItem);
-            }
-        }
-        return container;
-    },
-    getGUS: function getGUS(container, data) {
-        currentGUSData = data;
-        var content = $(getSourceContainer(VIEW_TESTER)).find('#gus-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
-        $(container).append(content);
-        var gesture = getGestureById(data.gestureId);
-        if (gesture && isGestureAssembled(data.gestureId)) {
-            singleGUSGesture = {gestureId: data.gestureId, triggerId: data.triggerId, feedbackId: data.feedbackId};
-            container.find('#title').text(gesture.title);
-            renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
-            var trigger = getTriggerById(data.triggerId);
-            var feedback = getFeedbackById(data.feedbackId);
-            $(container).find('#gesture .address').text(translation.gesture + ':');
-            $(container).find('#gesture .text').text(gesture.title);
-            $(container).find('#trigger .address').text(translation.trigger + ':');
-            $(container).find('#trigger .text').text(trigger.title);
-            if (feedback) {
-                $(container).find('#feedback .address').text(translation.feedback + ':');
-                $(container).find('#feedback .text').text(feedback.title);
-                var icon = document.createElement('i');
-                var label = document.createElement('div');
-                $(label).addClass('label label-default');
-                switch (feedback.type) {
-                    case TYPE_FEEDBACK_SOUND:
-                        $(label).text(' Sound');
-                        $(icon).addClass('fa fa-volume-up');
-                        break;
-                    case TYPE_FEEDBACK_TEXT:
-                        $(label).text(' Text');
-                        $(icon).addClass('fa fa-font');
-                        break;
-                }
-
-                container.find('#feedback .text').text(" " + feedback.title);
-                $(label).prepend(icon);
-                container.find('#feedback .text').prepend(label);
-            }
-
-        } else {
-            $(container).find('#gesturePreview').addClass('hidden');
-        }
-
-        container = Tester.getQuestionnaire(container, getAssembledItems(data.gus), false);
-        return container;
-    },
-    getSUS: function getSUS(source, container, data) {
-        var content = $(getSourceContainer(VIEW_TESTER)).find('#sus-' + getLocalItem(STUDY).surveyType).clone();
-        $(container).append(content);
-        container = Tester.getQuestionnaire(container, data, false);
-        return container;
-    },
+//        }
+//
+//        return container;
+//    },
+//    getInterview: function getInterview(container, data) {
+//        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
+//            var content = $(getSourceContainer(VIEW_TESTER)).find('#interview-' + getLocalItem(STUDY).surveyType).clone();
+//            $(content).find('.headline').text(getCurrentPhase().title);
+//            $(container).append(content);
+//
+//            for (var i = 0; i < data.length; i++) {
+//                var questionItem = document.createElement('div');
+//                $(questionItem).addClass('panel panel-shadow');
+//                $(questionItem).css({marginBottom: '5px'});
+//                var panelBody = document.createElement('div');
+//                $(panelBody).addClass('panel-body text');
+//                $(panelBody).text((i + 1) + '. ' + data[i].question);
+//                $(questionItem).append(panelBody);
+//                $(content).find('.question-container').append(questionItem);
+//            }
+//        }
+//        return container;
+//    },
+//    getGUS: function getGUS(container, data) {
+//        currentGUSData = data;
+//        var content = $(getSourceContainer(VIEW_TESTER)).find('#gus-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
+//        $(container).append(content);
+//        var gesture = getGestureById(data.gestureId);
+//        if (gesture && isGestureAssembled(data.gestureId)) {
+//            singleGUSGesture = {gestureId: data.gestureId, triggerId: data.triggerId, feedbackId: data.feedbackId};
+//            container.find('#title').text(gesture.title);
+//            renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
+//            var trigger = getTriggerById(data.triggerId);
+//            var feedback = getFeedbackById(data.feedbackId);
+//            $(container).find('#gesture .address').text(translation.gesture + ':');
+//            $(container).find('#gesture .text').text(gesture.title);
+//            $(container).find('#trigger .address').text(translation.trigger + ':');
+//            $(container).find('#trigger .text').text(trigger.title);
+//            if (feedback) {
+//                $(container).find('#feedback .address').text(translation.feedback + ':');
+//                $(container).find('#feedback .text').text(feedback.title);
+//                var icon = document.createElement('i');
+//                var label = document.createElement('div');
+//                $(label).addClass('label label-default');
+//                switch (feedback.type) {
+//                    case TYPE_FEEDBACK_SOUND:
+//                        $(label).text(' Sound');
+//                        $(icon).addClass('fa fa-volume-up');
+//                        break;
+//                    case TYPE_FEEDBACK_TEXT:
+//                        $(label).text(' Text');
+//                        $(icon).addClass('fa fa-font');
+//                        break;
+//                }
+//
+//                container.find('#feedback .text').text(" " + feedback.title);
+//                $(label).prepend(icon);
+//                container.find('#feedback .text').prepend(label);
+//            }
+//
+//        } else {
+//            $(container).find('#gesturePreview').addClass('hidden');
+//        }
+//
+//        container = Tester.getQuestionnaire(container, getAssembledItems(data.gus), false);
+//        return container;
+//    },
+//    getSUS: function getSUS(source, container, data) {
+//        var content = $(getSourceContainer(VIEW_TESTER)).find('#sus-' + getLocalItem(STUDY).surveyType).clone();
+//        $(container).append(content);
+//        container = Tester.getQuestionnaire(container, data, false);
+//        return container;
+//    },
     getGestureTraining: function getGestureTraining(source, container, data) {
         // general data section
 //        $(container).find('.headline').text(data.title);
@@ -1911,290 +1923,156 @@ var Tester = {
             nextStep();
         });
     },
-    getExploration: function getExploration(source, container, data) {
-        if (!data.exploration || (data.exploration && data.exploration.length === 0)) {
-            return false;
-        }
-
-        container.empty().append($(source).find('#exploration-moderated').clone().removeAttr('id'));
-
-        renderCurrentPhaseState();
-        function renderCurrentPhaseState() {
-            if (currentPhaseState === null) {
-                currentPhaseState = 'initialize';
-            }
-
-            switch (currentPhaseState) {
-                case 'initialize':
-                    renderStateInitialize();
-                    break;
-                case 'prototypeOpened':
-                    renderStatePrototypeOpened();
-                    break;
-                case 'explorationStarted':
-                    renderStateExplorationStarted();
-                    break;
-                case 'askPreferredGestures':
-                    renderStateAskPreferredGestures();
-                    break;
-                case 'askResponsePreferredGestures':
-                    renderStateAskResponsePreferredGestures();
-                    break;
-                case 'askPreferredTrigger':
-                    renderStateAskPreferredTrigger();
-                    break;
-                case 'askResponsePreferredTrigger':
-                    renderStateAskResponsePreferredTrigger();
-                    break;
-                case 'screenSharingStopped':
-                    renderStateScreenSharingStopped();
-                    break;
-                case 'explorationDone':
-                    renderStateExplorationDone();
-                    break;
-            }
-        }
-
-        function renderStateInitialize() {
-            console.log('render state: ', currentPhaseState, scenesUsedForExploration(data.exploration));
-            if (scenesUsedForExploration(data.exploration) === true) {
-                Tester.initScreenSharing(container.find('#scene-container'));
-            } else {
-
-            }
-
-            appendAlert($(container), ALERT_PLEASE_WAIT);
-        }
-
-        function renderStatePrototypeOpened() {
-            console.log('render state: ', currentPhaseState);
-            appendAlert($(container), ALERT_PLEASE_WAIT);
-        }
-
-        function renderStateExplorationStarted() {
-            console.log('render state: ', currentPhaseState);
-            renderCurrentScene();
-            clearAlerts($(container));
-
-            // check if there are previews triggered in study preview
-            if (currentPreviewGesture) {
-                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-                    $('#custom-modal').unbind('hide.bs.modal');
-                    console.log('hide.bs.modal gesture info');
-                    if (!previewModeEnabled && peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
-                    }
-                    currentPreviewGesture = null;
-                });
-                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
-            }
-
-            if (data.explorationType === 'trigger' && currentPreviewTrigger) {
-                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
-                    $('#custom-modal').unbind('hide.bs.modal');
-                    currentPreviewTrigger = null;
-                    if (!previewModeEnabled && peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
-                    }
-                });
-                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
-            }
-        }
-
-        function renderStateAskPreferredGestures() {
-            console.log('render state: ', currentPhaseState);
-
-            $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function () {
-                $('#custom-modal').unbind('hidden.bs.modal');
-                console.log('hide.bs.modal ask prefered gestures');
-                currentPhaseState = 'askResponsePreferredGestures';
-                renderCurrentPhaseState();
-            });
-            loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
-        }
-
-        function renderStateAskResponsePreferredGestures() {
-            console.log('render state: ', currentPhaseState);
-            $(container).find('#scene-description').addClass('hidden');
-            $(container).find('#scene-container').addClass('hidden');
-            appendAlert($(container), ALERT_PLEASE_WAIT);
-        }
-
-        function renderStateAskPreferredTrigger() {
-            console.log('render state: ', currentPhaseState);
-
-            $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function () {
-                $('#custom-modal').unbind('hidden.bs.modal');
-                currentPhaseState = 'askResponsePreferredTrigger';
-                renderCurrentPhaseState();
-            });
-            loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
-        }
-
-        function renderStateAskResponsePreferredTrigger() {
-            console.log('render state: ', currentPhaseState);
-            $(container).find('#scene-description').addClass('hidden');
-            $(container).find('#scene-container').addClass('hidden');
-            appendAlert($(container), ALERT_PLEASE_WAIT);
-        }
-
-        function renderStateScreenSharingStopped() {
-            console.log('render state: ', currentPhaseState);
-            appendAlert($(container), ALERT_PLEASE_WAIT);
-        }
-
-        function renderStateExplorationDone() {
-            console.log('render state: ', currentPhaseState);
-            appendAlert($(container), ALERT_PLEASE_WAIT);
-        }
-
-        function renderCurrentScene() {
-            if (scenesUsedForExploration(data.exploration) === true) {
-                if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene] && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description !== '') {
-                    $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
-                    $(container).find('#scene-description').removeClass('hidden');
-                } else {
-                    $(container).find('#scene-description').addClass('hidden');
-                }
-
-                if (previewModeEnabled) {
-                    // render scene manually
-                    console.log('render scene manually:', data.exploration[currentExplorationIndex]);
-                    if (data.exploration[currentExplorationIndex] && data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
-                        renderSceneItem(source, container, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId);
-                    } else {
-                        renderSceneItem(source, container, null);
-                    }
-                }
-
-                $(container).find('#scene-container').removeClass('hidden');
-            } else {
-                $(container).find('#scene-description').addClass('hidden');
-            }
-        }
-
-        function scenesUsedForExploration(data) {
-            if (data && data.length > 0) {
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].transitionScenes && data[i].transitionScenes.length > 0) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        // exploration live events
-        if (!previewModeEnabled && peerConnection) {
-            $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
-                currentPhaseState = 'explorationStarted';
-                renderCurrentStatePhase();
-            });
-
-            $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
-                currentExplorationIndex = payload.index;
-                currentExplorationScene = payload.sceneIndex;
-
-                if (payload.description) {
-                    $(container).find('#scene-description p').text(payload.description);
-                    $(container).find('#scene-container').removeClass('hidden');
-                } else {
-                    $(container).find('#scene-container').addClass('hidden');
-                }
-            });
-
-            $(peerConnection).unbind(MESSAGE_OPEN_GESTURE_INFO).bind(MESSAGE_OPEN_GESTURE_INFO, function (event, payload) {
-                console.log('open gesture info', payload);
-
-                currentPreviewGesture = {gesture: getGestureById(payload.id)};
-                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-                    currentPreviewGesture = null;
-                    $('#custom-modal').unbind('hide.bs.modal');
-                    if (!previewModeEnabled && peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
-                    }
-                });
-                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
-            });
-
-            $(peerConnection).unbind(MESSAGE_OPEN_TRIGGER_INFO).bind(MESSAGE_OPEN_TRIGGER_INFO, function (event, payload) {
-                console.log('open trigger info', payload);
-
-                currentPreviewTrigger = getTriggerById(payload.id);
-                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-                    currentPreviewTrigger = null;
-                    $('#custom-modal').unbind('hide.bs.modal');
-                    if (!previewModeEnabled && peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
-                    }
-                });
-                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
-            });
-
-            $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
-                currentPhaseState = 'screenSharingStopped';
-                renderCurrentPhaseState();
-            });
-
-            if (data.explorationType === 'gestures') {
-                $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_GESTURES).bind(MESSAGE_REQUEST_PREFERRED_GESTURES, function (event, payload) {
-//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
-                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                        event.preventDefault();
-                        $('#custom-modal').unbind('hide.bs.modal');
-                        currentPhaseState = 'askResponsePreferredGestures';
-                        renderCurrentPhaseState();
-//                        appendAlert($(container), ALERT_PLEASE_WAIT);
-//                        $(container).find('#scene-description').addClass('hidden');
-//                        $(container).find('#scene-container').addClass('hidden');
-                    });
-                    currentExplorationIndex = payload.currentExplorationIndex;
-                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
-                });
-            } else {
-                $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_TRIGGER).bind(MESSAGE_REQUEST_PREFERRED_TRIGGER, function (event, payload) {
-//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
-                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                        event.preventDefault();
-                        $('#custom-modal').unbind('hide.bs.modal');
-                        currentPhaseState = 'askResponsePreferredTrigger';
-                        renderCurrentPhaseState();
-//                        appendAlert($(container), ALERT_PLEASE_WAIT);
-//                        $(container).find('#scene-description').addClass('hidden');
-//                        $(container).find('#scene-container').addClass('hidden');
-                    });
-                    currentExplorationIndex = payload.currentExplorationIndex;
-                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-trigger.php', 'modal-md');
-                });
-            }
-        }
-
-        return container;
-    },
-    renderModeratedExploration: function renderModeratedExploration(source, container, data) {
+//    getExploration: function getExploration(source, container, data) {
 //        if (!data.exploration || (data.exploration && data.exploration.length === 0)) {
 //            return false;
 //        }
-
+//
 //        container.empty().append($(source).find('#exploration-moderated').clone().removeAttr('id'));
-//        if (previewModeEnabled) {
-//            $(container).find('#scene-container').css({top: '-108px'});
+//
+//        renderCurrentPhaseState();
+//        function renderCurrentPhaseState() {
+//            if (currentPhaseState === null) {
+//                currentPhaseState = 'initialize';
+//            }
+//
+//            switch (currentPhaseState) {
+//                case 'initialize':
+//                    renderStateInitialize();
+//                    break;
+//                case 'prototypeOpened':
+//                    renderStatePrototypeOpened();
+//                    break;
+//                case 'explorationStarted':
+//                    renderStateExplorationStarted();
+//                    break;
+//                case 'askPreferredGestures':
+//                    renderStateAskPreferredGestures();
+//                    break;
+//                case 'askResponsePreferredGestures':
+//                    renderStateAskResponsePreferredGestures();
+//                    break;
+//                case 'askPreferredTrigger':
+//                    renderStateAskPreferredTrigger();
+//                    break;
+//                case 'askResponsePreferredTrigger':
+//                    renderStateAskResponsePreferredTrigger();
+//                    break;
+//                case 'screenSharingStopped':
+//                    renderStateScreenSharingStopped();
+//                    break;
+//                case 'explorationDone':
+//                    renderStateExplorationDone();
+//                    break;
+//            }
 //        }
-
-        // handle states in preview mode
-        if (explorationStartTriggered === true) {
+//
+//        function renderStateInitialize() {
+//            console.log('render state: ', currentPhaseState, scenesUsedForExploration(data.exploration));
 //            if (scenesUsedForExploration(data.exploration) === true) {
-////                clearAlerts(container);
-////            $(container).find('#fixed-rtc-preview').removeClass('hidden');
+//                Tester.initScreenSharing(container.find('#scene-container'));
+//            } else {
+//
+//            }
+//
+//            appendAlert($(container), ALERT_PLEASE_WAIT);
+//        }
+//
+//        function renderStatePrototypeOpened() {
+//            console.log('render state: ', currentPhaseState);
+//            appendAlert($(container), ALERT_PLEASE_WAIT);
+//        }
+//
+//        function renderStateExplorationStarted() {
+//            console.log('render state: ', currentPhaseState);
+//            renderCurrentScene();
+//            clearAlerts($(container));
+//
+//            // check if there are previews triggered in study preview
+//            if (currentPreviewGesture) {
+//                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
+//                    $('#custom-modal').unbind('hide.bs.modal');
+//                    console.log('hide.bs.modal gesture info');
+//                    if (!previewModeEnabled && peerConnection) {
+//                        peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
+//                    }
+//                    currentPreviewGesture = null;
+//                });
+//                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
+//            }
+//
+//            if (data.explorationType === 'trigger' && currentPreviewTrigger) {
+//                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
+//                    $('#custom-modal').unbind('hide.bs.modal');
+//                    currentPreviewTrigger = null;
+//                    if (!previewModeEnabled && peerConnection) {
+//                        peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
+//                    }
+//                });
+//                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
+//            }
+//        }
+//
+//        function renderStateAskPreferredGestures() {
+//            console.log('render state: ', currentPhaseState);
+//
+//            $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function () {
+//                $('#custom-modal').unbind('hidden.bs.modal');
+//                console.log('hide.bs.modal ask prefered gestures');
+//                currentPhaseState = 'askResponsePreferredGestures';
+//                renderCurrentPhaseState();
+//            });
+//            loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
+//        }
+//
+//        function renderStateAskResponsePreferredGestures() {
+//            console.log('render state: ', currentPhaseState);
+//            $(container).find('#scene-description').addClass('hidden');
+//            $(container).find('#scene-container').addClass('hidden');
+//            appendAlert($(container), ALERT_PLEASE_WAIT);
+//        }
+//
+//        function renderStateAskPreferredTrigger() {
+//            console.log('render state: ', currentPhaseState);
+//
+//            $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function () {
+//                $('#custom-modal').unbind('hidden.bs.modal');
+//                currentPhaseState = 'askResponsePreferredTrigger';
+//                renderCurrentPhaseState();
+//            });
+//            loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
+//        }
+//
+//        function renderStateAskResponsePreferredTrigger() {
+//            console.log('render state: ', currentPhaseState);
+//            $(container).find('#scene-description').addClass('hidden');
+//            $(container).find('#scene-container').addClass('hidden');
+//            appendAlert($(container), ALERT_PLEASE_WAIT);
+//        }
+//
+//        function renderStateScreenSharingStopped() {
+//            console.log('render state: ', currentPhaseState);
+//            appendAlert($(container), ALERT_PLEASE_WAIT);
+//        }
+//
+//        function renderStateExplorationDone() {
+//            console.log('render state: ', currentPhaseState);
+//            appendAlert($(container), ALERT_PLEASE_WAIT);
+//        }
+//
+//        function renderCurrentScene() {
+//            if (scenesUsedForExploration(data.exploration) === true) {
 //                if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene] && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description !== '') {
 //                    $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
 //                    $(container).find('#scene-description').removeClass('hidden');
+//                } else {
+//                    $(container).find('#scene-description').addClass('hidden');
 //                }
 //
 //                if (previewModeEnabled) {
 //                    // render scene manually
 //                    console.log('render scene manually:', data.exploration[currentExplorationIndex]);
-//                    if (data.exploration[currentExplorationIndex] && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
+//                    if (data.exploration[currentExplorationIndex] && data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
 //                        renderSceneItem(source, container, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId);
 //                    } else {
 //                        renderSceneItem(source, container, null);
@@ -2204,139 +2082,107 @@ var Tester = {
 //                $(container).find('#scene-container').removeClass('hidden');
 //            } else {
 //                $(container).find('#scene-description').addClass('hidden');
-//                $(container).find('#scene-container').addClass('hidden');
 //            }
-
-
-        } else {
-//            appendAlert($(container), ALERT_PLEASE_WAIT);
-//            $(container).find('#fixed-rtc-preview').addClass('hidden');
-            $(container).find('#scene-description').addClass('hidden');
-            $(container).find('#scene-container').addClass('hidden');
-        }
-
-        // handle live mode
-        if (!previewModeEnabled && peerConnection) {
-
-            // generic exploration live events
-            $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
-                currentPhaseState = 'explorationStarted';
-                renderCurrentStatePhase();
-//                explorationStartTriggered = true;
-//                if (scenesUsedForExploration(data.exploration) === true) {
-//                    $(container).find('#scene-description').removeClass('hidden');
-//                    $(container).find('#scene-container').removeClass('hidden');
+//        }
+//
+//        function scenesUsedForExploration(data) {
+//            if (data && data.length > 0) {
+//                for (var i = 0; i < data.length; i++) {
+//                    if (data[i].transitionScenes && data[i].transitionScenes.length > 0) {
+//                        return true;
+//                    }
 //                }
-            });
-
-            $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
-                currentExplorationIndex = payload.index;
-                currentExplorationScene = payload.sceneIndex;
-
-                if (payload.description) {
-                    $(container).find('#scene-description p').text(payload.description);
-                    $(container).find('#scene-container').removeClass('hidden');
-                } else {
-                    $(container).find('#scene-container').addClass('hidden');
-                }
-            });
-
-            $(peerConnection).unbind(MESSAGE_OPEN_GESTURE_INFO).bind(MESSAGE_OPEN_GESTURE_INFO, function (event, payload) {
-                console.log('open gesture info', payload);
-
-                currentPreviewGesture = {gesture: getGestureById(payload.id)};
-                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-                    currentPreviewGesture = null;
-                    $('#custom-modal').unbind('hide.bs.modal');
-                    if (!previewModeEnabled && peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
-                    }
-                });
-                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
-            });
-
-            $(peerConnection).unbind(MESSAGE_OPEN_TRIGGER_INFO).bind(MESSAGE_OPEN_TRIGGER_INFO, function (event, payload) {
-                console.log('open trigger info', payload);
-
-                currentPreviewTrigger = getTriggerById(payload.id);
-                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-                    currentPreviewTrigger = null;
-                    $('#custom-modal').unbind('hide.bs.modal');
-                    if (!previewModeEnabled && peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
-                    }
-                });
-                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
-            });
-
-            $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
-                $(container).find('#scene-container').addClass('hidden');
-            });
-
-            if (data.explorationType === 'gestures') {
-                $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_GESTURES).bind(MESSAGE_REQUEST_PREFERRED_GESTURES, function (event, payload) {
-//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
-                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                        event.preventDefault();
-//                        appendAlert($(container), ALERT_PLEASE_WAIT);
-                        $(container).find('#scene-description').addClass('hidden');
-                        $(container).find('#scene-container').addClass('hidden');
-                    });
-                    currentExplorationIndex = payload.currentExplorationIndex;
-                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
-                });
-            } else {
-                $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_TRIGGER).bind(MESSAGE_REQUEST_PREFERRED_TRIGGER, function (event, payload) {
-//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
-                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                        event.preventDefault();
-//                        appendAlert($(container), ALERT_PLEASE_WAIT);
-                        $(container).find('#scene-description').addClass('hidden');
-                        $(container).find('#scene-container').addClass('hidden');
-                    });
-                    currentExplorationIndex = payload.currentExplorationIndex;
-                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-trigger.php', 'modal-md');
-                });
-            }
-        } else {
-            if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene] && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description !== '') {
-                $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
-            }
-
-            if (data.explorationType === 'gestures') {
-                if (explorationPreferredGesturesRequest) {
-//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
-                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                        event.preventDefault();
-//                        appendAlert($(container), ALERT_PLEASE_WAIT);
-//                        $(container).find('#fixed-rtc-preview').addClass('hidden');
-                        $(container).find('#scene-description').addClass('hidden');
-                        $(container).find('#scene-container').addClass('hidden');
-                    });
-                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
-                }
-            } else {
-                if (explorationPreferredGesturesRequest) {
-//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
-                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                        event.preventDefault();
-//                        appendAlert($(container), ALERT_PLEASE_WAIT);
-//                        $(container).find('#fixed-rtc-preview').addClass('hidden');
-                        $(container).find('#scene-description').addClass('hidden');
-                        $(container).find('#scene-container').addClass('hidden');
-                    });
-                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-trigger.php', 'modal-md');
-                }
-            }
-        }
-
-
-    },
-    renderUnmoderatedExploration: function renderUnmoderatedExploration(source, container, data) {
-        // general data section
-        $(container).find('.headline').text(data.title);
-        $(container).find('.description').text(data.description);
-    },
+//            }
+//            return false;
+//        }
+//
+//        // exploration live events
+//        if (!previewModeEnabled && peerConnection) {
+//            $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
+//                currentPhaseState = 'explorationStarted';
+//                renderCurrentStatePhase();
+//            });
+//
+//            $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
+//                currentExplorationIndex = payload.index;
+//                currentExplorationScene = payload.sceneIndex;
+//
+//                if (payload.description) {
+//                    $(container).find('#scene-description p').text(payload.description);
+//                    $(container).find('#scene-container').removeClass('hidden');
+//                } else {
+//                    $(container).find('#scene-container').addClass('hidden');
+//                }
+//            });
+//
+//            $(peerConnection).unbind(MESSAGE_OPEN_GESTURE_INFO).bind(MESSAGE_OPEN_GESTURE_INFO, function (event, payload) {
+//                console.log('open gesture info', payload);
+//
+//                currentPreviewGesture = {gesture: getGestureById(payload.id)};
+//                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
+//                    currentPreviewGesture = null;
+//                    $('#custom-modal').unbind('hide.bs.modal');
+//                    if (!previewModeEnabled && peerConnection) {
+//                        peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
+//                    }
+//                });
+//                loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
+//            });
+//
+//            $(peerConnection).unbind(MESSAGE_OPEN_TRIGGER_INFO).bind(MESSAGE_OPEN_TRIGGER_INFO, function (event, payload) {
+//                console.log('open trigger info', payload);
+//
+//                currentPreviewTrigger = getTriggerById(payload.id);
+//                $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
+//                    currentPreviewTrigger = null;
+//                    $('#custom-modal').unbind('hide.bs.modal');
+//                    if (!previewModeEnabled && peerConnection) {
+//                        peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
+//                    }
+//                });
+//                loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
+//            });
+//
+//            $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
+//                currentPhaseState = 'screenSharingStopped';
+//                renderCurrentPhaseState();
+//            });
+//
+//            if (data.explorationType === 'gestures') {
+//                $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_GESTURES).bind(MESSAGE_REQUEST_PREFERRED_GESTURES, function (event, payload) {
+////                    $(container).find('#fixed-rtc-preview').addClass('hidden');
+//                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+//                        event.preventDefault();
+//                        $('#custom-modal').unbind('hide.bs.modal');
+//                        currentPhaseState = 'askResponsePreferredGestures';
+//                        renderCurrentPhaseState();
+////                        appendAlert($(container), ALERT_PLEASE_WAIT);
+////                        $(container).find('#scene-description').addClass('hidden');
+////                        $(container).find('#scene-container').addClass('hidden');
+//                    });
+//                    currentExplorationIndex = payload.currentExplorationIndex;
+//                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
+//                });
+//            } else {
+//                $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_TRIGGER).bind(MESSAGE_REQUEST_PREFERRED_TRIGGER, function (event, payload) {
+////                    $(container).find('#fixed-rtc-preview').addClass('hidden');
+//                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+//                        event.preventDefault();
+//                        $('#custom-modal').unbind('hide.bs.modal');
+//                        currentPhaseState = 'askResponsePreferredTrigger';
+//                        renderCurrentPhaseState();
+////                        appendAlert($(container), ALERT_PLEASE_WAIT);
+////                        $(container).find('#scene-description').addClass('hidden');
+////                        $(container).find('#scene-container').addClass('hidden');
+//                    });
+//                    currentExplorationIndex = payload.currentExplorationIndex;
+//                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-trigger.php', 'modal-md');
+//                });
+//            }
+//        }
+//
+//        return container;
+//    },
     initializeRTC: function initializeRTC(container) {
         // check preview or live mode, and check if webRTC is needed
         initPopover();

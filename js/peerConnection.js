@@ -485,7 +485,7 @@ PeerConnection.prototype.showRemoteStream = function () {
 //        var height = Math.floor(width * 3 / 4);
     $('#' + currentOptions.localVideoElement).addClass('rtc-shadow');
     TweenMax.to($('#' + currentOptions.localVideoElement), .3, {css: {width: '30%', height: 'auto', left: 5, top: 5}, ease: Quad.easeIn, clearProps: 'all'});
-    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: .2, opacity: 1.0});
+    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: 0, opacity: 1.0});
 //    }, 500);
 };
 
@@ -493,7 +493,7 @@ PeerConnection.prototype.hideRemoteStream = function () {
     var currentOptions = this.options;
     $('#' + currentOptions.localVideoElement).removeClass('rtc-shadow');
     TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0});
-    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: .2, css: {width: '100%', height: 'auto', left: 0, top: 0}, ease: Quad.easeIn, clearProps: 'all'});
+    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: 0, css: {width: '100%', height: 'auto', left: 0, top: 0}, ease: Quad.easeIn, clearProps: 'all'});
 };
 
 

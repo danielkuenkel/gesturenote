@@ -1,4 +1,5 @@
 var currentPhaseStepIndex = 0;
+var currentClass = null;
 
 var questionnaireDone = false;
 var gestureTrainingStartTriggered = false;
@@ -66,6 +67,11 @@ var peerConnection = null;
 
 var currentQuestionnaireAnswers = null;
 var prototypeWindow = null;
+
+var USER_ROLE_MODERATOR = 'moderator';
+var USER_ROLE_TESTER = 'tester';
+var USER_ROLE_OBSERVER = 'observer';
+
 
 function checkStorage() {
     if (isLocalStorageSupported()) {
@@ -247,7 +253,7 @@ function checkIfStopRecordingNeeded(phases) {
 function resetConstraints() {
     $(window).unbind('keydown');
     $(window).unbind('keyup');
-    
+
     currentPhaseState = null;
 
     questionnaireDone = false;

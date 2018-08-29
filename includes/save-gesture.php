@@ -18,9 +18,9 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['titleQuality'], $_POST
     }
 
     $ownerId = $_SESSION['user_id'];
-    if (isset($_POST['ownerId']) && $_POST['ownerId'] != null) {
-        $ownerId = $_POST['ownerId'];
-    }
+//    if (isset($_POST['ownerId']) && $_POST['ownerId'] != null) {
+//        $ownerId = $_POST['ownerId'];
+//    }
 
     $source = $_SESSION['usertype'];
     if (isset($_POST['source']) && $_POST['source'] != null) {
