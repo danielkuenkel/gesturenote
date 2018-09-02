@@ -773,6 +773,13 @@ Exploration.prototype.renderModeratorView = function () {
 
 
 
+
+
+
+
+
+
+
 /*
  * tester view rendering
  */

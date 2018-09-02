@@ -413,6 +413,7 @@
     "noTriggerScoreCalculationPossible": "Der Scorewert kann nicht berechnet werden.",
     "triggerScoreInfo": "Je mehr korrekte Zuordnungen es bei einer Trigger-Slideshow gab, desto besser. Der Scorewert berechnet sich wie folgt: Falsche Zuordnungen / Anzahl der Gesten. Er liegt zwischen 0 (alles richtig zugeordnet) und 1 (alles falsch zugeordnet). Dieser Wert kann mit der Semantischen Verknüpfung, Genrealisierbarkeit und Intuitivität eines Gestensets in Verbindung gebracht werden.",
     "gestureSlideshowScoreInfo": "Je weniger Neustarts es bei einer Gesten-Slideshow gab, desto besser. Dieser Scorewert kann mit der Erinnerbarkeit und Intuitivität eines Gestensets in Verbindung gebracht werden.",
+    "overview": "Übersicht",
     "repeatTraining": "Training wiederholen",
     "startNow": "Jetzt starten",
     "openPrototype": "UI öffnen",

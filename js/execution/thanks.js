@@ -54,6 +54,7 @@ Thanks.prototype.renderModeratorView = function () {
 
 
 
+
 /*
  * tester view rendering
  */

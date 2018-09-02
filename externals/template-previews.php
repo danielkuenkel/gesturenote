@@ -319,7 +319,7 @@ include '../includes/language.php';
     <div class="row root" id="questionnaireGestures">
         <div class="col-md-4" id="column-left"></div>
         <div class="col-md-8" id="column-right">
-            
+
             <h3 style="margin-top: 0"><?php echo $lang->gus ?></h3>
 
             <div class="question-container"></div>
@@ -391,19 +391,19 @@ include '../includes/language.php';
             </div>
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
-            <div class="" id="general">
+            <div class="hidden" id="general">
                 <h3 class="headline" style="margin-top: 0"></h3>    
                 <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
 
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-training" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
-                <button type="button" class="btn btn-success btn-block btn-shadow disabled hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-training" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>
             </div>
 
-            <div id="training">
-                <h3 class="headline"></h3>
+            <div id="training" class="hidden">
+                <h3 class="headline" style="margin-top: 0px"></h3>
                 <div id="trainingContainer"></div>
                 <div class="alert-space alert-no-phase-data"></div>
             </div>
@@ -424,7 +424,7 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="btn-group-vertical btn-block" style="margin-top: 10px">
-                <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-show-gesture" style=""><i class="fa fa-circle-o-notch fa-spin hidden"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+                <button type="button" class="btn btn-default btn-block btn-shadow " id="btn-show-gesture" style=""><i class="fa fa-circle-o-notch fa-spin hidden"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
                 <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-quit-gesture-preview" style=""><i class="fa fa-circle-o-notch fa-spin hidden"></i> <span class="btn-text"><?php echo $lang->quitGesturePreview ?></span></button>
             </div>
 
@@ -463,44 +463,52 @@ include '../includes/language.php';
             </div>
         </div>
         <div class="col-md-7" id="column-right">
-            <div class="" id="general">
+            <div class="" id="general" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"></h3>
                 <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <!--<p id="description"></p>-->
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-show-overview" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
+            </div>
+
+            <div id="slides" class="hidden">
+                <h3 class="headline" style="margin-top: 0px"><?php echo $lang->overview ?></h3>
+                <div class="row slide-container"></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
-            <div id="slides">
-                <h3 class="headline"></h3>
-                <div class="row" id="slidesContainer"></div>
+            <div id="slide" class="hidden">
+                <h3 class="headline" style="margin-top: 0px"></h3>
+                <div class="row slide-container"></div>
             </div>
+
+            <button type="button" class="btn btn-success btn-shadow btn-block hidden" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
-    <div id="gestureSlideshowItem" class="row" style="padding-left: 15px; padding-right: 15px;">
-        <div class="col-xs-6 col-lg-8 left" style="margin-bottom: 10px;">
+    <div id="gestureSlideshowItem" class="row" style="padding-left: 15px; padding-right: 15px; margin-top: 10px">
+        <div class="col-xs-6 col-lg-4">
+            <!--<div class="row">-->
+            <!--<div class="col-xs-12">-->
+            <div class="row" id="thumbnail-container"></div>
+
+            <div class="" id="gesture-slide-controls" style="margin-top: 0px">
+                <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="trigger-slide"><i class="fa"></i> <span class="btn-text"><?php echo $lang->request ?></span></button>
+
+<!--<button type="button" class="btn btn-success btn-shadow btn-block hidden" id="btn-next-slide"><i class="fa fa-check" aria-hidden="true"></i> <span><?php echo $lang->nextGesture ?></span></button>-->
+                <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-restart-slideshow"><i class="fa fa-check" aria-hidden="true"></i> <span>Neu starten</span></button>
+            </div>
+            <!--</div>-->
+            <!--</div>-->
+
+        </div>
+        <div class="col-xs-6 col-lg-8" style="margin-bottom: 10px;">
             <div class="triggerContainer">
                 <div><?php echo $lang->gestureInquired ?>: <span id="searched" style="color: #303030"></span></div>
                 <div><?php echo $lang->triggerShown ?>: <span id="given" style="color: #303030"></span></div>
                 <div><?php echo $lang->answerPeriod ?>: <span id="responseTime" style="color: #303030"></span></div>
             </div>
         </div>
-        <div class="col-xs-6 col-lg-4 right">
-            <div style="margin: 0 auto">
-                <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-                <div class="text-center gestureControls hidden">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="btn-group-vertical btn-block" style="margin-top: 10px">
-                <button type="button" class="btn btn-info btn-shadow" id="trigger-slide"><span class="btn-text"><?php echo $lang->request ?></span></button>
-                <button type="button" class="btn btn-success btn-shadow disabled" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
-            </div>
-        </div>
     </div>
 
 
@@ -510,18 +518,18 @@ include '../includes/language.php';
         <div class="col-md-4" id="column-left"></div>
         <div class="col-md-8" id="column-right">
 
-            <div id="general">
+            <div id="general" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"></h3>
                 <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
-            <div>
-                <h3><?php echo $lang->elements ?></h3>
-                <div class="question-container"></div>
+            <div id="elements" class="hidden">
+                <h3 style="margin-top: 0px"><?php echo $lang->studyCatalogs->trigger ?></h3>
+                <div class="question-container" style="margin-top: 20px"></div>
             </div>
 
-            <button type="button" class="btn btn-success btn-block btn-shadow disabled hidden" id="btn-done-slideshow" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <button type="button" class="btn btn-success btn-block btn-shadow disabled hidden" id="btn-done-slideshow" style="margin-top: 20px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -1475,20 +1483,25 @@ include '../includes/language.php';
     <div class="root" id="gestureSlideshow" style="margin-top: 80px;">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <div id="general">
-                <h3 style="margin-top: 0" class="headline"></h3>
-                <div class="description"></div>
-                <hr>
-            </div>
-            <div id="restart" class="hidden">
-                <h3 style="" class="headline"><?php pleaseRestart ?></h3>
-                <hr>
-            </div>
+            <!--            <div id="general">
+                            <h3 style="margin-top: 0" class="headline"></h3>
+                            <div class="description"></div>
+                            <hr>
+                        </div>-->
+            <!--            <div id="restart" class="hidden">
+                            <h3 style="" class="headline"><?php pleaseRestart ?></h3>
+                            <hr>
+                        </div>-->
             <div class="alert-space alert-please-wait"></div>
-            <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
-                <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+            <div class="row hidden" id="slideshowContainer"></div>
+
+            <div id="ask-gesture-container" class="hidden">
+                <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
+                    <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+                </div>
+                <div class="trigger-title text-center" style="font-size: 30pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
             </div>
-            <div class="row" id="slideshowContainer"></div>
+
         </div>
     </div>
 
@@ -1505,11 +1518,11 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="gestureSlideshowItemModerated" class="text-center">
-        <div class="triggerContainer hidden">
-            <div class="trigger-title" style="font-size: 30pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
-        </div>
-    </div>
+    <!--    <div id="gestureSlideshowItemModerated" class="text-center">
+            <div class="triggerContainer hidden">
+    <div class="trigger-title" style="font-size: 30pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
+            </div>
+        </div>-->
 
 
     <!-- unmoderated gesture slideshow items -->
@@ -1524,22 +1537,76 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="gestureSlideshowItemUnmoderated" class="text-center col-xs-12">
-        <button class="btn btn-block btn-success btn-shadow hidden" id="startSlideshow" name="btn-success"><?php echo $lang->startNow ?></button>
-
-        <div class="triggerContainer hidden">
-            <div class="trigger-title" style="font-size: 30pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
-        </div>
-    </div>
+    <!--    <div id="gestureSlideshowItemUnmoderated" class="text-center col-xs-12">
+            <button class="btn btn-block btn-success btn-shadow hidden" id="startSlideshow" name="btn-success"><?php echo $lang->startNow ?></button>
+    
+            <div class="triggerContainer hidden">
+                <div class="trigger-title" style="font-size: 30pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
+            </div>
+        </div>-->
 
 
     <!-- trigger slideshow container -->
 
-    <div class="root" id="triggerSlideshow" style="margin-top: 80px;"></div>
-
-    <div id="triggerSlideshow-moderated">
+    <div class="root" id="triggerSlideshow" style="margin-top: 80px;">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right">
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
+            <div class="alert-space alert-please-wait"></div>
+
+            <div class="hidden" id="trigger-questions">
+                <div style="width: 300px; height: auto; margin: 0 auto;">
+                    <div class="embed-responsive embed-responsive-4by3">
+                        <div class="previewGesture"></div>
+                    </div>
+                    <div class="text-center gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                            <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--                <div class="text-center" style="width:300px; height:auto; margin: 0 auto" id="gesturePreview">
+                                    <div class="embed-responsive embed-responsive-4by3">
+                                        <div class="previewGesture autoplay" ></div>
+                                    </div>
+                                </div>-->
+                <!--                <div class="text-center gestureControls">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                                    </div>
+                                </div>-->
+                <div style="margin-top: 20px">
+                    <div class="question-container"></div>
+                    <div style="margin-top: 20px">
+                        <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-slide" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                        <button class="btn btn-block btn-success btn-shadow hidden" id="btn-done-slide" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+                    </div>
+                </div>    
+
+            </div>
+        </div>
+    </div>
+
+    <!--    <div id="triggerSlideshow-moderated">
+            <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+            <div class="col-md-8" id="column-right">
+                <div id="general">
+                    <h3 style="margin-top: 0"  class="headline"></h3>
+                    <div class="description"></div>
+                    <hr>
+                </div>
+                <div class="alert-space alert-please-wait"></div>
+                <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
+                    <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+                </div>
+                <div class="row hidden" id="slideshowContainer"></div>
+                <button class="btn btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success"><?php echo $lang->startNow ?></button>
+            </div>
+        </div>
+    
+        <div class="container" id="triggerSlideshow-unmoderated">
             <div id="general">
                 <h3 style="margin-top: 0"  class="headline"></h3>
                 <div class="description"></div>
@@ -1551,42 +1618,14 @@ include '../includes/language.php';
             </div>
             <div class="row hidden" id="slideshowContainer"></div>
             <button class="btn btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success"><?php echo $lang->startNow ?></button>
-        </div>
-    </div>
-
-    <div class="container" id="triggerSlideshow-unmoderated">
-        <div id="general">
-            <h3 style="margin-top: 0"  class="headline"></h3>
-            <div class="description"></div>
-            <hr>
-        </div>
-        <div class="alert-space alert-please-wait"></div>
-        <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
-            <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
-        </div>
-        <div class="row hidden" id="slideshowContainer"></div>
-        <button class="btn btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success"><?php echo $lang->startNow ?></button>
-    </div>
+        </div>-->
 
 
     <!-- unmoderated trigger slideshow items -->
 
-    <div id="triggerSlideshowItemUnmoderated">
-        <div class="col-sm-5 text-center" style="margin-bottom: 15px;" id="gesturePreview">
-            <div class="previewGesture autoplay embed-responsive embed-responsive-4by3"></div>
-            <div class="text-center gestureControls">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-7">
-            <div class="question-container"></div>
-            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-slide" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-done-slide" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
-        </div>        
-    </div>
+    <!--    <div id="triggerSlideshowItemUnmoderated">
+            
+        </div>-->
 
 
     <!-- exploration -->

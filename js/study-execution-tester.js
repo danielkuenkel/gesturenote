@@ -84,10 +84,15 @@ var Tester = {
                     item = Tester.getGestureTraining(source, container, currentPhaseData);
                     break;
                 case SLIDESHOW_GESTURES:
-                    item = Tester.getGestureSlideshow(source, container, currentPhaseData);
+                    currentClass = new GestureSlideshow();
+                    item = currentClass.renderTesterView();
+                    
+//                    item = Tester.getGestureSlideshow(source, container, currentPhaseData);
                     break;
                 case SLIDESHOW_TRIGGER:
-                    item = Tester.getTriggerSlideshow(source, container, currentPhaseData);
+                    currentClass = new TriggerSlideshow();
+                    item = currentClass.renderTesterView();
+//                    item = Tester.getTriggerSlideshow(source, container, currentPhaseData);
                     break;
                 case SCENARIO:
                     item = Tester.getScenario(source, container, currentPhaseData);
@@ -614,208 +619,207 @@ var Tester = {
             nextStep();
         });
     },
-    getGestureSlideshow: function getGestureSlideshow(source, container, data) {
-        // general data section
-        $(container).find('#general .headline').text(data.title);
-        $(container).find('#general .description').text(data.description);
-        if (!data.slideshow || data.slideshow.length === 0) {
-            return false;
-        }
-
-        if (slideshowStartTriggered) {
-            $(container).find('#general').remove();
-        }
-
-        if (!previewModeEnabled) {
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.annotations = new Array();
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-        }
-
-        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
-            slideRestarted = true;
-            Tester.renderUnmoderatedGestureSlideshow(source, container, data);
-        } else {
-            $(peerConnection).unbind(MESSAGE_START_GESTURE_SLIDESHOW).bind(MESSAGE_START_GESTURE_SLIDESHOW, function (event, payload) {
-                slideRestarted = true;
-                Tester.renderModeratedGestureSlideshowOverview(source, container, data);
-            });
-            $(peerConnection).unbind(MESSAGE_TRIGGER_GESTURE_SLIDE).bind(MESSAGE_TRIGGER_GESTURE_SLIDE, function (event, payload) {
-                slideRestarted = false;
-                slideTriggered = true;
-                currentSlideIndex = parseInt(payload.currentSlideIndex);
-                slidesRestartCount = payload.slidesRestartCount;
-                getGMT(function (timestamp) {
-                    var slideData = data.slideshow[currentSlideIndex];
-                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
-                    tempData.restarts = slidesRestartCount;
-                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                    Tester.renderModeratedGestureSlideshow(source, container, data);
-                });
-            });
-            $(peerConnection).unbind(MESSAGE_GESTURE_FIT_FOUND).bind(MESSAGE_GESTURE_FIT_FOUND, function (event, payload) {
-                slideRestarted = false;
-                slideTriggered = false;
-                appendAlert($(container), ALERT_PLEASE_WAIT);
-                getGMT(function (timestamp) {
-                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                    var annotationData = payload.annotationData;
-                    annotationData.id = tempData.annotations.length;
-                    annotationData.time = timestamp;
-                    tempData.annotations.push(annotationData);
-                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                });
-            });
-            $(peerConnection).unbind(MESSAGE_NO_GESTURE_FIT_FOUND).bind(MESSAGE_NO_GESTURE_FIT_FOUND, function (event, payload) {
-                slideRestarted = true;
-                slideTriggered = false;
-                currentSlideIndex = parseInt(payload.currentSlideIndex);
-                slidesRestartCount = parseInt(payload.slidesRestartCount);
-                getGMT(function (timestamp) {
-                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                    var annotationData = payload.annotationData;
-                    annotationData.id = tempData.annotations.length;
-                    annotationData.time = timestamp;
-                    tempData.annotations.push(annotationData);
-                    tempData.restarts = slidesRestartCount;
-                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                    Tester.renderModeratedGestureSlideshowOverview(source, container, data);
-                });
-            });
-//            $(peerConnection).unbind(MESSAGE_GESTURE_PERFORMED).bind(MESSAGE_GESTURE_PERFORMED, function (event, payload) {
-////                console.log(payload);
-//                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-//                tempData.restarts = parseInt(payload.restartCount);
-//                if (payload.fit) {
-//                    getGMT(function (timestamp) {
-//                        tempData.annotations.push({action: payload.action, gestureId: payload.gestureId, triggerId: payload.triggerId, selectedGestureId: payload.selectedGestureId, fit: payload.fit, time: timestamp});
-//                    });
+//    getGestureSlideshow: function getGestureSlideshow(source, container, data) {
+//        // general data section
+//        $(container).find('#general .headline').text(data.title);
+//        $(container).find('#general .description').text(data.description);
+//        if (!data.slideshow || data.slideshow.length === 0) {
+//            return false;
+//        }
 //
-//                } else {
-//                    getGMT(function (timestamp) {
-//                        tempData.annotations.push({action: payload.action, gestureId: payload.gestureId, triggerId: payload.triggerId, selectedGestureId: null, time: timestamp});
-//                    });
-//                }
+//        if (slideshowStartTriggered) {
+//            $(container).find('#general').remove();
+//        }
 //
-//                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-//            });
-
-            if (slideshowStartTriggered) {
-                if (slideRestarted) {
-                    Tester.renderModeratedGestureSlideshowOverview(source, container, data);
-                } else if (slideTriggered) {
-                    Tester.renderModeratedGestureSlideshow(source, container, data);
-                } else {
-                    appendAlert($(container), ALERT_PLEASE_WAIT);
-                }
-            } else {
-                appendAlert($(container), ALERT_PLEASE_WAIT);
-            }
-        }
-
-        return container;
-    },
-    renderModeratedGestureSlideshowOverview: function renderModeratedGestureSlideshowOverview(source, container, data) {
-//        console.log('renderModeratedGestureSlideshowOverview', $(container));
-        clearAlerts($(container));
-        $(container).find('#slideshowContainer').removeClass('hidden').empty();
-        $(container).find('#general').addClass('hidden');
-        for (var i = 0; i < data.slideshow.length; i++) {
-            var item = $(source).find('#gestureSlideshowOverviewItemModerated').clone().removeAttr('id');
-            $(item).css({marginBottom: '20px'});
-            $(container).find('#slideshowContainer').append(item);
-            var gesture = getGestureById(data.slideshow[i].gestureId);
-            renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
-//            console.log(gesture);
-        }
-    },
-    renderModeratedGestureSlideshow: function renderModeratedGestureSlideshow(source, container, data) {
-        $(container).find('.progress').removeClass('hidden');
-        clearAlerts($(container));
-        var slideData = data.slideshow[currentSlideIndex];
-        var item = $(source).find('#gestureSlideshowItemModerated').clone().removeAttr('id');
-        $(container).find('#slideshowContainer').removeClass('hidden').empty().append(item);
-        var progress = $(container).find('.progress');
-        progress.removeClass('active hidden');
-        progress.find('.progress-bar').css({width: '100%', backgroundColor: '#5cb85c'});
-        var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onAnswerTimeExpired, onCompleteParams: [container, data]});
-        timeline.add("start", 0)
-                .to(progress.find('.progress-bar'), parseInt(slideData.recognitionTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start");
-        var trigger = getTriggerById(slideData.triggerId);
-        $(item).find('.triggerContainer').removeClass('hidden');
-        $(item).find('.triggerContainer .trigger-title').text(trigger.title);
-        timeline.play();
-    },
-    renderUnmoderatedGestureSlideshowOverview: function renderUnmoderatedGestureSlideshowOverview(source, container, data) {
-        $(container).find('#slideshowContainer').removeClass('hidden').empty();
-        for (var i = 0; i < data.slideshow.length; i++) {
-            var item = $(source).find('#gestureSlideshowOverviewItemUnmoderated').clone().removeAttr('id');
-            $(container).find('#slideshowContainer').append(item);
-            var gesture = getGestureById(data.slideshow[i].gestureId);
-            renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
-        }
-    },
-    renderUnmoderatedGestureSlideshow: function renderUnmoderatedGestureSlideshow(source, container, data, isActive) {
-        $(container).find('#slideshowContainer').removeClass('hidden').empty();
-        if (slideRestarted) {
-            Tester.renderUnmoderatedGestureSlideshowOverview(source, container, data);
-        }
-
-        var item = $(source).find('#gestureSlideshowItemUnmoderated').clone().removeAttr('id');
-        $(container).find('#slideshowContainer').append(item);
-        if (currentSlideIndex === data.slideshow.length) {
-            $(item).find('#startSlideshow').text(translation.done);
-        }
-
-        if (slideshowStartTriggered) {
-            $(container).find('#general').remove();
-        }
-
-        if (slideshowStartTriggered && slideRestarted) {
-            $(container).find('#restart').removeClass('hidden');
-        } else {
-            $(container).find('#restart').addClass('hidden');
-        }
-
-        if (isActive) {
-            var slideData = data.slideshow[currentSlideIndex];
-            if (!previewModeEnabled) {
-                getGMT(function (timestamp) {
-                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
-                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                });
-            }
-
-            var progress = $(container).find('.progress');
-            progress.removeClass('active hidden');
-            var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onUnmoderatedAnswerTimeExpired, onCompleteParams: [source, container, data]});
-            timeline.add("start", 0)
-                    .to(progress.find('.progress-bar'), parseInt(slideData.recognitionTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start")
-                    .to($(container).find('.gestureContainer .headline, .triggerContainer .headline'), parseInt(data.answerTime), {color: '#d9534f', ease: Power0.easeNone}, "start");
-            var trigger = getTriggerById(slideData.triggerId);
-            $(item).find('.triggerContainer').removeClass('hidden');
-            $(item).find('.triggerContainer .trigger-title').text(trigger.title);
-            timeline.play();
-        } else {
-            $(item).find('#startSlideshow').removeClass('hidden');
-        }
-
-        $(item).find('#startSlideshow').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (currentSlideIndex >= data.slideshow.length) {
-                currentSlideIndex = 0;
-                slideshowStartTriggered = false;
-                nextStep();
-            } else {
-                slideshowStartTriggered = true;
-                slideRestarted = false;
-                Tester.renderUnmoderatedGestureSlideshow(source, container, data, true);
-            }
-        });
-    },
+//        if (!previewModeEnabled) {
+//            var currentPhase = getCurrentPhase();
+//            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//            tempData.annotations = new Array();
+//            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//        }
+//
+//        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+//            slideRestarted = true;
+//            Tester.renderUnmoderatedGestureSlideshow(source, container, data);
+//        } else {
+////            $(peerConnection).unbind(MESSAGE_START_GESTURE_SLIDESHOW).bind(MESSAGE_START_GESTURE_SLIDESHOW, function (event, payload) {
+////                slideRestarted = true;
+////                Tester.renderModeratedGestureSlideshowOverview(source, container, data);
+////            });
+////            $(peerConnection).unbind(MESSAGE_TRIGGER_GESTURE_SLIDE).bind(MESSAGE_TRIGGER_GESTURE_SLIDE, function (event, payload) {
+////                slideRestarted = false;
+////                slideTriggered = true;
+////                currentSlideIndex = parseInt(payload.currentSlideIndex);
+////                slidesRestartCount = payload.slidesRestartCount;
+////                getGMT(function (timestamp) {
+////                    var slideData = data.slideshow[currentSlideIndex];
+////                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+////                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
+////                    tempData.restarts = slidesRestartCount;
+////                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+////                    Tester.renderModeratedGestureSlideshow(source, container, data);
+////                });
+////            });
+////            $(peerConnection).unbind(MESSAGE_GESTURE_FIT_FOUND).bind(MESSAGE_GESTURE_FIT_FOUND, function (event, payload) {
+////                slideRestarted = false;
+////                slideTriggered = false;
+////                appendAlert($(container), ALERT_PLEASE_WAIT);
+////                getGMT(function (timestamp) {
+////                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+////                    var annotationData = payload.annotationData;
+////                    annotationData.id = tempData.annotations.length;
+////                    annotationData.time = timestamp;
+////                    tempData.annotations.push(annotationData);
+////                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+////                });
+////            });
+////            $(peerConnection).unbind(MESSAGE_NO_GESTURE_FIT_FOUND).bind(MESSAGE_NO_GESTURE_FIT_FOUND, function (event, payload) {
+////                slideRestarted = true;
+////                slideTriggered = false;
+////                currentSlideIndex = parseInt(payload.currentSlideIndex);
+////                slidesRestartCount = parseInt(payload.slidesRestartCount);
+////                getGMT(function (timestamp) {
+////                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+////                    var annotationData = payload.annotationData;
+////                    annotationData.id = tempData.annotations.length;
+////                    annotationData.time = timestamp;
+////                    tempData.annotations.push(annotationData);
+////                    tempData.restarts = slidesRestartCount;
+////                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+////                    Tester.renderModeratedGestureSlideshowOverview(source, container, data);
+////                });
+////            });
+////            $(peerConnection).unbind(MESSAGE_GESTURE_PERFORMED).bind(MESSAGE_GESTURE_PERFORMED, function (event, payload) {
+//////                console.log(payload);
+////                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+////                tempData.restarts = parseInt(payload.restartCount);
+////                if (payload.fit) {
+////                    getGMT(function (timestamp) {
+////                        tempData.annotations.push({action: payload.action, gestureId: payload.gestureId, triggerId: payload.triggerId, selectedGestureId: payload.selectedGestureId, fit: payload.fit, time: timestamp});
+////                    });
+////
+////                } else {
+////                    getGMT(function (timestamp) {
+////                        tempData.annotations.push({action: payload.action, gestureId: payload.gestureId, triggerId: payload.triggerId, selectedGestureId: null, time: timestamp});
+////                    });
+////                }
+////
+////                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+////            });
+//
+////            if (slideshowStartTriggered) {
+////                if (slideRestarted) {
+////                    Tester.renderModeratedGestureSlideshowOverview(source, container, data);
+////                } else if (slideTriggered) {
+////                    Tester.renderModeratedGestureSlideshow(source, container, data);
+////                } else {
+////                    appendAlert($(container), ALERT_PLEASE_WAIT);
+////                }
+////            } else {
+////                appendAlert($(container), ALERT_PLEASE_WAIT);
+////            }
+//        }
+//
+//        return container;
+//    },
+//    renderModeratedGestureSlideshowOverview: function renderModeratedGestureSlideshowOverview(source, container, data) {
+////        console.log('renderModeratedGestureSlideshowOverview', $(container));
+//        clearAlerts($(container));
+//        $(container).find('#slideshowContainer').removeClass('hidden').empty();
+//        $(container).find('#general').addClass('hidden');
+//        for (var i = 0; i < data.slideshow.length; i++) {
+//            var item = $(source).find('#gestureSlideshowOverviewItemModerated').clone().removeAttr('id');
+//            $(item).css({marginBottom: '20px'});
+//            $(container).find('#slideshowContainer').append(item);
+//            var gesture = getGestureById(data.slideshow[i].gestureId);
+//            renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+//        }
+//    },
+//    renderModeratedGestureSlideshow: function renderModeratedGestureSlideshow(source, container, data) {
+//        $(container).find('.progress').removeClass('hidden');
+//        clearAlerts($(container));
+//        var slideData = data.slideshow[currentSlideIndex];
+//        var item = $(source).find('#gestureSlideshowItemModerated').clone().removeAttr('id');
+//        $(container).find('#slideshowContainer').removeClass('hidden').empty().append(item);
+//        var progress = $(container).find('.progress');
+//        progress.removeClass('active hidden');
+//        progress.find('.progress-bar').css({width: '100%', backgroundColor: '#5cb85c'});
+//        var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onAnswerTimeExpired, onCompleteParams: [container, data]});
+//        timeline.add("start", 0)
+//                .to(progress.find('.progress-bar'), parseInt(slideData.recognitionTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start");
+//        var trigger = getTriggerById(slideData.triggerId);
+//        $(item).find('.triggerContainer').removeClass('hidden');
+//        $(item).find('.triggerContainer .trigger-title').text(trigger.title);
+//        timeline.play();
+//    },
+//    renderUnmoderatedGestureSlideshowOverview: function renderUnmoderatedGestureSlideshowOverview(source, container, data) {
+//        $(container).find('#slideshowContainer').removeClass('hidden').empty();
+//        for (var i = 0; i < data.slideshow.length; i++) {
+//            var item = $(source).find('#gestureSlideshowOverviewItemUnmoderated').clone().removeAttr('id');
+//            $(container).find('#slideshowContainer').append(item);
+//            var gesture = getGestureById(data.slideshow[i].gestureId);
+//            renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+//        }
+//    },
+//    renderUnmoderatedGestureSlideshow: function renderUnmoderatedGestureSlideshow(source, container, data, isActive) {
+//        $(container).find('#slideshowContainer').removeClass('hidden').empty();
+//        if (slideRestarted) {
+//            Tester.renderUnmoderatedGestureSlideshowOverview(source, container, data);
+//        }
+//
+//        var item = $(source).find('#gestureSlideshowItemUnmoderated').clone().removeAttr('id');
+//        $(container).find('#slideshowContainer').append(item);
+//        if (currentSlideIndex === data.slideshow.length) {
+//            $(item).find('#startSlideshow').text(translation.done);
+//        }
+//
+//        if (slideshowStartTriggered) {
+//            $(container).find('#general').remove();
+//        }
+//
+//        if (slideshowStartTriggered && slideRestarted) {
+//            $(container).find('#restart').removeClass('hidden');
+//        } else {
+//            $(container).find('#restart').addClass('hidden');
+//        }
+//
+//        if (isActive) {
+//            var slideData = data.slideshow[currentSlideIndex];
+//            if (!previewModeEnabled) {
+//                getGMT(function (timestamp) {
+//                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
+//                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//                });
+//            }
+//
+//            var progress = $(container).find('.progress');
+//            progress.removeClass('active hidden');
+//            var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onUnmoderatedAnswerTimeExpired, onCompleteParams: [source, container, data]});
+//            timeline.add("start", 0)
+//                    .to(progress.find('.progress-bar'), parseInt(slideData.recognitionTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start")
+//                    .to($(container).find('.gestureContainer .headline, .triggerContainer .headline'), parseInt(data.answerTime), {color: '#d9534f', ease: Power0.easeNone}, "start");
+//            var trigger = getTriggerById(slideData.triggerId);
+//            $(item).find('.triggerContainer').removeClass('hidden');
+//            $(item).find('.triggerContainer .trigger-title').text(trigger.title);
+//            timeline.play();
+//        } else {
+//            $(item).find('#startSlideshow').removeClass('hidden');
+//        }
+//
+//        $(item).find('#startSlideshow').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//            if (currentSlideIndex >= data.slideshow.length) {
+//                currentSlideIndex = 0;
+//                slideshowStartTriggered = false;
+//                nextStep();
+//            } else {
+//                slideshowStartTriggered = true;
+//                slideRestarted = false;
+//                Tester.renderUnmoderatedGestureSlideshow(source, container, data, true);
+//            }
+//        });
+//    },
     getTriggerSlideshow: function getTriggerSlideshow(source, container, data) {
         var content = $(getSourceContainer(VIEW_TESTER)).find('#triggerSlideshow-' + getLocalItem(STUDY).surveyType).clone();
         $(container).append(content);
@@ -914,32 +918,32 @@ var Tester = {
             slideshowStartTriggered = true;
             Tester.renderTriggerSlideshow(source, container, data);
         });
-        function saveTriggerSlideshowAnswer(container) {
-            var selectedOption = $(container).find('.option-container .btn-option-checked').attr('id');
-            selectedOption = selectedOption === undefined ? -1 : selectedOption;
-            if (!previewModeEnabled && peerConnection) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
-                    tempData.selectedOptions.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-                } else {
-                    var array = new Array();
-                    array.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-                    tempData.selectedOptions = array;
-                }
-
-                console.log(currentQuestionnaireAnswers, tempData.selectedOptions);
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, tempData.selectedOptions);
-            } else {
-                console.log(currentQuestionnaireAnswers);
-                if (currentQuestionnaireAnswers) {
-                    currentQuestionnaireAnswers.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-                } else {
-                    currentQuestionnaireAnswers = [{correctTriggerId: slideData.triggerId, selectedId: selectedOption}];
-                }
-            }
-        }
+//        function saveTriggerSlideshowAnswer(container) {
+//            var selectedOption = $(container).find('.option-container .btn-option-checked').attr('id');
+//            selectedOption = selectedOption === undefined ? -1 : selectedOption;
+//            if (!previewModeEnabled && peerConnection) {
+//                var currentPhase = getCurrentPhase();
+//                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
+//                    tempData.selectedOptions.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
+//                } else {
+//                    var array = new Array();
+//                    array.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
+//                    tempData.selectedOptions = array;
+//                }
+//
+//                console.log(currentQuestionnaireAnswers, tempData.selectedOptions);
+//                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, tempData.selectedOptions);
+//            } else {
+//                console.log(currentQuestionnaireAnswers);
+//                if (currentQuestionnaireAnswers) {
+//                    currentQuestionnaireAnswers.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
+//                } else {
+//                    currentQuestionnaireAnswers = [{correctTriggerId: slideData.triggerId, selectedId: selectedOption}];
+//                }
+//            }
+//        }
     },
     getIdentification: function getIdentification(source, container, data) {
         if (!data.identification || data.identification.length === 0) {

@@ -10,11 +10,11 @@ var trainingShowGesture = false;
 var trainingPrototypeOpened = false;
 var triggeredFeedback = null;
 var slidesRestartCount = 0;
-var slideshowStartTriggered = false;
-var slideRestarted = false;
-var triggerSlideshowDone = false;
+//var slideshowStartTriggered = false;
+//var slideRestarted = false;
+//var triggerSlideshowDone = false;
 var currentSlideIndex = 0;
-var slideTriggered = false;
+//var slideTriggered = false;
 var currentWOZScene = null;
 var currentScenarioTask = null;
 var currentScenarioTaskIndex = 0;
@@ -266,12 +266,12 @@ function resetConstraints() {
     currentGestureTrainingIndex = 0;
     currentTrainingIndex = 0;
 
-    slideshowStartTriggered = false;
-    slideTriggered = false;
+//    slideshowStartTriggered = false;
+//    slideTriggered = false;
     currentSlideIndex = 0;
-    slideRestarted = false;
+//    slideRestarted = false;
     slidesRestartCount = 0;
-    triggerSlideshowDone = false;
+//    triggerSlideshowDone = false;
 
     scenarioStartTriggered = false;
     scenarioPrototypeOpened = false;
