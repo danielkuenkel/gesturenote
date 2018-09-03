@@ -94,7 +94,7 @@ var Moderator = {
                     break;
                 case SLIDESHOW_TRIGGER:
                     currentClass = new TriggerSlideshow();
-                    
+
 //                    item = Moderator.getTriggerSlideshow(source, container, currentPhaseData);
                     break;
                 case PHYSICAL_STRESS_TEST:
@@ -162,7 +162,7 @@ var Moderator = {
     },
     checkPositioning: function checkPositioning(format) {
         if (previewModeEnabled) {
-            var posY = '74px';
+            var posY = '80px';
 //            switch (format) {
 //                case SCENARIO:
 //                    posY = '0px';

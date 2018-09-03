@@ -735,7 +735,7 @@ function renderQuestionnaire(target, questionnaire, answers, forceFilters) {
             if (!$(this).hasClass('disabled') && !$(this).hasClass('hidden')) {
                 $(nextQuestionButton).addClass('hidden');
                 $(doneQuestionnaireButton).addClass('hidden');
-                $(target).find('.question-container').empty();
+//                $(target).find('.question-container').empty();
                 appendAlert(target, ALERT_WAITING_FOR_MODERATOR);
                 $(target).find('.question-container').trigger('questionnaireDone');
                 currentQuestionIndex = questionnaire.length;

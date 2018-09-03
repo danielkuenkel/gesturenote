@@ -72,7 +72,7 @@ if (login_check($mysqli) == true) {
                                             <img class="flag-small" src="" style="top: 16px; position: relative">
                                         </div>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" id="de" style="margin-top: 1px"><img class="flag-small" src="img/flags/Germany.png"> <span><?php echo $lang->languages->de->language ?></span></a></li>
+                                            <li><a href="#" id="de" style="margin-top: 1px"><img class="flag-small" src="img/flags/de.png"> <span><?php echo $lang->languages->de->language ?></span></a></li>
                                             <li><a href="#" id="en"><img class="flag-small" src="img/flags/en.png"> <span><?php echo $lang->languages->en->language ?></span></a></li>
                                         </ul>
                                     </div>
@@ -320,7 +320,7 @@ if (login_check($mysqli) == true) {
         <script>
             $(document).ready(function () {
                 checkDomain();
-                checkCookies(<?php echo $_SESSION['cookiesAccepted'] ?>);
+                checkCookies(<?php echo checkCookiesAccepted(); ?>);
 
                 checkLanguage(function () {
                     updateLanguageIndicator($('#language-selection'));

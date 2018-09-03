@@ -139,7 +139,7 @@ if (login_check($mysqli) == true) {
         <script>
             $(document).ready(function () {
                 checkDomain();
-                checkCookies(<?php echo $_SESSION['cookiesAccepted'] ?>);
+                checkCookies(<?php echo checkCookiesAccepted(); ?>);
                 keepSessionAlive();
 
                 checkLanguage(function () {

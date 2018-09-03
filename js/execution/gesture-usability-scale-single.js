@@ -11,6 +11,13 @@ function GestureUsabilityScaleSingle(options) {
 
 
 
+
+
+
+
+
+
+
 /*
  * moderator view rendering
  */
@@ -63,6 +70,12 @@ GestureUsabilityScaleSingle.prototype.renderModeratorView = function () {
     container = questionnaire.renderModeratorView();
     return container;
 };
+
+
+
+
+
+
 
 
 

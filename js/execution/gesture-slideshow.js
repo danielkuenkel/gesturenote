@@ -61,7 +61,7 @@ GestureSlideshow.prototype.renderModeratorView = function () {
                 renderStateNextSlide();
                 break;
             case 'gestureSlideshowDone':
-                renderGestureSlideshowDone();
+                renderStateGestureSlideshowDone();
                 break;
         }
     }
@@ -199,8 +199,10 @@ GestureSlideshow.prototype.renderModeratorView = function () {
         $(container).find('#slide #btn-restart-slideshow').removeClass('hidden');
     }
 
-    function renderGestureSlideshowDone() {
+    function renderStateGestureSlideshowDone() {
         console.log('render moderator state: ', currentPhaseState);
+
+        appendAlert(container, ALERT_PHASE_STEP_DONE);
 
         $(document).scrollTop(0);
         $(container).find('#general, #slides, #slide').addClass('hidden');
@@ -300,7 +302,7 @@ GestureSlideshow.prototype.renderTesterView = function () {
                 renderStateSelectGesture();
                 break;
             case 'gestureSlideshowDone':
-                renderGestureSlideshowDone();
+                renderStateGestureSlideshowDone();
                 break;
         }
     }
@@ -438,7 +440,7 @@ GestureSlideshow.prototype.renderTesterView = function () {
         }
     }
 
-    function renderGestureSlideshowDone() {
+    function renderStateGestureSlideshowDone() {
         (container).find('#general').addClass('hidden');
         $(container).find('#ask-gesture-container').addClass('hidden');
         appendAlert($(container), ALERT_PLEASE_WAIT);

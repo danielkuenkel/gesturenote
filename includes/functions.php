@@ -61,16 +61,14 @@ function login($email, $password, $mysqli) {
                     $_SESSION['surname'] = $surname;
                     $_SESSION['email'] = $email;
                     $_SESSION['login_string'] = hash('sha512', $db_password . $user_browser);
-//                    $_SESSION['gender'] = $gender;
                     $_SESSION['usertype'] = $usertype;
-//                    $_SESSION['birthday'] = $birthday;
                     $_SESSION['tutorialStudyCreation'] = $tutorialStudyCreation;
                     $_SESSION['tutorialStudyPreview'] = $tutorialStudyPreview;
                     $_SESSION['tutorialStudy'] = $tutorialStudy;
                     $_SESSION['tutorialExtraction'] = $tutorialExtraction;
                     $_SESSION['tutorialParticipant'] = $tutorialParticipant;
                     $_SESSION['tutorialGestureCatalog'] = $tutorialGestureCatalog;
-                    
+
                     echo json_encode(array('status' => 'success', 'userId' => $user_id, 'forename' => $forename, 'surname' => $surname, 'userType' => $usertype));
                     exit();
                 } else {
@@ -250,5 +248,14 @@ function studyExecutionExists($studyId, $mysqli) {
         }
     } else {
         return false;
+    }
+}
+
+function checkCookiesAccepted() {
+    if (isset($_SESSION['cookiesAccepted'])) {
+        echo $_SESSION['cookiesAccepted'];
+    } else {
+        $_SESSION['cookiesAccepted'] = '0';
+        echo '0';
     }
 }

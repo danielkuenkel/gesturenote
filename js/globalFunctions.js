@@ -11,7 +11,7 @@ function checkDomain() {
 }
 
 function checkCookies(cookiesAccepted) {
-//    console.log('check Cookies', cookiesAccepted);
+    console.log('check Cookies', cookiesAccepted);
     if (isNaN(cookiesAccepted) || cookiesAccepted === undefined || parseInt(cookiesAccepted) === 0) {
         loadHTMLintoModal('custom-modal', 'externals/modal-cookies.php', 'modal-md');
 

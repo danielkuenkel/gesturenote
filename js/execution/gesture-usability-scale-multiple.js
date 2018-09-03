@@ -11,6 +11,13 @@ function GestureUsabilityScaleMultiple(options) {
 
 
 
+
+
+
+
+
+
+
 /*
  * moderator view rendering
  */
@@ -27,6 +34,14 @@ GestureUsabilityScaleMultiple.prototype.renderModeratorView = function () {
     container = questionnaire.renderModeratorView();
     return container;
 };
+
+
+
+
+
+
+
+
 
 
 

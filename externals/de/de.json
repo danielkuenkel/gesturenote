@@ -415,6 +415,7 @@
     "gestureSlideshowScoreInfo": "Je weniger Neustarts es bei einer Gesten-Slideshow gab, desto besser. Dieser Scorewert kann mit der Erinnerbarkeit und Intuitivität eines Gestensets in Verbindung gebracht werden.",
     "overview": "Übersicht",
     "repeatTraining": "Training wiederholen",
+    "repeatStressTest": "Wiederholen",
     "startNow": "Jetzt starten",
     "openPrototype": "UI öffnen",
     "startScreensharing": "Screen-Sharing starten",
@@ -4751,6 +4752,11 @@
             "id": "no-phase-data",
             "type": "warning",
             "text": "Es sind keine Daten hinterlegt."
+        },
+        "phaseStepDone": {
+            "id": "phase-step-done",
+            "type": "warning",
+            "text": "Für diesen Leitfadenschritt sind keine weiteren Daten hinterlegt. Falls Sie Beobachtungsfragen angelegt haben, können Sie diese noch beantworten. Sie gelangen mit einem Klick auf <button class='btn-xs btn-success'><i class='fa fa-check'></i> Fertig</button> zum nächsten Leitfadenschritt."
         },
         "generalError": {
             "id": "general-error",

@@ -148,7 +148,7 @@ if (login_check($mysqli) == true) {
                 <div id="phase-content"></div>
             </div>
 
-            <div id="viewModerator" class="hidden" style="padding-left: 20px; padding-right: 20px;">
+            <div id="viewModerator" class="hidden" style="padding-left: 15px; padding-right: 15px;">
                 <div id="pinnedRTC" style="position: fixed; z-index: 99"></div>
                 <div id="phase-content"></div>
             </div>

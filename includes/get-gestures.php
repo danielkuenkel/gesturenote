@@ -85,7 +85,6 @@ if (isset($_SESSION['user_id'])) {
                         $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedSetId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited, $forename, $surname);
 
                         while ($select_invited_users_stmt->fetch()) {
-                            $sharedCount++;
                             $hasShared = true;
 
                             $invitedUsers[] = array('id' => $sharedStudyRowId,
@@ -236,7 +235,6 @@ if (isset($_SESSION['user_id'])) {
                                             $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedSetId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited, $forename, $surname);
 
                                             while ($select_invited_users_stmt->fetch()) {
-                                                $sharedCount++;
                                                 $hasShared = true;
 
                                                 $invitedUsers[] = array('id' => $sharedStudyRowId,

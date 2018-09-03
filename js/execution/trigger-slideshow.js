@@ -34,6 +34,9 @@ TriggerSlideshow.prototype.renderModeratorView = function () {
     // general data section
     $(container).find('#general .headline').text(currentPhase.title);
     $(container).find('#general #description').text(data.description);
+    
+    // observation section
+    renderObservations(data, container);
 
     renderCurrentPhaseState();
 
@@ -99,6 +102,7 @@ TriggerSlideshow.prototype.renderModeratorView = function () {
         console.log('render moderator state: ', currentPhaseState);
 
         renderSlideshowItems(currentQuestionnaireAnswers);
+        appendAlert(container, ALERT_PHASE_STEP_DONE);
 
         $(container).find('#elements').removeClass('hidden');
         $(container).find('#btn-done-slideshow').removeClass('hidden disabled');

@@ -34,10 +34,6 @@ GestureTraining.prototype.renderModeratorView = function () {
         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
     }
 
-    // general data section
-    $(container).find('#general .headline').text(getCurrentPhase().title);
-    $(container).find('#general #description').text(data.description);
-
     // observation section
     renderObservations(data, container);
 
@@ -58,6 +54,9 @@ GestureTraining.prototype.renderModeratorView = function () {
             case 'gestureTrainingStarted':
                 renderStateGestureTrainingStarted();
                 break;
+            case 'showGesture':
+
+                break;
             case 'trainingDone':
                 renderStateTrainingDone();
                 break;
@@ -70,6 +69,9 @@ GestureTraining.prototype.renderModeratorView = function () {
     function renderStateInitialize() {
         console.log('render state: ', currentPhaseState, areThereScenes(data.training));
         $(container).find('#general').removeClass('hidden');
+        $(container).find('#general .headline').text(getCurrentPhase().title);
+        $(container).find('#general #description').text(data.description);
+
         if (areThereScenes(data.training) === true) {
             $(container).find('#btn-open-prototype').removeClass('hidden');
             $(container).find('#btn-start-training').remove();
@@ -78,7 +80,6 @@ GestureTraining.prototype.renderModeratorView = function () {
             $(container).find('#btn-open-prototype').remove();
             $(container).find('#btn-start-screen-sharing').remove();
         }
-
 
         $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -97,10 +98,21 @@ GestureTraining.prototype.renderModeratorView = function () {
             renderCurrentPhaseState();
         });
 
-
         // without screen sharing
         $(container).find('#btn-start-training').unbind('click').bind('click', function (event) {
             event.preventDefault();
+
+            if (!previewModeEnabled && peerConnection) {
+                getGMT(function (timestamp) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.startTrainingTime = timestamp;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                });
+
+                peerConnection.sendMessage(MESSAGE_START_GESTURE_TRAINING);
+            }
+
             currentPhaseState = 'explorationStarted';
             renderCurrentPhaseState();
         });
@@ -315,11 +327,9 @@ GestureTraining.prototype.renderModeratorView = function () {
                 removeAlert($(container).find('#training'), ALERT_NO_PHASE_DATA);
                 var item = $(source).find('#trainingItem').clone().removeAttr('id');
                 $(container).find('#trainingContainer').empty().append(item);
-                item.find('#repeats .address').text(translation.repeats + ":");
 
                 $(item).find('#btn-repeat-training').addClass('disabled');
                 item.find('#repeats .text').text(trainingData.repeats - currentTrainingIndex - 1);
-
 
                 if (parseInt(trainingData.repeats) > 0) {
 
@@ -351,18 +361,17 @@ GestureTraining.prototype.renderModeratorView = function () {
                                 prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                             }
                         } else {
-                            if (gestureTrainingStartTriggered) {
-                                wobble(item.find('#next-gesture, #training-done'));
-                            } else {
-                                wobble(container.find('#general'));
-                                $(document).scrollTop(0);
-                            }
+//                            if (gestureTrainingStartTriggered) {
+                            wobble(item.find('#next-gesture, #training-done'));
+//                            } else {
+//                                wobble(container.find('#general'));
+//                                $(document).scrollTop(0);
+//                            }
                         }
                     });
                 }
 
                 var trigger = getTriggerById(trainingData.triggerId);
-                item.find('#trigger .address').text(translation.trigger + ":");
                 item.find('#trigger .text').text(trigger.title);
 
                 var gesture = getGestureById(trainingData.gestureId);
@@ -374,7 +383,7 @@ GestureTraining.prototype.renderModeratorView = function () {
                             event.preventDefault();
                             $(container).find('#btn-quit-gesture-preview .fa').addClass('hidden');
                             $(container).find('#btn-quit-gesture-preview').removeClass('disabled');
-                            trainingShowGesture = false;
+//                            trainingShowGesture = false;
                         });
                     }
 
@@ -395,7 +404,7 @@ GestureTraining.prototype.renderModeratorView = function () {
                                     $(button).removeClass('disabled');
                                     $(container).find('.btn-trigger-scene').removeClass('disabled');
                                     $(container).find('.btn-trigger-feedback').removeClass('disabled');
-                                    trainingShowGesture = false;
+//                                    trainingShowGesture = false;
                                 });
 
                                 getGMT(function (timestamp) {
@@ -410,14 +419,15 @@ GestureTraining.prototype.renderModeratorView = function () {
 
                             }
 
-                            trainingShowGesture = true;
-                            trainingTriggered = true;
-                        } else {
-                            if (!gestureTrainingStartTriggered) {
-                                wobble(container.find('#general'));
-                                $(document).scrollTop(0);
-                            }
+//                            trainingShowGesture = true;
+//                            trainingTriggered = true;
                         }
+//                        else {
+//                            if (!gestureTrainingStartTriggered) {
+//                                wobble(container.find('#general'));
+//                                $(document).scrollTop(0);
+//                            }
+//                        }
                     });
 
                     $(item).find('#btn-quit-gesture-preview').unbind('click').bind('click', function (event) {
@@ -447,8 +457,8 @@ GestureTraining.prototype.renderModeratorView = function () {
                                 wobble(container.find('#transition-scenes'));
                             }
 
-                            trainingShowGesture = false;
-                            trainingTriggered = true;
+//                            trainingShowGesture = false;
+//                            trainingTriggered = true;
                         } else {
                             if (gestureTrainingStartTriggered) {
                                 wobble($(item).find('#btn-show-gesture'));
@@ -504,13 +514,13 @@ GestureTraining.prototype.renderModeratorView = function () {
                     }
                 }
 
-                if (gestureTrainingStartTriggered) {
-                    if (trainingTriggered && !trainingShowGesture) {
-                        $(container).find('#btn-show-gesture').removeClass('disabled');
-                    } else if (!trainingTriggered && !trainingShowGesture) {
-                        $(container).find('#btn-show-gesture').removeClass('disabled');
-                    }
-                }
+//                if (gestureTrainingStartTriggered) {
+//                    if (trainingTriggered && !trainingShowGesture) {
+//                        $(container).find('#btn-show-gesture').removeClass('disabled');
+//                    } else if (!trainingTriggered && !trainingShowGesture) {
+//                        $(container).find('#btn-show-gesture').removeClass('disabled');
+//                    }
+//                }
 
                 if (trainingData.feedbackId !== 'none') {
                     $(item).find('#transition-feedback-header, #transition-feedback-container').removeClass('hidden');
@@ -551,9 +561,9 @@ GestureTraining.prototype.renderModeratorView = function () {
                         currentGestureTrainingIndex++;
                         currentTransitionSceneIndex = 0;
                         currentTrainingIndex = 0;
-                        trainingTriggered = false;
-                        trainingShowGesture = false;
-                        triggeredFeedback = null;
+//                        trainingTriggered = false;
+//                        trainingShowGesture = false;
+//                        triggeredFeedback = null;
                         renderStateGestureTrainingStarted();
                         $(container).find('.btn-trigger-scene').addClass('disabled');
                         $(container).find('.btn-trigger-feedback').addClass('disabled');
@@ -583,9 +593,9 @@ GestureTraining.prototype.renderModeratorView = function () {
                 $(item).find('#training-done').unbind('click').bind('click', function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
-                        currentPhaseStepDone = true;
-                        triggeredFeedback = null;
-                        gestureTrainingStartTriggered = false;
+//                        currentPhaseStepDone = true;
+//                        triggeredFeedback = null;
+//                        gestureTrainingStartTriggered = false;
                         currentGestureTrainingIndex = 0;
 
                         currentPhaseState = 'trainingDone';
@@ -616,10 +626,10 @@ GestureTraining.prototype.renderModeratorView = function () {
 
         $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            screenSharingStopped = true;
-            triggeredFeedback = null;
-            trainingPrototypeOpened = false;
-            gestureTrainingStartTriggered = false;
+//            screenSharingStopped = true;
+//            triggeredFeedback = null;
+//            trainingPrototypeOpened = false;
+//            gestureTrainingStartTriggered = false;
             currentGestureTrainingIndex = 0;
 
             if (peerConnection) {
@@ -644,34 +654,29 @@ GestureTraining.prototype.renderModeratorView = function () {
         $(container).find('#training').addClass('hidden');
         $(container).find('#btn-start-screen-sharing').addClass('hidden');
         $(container).find('#btn-stop-screen-sharing').addClass('hidden');
-        $(container).find('#btn-done-training').removeClass('hidden');
 
+
+        renderCurrentPhaseState();
     }
 
-    $(container).find('#btn-start-training').unbind('click').bind('click', function (event) {
-        event.preventDefault();
+    function renderStateGestureTraningDone() {
+        console.log('render moderator state: ', currentPhaseState);
 
-        if (!previewModeEnabled && peerConnection) {
-            getGMT(function (timestamp) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.startTrainingTime = timestamp;
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-            });
+        appendAlert(container, ALERT_PHASE_STEP_DONE);
 
-            peerConnection.sendMessage(MESSAGE_START_GESTURE_TRAINING);
-        }
+        $(document).scrollTop(0);
+        $(container).find('#btn-done-training').removeClass('hidden');
+        $(container).find('#btn-done-training').unbind('click').bind('click', function (event) {
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            }
+            nextStep();
+        });
+    }
 
-        currentPhaseState = 'gestureTrainingStarted';
-        renderCurrentPhaseState();
-    });
 
-    $(container).find('#btn-done-training').unbind('click').bind('click', function (event) {
-        if (peerConnection) {
-            peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-        }
-        nextStep();
-    });
+
+
 
     return container;
 };
