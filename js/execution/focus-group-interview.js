@@ -30,14 +30,11 @@ FocusGroupInterview.prototype.renderModeratorView = function () {
         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
     }
 
-    $(container).find('#general .headline').text(getCurrentPhase().title);
-    $(container).find('#general #description').text(data.description);
-
     // key questions section
-    var questionnaire = new Questionnaire({isPreview: false, container: $(container).find('#keyQuestions'), questions: data.keyQuestions});
-    container = questionnaire.renderModeratorView();
-    renderCurrentPhaseState();
+    var questionnaire = new Questionnaire({isPreview: false, questions: data.keyQuestions, source: $('#item-container-inputs'), container: $(container).find('#keyQuestions')});
+    questionnaire.renderModeratorView();
 
+    renderCurrentPhaseState();
     function renderCurrentPhaseState() {
         if (currentPhaseState === null) {
             currentPhaseState = 'initialize';
@@ -72,7 +69,10 @@ FocusGroupInterview.prototype.renderModeratorView = function () {
     }
 
     function renderStateInitialize() {
-        console.log('render state: ', currentPhaseState, scenesUsedForPhaseStep(data.scenes));
+        console.log('render state: ', currentPhaseState, container);
+
+        $(container).find('#general .headline').text(currentPhase.title);
+        $(container).find('#general #description').text(data.description);
 
         if (scenesUsedForPhaseStep(data.scenes) === true) {
             $(container).find('#btn-start-focus-group').remove();

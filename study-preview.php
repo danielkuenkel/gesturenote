@@ -85,7 +85,7 @@ if (login_check($mysqli) == true) {
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
     </head>
-    <body>
+    <body style="padding-bottom: 0px">
 
         <div id="alerts"></div>
         <div id="template-general"></div>
@@ -143,16 +143,19 @@ if (login_check($mysqli) == true) {
         </div>
 
         <!-- main content -->
-        <div class="mainContent" id="mainContent" style="padding-top: 54px;">
-            <div id="viewTester" class="hidden">
+        <div class="mainContent" id="mainContent" style="padding-top: 54px; padding-bottom: 0px">
+            <div id="viewTester" class="hidden" style="padding-left: 15px; padding-right: 15px;">
+                <div class="pinnedRTC" style="position: fixed; z-index: 99"></div>
                 <div id="phase-content"></div>
             </div>
 
             <div id="viewModerator" class="hidden" style="padding-left: 15px; padding-right: 15px;">
-                <div id="pinnedRTC" style="position: fixed; z-index: 99"></div>
+                <div class="pinnedRTC" style="position: fixed; z-index: 99"></div>
                 <div id="phase-content"></div>
             </div>
         </div>
+
+        <div id="btn-show-stream" class="btn btn-shadow btn-default hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showStream ?>" style="border-bottom-left-radius: 0px; border-top-left-radius: 0px; position: fixed; top:50%; transform: translateY(-50%); padding: 15px 10px;"><i class="fa fa-video-camera"></i></div>
 
         <script>
             var currentView;
@@ -173,22 +176,24 @@ if (login_check($mysqli) == true) {
 
             // resize rtc placeholder functionalities
             $(window).on('resize', function () {
-                if (!$('#viewModerator #pinnedRTC').hasClass('hidden') && $('#viewModerator #column-left').hasClass('rtc-scalable')) {
+                var view = currentView === VIEW_MODERATOR ? '#viewModerator' : '#viewTester';
+                if (!$(view + ' .pinnedRTC').hasClass('hidden') && $(view + ' #column-left').hasClass('rtc-scalable')) {
                     if ($(document).scrollTop() === 0) {
-                        updateRTCHeight($('#viewModerator #column-left').width(), true);
+                        updateRTCHeight($(view + ' #column-left').width(), true);
                     } else {
                         $(document).scrollTop(0);
                     }
                 } else {
-                    var width = $('#viewModerator #column-left').width();
+                    var width = $(view + ' #column-left').width();
                     var height = 3 / 4 * width;
-                    $('#viewModerator #web-rtc-placeholder').css({width: width + 'px', height: height + 'px'});
+                    $(view + ' #web-rtc-placeholder').css({width: width + 'px', height: height + 'px'});
                 }
             });
 
             $(window).scroll(function () {
-                if (!$('#viewModerator #pinnedRTC').hasClass('hidden') && $('#viewModerator #column-left').hasClass('rtc-scalable')) {
-                    updateRTCHeight($('#viewModerator #column-left').width());
+                var view = currentView === VIEW_MODERATOR ? '#viewModerator' : '#viewTester';
+                if (!$(view + ' .pinnedRTC').hasClass('hidden') && $(view + ' #column-left').hasClass('rtc-scalable')) {
+                    updateRTCHeight($(view + ' #column-left').width());
                 }
             });
 
@@ -197,21 +202,22 @@ if (login_check($mysqli) == true) {
             }
 
             function updateRTCHeight(updateWidth, updateColumn) {
+                var view = currentView === VIEW_MODERATOR ? '#viewModerator' : '#viewTester';
                 var scrollTop = $(document).scrollTop();
                 var newHeight = 3 / 4 * updateWidth - scrollTop;
                 var newWidth = 4 / 3 * newHeight;
                 if (newWidth > DRAGGABLE_MIN_WIDTH) {
-                    $('#viewModerator #web-rtc-placeholder').css({height: newHeight + 'px', width: newWidth + 'px'});
+                    $(view + ' #web-rtc-placeholder').css({height: newHeight + 'px', width: newWidth + 'px'});
                 }
 
                 if (scrollTop > 0) {
-                    $('#viewModerator #web-rtc-placeholder').css({opacity: .7});
+                    $(view + ' #web-rtc-placeholder').css({opacity: .7});
                 } else {
-                    $('#viewModerator #web-rtc-placeholder').css({opacity: 1});
+                    $(view + ' #web-rtc-placeholder').css({opacity: 1});
                 }
 
                 if (updateColumn) {
-                    TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: newHeight + 20}});
+                    TweenMax.to($(view + ' #column-left'), .2, {css: {marginTop: newHeight + 20}});
                 }
             }
 
@@ -263,16 +269,16 @@ if (login_check($mysqli) == true) {
                     });
                 }
 
-                var tween = new TweenMax($('#web-rtc-placeholder').find('#stream-controls'), .3, {opacity: 1.0, paused: true});
-                $(document).find('#viewModerator #web-rtc-placeholder').on('mouseenter', function (event) {
-                    event.preventDefault();
-                    tween.play();
-                });
-
-                $('#viewModerator #web-rtc-placeholder').on('mouseleave', function (event) {
-                    event.preventDefault();
-                    tween.reverse();
-                });
+//                var tween = new TweenMax($('#web-rtc-placeholder').find('#stream-controls'), .3, {opacity: 1.0, paused: true});
+//                $(document).find('#viewModerator #web-rtc-placeholder').on('mouseenter', function (event) {
+//                    event.preventDefault();
+//                    tween.play();
+//                });
+//
+//                $('#viewModerator #web-rtc-placeholder').on('mouseleave', function (event) {
+//                    event.preventDefault();
+//                    tween.reverse();
+//                });
             }
 
             $('.previous').on('click', function (event) {
@@ -301,13 +307,13 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (!$(this).hasClass('active')) {
                     showTesterView();
-                    pinRTC();
                     renderPhaseStepForTester();
                 }
             });
 
             function showModeratorView() {
                 currentView = VIEW_MODERATOR;
+                $('#viewTester').find('#web-rtc-placeholder').remove();
                 $('#btnViewModerator').addClass('active font-bold');
                 $('#btnViewTester').removeClass('active font-bold');
                 $('#viewTester').addClass('hidden');
@@ -316,6 +322,7 @@ if (login_check($mysqli) == true) {
 
             function showTesterView() {
                 currentView = VIEW_TESTER;
+                $('#viewModerator').find('#web-rtc-placeholder').remove();
                 $('#btnViewTester').addClass('active font-bold');
                 $('#btnViewModerator').removeClass('active font-bold');
                 $('#viewTester').removeClass('hidden');
@@ -346,6 +353,7 @@ if (login_check($mysqli) == true) {
             function renderPhaseStepForTester() {
                 resetRenderedContent();
                 Tester.renderView();
+                initPopover();
             }
 
 
@@ -366,6 +374,22 @@ if (login_check($mysqli) == true) {
                     }
                 }
                 $(this).blur();
+            });
+
+            $(document).on('click', '#btn-hide-stream', function (event) {
+                event.preventDefault();
+                console.log('hide stream');
+                $('#web-rtc-placeholder').addClass('hidden');
+                $('#btn-show-stream').removeClass('hidden');
+                dragRTC();
+            });
+
+            $(document).on('click', '#btn-show-stream', function (event) {
+                event.preventDefault();
+                console.log('show stream');
+                $('#web-rtc-placeholder').removeClass('hidden');
+                $('#btn-show-stream').addClass('hidden');
+                pinRTC();
             });
 
             $('#btn-introduction').on('click', function (event) {

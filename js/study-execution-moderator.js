@@ -162,7 +162,7 @@ var Moderator = {
     },
     checkPositioning: function checkPositioning(format) {
         if (previewModeEnabled) {
-            var posY = '80px';
+            var posY = '70px';
 //            switch (format) {
 //                case SCENARIO:
 //                    posY = '0px';
@@ -4658,25 +4658,22 @@ var Moderator = {
     },
     appendRTCPreviewStream: function appendRTCPreviewStream() {
         var source = getSourceContainer(currentView);
-        var target = $('#viewModerator').find('#pinnedRTC');
+        var target = $('#viewModerator').find('.pinnedRTC');
         var callerElement = $(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
         $(target).empty().prepend(callerElement);
         pinRTC();
         updateRTCHeight($('#viewModerator #column-left').width(), true);
-
 
         // init mouse events and pidoco tracking, for live execution the peer connection class handles this
         var tween = new TweenMax($(callerElement).find('.stream-controls'), .3, {opacity: 1.0, paused: true});
         $(callerElement).on('mouseenter', function (event) {
             event.preventDefault();
             tween.play();
-//            console.log('mouse tracking active?', pidocoMouseTrackingActive);
         });
 
         $(callerElement).on('mouseleave', function (event) {
             event.preventDefault();
             tween.reverse();
-//            console.log('mouse tracking active?', pidocoMouseTrackingActive);
         });
     },
     initializePeerConnection: function initializePeerConnection() {

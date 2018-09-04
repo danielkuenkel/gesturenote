@@ -190,6 +190,12 @@ function dataURItoBlob(dataURI) {
     return new Blob([ia], {type: mimeString});
 }
 
+// origin url check for opened screen sharing window
+function getPopupOrigin() {
+    var origin = window.location.origin;
+    return origin.includes('localhost') ? 'http://localhost' : 'https://gesturenote.de';
+}
+
 function showCursor(target, cursor) {
     $(target).css({cursor: cursor});
 }

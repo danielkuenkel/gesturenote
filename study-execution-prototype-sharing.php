@@ -1,9 +1,5 @@
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+include 'includes/language.php';
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +64,8 @@
                 });
 
                 window.onmessage = function (event) {
-                    if (event.origin !== "https://gesturenote.de")
+                    console.log('event origin', event.origin);
+                    if (event.origin !== "http://localhost" && event.origin !== "https://gesturenote.de")
                         return;
 
                     switch (event.data.message) {
@@ -108,6 +105,7 @@
             function renderSceneItem(scene) {
                 $('#shared-scenario').find('#scene-container').empty();
                 if (scene && scene !== null) {
+                    console.log('render scene item', scene);
                     var sceneItem = $('#item-container-tester').find('#' + scene.type).clone().removeAttr('id');
                     $('#shared-scenario').find('#scene-container').append(sceneItem);
                     $('#shared-scenario').find('#scene-container').css({backgroundColor: "rgb(255,255,255)"});
@@ -129,7 +127,7 @@
                             sceneItem[0].src = scene.parameters.url;
                             break;
                         case SCENE_VIDEO_EMBED:
-                            sceneItem.find('.videoContainer').addClass(scene.options[0] === 'ratio_16_9' ? 'embed-responsive-16by9' : 'embed-responsive-4by3');
+                            sceneItem.find('.videoContainer').addClass(scene.parameters.ratio === 'ratio_16_9' ? 'embed-responsive-16by9' : 'embed-responsive-4by3');
                             sceneItem.find('.videoContainer').html(scene.parameters.url);
                             var video = $(sceneItem).find('iframe');
                             var src = video.attr('src');
@@ -157,7 +155,7 @@
 
                         if (scene.type === SCENE_VIDEO_EMBED) {
                             var width;
-                            if (scene.options[0] === 'ratio_16_9') {
+                            if (scene.parameters.ratio === 'ratio_16_9') {
                                 width = height / 9 * 16;
                             } else {
                                 width = height / 3 * 4;

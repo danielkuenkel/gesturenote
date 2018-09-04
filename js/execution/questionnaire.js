@@ -26,7 +26,7 @@ Questionnaire.prototype.renderModeratorView = function () {
     var source = classInternal.options.source;
     var isPreview = classInternal.options.isPreview || false;
     var container = classInternal.options.container !== null ? classInternal.options.container : $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
-
+    
 //    console.log(data, data.length)
     if (data && data.length > 0) {
         if (isPreview) {

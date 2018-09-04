@@ -1413,3 +1413,8 @@ canvas {
     transform: translate(-50%,-50%); 
     color:white;
 }
+
+
+.btn-block+.btn-block {
+    margin-top: 0px
+}
