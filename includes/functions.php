@@ -253,7 +253,7 @@ function studyExecutionExists($studyId, $mysqli) {
 
 function checkCookiesAccepted() {
     if (isset($_SESSION['cookiesAccepted'])) {
-        echo $_SESSION['cookiesAccepted'];
+        echo print_r($_SESSION['cookiesAccepted']);
     } else {
         $_SESSION['cookiesAccepted'] = '0';
         echo '0';

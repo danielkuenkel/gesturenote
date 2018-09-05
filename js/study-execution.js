@@ -8,7 +8,7 @@ var currentTrainingRepeatCount = 0;
 //var trainingTriggered = false;
 //var trainingShowGesture = false;
 //var trainingPrototypeOpened = false;
-//var triggeredFeedback = null;
+var triggeredFeedback = null;
 var slidesRestartCount = 0;
 //var slideshowStartTriggered = false;
 //var slideRestarted = false;
@@ -558,6 +558,33 @@ function pinRTC() {
     $('#draggableRTC').css({top: 150, left: 50});
     keepStreamsAlive(video);
     resetRTC();
+}
+
+/*
+ * show and hide stream functions for tester execution
+ */
+
+function hideStream() {
+    dragRTC();
+    $('#draggableRTC').addClass('hidden');
+
+    var stream = $('#web-rtc-placeholder');
+    if (previewModeEnabled !== true) {
+        stream = $('#video-caller');
+    }
+    $(stream).addClass('hidden');
+    $('#btn-show-stream').removeClass('hidden');
+}
+
+function showStream() {
+    pinRTC();
+    var stream = $('#web-rtc-placeholder');
+    if (previewModeEnabled !== true) {
+        stream = $('#video-caller');
+    }
+    console.log('show stream', stream);
+    $(stream).removeClass('hidden');
+    $('#btn-show-stream').addClass('hidden');
 }
 
 function keepStreamsAlive(target) {

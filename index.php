@@ -320,7 +320,7 @@ if (login_check($mysqli) == true) {
         <script>
             $(document).ready(function () {
                 checkDomain();
-                checkCookies(<?php echo checkCookiesAccepted(); ?>);
+                checkCookies(parseInt('<?php echo checkCookiesAccepted(); ?>'));
 
                 checkLanguage(function () {
                     updateLanguageIndicator($('#language-selection'));

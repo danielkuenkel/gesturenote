@@ -27,12 +27,6 @@ GestureTraining.prototype.renderModeratorView = function () {
         return false;
     }
 
-    if (!previewModeEnabled) {
-        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-        tempData.annotations = new Array();
-        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-    }
-
     // observation section
     renderObservations(data, container);
 
@@ -75,8 +69,15 @@ GestureTraining.prototype.renderModeratorView = function () {
 
     function renderStateInitialize() {
         console.log('render moderator state: ', currentPhaseState, areThereScenes(data.training));
+
+        if (!previewModeEnabled) {
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.annotations = new Array();
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+        }
+
         $(container).find('#general').removeClass('hidden');
-        $(container).find('#general .headline').text(getCurrentPhase().title);
+        $(container).find('#general .headline').text(currentPhase.title);
         $(container).find('#general #description').text(data.description);
 
         if (areThereScenes(data.training) === true) {
@@ -86,6 +87,7 @@ GestureTraining.prototype.renderModeratorView = function () {
             $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
                 event.preventDefault();
 
+                $(this).addClass('hidden');
                 var checkedScenes = checkSingleScene(data);
                 openPrototypeScene(null, checkedScenes.single);
 
@@ -121,7 +123,7 @@ GestureTraining.prototype.renderModeratorView = function () {
         console.log('render moderator state: ', currentPhaseState);
 
         $(container).find('#general').removeClass('hidden');
-        $(container).find('#general .headline').text(getCurrentPhase().title);
+        $(container).find('#general .headline').text(currentPhase.title);
         $(container).find('#general #description').text(data.description);
         $(container).find('#btn-open-prototype').remove();
         $(container).find('#btn-start-screen-sharing').removeClass('hidden');
@@ -132,16 +134,15 @@ GestureTraining.prototype.renderModeratorView = function () {
             lockButton(button, true);
 
             if (!previewModeEnabled && peerConnection) {
-                $(container).find('#btn-start-screen-sharing').find('.fa-spin').removeClass('hidden');
+                lockButton(button, true);
                 peerConnection.shareScreen(function (error) {
-                    $(button).removeClass('disabled');
-                    $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
+                    unlockButton(button, true);
                     console.warn(error);
                 }, function () {
                     peerConnection.startScreenRecording();
                     $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
                         event.preventDefault();
-                        $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
+                        unlockButton(button, true);
                         currentPhaseState = 'gestureTrainingStarted';
                         renderCurrentPhaseState();
                     });
@@ -155,6 +156,7 @@ GestureTraining.prototype.renderModeratorView = function () {
                     peerConnection.sendMessage(MESSAGE_START_GESTURE_TRAINING);
                 });
             } else {
+                unlockButton(button, true);
                 currentPhaseState = 'gestureTrainingStarted';
                 renderCurrentPhaseState();
             }
@@ -265,12 +267,15 @@ GestureTraining.prototype.renderModeratorView = function () {
             currentPhaseState = 'showScenes';
             renderCurrentPhaseState();
         });
-
-        $('html,body').animate({scrollTop: 0}, 300);
     }
 
     function renderStateNoMoreTrainingRepeats() {
         console.log('render moderator state: ', currentPhaseState);
+
+        if ($(container).find('#training').hasClass('hidden')) {
+            $(container).find('#training').removeClass('hidden');
+            renderTrainingData(true);
+        }
 
         $(container).find('.btn-trigger-scene').addClass('disabled');
         $(container).find('.btn-trigger-feedback').addClass('disabled');
@@ -299,17 +304,23 @@ GestureTraining.prototype.renderModeratorView = function () {
                 renderCurrentPhaseState();
             });
 
-        }
+//            var offsetTop = $(container).find('#btn-no-more-training-items').offset().top;
+//            $('html,body').animate({scrollTop: (document.body.scrollHeight - offsetTop)}, 300);
 
-        $('html,body').animate({scrollTop: document.body.scrollHeight}, 300);
+            var offsetTop = $(container).find('#btn-no-more-training-items').offset().top + $(container).find('#btn-no-more-training-items').height() + 25;
+            var scrollOffset = offsetTop - $(window).height();
+            $('html,body').animate({scrollTop: scrollOffset < 0 ? 0 : scrollOffset}, 300);
+        }
     }
 
     function renderStateNoMoreTrainingItems() {
         console.log('render moderator state: ', currentPhaseState);
-
+        
         $(container).find('#training').addClass('hidden');
 
         if (areThereScenes(data.training)) {
+            appendAlert(container, ALERT_QUIT_SCREENSHARING);
+            
             $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
             $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
                 event.preventDefault();
@@ -344,8 +355,10 @@ GestureTraining.prototype.renderModeratorView = function () {
 
     function renderStateGestureTraningDone() {
         console.log('render moderator state: ', currentPhaseState);
-
+        
+        clearAlerts(container);
         appendAlert(container, ALERT_PHASE_STEP_DONE);
+        
         $(container).find('#btn-done-training').removeClass('hidden');
         $(container).find('#btn-done-training').unbind('click').bind('click', function (event) {
             if (peerConnection) {
@@ -630,14 +643,16 @@ GestureTraining.prototype.renderModeratorView = function () {
         } else if (transitionsLength === 2) {
 //            currentTransitionSceneIndex = Math.min(transitionsLength + feedbackLength - leftSceneButtons.length, transitionsLength - 1);
             currentWOZScene = getSceneById($(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').attr('id'));
-//            $(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').addClass('btn-primary');
+            $(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').addClass('btn-primary');
             renderFollowScene(scenesContainer);
         }
 
         if (leftSceneButtons.length === 1 && leftFeedbackButtons.length === 0) {
             if (currentTrainingRepeatCount < parseInt(trainingData.repeats) - 1) {
                 $(container).find('#btn-repeat-training').removeClass('hidden');
-                $('html,body').animate({scrollTop: document.body.scrollHeight}, 300);
+                var offsetTop = $(container).find('#training').offset().top + $(container).find('#training').height();
+                var scrollOffset = offsetTop - $(window).height();
+                $('html,body').animate({scrollTop: scrollOffset < 0 ? 0 : scrollOffset}, 300);
             } else {
                 currentPhaseState = 'noMoreTrainingRepeats';
                 renderCurrentPhaseState();
@@ -682,7 +697,7 @@ GestureTraining.prototype.renderModeratorView = function () {
  */
 
 GestureTraining.prototype.renderTesterView = function () {
-    console.log('render tester view:', GESTURE_TRAINING.toUpperCase());
+    console.log('render tester view:', GESTURE_TRAINING.toUpperCase(), currentPhaseState);
 
     var currentPhase = currentClass.options.currentPhase;
     var data = currentClass.options.currentPhaseData;
@@ -716,11 +731,7 @@ GestureTraining.prototype.renderTesterView = function () {
                 renderStateShowScenes();
                 break;
             case 'noMoreTrainingRepeats':
-                renderStateNoMoreTrainingRepeats();
-                break;
             case 'noMoreTrainingItems':
-                renderStateNoMoreTrainingItems();
-                break;
             case 'screenSharingStopped':
             case 'trainingDone':
                 renderStateGestureTraningDone();
@@ -731,6 +742,15 @@ GestureTraining.prototype.renderTesterView = function () {
     function renderStateInitialize() {
         console.log('render tester state: ', currentPhaseState);
         appendAlert(container, ALERT_PLEASE_WAIT);
+
+        if (!previewModeEnabled && peerConnection) {
+            initScreenSharing($(container).find('#scene-container'));
+
+            $(peerConnection).unbind(MESSAGE_START_GESTURE_TRAINING).bind(MESSAGE_START_GESTURE_TRAINING, function () {
+                currentPhaseState = 'gestureTrainingStarted';
+                renderCurrentPhaseState();
+            });
+        }
     }
 
     function renderStatePrototypeOpened() {
@@ -742,6 +762,14 @@ GestureTraining.prototype.renderTesterView = function () {
         console.log('render tester state: ', currentPhaseState);
         clearAlerts(container);
         checkScenes();
+
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_OPEN_GESTURE_INFO).bind(MESSAGE_OPEN_GESTURE_INFO, function (event, payload) {
+                currentTrainingIndex = payload.currentTrainingIndex;
+                currentPhaseState = 'showGesture';
+                renderCurrentPhaseState();
+            });
+        }
     }
 
     function renderStateShowGesture() {
@@ -765,6 +793,20 @@ GestureTraining.prototype.renderTesterView = function () {
         console.log('render tester state: ', currentPhaseState);
         clearAlerts(container);
         checkScenes();
+
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_TRIGGER_FEEDBACK).bind(MESSAGE_TRIGGER_FEEDBACK, function (event, payload) {
+                triggeredFeedback = payload.triggeredFeedback;
+                checkFeedback();
+            });
+
+            $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function () {
+                currentPhaseState = 'trainingDone';
+                renderCurrentPhaseState();
+            });
+        } else {
+            checkFeedback();
+        }
     }
 
     function renderStateNoMoreTrainingRepeats() {
@@ -777,8 +819,12 @@ GestureTraining.prototype.renderTesterView = function () {
         console.log('render tester state: ', currentPhaseState);
         appendAlert(container, ALERT_PLEASE_WAIT);
         $(container).find('#scene-container').addClass('hidden');
+        showStream();
     }
 
+
+
+    // state independent functions
 
     function checkScenes() {
         if (areThereScenes(data.training) === true) {
@@ -788,6 +834,32 @@ GestureTraining.prototype.renderTesterView = function () {
                 // render scene manually
                 var sceneItem = renderSceneItem(source, container, currentWOZScene.id);
                 console.log(sceneItem);
+            }
+        }
+    }
+
+    function checkFeedback() {
+        if (triggeredFeedback) {
+            console.log(triggeredFeedback);
+            var hint = appendHint(source, $('body'), triggeredFeedback, TYPE_SURVEY_MODERATED);
+            if (hint !== null) {
+                $(hint).on('hint.hidden', function () {
+                    triggeredFeedback = null;
+                    if (peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN);
+                    }
+//                    else if (currentWOZScene) {
+//                        renderSceneItem(source, container, currentWOZScene.id);
+//                    }
+                });
+            } else {
+                triggeredFeedback = null;
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN);
+                }
+//                else {
+//                    renderSceneItem(source, container, currentWOZScene.id);
+//                }
             }
         }
     }

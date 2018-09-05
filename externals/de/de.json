@@ -449,7 +449,7 @@
     "editProfile": "Daten bearbeiten",
     "updateProfile": "Profildaten aktualisieren",
     "staticStudyURLCheck": "Bitte die Studienlaufzeit überprüfen. Eine Studie kann nur durchgeführt werden, wenn die aktuelle Zeit innerhalb der Laufzeit liegt.",
-    "staticStudyURLExecute": "Befragung durchführen!",
+    "staticStudyURLExecute": "Befragung durchführen",
     "staticStudyURLOnlyModerated": "Diese Studie wird unmoderiert durchgeführt.",
     "staticStudyURLNoPhasesteps": "Mit diesem Leitfaden ist eine Durchführung nicht möglich. Fügen Sie weitere Leitfadenschritte hinzu.",
     "statistic": "Statistik",
@@ -4754,6 +4754,11 @@
             "id": "no-phase-data",
             "type": "warning",
             "text": "Es sind keine Daten hinterlegt."
+        },
+        "quitScreensharing": {
+            "id": "quit-screen-sharing",
+            "type": "warning",
+            "text": "Beenden Sie das Screensharing mit einem Klick auf <button class='btn-xs btn-success'><i class='fa fa-check'></i> Screensharing beenden</button>."
         },
         "phaseStepDone": {
             "id": "phase-step-done",

@@ -71,6 +71,24 @@ if ($h && $token && $studyId) {
         <script src="js/study-execution-moderator-save.js"></script>
         <script src="js/upload-queue.js"></script>
 
+        <!-- phase step formats -->
+        <script src="js/execution/exploration.js"></script>
+        <script src="js/execution/focus-group-interview.js"></script>
+        <script src="js/execution/gesture-slideshow.js"></script>
+        <script src="js/execution/gesture-training.js"></script>
+        <script src="js/execution/gesture-usability-scale-multiple.js"></script>
+        <script src="js/execution/gesture-usability-scale-single.js"></script>
+        <script src="js/execution/identification.js"></script>
+        <script src="js/execution/interview.js"></script>
+        <script src="js/execution/letter-of-acceptance.js"></script>
+        <script src="js/execution/physical-stress-test.js"></script>
+        <script src="js/execution/questionnaire.js"></script>
+        <script src="js/execution/system-usability-scale.js"></script>
+        <script src="js/execution/thanks.js"></script>
+        <script src="js/execution/trigger-slideshow.js"></script>
+        <script src="js/execution/user-experience-questionnaire.js"></script>
+        <script src="js/execution/user-test.js"></script>
+
         <!-- streaming -->
         <script src="js/andyet/simplewebrtc.bundle.js"></script>
         <script src="js/peerConnection.js"></script>
@@ -131,10 +149,10 @@ if ($h && $token && $studyId) {
         </div>
 
         <!-- Container (Panel Section) -->
-        <div class="mainContent" id="mainContent" style="padding:10px; margin-top:60px">
+        <div class="mainContent" id="mainContent" style="padding-left: 15px; padding-right: 15px; padding-top: 70px; padding-bottom: 0px">
             <div id="viewModerator">
                 <div class="alert-space alert-general-please-wait"></div>
-                <div id="pinnedRTC" style="position: fixed; opacity: 0; z-index: 99"></div>
+                <div class="pinnedRTC" id="pinnedRTC" style="position: fixed; opacity: 0; z-index: 99"></div>
                 <div id="phase-content" class="hidden"></div>
             </div>
         </div>
@@ -149,10 +167,10 @@ if ($h && $token && $studyId) {
                     <video autoplay id="local-stream" class="rtc-stream" style="display:block;"></video>
                 </div>
                 <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
-                    <button type="button" class="btn stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
                 </div>
                 <div id="stream-control-indicator">
                     <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
@@ -231,7 +249,7 @@ if ($h && $token && $studyId) {
                             setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, result.evaluatorData.observations);
                         }
                     }
-                    
+
                     checkStorage();
                 });
             }

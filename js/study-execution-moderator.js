@@ -161,15 +161,15 @@ var Moderator = {
 
     },
     checkPositioning: function checkPositioning(format) {
-        if (previewModeEnabled) {
-            var posY = '70px';
+//        if (previewModeEnabled) {
+//            var posY = '70px';
 //            switch (format) {
 //                case SCENARIO:
 //                    posY = '0px';
 //                    break;
 //            }
-            $('#viewModerator #phase-content').css({marginTop: posY});
-        }
+//            $('#viewModerator #phase-content').css({marginTop: posY});
+//        }
     },
     renderNoDataView: function renderNoDataView() {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');

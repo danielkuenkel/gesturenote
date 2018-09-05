@@ -56,9 +56,9 @@ function renderData(data, hash) {
     } else if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
         $('#copy-to-clipboard').removeClass('hidden');
         $('.btn-open-static-execution-url').removeClass('hidden');
-        
+
         $('#copy-to-clipboard #static-study-url').removeClass('readonly');
-            $('#copy-to-clipboard #static-study-url').click(function () {
+        $('#copy-to-clipboard #static-study-url').click(function () {
             $('#copy-to-clipboard #static-study-url').select();
         });
 
@@ -85,7 +85,7 @@ function renderData(data, hash) {
 //        var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
 //        $('#copy-to-clipboard #static-study-url').val(absoluteStaticStudyUrl);
 
-        // prepare study
+    // prepare study
 //        console.log(now > dateFrom, now < dateTo, now, dateFrom, dateTo);
 //        if (now > dateFrom && now < dateTo) {
 //            $('#copy-to-clipboard #static-study-url').removeClass('readonly');
@@ -167,6 +167,7 @@ function renderData(data, hash) {
         $('.btn-delete-study').remove();
         $('.btn-edit-study').remove();
         $('#fixed-study-owner-controls').find('.btn-preview-study').css({borderBottomLeftRadius: '0px'});
+        $('#fixed-study-owner-controls').find('.btn-open-static-execution-url').css({borderBottomLeftRadius: '0px', borderBottomRightRadius: '8px'});
     }
 
 

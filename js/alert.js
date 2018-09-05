@@ -60,6 +60,7 @@ var ALERT_IMAGE_TO_LARGE = 'image-to-large';
 var ALERT_SOUND_TO_LARGE = 'sound-to-large';
 var ALERT_NO_SEARCH_RESULTS = 'no-search-results';
 var ALERT_NO_PHASE_DATA = 'no-phase-data';
+var ALERT_QUIT_SCREENSHARING = 'quit-screen-sharing';
 var ALERT_PHASE_STEP_DONE = 'phase-step-done';
 var ALERT_WAITING_FOR_TRAINING_GESTURE = 'waiting-for-training-gesture';
 var ALERT_WAITING_FOR_SLIDESHOW = 'waiting-for-slideshow';
@@ -139,7 +140,7 @@ function appendAlert(target, alertType) {
 }
 
 function removeAlert(target, alertType) {
-     console.log('remove alert', target, alertType);
+    console.log('remove alert', target, alertType);
     $(target).find('.alert-' + alertType).empty();
 }
 

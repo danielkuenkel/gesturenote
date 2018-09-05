@@ -76,6 +76,24 @@ if ($h && $token && $studyId) {
         <script src="js/study-execution-tester-save.js"></script>
         <script src="js/upload-queue.js"></script>
 
+        <!-- phase step formats -->
+        <script src="js/execution/exploration.js"></script>
+        <script src="js/execution/focus-group-interview.js"></script>
+        <script src="js/execution/gesture-slideshow.js"></script>
+        <script src="js/execution/gesture-training.js"></script>
+        <script src="js/execution/gesture-usability-scale-multiple.js"></script>
+        <script src="js/execution/gesture-usability-scale-single.js"></script>
+        <script src="js/execution/identification.js"></script>
+        <script src="js/execution/interview.js"></script>
+        <script src="js/execution/letter-of-acceptance.js"></script>
+        <script src="js/execution/physical-stress-test.js"></script>
+        <script src="js/execution/questionnaire.js"></script>
+        <script src="js/execution/system-usability-scale.js"></script>
+        <script src="js/execution/thanks.js"></script>
+        <script src="js/execution/trigger-slideshow.js"></script>
+        <script src="js/execution/user-experience-questionnaire.js"></script>
+        <script src="js/execution/user-test.js"></script>
+
         <!-- streaming -->
         <script src="js/andyet/simplewebrtc.bundle.js"></script>
         <script src="js/peerConnection.js"></script>
@@ -129,14 +147,20 @@ if ($h && $token && $studyId) {
         </div>
 
 
+        <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 999; top: 150px; left:100px; display: block">
+            <img src="img/resize-white.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
+        </div>
+
         <!-- Container (Panel Section) -->
-        <div class="mainContent" id="mainContent" style="margin-top:60px">
+        <div class="mainContent" id="mainContent" style="padding-top: 70px; padding-left: 15px; padding-right: 15px; padding-bottom: 0px">
             <div id="viewTester">
-                <div class="alert-space alert-please-wait" style="padding-left:10px; padding-right: 10px;"></div>
-                <div id="pinnedRTC" style="position: fixed; left: 10px; opacity: 0"></div>
+                <div class="alert-space alert-please-wait" style=""></div>
+                <div class="pinnedRTC" id="pinnedRTC" style="position: fixed; opacity: 0; z-index: 99"></div>
                 <div id="phase-content" class="hidden"></div>
             </div>
         </div>
+        
+        <div id="btn-show-stream" class="btn btn-shadow btn-default hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showStream ?>" style="border-bottom-left-radius: 0px; border-top-left-radius: 0px; position: fixed; top:50%; transform: translateY(-50%); padding: 15px 10px;"><i class="fa fa-video-camera"></i></div>
 
         <div id="video-caller-holder" class="hidden">
             <div class="embed-responsive embed-responsive-4by3" id="video-caller">
@@ -147,10 +171,12 @@ if ($h && $token && $studyId) {
                 <div class="rtc-local-container embed-responsive-item">
                     <video autoplay id="local-stream" class="rtc-stream" style="display:block;"></video>
                 </div>
-                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0; display:flex">
+                    <button type="button" class="btn btn-sm stream-control" id="btn-hide-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->hideStream ?>"><i class="fa fa-close"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
                 </div>
                 <div id="stream-control-indicator">
                     <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
@@ -267,6 +293,16 @@ if ($h && $token && $studyId) {
                     }
                 }
             }
+
+            $(document).on('click', '#btn-hide-stream', function (event) {
+                event.preventDefault();
+                hideStream();
+            });
+
+            $(document).on('click', '#btn-show-stream', function (event) {
+                event.preventDefault();
+                showStream();
+            });
 
 
 

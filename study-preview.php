@@ -143,7 +143,7 @@ if (login_check($mysqli) == true) {
         </div>
 
         <!-- main content -->
-        <div class="mainContent" id="mainContent" style="padding-top: 54px; padding-bottom: 0px">
+        <div class="mainContent" id="mainContent" style="padding-top: 124px; padding-bottom: 0px">
             <div id="viewTester" class="hidden" style="padding-left: 15px; padding-right: 15px;">
                 <div class="pinnedRTC" style="position: fixed; z-index: 99"></div>
                 <div id="phase-content"></div>
@@ -290,6 +290,7 @@ if (login_check($mysqli) == true) {
 
             $('.phaseStepsSelect').on('change', function () {
                 currentPhaseStepIndex = getCurrentPhaseStepIndex();
+                resetConstraints();
                 updateProgress();
                 renderPhaseStep();
                 updatePager();
@@ -378,18 +379,12 @@ if (login_check($mysqli) == true) {
 
             $(document).on('click', '#btn-hide-stream', function (event) {
                 event.preventDefault();
-                console.log('hide stream');
-                $('#web-rtc-placeholder').addClass('hidden');
-                $('#btn-show-stream').removeClass('hidden');
-                dragRTC();
+                hideStream();
             });
 
             $(document).on('click', '#btn-show-stream', function (event) {
                 event.preventDefault();
-                console.log('show stream');
-                $('#web-rtc-placeholder').removeClass('hidden');
-                $('#btn-show-stream').addClass('hidden');
-                pinRTC();
+                showStream();
             });
 
             $('#btn-introduction').on('click', function (event) {
