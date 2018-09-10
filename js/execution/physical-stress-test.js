@@ -573,5 +573,56 @@ PhysicalStressTest.prototype.renderTesterView = function () {
         }
     }
 
+    function renderSelectionRatingGraphics(item, selectionRating) {
+        if (selectionRating !== 'none') {
+            $(item).removeClass('hidden');
+            switch (selectionRating) {
+                case 'body':
+                    $(item).find('#hand-selection-rating').addClass('hidden');
+                    $(item).find('#human-body-selection-rating').removeClass('hidden');
+                    renderBodyJoints($(item).find('#human-body'));
+                    break;
+                case 'hands':
+                    $(item).find('#human-body-selection-rating').addClass('hidden');
+                    $(item).find('#hand-selection-rating').removeClass('hidden');
+                    renderHandJoints($(item).find('#human-hand'));
+                    break;
+                case 'bodyHands':
+                    $(item).find('#human-body-selection-rating').removeClass('hidden');
+                    renderBodyJoints($(item).find('#human-body'));
+                    $(item).find('#hand-selection-rating').removeClass('hidden');
+                    renderHandJoints($(item).find('#human-hand'));
+                    break;
+            }
+        }
+    }
+
+
+    function getJointSelectionRatings(answers, selectionRating, container) {
+        if (selectionRating !== 'none') {
+            var selectedBodyJoints = null;
+            var selectedHandJoints = null;
+            switch (selectionRating) {
+                case 'body':
+                    selectedBodyJoints = getSelectedJoints($(container).find('#human-body-selection-rating'));
+                    answers.selectedBodyJoints = selectedBodyJoints;
+                    break;
+                case 'hands':
+                    selectedHandJoints = getSelectedJoints($(container).find('#hand-selection-rating'));
+                    answers.selectedHandJoints = selectedHandJoints;
+                    break;
+                case 'bodyHands':
+                    selectedBodyJoints = getSelectedJoints($(container).find('#human-body-selection-rating'));
+                    selectedHandJoints = getSelectedJoints($(container).find('#hand-selection-rating'));
+                    answers.selectedBodyJoints = selectedBodyJoints;
+                    answers.selectedHandJoints = selectedHandJoints;
+                    break;
+            }
+
+            console.log('getJointSelectionRatings', answers);
+        }
+        return answers;
+    }
+
     return container;
 };

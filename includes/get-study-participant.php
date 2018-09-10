@@ -32,7 +32,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                         if (!$select_stmt->execute()) {
                             echo json_encode(array('status' => 'selectGesturesError'));
                         } else {
-                            $select_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
+                            $select_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
                             while ($select_stmt->fetch()) {
                                 foreach ($assembledGestures as $assembledGestureId) {
                                     if (strcmp($gestureId, $assembledGestureId) == 0) {
@@ -49,6 +49,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                             'association' => $gestureAssociation,
                                             'description' => $gestureDescription,
                                             'joints' => json_decode($gestureJoints),
+                                            'doubleSidedUse' => $doubleSidedUse,
                                             'previewImage' => $gesturePreviewImage,
                                             'images' => json_decode($gestureImages),
                                             'gif' => $gestureGIF,
@@ -96,7 +97,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                                         echo json_encode(array('status' => 'selectGesturesError'));
                                                     } else {
                                                         $select_gesture_stmt->store_result();
-                                                        $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
+                                                        $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
                                                         $select_gesture_stmt->fetch();
                                                         $elicitedGestures[] = array('id' => $gestureId,
                                                             'userId' => $gestureUserId,
@@ -111,6 +112,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                                             'association' => $gestureAssociation,
                                                             'description' => $gestureDescription,
                                                             'joints' => json_decode($gestureJoints),
+                                                            'doubleSidedUse' => $doubleSidedUse,
                                                             'previewImage' => $gesturePreviewImage,
                                                             'images' => json_decode($gestureImages),
                                                             'gif' => $gestureGIF,
@@ -183,7 +185,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                                         echo json_encode(array('status' => 'selectGesturesError'));
                                                     } else {
                                                         $select_gesture_stmt->store_result();
-                                                        $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
+                                                        $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
                                                         $select_gesture_stmt->fetch();
                                                         $elicitedGestures[] = array('id' => $gestureId,
                                                             'userId' => $gestureUserId,
@@ -198,6 +200,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                                             'association' => $gestureAssociation,
                                                             'description' => $gestureDescription,
                                                             'joints' => json_decode($gestureJoints),
+                                                            'doubleSidedUse' => $doubleSidedUse,
                                                             'previewImage' => $gesturePreviewImage,
                                                             'images' => json_decode($gestureImages),
                                                             'gif' => $gestureGIF,

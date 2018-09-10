@@ -701,10 +701,11 @@ function renderStateSave() {
     var associationInput = $(recorder.currentRecorderContent).find('#gestureAssociation');
     var descriptionInput = $(recorder.currentRecorderContent).find('#gestureDescription');
     var jointsInput = $(recorder.currentRecorderContent).find('#gesture-save-form #human-body #joint-container');
+    var doubleSidedUseInput = $(recorder.currentRecorderContent).find('#doubleSidedUseSelect');
     $(contextInput).val(translation.notSpecified);
     $(associationInput).val(translation.notSpecified);
     $(descriptionInput).val(translation.notSpecified);
-    
+
     $(recorder.currentRecorderContent).find('.sensor-source-save').addClass('hidden');
 
     for (var i = 0; i < recorders.length; i++) {
@@ -736,11 +737,11 @@ function renderStateSave() {
     }
 
 
-//    $('#gestureName, #gestureContext, #gestureAssociation, #gestureDescription').unbind('input').bind('input', function () {
+//    $('#gestureName').unbind('input').bind('input', function () {
 //        if (gestureInputsValid()) {
-//            $(recorder.options.recorderTarget).find('.gr-save #btn-save-gesture').removeClass('disabled');
+//            $(saveButton).removeClass('disabled');
 //        } else {
-//            $(recorder.options.recorderTarget).find('.gr-save #btn-save-gesture').addClass('disabled');
+//            $(saveButton).addClass('disabled');
 //        }
 //    });
 
@@ -787,6 +788,10 @@ function renderStateSave() {
         } else {
             renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
         }
+
+        if (recorder.options.updateData.doubleSidedUse) {
+            $(doubleSidedUseInput).find('#' + recorder.options.updateData.doubleSidedUse).click();
+        }
     } else {
         if (recorder.options.context) {
             $(contextInput).val(recorder.options.context);
@@ -794,8 +799,6 @@ function renderStateSave() {
 
         renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
     }
-    
-    console.log()
 
 
     $(saveButton).unbind('click').bind('click', function (event) {
@@ -817,12 +820,13 @@ function renderStateSave() {
 
             var title = $(titleInput).val().trim();
             var titleQuality = $(titleQualityInput).find('.btn-option-checked').attr('id');
-            var type = recorder.options.checkType && recorder.options.checkType === true ? $(typeInput).find('.btn-option-checked').attr('id') : null;
-            var interactionType = recorder.options.checkInteractionType && recorder.options.checkInteractionType === true ? $(interactionTypeInput).find('.btn-option-checked').attr('id') : null;
+            var type = $(typeInput).find('.btn-option-checked').attr('id');
+            var interactionType = $(interactionTypeInput).find('.btn-option-checked').attr('id');
             var context = $(contextInput).val().trim();
             var association = $(associationInput).val().trim();
             var description = $(descriptionInput).val().trim();
             var joints = getSelectedJoints(jointsInput);
+            var doubleSidedUse = $(doubleSidedUseInput).find('.btn-option-checked').attr('id');
             var userId = recorder.options.userId || null;
             var ownerId = recorder.options.ownerId || null;
             var source = recorder.options.source || null;
@@ -836,6 +840,7 @@ function renderStateSave() {
                 association: association,
                 description: description,
                 joints: joints,
+                doubleSidedUse: doubleSidedUse,
                 userId: userId,
                 ownerId: ownerId,
                 source: source,
@@ -898,38 +903,48 @@ function renderStateSave() {
             }
         }
 
-        var context = $(contextInput).val();
-        if (context !== undefined && context.trim() === '') {
-            if (showErrors) {
-                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
-            } else {
-                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
-            }
-            return false;
-        }
+//        var context = $(contextInput).val();
+//        if (context !== undefined && context.trim() === '') {
+//            if (showErrors) {
+//                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+//            } else {
+//                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+//            }
+//            return false;
+//        }
+//
+//        var association = $(associationInput).val();
+//        if (association !== undefined && association.trim() === '') {
+//            if (showErrors) {
+//                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+//            } else {
+//                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+//            }
+//            return false;
+//        }
+//
+//        var description = $(descriptionInput).val();
+//        if (description !== undefined && description.trim() === "") {
+//            if (showErrors) {
+//                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+//            } else {
+//                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+//            }
+//            return false;
+//        }
+//
+//        var selectedJoints = getSelectedJoints(jointsInput);
+//        if (selectedJoints.length === 0) {
+//            if (showErrors) {
+//                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+//            } else {
+//                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+//            }
+//            return false;
+//        }
 
-        var association = $(associationInput).val();
-        if (association !== undefined && association.trim() === '') {
-            if (showErrors) {
-                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
-            } else {
-                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
-            }
-            return false;
-        }
-
-        var description = $(descriptionInput).val();
-        if (description !== undefined && description.trim() === "") {
-            if (showErrors) {
-                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
-            } else {
-                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
-            }
-            return false;
-        }
-
-        var selectedJoints = getSelectedJoints(jointsInput);
-        if (selectedJoints.length === 0) {
+        var doubleSidedUse = $(doubleSidedUseInput).find('.btn-option-checked').attr('id');
+        if (doubleSidedUse === undefined) {
             if (showErrors) {
                 appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             } else {

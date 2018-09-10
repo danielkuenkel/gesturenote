@@ -376,6 +376,113 @@ $(document).on('click', '.select .option li', function (event) {
     }
 });
 
+$(document).on('mouseenter', '.select .option li', function (event) {
+    event.preventDefault();
+    if (!event.handled && !$(this).hasClass('disabled')) {
+        event.handled = true;
+        if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider')) {
+            return false;
+        }
+
+        var parent = $(this).closest('.select');
+        var selectType = null;
+        if ($(parent).hasClass('gestureSelect')) {
+            selectType = 'gestures';
+        } else if ($(parent).hasClass('sceneSelect')) {
+            selectType = 'scenes';
+        }
+        var button = $(this);
+
+        switch (selectType) {
+            case 'gestures':
+                var gesture = getGestureById($(this).attr('id'));
+                renderGesturePopoverPreview(gesture, function () {
+                    var popover = $('#popover-gesture');
+                    var top = button.offset().top - popover.height() - 2;
+                    var left = button.offset().left + parseInt(((button.width() - popover.width()) / 2));
+                    popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                    playThroughThumbnails(popover.find('.previewGesture'));
+                    TweenMax.to(popover, .3, {autoAlpha: 1});
+                });
+                break;
+            case 'scenes':
+                var scene = getSceneById($(this).attr('id'));
+                renderScenePopoverPreview(scene, function () {
+                    var popover = $('#popover-scene');
+                    var top = button.offset().top - popover.height() - 2;
+                    var left = button.offset().left + parseInt(((button.width() - popover.width()) / 2));
+                    popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                    TweenMax.to(popover, .3, {autoAlpha: 1});
+                });
+                break;
+        }
+//        console.log('mouse entered', selectType);
+    }
+});
+
+$(document).on('mouseleave', '.select .option li', function (event) {
+    event.preventDefault();
+    resetPopover();
+    resetScenePopover();
+});
+
+
+
+function renderScenePopoverPreview(scene, callback) {
+    var popover = $('#popover-scene-preview').clone();
+    popover.attr('id', 'popover-scene');
+
+    if (scene) {
+        var sceneItem = $('#popover-' + scene.type).clone().removeAttr('id');
+        $(popover).empty().append(sceneItem);
+
+        switch (scene.type) {
+            case SCENE_IMAGE:
+                sceneItem.find('.imageAreaContent').attr('src', scene.parameters.url);
+                break;
+            case SCENE_VIDEO_EMBED:
+                sceneItem.find('.videoContainer').addClass(scene.parameters.ratio === 'ratio_16_9' ? 'embed-responsive-16by9' : 'embed-responsive-4by3');
+                sceneItem.find('.videoContainer').html(scene.parameters.url);
+                var source = $(sceneItem).find('iframe').attr('src');
+                var video = $(sceneItem).find('.videoContainer iframe');
+                $(video).addClass('embed-responsive-item');
+                $(video).attr('src', source + '?autoplay=1');
+                break;
+            case SCENE_PIDOCO:
+                sceneItem.find('.web-frame').attr('src', scene.parameters.url);
+                sceneItem.find('.btn-url').on('click', function (event) {
+                    event.preventDefault();
+                    var win = window.open(scene.parameters.url);
+                    if (win) {
+                        //Browser has allowed it to be opened
+                        win.focus();
+                    } else {
+                        //Broswer has blocked it
+                        alert(translation.pleaseAllowPopups);
+                    }
+                });
+                break;
+            case SCENE_WEB:
+                sceneItem.find('.web-frame').attr('src', scene.parameters.url);
+                break;
+        }
+//        renderGestureImages($(popover).find('.previewGesture'), gesture.images, gesture.previewImage, function () {
+//            popover.find('.panel-heading').text(gesture.title);
+//            callback();
+//        });
+        $('body').append(popover);
+
+        if (callback) {
+            callback();
+        }
+    }
+}
+
+function resetScenePopover() {
+    var popover = $('#popover-scene');
+    $(popover).remove();
+}
+
 $(document).on('click', '.select-update .dropdown-toggle', function (event) {
     event.preventDefault();
 

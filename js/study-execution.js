@@ -420,7 +420,7 @@ function dragRTC() {
     if (previewModeEnabled !== true) {
         video = $(getMainContent()).find('#video-caller');
     }
-    $(video).css({opacity: 1, width: (DRAGGABLE_MIN_WIDTH + 100) + 'px', height: ((DRAGGABLE_MIN_WIDTH + 100) * 3 / 4) + 'px'});
+    $(video).css({opacity: .7, width: (DRAGGABLE_MIN_WIDTH + 100) + 'px', height: ((DRAGGABLE_MIN_WIDTH + 100) * 3 / 4) + 'px'});
 
     var toggleButton = $(video).find('#btn-toggle-rtc-fixed');
     console.log(toggleButton);
@@ -475,6 +475,7 @@ function dragRTC() {
     $(window).mousemove(function (event) {
         event.preventDefault();
         if (draggable) {
+            $('body').addClass('readonly-without-mouse');
             if (resizable) {
                 var newWidth = Math.min(Math.max(event.pageX - $('#draggableRTC').offset().left, DRAGGABLE_MIN_WIDTH), DRAGGABLE_MAX_WIDTH);
 //                $(video).width(newWidth);
@@ -501,6 +502,7 @@ function dragRTC() {
 
     $(window).unbind('mouseup').bind('mouseup', function (event) {
         draggable = null;
+        $('body').removeClass('readonly-without-mouse');
 
         if (resizable) {
             resizable = false;
@@ -509,11 +511,15 @@ function dragRTC() {
     });
 
     $('#draggableRTC').unbind('mouseleave').bind('mouseleave', function (event) {
-        event.preventDefault();
-        if (!resizing) {
-            draggable = null;
-            resizable = false;
-            showCursor($(this), CURSOR_AUTO);
+        if (draggable) {
+            event.stopImmediatePropagation();
+        } else {
+            event.preventDefault();
+            if (!resizing) {
+                draggable = null;
+                resizable = false;
+                showCursor($(this), CURSOR_AUTO);
+            }
         }
     });
 }
@@ -542,6 +548,7 @@ function pinRTC() {
     if (previewModeEnabled !== true) {
         video = $('#video-caller');
     }
+    $(video).css({opacity: 1});
     console.log('pin rtc', video, $(view + " .pinnedRTC"));
     var toggleButton = $(video).find('#btn-toggle-rtc-fixed');
     $(toggleButton).addClass('pinned');
@@ -585,6 +592,36 @@ function showStream() {
     console.log('show stream', stream);
     $(stream).removeClass('hidden');
     $('#btn-show-stream').addClass('hidden');
+}
+
+function showRecordIndicator() {
+    console.log('show record indicator');
+    var stream = $('#web-rtc-placeholder');
+    if (previewModeEnabled !== true) {
+        stream = $('#video-caller');
+    }
+    var indicator = $(stream).find('.record-stream-indicator').removeClass('hidden');
+    TweenMax.to(indicator, 1, {opacity: 1, onComplete: function () {
+            TweenMax.to(indicator, 1, {opacity: .2, yoyo: true, repeat: -1});
+        }});
+
+    var showStreamButtonIcon = $('#btn-show-stream').find('.fa');
+    TweenMax.to(showStreamButtonIcon, 1, {color: "#ff0000", yoyo: true, repeat: -1});
+}
+
+function hideRecordIndicator() {
+    console.log('hide record indicator');
+    var stream = $('#web-rtc-placeholder');
+    if (previewModeEnabled !== true) {
+        stream = $('#video-caller');
+    }
+    var indicator = $(stream).find('.record-stream-indicator');
+    TweenMax.to(indicator, .3, {opacity: 0, onComplete: function () {
+            $(indicator).addClass('hidden');
+        }});
+
+    var showStreamButtonIcon = $('#btn-show-stream').find('.fa');
+    TweenMax.to(showStreamButtonIcon, .3, {color: "#000000"});
 }
 
 function keepStreamsAlive(target) {

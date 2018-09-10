@@ -423,6 +423,9 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 //                        $(seekBar).find('.progress-bar').css({width: percent + '%'});
 //                    });
 
+                    var togglePlayPauseButtons = $('#phase-results').find('.btn-toggle-playback');
+                    console.log('togglePlayPauseButtons', togglePlayPauseButtons);
+
                     $(playButton).unbind('click').bind('click', function (event) {
                         event.preventDefault();
 
@@ -442,12 +445,18 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         }
                     });
 
+                    $(togglePlayPauseButtons).unbind('click').bind('click', function (event) {
+                        $(playButton).click();
+                    });
+
                     $(mainVideo).unbind('pause').bind('pause', function () {
                         $(playButton).find('.fa').removeClass('fa-pause').addClass('fa-play');
+                        $(togglePlayPauseButtons).find('.fa').removeClass('fa-pause').addClass('fa-play');
                     });
 
                     $(mainVideo).unbind('play').bind('play', function () {
                         $(playButton).find('.fa').removeClass('fa-play').addClass('fa-pause');
+                        $(togglePlayPauseButtons).find('.fa').removeClass('fa-play').addClass('fa-pause');
                     });
 
                     if (gap) {

@@ -1,6 +1,6 @@
 var client = null;
 function initWebSocket(debug) {
-    if (window.WebSocket) {
+    if (window.WebSocket && getBrowser() === BROWSER_FIREFOX) {
         var url = APOLLO_URL;
         var login = APOLLO_LOGIN;
         var passcode = APOLLO_PASSWORD;

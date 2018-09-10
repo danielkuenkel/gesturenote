@@ -202,6 +202,7 @@ GestureSlideshow.prototype.renderModeratorView = function () {
     function renderStateGestureSlideshowDone() {
         console.log('render moderator state: ', currentPhaseState);
 
+        clearAlerts($(container).find('#column-right'));
         appendAlert(container, ALERT_PHASE_STEP_DONE);
 
         $(document).scrollTop(0);
@@ -445,6 +446,41 @@ GestureSlideshow.prototype.renderTesterView = function () {
         $(container).find('#ask-gesture-container').addClass('hidden');
         appendAlert($(container), ALERT_PLEASE_WAIT);
     }
+
+
+
+    // state independent functions
+
+//    function onAnswerTimeExpired(container, data) {
+//        if (!previewModeEnabled) {
+//
+//            if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+//                getGMT(function (timestamp) {
+//                    var slideData = data.slideshow[currentSlideIndex];
+//                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
+//                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//                    if (peerConnection) {
+//                        peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
+//                    }
+//                });
+//            } else {
+//                if (peerConnection) {
+//                    peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
+//                }
+//            }
+//        }
+//        $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
+//        TweenMax.to(container.find('.previewGesture, .trigger-title'), .1, {opacity: 0});
+//        TweenMax.to(container.find('#slideshowContainer, .progress'), .1, {delay: 2, opacity: 0, onComplete: onHideSlideComplete, onCompleteParams: [container]});
+//    }
+//
+//    function onHideSlideComplete(container) {
+//        container.find('#slideshowContainer, .progress').addClass('hidden');
+//        container.find('#slideshowContainer, .progress').css({opacity: 1});
+//        container.find('.previewGesture, .trigger-title').css({opacity: 1});
+//        appendAlert($(container), ALERT_PLEASE_WAIT);
+//    }
 
     return container;
 };

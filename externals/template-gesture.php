@@ -4,7 +4,7 @@ include '../includes/language.php';
 
 <div id="template-gesture" class="hidden">
 
-    <div class="" id="popover-gesture-preview" style="position: absolute; opacity: 0; width: 300px;">
+    <div class="" id="popover-gesture-preview" style="position: absolute; opacity: 0; width: 200px;">
         <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
     </div>
 

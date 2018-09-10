@@ -43,7 +43,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['surveyType'])) {
                                             } else {
 
                                                 $select_gesture_stmt->store_result();
-                                                $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
+                                                $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
                                                 $select_gesture_stmt->fetch();
 
                                                 $elicitedGestures[] = array('id' => $originalGestureId,
@@ -59,6 +59,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['surveyType'])) {
                                                     'association' => $gestureAssociation,
                                                     'description' => $gestureDescription,
                                                     'joints' => json_decode($gestureJoints),
+                                                    'doubleSidedUse' => $doubleSidedUse,
                                                     'previewImage' => $gesturePreviewImage,
                                                     'images' => json_decode($gestureImages),
                                                     'gif' => $gestureGIF,
@@ -173,7 +174,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['surveyType'])) {
 
                         if ($select_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE (owner_id = '$sessionUserId' && scope = 'private') OR scope = 'public' ORDER BY created DESC")) {
                             // get variables from result.
-                            $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $context, $association, $description, $joints, $previewImage, $images, $gif, $sensorData, $created);
+                            $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $context, $association, $description, $joints, $doubleSidedUse, $previewImage, $images, $gif, $sensorData, $created);
 
                             if (!$select_stmt->execute()) {
                                 echo json_encode(array('status' => 'selectError'));
@@ -247,6 +248,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['surveyType'])) {
                                         'association' => $association,
                                         'description' => $description,
                                         'joints' => json_decode($joints),
+                                        'doubleSidedUse' => $doubleSidedUse,
                                         'previewImage' => $previewImage,
                                         'images' => json_decode($images),
                                         'gif' => $gif,

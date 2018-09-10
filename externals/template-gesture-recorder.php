@@ -228,9 +228,9 @@ include '../includes/language.php';
                         </div>
 
                         <div class="form-group" id="keyframeSelect" style="margin-top: 10px">
-                            <label style="margin: 0">
+                            <label style="">
                                 <?php echo $lang->imageExportEvery ?> 
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationSensor ?>"></i>
+                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->fragmentation ?>"></i>
                             </label><br>
                             <div class="input-group simple-stepper" id="counter-from" style="max-width: 140px;">
                                 <div class="input-group-btn">
@@ -335,7 +335,7 @@ include '../includes/language.php';
                     <div class="alert-space alert-missing-fields"></div>
 
                     <div class="form-group" style="margin-top: 10px">
-                        <label><?php echo $lang->gestureName ?></label>
+                        <label><?php echo $lang->gestureName ?> <sup>*</sup></label>
                         <input type="text" class="form-control" id="gestureName" required>
                     </div>
 
@@ -356,11 +356,11 @@ include '../includes/language.php';
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="functional">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="functional">
                                 <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
                                 </span>
                                 <span class="option-text"><?php echo $lang->gestureNameQualities->functional->title ?></span>
                             </button>
@@ -384,11 +384,11 @@ include '../includes/language.php';
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="dynamic">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="dynamic">
                                 <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
                                 </span>
                                 <span class="option-text"><?php echo $lang->gestureTypes->dynamic ?></span>
                             </button>
@@ -402,11 +402,11 @@ include '../includes/language.php';
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="discrete">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="discrete">
                                 <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
                                 </span>
                                 <span class="option-text"><?php echo $lang->gestureInteractionTypes->discrete ?></span>
                             </button>
@@ -448,6 +448,34 @@ include '../includes/language.php';
                         <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                             <div id="joint-container" style="position: absolute"></div>
                             <img src="img/human_body.svg">
+                        </div>
+                    </div>
+
+                    <div class="form-group root" id="doubleSidedUseSelect">
+                        <label>
+                            <?php echo $lang->doubleSidedUse ?>? 
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->doubleSidedUse ?>"></i>
+                        </label><br>
+
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->yes ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->no ?></span>
+                            </button>
                         </div>
                     </div>
 
@@ -684,9 +712,9 @@ include '../includes/language.php';
                         </div>
 
                         <div class="form-group" id="keyframeSelect" style="margin-top: 10px">
-                            <label style="margin: 0">
+                            <label style="">
                                 <?php echo $lang->imageExportEvery ?> 
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationSensor ?>"></i>
+                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->fragmentation ?>"></i>
                             </label><br>
                             <div class="input-group simple-stepper" id="counter-from" style="max-width: 140px;">
                                 <div class="input-group-btn">
@@ -793,7 +821,7 @@ include '../includes/language.php';
                     <div class="alert-space alert-missing-fields"></div>
 
                     <div class="form-group" style="margin-top: 10px">
-                        <label><?php echo $lang->gestureName ?></label>
+                        <label><?php echo $lang->gestureName ?> <sup>*</sup></label>
                         <input type="text" class="form-control" id="gestureName" required>
                     </div>
 
@@ -810,17 +838,17 @@ include '../includes/language.php';
                                     <i class="fa fa-circle hidden" id="over"></i>
                                     <i class="fa fa-check-circle hidden" id="checked"></i>
                                 </span>
-                                <span class="option-text"><?php echo $lang->gestureNameQualityGeneric ?></span>
+                                <span class="option-text"><?php echo $lang->gestureNameQualities->generic->title ?></span>
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="functional">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="functional">
                                 <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
                                 </span>
-                                <span class="option-text"><?php echo $lang->gestureNameQualityFunction ?></span>
+                                <span class="option-text"><?php echo $lang->gestureNameQualities->functional->title ?></span>
                             </button>
                         </div>
                     </div>
@@ -842,11 +870,11 @@ include '../includes/language.php';
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="dynamic">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="dynamic">
                                 <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
                                 </span>
                                 <span class="option-text"><?php echo $lang->gestureTypes->dynamic ?></span>
                             </button>
@@ -860,11 +888,11 @@ include '../includes/language.php';
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="discrete">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="discrete">
                                 <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
                                 </span>
                                 <span class="option-text"><?php echo $lang->gestureInteractionTypes->discrete ?></span>
                             </button>
@@ -906,6 +934,34 @@ include '../includes/language.php';
                         <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                             <div id="joint-container" style="position: absolute"></div>
                             <img src="img/human_body.svg">
+                        </div>
+                    </div>
+
+                    <div class="form-group root" id="doubleSidedUseSelect">
+                        <label>
+                            <?php echo $lang->doubleSidedUse ?>? 
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->doubleSidedUse ?>"></i>
+                        </label><br>
+
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->yes ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->no ?></span>
+                            </button>
                         </div>
                     </div>
 

@@ -97,7 +97,7 @@ $(document).on('mouseenter', '.mousePlayable', function (event) {
     event.preventDefault();
 //    if ($(this).hasClass('mousePlayable')) {
 //        console.log('on mouse enter');
-        $(this).parent().find('.btn-play-gesture').click();
+    $(this).parent().find('.btn-play-gesture').click();
 //    }
 });
 
@@ -105,7 +105,7 @@ $(document).on('mouseleave', '.mousePlayable', function (event) {
     event.preventDefault();
 //    if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
 //        console.log('on mouse leave');
-        $(this).parent().find('.btn-pause-gesture').click();
+    $(this).parent().find('.btn-pause-gesture').click();
 //    }
 });
 
@@ -145,12 +145,9 @@ function resetPopover() {
     popoverVisible = false;
     clearTimer();
     resetThumbnails(popover.find('.previewGesture'));
-    TweenMax.to(popover, .1, {autoAlpha: 0, onComplete: onResetTweenComplete()});
-}
-
-function onResetTweenComplete() {
-    $('#popover-gesture').remove();
-
+    TweenMax.to(popover, .1, {autoAlpha: 0, onComplete: function () {
+            $(popover).remove();
+        }});
 }
 
 function resetPlayButton(source) {
@@ -185,7 +182,7 @@ function renderGestureImages(container, images, preview, callback) {
                     if (callback !== null && callback !== undefined) {
                         callback();
                     }
-                    
+
                     $(container).attr('data-loaded-all-images', true);
                 }
                 numImagesLoaded++;

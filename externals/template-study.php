@@ -734,6 +734,9 @@ include '../includes/language.php';
                         <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                             <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                         </div>
+                        <div class="rtc-results-controls-container" style="">
+                            <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused" style="border-radius: 50%; background-color: rgba(0,0,0,0.8); color:white; padding: 10px 13px; display: flex; margin: 0 auto; top: 50%; left: 50%; position: absolute; transform: translate(-50%,-48%);"><i class="fa fa-play fa-2x"></i></div>
+                        </div>
                         <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
                             <span class="video-time-code-current-time">00:00:00</span>
                             <span> / </span>
@@ -752,6 +755,9 @@ include '../includes/language.php';
                             <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                                 <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                             </div>
+                            <div class="rtc-results-controls-container" style="">
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused" style="border-radius: 50%; background-color: rgba(0,0,0,0.8); color:white; padding: 10px 13px; display: flex; margin: 0 auto; top: 50%; left: 50%; position: absolute; transform: translate(-50%,-48%);"><i class="fa fa-play fa-2x"></i></div>
+                            </div>
                             <div class="btn-shadow btn-toggle-mute" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->turnOffAudio ?>" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
                                 <i class="fa fa-volume-up" style="color: white"></i>
                             </div>
@@ -765,6 +771,9 @@ include '../includes/language.php';
                             <video id="moderator-video-holder" class="mirroredHorizontally" preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative"></video>
                             <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                                 <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
+                            </div>
+                            <div class="rtc-results-controls-container" style="">
+                                <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused" style="border-radius: 50%; background-color: rgba(0,0,0,0.8); color:white; padding: 10px 13px; display: flex; margin: 0 auto; top: 50%; left: 50%; position: absolute; transform: translate(-50%,-48%);"><i class="fa fa-play fa-2x"></i></div>
                             </div>
                             <div class="btn-shadow btn-toggle-mute" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->turnOffAudio ?>" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
                                 <i class="fa fa-volume-up" style="color: white"></i>

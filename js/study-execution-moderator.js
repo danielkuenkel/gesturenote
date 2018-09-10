@@ -26,9 +26,9 @@ var Moderator = {
         Moderator.initializePeerConnection();
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
 
-            var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+//            var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
 //            $(container).find('#column-left').css({'opacity': '0'});
-            var userRole = USER_ROLE_MODERATOR;
+//            var userRole = USER_ROLE_MODERATOR;
             var item = null;
             switch (currentPhase.format) {
                 case LETTER_OF_ACCEPTANCE:
@@ -138,8 +138,8 @@ var Moderator = {
         Moderator.initializeRTC();
 
         $('#viewModerator #column-right').css({y: 0, opacity: 1});
-        Moderator.checkPositioning(currentPhase.format);
-        TweenMax.from($('#phase-content #column-right'), .2, {y: -40, opacity: 0, clearProps: 'all'});
+//        Moderator.checkPositioning(currentPhase.format);
+        TweenMax.from($('#phase-content #column-right'), .2, {y: -20, opacity: 0, clearProps: 'all'});
 //        TweenMax.to($('#phase-content #column-left'), .2, {opacity: 1, clearProps: 'all'});
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
@@ -4643,39 +4643,6 @@ var Moderator = {
 //
 //        return container;
 //    },
-    initializeRTC: function initializeRTC() {
-        // check preview or live mode, and check if webRTC is needed
-        initPopover();
-        if (isWebRTCNeededInFuture()) {
-            if (previewModeEnabled === true) {
-                Moderator.appendRTCPreviewStream();
-            } else {
-                Moderator.appendRTCLiveStream();
-            }
-        } else {
-            resetLiveStream();
-        }
-    },
-    appendRTCPreviewStream: function appendRTCPreviewStream() {
-        var source = getSourceContainer(currentView);
-        var target = $('#viewModerator').find('.pinnedRTC');
-        var callerElement = $(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
-        $(target).empty().prepend(callerElement);
-        pinRTC();
-        updateRTCHeight($('#viewModerator #column-left').width(), true);
-
-        // init mouse events and pidoco tracking, for live execution the peer connection class handles this
-        var tween = new TweenMax($(callerElement).find('.stream-controls'), .3, {opacity: 1.0, paused: true});
-        $(callerElement).on('mouseenter', function (event) {
-            event.preventDefault();
-            tween.play();
-        });
-
-        $(callerElement).on('mouseleave', function (event) {
-            event.preventDefault();
-            tween.reverse();
-        });
-    },
     initializePeerConnection: function initializePeerConnection() {
         if (!peerConnection && !previewModeEnabled) {
             peerConnection = new PeerConnection(false);
@@ -4720,13 +4687,6 @@ var Moderator = {
                 peerConnection.stopShareScreen();
                 peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
 
-
-//                peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
-//
-//                peerConnection.stopShareScreen();
-//                peerConnection.reset();
-
-
                 if (prototypeWindow) {
                     prototypeWindow.close();
                     prototypeWindow = null;
@@ -4736,8 +4696,6 @@ var Moderator = {
                 $('#custom-modal').modal('hide');
 
                 renderPhaseStep();
-//                Moderator.resetScreenSharing();
-
             });
 
             $(peerConnection).unbind(MESSAGE_SYNC_PHASE_STEP).bind(MESSAGE_SYNC_PHASE_STEP, function (event, payload) {
@@ -4763,7 +4721,6 @@ var Moderator = {
             $(peerConnection).unbind(CONNECTION_STATE_CONNECTED).bind(CONNECTION_STATE_CONNECTED, function () {
                 console.log('connected: ', CONNECTION_STATE_CONNECTED);
                 removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
-//                clearAlerts($('#viewModerator'));
                 $('#viewModerator').find('#phase-content').removeClass('hidden');
                 $('#viewModerator').find('#pinnedRTC').css({opacity: 1});
                 pinRTC();
@@ -4791,6 +4748,48 @@ var Moderator = {
                 }
             });
         }
+    },
+    initializeRTC: function initializeRTC() {
+        // check preview or live mode, and check if webRTC is needed
+        initPopover();
+        if (isWebRTCNeededInFuture()) {
+            if (previewModeEnabled === true) {
+                Moderator.appendRTCPreviewStream();
+            } else {
+                Moderator.appendRTCLiveStream();
+            }
+        } else {
+            resetLiveStream();
+        }
+    },
+    appendRTCPreviewStream: function appendRTCPreviewStream() {
+        var source = getSourceContainer(currentView);
+        var target = $('#viewModerator').find('.pinnedRTC');
+        var callerElement = $(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
+        $(target).empty().prepend(callerElement);
+        pinRTC();
+        updateRTCHeight($('#viewModerator #column-left').width(), true);
+
+        var currentPhase = getCurrentPhase();
+        var options = getPhaseStepOptions(currentPhase.format);
+        console.log('options: ', options);
+        if (options.moderator.recordStream === 'yes') {
+            showRecordIndicator();
+        } else {
+            hideRecordIndicator();
+        }
+
+        // init mouse events and pidoco tracking, for live execution the peer connection class handles this
+        var tween = new TweenMax($(callerElement).find('.stream-controls'), .3, {opacity: 1.0, paused: true});
+        $(callerElement).on('mouseenter', function (event) {
+            event.preventDefault();
+            tween.play();
+        });
+
+        $(callerElement).on('mouseleave', function (event) {
+            event.preventDefault();
+            tween.reverse();
+        });
     },
     appendRTCLiveStream: function appendRTCLiveStream() {
         var currentPhase = getCurrentPhase();
@@ -4836,6 +4835,41 @@ var Moderator = {
         }
     }
 };
+
+function checkRTCUploadStatus(container) {
+    if (uploadQueue && !uploadQueue.allFilesUploaded() && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
+        console.log('sumbmit final data with upload queue, some files where not uploaded yet!');
+        submitFinalData(container, false);
+    } else {
+        console.log('sumbmit final data without upload queue, or all files where uploaded.');
+        submitFinalData(container, true);
+    }
+}
+
+function submitFinalData(container, areAllRTCsUploaded) {
+    $(container).find('#upload-instructions').removeClass('hidden');
+    $(container).find('#upload-done, #upload-retry, #btn-leave-survey').addClass('hidden');
+    if (!areAllRTCsUploaded) {
+        $(container).find('#rtc-uploads').addClass('hidden');
+    } else {
+        $(container).find('#rtc-uploads').removeClass('hidden');
+    }
+
+    saveCurrentStatus(areAllRTCsUploaded, function (result) {
+        if (result.status === RESULT_SUCCESS) {
+            if (areAllRTCsUploaded) {
+                $(container).find('#upload-instructions').addClass('hidden');
+                $(container).find('#upload-done, #btn-leave-survey').removeClass('hidden');
+            } else {
+                $(container).find('#rtc-uploads').removeClass('hidden');
+            }
+        } else {
+            $(container).find('#upload-instructions').addClass('hidden');
+            $(container).find('#upload-retry').removeClass('hidden');
+        }
+    });
+}
+
 function renderObservations(data, container) {
     if (data.observations && data.observations.length > 0) {
         if (!previewModeEnabled) {
@@ -4911,41 +4945,6 @@ function checkSingleScene(data) {
     }
     return {single: sceneIds.length === 1};
 }
-
-function checkRTCUploadStatus(container) {
-    if (uploadQueue && !uploadQueue.allFilesUploaded() && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
-        console.log('sumbmit final data with upload queue, some files where not uploaded yet!');
-        submitFinalData(container, false);
-    } else {
-        console.log('sumbmit final data without upload queue, or all files where uploaded.');
-        submitFinalData(container, true);
-    }
-}
-
-function submitFinalData(container, areAllRTCsUploaded) {
-    $(container).find('#upload-instructions').removeClass('hidden');
-    $(container).find('#upload-done, #upload-retry, #btn-leave-survey').addClass('hidden');
-    if (!areAllRTCsUploaded) {
-        $(container).find('#rtc-uploads').addClass('hidden');
-    } else {
-        $(container).find('#rtc-uploads').removeClass('hidden');
-    }
-
-    saveCurrentStatus(areAllRTCsUploaded, function (result) {
-        if (result.status === RESULT_SUCCESS) {
-            if (areAllRTCsUploaded) {
-                $(container).find('#upload-instructions').addClass('hidden');
-                $(container).find('#upload-done, #btn-leave-survey').removeClass('hidden');
-            } else {
-                $(container).find('#rtc-uploads').removeClass('hidden');
-            }
-        } else {
-            $(container).find('#upload-instructions').addClass('hidden');
-            $(container).find('#upload-retry').removeClass('hidden');
-        }
-    });
-}
-
 
 function openPrototypeScene(scene, isSingleScene, description, index) {
     var windowSpecs = "location=no,menubar=no,status=no,toolbar=no";
@@ -5033,12 +5032,12 @@ function getWOZTransitionFeedbackItem(source, feedback, transitionMode, time, di
     return btn;
 }
 
-function initNextStepButton(container) {
-    $(container).find('#btn-next-step').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if (!previewModeEnabled && peerConnection) {
-            peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-        }
-        nextStep();
-    });
-}
+//function initNextStepButton(container) {
+//    $(container).find('#btn-next-step').unbind('click').bind('click', function (event) {
+//        event.preventDefault();
+//        if (!previewModeEnabled && peerConnection) {
+//            peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+//        }
+//        nextStep();
+//    });
+//}

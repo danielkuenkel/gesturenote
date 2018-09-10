@@ -3055,6 +3055,30 @@ include '../includes/language.php';
         </div>
     </div>
 
+
+
+    <div id="popover-scene-preview" style="position: absolute; opacity: 0; width: 400px;"></div>
+
+    <div id="popover-web">
+        <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 400px; height: 300px; pointer-events: none;"></iframe>
+    </div>
+
+    <div id="popover-pidoco">
+        <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 400px; height: 300px; pointer-events: none;"></iframe>
+    </div>
+
+    <div id="popover-image">
+        <img class="imageAreaContent" src="" alt="..." style="width: 400px; height: auto; border-radius: 4px;" />
+    </div>
+
+    <div id="popover-videoEmbed">
+        <div class="videoContainer embed-responsive"></div>
+    </div>
+
+
+
+
+
     <div class="panel panel-default panel-shadow root not-used" id="gusSingle">
         <div class="panel-heading">
             <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">

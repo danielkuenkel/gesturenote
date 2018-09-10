@@ -378,6 +378,7 @@
     "deleteStudyModal": "Wollen Sie diese Studie wirklich löschen? Alle Studien-Daten gehen dabei verloren. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.",
     "deleteStudyResultModal": "Wollen Sie alle Daten dieser Befragung wirklich löschen? Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.",
     "deleteCreateModal": "Die Erstellung dieser Studie wirklich beenden? Sollen die gemachten Änderungen gespeichert werden?",
+    "deleteGestureModal": "Wollen Sie alle Daten dieser Geste wirklich löschen?",
     "executeStudy": "Befragung starten",
     "showIntroduction": "Zeige Einführung",
     "introduction": "Einführung",
@@ -492,6 +493,7 @@
     "resumeOwnWebRTC": "Übertragung fortsetzen",
     "pauseOtherWebRTC": "Gesprächspartner stummschalten",
     "resumeOtherWebRTC": "Gesprächspartner anschalten",
+    "recordingStream": "Video wird aufgezeichnet",
     "dragRTC": "Übertragungsfenster entkoppeln",
     "pinRTC": "Übertragungsfenster ankoppeln",
     "hideStream": "Video ausblenden",
@@ -1446,7 +1448,7 @@
     "thanksSaveError": "Es gab einen Fehler. Die Daten konnten nicht gespeichert werden. Bitte noch einmal versuchen.",
     "thanksSaveSuccess": "Die Studien-Daten wurden erfolgreich übertragen. Sie können das Fenster nun schließen oder an weiteren Studien teilnehmen.",
     "thanksResave": "Noch einmal probieren",
-    "thanksShare": "Diesen Link kopieren um die Studie zu teilen.",
+    "thanksShare": "Sie kennen jemanden, der auch an dieser Befragung teilnehmen könnte? Kopieren Sie einfach diesen Link und leiten ihn weiter.",
     "leaveExecution": "Befragung verlassen",
     "noTriggerPresent": "Keine Interaktionsaufgaben vorhanden",
     "noGestureSetPresent": "Kein Studien-Gesten-Set vorhanden",
@@ -1908,6 +1910,7 @@
     },
     "gestureNameQualityGeneric": "Generisch",
     "gestureNameQualityFunction": "Funktional",
+    "doubleSidedUse": "Beidseitige Ausführung",
     "gestureContext": "Gesten-Kontext",
     "gestureExecutionType": "Gesten-Ausführung",
     "gestureType": "Gesten-Ausführung",
@@ -1959,7 +1962,7 @@
     "saveGesture": "Geste speichern",
     "deleteSavedGesture": "Gespeicherte Geste löschen",
     "recordMoreGestures": "Weitere Geste aufzeichnen",
-    "imageExportEvery": "Bild-Export alle",
+    "imageExportEvery": "Fragmentierung",
     "gestureRecorderNavigation": {
         "preInitialize": "Auswahl",
         "record": "Aufzeichnen",
@@ -2217,7 +2220,9 @@
             "context": "Wo soll die Geste eingesetzt werden?",
             "association": "Warum wurde diese Geste gewählt? Welche Zusammenhänge gibt es mit der Anwendungsdomäne?",
             "description": "Beschreiben Sie die Geste genau. Teilt sich die Geste in Abschnitte auf? Sind die Hände geöffnet? Sind die Arme angewinkelt? Sind Bewegungen schnell oder langsam?",
-            "bodyParts": "Welche Körperteile werden für die Gesten-Ausführung benötigt?"
+            "bodyParts": "Welche Körperteile werden für die Gesten-Ausführung benötigt?",
+            "fragmentation": "Bei der Fragmentierung werden die aufgezeichneten Videodaten als Einzelbilder gespeichert. Dafür ist es notwendig ein Bildexport alle x Millisekunden vom Videomaterial zu machen. Geben Sie hier an, in welchem Abstand (in Millisekunden) ein Bildexport erfolgen soll. Die exportierten Bilder dienen dann als Vorschau für eine Geste.",
+            "doubleSidedUse": "Es handelt sich um eine Geste, deren genutzte Körperteile einseitig festgelegt sind? Die Geste kann jedoch von Links- als auch Rechtshändern genutzt werden? Z.B. bei einer Zeige- oder Wisch-Geste."
         },
         "execution": {
             "valuesNotInverted": "Geste nicht invertiert",

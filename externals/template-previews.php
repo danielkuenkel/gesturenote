@@ -12,6 +12,7 @@ include '../includes/language.php';
             <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
             <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
         </div>
+        <div class="hidden record-stream-indicator" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->recordingStream ?>"><i class="fa fa-video-camera"></i></div>
 
         <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
     </div>
@@ -895,7 +896,7 @@ include '../includes/language.php';
             </div>
 
             <div class="hidden" id="identified-gesture">
-                <h3 class="headline" ><?php echo $lang->saveRecordedGesture ?></h3>
+                <h3 class="headline" style="margin-top: 0px"><?php echo $lang->saveRecordedGesture ?></h3>
                 <div id="file-transfer-loader">
                     <p class="text"><i class="fa fa-circle-o-notch fa-spin"></i> <?php echo $lang->transmitGesture ?></p>
                     <div id="file-transfer-loading-indicator" style="height: 10px; width:0%; background-color: #3379b7; border-radius: 4px">
@@ -906,7 +907,7 @@ include '../includes/language.php';
             </div>
 
             <div class="hidden" id="identified-trigger">
-                <h3 class="headline"><?php echo $lang->favoriteTrigger ?></h3>
+                <h3 class="headline" style="margin-top: 0px"><?php echo $lang->favoriteTrigger ?></h3>
                 <div class="alert-space alert-waiting-for-tester"></div>
                 <div class="question-container"></div>
             </div>
@@ -921,6 +922,7 @@ include '../includes/language.php';
                 <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success"><i class="fa fa-dot-circle-o"></i> <?php echo $lang->rerecordGesture ?></button>
                 <button class="btn btn-block btn-danger btn-shadow hidden" id="btn-stop-gesture-recording" name="btn-success"><i class="fa fa-stop"></i> <?php echo $lang->stopRecordGesture ?></span></button>
                 <div style="margin-top: 10px">
+                    <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
                     <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
                     <button class="btn btn-block btn-success btn-shadow hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
@@ -970,7 +972,7 @@ include '../includes/language.php';
         </div>
         <div style="margin-top: 10px">
             <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-trigger" name="btn-success"><?php echo $lang->inquireTrigger ?></span></button>
-            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
+            <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>-->
             <!--<button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
         </div>
     </div>
@@ -991,51 +993,70 @@ include '../includes/language.php';
             </div>
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
-            <div class="" id="general">
+            <div class="hidden" id="general">
                 <h3 class="headline" style="margin-top: 0"></h3>
                 <div style="margin-bottom: 10px">
                     <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
                     <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
                 </div>
                 <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
-                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-exploration" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
-                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-exploration" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
                 <!--<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>-->
             </div>
 
             <div class="hidden" id="slides">
-                <h3 class="headline"></h3>
+                <h3 class="headline" style="margin-top: 0px"></h3>
                 <div id="exploration-container"></div>
             </div>
 
             <div class="hidden" id="identified-gestures">
-                <h3 class="headline"><?php echo $lang->favoriteGestures ?></h3>
+                <h3 class="headline" style="margin-top: 0px"><?php echo $lang->favoriteGestures ?></h3>
                 <div class="alert-space alert-waiting-for-tester"></div>
                 <div class="question-container"></div>
             </div>
 
             <div class="hidden" id="identified-trigger">
-                <h3 class="headline"><?php echo $lang->favoriteTrigger ?></h3>
+                <h3 class="headline" style="margin-top: 0px"><?php echo $lang->favoriteTrigger ?></h3>
                 <div class="alert-space alert-waiting-for-tester"></div>
                 <div class="question-container"></div>
             </div>
 
-            <div style="margin-top: 10px">
-                <button type="button" class="btn btn-block btn-success btn-shadow hidden disabled" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>
-                <button type="button" class="btn btn-block btn-success btn-shadow hidden disabled" id="btn-request-trigger" name="btn-success"><?php echo $lang->inquireFavoriteTrigger ?></span></button>
+
+            <div class="alert-space alert-quit-screen-sharing"></div>
+            <div class="alert-space alert-phase-step-done"></div>
+
+            <div style="margin-top: 20px">
+                <button type="button" class="btn btn-block btn-success btn-shadow hidden" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>
+                <button type="button" class="btn btn-block btn-success btn-shadow hidden" id="btn-request-trigger" name="btn-success"><?php echo $lang->inquireFavoriteTrigger ?></span></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
-                <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
-                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <?php echo $lang->done ?></button>
             </div>
+
+            <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
+            <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>
         </div>
     </div>
 
     <div id="explorationItem">
         <div class="scenes-container" style="margin-bottom: 20px">
             <div><?php echo $lang->scenes ?></div>
-            <div id="transition-scenes" class="root"></div>
+            <div id="transition-scenes-container" class="root">
+                <div class="bs-example hidden" id="start-scene">
+                    <div class="bs-example-headline"><?php echo $lang->stateCharts->inputState ?></div>
+                    <div class="bs-example-body" id="start-scene-container"></div>
+                </div>
+                <div class="bs-example hidden" id="transition-scenes" style="margin-top: 10px">
+                    <div class="bs-example-headline"><?php echo $lang->stateCharts->intermediateStates ?></div>
+                    <div class="bs-example-body" id="transition-scene-container"></div>
+                </div>
+                <div class="bs-example hidden" id="follow-scenes" style="margin-top: 10px">
+                    <div class="bs-example-headline"><?php echo $lang->stateCharts->entryAction ?></div>
+                    <div class="bs-example-body" id="follow-scene-container"></div>
+                </div>
+            </div>
         </div>
 
         <div class="assembled-gestures-container">
@@ -1148,25 +1169,25 @@ include '../includes/language.php';
 
     <div id="interactive-scenes-catalog-thumbnail">
         <div class="btn-group hidden" id="info-pidoco">
-            <button class="btn btn-default btn-trigger-scene disabled">
+            <button class="btn btn-default btn-trigger-scene">
                 <span class="badge"><i class="fa fa-link"></i> <?php echo $lang->sceneTypes->pidoco ?></span> 
                 <span class="btn-text" style="margin-left: 5px"></span>
             </button>
         </div>             
         <div class="btn-group hidden" id="info-web">
-            <button class="btn btn-default btn-trigger-scene disabled">
+            <button class="btn btn-default btn-trigger-scene">
                 <span class="badge"><i class="fa fa-link" style=""></i> <?php echo $lang->sceneTypes->web ?></span> 
                 <span class="btn-text" style="margin-left: 5px"></span>
             </button>
         </div>
         <div class="btn-group hidden" id="info-image">
-            <button class="btn btn-default btn-trigger-scene disabled">
+            <button class="btn btn-default btn-trigger-scene">
                 <span class="badge"><i class="fa fa-image"></i> <?php echo $lang->sceneTypes->image ?></span> 
                 <span class="btn-text" style="margin-left: 5px"></span>
             </button>
         </div>
         <div class="btn-group hidden" id="info-videoEmbed">
-            <button class="btn btn-default btn-trigger-scene disabled">
+            <button class="btn btn-default btn-trigger-scene">
                 <span class="badge"><i class="fa fa-film"></i> <?php echo $lang->sceneTypes->videoEmbed ?></span> 
                 <span class="btn-text" style="margin-left: 5px"></span>
             </button>
@@ -1316,6 +1337,7 @@ include '../includes/language.php';
             <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
             <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
         </div>
+        <div class="record-stream-indicator hidden" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->recordingStream ?>"><i class="fa fa-video-camera"></i></div>
 
         <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
     </div>
@@ -1745,26 +1767,32 @@ include '../includes/language.php';
 
     <!-- exploration -->
 
-    <div class="root" id="exploration" style=""></div>
-
-    <div id="exploration-moderated" class="row">
-        <div id="scene-container" class="text-center" style="position: fixed; top:0px; width: 100%;" allowtransparency></div>
-        <div class="text-shadow-black text-center hidden" id="scene-description" style="position: absolute;  left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
-        <div id="fixed-rtc-preview" class="rtc-shadow" style="position: fixed; width: 300px; left: 10px; pointer-events: none; opacity: 0.8"></div>
-
-        <!--        <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
-                <div class="text-shadow-black text-center" id="scene-description" style="position: absolute; top: 5px; left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
-        
-                <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>-->
-
-        <div class="row" style="margin-top: 55px; padding: 20px">
-            <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3"></div>
-            <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
-                <div class="alert-space alert-please-wait"></div>
-            </div>
-
+    <div class="root row" id="exploration" style="">
+        <div class="col-md-4 col-lg-3" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-8 col-lg-9" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-8 col-lg-9">
+            <div class="alert-space alert-please-wait"></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
         </div>
     </div>
+
+    <!--    <div id="exploration-moderated" class="row">
+            <div id="scene-container" class="text-center" style="position: fixed; top:0px; width: 100%;" allowtransparency></div>
+            <div class="text-shadow-black text-center hidden" id="scene-description" style="position: absolute;  left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
+            <div id="fixed-rtc-preview" class="rtc-shadow" style="position: fixed; width: 300px; left: 10px; pointer-events: none; opacity: 0.8"></div>
+    
+                    <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
+                    <div class="text-shadow-black text-center" id="scene-description" style="position: absolute; top: 5px; left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
+            
+                    <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>
+    
+            <div class="row" style="margin-top: 55px; padding: 20px">
+                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3"></div>
+                <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
+                    <div class="alert-space alert-please-wait"></div>
+                </div>
+    
+            </div>
+        </div>-->
     <!--
         <div id="exploration-unmoderated" class="">
             <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
@@ -1780,6 +1808,7 @@ include '../includes/language.php';
                 <button class="btn btn-success btn-shadow pull-right" id="btn-exploration-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
         </div>-->
+
 
 
 

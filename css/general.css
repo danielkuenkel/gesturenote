@@ -587,6 +587,13 @@ label {
     user-select: none;
     pointer-events:none;
 }
+.readonly-without-mouse {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
 
 .uppercase {
     text-transform: uppercase;
@@ -1417,4 +1424,38 @@ canvas {
 
 .btn-block+.btn-block {
     margin-top: 0px
+}
+
+.record-stream-indicator {
+    color: red;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translate(-50%, 0px);
+    opacity: 0; 
+    display: flex;
+    cursor: pointer;
+}
+
+.rtc-results-controls-container {
+    position: absolute;
+    opacity:0;
+    top:0px;
+    left: 15px;
+    bottom: 0;
+    right: 15px;
+    transition: opacity 0.3s;
+}
+
+.rtc-results-controls-container:hover {
+    opacity:1;
+}
+
+#popover-scene {
+    z-index: 1000;
+    border-radius: 4px;
+    -webkit-box-shadow: rgba(0,0,0,0.8) 0px 5px 10px;
+    -moz-box-shadow: rgba(0,0,0,0.8) 0 5px 10px;
+    box-shadow: 0px 5px 10px rgba(0,0,0, .3);
+    background-color: #eee;
 }

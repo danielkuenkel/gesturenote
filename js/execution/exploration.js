@@ -56,11 +56,17 @@ Exploration.prototype.renderModeratorView = function () {
             case 'explorationStarted':
                 renderStateExplorationStarted();
                 break;
+            case 'exploreGestures':
+                renderStateExploreGestures();
+                break;
             case 'askPreferredGestures':
                 renderStateAskPreferredGestures();
                 break;
             case 'askResponsePreferredGestures':
                 renderStateAskResponsePreferredGestures();
+                break;
+            case 'exploreTrigger':
+                renderStateExploreTrigger();
                 break;
             case 'askPreferredTrigger':
                 renderStateAskPreferredTrigger();
@@ -68,51 +74,56 @@ Exploration.prototype.renderModeratorView = function () {
             case 'askResponsePreferredTrigger':
                 renderStateAskResponsePreferredTrigger();
                 break;
-            case 'screenSharingStopped':
-                renderStateScreenSharingStopped();
+            case 'noMoreData':
+                renderStateNoMoreData();
+                break;
+            case 'explorationDone':
+                renderStateExplorationDone();
                 break;
         }
     }
 
     function renderStateInitialize() {
-        console.log('render state: ', currentPhaseState, scenesUsedForExploration(data.exploration));
+        console.log('render moderator state: ', currentPhaseState);
 
-        if (scenesUsedForExploration(data.exploration) === true) {
+        $(container).find('#general').removeClass('hidden');
+        if (areThereScenes(data.exploration) === true) {
             $(container).find('#btn-start-exploration').remove();
-        } else {
-            $(container).find('#btn-open-prototype').remove();
-            $(container).find('#btn-start-screen-sharing').remove();
-        }
 
-        // open prototype window
-        $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
-            event.preventDefault();
             // check if there are scenes for this exploration index
-            if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
-                var currentScene = getSceneById(data.exploration[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
-                if (currentScene) {
-                    openPrototypeScene(currentScene, data.exploration.length === 1 && data.exploration[currentIdentificationIndex].transitionScenes.length === 1, data.exploration[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+            $(container).find('#btn-open-prototype').removeClass('hidden');
+            $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+
+                if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
+                    var currentScene = getSceneById(data.exploration[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
+                    if (currentScene) {
+                        openPrototypeScene(currentScene, data.exploration.length === 1 && data.exploration[currentIdentificationIndex].transitionScenes.length === 1, data.exploration[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                    }
+                } else {
+                    openPrototypeScene(null, data.exploration.length === 1 && data.exploration[currentExplorationIndex].transitionScenes.length === 1, null, currentExplorationIndex);
                 }
-            } else {
-                openPrototypeScene(null, data.exploration.length === 1 && data.exploration[currentExplorationIndex].transitionScenes.length === 1, null, currentExplorationIndex);
-            }
 
-            currentPhaseState = 'prototypeOpened';
-            renderCurrentPhaseState();
-        });
+                currentPhaseState = 'prototypeOpened';
+                renderCurrentPhaseState();
+            });
+        } else {
+            // without screen sharing
+            $(container).find('#btn-open-prototype').remove();
+            $(container).find('#btn-start-exploration').removeClass('hidden')
 
-
-        // without screen sharing
-        $(container).find('#btn-start-exploration').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            currentPhaseState = 'explorationStarted';
-            renderCurrentPhaseState();
-        });
+            $(container).find('#btn-start-exploration').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                currentPhaseState = 'explorationStarted';
+                renderCurrentPhaseState();
+            });
+        }
     }
 
     function renderStatePrototypeOpened() {
-        console.log('render state: ', currentPhaseState);
+        console.log('render moderator state: ', currentPhaseState);
 
+        $(container).find('#general').removeClass('hidden');
         $(container).find('#btn-start-exploration').remove();
         $(container).find('#btn-open-prototype').remove();
         $(container).find('#btn-start-screen-sharing').removeClass('hidden');
@@ -148,150 +159,225 @@ Exploration.prototype.renderModeratorView = function () {
     }
 
     function renderStateExplorationStarted() {
-        console.log('render state: ', currentPhaseState);
-
-        $(container).find('#btn-start-exploration').remove();
-        $(container).find('#btn-open-prototype').remove();
-        $(container).find('#btn-start-screen-sharing').remove();
-
-        if (data.explorationType === 'trigger') {
-            currentPreviewTrigger = null;
-            $(container).find('#identified-trigger').addClass('hidden');
-            renderExplorationForTrigger();
-            renderCurrentTriggersToShow();
-        } else if (data.explorationType === 'gestures') {
-            currentPreviewGesture = null;
-            $(container).find('#identified-gestures').addClass('hidden');
-            renderExplorationForGestures();
-            renderCurrentGesturesToShow();
+        if (data.explorationType === 'gestures') {
+            currentPhaseState = 'exploreGestures';
+        } else if (data.explorationType === 'trigger') {
+            currentPhaseState = 'exploreTrigger';
         }
 
-        enableControls();
+        renderCurrentPhaseState();
+    }
+
+
+
+
+    // explore gestures
+
+    function renderStateExploreGestures() {
+        console.log('render moderator state: ', currentPhaseState);
+
+        currentPreviewGesture = null;
+        $(container).find('#general').addClass('hidden');
+        $(container).find('#identified-gestures').addClass('hidden');
+        $(container).find('#slides').removeClass('hidden');
+
+        $(container).find('#slides .headline').text(translation.userCenteredGestureExtraction + " " + (currentExplorationIndex + 1) + " " + translation.of + " " + data.exploration.length);
+        var item = $(source).find('#explorationItem').clone().removeAttr('id');
+
+        var searchedData = getTriggerById(data.exploration[currentExplorationIndex].triggerId);
+        $(item).find('#search-for .address').text(translation.GestureForTrigger + ':');
+        $(item).find('#search-for .text').text(searchedData.title);
+
+        $(container).find('#exploration-container').empty().append(item);
+        renderSceneTriggerItems(item, container, data);
+
+        renderCurrentGesturesToShow();
+
+        if (data.askPreferredGesture === 'yes') {
+            $(container).find('#btn-request-gestures').removeClass('hidden');
+            $(container).find('#btn-request-gestures').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(this).addClass('hidden');
+                currentPhaseState = 'askPreferredGestures';
+                renderCurrentPhaseState();
+
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_REQUEST_PREFERRED_GESTURES, {currentExplorationIndex: currentExplorationIndex});
+                }
+            });
+        } else {
+            checkPreferredGesturesResponseControls();
+        }
     }
 
     function renderStateAskPreferredGestures() {
         console.log('render state: ', currentPhaseState);
-        $(container).find('#btn-start-exploration').remove();
-        $(container).find('#btn-open-prototype').remove();
+
         $(container).find('#slides').addClass('hidden');
-        $(container).find('#btn-request-gestures').addClass('hidden');
         $(container).find('#identified-gestures').removeClass('hidden');
-        $(container).find('#btn-next-trigger').addClass('disabled');
         $(container).find('#identified-gestures .question-container').empty();
         appendAlert($(container).find('#identified-gestures'), ALERT_WAITING_FOR_TESTER);
         currentPreviewGesture = null;
     }
 
     function renderStateAskResponsePreferredGestures() {
-        console.log('render state: ', currentPhaseState);
-        $(container).find('#btn-start-exploration').remove();
-        $(container).find('#btn-open-prototype').remove();
-        $(container).find('#slides').addClass('hidden');
+        console.log('render moderator state: ', currentPhaseState);
 
         clearAlerts($(container).find('#identified-getures'));
+        $(container).find('#slides').addClass('hidden');
         $(container).find('#identified-gestures').removeClass('hidden');
-        $(container).find('#btn-request-gestures').addClass('hidden disabled');
 
         // render selected gestures
         renderQuestionnaireAnswers($(container).find('#identified-gestures'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
 
-        if (currentQuestionnaireAnswers.saveAnswers === true) {
-            $(container).find('#btn-next-trigger').removeClass('disabled');
-            explorationPreferredGesturesRequest = false;
-            $(container).find('#btn-next-trigger').addClass('disabled');
+//        if (currentQuestionnaireAnswers.saveAnswers === true) {
+//            $(container).find('#btn-next-trigger').removeClass('disabled');
+//            explorationPreferredGesturesRequest = false;
+//            $(container).find('#btn-next-trigger').addClass('disabled');
+//        }
+
+        checkPreferredGesturesResponseControls();
+    }
+
+
+
+
+    // explore trigger
+
+    function renderStateExploreTrigger() {
+        console.log('render moderator state: ', currentPhaseState);
+
+        currentPreviewTrigger = null;
+        $(container).find('#general').addClass('hidden');
+        $(container).find('#slides').removeClass('hidden');
+        $(container).find('#identified-trigger').addClass('hidden');
+        $(container).find('#slides .headline').text(translation.userCenteredTriggerExtraction + " " + (currentExplorationIndex + 1) + " " + translation.of + " " + data.exploration.length);
+        var item = $(source).find('#explorationItem-trigger').clone().removeAttr('id');
+
+        var searchedData = getGestureById(data.exploration[currentExplorationIndex].gestureId);
+
+        var gestureThumbnail = $('#item-container-moderator').find('#present-gesture-item').clone().removeAttr('id');
+        $(gestureThumbnail).css({marginBottom: '10px'});
+        $(gestureThumbnail).find('.thumbnail-container').empty().append(getSimpleGestureListThumbnail(searchedData, 'simple-gesture-thumbnail', 'col-xs-12'));
+        $(gestureThumbnail).find('.btn-present-gesture').attr('data-gesture-id', searchedData.id);
+        $(gestureThumbnail).find('.btn-quite-gesture-info').attr('data-gesture-id', searchedData.id);
+        $(gestureThumbnail).find('.gesture-thumbnail').css({marginBottom: '10px'});
+        $(gestureThumbnail).insertBefore($(item).find('#assembled-trigger-container'));
+
+        if (currentPreviewGesture && parseInt(currentPreviewGesture.gesture.id) === parseInt(searchedData.id)) {
+            $(gestureThumbnail).find('.btn-present-gesture').click();
         }
 
-        if (currentExplorationIndex < data.exploration.length - 1) {
-            $(container).find('#btn-next-trigger').removeClass('hidden disabled');
+        $(container).find('#exploration-container').empty().append(item);
+        renderSceneTriggerItems(item, container, data);
+
+        renderCurrentTriggersToShow();
+
+        if (data.askPreferredTrigger === 'yes') {
+            $(container).find('#btn-request-trigger').removeClass('hidden');
+            $(container).find('#btn-request-trigger').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(this).addClass('hidden');
+                currentPhaseState = 'askPreferredTrigger';
+                renderCurrentPhaseState();
+
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_REQUEST_PREFERRED_TRIGGER, {currentExplorationIndex: currentExplorationIndex});
+                }
+            });
         } else {
-            $(container).find('#btn-next-trigger').addClass('hidden');
-            if (scenesUsedForExploration(data.exploration) === true) {
-                $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
-            } else {
-                currentPhaseStepDone = true;
-                $(container).find('#btn-done-exploration').removeClass('hidden disabled');
-            }
+            checkPreferredTriggerResponseControls();
         }
+
     }
 
     function renderStateAskPreferredTrigger() {
-        $(container).find('#btn-start-exploration').remove();
-        $(container).find('#btn-open-prototype').remove();
+        console.log('render moderator state: ', currentPhaseState);
+
         $(container).find('#slides').addClass('hidden');
         $(container).find('#btn-request-gestures').addClass('hidden');
         $(container).find('#identified-gestures').removeClass('hidden');
-        $(container).find('#btn-next-trigger').addClass('disabled');
         $(container).find('#identified-gestures .question-container').empty();
         appendAlert($(container).find('#identified-gestures'), ALERT_WAITING_FOR_TESTER);
         currentPreviewTrigger = null;
     }
 
     function renderStateAskResponsePreferredTrigger() {
+        console.log('render moderator state: ', currentPhaseState);
+
         $(container).find('#btn-start-exploration').remove();
         $(container).find('#btn-open-prototype').remove();
         $(container).find('#slides').addClass('hidden');
 
         clearAlerts($(container).find('#identified-trigger'));
         $(container).find('#identified-trigger').removeClass('hidden');
-        $(container).find('#btn-request-trigger').addClass('hidden disabled');
+        $(container).find('#btn-request-trigger').addClass('hidden');
 
         // render selected trigger
         renderQuestionnaireAnswers($(container).find('#identified-trigger'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
 
-        if (currentQuestionnaireAnswers.saveAnswers === true) {
-            $(container).find('#btn-next-gesture').removeClass('disabled');
-        } else {
-            $(container).find('#btn-next-gesture').addClass('disabled');
-        }
-
-        if (currentExplorationIndex < data.exploration.length - 1) {
-            $(container).find('#btn-next-gesture').removeClass('hidden disabled');
-        } else {
-            $(container).find('#btn-next-gesture').addClass('hidden');
-            if (scenesUsedForExploration(data.exploration) === true) {
-                $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
-            } else {
-                $(container).find('#btn-done-exploration').removeClass('hidden disabled');
-            }
-        }
+        checkPreferredTriggerResponseControls();
     }
 
-    function renderStateScreenSharingStopped() {
-        console.log('render state: ', currentPhaseState);
 
-        if (prototypeWindow) {
-            prototypeWindow.close();
-            prototypeWindow = null;
-        }
 
-        $(container).find('#btn-stop-screen-sharing').remove();
-        $(container).find('#btn-done-exploration').removeClass('hidden');
-        $(container).find('#identified-gestures').addClass('hidden');
-        $(container).find('#identified-trigger').addClass('hidden');
+
+    function renderStateNoMoreData() {
+        console.log('render moderator state: ', currentPhaseState);
+
         $(container).find('#slides').addClass('hidden');
+        $(container).find('#identified-gestures, #identified-trigger').addClass('hidden');
+
+        if (areThereScenes(data.exploration)) {
+            appendAlert(container, ALERT_QUIT_SCREENSHARING);
+
+            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(this).addClass('hidden');
+
+                if (peerConnection) {
+                    peerConnection.stopShareScreen(true);
+                    peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
+                }
+
+                if (prototypeWindow) {
+                    prototypeWindow.close();
+                    prototypeWindow = null;
+                }
+
+                currentPhaseState = 'explorationDone';
+                renderCurrentPhaseState();
+            });
+        } else {
+            currentPhaseState = 'explorationDone';
+            renderCurrentPhaseState();
+        }
+
+        $('html,body').animate({scrollTop: 0}, 300);
     }
 
-    $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if (!$(this).hasClass('disabled')) {
+    function renderStateExplorationDone() {
+        console.log('render moderator state: ', currentPhaseState);
+        clearAlerts(container.find('#column-right'));
+        appendAlert(container, ALERT_PHASE_STEP_DONE);
+
+        $(container).find('#btn-done-exploration').removeClass('hidden');
+        $(container).find('#btn-done-exploration').unbind('click').bind('click', function (event) {
+            event.preventDefault();
             if (peerConnection) {
-                peerConnection.stopShareScreen(true);
-                peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
             }
-            currentPhaseState = 'screenSharingStopped';
-            renderCurrentPhaseState();
-        } else {
-        }
-    });
+            nextStep();
+        });
+    }
 
-    $(container).find('#btn-done-exploration').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if (peerConnection) {
-            peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-        }
+    return container;
 
-        nextStep();
-    });
+
+
+
+
 
     // live events
     if (peerConnection) {
@@ -311,155 +397,38 @@ Exploration.prototype.renderModeratorView = function () {
     }
 
 
-    function renderExplorationForGestures() {
-        $(container).find('#slides .headline').text(translation.userCenteredGestureExtraction + " " + (currentExplorationIndex + 1) + " " + translation.of + " " + data.exploration.length);
-        var item = $(source).find('#explorationItem').clone().removeAttr('id');
+//    function renderExplorationForGestures() {
+//
 
-        var searchedData = getTriggerById(data.exploration[currentExplorationIndex].triggerId);
-        $(item).find('#search-for .address').text(translation.GestureForTrigger + ':');
-        $(item).find('#search-for .text').text(searchedData.title);
-
-        $(container).find('#exploration-container').empty().append(item);
-        renderSceneTriggerItems(item, container, data);
-
-        if (currentExplorationIndex < data.exploration.length - 1) {
-            if (data.askPreferredGesture === 'yes' && explorationPrototypeOpened) {
-                $(container).find('#btn-request-gestures').removeClass('hidden');
-            } else if (scenesUsedForExploration(data.exploration) === true && explorationPrototypeOpened) {
-                $(container).find('#btn-next-trigger').removeClass('hidden');
-            }
-        } else {
-            $(container).find('#btn-next-trigger').addClass('hidden');
-            if (data.askPreferredGesture === 'yes') {
-                $(container).find('#btn-request-gestures').removeClass('hidden');
-            } else {
-                if (scenesUsedForExploration(data.exploration) === true) {
-                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
-                } else {
-                    currentPhaseStepDone = true;
-                    $(container).find('#btn-done-exploration').removeClass('hidden disabled');
-                }
-            }
-        }
-
-        if (!data.exploration[currentExplorationIndex].transitionScenes) {
-            $(item).find('.scenes-container').remove();
-        }
-    }
-
-    function renderExplorationForTrigger() {
-        $(container).find('#slides .headline').text(translation.userCenteredTriggerExtraction + " " + (currentExplorationIndex + 1) + " " + translation.of + " " + data.exploration.length);
-        var item;
-        item = $(source).find('#explorationItem-trigger').clone().removeAttr('id');
-
-        var searchedData = getGestureById(data.exploration[currentExplorationIndex].gestureId);
-
-        var gestureThumbnail = $('#item-container-moderator').find('#present-gesture-item').clone().removeAttr('id');
-        $(gestureThumbnail).css({marginBottom: '10px'});
-        $(gestureThumbnail).find('.thumbnail-container').empty().append(getSimpleGestureListThumbnail(searchedData, 'simple-gesture-thumbnail', 'col-xs-12'));
-        $(gestureThumbnail).find('.btn-present-gesture').attr('data-gesture-id', searchedData.id);
-        $(gestureThumbnail).find('.btn-quite-gesture-info').attr('data-gesture-id', searchedData.id);
-        $(gestureThumbnail).find('.gesture-thumbnail').css({marginBottom: '10px'});
-        $(gestureThumbnail).insertBefore($(item).find('#assembled-trigger-container'));
-
-        if (currentPreviewGesture && parseInt(currentPreviewGesture.gesture.id) === parseInt(searchedData.id)) {
-            $(gestureThumbnail).find('.btn-present-gesture').click();
-        }
-
-        $(container).find('#exploration-container').empty().append(item);
-        renderSceneTriggerItems(item, container, data);
-
-        if (currentExplorationIndex < data.exploration.length - 1) {
-            if (data.askPreferredTrigger === 'yes') {
-                $(container).find('#btn-request-trigger').removeClass('hidden');
-            } else {
-                if (explorationStartTriggered) {
-                    $(container).find('#btn-next-gesture').removeClass('hidden');
-                }
-            }
-            $(container).find('#btn-stop-screen-sharing').addClass('hidden');
-        } else {
-            $(container).find('#btn-next-gesture').remove();
-            if (data.askPreferredTrigger === 'yes') {
-                $(container).find('#btn-request-trigger').removeClass('hidden');
-            } else {
-                if (scenesUsedForExploration(data.exploration) === true) {
-                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
-                } else {
-                    currentPhaseStepDone = true;
-                    $(container).find('#btn-done-exploration').removeClass('hidden disabled');
-                }
-            }
-        }
-
-        if (!data.exploration[currentExplorationIndex].transitionScenes) {
-            $(item).find('.scenes-container').remove();
-        }
-    }
-
-    // scene buttons
-    function renderSceneTriggerItems(item, container, data) {
-        if (data.exploration && data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
-            for (var i = 0; i < data.exploration[currentExplorationIndex].transitionScenes.length; i++) {
-                var scene = getSceneById(data.exploration[currentExplorationIndex].transitionScenes[i].sceneId);
-                var transitionItem = $(source).find('#transition-scene-item').clone().attr('id', scene.id);
-                var itemData = $(source).find('#interactive-scenes-catalog-thumbnail').clone().removeAttr('id');
-                $(itemData).find('#info-' + scene.type).removeClass('hidden');
-                $(itemData).find('.btn-text').text(scene.title);
-                $(itemData).find('.scene-description').text(data.exploration[currentExplorationIndex].transitionScenes[i].description);
-                $(transitionItem).find('.scene-data').append(itemData);
-                $(item).find('#transition-scenes').append(transitionItem);
-                $(item).find('#transition-scenes').append(document.createElement('br'));
-                $(itemData).find('.btn-trigger-scene').removeClass('disabled');
-
-                $(itemData).find('.btn-trigger-scene').unbind('click').bind('click', {scene: scene, index: i}, function (event) {
-                    if (!$(this).hasClass('btn-primary') && !$(this).hasClass('disabled')) {
-                        $(this).closest('.root').find('.btn-trigger-scene').removeClass('btn-primary');
-                        $(this).closest('.root').find('.scene-description').addClass('hidden');
-                        $(this).addClass('btn-primary');
-                        $(this).parent().parent().find('.scene-description').removeClass('hidden');
-                        currentExplorationScene = event.data.index;
-                        openPrototypeScene(event.data.scene, data.exploration.length === 1 && data.exploration[currentExplorationIndex].transitionScenes.length === 1, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
-
-                        if (event.data.scene && !previewModeEnabled) {
-                            getGMT(function (timestamp) {
-                                var currentPhase = getCurrentPhase();
-                                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: event.data.scene.id});
-                                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                            });
-                        }
-                    }
-
-                    if ($(this).hasClass('disabled')) {
-                        $(document).scrollTop(0);
-                        wobble(container.find('#general'));
-                    }
-                });
-
-                if ((currentExplorationScene > 0 && i === currentExplorationScene) || (currentExplorationScene === 0 && i === 0)) {
-                    $(itemData).find('.btn-trigger-scene').click();
-                    $(transitionItem).find('.btn-trigger-scene').addClass('btn-primary');
-                    $(transitionItem).find('.scene-description').removeClass('hidden');
-                }
-            }
-        }
-    }
-
-    function scenesUsedForExploration(data) {
-        if (data && data.length > 0) {
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].transitionScenes && data[i].transitionScenes.length > 0) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//        if (currentExplorationIndex < data.exploration.length - 1) {
+//            if (data.askPreferredGesture === 'yes' && explorationPrototypeOpened) {
+//                $(container).find('#btn-request-gestures').removeClass('hidden');
+//            } else if (scenesUsedForExploration(data.exploration) === true && explorationPrototypeOpened) {
+//                $(container).find('#btn-next-trigger').removeClass('hidden');
+//            }
+//        } else {
+//            $(container).find('#btn-next-trigger').addClass('hidden');
+//            if (data.askPreferredGesture === 'yes') {
+//                $(container).find('#btn-request-gestures').removeClass('hidden');
+//            } else {
+//                if (scenesUsedForExploration(data.exploration) === true) {
+//                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+//                } else {
+//                    currentPhaseStepDone = true;
+//                    $(container).find('#btn-done-exploration').removeClass('hidden disabled');
+//                }
+//            }
+//        }
+//
+//        if (!data.exploration[currentExplorationIndex].transitionScenes) {
+//            $(item).find('.scenes-container').remove();
+//        }
+//    }    
 
 
 
-    // gesture requestion functionalities
+
+    // gesture request functionalities
 
     function renderCurrentGesturesToShow() {
         var gesturesToShow = data.exploration[currentExplorationIndex].gestures;
@@ -513,40 +482,35 @@ Exploration.prototype.renderModeratorView = function () {
         }
     }
 
-    $(container).find('#btn-request-gestures').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if (!$(this).hasClass('disabled')) {
-            currentPhaseState = 'askPreferredGestures';
-            renderCurrentPhaseState();
+    function checkPreferredGesturesResponseControls() {
+        if (currentExplorationIndex < data.exploration.length - 1) {
+            $(container).find('#btn-next-trigger').removeClass('hidden');
+            $(container).find('#btn-next-trigger').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(this).addClass('hidden');
+                currentExplorationIndex++;
+                currentExplorationScene = 0;
 
-            if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_REQUEST_PREFERRED_GESTURES, {currentExplorationIndex: currentExplorationIndex});
-            }
+                currentPhaseState = 'explorationStarted';
+                renderCurrentPhaseState();
+
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_START_EXPLORATION);
+                }
+            });
         } else {
-            wobble([$(container).find('#general')]);
-            $(document).scrollTop(0);
+            $(container).find('#btn-done').removeClass('hidden');
+            $(container).find('#btn-done').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(this).addClass('hidden');
+                currentPhaseState = 'noMoreData';
+                renderCurrentPhaseState();
+            });
         }
-    });
+    }
 
-    $(container).find('#btn-next-trigger').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if (!$(this).hasClass('disabled')) {
-            $(this).addClass('hidden');
-            currentExplorationIndex++;
-            currentExplorationScene = 0;
-            currentPhaseState = 'explorationStarted';
-            renderCurrentPhaseState();
 
-            if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_START_EXPLORATION);
-            }
-        } else if (!explorationStartTriggered) {
-            wobble([container.find('#general')]);
-            $(document).scrollTop(0);
-        } else {
-            wobble($(container).find('#identified-gestures'));
-        }
-    });
+
 
 
 
@@ -593,7 +557,6 @@ Exploration.prototype.renderModeratorView = function () {
                     var triggerId = payload.triggerId;
                     if (gestureId && !previewModeEnabled) {
                         getGMT(function (timestamp) {
-                            var currentPhase = getCurrentPhase();
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_TRIGGER_INFO, time: timestamp, triggerId: triggerId});
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -621,7 +584,6 @@ Exploration.prototype.renderModeratorView = function () {
                         peerConnection.sendMessage(MESSAGE_OPEN_TRIGGER_INFO, {id: triggerId});
 
                         getGMT(function (timestamp) {
-                            var currentPhase = getCurrentPhase();
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_TRIGGER_INFO, time: timestamp, triggerId: triggerId});
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -653,39 +615,32 @@ Exploration.prototype.renderModeratorView = function () {
         }
     }
 
-    $(container).find('#btn-request-trigger').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if (!$(this).hasClass('disabled')) {
-            currentPhaseState = 'askPreferredTrigger';
-            renderCurrentPhaseState();
-            if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_REQUEST_PREFERRED_TRIGGER, {currentExplorationIndex: currentExplorationIndex});
-            }
-        } else {
-            wobble([$(container).find('#general')]);
-            $(document).scrollTop(0);
-        }
-    });
+    function checkPreferredTriggerResponseControls() {
+        if (currentExplorationIndex < data.exploration.length - 1) {
+            $(container).find('#btn-next-gesture').removeClass('hidden');
+            $(container).find('#btn-next-gesture').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(this).addClass('hidden');
+                currentExplorationIndex++;
+                currentExplorationScene = 0;
 
-    $(container).find('#btn-next-gesture').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if (!$(this).hasClass('disabled')) {
-            $(this).addClass('hidden');
-            currentExplorationIndex++;
-            currentExplorationScene = 0;
-            currentPhaseState = 'explorationStarted';
-            renderCurrentPhaseState();
+                currentPhaseState = 'explorationStarted';
+                renderCurrentPhaseState();
 
-            if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_START_EXPLORATION);
-            }
-        } else if (!explorationStartTriggered) {
-            wobble([container.find('#general')]);
-            $(document).scrollTop(0);
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_START_EXPLORATION);
+                }
+            });
         } else {
-            wobble($(container).find('#identified-trigger'));
+            $(container).find('#btn-done').removeClass('hidden');
+            $(container).find('#btn-done').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(this).addClass('hidden');
+                currentPhaseState = 'noMoreData';
+                renderCurrentPhaseState();
+            });
         }
-    });
+    }
 
     function initPreviewGestureButtons() {
         var activePresentButton, activeQuitButton;
@@ -741,31 +696,111 @@ Exploration.prototype.renderModeratorView = function () {
 
 
 
-    function enableControls() {
-        $(container).find('#slides').removeClass('hidden');
-        wobble([container.find('#slides')]);
+//    function enableControls() {
+//        $(container).find('#slides').removeClass('hidden');
+//        wobble([container.find('#slides')]);
+//
+//        $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
+//
+//        if (data.exploration.length === 1) {
+//            if (data.askPreferredGesture === 'yes') {
+//                $(container).find('#btn-request-gestures').removeClass('hidden disabled');
+//            } else if (data.askPreferredTrigger === 'yes') {
+//                $(container).find('#btn-request-trigger').removeClass('hidden disabled');
+//            } else {
+//
+//            }
+//        } else {
+//            if (data.askPreferredGesture === 'yes') {
+//                $(container).find('#btn-request-gestures').removeClass('hidden disabled');
+//            } else if (data.askPreferredTrigger === 'yes') {
+//                $(container).find('#btn-request-trigger').removeClass('hidden disabled');
+//            } else {
+//                if (data.exploration.length > 1) {
+//                    $(container).find('#btn-next-' + (data.explorationType === 'gestures' ? 'trigger' : 'gesture')).removeClass('hidden disabled');
+//                }
+//            }
+//        }
+//    }
 
-        $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
 
-        if (data.exploration.length === 1) {
-            if (data.askPreferredGesture === 'yes') {
-                $(container).find('#btn-request-gestures').removeClass('hidden disabled');
-            } else if (data.askPreferredTrigger === 'yes') {
-                $(container).find('#btn-request-trigger').removeClass('hidden disabled');
-            } else {
 
-            }
-        } else {
-            if (data.askPreferredGesture === 'yes') {
-                $(container).find('#btn-request-gestures').removeClass('hidden disabled');
-            } else if (data.askPreferredTrigger === 'yes') {
-                $(container).find('#btn-request-trigger').removeClass('hidden disabled');
-            } else {
-                if (data.exploration.length > 1) {
-                    $(container).find('#btn-next-' + (data.explorationType === 'gestures' ? 'trigger' : 'gesture')).removeClass('hidden disabled');
+
+
+
+
+    // state independent functions
+
+    // scene buttons
+
+    function renderSceneTriggerItems(item, container, data) {
+        if (data.exploration && data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
+            var transitionScenes = data.exploration[currentExplorationIndex].transitionScenes;
+
+            for (var i = 0; i < transitionScenes.length; i++) {
+                var scene = getSceneById(transitionScenes[i].sceneId);
+                var transitionItem = $(source).find('#transition-scene-item').clone().attr('id', scene.id);
+                var itemData = $(source).find('#interactive-scenes-catalog-thumbnail').clone().removeAttr('id');
+                $(itemData).find('#info-' + scene.type).removeClass('hidden');
+                $(itemData).find('.btn-text').text(scene.title);
+                $(itemData).find('.scene-description').text(transitionScenes[i].description);
+                $(transitionItem).find('.scene-data').append(itemData);
+//                $(item).find('#transition-scenes').append(transitionItem);
+//                $(item).find('#transition-scenes').append(document.createElement('br'));
+//                $(itemData).find('.btn-trigger-scene').removeClass('disabled');
+
+                if (i === 0) {
+                    $(container).find('#start-scene').removeClass('hidden');
+                    $(container).find('#start-scene-container').append(transitionItem);
+                } else if (transitionScenes.length > 2 && i > 0 && i < transitionScenes.length - 1) {
+                    $(container).find('#transition-scenes').removeClass('hidden');
+                    $(container).find('#transition-scene-container').append(transitionItem);
+                    $(container).find('#transition-scene-container').append(document.createElement('br'));
+
+                    if (i > 1) {
+                        $(transitionItem).find('.scene-data').css({marginTop: '8px'});
+                    }
+                } else {
+                    $(container).find('#follow-scenes').removeClass('hidden');
+                    $(container).find('#follow-scene-container').append(transitionItem);
+                }
+
+                $(itemData).find('.btn-trigger-scene').unbind('click').bind('click', {scene: scene, index: i}, function (event) {
+                    if (!$(this).hasClass('btn-primary') && !$(this).hasClass('disabled')) {
+                        $(this).closest('.root').find('.btn-trigger-scene').removeClass('btn-primary');
+                        $(this).addClass('btn-primary');
+                        currentExplorationScene = event.data.index;
+                        openPrototypeScene(event.data.scene, data.exploration.length === 1 && transitionScenes.length === 1, transitionScenes[currentExplorationScene].description);
+
+                        if (event.data.scene && !previewModeEnabled) {
+                            getGMT(function (timestamp) {
+                                var currentPhase = getCurrentPhase();
+                                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: event.data.scene.id});
+                                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                            });
+                        }
+                    }
+                });
+
+                if ((currentExplorationScene > 0 && i === currentExplorationScene) || (currentExplorationScene === 0 && i === 0)) {
+                    $(itemData).find('.btn-trigger-scene').click();
+                    $(transitionItem).find('.btn-trigger-scene').addClass('btn-primary');
+//                    $(transitionItem).find('.scene-description').removeClass('hidden');
                 }
             }
         }
+    }
+
+    function scenesUsedForExploration(data) {
+        if (data && data.length > 0) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].transitionScenes && data[i].transitionScenes.length > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     return container;
@@ -795,7 +830,7 @@ Exploration.prototype.renderTesterView = function () {
         return false;
     }
 
-    container.empty().append($(source).find('#exploration-moderated').clone().removeAttr('id'));
+//    container.empty().append($(source).find('#exploration-moderated').clone().removeAttr('id'));
 
     renderCurrentPhaseState();
     function renderCurrentPhaseState() {
@@ -813,11 +848,17 @@ Exploration.prototype.renderTesterView = function () {
             case 'explorationStarted':
                 renderStateExplorationStarted();
                 break;
+            case 'exploreGestures':
+                renderStateExploreGestures();
+                break;
             case 'askPreferredGestures':
                 renderStateAskPreferredGestures();
                 break;
             case 'askResponsePreferredGestures':
                 renderStateAskResponsePreferredGestures();
+                break;
+            case 'exploreTrigger':
+                renderStateExploreTrigger();
                 break;
             case 'askPreferredTrigger':
                 renderStateAskPreferredTrigger();
@@ -825,9 +866,7 @@ Exploration.prototype.renderTesterView = function () {
             case 'askResponsePreferredTrigger':
                 renderStateAskResponsePreferredTrigger();
                 break;
-            case 'screenSharingStopped':
-                renderStateScreenSharingStopped();
-                break;
+            case 'noMoreData':
             case 'explorationDone':
                 renderStateExplorationDone();
                 break;
@@ -835,12 +874,18 @@ Exploration.prototype.renderTesterView = function () {
     }
 
     function renderStateInitialize() {
-        console.log('render state: ', currentPhaseState, scenesUsedForExploration(data.exploration));
-        if (scenesUsedForExploration(data.exploration) === true) {
-            Tester.initScreenSharing(container.find('#scene-container'));
-        }
+        console.log('render tester state: ', currentPhaseState);
 
-        appendAlert($(container), ALERT_PLEASE_WAIT);
+        appendAlert(container, ALERT_PLEASE_WAIT);
+
+        if (!previewModeEnabled && peerConnection) {
+            initScreenSharing($(container).find('#scene-container'));
+
+            $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function () {
+                currentPhaseState = 'explorationStarted';
+                renderCurrentPhaseState();
+            });
+        }
     }
 
     function renderStatePrototypeOpened() {
@@ -850,36 +895,56 @@ Exploration.prototype.renderTesterView = function () {
 
     function renderStateExplorationStarted() {
         console.log('render state: ', currentPhaseState);
-        renderCurrentScene();
-        clearAlerts($(container));
+
+        appendAlert(container, ALERT_PLEASE_WAIT);
+
+        if (data.identificationFor === 'gestures') {
+            currentPhaseState = 'exploreGestures';
+        } else {
+            currentPhaseState = 'exploreTrigger';
+        }
+        renderCurrentPhaseState();
+
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
+                currentPhaseState = 'explorationDone';
+                renderCurrentPhaseState();
+            });
+        }
+    }
+
+    function renderStateExploreGestures() {
+        console.log('render state: ', currentPhaseState);
+        clearAlerts(container);
+        checkScenes();
 
         // check if there are previews triggered in study preview
-        if (currentPreviewGesture) {
-            $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-                $('#custom-modal').unbind('hide.bs.modal');
-                console.log('hide.bs.modal gesture info');
-                if (!previewModeEnabled && peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
-                }
-                currentPreviewGesture = null;
-            });
-            loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
-        }
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_OPEN_GESTURE_INFO).bind(MESSAGE_OPEN_GESTURE_INFO, function (event, payload) {
+                console.log('open gesture info', payload);
 
-        if (data.explorationType === 'trigger' && currentPreviewTrigger) {
-            $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
-                $('#custom-modal').unbind('hide.bs.modal');
-                currentPreviewTrigger = null;
-                if (!previewModeEnabled && peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
-                }
+                currentPreviewGesture = {gesture: getGestureById(payload.id)};
+                openGesturePreview();
             });
-            loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
+
+            $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_GESTURES).bind(MESSAGE_REQUEST_PREFERRED_GESTURES, function (event, payload) {
+                $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                    event.preventDefault();
+                    currentPhaseState = 'askPreferredGestures';
+                    renderCurrentPhaseState();
+                });
+                currentExplorationIndex = payload.currentExplorationIndex;
+            });
+        } else if (currentPreviewGesture) {
+            openGesturePreview();
         }
     }
 
     function renderStateAskPreferredGestures() {
         console.log('render state: ', currentPhaseState);
+
+        clearAlerts(container);
+        checkScenes();
 
         $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function () {
             $('#custom-modal').unbind('hidden.bs.modal');
@@ -892,32 +957,68 @@ Exploration.prototype.renderTesterView = function () {
 
     function renderStateAskResponsePreferredGestures() {
         console.log('render state: ', currentPhaseState);
-        $(container).find('#scene-description').addClass('hidden');
-        $(container).find('#scene-container').addClass('hidden');
-        appendAlert($(container), ALERT_PLEASE_WAIT);
+        clearAlerts(container);
+        checkScenes();
+    }
+
+    function renderStateExploreTrigger() {
+        console.log('render state: ', currentPhaseState);
+        clearAlerts(container);
+        checkScenes();
+
+        // check if there are previews triggered in study preview
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_OPEN_GESTURE_INFO).bind(MESSAGE_OPEN_GESTURE_INFO, function (event, payload) {
+                console.log('open gesture info', payload);
+
+                currentPreviewGesture = {gesture: getGestureById(payload.id)};
+                openGesturePreview();
+            });
+
+            $(peerConnection).unbind(MESSAGE_OPEN_TRIGGER_INFO).bind(MESSAGE_OPEN_TRIGGER_INFO, function (event, payload) {
+                console.log('open trigger info', payload);
+
+                currentPreviewTrigger = getTriggerById(payload.id);
+                openTriggerPreview();
+            });
+
+            $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_TRIGGER).bind(MESSAGE_REQUEST_PREFERRED_TRIGGER, function (event, payload) {
+                $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                    event.preventDefault();
+                    currentPhaseState = 'askPreferredTrigger';
+                    renderCurrentPhaseState();
+                });
+                currentExplorationIndex = payload.currentExplorationIndex;
+            });
+        } else {
+            if (currentPreviewGesture) {
+                openGesturePreview();
+            }
+
+            if (currentPreviewTrigger) {
+                openTriggerPreview();
+            }
+        }
     }
 
     function renderStateAskPreferredTrigger() {
         console.log('render state: ', currentPhaseState);
+
+        clearAlerts(container);
+        checkScenes();
 
         $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function () {
             $('#custom-modal').unbind('hidden.bs.modal');
             currentPhaseState = 'askResponsePreferredTrigger';
             renderCurrentPhaseState();
         });
-        loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
+        loadHTMLintoModal('custom-modal', 'externals/modal-preferred-trigger.php', 'modal-md');
     }
 
     function renderStateAskResponsePreferredTrigger() {
         console.log('render state: ', currentPhaseState);
-        $(container).find('#scene-description').addClass('hidden');
-        $(container).find('#scene-container').addClass('hidden');
-        appendAlert($(container), ALERT_PLEASE_WAIT);
-    }
-
-    function renderStateScreenSharingStopped() {
-        console.log('render state: ', currentPhaseState);
-        appendAlert($(container), ALERT_PLEASE_WAIT);
+        clearAlerts(container);
+        checkScenes();
     }
 
     function renderStateExplorationDone() {
@@ -925,118 +1026,53 @@ Exploration.prototype.renderTesterView = function () {
         appendAlert($(container), ALERT_PLEASE_WAIT);
     }
 
-    function renderCurrentScene() {
-        if (scenesUsedForExploration(data.exploration) === true) {
-            if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene] && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description !== '') {
-                $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
-                $(container).find('#scene-description').removeClass('hidden');
-            } else {
-                $(container).find('#scene-description').addClass('hidden');
-            }
-
-            if (previewModeEnabled) {
-                // render scene manually
-                console.log('render scene manually:', data.exploration[currentExplorationIndex]);
-                if (data.exploration[currentExplorationIndex] && data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
-                    renderSceneItem(source, container, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId);
-                } else {
-                    renderSceneItem(source, container, null);
-                }
-            }
-
-            $(container).find('#scene-container').removeClass('hidden');
-        } else {
-            $(container).find('#scene-description').addClass('hidden');
-        }
-    }
-
-    function scenesUsedForExploration(data) {
-        if (data && data.length > 0) {
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].transitionScenes && data[i].transitionScenes.length > 0) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    // exploration live events
-    if (!previewModeEnabled && peerConnection) {
-        $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
-            currentPhaseState = 'explorationStarted';
-            renderCurrentStatePhase();
-        });
-
-        $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
-            currentExplorationIndex = payload.index;
-            currentExplorationScene = payload.sceneIndex;
-
-            if (payload.description) {
-                $(container).find('#scene-description p').text(payload.description);
-                $(container).find('#scene-container').removeClass('hidden');
-            } else {
-                $(container).find('#scene-container').addClass('hidden');
-            }
-        });
-
-        $(peerConnection).unbind(MESSAGE_OPEN_GESTURE_INFO).bind(MESSAGE_OPEN_GESTURE_INFO, function (event, payload) {
-            console.log('open gesture info', payload);
-
-            currentPreviewGesture = {gesture: getGestureById(payload.id)};
-            $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-                currentPreviewGesture = null;
-                $('#custom-modal').unbind('hide.bs.modal');
-                if (!previewModeEnabled && peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
-                }
-            });
-            loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
-        });
-
-        $(peerConnection).unbind(MESSAGE_OPEN_TRIGGER_INFO).bind(MESSAGE_OPEN_TRIGGER_INFO, function (event, payload) {
-            console.log('open trigger info', payload);
-
-            currentPreviewTrigger = getTriggerById(payload.id);
-            $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-                currentPreviewTrigger = null;
-                $('#custom-modal').unbind('hide.bs.modal');
-                if (!previewModeEnabled && peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
-                }
-            });
-            loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
-        });
-
-        $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
-            currentPhaseState = 'screenSharingStopped';
-            renderCurrentPhaseState();
-        });
-
-        if (data.explorationType === 'gestures') {
-            $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_GESTURES).bind(MESSAGE_REQUEST_PREFERRED_GESTURES, function (event, payload) {
-                $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                    event.preventDefault();
-                    $('#custom-modal').unbind('hide.bs.modal');
-                    currentPhaseState = 'askResponsePreferredGestures';
-                    renderCurrentPhaseState();
-                });
-                currentExplorationIndex = payload.currentExplorationIndex;
-                loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
-            });
-        } else {
-            $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_TRIGGER).bind(MESSAGE_REQUEST_PREFERRED_TRIGGER, function (event, payload) {
-                $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                    event.preventDefault();
-                    $('#custom-modal').unbind('hide.bs.modal');
-                    currentPhaseState = 'askResponsePreferredTrigger';
-                    renderCurrentPhaseState();
-                });
-                currentExplorationIndex = payload.currentExplorationIndex;
-                loadHTMLintoModal('custom-modal', 'externals/modal-preferred-trigger.php', 'modal-md');
-            });
-        }
-    }
-
     return container;
+
+
+
+
+
+
+    // state independent functions
+
+    function openGesturePreview() {
+        $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
+            currentPreviewGesture = null;
+            $('#custom-modal').unbind('hide.bs.modal');
+            if (!previewModeEnabled && peerConnection) {
+                peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
+            }
+        });
+        loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
+    }
+
+    function openTriggerPreview() {
+        $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
+            currentPreviewTrigger = null;
+            $('#custom-modal').unbind('hide.bs.modal');
+            if (!previewModeEnabled && peerConnection) {
+                peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
+            }
+        });
+        loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
+    }
+
+    function checkScenes() {
+
+        if (areThereScenes(data.exploration) === true) {
+            if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
+                $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
+                var sceneId = data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId;
+                $(container).find('#scene-container').removeClass('hidden');
+
+                if (previewModeEnabled) {
+                    // render scene manually
+                    var sceneItem = renderSceneItem(source, container, sceneId);
+                    console.log(sceneItem);
+                }
+            }
+        } else {
+            appendAlert(container, ALERT_PLEASE_WAIT);
+        }
+    }
 };

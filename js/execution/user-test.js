@@ -203,7 +203,7 @@ UserTest.prototype.renderModeratorView = function () {
     function renderStateUsertestDone() {
         console.log('render moderator state: ', currentPhaseState);
         
-        clearAlerts(container);
+        clearAlerts($(container).find('#column-right'));
         appendAlert(container, ALERT_PHASE_STEP_DONE);
         
         $(container).find('#btn-done-scenario').removeClass('hidden');

@@ -195,9 +195,9 @@ Identification.prototype.renderModeratorView = function () {
         $(container).find('#slides').removeClass('hidden');
         $(container).find('#slides .headline').text(translation.formats.identification.text + " " + (currentIdentificationIndex + 1) + " " + translation.of + " " + data.identification.length);
 
-        var item = $(source).find('#identificationItem-' + data.identificationFor).clone().removeAttr('id');
+        var item = $(source).find('#identificationItem-gestures').clone().removeAttr('id');
         $(container).find('#identificationContainer').empty().append(item);
-        renderIdentificationForGesturesItem(item, container, data);
+        renderIdentificationForGesturesItem(item);
 
         $(container).find('#btn-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -214,9 +214,9 @@ Identification.prototype.renderModeratorView = function () {
         $(container).find('#slides').removeClass('hidden');
         $(container).find('#slides .headline').text(translation.formats.identification.text + " " + (currentIdentificationIndex + 1) + " " + translation.of + " " + data.identification.length);
 
-        var item = $(source).find('#identificationItem-' + data.identificationFor).clone().removeAttr('id');
+        var item = $(source).find('#identificationItem-trigger').clone().removeAttr('id');
         $(container).find('#identificationContainer').empty().append(item);
-        renderIdentificationForTriggerItem(item, container, data);
+        renderIdentificationForTriggerItem(item);
 
         $(container).find('#btn-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -256,14 +256,8 @@ Identification.prototype.renderModeratorView = function () {
                 renderCurrentPhaseState();
             });
         } else {
-            $(container).find('#btn-done').removeClass('hidden');
-            $(container).find('#btn-done').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                currentTrainingIndex = 0;
-
-                currentPhaseState = 'identificationDone';
-                renderCurrentPhaseState();
-            });
+            currentPhaseState = 'identificationDone';
+            renderCurrentPhaseState();
         }
 
         $('html,body').animate({scrollTop: 0}, 300);
@@ -271,7 +265,7 @@ Identification.prototype.renderModeratorView = function () {
 
     function renderStateIdentificationDone() {
         console.log('render moderator state: ', currentPhaseState);
-        clearAlerts(container);
+        clearAlerts(container.find('#column-right'));
         appendAlert(container, ALERT_PHASE_STEP_DONE);
 
         $(container).find('#btn-done-identification').removeClass('hidden');
@@ -297,7 +291,7 @@ Identification.prototype.renderModeratorView = function () {
 
     // gesture elicitation
 
-    function renderIdentificationForGesturesItem(item, container, data) {
+    function renderIdentificationForGesturesItem(item) {
         renderSceneTriggerItems(item);
 
         $(container).find('#btn-start-gesture-recording').removeClass('hidden');
@@ -306,22 +300,23 @@ Identification.prototype.renderModeratorView = function () {
         $(item).find('#search-for .text').text(searchedData.title);
         $(item).find('.btn-popover-gesture-preview').remove();
 
-        if (!screenSharingStopped && identificationPrototypeOpened && currentIdentificationIndex > 0) {
+        if (currentIdentificationIndex > 0) {
             $(item).find('#btn-start-gesture-recording').removeClass('disabled');
-            var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
-            openPrototypeScene(scene, data.identification.length === 1 && data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+            if (areThereScenes(data.identification)) {
+                var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
+                openPrototypeScene(scene, data.identification.length === 1 && data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
 
-            if (currentIdentificationIndex >= data.identification.length - 1) {
-                $(container).find('#btn-next-trigger').remove();
-            }
+                if (currentIdentificationIndex >= data.identification.length - 1) {
+                    $(container).find('#btn-next-trigger').remove();
+                }
 
-            if (scene && !previewModeEnabled) {
-                getGMT(function (timestamp) {
-                    var currentPhase = getCurrentPhase();
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: scene.id});
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                });
+                if (scene && !previewModeEnabled) {
+                    getGMT(function (timestamp) {
+                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: scene.id});
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                    });
+                }
             }
         }
 
@@ -345,9 +340,10 @@ Identification.prototype.renderModeratorView = function () {
             $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
         } else if (identificationRecordingStopTriggered === true) {
             $(container).find('#btn-start-gesture-recording').addClass('hidden');
-            $(container).find('#btn-start-gesture-rerecording').removeClass('hidden');
             $(container).find('#btn-stop-gesture-recording').addClass('hidden');
+            $(container).find('#btn-stop-gesture-rerecording').removeClass('hidden');
             $(container).find('#identified-gesture').removeClass('hidden');
+            $(container).find('#slides').addClass('hidden');
             $(container).find('#file-transfer-loader').addClass('hidden');
             renderGestureRecorder();
             initRerecordingButton(null);
@@ -405,6 +401,7 @@ Identification.prototype.renderModeratorView = function () {
         $(container).find('#btn-stop-gesture-recording').unbind('click').bind('click', function (event) {
             event.preventDefault();
             $(this).addClass('hidden');
+            $(container).find('#slides').addClass('hidden');
             identificationRecordingStartTriggered = false;
             identificationRecordingStopTriggered = true;
 
@@ -488,11 +485,13 @@ Identification.prototype.renderModeratorView = function () {
             }
         });
 
-        $(item).find('#btn-next-trigger').unbind('click').bind('click', function (event) {
+        $(container).find('#btn-next-trigger').unbind('click').bind('click', function (event) {
             event.preventDefault();
             $(this).addClass('hidden');
+            $(container).find('#slides').removeClass('hidden');
             removeAlert(container, ALERT_PREVIEW_DUMMY);
             $(container).find('#identified-gesture').addClass('hidden');
+            $(container).find('#btn-start-gesture-rerecording').addClass('hidden');
             identificationRecordingStopTriggered = false;
             currentIdentificationIndex++;
             currentIdentificationScene = 0;
@@ -501,8 +500,8 @@ Identification.prototype.renderModeratorView = function () {
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);
             }
-            
-            currentPhaseState = 'identifiyGestures';
+
+            currentPhaseState = 'identifyGestures';
             renderCurrentPhaseState();
         });
     }
@@ -592,69 +591,86 @@ Identification.prototype.renderModeratorView = function () {
         $(container).find('#btn-start-gesture-rerecording').unbind('click').bind('click', function (event) {
 
             $(this).addClass('hidden');
+            $(container).find('#slides').removeClass('hidden');
+            $(container).find('#btn-start-gesture-recording').removeClass('hidden');
+
             if (gestureRecorder) {
-                if (gestureId) {
-                    $(gestureRecorder).unbind(GR_EVENT_DELETE_SUCCESS).bind(GR_EVENT_DELETE_SUCCESS, function (event, gestureId) {
-                        event.preventDefault();
-                        console.log('delete success');
-                        gestureRecorder.destroy();
-                        gestureRecorder = null;
-
-                        var currentPhase = getCurrentPhase();
-                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                        var gestures = new Array();
-                        for (var i = 0; i < tempData.gestures.length; i++) {
-                            if (parseInt(tempData.gestures[i].id) !== parseInt(gestureId)) {
-                                gestures.push(tempData.gestures[i]);
-                            }
-                        }
-                        tempData.gestures = gestures;
-                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-
-                        $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
-                        $(container).find('#file-transfer-loader').addClass('hidden');
-                        $(container).find('#identified-gesture').addClass('hidden');
-                        $(container).find('#gesture-recorder-container').addClass('hidden');
-                        $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
-                        $(container).find('#btn-next-trigger, #btn-done').addClass('hidden');
-
-                        if (peerConnection) {
-                            startGestureRecording();
-                        }
-                    });
-
-                    deleteLastRecordedGesture(gestureId);
-                } else {
-                    gestureRecorder.destroy();
-                    gestureRecorder = null;
-
-                    $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
-                    $(container).find('#file-transfer-loader').addClass('hidden');
-                    $(container).find('#identified-gesture').addClass('hidden');
-                    $(container).find('#gesture-recorder-container').addClass('hidden');
-                    $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
-                    $(container).find('#btn-next-trigger, #btn-done').addClass('hidden');
-
-
-                    if (peerConnection) {
-                        startGestureRecording();
-                    }
-                }
-            } else {
-                removeAlert(container, ALERT_PREVIEW_DUMMY);
-                $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
-                $(container).find('#file-transfer-loader').addClass('hidden');
-                $(container).find('#identified-gesture').addClass('hidden');
-                $(container).find('#gesture-recorder-container').addClass('hidden');
-                $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
-                $(container).find('#btn-next-trigger, #btn-done').addClass('hidden');
-                identificationRecordingStartTriggered = true;
-                identificationRecordingStopTriggered = false;
-
-                if (peerConnection) {
-                    startGestureRecording();
-                }
+                gestureRecorder.destroy();
+                gestureRecorder = null;
             }
+
+            clearAlerts($(container).find('#column-right'));
+
+            $(container).find('#btn-done, #btn-next-trigger').addClass('hidden');
+            $(container).find('#file-transfer-loader').addClass('hidden');
+            $(container).find('#identified-gesture').addClass('hidden');
+            $(container).find('#gesture-recorder-container').addClass('hidden');
+//            $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
+            $(container).find('#btn-next-trigger, #btn-done').addClass('hidden');
+
+//            if (gestureRecorder) {
+//                if (gestureId) {
+//                    $(gestureRecorder).unbind(GR_EVENT_DELETE_SUCCESS).bind(GR_EVENT_DELETE_SUCCESS, function (event, gestureId) {
+//                        event.preventDefault();
+//                        console.log('delete success');
+//                        gestureRecorder.destroy();
+//                        gestureRecorder = null;
+//
+//                        var currentPhase = getCurrentPhase();
+//                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                        var gestures = new Array();
+//                        for (var i = 0; i < tempData.gestures.length; i++) {
+//                            if (parseInt(tempData.gestures[i].id) !== parseInt(gestureId)) {
+//                                gestures.push(tempData.gestures[i]);
+//                            }
+//                        }
+//                        tempData.gestures = gestures;
+//                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//
+//                        $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
+//                        $(container).find('#file-transfer-loader').addClass('hidden');
+//                        $(container).find('#identified-gesture').addClass('hidden');
+//                        $(container).find('#gesture-recorder-container').addClass('hidden');
+//                        $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
+//                        $(container).find('#btn-next-trigger, #btn-done').addClass('hidden');
+//
+//                        if (peerConnection) {
+//                            startGestureRecording();
+//                        }
+//                    });
+//
+//                    deleteLastRecordedGesture(gestureId);
+//                } else {
+//                    gestureRecorder.destroy();
+//                    gestureRecorder = null;
+//
+//                    $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
+//                    $(container).find('#file-transfer-loader').addClass('hidden');
+//                    $(container).find('#identified-gesture').addClass('hidden');
+//                    $(container).find('#gesture-recorder-container').addClass('hidden');
+//                    $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
+//                    $(container).find('#btn-next-trigger, #btn-done').addClass('hidden');
+//
+//
+//                    if (peerConnection) {
+//                        startGestureRecording();
+//                    }
+//                }
+//            } else {
+//                removeAlert(container, ALERT_PREVIEW_DUMMY);
+//                $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
+//                $(container).find('#file-transfer-loader').addClass('hidden');
+//                $(container).find('#identified-gesture').addClass('hidden');
+//                $(container).find('#gesture-recorder-container').addClass('hidden');
+//                $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
+//                $(container).find('#btn-next-trigger, #btn-done').addClass('hidden');
+//                identificationRecordingStartTriggered = true;
+//                identificationRecordingStopTriggered = false;
+//
+//                if (peerConnection) {
+//                    startGestureRecording();
+//                }
+//            }
         });
     }
 
@@ -664,33 +680,34 @@ Identification.prototype.renderModeratorView = function () {
 
     // functions for both, gesture and trigger elicitation
 
-    function renderSceneTriggerItems(item) {
-        console.log(item);
+    function renderSceneTriggerItems(container) {
+//        console.log(item);
         if (data.identification[currentIdentificationIndex] && data.identification[currentIdentificationIndex].transitionScenes) {
             var transitionScenes = data.identification[currentIdentificationIndex].transitionScenes;
+
             for (var i = 0; i < transitionScenes.length; i++) {
-                var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[i].sceneId);
+                var scene = getSceneById(transitionScenes[i].sceneId);
                 var transitionItem = $(source).find('#transition-scene-item').clone().attr('id', scene.id);
                 var itemData = $(source).find('#interactive-scenes-catalog-thumbnail').clone().removeAttr('id');
                 $(itemData).find('#info-' + scene.type).removeClass('hidden');
                 $(itemData).find('.btn-text').text(scene.title);
-                $(itemData).find('.scene-description').text(data.identification[currentIdentificationIndex].transitionScenes[i].description);
+                $(itemData).find('.scene-description').text(transitionScenes[i].description);
                 $(transitionItem).find('.scene-data').append(itemData);
 
                 if (i === 0) {
-                    $(item).find('#start-scene').removeClass('hidden');
-                    $(item).find('#start-scene-container').append(transitionItem);
+                    $(container).find('#start-scene').removeClass('hidden');
+                    $(container).find('#start-scene-container').append(transitionItem);
                 } else if (transitionScenes.length > 2 && i > 0 && i < transitionScenes.length - 1) {
-                    $(item).find('#transition-scenes').removeClass('hidden');
-                    $(item).find('#transition-scene-container').append(transitionItem);
-                    $(item).find('#transition-scene-container').append(document.createElement('br'));
+                    $(container).find('#transition-scenes').removeClass('hidden');
+                    $(container).find('#transition-scene-container').append(transitionItem);
+                    $(container).find('#transition-scene-container').append(document.createElement('br'));
 
                     if (i > 1) {
                         $(transitionItem).find('.scene-data').css({marginTop: '8px'});
                     }
                 } else {
-                    $(item).find('#follow-scenes').removeClass('hidden');
-                    $(item).find('#follow-scene-container').append(transitionItem);
+                    $(container).find('#follow-scenes').removeClass('hidden');
+                    $(container).find('#follow-scene-container').append(transitionItem);
                 }
 
                 if ((currentIdentificationScene > 0 && i === currentIdentificationScene) || (currentIdentificationScene === 0 && i === 0)) {
@@ -703,12 +720,12 @@ Identification.prototype.renderModeratorView = function () {
                         $(this).addClass('btn-primary');
                         $(this).parent().parent().find('.scene-description').removeClass('hidden');
                         currentIdentificationScene = event.data.index;
-                        openPrototypeScene(event.data.scene, data.identification.length === 1 && data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                        openPrototypeScene(event.data.scene, data.identification.length === 1 && transitionScenes.length === 1, transitionScenes[currentIdentificationScene].description);
 
                         if (identificationStartTriggered && !previewModeEnabled) {
                             getGMT(function (timestamp) {
                                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
+                                var scene = getSceneById(transitionScenes[currentIdentificationScene].sceneId);
                                 tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: scene.id});
                                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                             });
@@ -728,53 +745,58 @@ Identification.prototype.renderModeratorView = function () {
 
     // trigger elicitation
 
-    function renderIdentificationForTriggerItem(item, container, data) {
-        renderSceneTriggerItems(item, container, data);
+    function renderIdentificationForTriggerItem(item) {
+        renderSceneTriggerItems(item);
 
         var searchedData = getGestureById(data.identification[currentIdentificationIndex].gestureId);
-        $(item).find('#search-for .address').text(translation.TriggerForGesture + ':');
-        $(item).find('#search-for .text').text(searchedData.title);
-        item.find('.btn-popover-gesture-preview').attr('name', searchedData.id);
+        $(container).find('#search-for .address').text(translation.TriggerForGesture + ':');
+        $(container).find('#search-for .text').text(searchedData.title);
+        $(container).find('.btn-popover-gesture-preview').attr('name', searchedData.id);
 
-        if (!screenSharingStopped && identificationPrototypeOpened && currentIdentificationIndex > 0) {
-            var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
-            openPrototypeScene(scene, data.identification.length === 1 && data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+        if (areThereScenes(data.identification) && currentIdentificationIndex > 0) {
+            if (data.identification[currentIdentificationIndex].transitionScenes && data.identification[currentIdentificationIndex].transitionScenes.length > 0) {
+                var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
+                openPrototypeScene(scene, data.identification.length === 1 && data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+            } else {
+                openPrototypeScene(null);
+            }
+
 
             if (currentIdentificationIndex >= data.identification.length - 1) {
-                $(container).find('#btn-next-trigger').remove();
+                $(container).find('#btn-next-gesture').remove();
             }
         }
 
         $(container).find('.btn-trigger-scene, .btn-reset-scene, #btn-request-trigger').removeClass('disabled');
 
-        $(item).find('#btn-request-trigger').unbind('click').bind('click', function (event) {
+        $(container).find('#btn-request-trigger').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                $(this).addClass('hidden');
-                $(container).find('#identified-trigger').removeClass('hidden');
-                appendAlert($(container).find('#identified-trigger'), ALERT_WAITING_FOR_TESTER);
-                identificationTriggerRequest = true;
-                console.log('request trigger', currentIdentificationIndex);
-                if (peerConnection) {
-                    startTriggerRecording();
-                }
-            } else if (!identificationStartTriggered) {
-                wobble([$(container).find('#general')]);
-                $(document).scrollTop(0);
+//            if (!$(this).hasClass('disabled')) {
+            $(this).addClass('hidden');
+            $(container).find('#identified-trigger').removeClass('hidden');
+            appendAlert($(container).find('#identified-trigger'), ALERT_WAITING_FOR_TESTER);
+            identificationTriggerRequest = true;
+            console.log('request trigger', currentIdentificationIndex);
+            if (peerConnection) {
+                startTriggerRecording();
             }
+//            } else if (!identificationStartTriggered) {
+//                wobble([$(container).find('#general')]);
+//                $(document).scrollTop(0);
+//            }
         });
 
         if (identificationTriggerRequest) {
             identificationTriggerRequest = false;
             clearAlerts($(container).find('#identified-trigger'));
             $(container).find('#identified-trigger').removeClass('hidden');
-            $(item).find('#btn-request-trigger').addClass('hidden');
+            $(container).find('#btn-request-trigger').addClass('hidden');
             renderQuestionnaireAnswers($(container).find('#identified-trigger'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
 
             if (currentIdentificationIndex < data.identification.length - 1) {
-                $(container).find('#btn-next-trigger').removeClass('hidden disabled');
+                $(container).find('#btn-next-gesture').removeClass('hidden');
             } else {
-                $(container).find('#btn-done').removeClass('hidden disabled');
+                $(container).find('#btn-done').removeClass('hidden');
             }
         }
 
@@ -788,9 +810,9 @@ Identification.prototype.renderModeratorView = function () {
 
                 if (payload.saveAnswers === true) {
                     if (currentIdentificationIndex < data.identification.length - 1) {
-                        $(container).find('#btn-next-trigger').removeClass('hidden disabled');
+                        $(container).find('#btn-next-gesture').removeClass('disabled');
                     } else {
-                        $(container).find('#btn-done').removeClass('hidden disabled');
+                        $(container).find('#btn-done').removeClass('disabled');
                     }
 
                     var currentPhase = getCurrentPhase();
@@ -801,7 +823,7 @@ Identification.prototype.renderModeratorView = function () {
             });
         }
 
-        $(item).find('#btn-next-trigger').unbind('click').bind('click', function (event) {
+        $(container).find('#btn-next-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
             $(this).addClass('hidden');
             $(container).find('#identified-trigger').addClass('hidden');
@@ -815,8 +837,8 @@ Identification.prototype.renderModeratorView = function () {
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);
             }
-            
-            currentPhaseState = 'identifiyTrigger';
+
+            currentPhaseState = 'identifyTrigger';
             renderCurrentPhaseState();
         });
     }
@@ -922,7 +944,7 @@ Identification.prototype.renderTesterView = function () {
         clearAlerts(container);
         checkScenes();
 
-        $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+//        $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
 
         // generic identification live events
         var gestureRecorder = null;
@@ -1038,7 +1060,7 @@ Identification.prototype.renderTesterView = function () {
             }
         }
     }
-    
+
     function renderStateNoMoreData() {
         console.log('render tester state: ', currentPhaseState);
         clearAlerts(container);
@@ -1060,17 +1082,21 @@ Identification.prototype.renderTesterView = function () {
     // state independent functions
 
     function checkScenes() {
-        
-        if (areThereScenes(data.identification) === true) {
-            $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
-            var sceneId = data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId;
-            $(container).find('#scene-container').removeClass('hidden');
 
-            if (previewModeEnabled) {
-                // render scene manually
-                var sceneItem = renderSceneItem(source, container, sceneId);
-                console.log(sceneItem);
+        if (areThereScenes(data.identification) === true) {
+            if (data.identification[currentIdentificationIndex].transitionScenes && data.identification[currentIdentificationIndex].transitionScenes.length > 0) {
+                $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                var sceneId = data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId;
+                $(container).find('#scene-container').removeClass('hidden');
+
+                if (previewModeEnabled) {
+                    // render scene manually
+                    var sceneItem = renderSceneItem(source, container, sceneId);
+                    console.log(sceneItem);
+                }
             }
+        } else {
+            appendAlert(container, ALERT_PLEASE_WAIT);
         }
     }
 

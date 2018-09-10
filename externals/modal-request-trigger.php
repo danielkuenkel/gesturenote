@@ -6,11 +6,11 @@ include '../includes/language.php';
     <h4 class="modal-title"><?php echo $lang->triggerSelection ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
-    <div class="text-center root" style="margin-bottom: 15px; max-width: 400px; margin: 0 auto; margin-bottom: 20px" id="gesturePreview">
-        <div class="previewGesture mouseScrollable btn-shadow autoplay embed-responsive embed-responsive-4by3"></div>
-        <div class="progress gesture-progress">
-            <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-        </div>
+    <div class="text-center root" style="margin-bottom: 15px; max-width: 400px; margin: 0 auto;" id="gesturePreview">
+        <div class="previewGesture mousePlayable btn-shadow autoplay embed-responsive embed-responsive-4by3"></div>
+        <!--        <div class="progress gesture-progress">
+                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                </div>-->
         <div class="text-center gestureControls">
             <div class="btn-group">
                 <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
@@ -19,7 +19,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="question-container"></div>
+    <div class="question-container" style="margin-top: 20px"></div>
 
 </div>
 <div class="modal-footer">
@@ -52,16 +52,16 @@ include '../includes/language.php';
             var answers = {answers: getQuestionnaireAnswers(questionnaire)};
 
             if (!previewModeEnabled) {
-                if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
-                    if (peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_RESPONSE_TRIGGER, {data: data, gestureId: gesture.id, answers: answers, saveAnswers: saveAnswers});
-                    }
-                } else {
-                    var currentPhase = getCurrentPhase();
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    tempData.trigger.push({gestureId: gesture.id, preferredTrigger: answers});
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                }
+//                if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
+//                    if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_RESPONSE_TRIGGER, {data: data, gestureId: gesture.id, answers: answers, saveAnswers: saveAnswers});
+//                    }
+//                } else {
+//                    var currentPhase = getCurrentPhase();
+//                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                    tempData.trigger.push({gestureId: gesture.id, preferredTrigger: answers});
+//                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                }
             } else {
                 currentQuestionnaireAnswers = {data: data, answers: answers};
             }

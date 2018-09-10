@@ -78,7 +78,7 @@ PeerConnection.prototype.initialize = function (options) {
 //                offerToReceiveVideo: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0
 //            }
         });
-        
+
         webrtc.webrtc.config.peerConnectionConfig.iceTransports = "relay";
 
 
@@ -439,6 +439,9 @@ PeerConnection.prototype.update = function (options) {
             // check if stream has to be recorded
             if (options.localStream.record === 'yes') {
                 connection.startRecording(true);
+                connection.showRecordIndicator();
+            } else {
+                connection.hideRecordInidicator();
             }
         } else {
             console.log('no options no states update');
@@ -494,6 +497,18 @@ PeerConnection.prototype.hideRemoteStream = function () {
     $('#' + currentOptions.localVideoElement).removeClass('rtc-shadow');
     TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0});
     TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: 0, css: {width: '100%', height: 'auto', left: 0, top: 0}, ease: Quad.easeIn, clearProps: 'all'});
+};
+
+PeerConnection.prototype.showRecordIndicator = function () {
+    var currentOptions = this.options;
+    console.log('show record indicator', currentOptions);
+    showRecordIndicator();
+};
+
+PeerConnection.prototype.hideRecordIndicator = function () {
+    var currentOptions = this.options;
+    console.log('hide record indicator', currentOptions);
+    hideRecordIndicator();
 };
 
 

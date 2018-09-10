@@ -133,7 +133,7 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="container-fluid" id="creation-content" style="visibility: hidden; position: absolute; top: 0px; left: 0; width: 100%; height: auto; z-index: 101; padding-top: 70px; padding-bottom: 20px;">
+        <div class="container-fluid" id="creation-content" style="visibility: hidden; position: absolute; top: 30px; left: 0; width: 100%; height: auto; z-index: 101; padding-bottom: 20px;">
             <div style="background-color: white; width: 100%; height: 100%; display: block; position: relative"></div>
 
             <div id="overlay-content-placeholder"></div>
@@ -403,12 +403,12 @@ if (login_check($mysqli) == true) {
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->interview ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="moderated">
+<!--                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="focusGroupInterview">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->focusGroupInterview->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->focusGroupInterview ?>"></i>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="btn-group" data-study-phase="elicitation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="identification">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->identification->text ?>
