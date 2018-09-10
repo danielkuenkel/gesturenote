@@ -116,6 +116,10 @@ Exploration.prototype.renderModeratorView = function () {
                 event.preventDefault();
                 currentPhaseState = 'explorationStarted';
                 renderCurrentPhaseState();
+
+                if (!previewModeEnabled && peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_START_EXPLORATION);
+                }
             });
         }
     }
@@ -296,10 +300,13 @@ Exploration.prototype.renderModeratorView = function () {
 
         $(container).find('#slides').addClass('hidden');
         $(container).find('#btn-request-gestures').addClass('hidden');
-        $(container).find('#identified-gestures').removeClass('hidden');
-        $(container).find('#identified-gestures .question-container').empty();
-        appendAlert($(container).find('#identified-gestures'), ALERT_WAITING_FOR_TESTER);
+        $(container).find('#identified-trigger').removeClass('hidden');
+        $(container).find('#identified-trigger .question-container').empty();
+        appendAlert($(container).find('#identified-trigger'), ALERT_WAITING_FOR_TESTER);
         currentPreviewTrigger = null;
+
+        var gesture = getGestureById(data.exploration[currentExplorationIndex].gestureId);
+        $(container).find('#identified-trigger #thumbnail-container').empty().append(getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-12'));
     }
 
     function renderStateAskResponsePreferredTrigger() {
@@ -317,6 +324,11 @@ Exploration.prototype.renderModeratorView = function () {
         renderQuestionnaireAnswers($(container).find('#identified-trigger'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
 
         checkPreferredTriggerResponseControls();
+
+        if (!previewModeEnabled) {
+            var gesture = getGestureById(data.exploration[currentExplorationIndex].gestureId);
+            $(container).find('#identified-trigger #thumbnail-container').empty().append(getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-12'));
+        }
     }
 
 
@@ -372,15 +384,8 @@ Exploration.prototype.renderModeratorView = function () {
         });
     }
 
-    return container;
-
-
-
-
-
-
     // live events
-    if (peerConnection) {
+    if (!previewModeEnabled && peerConnection) {
         $(peerConnection).unbind(MESSAGE_RESPONSE_PREFERRED_GESTURES).bind(MESSAGE_RESPONSE_PREFERRED_GESTURES, function (event, payload) {
             currentQuestionnaireAnswers = {data: payload.data, answers: payload.answers, saveAnswers: payload.saveAnswers || false};
             currentPhaseState = 'askResponsePreferredGestures';
@@ -395,6 +400,8 @@ Exploration.prototype.renderModeratorView = function () {
             renderCurrentPhaseState();
         });
     }
+
+    return container;
 
 
 //    function renderExplorationForGestures() {
@@ -448,34 +455,6 @@ Exploration.prototype.renderModeratorView = function () {
                 if (currentPreviewGesture && parseInt(currentPreviewGesture.gesture.id) === parseInt(gesture.id)) {
                     $(presentItem).find('.btn-present-gesture').click();
                 }
-            }
-
-            var activePresentButton = null;
-            var activeQuitButton = null;
-            if (!previewModeEnabled && peerConnection) {
-                $(peerConnection).unbind(MESSAGE_GESTURE_INFO_PRESENT).bind(MESSAGE_GESTURE_INFO_PRESENT, function (event) {
-                    event.preventDefault();
-                    unlockButton(activePresentButton, true);
-                    $(activePresentButton).addClass('hidden');
-                    $(activePresentButton).parent().find('.btn-quit-gesture-info').removeClass('hidden');
-                });
-
-                $(peerConnection).unbind(MESSAGE_GESTURE_INFO_CLOSED).bind(MESSAGE_GESTURE_INFO_CLOSED, function (event, payload) {
-                    event.preventDefault();
-                    unlockButton(activeQuitButton, true);
-                    $(activeQuitButton).addClass('hidden');
-                    $(activeQuitButton).closest('.root').find('.btn-present-gesture').removeClass('hidden disabled');
-
-                    var gestureId = payload.gestureId;
-                    if (gestureId && !previewModeEnabled) {
-                        getGMT(function (timestamp) {
-                            var currentPhase = getCurrentPhase();
-                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_GESTURE_INFO, time: timestamp, gestureId: gestureId});
-                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                        });
-                    }
-                });
             }
 
             initPreviewGestureButtons();
@@ -548,14 +527,15 @@ Exploration.prototype.renderModeratorView = function () {
                     $(activePresentButton).parent().find('.btn-quit-trigger-info').removeClass('hidden');
                 });
 
-                $(peerConnection).unbind(MESSAGE_TRIGGER_INFO_CLOSED).bind(MESSAGE_TRIGGER_INFO_CLOSED, function (event) {
+                $(peerConnection).unbind(MESSAGE_TRIGGER_INFO_CLOSED).bind(MESSAGE_TRIGGER_INFO_CLOSED, function (event, payload) {
                     event.preventDefault();
                     unlockButton(activeQuitButton, true);
                     $(activeQuitButton).addClass('hidden');
                     $(activeQuitButton).closest('.root').find('.btn-present-trigger').removeClass('hidden disabled');
+                    $(container).find('.btn-present-gesture').removeClass('disabled');
 
                     var triggerId = payload.triggerId;
-                    if (gestureId && !previewModeEnabled) {
+                    if (triggerId && !previewModeEnabled) {
                         getGMT(function (timestamp) {
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_TRIGGER_INFO, time: timestamp, triggerId: triggerId});
@@ -643,11 +623,41 @@ Exploration.prototype.renderModeratorView = function () {
     }
 
     function initPreviewGestureButtons() {
-        var activePresentButton, activeQuitButton;
+        var activePresentButton = null;
+        var activeQuitButton = null;
+
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_GESTURE_INFO_PRESENT).bind(MESSAGE_GESTURE_INFO_PRESENT, function (event) {
+                event.preventDefault();
+                unlockButton(activePresentButton, true);
+                $(activePresentButton).addClass('hidden');
+                $(activePresentButton).parent().find('.btn-quit-gesture-info').removeClass('hidden');
+            });
+
+            $(peerConnection).unbind(MESSAGE_GESTURE_INFO_CLOSED).bind(MESSAGE_GESTURE_INFO_CLOSED, function (event, payload) {
+                event.preventDefault();
+                unlockButton(activeQuitButton, true);
+                $(activeQuitButton).addClass('hidden');
+                $(activeQuitButton).closest('.root').find('.btn-present-gesture').removeClass('hidden disabled');
+                $(container).find('.btn-present-trigger').removeClass('disabled');
+
+                var gestureId = payload.gestureId;
+                if (gestureId) {
+                    getGMT(function (timestamp) {
+                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_GESTURE_INFO, time: timestamp, gestureId: gestureId});
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                    });
+                }
+            });
+        }
+
+
         $(container).find('.btn-present-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
             activePresentButton = $(this);
             activeQuitButton = $(this).parent().find('.btn-quit-gesture-info');
+
             if (!$(activePresentButton).hasClass('disabled')) {
                 var gestureId = $(this).attr('data-gesture-id');
                 currentPreviewGesture = {gesture: getGestureById(gestureId)};
@@ -983,12 +993,10 @@ Exploration.prototype.renderTesterView = function () {
             });
 
             $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_TRIGGER).bind(MESSAGE_REQUEST_PREFERRED_TRIGGER, function (event, payload) {
-                $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                    event.preventDefault();
-                    currentPhaseState = 'askPreferredTrigger';
-                    renderCurrentPhaseState();
-                });
+                event.preventDefault();
                 currentExplorationIndex = payload.currentExplorationIndex;
+                currentPhaseState = 'askPreferredTrigger';
+                renderCurrentPhaseState();
             });
         } else {
             if (currentPreviewGesture) {
@@ -1023,6 +1031,7 @@ Exploration.prototype.renderTesterView = function () {
 
     function renderStateExplorationDone() {
         console.log('render state: ', currentPhaseState);
+        $(container).find('#scene-container').addClass('hidden');
         appendAlert($(container), ALERT_PLEASE_WAIT);
     }
 
@@ -1037,22 +1046,23 @@ Exploration.prototype.renderTesterView = function () {
 
     function openGesturePreview() {
         $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-            currentPreviewGesture = null;
             $('#custom-modal').unbind('hide.bs.modal');
             if (!previewModeEnabled && peerConnection) {
                 peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED, {gestureId: currentPreviewGesture.gesture.id});
             }
+            currentPreviewGesture = null;
         });
         loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
     }
 
     function openTriggerPreview() {
         $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function () {
-            currentPreviewTrigger = null;
+
             $('#custom-modal').unbind('hide.bs.modal');
             if (!previewModeEnabled && peerConnection) {
                 peerConnection.sendMessage(MESSAGE_TRIGGER_INFO_CLOSED, {triggerId: currentPreviewTrigger.id});
             }
+            currentPreviewTrigger = null;
         });
         loadHTMLintoModal('custom-modal', 'externals/modal-trigger-info.php', 'modal-sm');
     }
@@ -1070,6 +1080,8 @@ Exploration.prototype.renderTesterView = function () {
                     var sceneItem = renderSceneItem(source, container, sceneId);
                     console.log(sceneItem);
                 }
+            } else {
+                appendAlert(container, ALERT_PLEASE_WAIT);
             }
         } else {
             appendAlert(container, ALERT_PLEASE_WAIT);

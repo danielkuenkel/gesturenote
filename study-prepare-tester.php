@@ -68,6 +68,7 @@ if ($h && $token && $studyId) {
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/chance.min.js"></script>
+        <script src="js/study-execution.js"></script>
 
         <!-- streaming -->
         <script src="js/andyet/simplewebrtc.bundle.js"></script>

@@ -121,7 +121,17 @@ if (login_check($mysqli) == true) {
                 <li role="presentation" id="catalogs"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
                 <li role="presentation" id="phase-steps"><a href="#study-phase-steps" aria-controls="study-phase-steps" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->phases ?></a></li>
                 <li role="presentation" id="participants"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab"><?php echo $lang->participations ?> <span class="badge"></span></a></li>
-                <li role="presentation" class="hidden" id="extraction"><a href="#gesture-extraction" aria-controls="gesture-extraction" role="tab" data-toggle="tab"><?php echo $lang->phaseType->extraction ?></a></li>
+                <li role="presentation" class="dropdown hidden" id="extraction">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <?php echo $lang->phaseType->extraction ?> <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li role="presentation" id="gesture-extraction" class="disabled"><a href="#study-gesture-extraction" aria-controls="study-gesture-extraction" role="tab" data-toggle="tab">Gesten</a></li>
+                        <li role="presentation" id="trigger-extraction" class="disabled"><a href="#study-trigger-extraction" aria-controls="study-trigger-extraction" role="tab" data-toggle="tab">Interaktionsaufgaben</a></li>
+                    </ul>
+                </li>
+                <!--                <li role="presentation" id="gesture-extraction"><a href="#study-gesture-extraction" aria-controls="study-gesture-extraction" role="tab" data-toggle="tab">Gesten</a></li>
+                                <li role="presentation" id="trigger-extraction"><a href="#study-trigger-extraction" aria-controls="study-trigger-extraction" role="tab" data-toggle="tab">Interaktionsaufgaben</a></li>-->
                 <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>
             </ul>
         </div>
@@ -265,10 +275,10 @@ if (login_check($mysqli) == true) {
             </div>
 
 
-            <div role="tabpanel" class="tab-pane" id="gesture-extraction">
+            <div role="tabpanel" class="tab-pane" id="study-gesture-extraction">
                 <div class="alert-space alert-no-phase-data"></div>
 
-                <div id="gesture-extraction-content" class="row hidden">
+                <div id="gesture-extraction-content" class="row">
 
                     <div class="col-sm-4 col-md-3" style="margin-bottom: 20px">
                         <div data-spy="affix" data-offset-top="0" id="gesture-extraction-navigation">
@@ -487,7 +497,14 @@ if (login_check($mysqli) == true) {
 
                 </div>
 
-                <div id="trigger-extraction-content" class="row hidden">
+            </div>
+
+
+
+            <div role="tabpanel" class="tab-pane" id="study-trigger-extraction">
+                <div class="alert-space alert-no-phase-data"></div>
+
+                <div id="trigger-extraction-content" class="row">
 
                     <div class="col-sm-4 col-md-3" style="margin-bottom: 20px">
                         <div data-spy="affix" data-offset-top="0" id="trigger-extraction-navigation">
@@ -685,7 +702,6 @@ if (login_check($mysqli) == true) {
                     </div>
 
                 </div>
-
             </div>
 
         </div>
@@ -774,7 +790,7 @@ if (login_check($mysqli) == true) {
                 var showTutorial = false;
 
                 var activeTab = $('#tab-pane').find('.active a').attr('href');
-                if (activeTab !== '#gesture-extraction') {
+                if (activeTab !== '#gesture-extraction' && activeTab !== '#trigger-extraction') {
                     $('.study-owner-controls').removeClass('hidden');
                 } else {
                     $('.study-owner-controls').addClass('hidden');
@@ -817,6 +833,26 @@ if (login_check($mysqli) == true) {
                                     case 'btn-potential-trigger':
                                         $('#custom-modal').attr('data-start-tab-id', 'analysis');
                                         break;
+                                }
+
+                                helpKey = 'introductionExtraction';
+                                helpContext = 'extraction';
+                                showTutorial = tutorialAutomaticClicked === false || showExtractionTutorial === 1;
+                                break;
+                            case '#trigger-extraction':
+                                var activeTriggerExtractionTab = $('#gesture-extraction-navigation').find('.active').attr('id');
+
+                                switch (activeTriggerExtractionTab) {
+//                                    case 'btn-all-gestures':
+//                                    case 'btn-gesture-classification':
+//                                    case 'btn-checklist':
+//                                        $('#custom-modal').removeAttr('data-start-tab-id');
+//                                        break;
+//                                    case 'btn-potential-gestures':
+//                                    case 'btn-gesture-sets':
+//                                    case 'btn-potential-trigger':
+//                                        $('#custom-modal').attr('data-start-tab-id', 'analysis');
+//                                        break;
                                 }
 
                                 helpKey = 'introductionExtraction';

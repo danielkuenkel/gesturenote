@@ -151,7 +151,9 @@ if ($h && $token && $studyId) {
         <!-- Container (Panel Section) -->
         <div class="mainContent" id="mainContent" style="padding-left: 15px; padding-right: 15px; padding-top: 70px; padding-bottom: 0px">
             <div id="viewModerator">
-                <div class="alert-space alert-general-please-wait"></div>
+                <div id="sync-alert-container">
+                    <div class="alert-space alert-general-please-wait" style=""></div>
+                </div>
                 <div class="pinnedRTC" id="pinnedRTC" style="position: fixed; opacity: 0; z-index: 99"></div>
                 <div id="phase-content" class="hidden"></div>
             </div>

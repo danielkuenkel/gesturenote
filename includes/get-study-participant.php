@@ -23,7 +23,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
             $select_stmt->store_result();
             $select_stmt->fetch();
             if ($select_stmt->num_rows == 1) {
-                $gestures = null;
+                $gestureCatalog = null;
                 $decodedData = json_decode_nice($studyData, false);
                 if (isset($decodedData->assembledGestureSet)) {
                     $assembledGestures = $decodedData->assembledGestureSet;
@@ -36,7 +36,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                             while ($select_stmt->fetch()) {
                                 foreach ($assembledGestures as $assembledGestureId) {
                                     if (strcmp($gestureId, $assembledGestureId) == 0) {
-                                        $gestures[] = array('id' => $gestureId,
+                                        $gestureCatalog[] = array('id' => $gestureId,
                                             'userId' => $gestureUserId,
                                             'ownerId' => $gestureOwnerId,
                                             'source' => $gestureSource,
@@ -99,7 +99,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                                         $select_gesture_stmt->store_result();
                                                         $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
                                                         $select_gesture_stmt->fetch();
-                                                        $elicitedGestures[] = array('id' => $gestureId,
+                                                        $gestureCatalog[] = array('id' => $gestureId,
                                                             'userId' => $gestureUserId,
                                                             'ownerId' => $gestureOwnerId,
                                                             'source' => $gestureSource,
@@ -187,7 +187,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                                         $select_gesture_stmt->store_result();
                                                         $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
                                                         $select_gesture_stmt->fetch();
-                                                        $elicitedGestures[] = array('id' => $gestureId,
+                                                        $gestureCatalog[] = array('id' => $gestureId,
                                                             'userId' => $gestureUserId,
                                                             'ownerId' => $gestureOwnerId,
                                                             'source' => $gestureSource,
@@ -244,7 +244,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                     exit();
                 }
 
-                echo json_encode(array('status' => 'success', 'id' => $originalStudyId, 'userId' => $studyUserId, 'isOwner' => strcmp($studyUserId, $sessionUserId) === 0, 'studyData' => $decodedData, 'resultData' => $results, 'evaluatorData' => $studyResultsEvaluator, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
+                echo json_encode(array('status' => 'success', 'id' => $originalStudyId, 'userId' => $studyUserId, 'isOwner' => strcmp($studyUserId, $sessionUserId) === 0, 'studyData' => $decodedData, 'resultData' => $results, 'evaluatorData' => $studyResultsEvaluator, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestureCatalog));
                 exit();
             } else {
                 echo json_encode(array('status' => 'rowsError'));

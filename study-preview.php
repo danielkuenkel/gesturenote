@@ -139,6 +139,9 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
+        <div id="animatableRTC" class="hidden" style="position: fixed; z-index: 99; top: 124px; left:15px; display: block">
+        </div>
+
         <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 99; top: 150px; left:100px; display: block">
         </div>
 

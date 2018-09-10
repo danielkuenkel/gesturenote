@@ -121,7 +121,7 @@ include '../includes/language.php';
     }
 
     function saveData() {
-        var classification = getLocalItem(CLASSIFICATION);
+        var classification = getLocalItem(CLASSIFICATION_TRIGGER);
         var objectiveAnswer = $('#objective-question').find('#switch .btn-option-checked').attr('id');
 
         for (var i = 0; i < classification.assignments.length; i++) {
@@ -132,7 +132,7 @@ include '../includes/language.php';
             }
         }
 
-        setLocalItem(CLASSIFICATION, classification);
+        setLocalItem(CLASSIFICATION_TRIGGER, classification);
         saveClassification();
         updateTriggerAssignmentInfos($('#content-btn-potential-trigger'), POTENTIAL_TRIGGER, currentAssignment.mainTriggerId, getAssignmentForTriggerId(currentAssignment.mainTriggerId));
     }

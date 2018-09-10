@@ -128,7 +128,7 @@ include '../includes/language.php';
             }
         }
 
-        var classification = getLocalItem(CLASSIFICATION);
+        var classification = getLocalItem(CLASSIFICATION_TRIGGER);
         var items = getAssembledItems(classification.checklist.items);
 
         if (currentAssignment && currentAssignment.checklist && currentAssignment.checklist.answers && currentAssignment.checklist.answers.length > 0) {
@@ -146,7 +146,7 @@ include '../includes/language.php';
     function saveData() {
         var answers = getQuestionnaireAnswers($('#editable-checklist .question-container').children());
 
-        var classification = getLocalItem(CLASSIFICATION);
+        var classification = getLocalItem(CLASSIFICATION_TRIGGER);
         var objectiveAnswer = $('#objective-question').find('#switch .btn-option-checked').attr('id');
 
         for (var i = 0; i < classification.assignments.length; i++) {
@@ -157,7 +157,7 @@ include '../includes/language.php';
         }
         
 //        console.log(answers);
-        setLocalItem(CLASSIFICATION, classification);
+        setLocalItem(CLASSIFICATION_TRIGGER, classification);
         saveClassification();
         updateTriggerAssignmentInfos($('#content-btn-potential-trigger'), POTENTIAL_TRIGGER, currentAssignment.mainTriggerId, getAssignmentForTriggerId(currentAssignment.mainTriggerId));
     }

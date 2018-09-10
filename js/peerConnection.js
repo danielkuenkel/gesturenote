@@ -505,7 +505,7 @@ PeerConnection.prototype.showRecordIndicator = function () {
     showRecordIndicator();
 };
 
-PeerConnection.prototype.hideRecordIndicator = function () {
+PeerConnection.prototype.hideRecordInidicator = function () {
     var currentOptions = this.options;
     console.log('hide record indicator', currentOptions);
     hideRecordIndicator();

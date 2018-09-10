@@ -42,7 +42,7 @@ include '../includes/language.php';
                                 peerConnection.stopShareScreen(true, function () {
                                     prototypeWindow.close();
                                     prototypeWindow = null;
-                                    console.log('screen stopped for canceling');
+                                    console.log('screen sharing stopped for canceling');
 
                                     peerConnection.stopRecording(function () {
                                         console.log('recording stopped for canceling');

@@ -145,7 +145,10 @@ if ($h && $token && $studyId) {
                 </div>
             </div>
         </div>
-
+        
+        
+        <div id="animatableRTC" class="hidden" style="position: fixed; z-index: 99; top: 124px; left:15px; display: block">
+        </div>
 
         <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 999; top: 150px; left:100px; display: block">
             <img src="img/resize-white.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
@@ -154,7 +157,10 @@ if ($h && $token && $studyId) {
         <!-- Container (Panel Section) -->
         <div class="mainContent" id="mainContent" style="padding-top: 70px; padding-left: 15px; padding-right: 15px; padding-bottom: 0px">
             <div id="viewTester">
-                <div class="alert-space alert-please-wait" style=""></div>
+                <div id="sync-alert-container">
+                    <div class="alert-space alert-general-please-wait" style=""></div>
+                </div>
+                
                 <div class="pinnedRTC" id="pinnedRTC" style="position: fixed; opacity: 0; z-index: 99"></div>
                 <div id="phase-content" class="hidden"></div>
             </div>

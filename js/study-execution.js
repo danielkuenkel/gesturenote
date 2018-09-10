@@ -139,7 +139,7 @@ function initialize() {
     $('.btn-cancel').click(function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-            loadHTMLintoModal('custom-modal', 'externals/modal-cancel-study.php', 'modal-sm');
+            loadHTMLintoModal('custom-modal', 'externals/modal-cancel-execution.php', 'modal-sm');
         }
     });
 
@@ -415,12 +415,12 @@ var resizable = false;
 var resizing = false;
 var DRAGGABLE_MAX_WIDTH = 1250;
 var DRAGGABLE_MIN_WIDTH = 160;//296;
-function dragRTC() {
+function dragRTC(opacity) {
     var video = $('#web-rtc-placeholder');
     if (previewModeEnabled !== true) {
         video = $(getMainContent()).find('#video-caller');
     }
-    $(video).css({opacity: .7, width: (DRAGGABLE_MIN_WIDTH + 100) + 'px', height: ((DRAGGABLE_MIN_WIDTH + 100) * 3 / 4) + 'px'});
+    $(video).css({opacity: opacity ? opacity : .7, width: (DRAGGABLE_MIN_WIDTH + 100) + 'px', height: ((DRAGGABLE_MIN_WIDTH + 100) * 3 / 4) + 'px'});
 
     var toggleButton = $(video).find('#btn-toggle-rtc-fixed');
     console.log(toggleButton);

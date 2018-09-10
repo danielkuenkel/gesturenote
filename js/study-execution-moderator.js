@@ -4729,7 +4729,7 @@ var Moderator = {
 
             $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
                 console.log('disconnected: ', CONNECTION_STATE_DISCONNECTED);
-                clearAlerts($('#viewModerator'));
+                removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
                 if (getCurrentPhase().format !== THANKS) {
                     console.log('append alert please wait', $('#viewModerator'));
                     appendAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
@@ -4740,7 +4740,7 @@ var Moderator = {
 
             $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function () {
                 console.log('videoRemoved');
-                clearAlerts($('#viewModerator'));
+                removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
                 if (getCurrentPhase().format !== THANKS) {
                     appendAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
                     $('#viewModerator').find('#phase-content').addClass('hidden');
@@ -4751,6 +4751,7 @@ var Moderator = {
     },
     initializeRTC: function initializeRTC() {
         // check preview or live mode, and check if webRTC is needed
+        $('#animatableRTC').addClass('hidden');
         initPopover();
         if (isWebRTCNeededInFuture()) {
             if (previewModeEnabled === true) {

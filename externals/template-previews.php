@@ -909,7 +909,14 @@ include '../includes/language.php';
             <div class="hidden" id="identified-trigger">
                 <h3 class="headline" style="margin-top: 0px"><?php echo $lang->favoriteTrigger ?></h3>
                 <div class="alert-space alert-waiting-for-tester"></div>
-                <div class="question-container"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row" id="thumbnail-container"></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="question-container"></div>
+                    </div>
+                </div>
             </div>
 
 
@@ -1020,14 +1027,21 @@ include '../includes/language.php';
             <div class="hidden" id="identified-trigger">
                 <h3 class="headline" style="margin-top: 0px"><?php echo $lang->favoriteTrigger ?></h3>
                 <div class="alert-space alert-waiting-for-tester"></div>
-                <div class="question-container"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row" id="thumbnail-container"></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="question-container"></div>
+                    </div>
+                </div>
             </div>
 
 
             <div class="alert-space alert-quit-screen-sharing"></div>
             <div class="alert-space alert-phase-step-done"></div>
 
-            <div style="margin-top: 20px">
+            <div style="margin-top: 20px; margin-bottom: 15px">
                 <button type="button" class="btn btn-block btn-success btn-shadow hidden" id="btn-request-gestures" name="btn-success"><?php echo $lang->inquireFavoriteGestures ?></span></button>
                 <button type="button" class="btn btn-block btn-success btn-shadow hidden" id="btn-request-trigger" name="btn-success"><?php echo $lang->inquireFavoriteTrigger ?></span></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>

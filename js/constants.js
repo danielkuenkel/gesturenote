@@ -31,7 +31,9 @@ var INVITED_USERS = 'invitedUsers';
 var GESTURE_CATALOG = 'gestureCatalog';
 var ELICITED_GESTURES = 'elicitedGestures';
 var ELICITED_TRIGGER = 'elicitedTrigger';
-var CLASSIFICATION = 'classification';
+//var CLASSIFICATION = 'classification';
+var CLASSIFICATION_GESTURES = 'classification-gestures';
+var CLASSIFICATION_TRIGGER = 'classification-trigger';
 var GESTURE_SETS = 'gestureSets';
 
 var CATALOG_GESTURES = 'catalog-gestures';

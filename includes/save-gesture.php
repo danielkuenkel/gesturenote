@@ -11,7 +11,7 @@ $target_dir = "../uploads/";
 $target_preview_dir = "uploads/";
 
 session_start();
-if (isset($_SESSION['usertype'], $_POST['title'], $_POST['titleQuality'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['doubleSidedUse'], $_POST['previewImage'], $_POST['sensorData'])) {
+if (isset($_POST['title'], $_POST['titleQuality'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['doubleSidedUse'], $_POST['previewImage'], $_POST['sensorData'])) {
     $userId = $_SESSION['user_id'];
     if (isset($_POST['userId']) && $_POST['userId'] != null) {
         $userId = $_POST['userId'];
@@ -33,7 +33,7 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['titleQuality'], $_POST
     $context = filter_input(INPUT_POST, 'context', FILTER_SANITIZE_STRING);
     $association = filter_input(INPUT_POST, 'association', FILTER_SANITIZE_STRING);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
-    $joints = json_encode($_POST['joints']);
+
     $doubleSidedUse = $_POST['doubleSidedUse'];
     $previewImage = $_POST['previewImage'];
     $gif = isset($_POST['gif']) ? $_POST['gif'] : NULL;
@@ -41,6 +41,12 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['titleQuality'], $_POST
     $sensorData = $encodedSensorData === '' ? NULL : $encodedSensorData;
     $imageURLs = isset($_POST['images']) ? $_POST['images'] : NULL;
     $dbImageURLs = $imageURLs ? json_encode($imageURLs) : NULL;
+
+    if (isset($_POST['joints'])) {
+        $joints = json_encode($_POST['joints']);
+    } else {
+        $joints = json_encode(array());
+    }
 
     if (isset($_POST['type'])) {
         $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);

@@ -176,16 +176,35 @@ function renderData(data, hash) {
         $('#extraction').removeClass('hidden');
     }
 
+    for (var i = 0; i < data.studyData.phases.length; i++) {
+        if (data.studyData.phases[i].format === IDENTIFICATION) {
+            var phaseData = getLocalItem(data.studyData.phases[i].id + '.data');
+            if (phaseData.identificationFor === 'gestures') {
+                $('#tab-pane').find('#gesture-extraction').removeClass('disabled');
+            } else {
+                $('#tab-pane').find('#trigger-extraction').removeClass('disabled');
+            }
+        }
+    }
+
     $('#tab-pane li a').on('click', function (event) {
         event.preventDefault();
-        if (!$(this).parent().hasClass('active')) {
-            $(this).trigger('change', [$(this).closest('li').attr('id')]);
+        if ($(this).parent().hasClass('disabled')) {
+            event.stopImmediatePropagation();
+        } else {
+            if (!event.handled && !$(this).parent().hasClass('active') && !$(this).hasClass('dropdown-toggle')) {
+                event.handled = true;
+                console.log('check if disabled', $(this).parent().hasClass('disabled'));
+                $(this).trigger('change', [$(this).closest('li').attr('id')]);
+                console.log('tab pane clicked', $(this).closest('li').attr('id'));
+            }
         }
     });
 
     $('#tab-pane').on('change', function (event, activeId) {
         event.preventDefault();
 //        $('#btn-scroll-to-top').addClass('hidden');
+        console.log('active ID', activeId);
         if (activeId !== 'tab-introduction') {
             switch (activeId) {
                 case 'catalogs':
@@ -197,9 +216,12 @@ function renderData(data, hash) {
                 case 'participants':
                     renderParticipants();
                     break;
-                case 'extraction':
-                    renderExtraction();
+                case 'gesture-extraction':
+                    renderExtraction(ELICITED_GESTURES);
 //                    $('#btn-scroll-to-top').removeClass('hidden');
+                    break;
+                case 'trigger-extraction':
+                    renderExtraction(ELICITED_TRIGGER);
                     break;
             }
 
@@ -213,7 +235,7 @@ function renderData(data, hash) {
             }, 300);
 
             var status = window.location.hash.substr(1);
-            if (status !== 'extraction') {
+            if (status !== 'gesture-extraction' && status !== 'trigger-extraction') {
                 fixedOwnerControlsTween.play();
             } else {
                 fixedOwnerControlsTween.reverse();
@@ -294,45 +316,36 @@ function renderData(data, hash) {
 
     }
 
-    function renderExtraction() {
-        var trigger = false;
-        var gestures = false;
-
-        for (var i = 0; i < data.studyData.phases.length; i++) {
-            if (data.studyData.phases[i].format === IDENTIFICATION) {
-                var phaseData = getLocalItem(data.studyData.phases[i].id + '.data');
-                if (phaseData.identificationFor === 'gestures') {
-                    gestures = true;
-                } else {
-                    trigger = true;
-                }
-            }
-        }
+    function renderExtraction(type) {
+        console.log('render gesture extraction');
+        classificationType = type;
 
         getExtractionData({studyId: data.id, surveyType: studyData.generalData.surveyType}, function (result) {
             if (result.status === RESULT_SUCCESS) {
-                if (gestures && !trigger && result.elicitedGestures && result.elicitedGestures.length > 0) {
-                    classificationType = ELICITED_GESTURES;
-                    setLocalItem(ELICITED_GESTURES, getElicitedGestures(result.elicitedGestures));
-                    if (result.classification && result.classification.data) {
-                        setLocalItem(CLASSIFICATION, result.classification.data);
+                if (classificationType === ELICITED_GESTURES) {
+                    if (result.elicitedGestures && result.elicitedGestures.length > 0) {
+                        setLocalItem(ELICITED_GESTURES, getElicitedGestures(result.elicitedGestures));
+                        if (result.classification && result.classification.data) {
+                            setLocalItem(CLASSIFICATION_GESTURES, result.classification.data.gestures);
+                        } else {
+                            setLocalItem(CLASSIFICATION_GESTURES, null);
+                        }
+                        renderGestureExtraction();
                     } else {
-                        setLocalItem(CLASSIFICATION, null);
+                        appendAlert($('#study-gesture-extraction'), ALERT_NO_PHASE_DATA);
                     }
-
-                    renderGestureExtraction();
-                } else if (!gestures && trigger && result.elicitedTrigger && result.elicitedTrigger.length > 0) {
-                    classificationType = ELICITED_TRIGGER;
-                    setLocalItem(ELICITED_TRIGGER, result.elicitedTrigger);
-                    if (result.classification && result.classification.data) {
-                        setLocalItem(CLASSIFICATION, result.classification.data);
+                } else if (classificationType === ELICITED_TRIGGER) {
+                    if (result.elicitedTrigger && result.elicitedTrigger.length > 0) {
+                        setLocalItem(ELICITED_TRIGGER, result.elicitedTrigger);
+                        if (result.classification && result.classification.data) {
+                            setLocalItem(CLASSIFICATION_TRIGGER, result.classification.data.trigger);
+                        } else {
+                            setLocalItem(CLASSIFICATION_TRIGGER, null);
+                        }
+                        renderTriggerExtraction();
                     } else {
-                        setLocalItem(CLASSIFICATION, null);
+                        appendAlert($('#study-trigger-extraction'), ALERT_NO_PHASE_DATA);
                     }
-
-                    renderTriggerExtraction();
-                } else {
-                    appendAlert($('#gesture-extraction'), ALERT_NO_PHASE_DATA);
                 }
             }
         });
@@ -931,7 +944,7 @@ var gesturesRightIndex = 0;
 function renderGestureClassification() {
     gesturesLeftIndex = 0;
     gesturesRightIndex = 0;
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     var elicitedGestures = getLocalItem(ELICITED_GESTURES);
 
     if (elicitedGestures && elicitedGestures.length > 0) {
@@ -978,7 +991,7 @@ function renderGestureClassification() {
                     $('#gesture-classification').removeClass('hidden');
                     var checked = $('#classification-type').find('.btn-option-checked').attr('id');
                     classification = {type: checked, checklist: {used: 'no', items: null}};
-                    setLocalItem(CLASSIFICATION, classification);
+                    setLocalItem(CLASSIFICATION_GESTURES, classification);
                     saveClassification();
                     gesturesRight = new Array();
                     gesturesRight.push({mainGestureId: elicitedGestures[0].id, gestures: [elicitedGestures[0]]});
@@ -997,7 +1010,7 @@ function renderGestureClassification() {
         if (!$(this).hasClass('disabled')) {
             $(this).addClass('disabled');
             removeAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
-            setLocalItem(CLASSIFICATION, null);
+            setLocalItem(CLASSIFICATION_GESTURES, null);
             saveClassification();
             clearGestureSets();
             renderClassifiedGestures($('#classified-gestures'));
@@ -1052,7 +1065,7 @@ function updateMatchingView(updateLeft, updateRight) {
 }
 
 function getClassifiedGestures() {
-    var classification = getLocalItem(CLASSIFICATION).assignments;
+    var classification = getLocalItem(CLASSIFICATION_GESTURES).assignments;
     var array = new Array();
     if (classification) {
         for (var i = 0; i < classification.length; i++) {
@@ -1065,7 +1078,7 @@ function getClassifiedGestures() {
 
 function getUnclassifiedGestures() {
     var elicitedGestures = getLocalItem(ELICITED_GESTURES);
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     var array = new Array();
     if (classification && classification.assignments) {
         var assignments = classification.assignments;
@@ -1094,7 +1107,7 @@ function getUnclassifiedGestures() {
 
 function getUnclassifiedTrigger() {
     var elicitedTrigger = getLocalItem(ELICITED_TRIGGER);
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     var array = new Array();
     if (classification && classification.assignments) {
         var assignments = classification.assignments;
@@ -1122,7 +1135,7 @@ function getUnclassifiedTrigger() {
 }
 
 function renderClassifiedGestures(target, type) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     $(target).empty();
 
     if (classification) {
@@ -1242,7 +1255,7 @@ function updateGestureAssignmentInfos(container, type, updateId, assignment) {
 }
 
 function getClassifiedGestureIndex(gesture) {
-    var classification = getLocalItem(CLASSIFICATION).assignments;
+    var classification = getLocalItem(CLASSIFICATION_GESTURES).assignments;
     var count = 0;
     for (var i = 0; i < classification.length; i++) {
         var mainGesture = getGestureById(classification[i].mainGestureId, ELICITED_GESTURES);
@@ -1304,7 +1317,7 @@ $(document).on('click', '#btn-gesture-no', function (event) {
 });
 
 function classifyGesture(gesture, foundMatch) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     if (foundMatch) {
         if (classification && classification.assignments && classification.assignments.length > 0) {
             var matchedSourceGesture = gesturesRight[gesturesRightIndex];
@@ -1346,13 +1359,13 @@ function classifyGesture(gesture, foundMatch) {
         }
     }
 
-    setLocalItem(CLASSIFICATION, classification);
+    setLocalItem(CLASSIFICATION_GESTURES, classification);
     saveClassification();
     $('#btn-reclassify-gestures').removeClass('disabled');
 }
 
 function reclassifiyGesture(gesture) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     var assignments = classification.assignments;
     for (var i = 0; i < assignments.length; i++) {
         var gestures = assignments[i].gestures;
@@ -1375,14 +1388,16 @@ function reclassifiyGesture(gesture) {
         }
     }
 
-    setLocalItem(CLASSIFICATION, classification);
+    setLocalItem(CLASSIFICATION_GESTURES, classification);
 }
 
 var classificationType = null;
 function saveClassification() {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classificationGestures = getLocalItem(CLASSIFICATION_GESTURES);
+    var classificationTrigger = getLocalItem(CLASSIFICATION_TRIGGER);
     var studyId = getLocalItem(STUDY).id;
-    saveExtractionData({studyId: studyId, classification: classification}, function (result) {
+
+    saveExtractionData({studyId: studyId, classification: {gestures: classificationGestures, trigger: classificationTrigger}}, function (result) {
         if (result.status === RESULT_SUCCESS) {
             console.log('classification saved');
         } else {
@@ -1398,7 +1413,16 @@ function saveClassification() {
 }
 
 function renderChecklist() {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = null;
+    var updateId = null;
+    if (classificationType === ELICITED_GESTURES) {
+        classification = getLocalItem(CLASSIFICATION_GESTURES);
+        updateId = CLASSIFICATION_GESTURES;
+    } else if (classificationType === ELICITED_TRIGGER) {
+        classification = getLocalItem(CLASSIFICATION_TRIGGER);
+        updateId = CLASSIFICATION_TRIGGER;
+    }
+
     var useChecklistSwitch = classificationType === ELICITED_TRIGGER ? $('#trigger-extraction-content').find('#use-checklist-switch') : $('#gesture-extraction-content').find('#use-checklist-switch');
     var alertContainer = classificationType === ELICITED_TRIGGER ? $('#trigger-extraction-content').find('#content-btn-checklist') : $('#gesture-extraction-content').find('#content-btn-checklist');
 
@@ -1414,7 +1438,7 @@ function renderChecklist() {
             classification = {};
         }
         classification.checklist = {used: 'no', items: predefinedItems};
-        setLocalItem(CLASSIFICATION, classification);
+        setLocalItem(updateId, classification);
     }
 
     var listContainer = classificationType === ELICITED_TRIGGER ? $('#trigger-extraction-content').find('#checklist-container') : $('#gesture-extraction-content').find('#checklist-container');
@@ -1433,9 +1457,11 @@ function renderChecklist() {
     $(useChecklistSwitch).unbind('change').bind('change', function (event) {
         event.preventDefault();
         var activeId = $(this).find('.btn-option-checked').attr('id');
-        var classification = getLocalItem(CLASSIFICATION);
+        console.log('active id', activeId, $(this).find('.btn-option-checked').attr('id'))
+        var classification = getLocalItem(updateId);
         classification.checklist.used = activeId;
-        saveChecklist(classification, activeId === 'yes');
+        setLocalItem(updateId, classification);
+        saveChecklist(activeId === 'yes');
     });
 
 
@@ -1481,7 +1507,7 @@ function renderChecklist() {
             }
 
             var activeId = $(useChecklistSwitch).find('.btn-option-checked').attr('id');
-            saveChecklist(getLocalItem(CLASSIFICATION), activeId === 'yes');
+            saveChecklist(activeId === 'yes');
         });
     }
 
@@ -1514,7 +1540,14 @@ function renderChecklist() {
         });
     }
 
-    function saveChecklist(classification, saveItems) {
+    function saveChecklist(saveItems) {
+        var classification = null;
+        if (classificationType === ELICITED_GESTURES) {
+            classification = getLocalItem(CLASSIFICATION_GESTURES);
+        } else if (classificationType === ELICITED_TRIGGER) {
+            classification = getLocalItem(CLASSIFICATION_TRIGGER);
+        }
+
         if (saveItems === true) {
             var questionnaire = new Array();
             var itemList = listContainer.children();
@@ -1527,7 +1560,7 @@ function renderChecklist() {
             classification.checklist.items = null;
         }
 
-        setLocalItem(CLASSIFICATION, classification);
+        setLocalItem(updateId, classification);
         saveClassification();
     }
 
@@ -1759,7 +1792,7 @@ function renderGestureSets() {
 
 var currentAssignment = null;
 function renderPotentialGesturesParameters(target, assignment, mainGesture) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     if (classification.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER) {
         $(target).find('#potential-parameters').empty().append($('#potential-gesture-parameters-appearance-trigger').clone());
 
@@ -2191,10 +2224,12 @@ function getUniqueTrigger() {
     for (var i = 0; i < phaseSteps.length; i++) {
         if (phaseSteps[i].format === IDENTIFICATION) {
             var phaseStepData = getLocalItem(phaseSteps[i].id + '.data');
-            for (var j = 0; j < phaseStepData.identification.length; j++) {
-                var pushTrigger = getTriggerById(phaseStepData.identification[j].triggerId);
-                if (!triggerExists(trigger, pushTrigger)) {
-                    trigger.push(pushTrigger);
+            if (phaseStepData.identificationFor === 'gestures') {
+                for (var j = 0; j < phaseStepData.identification.length; j++) {
+                    var pushTrigger = getTriggerById(phaseStepData.identification[j].triggerId);
+                    if (!triggerExists(trigger, pushTrigger)) {
+                        trigger.push(pushTrigger);
+                    }
                 }
             }
         }
@@ -2306,16 +2341,19 @@ function getUniqueGestures() {
     for (var i = 0; i < phaseSteps.length; i++) {
         if (phaseSteps[i].format === IDENTIFICATION) {
             var phaseStepData = getLocalItem(phaseSteps[i].id + '.data');
-            for (var j = 0; j < phaseStepData.identification.length; j++) {
-                var pushGesture = getGestureById(phaseStepData.identification[j].gestureId);
-                if (!gestureExists(gestures, pushGesture)) {
-                    gestures.push(pushGesture);
+            if (phaseStepData.identificationFor === 'trigger') {
+                for (var j = 0; j < phaseStepData.identification.length; j++) {
+                    var pushGesture = getGestureById(phaseStepData.identification[j].gestureId);
+                    if (!gestureExists(gestures, pushGesture)) {
+                        gestures.push(pushGesture);
+                    }
                 }
             }
         }
     }
 
     function gestureExists(gestures, pushGesture) {
+        console.log('push gestures', pushGesture);
         for (var i = 0; i < gestures.length; i++) {
             if (parseInt(gestures[i].id) === parseInt(pushGesture.id)) {
                 return true;
@@ -2328,7 +2366,7 @@ function getUniqueGestures() {
 }
 
 function getAssignmentByMainGestureId(mainGestureId) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     for (var i = 0; i < classification.assignments.length; i++) {
         if (parseInt(mainGestureId) === parseInt(classification.assignments[i].mainGestureId)) {
             return classification.assignments[i];
@@ -2339,7 +2377,7 @@ function getAssignmentByMainGestureId(mainGestureId) {
 }
 
 function getAssignmentByMainTriggerId(id) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     for (var i = 0; i < classification.assignments.length; i++) {
         if (parseInt(id) === parseInt(classification.assignments[i].mainTriggerId)) {
             return classification.assignments[i];
@@ -2350,7 +2388,14 @@ function getAssignmentByMainTriggerId(id) {
 }
 
 function getAmountRange(id) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = null;
+    if (classificationType === ELICITED_GESTURES) {
+        classification = getLocalItem(CLASSIFICATION_GESTURES);
+    } else if (classificationType === ELICITED_TRIGGER) {
+        classification = getLocalItem(CLASSIFICATION_TRIGGER);
+    }
+    console.log('get amount ranger', classificationType, classification);
+
     var min = 1;
     var max = 0;
 
@@ -2390,7 +2435,7 @@ function getAmountRange(id) {
 }
 
 function getGestureEffectAmount(triggerId) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     var amount = 0;
     for (var i = 0; i < classification.assignments.length; i++) {
         if (parseInt(classification.assignments[i].triggerId) === parseInt(triggerId)) {
@@ -2401,7 +2446,7 @@ function getGestureEffectAmount(triggerId) {
 }
 
 function getAccordance(triggerId) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     var accordance = 0;
     var effectAmount = getGestureEffectAmount(triggerId);
     if (effectAmount === 1) {
@@ -2420,7 +2465,7 @@ function getAccordance(triggerId) {
 
 
 function getTriggerEffectAmount(gestureId) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     var amount = 0;
     for (var i = 0; i < classification.assignments.length; i++) {
         if (parseInt(classification.assignments[i].gestureId) === parseInt(gestureId)) {
@@ -2431,7 +2476,7 @@ function getTriggerEffectAmount(gestureId) {
 }
 
 function getTriggerAccordance(gestureId) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     var accordance = 0;
     var effectAmount = getTriggerEffectAmount(gestureId);
     if (effectAmount === 1) {
@@ -2498,7 +2543,7 @@ function getAgreementMeasures(assignment, type) {
 
 
 function getAssignmentsForGestureId(id) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     var assignments = new Array();
     for (var i = 0; i < classification.assignments.length; i++) {
         if (parseInt(classification.assignments[i].mainGestureId) === parseInt(id)) {
@@ -2510,7 +2555,7 @@ function getAssignmentsForGestureId(id) {
 }
 
 function getAssignmentsForTriggerId(id) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     var assignments = new Array();
     for (var i = 0; i < classification.assignments.length; i++) {
         if (parseInt(classification.assignments[i].mainTriggerId) === parseInt(id)) {
@@ -2522,7 +2567,7 @@ function getAssignmentsForTriggerId(id) {
 }
 
 function getSameGestureByGestureId(id) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     var assignments = new Array();
     for (var i = 0; i < classification.assignments.length; i++) {
         if (classification.assignments[i].sameAs && parseInt(classification.assignments[i].sameAs) === parseInt(id)) {
@@ -2534,7 +2579,7 @@ function getSameGestureByGestureId(id) {
 }
 
 function getAssignmentForGestureId(gestureId) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     for (var i = 0; i < classification.assignments.length; i++) {
         if (parseInt(classification.assignments[i].mainGestureId) === parseInt(gestureId)) {
             return classification.assignments[i];
@@ -2545,7 +2590,7 @@ function getAssignmentForGestureId(gestureId) {
 }
 
 function getAssignmentForTriggerId(id) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     for (var i = 0; i < classification.assignments.length; i++) {
         if (parseInt(classification.assignments[i].mainTriggerId) === parseInt(id)) {
             return classification.assignments[i];
@@ -2556,7 +2601,7 @@ function getAssignmentForTriggerId(id) {
 }
 
 function updateMainGesture(id, target) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_GESTURES);
     for (var i = 0; i < classification.assignments.length; i++) {
         var assignment = classification.assignments[i];
         for (var j = 0; j < assignment.gestures.length; j++) {
@@ -2572,7 +2617,7 @@ function updateMainGesture(id, target) {
     var mainGesture = getGestureById(id, ELICITED_GESTURES);
     renderGestureImages($(target).children('#' + id).find('#main-gesture .previewGesture'), mainGesture.images, mainGesture.previewImage, null);
 
-    setLocalItem(CLASSIFICATION, classification);
+    setLocalItem(CLASSIFICATION_GESTURES, classification);
     saveClassification();
 }
 
@@ -2708,7 +2753,7 @@ var triggerRightIndex = 0;
 function renderTriggerClassification() {
     triggerLeftIndex = 0;
     triggerRightIndex = 0;
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     var elicitedTrigger = getLocalItem(ELICITED_TRIGGER);
 
     if (elicitedTrigger && elicitedTrigger.length > 0) {
@@ -2749,7 +2794,7 @@ function renderTriggerClassification() {
                     $('#trigger-classification').removeClass('hidden');
                     var checked = $('#trigger-classification-type').find('.btn-option-checked').attr('id');
                     classification = {type: checked, checklist: {used: 'no', items: null}};
-                    setLocalItem(CLASSIFICATION, classification);
+                    setLocalItem(CLASSIFICATION_TRIGGER, classification);
                     saveClassification();
                     triggerRight = new Array();
                     triggerRight.push({mainTriggerId: elicitedTrigger[0].id, trigger: [elicitedTrigger[0]]});
@@ -2768,7 +2813,7 @@ function renderTriggerClassification() {
         if (!$(this).hasClass('disabled')) {
             $(this).addClass('disabled');
             removeAlert($('#content-btn-trigger-classification'), ALERT_NO_MORE_TRIGGER_FOR_CLASSIFICATION);
-            setLocalItem(CLASSIFICATION, null);
+            setLocalItem(CLASSIFICATION_TRIGGER, null);
             saveClassification();
             renderClassifiedTrigger($('#classified-trigger'));
             renderTriggerClassification();
@@ -2838,7 +2883,7 @@ function updateTriggerMatchingView(updateLeft, updateRight) {
 }
 
 function renderClassifiedTrigger(target, type) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     $(target).empty();
 
     if (classification) {
@@ -2980,7 +3025,7 @@ function updateTriggerAssignmentInfos(container, type, updateId, assignment) {
 }
 
 function getClassifiedTriggerIndex(trigger) {
-    var classification = getLocalItem(CLASSIFICATION).assignments;
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER).assignments;
     var count = 0;
     for (var i = 0; i < classification.length; i++) {
         var mainTrigger = getTriggerById(classification[i].mainTriggerId, ELICITED_TRIGGER);
@@ -3021,12 +3066,12 @@ $(document).on('click', '#btn-trigger-no', function (event) {
     var leftTrigger = getTriggerById(leftId, ELICITED_TRIGGER);
 
     if (triggerRightIndex < triggerRight.length - 1) {
-        console.log('more rights', gesturesRight.length);
+        console.log('more rights', triggerRight.length);
         triggerRightIndex++;
         updateTriggerMatchingView(false, true);
     } else if (triggerLeftIndex < triggerLeft.length - 1) {
         console.log('no more rights, classify trigger');
-        classifyGesture(leftTrigger, false);
+        classifyTrigger(leftTrigger, false);
         triggerLeftIndex++;
         triggerRightIndex = 0;
         updateTriggerMatchingView(true, true);
@@ -3042,7 +3087,7 @@ $(document).on('click', '#btn-trigger-no', function (event) {
 });
 
 function classifyTrigger(trigger, foundMatch) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     if (foundMatch) {
         if (classification && classification.assignments && classification.assignments.length > 0) {
             var matchedSourceTrigger = triggerRight[triggerRightIndex];
@@ -3084,13 +3129,13 @@ function classifyTrigger(trigger, foundMatch) {
         }
     }
 
-    setLocalItem(CLASSIFICATION, classification);
+    setLocalItem(CLASSIFICATION_TRIGGER, classification);
     saveClassification();
     $('#btn-reclassify-trigger').removeClass('disabled');
 }
 
 function reclassifiyTrigger(trigger) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     var assignments = classification.assignments;
     for (var i = 0; i < assignments.length; i++) {
         var triggers = assignments[i].triggers;
@@ -3113,11 +3158,11 @@ function reclassifiyTrigger(trigger) {
         }
     }
 
-    setLocalItem(CLASSIFICATION, classification);
+    setLocalItem(CLASSIFICATION_TRIGGER, classification);
 }
 
 function updateMainTrigger(id) {
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     for (var i = 0; i < classification.assignments.length; i++) {
         var assignment = classification.assignments[i];
         for (var j = 0; j < assignment.trigger.length; j++) {
@@ -3129,7 +3174,7 @@ function updateMainTrigger(id) {
         }
     }
 
-    setLocalItem(CLASSIFICATION, classification);
+    setLocalItem(CLASSIFICATION_TRIGGER, classification);
     saveClassification();
 }
 
@@ -3145,7 +3190,7 @@ function updateSameAsTrigger(classification, oldId, newId) {
 var currentAssignment = null;
 function renderPotentialTriggerParameters(target, assignment, mainTrigger) {
 
-    var classification = getLocalItem(CLASSIFICATION);
+    var classification = getLocalItem(CLASSIFICATION_TRIGGER);
     if (classification.type === TYPE_CLASSIFICATION_APPEARANCE_GESTURE) {
         $(target).find('#potential-parameters').empty().append($('#potential-trigger-parameters-appearance-gesture').clone());
 

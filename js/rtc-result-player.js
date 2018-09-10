@@ -692,7 +692,9 @@ function getVisDataSet(timelineData) {
                 case ACTION_START_PERFORM_GESTURE:
                 case ACTION_START_PERFORM_TRIGGER_IDENTIFICATION:
                 case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
+                    
                     var gesture = getGestureById(annotations[i].gestureId);
+                    console.log(annotations[i].gestureId, gesture);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
                     break;
 //                case ACTION_START_PERFORM_GESTURE:

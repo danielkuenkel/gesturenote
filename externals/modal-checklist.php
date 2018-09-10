@@ -82,7 +82,7 @@ include '../includes/language.php';
             $('#gesture-details').find('#gestures-list-container').append(involvedGesture);
         }
 
-        var classification = getLocalItem(CLASSIFICATION);
+        var classification = getLocalItem(CLASSIFICATION_GESTURES);
         var items = getAssembledItems(classification.checklist.items);
 
         if (currentAssignment && currentAssignment.checklist && currentAssignment.checklist.answers && currentAssignment.checklist.answers.length > 0) {
@@ -99,7 +99,7 @@ include '../includes/language.php';
     function saveData() {
         var answers = getQuestionnaireAnswers($('#editable-checklist .question-container').children());
 
-        var classification = getLocalItem(CLASSIFICATION);
+        var classification = getLocalItem(CLASSIFICATION_GESTURES);
         var objectiveAnswer = $('#objective-question').find('#switch .btn-option-checked').attr('id');
 
         for (var i = 0; i < classification.assignments.length; i++) {
@@ -109,7 +109,7 @@ include '../includes/language.php';
             }
         }
 
-        setLocalItem(CLASSIFICATION, classification);
+        setLocalItem(CLASSIFICATION_GESTURES, classification);
         saveClassification();
         updateGestureAssignmentInfos($('#content-btn-potential-gestures'), POTENTIAL_GESTURES, currentAssignment.mainGestureId, getAssignmentForGestureId(currentAssignment.mainGestureId));
     }

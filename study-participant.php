@@ -228,6 +228,7 @@ if (login_check($mysqli) == true) {
                     getStudyParticipant({studyId: query.studyId, participantId: query.participantId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             console.log(result);
+                            setLocalItem(GESTURE_CATALOG, result.gestureCatalog);
                             getGestureSets(function (setResult) {
                                 setStudyData(result);
                                 setLocalItem(GESTURE_SETS, setResult.gestureSets);

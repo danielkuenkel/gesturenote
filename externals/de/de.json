@@ -2105,7 +2105,7 @@
             "dontUseQuestion": "Frage deaktivieren",
             "useQuestion": "Frage aktivieren",
             "editPhasestep": "Leitfadenschritt bearbeiten",
-            "readAloudText": "Text vorlesen",
+            "readAloudText": "Text dem Probanden vorlesen",
             "readAloudScenario": "Szenario vorlesen",
             "readAloudTask": "Aufgabe vorlesen"
         },
