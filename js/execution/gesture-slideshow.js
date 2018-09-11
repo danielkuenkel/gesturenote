@@ -83,6 +83,10 @@ GestureSlideshow.prototype.renderModeratorView = function () {
     function renderStateGestureSlideshowOverview() {
         console.log('render moderator state: ', currentPhaseState);
 
+        if (!previewModeEnabled) {
+            peerConnection.sendMessage(MESSAGE_SHOW_GESTURE_SLIDESHOW_OVERVIEW);
+        }
+
         $(document).scrollTop(0);
         $(container).find('#general, #slide').addClass('hidden');
         $(container).find('#slides').removeClass('hidden');
@@ -94,6 +98,8 @@ GestureSlideshow.prototype.renderModeratorView = function () {
         }
 
         $(container).find('#btn-start-slideshow').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+
             currentPhaseState = 'gestureSlideshowStarted';
             renderCurrentPhaseState();
         });
@@ -102,12 +108,13 @@ GestureSlideshow.prototype.renderModeratorView = function () {
     function renderStateGestureSlideshowStarted() {
         console.log('render moderator state: ', currentPhaseState);
 
-        $(document).scrollTop(0);
-        renderSlideContents();
 
-        if (!previewModeEnabled) {
+        if (peerConnection) {
             peerConnection.sendMessage(MESSAGE_START_GESTURE_SLIDESHOW);
         }
+
+        $(document).scrollTop(0);
+        renderSlideContents();
 
         $(container).find('#trigger-slide').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -316,19 +323,17 @@ GestureSlideshow.prototype.renderTesterView = function () {
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
             tempData.annotations = new Array();
             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+
+            $(peerConnection).unbind(MESSAGE_SHOW_GESTURE_SLIDESHOW_OVERVIEW).bind(MESSAGE_SHOW_GESTURE_SLIDESHOW_OVERVIEW, function (event, payload) {
+                currentPhaseState = 'gestureSlideshowOverview';
+                renderCurrentPhaseState();
+            });
         }
         appendAlert($(container), ALERT_PLEASE_WAIT);
     }
 
     function renderStateGestureSlideshowOverview() {
         console.log('render tester state: ', currentPhaseState);
-
-        if (!previewModeEnabled) {
-            $(peerConnection).unbind(MESSAGE_START_GESTURE_SLIDESHOW).bind(MESSAGE_START_GESTURE_SLIDESHOW, function (event, payload) {
-                currentPhaseState = 'gestureSlideshowStarted';
-                renderCurrentPhaseState();
-            });
-        }
 
         clearAlerts($(container));
         $(container).find('#slideshowContainer').removeClass('hidden').empty();
@@ -341,11 +346,17 @@ GestureSlideshow.prototype.renderTesterView = function () {
             var gesture = getGestureById(data.slideshow[i].gestureId);
             renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
         }
+
+        $(peerConnection).unbind(MESSAGE_START_GESTURE_SLIDESHOW).bind(MESSAGE_START_GESTURE_SLIDESHOW, function (event, payload) {
+            currentPhaseState = 'gestureSlideshowStarted';
+            renderCurrentPhaseState();
+        });
     }
 
     function renderStateGestureSlideshowStarted() {
         console.log('render tester state: ', currentPhaseState);
         $(container).find('#general').addClass('hidden');
+        $(container).find('#slideshowContainer').addClass('hidden');
         appendAlert($(container), ALERT_PLEASE_WAIT);
 
         if (!previewModeEnabled) {
@@ -358,7 +369,7 @@ GestureSlideshow.prototype.renderTesterView = function () {
                     tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
                     tempData.restarts = slidesRestartCount;
                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                    Tester.renderModeratedGestureSlideshow(source, container, data);
+//                    Tester.renderModeratedGestureSlideshow(source, container, data);
 
                     currentPhaseState = 'askGesture';
                     renderCurrentPhaseState();

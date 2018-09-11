@@ -1124,7 +1124,7 @@ include '../includes/language.php';
 
 
     <div id="guessability-table">
-        <div><?php echo $lang->potentialGesturesOverviewTable ?></div>
+        <div style="margin-top: -5px"><?php echo $lang->potentialGesturesOverviewTable ?></div>
         <table class="table table-bordered table-sm text">
             <thead>
                 <tr class="table-head-row">
@@ -1182,30 +1182,37 @@ include '../includes/language.php';
 
 
 
-    <div id="amount-container-appearance-trigger" style="margin-bottom: 30px">
-        <h3 id="headline" style="margin: 0"><span class="text" style="margin-right: 5px"></span> <span class="badge"></span></h3> 
-        <hr>
-        <div class="text-center"><?php echo $lang->whatGesturesWhereElicitedForClassificationTrigger ?></div>
-        <div class="row specific-gesture-statistics">
-            <div class="col-md-6">
-                <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
-                <canvas class="chart-gesture-execution-type" style="max-width: 300px; margin: 0 auto"></canvas>
-                <div class="text text-center" style="font-size: 10pt">
-                    <span class="amount-static-gestures"></span>, <span class="amount-dynamic-gestures"></span>, <span class="amount-total-gesture-executions"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
-                <canvas class="chart-gesture-interaction-type" style="max-width: 300px; margin: 0 auto"></canvas>
-                <div class="text text-center" style="font-size: 10pt">
-                    <span class="amount-discrete-gestures"></span>, <span class="amount-continuous-gestures"></span>, <span class="amount-total-gesture-interactions"></span>
-                </div>
-            </div>
+    <div class="panel panel-default panel-shadow" id="amount-container-appearance-trigger">
+        <div class="panel-heading">
+            <div id="headline" style="margin: 0"><span class="text" style="margin-right: 5px"></span> <span class="badge"></span></div> 
         </div>
-        <div id="item-view"></div>
+
+        <!--<hr>-->
+        <div class="panel-body">
+            <div class="text-center"><?php echo $lang->whatGesturesWhereElicitedForClassificationTrigger ?></div>
+            <div class="row specific-gesture-statistics">
+                <div class="col-md-6">
+                    <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
+                    <canvas class="chart-gesture-execution-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                    <div class="text text-center" style="font-size: 10pt">
+                        <span class="amount-static-gestures"></span>, <span class="amount-dynamic-gestures"></span>, <span class="amount-total-gesture-executions"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
+                    <canvas class="chart-gesture-interaction-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                    <div class="text text-center" style="font-size: 10pt">
+                        <span class="amount-discrete-gestures"></span>, <span class="amount-continuous-gestures"></span>, <span class="amount-total-gesture-interactions"></span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div id="item-view"></div>
+        </div>
+
     </div>
 
-    <div id="appearance-trigger-gesture" class="root" style="margin-bottom: 40px">
+    <div id="appearance-trigger-gesture" class="root" style="margin-bottom: 30px">
         <div id="headline-trigger-gesture"></div>
 
         <div class="row" style="margin-top: 10px">
@@ -1213,14 +1220,14 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="appearance-trigger-gesture-potential" class="root" style="margin-bottom: 60px">
+    <div id="appearance-trigger-gesture-potential" class="root">
         <div id="headline-trigger-gesture"></div>
 
         <div class="row" id="potential-parameters-container" style="margin-top: 10px">
             <div class="col-xs-12 col-md-7" id="potential-parameters"></div>
         </div>
 
-        <div id="more-classified-gestures" class="hidden" style="margin-top: 20px">
+        <div id="more-classified-gestures" class="hidden" style="margin-top: 10px">
             <p><?php echo $lang->otherAssociatedGestures ?></p>
             <div class="row" style="margin-top: 10px">
                 <div id="gestures-list-container"></div>
@@ -1350,13 +1357,17 @@ include '../includes/language.php';
 
 
 
-    <div id="amount-container-appearance-gesture" style="margin-bottom: 30px">
-        <p id="headline" style="margin: 0"><span class="text" style="margin-right: 5px"></span> <span class="badge"></span></p> 
-        <hr>
-        <div id="item-view"></div>
+    <div class="panel panel-default panel-shadow" id="amount-container-appearance-gesture" style="">
+        <div class="panel-heading">
+            <div id="headline" style="margin: 0"><span class="text" style="margin-right: 5px"></span> <span class="badge"></span></div> 
+        </div>
+        <div class="panel-body">
+            <div id="item-view"></div>
+        </div>
+        
     </div>
 
-    <div id="appearance-gesture-trigger" class="root" style="margin-bottom: 40px">
+    <div id="appearance-gesture-trigger" class="root" style="margin-bottom: 30px">
         <div id="headline-gesture-trigger"></div>
 
         <div class="row" style="margin-top: 10px">
@@ -1364,8 +1375,8 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="appearance-gesture-trigger-potential" class="root" style="margin-bottom: 60px">
-        <div id="headline-trigger-gesture"></div>
+    <div id="appearance-gesture-trigger-potential" class="root" style="margin-bottom: 30px">
+        <div id="headline-gesture-trigger"></div>
 
         <div class="row" id="potential-parameters-container" style="margin-top: 10px">
             <div class="col-xs-12 col-sm-6" id="potential-parameters"></div>

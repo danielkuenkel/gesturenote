@@ -2699,6 +2699,8 @@
     "pragmaticHedonicQuality": "Pragmatische & Hedonische Qualität",
     "scales": "Skalen",
     "opposites": "Gegensatzpaar",
+    "noDataCollected":"Keine Daten erfasst",
+    "noEnoughDataCollected":"Nicht genügend Daten",
     "ueqOpposites": {
         "annoying": "unerfreulich",
         "enjoyable": "erfreulich",

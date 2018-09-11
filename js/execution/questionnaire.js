@@ -119,6 +119,10 @@ Questionnaire.prototype.renderModeratorView = function () {
 
 
 
+
+
+
+
 /*
  * tester view rendering
  */
@@ -139,13 +143,16 @@ Questionnaire.prototype.renderTesterView = function () {
 
 //    console.log('currentQuestionnaireAnswers', currentQuestionnaireAnswers);
     container = renderQuestionnaire(container, data, currentQuestionnaireAnswers, true);
-    $(container).find('.headline').text(currentPhase.title);
+//    $(container).find('.headline').text(currentPhase.title);
 
     $(container).find('.question-container').unbind('questionnaireDone').bind('questionnaireDone', function (event) {
         event.preventDefault();
+        event.stopImmediatePropagation();
         console.log('questionnaire done triggered');
         $(container).find('#btn-next-step').prev().addClass('hidden');
         $(container).find('#btn-next-step').addClass('hidden');
+        $(container).find('.headline').addClass('hidden');
+        appendAlert(container, ALERT_WAITING_FOR_MODERATOR);
         questionnaireDone = true;
         currentQuestionnaireAnswers = checkCurrentQuestionnaireAnswers(getQuestionnaireAnswers(container.find('.question-container').children(), data));
         if (!previewModeEnabled && peerConnection) {
@@ -155,6 +162,7 @@ Questionnaire.prototype.renderTesterView = function () {
             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             peerConnection.sendMessage(MESSAGE_QUESTIONNAIRE_DONE);
         }
+        $(container).trigger('questionnaireDone');
     });
 
     $(container).find('.question-container').unbind('nextQuestion').bind('nextQuestion', function (event) {

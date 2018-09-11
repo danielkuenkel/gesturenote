@@ -13,7 +13,7 @@ var Moderator = {
 //        $('.alert-space').empty();
         var currentPhase = getCurrentPhase();
         var currentPhaseData = getCurrentPhaseData();
-        var source = getSourceContainer(currentView);
+//        var source = getSourceContainer(currentView);
         if (previewModeEnabled === false) {
             setLocalItem(currentPhase.id + '.tempSaveData', {});
             getGMT(function (timestamp) {

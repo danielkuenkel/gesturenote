@@ -1418,7 +1418,7 @@ include '../includes/language.php';
     <div class="root row" id="interview" style="">
         <div class="col-md-5" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-7" id="column-right" style="margin-bottom: 15px;" data-original-col-specs="col-md-7">
-            <h3 class="headline" style="margin-top: 0"></h3>
+            <h3 class="headline" style="margin-top: 0"><?php echo $lang->formats->interview->text ?></h3>
             <!--<hr>-->
             <div class="question-container"></div>
         </div>
@@ -1431,11 +1431,12 @@ include '../includes/language.php';
     <div id="sus-moderated" class="row">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="" data-original-col-specs="col-md-8">
+            <div class="alert-space alert-waiting-for-moderator"></div>
             <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireSystem ?></h3>
             <!--<hr>-->
             <div class="question-container"></div>
             <!--<hr>-->
-            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <button class="next-step btn btn-success pull-right btn-questionnaire-done" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -1453,27 +1454,31 @@ include '../includes/language.php';
     <div id="gus-moderated" class="row">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-8">
-            <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireGesture ?></h3>
-            <div class="row">
-                <div class="col-sm-6 right" style="margin-bottom: 10px;">
-                    <div id="gesture"><span class="address"></span> <span class="text"></span></div>
-                    <div id="trigger"><span class="address"></span> <span class="text"></span></div>
-                    <div id="feedback"><span class="address"></span> <span class="text"></span></div>
-                </div>
-                <div class="col-sm-6 left" id="gesturePreview">
-                    <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-                    <div class="text-center gestureControls">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                            <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+            <div class="alert-space alert-waiting-for-moderator"></div>
+            <div id="gus-questionnaire-content">
+                <!--<h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireGesture ?></h3>-->
+                <div class="row">
+                    <div class="col-sm-6 right" style="margin-bottom: 10px;">
+                        <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+                        <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+                        <div id="feedback"><span class="address"></span> <span class="text"></span></div>
+                    </div>
+                    <div class="col-sm-6 left" id="gesturePreview">
+                        <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                        <div class="text-center gestureControls">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!--<hr>-->
+                <div class="question-container" style="margin-top: 20px; margin-bottom: 10px"></div>
+                <!--<hr>-->
+                <button class="next-step btn btn-success pull-right btn-questionnaire-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
-            <!--<hr>-->
-            <div class="question-container" style="margin-top: 20px; margin-bottom: 10px"></div>
-            <!--<hr>-->
-            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+
         </div>
     </div>
 
@@ -1706,8 +1711,8 @@ include '../includes/language.php';
 
             <div class="hidden" id="trigger-questions">
                 <div style="width: 300px; height: auto; margin: 0 auto;">
-                    <div class="embed-responsive embed-responsive-4by3">
-                        <div class="previewGesture"></div>
+                    <div class="embed-responsive embed-responsive-4by3" style="border-radius: 4px">
+                        <div class="previewGesture mousePlayable"></div>
                     </div>
                     <div class="text-center gestureControls">
                         <div class="btn-group">
@@ -1939,7 +1944,7 @@ include '../includes/language.php';
                         </div>-->
             <div class="alert-space alert-please-wait"></div>
 
-            <div class="row" id="stressTestContainer"></div>
+            <div class="" id="stressTestContainer"></div>
 
             <!--<button class="btn btn-block btn-success btn-shadow hidden" id="btn-start-stress-test" name="btn-success"><?php echo $lang->startNow ?></button>-->
         </div>
@@ -1948,7 +1953,7 @@ include '../includes/language.php';
     <div class="root row" id="physicalStressTestModerated">
         <div class="col-sm-12 text-center" style="margin-bottom: 15px;">
             <div style="max-width: 400px; margin: 0 auto">
-                <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3" style=""></div>
+                <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3" style="border-radius: 4px"></div>
                 <!--                <div class="progress gesture-progress">
                                     <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                                 </div>-->
@@ -2373,7 +2378,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default panel-shadow root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <div class="form-group form-group-no-margin">
+            <div class="form-group form-group-no-margin" style="margin-bottom: 0px">
                 <label class="question text"></label> 
                 <div class="switch root">
                     <div class="btn-group" style="margin: 0">
@@ -2538,7 +2543,7 @@ include '../includes/language.php';
 
 
     <div class="btn-group" id="checkbox">
-        <button class="btn btn-default btn-checkbox" name="primary">
+        <button class="btn btn-default btn-checkbox list-btn" name="primary">
             <span id="icons" style="margin-right: 6px">
                 <i class="fa fa-square-o" id="normal"></i>
                 <i class="fa fa-square hidden" id="over"></i>
@@ -2560,7 +2565,7 @@ include '../includes/language.php';
     </div>
 
     <div class="btn-group" id="radio">
-        <button class="btn btn-default btn-radio" name="primary">
+        <button class="btn btn-default btn-radio list-btn" name="primary">
             <span id="icons" style="margin-right: 6px">
                 <i class="fa fa-circle-thin" id="normal"></i>
                 <i class="fa fa-circle hidden" id="over"></i>

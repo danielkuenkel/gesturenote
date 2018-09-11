@@ -34,7 +34,7 @@ TriggerSlideshow.prototype.renderModeratorView = function () {
     // general data section
     $(container).find('#general .headline').text(currentPhase.title);
     $(container).find('#general #description').text(data.description);
-    
+
     // observation section
     renderObservations(data, container);
 
@@ -66,6 +66,10 @@ TriggerSlideshow.prototype.renderModeratorView = function () {
 
         $(container).find('#btn-start-slideshow').unbind('click').bind('click', function (event) {
             event.preventDefault();
+            
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_START_TRIGGER_SLIDESHOW);
+            }
             currentPhaseState = 'slideshowStarted';
             renderCurrentPhaseState();
         });
@@ -82,7 +86,6 @@ TriggerSlideshow.prototype.renderModeratorView = function () {
         renderSlideshowItems(currentQuestionnaireAnswers);
 
         if (!previewModeEnabled) {
-            peerConnection.sendMessage(MESSAGE_START_TRIGGER_SLIDESHOW);
             $(peerConnection).unbind(MESSAGE_UPDATE_QUESTIONNAIRE).bind(MESSAGE_UPDATE_QUESTIONNAIRE, function (event, payload) {
                 currentQuestionnaireAnswers = payload;
                 renderSlideshowItems(payload);
@@ -122,7 +125,7 @@ TriggerSlideshow.prototype.renderModeratorView = function () {
         $(container).find('.question-container').empty();
         for (var i = 0; i < data.slideshow.length; i++) {
             var item = $(source).find('#triggerSlideshowItem').clone().removeAttr('id');
-            $(container).find('.question-container').append(item);
+            $(container).find('#elements .question-container').append(item);
             var gesture = getGestureById(data.slideshow[i].gestureId);
             var trigger = getTriggerById(data.slideshow[i].triggerId);
             $(item).find('#searched').text(trigger.title);

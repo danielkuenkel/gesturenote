@@ -178,7 +178,7 @@ UserTest.prototype.renderModeratorView = function () {
         console.log('render moderator state: ', currentPhaseState);
         $(container).find('#scenario-controls').addClass('hidden');
         appendAlert(container, ALERT_QUIT_SCREENSHARING);
-        
+
         $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
         $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -202,10 +202,10 @@ UserTest.prototype.renderModeratorView = function () {
 
     function renderStateUsertestDone() {
         console.log('render moderator state: ', currentPhaseState);
-        
+
         clearAlerts($(container).find('#column-right'));
         appendAlert(container, ALERT_PHASE_STEP_DONE);
-        
+
         $(container).find('#btn-done-scenario').removeClass('hidden');
         $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -551,17 +551,18 @@ UserTest.prototype.renderModeratorView = function () {
 
                     if (transitionsLength - 2 === leftSceneButtons.length) {
                         $(button).addClass('btn-primary');
-                        if (prototypeWindow && prototypeWindow.closed !== true) {
-                            if (!previewModeEnabled) {
-                                getGMT(function (timestamp) {
-                                    var currentPhase = getCurrentPhase();
-                                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
-                                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                                });
-                            }
-                            prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
-                        }
+                        renderFollowScene(scenesContainer);
+//                        if (prototypeWindow && prototypeWindow.closed !== true) {
+//                            if (!previewModeEnabled) {
+//                                getGMT(function (timestamp) {
+//                                    var currentPhase = getCurrentPhase();
+//                                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+//                                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                                });
+//                            }
+//                            prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
+//                        }
                     }
 
                     var transitionMode = $(button).attr('data-transition-mode');
@@ -575,19 +576,22 @@ UserTest.prototype.renderModeratorView = function () {
                     }
                 } else {
                     currentWOZScene = getSceneById($(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').attr('id'));
-                    renderFollowScene(scenesContainer);
+                    renderFollowScene(scenesContainer, true);
                 }
             } else if (transitionsLength === 2) {
                 currentWOZScene = getSceneById($(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').attr('id'));
-                renderFollowScene(scenesContainer);
+                renderFollowScene(scenesContainer, true);
             }
         }
 
-        function renderFollowScene(scenesContainer) {
+        function renderFollowScene(scenesContainer, updateControls) {
             $(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').addClass('btn-primary');
 
-            renderWOZ(source, container, data);
-            renderHelp(source, container, data);
+            if (updateControls && updateControls === true) {
+                renderWOZ(source, container, data);
+                renderHelp(source, container, data);
+            }
+
             console.log('renderFollowScene:', currentWOZScene, prototypeWindow);
             if (prototypeWindow && prototypeWindow.closed !== true) {
                 if (!previewModeEnabled) {
@@ -1006,10 +1010,10 @@ UserTest.prototype.renderTesterView = function () {
         clearAlerts(container);
         checkScenes();
 
-        if (!previewModeEnabled) {
+        if (previewModeEnabled) {
             checkHelp();
             checkFeedback();
-        } else {
+        } else if (peerConnection) {
             $(peerConnection).unbind(MESSAGE_TRIGGER_HELP).bind(MESSAGE_TRIGGER_HELP, function (event, payload) {
                 triggeredHelp = payload.help;
                 checkHelp();
@@ -1021,6 +1025,7 @@ UserTest.prototype.renderTesterView = function () {
             });
 
             $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
+                $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING);
                 currentPhaseState = 'usertestDone';
                 renderCurrentPhaseState();
             });

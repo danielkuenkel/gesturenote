@@ -145,9 +145,9 @@ function resetPopover() {
     popoverVisible = false;
     clearTimer();
     resetThumbnails(popover.find('.previewGesture'));
-    TweenMax.to(popover, .1, {autoAlpha: 0, onComplete: function () {
+//    TweenMax.to(popover, .1, {autoAlpha: 0, onComplete: function () {
             $(popover).remove();
-        }});
+//        }});
 }
 
 function resetPlayButton(source) {

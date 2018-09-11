@@ -703,8 +703,9 @@ include '../includes/language.php';
             renderSensorData();
         });
 
+        var modal = $('#custom-modal');
         if ($(thumbnail).hasClass('deleteable')) {
-            var modal = $('#custom-modal');
+
             $(modal).find('#btn-delete-gesture').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 var button = $(this);

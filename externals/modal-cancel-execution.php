@@ -37,7 +37,13 @@ include '../includes/language.php';
                     if (peerConnection) {
                         var currentPhase = getCurrentPhase();
                         console.log('abort study', currentPhase, currentView);
-                        if (currentView === VIEW_MODERATOR && (currentPhase.format === IDENTIFICATION || currentPhase.format === EXPLORATION || currentPhase.format === GESTURE_TRAINING || currentPhase.format === SCENARIO)) {
+                        if (currentView === VIEW_MODERATOR && (
+                                currentPhase.format === IDENTIFICATION || 
+                                currentPhase.format === EXPLORATION ||
+                                currentPhase.format === GESTURE_TRAINING ||
+                                currentPhase.format === SCENARIO ||
+                                currentPhase.format === FOCUS_GROUP_INTERVIEW
+                                )) {
                             if (prototypeWindow) {
                                 peerConnection.stopShareScreen(true, function () {
                                     prototypeWindow.close();
@@ -45,13 +51,19 @@ include '../includes/language.php';
                                     console.log('screen sharing stopped for canceling');
 
                                     peerConnection.stopRecording(function () {
-                                        console.log('recording stopped for canceling');
+                                        console.log('1: recording stopped for canceling');
                                         abortStudy();
                                     }, true);
                                 });
+                            } else {
+                                peerConnection.stopRecording(function () {
+                                    console.log('2: recording stopped for canceling');
+                                    abortStudy();
+                                }, true);
                             }
                         } else {
                             peerConnection.stopRecording(function () {
+                                console.log('3: recording stopped for canceling');
                                 abortStudy();
                             }, true);
                         }

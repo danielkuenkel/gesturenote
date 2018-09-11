@@ -15,14 +15,15 @@ function savePhaseStep(id, callback) {
         case THANKS:
             data = getThanksFormData(data);
             break;
-//        case QUESTIONNAIRE:
-//        case GUS_SINGLE_GESTURES:
-//        case GUS_MULTIPLE_GESTURES:
-//        case SUS:
-//        case UEQ:
+        case QUESTIONNAIRE:
+        case GUS_SINGLE_GESTURES:
+        case GUS_MULTIPLE_GESTURES:
+        case SUS:
+        case UEQ:
 //            var questionnaire = $('#viewModerator #phase-content').find('.question-container').children();
-//            data = getQuestionnaireFormData(questionnaire, data);
-//            break;
+            console.log('save phase step data:', data);
+            data = getQuestionnaireFormData(data);
+            break;
         case INTERVIEW:
             data = getInterviewFormData(data);
             break;
@@ -213,8 +214,8 @@ function getExplorationFormData(data) {
     return data;
 }
 
-function getQuestionnaireFormData(questionnaire, data) {
-    data.answers = getQuestionnaireAnswers(questionnaire);
+function getQuestionnaireFormData(data) {
+//    data.answers = getQuestionnaireAnswers(questionnaire);
 
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {

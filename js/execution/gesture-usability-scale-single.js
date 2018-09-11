@@ -133,5 +133,11 @@ GestureUsabilityScaleSingle.prototype.renderTesterView = function () {
 
     var questionnaire = new Questionnaire({isPreview: false, questions: getAssembledItems(data.gus), container: container});
     container = questionnaire.renderTesterView();
+    $(container).unbind('questionnaireDone').bind('questionnaireDone', function (event) {
+        event.preventDefault();
+        console.log('questionnaire done catched');
+        appendAlert(container, ALERT_WAITING_FOR_MODERATOR);
+        $(container).find('#gus-questionnaire-content').addClass('hidden');
+    });
     return container;
 };

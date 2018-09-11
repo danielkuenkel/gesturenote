@@ -500,15 +500,16 @@ if (login_check($mysqli) == true) {
                 var phaseData = getLocalItem(phaseId + '.data');
                 var testerResults = getLocalItem(phaseId + '.results');
                 var evaluatorResults = getLocalItem(phaseId + '.evaluator');
-//                console.log(phaseData, testerResults, evaluatorResults);
+                var study = getLocalItem(STUDY);
+                console.log(phaseData, testerResults, evaluatorResults);
 
-                if (phaseData && testerResults) {
+                if (phaseData && testerResults && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults && evaluatorResults.startTime) || (testerResults && testerResults.startTime))) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults && testerResults.startTime))) {
                     var content = $('#template-study-container').find('#' + testerResults.format).clone().removeAttr('id');
                     $(content).find('#headline').text(translation.formats[testerResults.format].text);
                     $('#phase-result').empty().append(content);
 
-                    var executionTime = getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
-//                    console.log(executionTime);
+                    var executionTime = study.surveyType === TYPE_SURVEY_MODERATED ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
+                    console.log(executionTime);
                     if (!isEmpty(executionTime)) {
                         var badge = document.createElement('span');
                         $(badge).addClass('badge pull-right');
@@ -763,9 +764,17 @@ if (login_check($mysqli) == true) {
 
             function renderUEQ(content, studyData, resultsData) {
                 // calculate ueq scales
-                var scales = {attractiveness: {sum: 0, max: 0}, efficiency: {sum: 0, max: 0}, perspicuity: {sum: 0, max: 0}, dependability: {sum: 0, max: 0}, stimulation: {sum: 0, max: 0}, novelty: {sum: 0, max: 0}};
+                var scales = {
+                    attractiveness: {sum: 0, max: 0, present: false},
+                    efficiency: {sum: 0, max: 0, present: false},
+                    perspicuity: {sum: 0, max: 0, present: false},
+                    dependability: {sum: 0, max: 0, present: false},
+                    stimulation: {sum: 0, max: 0, present: false},
+                    novelty: {sum: 0, max: 0, present: false}
+                };
                 var ueqDimensions = translation.ueqDimensions;
 
+                // calculate sums for each dimension
                 for (var key in ueqDimensions) {
                     if (ueqDimensions.hasOwnProperty(key)) {
                         for (var j = 0; j < studyData.length; j++) {
@@ -782,6 +791,7 @@ if (login_check($mysqli) == true) {
                                         }
                                         scales[key].sum = scales[key].sum + value;
                                         scales[key].max++;
+                                        scales[key].present = true;
                                     }
                                 }
                             }
@@ -789,29 +799,41 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
+                console.log('scales', scales);
 
-                var qualities = {attractiveness: {sum: 0.0, max: 0}, pragmaticQuality: {sum: 0.0, max: 0}, hedonicQuality: {sum: 0.0, max: 0}};
+                var qualities = {
+                    attractiveness: {sum: 0.0, max: 0, presentMax: 1},
+                    pragmaticQuality: {sum: 0.0, max: 0, presentMax: 3},
+                    hedonicQuality: {sum: 0.0, max: 0, presentMax: 2}
+                };
+
                 for (var key in scales) {
                     var scaleValue = parseFloat(parseInt(scales[key].sum) / parseInt(scales[key].max)).toFixed(2);
-                    $(content).find('.ueq-scales-statistics .' + key + ' .text').text(scaleValue);
-                    var arrow = null;
-                    if (scaleValue < -0.8) {
-                        arrow = $(content).find('.ueq-scales-statistics .' + key + ' .arrow-red');
-                        $(arrow).removeClass('hidden');
-                    } else if (scaleValue > 0.8) {
-                        arrow = $(content).find('.ueq-scales-statistics .' + key + ' .arrow-green');
-                        $(arrow).removeClass('hidden');
-                    } else {
-                        arrow = $(content).find('.ueq-scales-statistics .' + key + ' .arrow-yellow');
-                        $(arrow).removeClass('hidden');
-                    }
-                    $(arrow).attr('data-quality-id', translation.ueqMainDimensionsForDimension[key]);
+                    if (scales[key].present === true) {
+                        $(content).find('.ueq-scales-statistics .' + key + ' .text').text(scaleValue);
 
-                    var qualityValue = parseFloat(qualities[translation.ueqMainDimensionsForDimension[key]].sum);
-                    qualities[translation.ueqMainDimensionsForDimension[key]].sum = qualityValue + parseFloat(scaleValue);
-                    qualities[translation.ueqMainDimensionsForDimension[key]].max++;
+                        var arrow = null;
+                        if (scaleValue < -0.8) {
+                            arrow = $(content).find('.ueq-scales-statistics .' + key + ' .arrow-red');
+                            $(arrow).removeClass('hidden');
+                        } else if (scaleValue > 0.8) {
+                            arrow = $(content).find('.ueq-scales-statistics .' + key + ' .arrow-green');
+                            $(arrow).removeClass('hidden');
+                        } else {
+                            arrow = $(content).find('.ueq-scales-statistics .' + key + ' .arrow-yellow');
+                            $(arrow).removeClass('hidden');
+                        }
+                        $(arrow).attr('data-quality-id', translation.ueqMainDimensionsForDimension[key]);
+
+                        var qualityValue = parseFloat(qualities[translation.ueqMainDimensionsForDimension[key]].sum);
+                        qualities[translation.ueqMainDimensionsForDimension[key]].sum = qualityValue + parseFloat(scaleValue);
+                        qualities[translation.ueqMainDimensionsForDimension[key]].max++;
+                    } else {
+                        $(content).find('.ueq-scales-statistics .' + key + ' .text').text(translation.noDataCollected);
+                    }
                 }
 
+                console.log('qualities', qualities);
 
                 var timeline = null;
                 var firstOffsetY = -4;
@@ -825,35 +847,42 @@ if (login_check($mysqli) == true) {
 
                         for (var key in qualities) {
                             var qualityValue = (parseFloat(qualities[key].sum) / parseInt(qualities[key].max)).toFixed(2);
-                            $(content).find('.ueq-quality-statistics .' + key + ' .text').text(qualityValue);
 
-                            var arrow = null;
-                            if (qualityValue < -0.8) {
-                                arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-red');
-                                $(arrow).removeClass('hidden');
-                            } else if (qualityValue > 0.8) {
-                                arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-green');
-                                $(arrow).removeClass('hidden');
+                            if (qualities[key].max === qualities[key].presentMax) {
+                                $(content).find('.ueq-quality-statistics .' + key + ' .text').text(qualityValue);
+
+                                var arrow = null;
+                                if (qualityValue < -0.8) {
+                                    arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-red');
+                                    $(arrow).removeClass('hidden');
+                                } else if (qualityValue > 0.8) {
+                                    arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-green');
+                                    $(arrow).removeClass('hidden');
+                                } else {
+                                    arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-yellow');
+                                    $(arrow).removeClass('hidden');
+                                }
+                                var tweenToPosition = $(arrow).offset();
+
+                                var tweenArrows = $(content).find('.ueq-scales-statistics [data-quality-id=' + key + ']');
+                                for (var i = 0; i < tweenArrows.length; i++) {
+                                    var originPosition = $(tweenArrows[i]).offset();
+                                    var tweenArrow = $(tweenArrows[i]).clone().removeAttr('data-quality-id');
+                                    $(tweenArrow).addClass('tweenable-arrow');
+                                    $('body').append(tweenArrow);
+                                    $(tweenArrow).css({opacity: 0, position: 'absolute', top: (originPosition.top + firstOffsetY) + 'px', left: originPosition.left + 'px', pointerEvents: 'none'});
+                                    timeline.add("start", 0)
+                                            .to(tweenArrow, .1, {delay: (count * .3), css: {opacity: 1}}, "start")
+                                            .to(tweenArrow, 1.0, {delay: .1 + (count * .3), css: {top: (tweenToPosition.top + firstOffsetY) + 'px', left: tweenToPosition.left + 'px'}, ease: Quad.easeInOut}, "start")
+                                            .to(tweenArrow, .1, {delay: 1 + (count * .3), css: {opacity: 0}}, "start");
+                                }
+                            } else if (qualities[key].max < qualities[key].presentMax && qualities[key].max > 0) {
+                                $(content).find('.ueq-quality-statistics .' + key + ' .text').text(translation.noEnoughDataCollected);
                             } else {
-                                arrow = $(content).find('.ueq-quality-statistics .' + key + ' .arrow-yellow');
-                                $(arrow).removeClass('hidden');
+                                $(content).find('.ueq-quality-statistics .' + key + ' .text').text(translation.noDataCollected);
                             }
-                            var tweenToPosition = $(arrow).offset();
 
-                            var tweenArrows = $(content).find('.ueq-scales-statistics [data-quality-id=' + key + ']');
-                            for (var i = 0; i < tweenArrows.length; i++) {
-                                var originPosition = $(tweenArrows[i]).offset();
-                                var tweenArrow = $(tweenArrows[i]).clone().removeAttr('data-quality-id');
-                                $(tweenArrow).addClass('tweenable-arrow');
-                                $('body').append(tweenArrow);
-                                $(tweenArrow).css({opacity: 0, position: 'absolute', top: (originPosition.top + firstOffsetY) + 'px', left: originPosition.left + 'px', pointerEvents: 'none'});
-                                timeline.add("start", 0)
-                                        .to(tweenArrow, .1, {delay: (count * .3), css: {opacity: 1}}, "start")
-                                        .to(tweenArrow, 1.0, {delay: .1 + (count * .3), css: {top: (tweenToPosition.top + firstOffsetY) + 'px', left: tweenToPosition.left + 'px'}, ease: Quad.easeInOut}, "start")
-                                        .to(tweenArrow, .1, {delay: 1 + (count * .3), css: {opacity: 0}}, "start");
-                            }
                             count++;
-
                         }
                         timeline.reverse();
                         firstOffsetY = -4;
@@ -869,7 +898,6 @@ if (login_check($mysqli) == true) {
                     $(clickableArrows).unbind('click').bind('click', function (event) {
                         event.preventDefault();
                         timeline.reversed() ? timeline.play() : timeline.reverse();
-
                     });
                 }
             }

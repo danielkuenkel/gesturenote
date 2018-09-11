@@ -240,6 +240,7 @@ var MESSAGE_FEEDBACK_HIDDEN = 'feedbackHidden';
 var MESSAGE_TRIGGER_HELP = 'triggerHelp';
 var MESSAGE_HELP_CLOSED = 'helpClosed';
 
+var MESSAGE_SHOW_GESTURE_SLIDESHOW_OVERVIEW = 'showGestureSlideshowOverview';
 var MESSAGE_START_GESTURE_SLIDESHOW = 'startGestureSlideshow';
 var MESSAGE_TRIGGER_GESTURE_SLIDE = 'triggerGestureSlide';
 var MESSAGE_REACTIVATE_CONTROLS = 'reactivateControls';

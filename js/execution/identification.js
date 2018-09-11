@@ -1008,7 +1008,7 @@ Identification.prototype.renderTesterView = function () {
         checkScenes();
         clearAlerts(container);
         showStream();
-        animateLiveStream(true, false, function () {
+        animateLiveStream(true, VIEW_TESTER, function () {
             if (!previewModeEnabled && peerConnection) {
                 testerGestureRecorder.record();
 
@@ -1029,7 +1029,7 @@ Identification.prototype.renderTesterView = function () {
         console.log('render tester state: ', currentPhaseState);
         clearAlerts(container);
         checkScenes();
-        animateLiveStream(false);
+        animateLiveStream(false, VIEW_MODERATOR);
 
         if (!previewModeEnabled && peerConnection) {
             var recordedData = testerGestureRecorder.recordedData();

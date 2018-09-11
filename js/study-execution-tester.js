@@ -38,7 +38,6 @@ var Tester = {
             switch (currentPhase.format) {
                 case LETTER_OF_ACCEPTANCE:
                     currentClass = new LetterOfAcceptance();
-
 //                    item = Tester.getLetterOfAcceptance(container, currentPhaseData);
                     break;
                 case THANKS:
@@ -2577,67 +2576,70 @@ function renderSceneItem(source, container, sceneId) {
 var originalPinnedPosition = null;
 function animateLiveStream(zoom, swap, callback) {
     setTimeout(function () {
-    var stream = $('#animatableRTC');
+        var stream = $('#animatableRTC');
 
-    console.log('animate live stream', stream);
+        console.log('animate live stream', stream);
 
-    if (zoom === true) {
-        showStream();
-        var video = $('#web-rtc-placeholder');
-        if (!previewModeEnabled) {
-            video = $('#video-caller');
-        }
-        $(stream).removeClass('hidden');
-        $(stream).empty().append(video);
-        keepStreamsAlive(stream);
-        $(stream).find('#stream-controls').addClass('hidden');
+        if (zoom === true) {
+            showStream();
+            var video = $('#web-rtc-placeholder');
+            if (!previewModeEnabled) {
+                video = $('#video-caller');
+            }
+            $(stream).removeClass('hidden');
+            $(stream).empty().append(video);
+            $(stream).find('#stream-controls').addClass('hidden');
 
-        var dimensions = calcDimensions();
-        originalPinnedPosition = {top: $(stream).position().top, left: $(stream).position().left, width: $(video).width(), height: $(video).height()};
-        $(video).css({width: '100%'});
-        $(stream).css({width: originalPinnedPosition.width + 'px', height: originalPinnedPosition.height + 'px', top: originalPinnedPosition.top, left: originalPinnedPosition.left});
+            var dimensions = calcDimensions();
+            originalPinnedPosition = {top: $(stream).position().top, left: $(stream).position().left, width: $(video).width(), height: $(video).height()};
+            $(video).css({width: '100%'});
+            $(stream).css({width: originalPinnedPosition.width + 'px', height: originalPinnedPosition.height + 'px', top: originalPinnedPosition.top, left: originalPinnedPosition.left});
 
-        console.log('dimensions', dimensions, originalPinnedPosition, $(video).width());
-        TweenMax.to(stream, .3, {width: dimensions.width + 'px', height: dimensions.height + 'px', top: dimensions.top + 'px', left: dimensions.left + 'px', opacity: 1, onComplete: function () {
-                $(window).on('resize', function () {
-                    var dimensions = calcDimensions();
-                    stream.css({width: dimensions.width + 'px', height: dimensions.height + 'px', top: dimensions.top + 'px', left: dimensions.left + 'px'});
-                });
-
-                if (callback) {
-                    callback();
-                }
-            }});
-    } else {
-        if (originalPinnedPosition) {
-            TweenMax.to(stream, .2, {top: originalPinnedPosition.top + 'px', left: originalPinnedPosition.left + 'px', width: originalPinnedPosition.width + 'px', height: originalPinnedPosition.height + 'px', onComplete: function () {
-                    $(stream).find('#stream-controls').removeClass('hidden');
-                    $(stream).addClass('hidden');
-
-                    pinRTC();
+            console.log('dimensions', dimensions, originalPinnedPosition, $(video).width());
+            TweenMax.to(stream, .3, {width: dimensions.width + 'px', height: dimensions.height + 'px', top: dimensions.top + 'px', left: dimensions.left + 'px', opacity: 1, onComplete: function () {
+                    $(window).on('resize', function () {
+                        var dimensions = calcDimensions();
+                        stream.css({width: dimensions.width + 'px', height: dimensions.height + 'px', top: dimensions.top + 'px', left: dimensions.left + 'px'});
+                    });
 
                     if (callback) {
                         callback();
                     }
                 }});
         } else {
-            pinRTC();
-        }
-    }
+            if (originalPinnedPosition) {
+                TweenMax.to(stream, .2, {top: originalPinnedPosition.top + 'px', left: originalPinnedPosition.left + 'px', width: originalPinnedPosition.width + 'px', height: originalPinnedPosition.height + 'px', onComplete: function () {
+                        $(stream).find('#stream-controls').removeClass('hidden');
+                        $(stream).addClass('hidden');
 
-    return false;
-    if (swap) {
-        if (swap === VIEW_TESTER) {
-            $(stream).find(".rtc-local-container").after($(stream).find(".rtc-remote-container"));
-            $(stream).find("#local-stream").css({width: '100%', top: '0px', left: '0px'});
-            $(stream).find("#remote-stream").css({width: '30%', height: '30%', top: '5px', left: '5px'});
-        } else if (swap === VIEW_MODERATOR) {
-            $(stream).find(".rtc-remote-container").after($(stream).find(".rtc-local-container"));
-            $(stream).find("#local-stream").css({width: '30%', top: '5px', left: '5px'});
-            $(stream).find("#remote-stream").css({width: '100%', height: '100%', top: '0px', left: '0px'});
+                        pinRTC();
+
+                        if (callback) {
+                            callback();
+                        }
+                    }});
+            } else {
+                pinRTC();
+            }
         }
+
+//        return false;
+        if (swap && !previewModeEnabled) {
+            if (swap === VIEW_TESTER) {
+                $(stream).find("#remote-stream").addClass('hidden');
+//                $(stream).find(".rtc-local-container").after($(stream).find(".rtc-remote-container"));
+                $(stream).find("#local-stream").css({width: '100%', top: '0px', left: '0px'});
+//                $(stream).find("#remote-stream").css({width: '30%', height: '30%', top: '5px', left: '5px'});
+            } else if (swap === VIEW_MODERATOR) {
+                $(stream).find("#remote-stream").removeClass('hidden');
+//                $(stream).find(".rtc-remote-container").after($(stream).find(".rtc-local-container"));
+                $(stream).find("#local-stream").css({width: '30%', top: '5px', left: '5px'});
+//                $(stream).find("#remote-stream").css({width: '100%', height: '100%', top: '0px', left: '0px'});
+            }
+//            keepStreamsAlive(stream);
+        }
+
         keepStreamsAlive(stream);
-    }
     }, 300);
 }
 

@@ -44,7 +44,7 @@ include '../includes/language.php';
             <div class="btn-group" style="margin: 0">
                 <button class="btn btn-default btn-radio" name="primary" id="less-well">
                     <span id="icons" style="margin-right: 6px">
-                        <i class="fa fa-circle-thin hidden" id="normal"></i>
+                        <i class="fa fa-circle-thin" id="normal"></i>
                         <i class="fa fa-circle hidden" id="over"></i>
                         <i class="fa fa-check-circle hidden" id="checked"></i>
                     </span>

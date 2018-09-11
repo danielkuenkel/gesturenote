@@ -142,7 +142,8 @@ PhysicalStressTest.prototype.renderModeratorView = function () {
 
         if (!previewModeEnabled) {
             $(peerConnection).unbind(MESSAGE_REACTIVATE_CONTROLS).bind(MESSAGE_REACTIVATE_CONTROLS, function (event, payload) {
-                checkControlButtons();
+                currentPhaseState = 'askQuestionsDone';
+                renderCurrentPhaseState();
             });
 
             $(peerConnection).unbind(MESSAGE_UPDATE_QUESTIONNAIRE).bind(MESSAGE_UPDATE_QUESTIONNAIRE, function (event, payload) {
@@ -427,6 +428,7 @@ PhysicalStressTest.prototype.renderTesterView = function () {
 
         if (!previewModeEnabled) {
             getGMT(function (timestamp) {
+                var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_GESTURE_STRESS_TEST, gestureId: gesture.id, time: timestamp});
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);

@@ -746,8 +746,10 @@ function renderQuestionnaire(target, questionnaire, answers, forceFilters) {
         $(doneQuestionnaireButton).removeClass('hidden');
         renderQuestions(target, questionnaire, answers);
 
+
         $(doneQuestionnaireButton).unbind('click').bind('click', function (event) {
             event.preventDefault();
+            console.log('done button', doneQuestionnaireButton);
             if (!$(this).hasClass('disabled') && !$(this).hasClass('hidden')) {
                 $(doneQuestionnaireButton).addClass('hidden');
                 $(target).find('.question-container').empty();
@@ -1329,7 +1331,7 @@ function getGroupingQuestionAnswers(source) {
     for (var i = 0; i < options.length; i++) {
         var params = {};
 
-        params.id = $(options[i]).find('.btn').attr('id');
+        params.id = $(options[i]).find('.list-btn').attr('id');
         params.justification = '';
         var justification = $(options[i]).find('#justification');
         if (justification.length === 1 && justification !== undefined && !$(justification).hasClass('hidden')) {
@@ -1351,6 +1353,8 @@ function getGroupingQuestionAnswers(source) {
 //        data.optionalAnswer = '';
         data.push({id: 'optionalAnswer', content: ''});
     }
+
+    console.log(data);
 
     return {selections: data};
 }
@@ -2844,7 +2848,9 @@ function renderGroupingQuestionGUSInput(item, parameters) {
             if (parameters.justification === 'yes') {
                 var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
                 $(justification).css({marginTop: '5px'});
-                $(justification).append(document.createElement('hr'));
+                if (i < options.length - 1) {
+                    $(justification).append(document.createElement('hr'));
+                }
                 $(formGroup).append(justification);
                 setInputChangeEvent(justification.find('#justificationInput'), 1000);
 
@@ -2901,10 +2907,14 @@ function renderGroupingQuestionGUSInput(item, parameters) {
 function renderRatingInput(item, options) {
     for (var j = 0; j < options.length; j++) {
         var optionItem = $('#item-container-inputs').find('#radio').clone(false);
-        $(optionItem).attr('id', options[j].id)
+        $(optionItem).attr('id', options[j].id);
         optionItem.find('.option-text').text(options[j].title);
         item.find('.option-container').append(optionItem);
         item.find('.option-container').append(document.createElement('br'));
+
+        if (j > 0) {
+            $(optionItem).css({marginTop: '3px'});
+        }
     }
 }
 
@@ -2924,6 +2934,9 @@ function renderMatrixInput(item, options) {
             optionItem.find('.option-text').text(options[j].scales[k].title);
             ratingItem.find('#scales-container').append(optionItem);
             ratingItem.find('#scales-container').append(document.createElement('br'));
+            if (k > 0) {
+                $(optionItem).css({marginTop: '3px'});
+            }
         }
 
         item.find('.option-container').append(ratingItem);
