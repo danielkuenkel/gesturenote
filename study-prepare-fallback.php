@@ -146,7 +146,7 @@ if ($h && $studyId) {
         <script>
             $(document).ready(function () {
                 checkDomain();
-                checkCookies(<?php echo $_SESSION['cookiesAccepted'] ?>);
+                checkCookies(parseInt('<?php echo checkCookiesAccepted(); ?>'));
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
