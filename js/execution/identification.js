@@ -130,16 +130,6 @@ Identification.prototype.renderModeratorView = function () {
             $(container).find('#btn-start-identification').unbind('click').bind('click', function (event) {
                 event.preventDefault();
 
-//                if (!previewModeEnabled && peerConnection) {
-////                    getGMT(function (timestamp) {
-////                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-////                        tempData.startTrainingTime = timestamp; ACTION
-////                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-////                    });
-//
-//                    peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);
-//                }
-
                 currentPhaseState = 'identificationStarted';
                 renderCurrentPhaseState();
             });
@@ -285,14 +275,6 @@ Identification.prototype.renderModeratorView = function () {
                 event.preventDefault();
                 console.log('received video file', file, metadata, receivedGestureData);
                 $(peerConnection).unbind(EVENT_RECEIVED_FILE);
-//                $(container).find('#btn-start-gesture-rerecording').removeClass('hidden');
-//                if (currentIdentificationIndex < data.identification.length - 1) {
-//                    $(container).find('#btn-next-trigger').removeClass('hidden');
-//                } else {
-//                    $(container).find('#btn-done').removeClass('hidden');
-//                }
-//
-//                $(container).find('#file-transfer-loader').addClass('hidden');
 
                 if (metadata.size > 0) {
                     receivedWebcamRecording = file;

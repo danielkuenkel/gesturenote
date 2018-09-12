@@ -52,7 +52,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="root col-xs-6 col-sm-4 col-lg-3" id="participant-thumbnail">
+    <div class="root col-xs-6 col-sm-4 col-md-3" id="participant-thumbnail">
         <div class="panel panel-default btn-shadow btn-panel">
             <div class="panel-body">
                 <div class="embed-responsive embed-responsive-4by3">
@@ -66,9 +66,9 @@ include '../includes/language.php';
                 <div class="panel-content text-center">
                     <div class="text" id="heading-text"></div>
                     <span class="label label-default hidden" id="execution-phase-pretest" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->participantPretest ?>"><i class="fa fa-user-times"></i> <span class="label-text hidden-xs hidden-sm"><?php echo $lang->pretest ?></span></span>
-                    <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
-                    <span class="label label-warning hidden" id="execution-error"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
-                    <span class="label label-danger hidden"  id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
+                    <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs"></span></span>
+                    <span class="label label-warning hidden" id="execution-error"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs"></span></span>
+                    <span class="label label-danger hidden"  id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs"></span></span>
                     <span class="label label-default hidden" id="execution-duration"><i class="fa fa-clock-o"></i> <span class="label-text"></span></span>
                 </div>
 
@@ -968,12 +968,15 @@ include '../includes/language.php';
             <div class="row">
                 <div class="col-sm-6">
                     <div class="text text-center" id="score">
-                        <div id="error" class="hidden">
-                            <p><i class="fa fa-bolt text" style="font-size: 120pt; line-height: 110pt"></i></p>
+                        <div id="fault-score" class="hidden">
+                            <div class="text" style="font-size: 90pt; line-height: 80pt"></div>
+                            <div class="address" style="font-size: 20pt"><?php echo $lang->assignedCorrectly ?></div>
+                        </div>
+                        <div id="no-fault-score" class="hidden">
                             <p><?php echo $lang->noTriggerScoreCalculationPossible ?></p>
                         </div>
-                        <div class="address" style="font-size: 20pt"></div>
-                        <div class="text" style="font-size: 120pt; line-height: 110pt"></div>
+                        <!--<div class="address" style="font-size: 20pt"></div>-->
+                        <!--<div class="text" style="font-size: 90pt; line-height: 80pt"></div>-->
                     </div>
                 </div>
                 <div class="col-sm-6 text-center">
@@ -1364,7 +1367,7 @@ include '../includes/language.php';
         <div class="panel-body">
             <div id="item-view"></div>
         </div>
-        
+
     </div>
 
     <div id="appearance-gesture-trigger" class="root" style="margin-bottom: 30px">

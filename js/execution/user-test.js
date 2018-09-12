@@ -106,6 +106,7 @@ UserTest.prototype.renderModeratorView = function () {
                     $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
                         event.preventDefault();
                         unlockButton(button, true);
+
                         currentPhaseState = 'usertestStarted';
                         renderCurrentPhaseState();
                     });
@@ -146,8 +147,9 @@ UserTest.prototype.renderModeratorView = function () {
             currentWOZScene = getSceneById(data.scene);
             currentScenarioTask = data.tasks[0];
             currentScenarioTaskIndex = 0;
-            renderWOZ(source, container, data);
-            renderHelp(source, container, data);
+
+            renderWOZ();
+            renderHelp();
 
             if (prototypeWindow) {
                 if (!previewModeEnabled) {
@@ -155,22 +157,26 @@ UserTest.prototype.renderModeratorView = function () {
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
-                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                     });
                 }
 
                 openPrototypeScene(currentWOZScene, checkedScenes.single);
             }
-//            } else {
-//                $(document).scrollTop(0);
-//                wobble(container.find('#general'));
-//            }
         });
 
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_HELP_CLOSED).bind(MESSAGE_HELP_CLOSED, function (event, payload) {
                 $(container).find('.btn-info').removeClass('disabled');
             });
+
+            getGMT(function (timestamp) {
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            });
+
         }
     }
 
@@ -216,175 +222,17 @@ UserTest.prototype.renderModeratorView = function () {
         });
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-//    if (!currentWOZScene) {
-//        currentWOZScene = getSceneById(data.scene);
-//        currentScenarioTask = data.tasks[0];
-//    }
-
-
     return container;
 
 
 
 
 
+
+
+
+
     // state independant functions
-
-
-
-
-//    // controls handling
-//    if (scenarioPrototypeOpened) {
-//        enableScenarioControls(container);
-//        $(container).find('#btn-open-prototype').remove();
-//        $(container).find('#btn-start-screen-sharing').removeClass('hidden');
-//        $(container).find('#btn-reset-scenes').removeClass('disabled');
-//    }
-//
-//    $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
-//        event.preventDefault();
-//        scenarioPrototypeOpened = true;
-//
-//        $(container).find('#btn-open-prototype').remove();
-//        $(container).find('#btn-start-screen-sharing').removeClass('hidden');
-//        $(container).find('#btn-reset-scenes').removeClass('disabled');
-//
-//        openPrototypeScene(currentWOZScene, checkedScenes.single);
-//    });
-
-//    $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
-//        event.preventDefault();
-//        if (!$(this).hasClass('disabled')) {
-//            var button = $(this);
-//            $(button).addClass('disabled');
-//            if (!previewModeEnabled && peerConnection) {
-//                $(container).find('#btn-start-screen-sharing').find('.fa-spin').removeClass('hidden');
-//                peerConnection.shareScreen(function (error) {
-//                    $(button).removeClass('disabled');
-//                    $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
-//                    console.error(error);
-//                }, function () {
-//                    peerConnection.startScreenRecording();
-//                    $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
-//                        event.preventDefault();
-//                        $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
-//                        enableControls();
-//                    });
-//                    peerConnection.sendMessage(MESSAGE_START_SCENARIO);
-//                });
-//            } else {
-//                if (getBrowser() !== BROWSER_FIREFOX) {
-//
-//                }
-//                enableControls();
-//            }
-//        }
-//    });
-
-    function enableControls() {
-        scenarioStartTriggered = true;
-        $(container).find('#btn-reset-scenes').click();
-        $(container).find('#btn-start-screen-sharing').addClass('hidden');
-        $(container).find('.btn-feedback-scene').removeClass('disabled');
-        $(container).find('.help-container .disabled').removeClass('disabled');
-        $(container).find('#assessment-controls-container .disabled').removeClass('disabled');
-
-        enableScenarioControls(container);
-        wobble([container.find('#woz-controls')]);
-        $(container).find('.btn-feedback-scene').removeClass('disabled');
-    }
-
-//    $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
-//        event.preventDefault();
-//        if (!$(this).hasClass('disabled')) {
-//            screenSharingStopped = true;
-//            if (peerConnection) {
-//                peerConnection.stopShareScreen(true);
-//                peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
-//            }
-//            $(this).addClass('hidden');
-//            $(container).find('#btn-done-scenario').removeClass('hidden');
-//            clearAlerts($(container).find('#general'));
-//            scenarioPrototypeOpened = false;
-//            scenarioStartTriggered = false;
-//            if (prototypeWindow) {
-//                prototypeWindow.close();
-//                prototypeWindow = null;
-//            }
-//        }
-//    });
-
-
-
-//    $(container).find('#btn-reset-scenes').unbind('click').bind('click', function (event) {
-//        event.preventDefault();
-//        if (!$(this).hasClass('disabled')) {
-//            currentWOZScene = getSceneById(data.scene);
-//            currentScenarioTask = data.tasks[0];
-//            currentScenarioTaskIndex = 0;
-//            renderWOZ(source, container, data);
-//            renderHelp(source, container, data);
-//
-//            if (prototypeWindow) {
-//                if (!previewModeEnabled) {
-//                    getGMT(function (timestamp) {
-//                        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-////                            tempData.annotations.push({action: ACTION_REFRESH_SCENE, time: timestamp});
-//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
-//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
-//                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-//                    });
-//                }
-//
-//                openPrototypeScene(currentWOZScene, checkedScenes.single);
-////                    prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
-//            }
-//        } else {
-//            $(document).scrollTop(0);
-//            wobble(container.find('#general'));
-//        }
-//    });
-
-//    if (screenSharingStopped === true) {
-//        $(container).find('#assessment-controls').addClass('hidden');
-//        $(container).find('#woz-controls').addClass('hidden');
-//        $(container).find('#help-controls').addClass('hidden');
-//        $(container).find('#general #description').addClass('hidden');
-//        $(container).find('#btn-open-prototype').addClass('hidden');
-//        $(container).find('#btn-done-scenario').removeClass('hidden');
-//    } else if (scenarioDone === true) {
-//        $(container).find('#general').removeClass('hidden');
-//        $(container).find('#assessment-controls').addClass('hidden');
-//        $(container).find('#woz-controls').addClass('hidden');
-//        $(container).find('#help-controls').addClass('hidden');
-//        $(container).find('#general #description').addClass('hidden');
-//        $(container).find('#btn-start-screen-sharing').addClass('hidden');
-//        $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
-//        appendAlert($(container).find('#general'), ALERT_NO_MORE_TASKS);
-//    } else if (scenarioPrototypeOpened && !scenarioStartTriggered) {
-//        $(container).find('#btn-reset-scenes').removeClass('disabled');
-//        $(container).find('#btn-open-prototype').addClass('hidden');
-//        $(container).find('#btn-stop-screen-sharing').addClass('hidden');
-//        $(container).find('#btn-start-screen-sharing').removeClass('hidden');
-//    } else if (scenarioPrototypeOpened && scenarioStartTriggered) {
-//        $(container).find('#btn-reset-scenes').removeClass('disabled');
-//        $(container).find('#btn-start-screen-sharing').addClass('hidden');
-////            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
-//        $(container).find('#assessment-controls-container .disabled').removeClass('disabled');
-//        $(container).find('#general #description').addClass('hidden');
-//    }
 
     function renderTaskAssessment() {
         if (!$.isEmptyObject(data.taskAssessments)) {
@@ -404,30 +252,15 @@ UserTest.prototype.renderModeratorView = function () {
                         if (currentScenarioTaskIndex < data.tasks.length - 1) {
                             currentScenarioTaskIndex++;
                             currentScenarioTask = data.tasks[currentScenarioTaskIndex];
-//                            console.log(currentScenarioTask);
                             currentWOZScene = getSceneById(currentScenarioTask.woz[0].transitionScenes[0].sceneId);
                             renderWOZ(source, container, data);
                             renderHelp(source, container, data);
                         } else {
                             currentPhaseState = 'noTasksLeft';
                             renderCurrentPhaseState();
-//                            $(container).find('#general').removeClass('hidden');
-//                            $(container).find('#assessment-controls').addClass('hidden');
-//                            $(container).find('#woz-controls').addClass('hidden');
-//                            $(container).find('#help-controls').addClass('hidden');
-//                            appendAlert($(container).find('#general'), ALERT_NO_MORE_TASKS);
-//                            $(document).scrollTop(0);
-//                            scenarioDone = true;
-//                            $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
                         }
                         break;
                     case 'nextStep':
-//                        $(container).find('#assessment-controls').addClass('hidden');
-//                        $(container).find('#woz-controls').addClass('hidden');
-//                        $(container).find('#help-controls').addClass('hidden');
-//                        appendAlert($(container).find('#general'), ALERT_NO_MORE_TASKS);
-//                        $(document).scrollTop(0);
-//                        scenarioDone = true;
                         currentPhaseState = 'noTasksLeft';
                         renderCurrentPhaseState();
                         break;
@@ -436,7 +269,6 @@ UserTest.prototype.renderModeratorView = function () {
 
             $(container).find('#assessment-controls-container .btn-assessment').unbind('click').bind('click', function (event) {
                 event.preventDefault();
-//                if (!$(this).hasClass('disabled')) {
                 var trigger = $(this).attr('data-trigger');
                 var assessmentId = $(this).attr('data-assessment-id');
 
@@ -445,18 +277,12 @@ UserTest.prototype.renderModeratorView = function () {
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ASSESSMENT, assessmentId: assessmentId, taskId: currentScenarioTask.id, time: timestamp});
                         checkAssessment(trigger);
-//                        if (scenarioDone === false) {
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
-//                        }
-                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                     });
                 } else {
                     checkAssessment(trigger);
                 }
-//                } else {
-//                    $(document).scrollTop(0);
-//                    wobble(container.find('#general'));
-//                }
             });
         } else {
             appendAlert($(container).find('#assessment-controls'), ALERT_NO_PHASE_DATA);
@@ -516,17 +342,6 @@ UserTest.prototype.renderModeratorView = function () {
 
                     peerConnection.sendMessage(MESSAGE_TRIGGER_FEEDBACK, {triggeredFeedback: triggeredFeedback});
                 }
-
-//                if (transitionsLength > 0) {
-//                    currentTransitionSceneIndex = 1;
-//                    if (transitionsLength > 1) {
-//                        $(container).find('#btn-repeat-training').addClass('disabled');
-//                    } else {
-//                        $(container).find('#btn-repeat-training').removeClass('disabled');
-//                    }
-//                } else {
-//                    $(container).find('#btn-repeat-training').addClass('disabled');
-//                }
                 return false;
             }
 
@@ -552,17 +367,6 @@ UserTest.prototype.renderModeratorView = function () {
                     if (transitionsLength - 2 === leftSceneButtons.length) {
                         $(button).addClass('btn-primary');
                         renderFollowScene(scenesContainer);
-//                        if (prototypeWindow && prototypeWindow.closed !== true) {
-//                            if (!previewModeEnabled) {
-//                                getGMT(function (timestamp) {
-//                                    var currentPhase = getCurrentPhase();
-//                                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-//                                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
-//                                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-//                                });
-//                            }
-//                            prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
-//                        }
                     }
 
                     var transitionMode = $(button).attr('data-transition-mode');

@@ -129,7 +129,7 @@ PeerConnection.prototype.initialize = function (options) {
                     $(this).addClass('paused');
                     $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
                     $(this).attr('data-content', translation.resumeOwnWebRTC).data('bs.popover').setContent();
-                    webrtc.pause();
+                    webrtc.pause(); // pauses sending audio and video to all peers
 
                     if (options.localMuteElement) {
                         $(options.indicator).find('#mute-local-audio').removeClass('hidden');
@@ -142,7 +142,7 @@ PeerConnection.prototype.initialize = function (options) {
                     $(this).removeClass('paused');
                     $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
                     $(this).attr('data-content', translation.pauseOwnWebRTC).data('bs.popover').setContent();
-                    webrtc.resume();
+                    webrtc.resume(); // resumes sending audio and video to all peers
 
                     if (options.localMuteElement) {
                         $(options.indicator).find('#mute-local-audio').addClass('hidden');

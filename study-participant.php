@@ -1142,12 +1142,13 @@ if (login_check($mysqli) == true) {
 
                 if (globalFaults === -1) {
                     console.log('selection fault');
-                    $(container).find('#score #error').removeClass('hidden');
+                    $(container).find('#score #no-fault-score').removeClass('hidden');
                 } else {
-
+                    $(container).find('#score #fault-score').removeClass('hidden');
                     var faultScore = globalFaults / studyData.slideshow.length;
                     console.log('globalFaults: ' + globalFaults + ' fault: ' + fault + ', score: ' + faultScore);
-                    $(container).find('#score .text').text(faultScore);
+                    var faultPercentage = (1 - faultScore) * 100;
+                    $(container).find('#score .text').text(faultPercentage + '%');
                 }
             }
 
