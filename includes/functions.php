@@ -259,3 +259,9 @@ function checkCookiesAccepted() {
         echo '0';
     }
 }
+
+
+function isLocalhost() {
+    $whitelist = ['localhost', '::1'];
+    return in_array($_SERVER['REMOTE_ADDR'], $whitelist);
+}
