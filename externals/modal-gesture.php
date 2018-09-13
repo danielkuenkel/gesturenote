@@ -165,25 +165,7 @@ include '../includes/language.php';
 
                         </div>
 
-
                     </div>
-
-                    <!--                    <div id="gesture-data-edit" class="hidden">
-                                            <div class="recorder-content"></div>
-                                        </div>-->
-
-                    <!--                    <div class="row" style="margin-top: 20px" id="gesture-owner-controls">
-                                            <div class="col-xs-6">
-                                                
-                                            </div>
-                                            <div class="col-xs-6">
-                                                
-                                            </div>
-                                        </div>-->
-                    <!--                    <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
-                                            <button type="button" class="btn btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                                            <button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
-                                        </div>-->
 
                 </div>
             </div>
@@ -751,7 +733,7 @@ include '../includes/language.php';
             });
         } else {
             $(modal).find('#btn-delete-gesture').remove();
-            $(modal).find('#btn-edit-gesture').parent().removeClass('col-xs-6').addClass('col-xs-12');
+//            $(modal).find('#btn-edit-gesture').parent().removeClass('col-xs-6').addClass('col-xs-12');
         }
     }
 
@@ -932,6 +914,7 @@ include '../includes/language.php';
                 clone.find('.panel-heading #created .text').text(convertSQLTimestampToDate(data[i].created).toLocaleString());
                 clone.find('.panel-body').text(data[i].comment);
                 list.prepend(clone);
+                
                 if (data[i].isOwner === true) {
                     clone.find('#btn-delete-comment').click({commentId: data[i].id, gestureId: data[i].gestureId}, function (event) {
                         var button = $(this);

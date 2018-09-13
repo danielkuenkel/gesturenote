@@ -78,6 +78,7 @@ function onSuccess(stream) {
 
     webcamRecorder.mediaStream = stream;
     var video = $(webcamRecorder.options.parent).find('.recorder-webcam-video');
+    console.log(video, webcamRecorder.options);
     $(video)[0].onloadedmetadata = function () {
         console.log('webcam recorder is ready');
         $(webcamRecorder).trigger('ready', [TYPE_RECORD_WEBCAM]);

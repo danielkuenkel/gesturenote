@@ -56,6 +56,10 @@ if (login_check($mysqli) == true) {
         <script src="js/sha512.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/study.js"></script>
+        
+        <script src="js/upload-queue.js"></script>
+        <script src="js/gifshot/gifshot.min.js"></script>
+        <script src="js/filesaver/FileSaver.min.js"></script>
 
         <!-- leap and plugins -->
         <script src="js/leapjs/leap-0.6.4.min.js"></script>
@@ -84,6 +88,7 @@ if (login_check($mysqli) == true) {
         <div id="template-create"></div>
         <div id="template-general"></div>
         <div id="template-study"></div>
+        <div id="template-gesture-recorder"></div>
 
         <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 1; opacity: 0">
             <div class="btn-group-vertical">
@@ -797,6 +802,7 @@ if (login_check($mysqli) == true) {
                     externals.push(['#template-create', PATH_EXTERNALS + 'template-create.php']);
                     externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
+                    externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
                 });
             });

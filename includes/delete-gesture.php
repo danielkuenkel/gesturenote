@@ -42,7 +42,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
                                     deleteFiles($target_dir, array($gifUrl));
                                 }
                                 $parseSensorData = json_decode($sensorData);
-                                if ($sensorData !== NULL && $parseSensorData->url) {
+                                if ($sensorData !== NULL && $sensorData !== '' && $parseSensorData->url) {
                                     deleteFiles($target_dir, array($parseSensorData->url));
                                 }
                                 echo json_encode(array('status' => 'success'));

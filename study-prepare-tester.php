@@ -273,6 +273,12 @@ if ($h && $token && $studyId) {
 
                     appendAlert($('#study-participation'), ALERT_INSERT_NAME);
 
+                    $('#participant-name #name-input').keypress(function (event) {
+                        if (event.keyCode === 13) {
+                            $('#btn-request-participation').click();
+                        }
+                    });
+
                     $('#btn-request-participation').on('click', function (event) {
                         event.preventDefault();
                         var nameInput = $('#name-input');
