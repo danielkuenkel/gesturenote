@@ -95,9 +95,11 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-studies-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 1; opacity: 0">
+        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-studies-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left: -186px">
             <div class="btn-group-vertical">
-                <button type="button" class="btn btn-lg btn-success btn-shadow btn-delete-study" onclick="gotoCreateStudy()" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createNewStudy ?>" style="border-bottom-left-radius: 0px; border-top-left-radius: 0px; border-top-right-radius: 8px; border-bottom-right-radius: 8px"><i class="fa fa-plus"></i></button>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow" id="btn-create-study" onclick="gotoCreateStudy()" style="float: right; position: relative; border-bottom-left-radius: 0px; border-top-left-radius: 0px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;"><?php echo $lang->createNewStudy ?> <i class="fa fa-plus" style="margin-left: 10px"></i> </button>
+                </div>
             </div>
         </div>
 
@@ -206,6 +208,7 @@ if (login_check($mysqli) == true) {
 
         <script>
             var firstInit = true;
+
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();
@@ -218,7 +221,24 @@ if (login_check($mysqli) == true) {
                     loadExternals(externals);
                 });
 
-//                renderMasonryTest(20);
+                var createStudyButton = $('#fixed-studies-controls #btn-create-study');
+                var timeline = new TimelineMax({paused: true, onStart: function () {
+                        $(createStudyButton).addClass('btn-primary');
+                    }, onReverseComplete: function () {
+                        $(createStudyButton).removeClass('btn-primary');
+                    }});
+                
+                timeline.add("createStudy", 0)
+                        .to(createStudyButton, .3, {left: +186, ease:Quad.easeInOut}, "createStudy");
+
+                $(createStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                    event.preventDefault();
+                    timeline.play();
+                });
+                $(createStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                    event.preventDefault();
+                    timeline.reverse();
+                });
             });
 
             function onAllExternalsLoadedSuccessfully() {

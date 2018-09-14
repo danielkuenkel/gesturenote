@@ -56,7 +56,7 @@ if (login_check($mysqli) == true) {
         <script src="js/sha512.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/study.js"></script>
-        
+
         <script src="js/upload-queue.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
@@ -90,12 +90,20 @@ if (login_check($mysqli) == true) {
         <div id="template-study"></div>
         <div id="template-gesture-recorder"></div>
 
-        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 1; opacity: 0">
+        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-306px">
             <div class="btn-group-vertical">
-                <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->studyPreview ?>" style="border-top-left-radius: 0px; border-top-right-radius: 8px"><i class="fa fa-eye"></i></button>
-                <button type="button" class="btn btn-lg btn-default btn-shadow btn-edit-study" id="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->editStudy ?>"><i class="fa fa-pencil"></i></button>
-                <button type="button" class="btn btn-lg btn-default btn-shadow btn-open-static-execution-url hidden" id="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->staticStudyURLExecute ?>"><i class="fa fa-street-view"></i></button>
-                <button type="button" class="btn btn-lg btn-danger btn-shadow btn-delete-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deleteStudy ?>" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 8px"><i class="fa fa-trash"></i></button>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-edit-study" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->editStudy ?> <i class="fa fa-pencil" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-open-static-execution-url hidden" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->staticStudyURLExecute ?> <i class="fa fa-street-view" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-delete-study" style="position: relative;  float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->deleteStudy ?> <i class="fa fa-trash" style="margin-left: 16px"></i></button>
+                </div>
             </div>
         </div>
 
@@ -780,7 +788,7 @@ if (login_check($mysqli) == true) {
                 <button class="btn btn-default btn-shadow btn-preview-study" type="button"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->studyPreview ?></span></button>
                 <button class="btn btn-default btn-shadow btn-edit-study" type="button"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editStudy ?></span></button>
                 <button class="btn btn-default btn-shadow btn-open-static-execution-url hidden" type="button"><i class="fa fa-street-view"></i> <span class="btn-text"><?php echo $lang->staticStudyURLExecute ?></span></button>
-                <button class="btn btn-danger btn-shadow btn-delete-study" type="button"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>
+                <button class="btn btn-default btn-shadow btn-delete-study" type="button"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>
             </div>
         </div>
 
@@ -806,6 +814,101 @@ if (login_check($mysqli) == true) {
                     loadExternals(externals);
                 });
             });
+
+            // fixed buttons tweening
+
+            var previewStudyButton = $('#fixed-study-owner-controls .btn-preview-study');
+            var previewButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(previewStudyButton).css({borderBottomRightRadius: '8px'});
+                    $(previewStudyButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(previewStudyButton).css({borderBottomRightRadius: '0px'});
+                    $(previewStudyButton).removeClass('btn-primary');
+                }});
+
+            previewButtonTimeline.add("previewStudy", 0)
+                    .to(previewStudyButton, .3, {left: 305, ease:Quad.easeInOut}, "previewStudy");
+
+            $(previewStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                previewButtonTimeline.play();
+            });
+
+            $(previewStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                previewButtonTimeline.reverse();
+            });
+
+
+            var editStudyButton = $('#fixed-study-owner-controls .btn-edit-study');
+            var editButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(editStudyButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+                    $(editStudyButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(editStudyButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
+                    $(editStudyButton).removeClass('btn-primary');
+                }});
+
+            editButtonTimeline.add("cacheStudy", 0)
+                    .to(editStudyButton, .3, {left: +156, ease:Quad.easeInOut}, "cacheStudy");
+
+            $(editStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                editButtonTimeline.play();
+            });
+
+            $(editStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                editButtonTimeline.reverse();
+            });
+
+
+            var executionButton = $('#fixed-study-owner-controls .btn-open-static-execution-url');
+            var executionUrlButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(executionButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+                    $(executionButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(executionButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
+                    $(executionButton).removeClass('btn-primary');
+                }});
+
+            executionUrlButtonTimeline.add("saveStudy", 0)
+                    .to(executionButton, .3, {left: +200, ease:Quad.easeInOut}, "saveStudy");
+
+            $(executionButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                executionUrlButtonTimeline.play();
+            });
+
+            $(executionButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                executionUrlButtonTimeline.reverse();
+            });
+
+
+            var deleteStudyButton = $('#fixed-study-owner-controls .btn-delete-study');
+            var deleteButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(deleteStudyButton).css({borderTopRightRadius: '8px'});
+                    $(deleteStudyButton).addClass('btn-danger');
+                }, onReverseComplete: function () {
+                    $(deleteStudyButton).css({borderTopRightRadius: '0px'});
+                    $(deleteStudyButton).removeClass('btn-danger');
+                }});
+            deleteButtonTimeline.add("saveStudy", 0)
+                    .to(deleteStudyButton, .3, {left: +131, ease:Quad.easeInOut}, "saveStudy");
+
+            $(deleteStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                deleteButtonTimeline.play();
+            });
+
+            $(deleteStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                deleteButtonTimeline.reverse();
+            });
+
+
+            // rendering
 
             var showStudyTutorial = 0;
             var showExtractionTutorial = 0;

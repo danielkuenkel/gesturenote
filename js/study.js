@@ -51,11 +51,32 @@ function renderData(data, hash) {
     if (now > dateTo) {
         $('.study-plan').find('.address').text(translation.studyRuns + ": ");
         appendAlert($('#study-participants'), ALERT_PLAN_EXPIRED);
+
+        if (studyData.generalData.isOwner && studyData.generalData.isOwner === true) {
+
+        } else {
+            $('#fixed-study-owner-controls').find('.btn-preview-study').css({borderBottomRightRadius: '8px'});
+        }
+
+//        $('#fixed-study-owner-controls').find('.btn-preview-study').css({borderBottomLeftRadius: '0px'});
     } else if (now < dateFrom) {
         appendAlert($('#study-participants'), ALERT_PLAN_NOT_STARTED);
+
+        if (studyData.generalData.isOwner && studyData.generalData.isOwner === true) {
+
+        } else {
+            $('#fixed-study-owner-controls').find('.btn-preview-study').css({borderBottomRightRadius: '8px'});
+        }
     } else if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
         $('#copy-to-clipboard').removeClass('hidden');
         $('.btn-open-static-execution-url').removeClass('hidden');
+
+        if (studyData.generalData.isOwner && studyData.generalData.isOwner === true) {
+
+        } else {
+            $('#fixed-study-owner-controls').find('.btn-preview-study').css({borderBottomRightRadius: '0px'});
+            $('#fixed-study-owner-controls').find('.btn-open-static-execution-url').css({borderBottomRightRadius: '8px'});
+        }
 
         $('#copy-to-clipboard #static-study-url').removeClass('readonly');
         $('#copy-to-clipboard #static-study-url').click(function () {
@@ -166,7 +187,7 @@ function renderData(data, hash) {
         $('#invited-users').remove();
         $('.btn-delete-study').remove();
         $('.btn-edit-study').remove();
-        $('#fixed-study-owner-controls').find('.btn-preview-study').css({borderBottomLeftRadius: '0px'});
+//        $('#fixed-study-owner-controls').find('.btn-preview-study').css({borderBottomLeftRadius: '0px'});
         $('#fixed-study-owner-controls').find('.btn-open-static-execution-url').css({borderBottomLeftRadius: '0px', borderBottomRightRadius: '8px'});
     }
 
@@ -2204,8 +2225,8 @@ function renderPotentialGestureSpecificStatistics(target, assignments, classific
         } else if (classificationType === TYPE_CLASSIFICATION_APPEARANCE) {
             if (assignments.gestures && assignments.gestures.length > 0) {
                 for (var i = 0; i < assignments.gestures.length; i++) {
-                    
-                    
+
+
                     var gesture = getGestureById(assignments.gestures[i]);
                     console.log(gesture);
                     if (gesture.type !== null) {

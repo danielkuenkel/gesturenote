@@ -102,11 +102,17 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
 
-        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 1; opacity: 0">
+        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-306px">
             <div class="btn-group-vertical">
-                <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->studyPreview ?>" style="border-top-left-radius: 0px; border-top-right-radius: 8px"><i class="fa fa-eye"></i></button>
-                <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" id="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->cache ?>"><i class="fa fa-folder-open-o"></i></button>
-                <button type="button" class="btn btn-lg btn-default btn-shadow btn-save-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->saveAndClose ?>" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 8px"><i class="fa fa-save"></i></button>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->cache ?> <i class="fa fa-folder-open-o" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-save-study" style="position: relative; float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->saveAndClose ?> <i class="fa fa-save" style="margin-left: 15px"></i></button>
+                </div>
             </div>
         </div>
 
@@ -403,12 +409,12 @@ if (login_check($mysqli) == true) {
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->interview ?>"></i>
                                         </div>
                                     </div>
-<!--                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="moderated">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="focusGroupInterview">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->focusGroupInterview->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->focusGroupInterview ?>"></i>
-                                        </div>
-                                    </div>-->
+                                    <!--                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="moderated">
+                                                                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="focusGroupInterview">
+                                                                                <i class="fa fa-plus"></i> <?php echo $lang->formats->focusGroupInterview->text ?>
+                                                                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->focusGroupInterview ?>"></i>
+                                                                            </div>
+                                                                        </div>-->
                                     <div class="btn-group" data-study-phase="elicitation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="identification">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->identification->text ?>
@@ -517,6 +523,79 @@ if (login_check($mysqli) == true) {
                     loadExternals(externals);
                 });
             });
+
+            // fixed buttons tweening
+
+            var previewStudyButton = $('#fixed-study-edit-controls .btn-preview-study');
+            var previewButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(previewStudyButton).css({borderBottomRightRadius: '8px'});
+                    $(previewStudyButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(previewStudyButton).css({borderBottomRightRadius: '0px'});
+                    $(previewStudyButton).removeClass('btn-primary');
+                }});
+
+            previewButtonTimeline.add("previewStudy", 0)
+                    .to(previewStudyButton, .3, {left: +305, ease:Quad.easeInOut}, "previewStudy");
+
+            $(previewStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                previewButtonTimeline.play();
+            });
+
+            $(previewStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                previewButtonTimeline.reverse();
+            });
+
+
+            var cacheButton = $('#fixed-study-edit-controls .btn-cache-study');
+            var cacheButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(cacheButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+                    $(cacheButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(cacheButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
+                    $(cacheButton).removeClass('btn-primary');
+                }});
+            
+            cacheButtonTimeline.add("cacheStudy", 0)
+                    .to(cacheButton, .3, {left: +173, ease:Quad.easeInOut}, "cacheStudy");
+
+            $(cacheButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                cacheButtonTimeline.play();
+            });
+
+            $(cacheButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                cacheButtonTimeline.reverse();
+            });
+
+
+            var saveStudyButton = ('#fixed-study-edit-controls .btn-save-study');
+            var saveButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(saveStudyButton).css({borderTopRightRadius: '8px'});
+                    $(saveStudyButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(saveStudyButton).css({borderTopRightRadius: '0px'});
+                    $(saveStudyButton).removeClass('btn-primary');
+                }});
+            
+            saveButtonTimeline.add("saveStudy", 0)
+                    .to(saveStudyButton, .3, {left: +192, ease:Quad.easeInOut}, "saveStudy");
+
+            $(saveStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                saveButtonTimeline.play();
+            });
+
+            $(saveStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                saveButtonTimeline.reverse();
+            });
+
+
+            // rendering
 
             var editableStudyId = null;
             var studyEditable = false;

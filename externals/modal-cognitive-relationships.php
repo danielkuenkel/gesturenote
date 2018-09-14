@@ -15,9 +15,9 @@ include '../includes/language.php';
 
 <div class="modal-body" id="objective-question">
     <h4><?php echo $lang->fitnessOfGesture ?></h4>
-    
+
     <div id="switch" style="margin-top: 10px">
-        <label class="text"><<?php echo $lang->objectiveExtractionChecklistQuestion ?></label> 
+        <label class="text"><?php echo $lang->objectiveCognitiveRelationshipQuestion ?></label> 
         <div class="switch root">
             <div class="btn-group" style="margin: 0">
                 <button class="btn btn-default btn-radio" name="primary" id="well">
@@ -32,7 +32,7 @@ include '../includes/language.php';
             <div class="btn-group" style="margin: 0">
                 <button class="btn btn-default btn-radio" name="primary" id="less-well">
                     <span id="icons" style="margin-right: 6px">
-                        <i class="fa fa-circle-thin hidden" id="normal"></i>
+                        <i class="fa fa-circle-thin" id="normal"></i>
                         <i class="fa fa-circle hidden" id="over"></i>
                         <i class="fa fa-check-circle hidden" id="checked"></i>
                     </span>
@@ -51,7 +51,7 @@ include '../includes/language.php';
             </div>
         </div>
     </div>
-    
+
 </div>
 
 <div id="modal-footer" class="modal-footer">
@@ -70,7 +70,7 @@ include '../includes/language.php';
             $('#modal-body').find('#list-container').append(row);
 
             var gesture = getGestureById(currentAssignment.gestures[k], ELICITED_GESTURES);
-            var gesturePreview = getSimpleGestureListThumbnail(gesture, 'rudimentary-gesture-thumbnail', 'col-xs-5 col-md-4 col-lg-3');
+            var gesturePreview = getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-5 col-md-4 col-lg-3');
             $(row).append(gesturePreview);
 
             var details = document.createElement('div');

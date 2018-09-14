@@ -69,27 +69,30 @@ include '../includes/language.php';
                 </div>
 
                 <div class="col-md-5">
-                    <div id="gesture-set-data-preview">
+                    <div class="panel panel-shadow" id="gesture-set-data-preview">
+                        <div class="panel-body">
+                            <div style="margin: 0; display: flex">
+                                <span class="label label-default" id="gesture-set-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+                            </div>
 
-                        <div style="margin: 0; display: flex">
-                            <span class="label label-default" id="gesture-set-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
-                        </div>
+                            <div style="">
+                                <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
+                                <div id="title"><?php echo $lang->title ?>:<span class="address"></span> <span class="text"></span></div>
 
-                        <div style="">
-                            <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
-                            <div id="title"><?php echo $lang->title ?>:<span class="address"></span> <span class="text"></span></div>
-
-                        </div>
-                    </div>
-
-                    <div class="row" style="margin-top: 20px" id="gesture-set-owner-controls">
-                        <div class="col-xs-6">
-                            <button type="button" class="btn btn-block btn-default btn-shadow" id="btn-edit-gesture-set"><i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $lang->editGestureSet ?></button>
-                        </div>
-                        <div class="col-xs-6">
-                            <button type="button" class="btn btn-block btn-shadow btn-danger" id="btn-delete-gesture-set"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGestureSet ?></span></button>
+                            </div>
+                            
+                            <button type="button" class="btn btn-block btn-default btn-shadow gesture-set-owner-controls" id="btn-edit-gesture-set" style="margin-top: 20px"><i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $lang->editGestureSet ?></button>
                         </div>
                     </div>
+
+<!--                    <div class="row" style="margin-top: 20px" id="gesture-set-owner-controls">
+                        <div class="col-xs-6">
+                            
+                        </div>
+                        <div class="col-xs-6">
+                            
+                        </div>
+                    </div>-->
 
                 </div>
             </div>
@@ -174,6 +177,7 @@ include '../includes/language.php';
 </div>
 
 <div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-shadow btn-danger pull-left gesture-set-owner-controls" id="btn-delete-gesture-set"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGestureSet ?></span></button>
     <button type="button" class="btn btn-shadow btn-default" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
 </div>
 
@@ -250,9 +254,13 @@ include '../includes/language.php';
                 $(container).find('#gesture-set-sharing .shared-self').text(translation.gestureSetShared);
             }
         } else {
-            var shareAmount = set.invitedUsers.length;
+            var shareAmount = 0;
+            if (set.invitedUsers) {
+                shareAmount = set.invitedUsers.length;
+            }
+
             $(container).find('#gesture-set-sharing').remove();
-            $(container).find('#gesture-set-owner-controls').remove();
+            $(modal).find('.gesture-set-owner-controls').remove();
             $(container).find('#gesture-set-sharing-not-owner').removeClass('hidden');
             if (set.scope === SCOPE_GESTURE_PRIVATE) {
                 $(container).find('.shared-with-others').html(new String(translation.gestureSetSharedWithOthers).replace('{x}', Math.max(shareAmount - 1)));

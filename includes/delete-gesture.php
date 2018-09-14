@@ -7,12 +7,16 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 include_once 'functions.php';
 
-$target_dir = "../";
+$target_dir = "https://gesturenote.de/";
 
 session_start();
 if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
     $gestureId = $_POST['gestureId'];
     $userId = $_SESSION['user_id'];
+
+    if (isLocalhost()) {
+        $target_dir = "http://localhost/gesturenote/";
+    }
 
     if ($select_stmt = $mysqli->prepare("SELECT `images`, `gif`, `sensor_data` FROM gestures WHERE id = '$gestureId'")) {
         if (!$select_stmt->execute()) {
@@ -45,7 +49,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
                                 if ($sensorData !== NULL && $sensorData !== '' && $parseSensorData->url) {
                                     deleteFiles($target_dir, array($parseSensorData->url));
                                 }
-                                echo json_encode(array('status' => 'success'));
+                                echo json_encode(array('status' => 'success', 'imageUrls' => json_decode($imageURLs), 'gifUrl' => $gifUrl, 'sensorData' => json_decode($sensorData)));
                                 exit();
                             }
                         } else {

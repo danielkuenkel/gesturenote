@@ -704,13 +704,18 @@ include '../includes/language.php';
                     $(modal).find('#modal-body-delete-gesture #btn-yes').unbind('click').bind('click', function (event) {
                         event.preventDefault();
 
+                        var button = $(this);
+                        lockButton(button, true, 'fa-check');
                         showCursor($('body'), CURSOR_PROGRESS);
+                        $(modal).find('#modal-body-delete-gesture #btn-no').addClass('disabled');
 
                         deleteGesture({gestureId: currentPreviewGesture.gesture.id}, function (result) {
                             if (result.status === RESULT_SUCCESS) {
                                 getGestureCatalog(function (result) {
                                     showCursor($('body'), CURSOR_DEFAULT);
-                                    unlockButton(button, true, 'fa-trash');
+
+                                    unlockButton(button, true, 'fa-check');
+                                    $(modal).find('#modal-body-delete-gesture #btn-no').removeClass('disabled');
 
                                     if (result.status === RESULT_SUCCESS) {
                                         originalFilterData = result.gestures;
@@ -914,7 +919,7 @@ include '../includes/language.php';
                 clone.find('.panel-heading #created .text').text(convertSQLTimestampToDate(data[i].created).toLocaleString());
                 clone.find('.panel-body').text(data[i].comment);
                 list.prepend(clone);
-                
+
                 if (data[i].isOwner === true) {
                     clone.find('#btn-delete-comment').click({commentId: data[i].id, gestureId: data[i].gestureId}, function (event) {
                         var button = $(this);

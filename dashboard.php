@@ -68,6 +68,20 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
+        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-quick-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-187px">
+            <div class="btn-group-vertical">
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-create-study" onclick="gotoCreateStudy()" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->createNewStudy ?> <i class="fa fa-plus" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-record-gesture" onclick="goto('gestures-catalog.php#recorder')" style="position: relative; float: right; border-radius: 0px; "><?php echo $lang->recordGesture ?> <i class="fa fa-video-camera" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-gesture-sets" onclick="goto('gestures-catalog.php#sets')" style="position: relative; float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->gestureSets ?> <i class="fa fa-paperclip" style="margin-left: 15px"></i></button>
+                </div>
+            </div>
+        </div>
+
         <!-- Container (Panel Section) -->
         <div class="container center-text mainContent" style="margin-top: 0px">
             <h3><?php echo $lang->breadcrump->dashboard ?></h3>
@@ -150,8 +164,88 @@ if (login_check($mysqli) == true) {
                 });
             });
 
+
+            // fixed buttons tweening
+
+            var createStudyButton = $('#fixed-quick-controls .btn-create-study');
+            var createStudyButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(createStudyButton).css({borderBottomRightRadius: '8px'});
+                    $(createStudyButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(createStudyButton).css({borderBottomRightRadius: '0px'});
+                    $(createStudyButton).removeClass('btn-primary');
+                }});
+
+            createStudyButtonTimeline.add("createStudy", 0)
+                    .to(createStudyButton, .3, {left: +186, ease:Quad.easeInOut}, "previewStudy");
+
+            $(createStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                createStudyButtonTimeline.play();
+            });
+
+            $(createStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                createStudyButtonTimeline.reverse();
+            });
+
+
+            var recordGestureButton = $('#fixed-quick-controls .btn-record-gesture');
+            var recordGestureButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(recordGestureButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+                    $(recordGestureButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(recordGestureButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
+                    $(recordGestureButton).removeClass('btn-primary');
+                }});
+
+            recordGestureButtonTimeline.add("cacheStudy", 0)
+                    .to(recordGestureButton, .3, {left: +166, ease:Quad.easeInOut}, "cacheStudy");
+
+            $(recordGestureButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                recordGestureButtonTimeline.play();
+            });
+
+            $(recordGestureButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                recordGestureButtonTimeline.reverse();
+            });
+
+
+            var gestureSetsButton = $('#fixed-quick-controls .btn-gesture-sets');
+            var gestureSetsButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(gestureSetsButton).css({borderTopRightRadius: '8px'});
+                    $(gestureSetsButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(gestureSetsButton).css({borderTopRightRadius: '0px'});
+                    $(gestureSetsButton).removeClass('btn-primary');
+                }});
+
+            gestureSetsButtonTimeline.add("saveStudy", 0)
+                    .to(gestureSetsButton, .3, {left: +113, ease:Quad.easeInOut}, "saveStudy");
+
+            $(gestureSetsButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                gestureSetsButtonTimeline.play();
+            });
+
+            $(gestureSetsButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                gestureSetsButtonTimeline.reverse();
+            });
+
+
+
+            // rendering
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+
+                var fixedControlsTween = new TimelineMax({paused: true});
+                fixedControlsTween.add("parallel", .3)
+                        .to($('#fixed-quick-controls'), .2, {opacity: 1, ease: Quad.easeInOut}, 'parallel')
+                        .from($('#fixed-quick-controls'), .2, {x: -20, ease: Quad.easeInOut}, 'parallel');
+                fixedControlsTween.play();
 
                 getDashboardInfos(function (result) {
                     if (result.status === RESULT_SUCCESS) {
