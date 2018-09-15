@@ -67,6 +67,7 @@ var peerConnection = null;
 
 var currentQuestionnaireAnswers = null;
 var prototypeWindow = null;
+var iceTransports = null;
 
 var USER_ROLE_MODERATOR = 'moderator';
 var USER_ROLE_TESTER = 'tester';

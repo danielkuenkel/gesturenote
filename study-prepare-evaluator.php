@@ -169,6 +169,35 @@ if ($h && $token && $studyId) {
                     <div id="participation-queue" class="hidden" style="margin-top: 40px">
                         <h3>Wartende Probanden</h3>
 
+                        <div class="form-group hidden root iceTransportsSelect">
+                            <label style="margin: 0">
+                                <span>Firewall umgehen?</span> 
+                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->physicalStressTestSingleGraphic ?>"></i>
+                            </label><br>
+
+                            <div class="btn-group" id="radio" style="">
+                                <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->no ?></span>
+                                </button>
+                            </div>
+                            <div class="btn-group" id="radio" style="">
+                                <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->yes ?></span>
+                                </button>
+                            </div>
+
+                        </div>
+
                         <div class="alert-space alert-search-participation-requests"></div>
                         <div id="list-container" class="row"></div>
                     </div>
@@ -297,14 +326,19 @@ if ($h && $token && $studyId) {
                         $('#btn-enter-study').on('click', function (event) {
                             event.preventDefault();
                             if (!$(this).hasClass('disabled')) {
-                                var name = $('#call-screen').attr('name').split('_');
-                                var rtcToken = name[1];
-                                var testerId = name[2];
+//                                var name = $('#call-screen').attr('name').split('_');
+                                var rtcToken = $('#call-screen').attr('data-rtc-token');
+                                var testerId = $('#call-screen').attr('data-tester-id');
 //                                console.log(rtcToken);
-                                peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken});
-                                var query = getQueryParams(document.location.search);
-                                goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId);
+                                var iceTransports = $('.iceTransportsSelect').find('.btn-option-checked').attr('id') === 'yes' ? 'relay' : 'all';
+                                peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken, iceTransports: iceTransports});
 
+                                var query = getQueryParams(document.location.search);
+                                if (iceTransports !== '') {
+                                    goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId + '&iceTransports=' + iceTransports);
+                                } else {
+                                    goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId);
+                                }
                             }
                         });
 //                        } else {
@@ -374,6 +408,8 @@ if ($h && $token && $studyId) {
                 $('#participation-queue').find('#list-container').empty();
                 if (requests && requests.length > 0) {
                     clearAlerts($('#participation-queue'));
+                    $('.iceTransportsSelect').removeClass('hidden');
+
                     for (var i = 0; i < requests.length; i++) {
 
                         var request = requests[i];
@@ -398,8 +434,12 @@ if ($h && $token && $studyId) {
                                 if (result.status === RESULT_SUCCESS) {
                                     $('#participation-queue, #check-rtc-status').addClass('hidden');
                                     $('#call-screen').removeClass('hidden');
-                                    $('#call-screen').attr('name', event.data.requestId + '_' + result.data.rtcToken + '.prepare' + '_' + result.data.testerId);
+//                                    $('#call-screen').attr('name', event.data.requestId + '_' + result.data.rtcToken + '.prepare' + '_' + result.data.testerId);
+                                    $('#call-screen').attr('data-request-id', event.data.requestId);
+                                    $('#call-screen').attr('data-rtc-token', result.data.rtcToken);
+                                    $('#call-screen').attr('data-tester-id', result.data.testerId);
                                     initPeerConnection(result.data.rtcToken + '.prepare');
+                                    $('.iceTransportsSelect').addClass('hidden');
                                 }
                             });
                         });
@@ -411,9 +451,12 @@ if ($h && $token && $studyId) {
 
             $('#btn-close-call').on('click', function (event) {
                 event.preventDefault();
-                var requestId = $('#call-screen').attr('name').split('_')[0];
+                var requestId = $('#call-screen').attr('data-request-id');
                 reapproveParticipation({requestId: requestId}, function (result) {
                     peerConnection.leaveRoom();
+                    peerConnection.destroy();
+                    peerConnection = null;
+
                     $('#participation-queue, #check-rtc-status').removeClass('hidden');
                     $('#call-screen').addClass('hidden');
                     $('#btn-enter-study').addClass('disabled');
@@ -523,6 +566,8 @@ if ($h && $token && $studyId) {
                 if (peerConnection !== null) {
                     peerConnection.joinRoom(rtcToken);
                 } else {
+                    var iceTransports = $('.iceTransportsSelect').find('.btn-option-checked').attr('id') === 'yes' ? 'relay' : '';
+                    console.log('ice transports: ', iceTransports);
                     var mainElement = $('#video-caller');
                     var callerOptions = {
                         callerElement: mainElement,
@@ -537,6 +582,7 @@ if ($h && $token && $studyId) {
                         enableDataChannels: true,
                         autoRequestMedia: true,
                         roomId: rtcToken,
+                        iceTransports: iceTransports !== '' ? iceTransports : null,
                         localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
                         remoteStream: {audio: 'yes', video: 'yes'}
                     };

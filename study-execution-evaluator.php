@@ -216,6 +216,10 @@ if ($h && $token && $studyId) {
                 initPopover();
 
                 var query = getQueryParams(document.location.search);
+                if (query.iceTransports && query.iceTransports !== '') {
+                    iceTransports = query.iceTransports;
+                }
+
                 if (query.studyId && query.h && query.token && query.testerId) {
                     console.log('tester id:', query.testerId);
                     currentView = VIEW_MODERATOR;

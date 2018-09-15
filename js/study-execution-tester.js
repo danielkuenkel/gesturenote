@@ -2346,7 +2346,7 @@ var Tester = {
 //                break;
 //        }
 
-        console.log('append rtc live stream', target);
+        console.log('append rtc live stream', target, iceTransports);
         var options = getPhaseStepOptions(currentPhase.format);
         var query = getQueryParams(document.location.search);
         var mainElement = $('#video-caller');
@@ -2365,6 +2365,7 @@ var Tester = {
             enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
             autoRequestMedia: true,
             roomId: query.roomId,
+            iceTransports: iceTransports || null,
             localStream: {audio: options.tester.audio, video: options.tester.video, visualize: options.tester.visualizeStream, record: options.tester.recordStream},
             remoteStream: {audio: options.moderator.audio, video: options.moderator.video}
         };
@@ -2400,16 +2401,17 @@ function initScreenSharing(container) {
             console.log('on add screen', video);
 
             $(container).empty().append(video);
-            var generalHeaderHeight = $(container).offset().top;
-            var newHeight = $(window).height() - generalHeaderHeight - 15;
+//            var generalHeaderHeight = $(container).offset().top;
+            var newHeight = $(window).height() - 70 - 15;
             $(container).css({height: newHeight + "px"});
             $(video).css({height: '100%', width: '100%', objectFit: 'contain'});
             $(video).removeAttr('controls');
             $(video).removeAttr('id');
             $(window).on('resize', function () {
-                var newHeight = $(window).height() - generalHeaderHeight - 15;
+                var newHeight = $(window).height() - 70 - 15;
+                console.log('resize:', newHeight);
                 $(container).css({height: newHeight + "px"});
-            });
+            }).resize();
 
             peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
             Tester.keepStreamsPlaying($('#video-caller'));
@@ -2459,12 +2461,11 @@ function submitFinalData(container, areAllRTCsUploaded) {
 
 function renderSceneItem(source, container, sceneId) {
     container.find('#scene-container').empty();
-    console.log('render Scene Item', sceneId);
+    console.log('render scene Item for id', sceneId);
 
     if (!isNaN(sceneId) && (sceneId !== 'none' || sceneId !== null)) {
         $(container).find('#btn-refresh-scene').removeClass('hidden');
         var scene = getSceneById(sceneId);
-        console.log('render scene item', scene);
         var sceneItem = $(source).find('#' + scene.type).clone().removeAttr('id');
         container.find('#scene-container').empty().append(sceneItem);
         container.find('#scene-container').css({backgroundColor: "rgb(255,255,255)"});
@@ -2499,9 +2500,10 @@ function renderSceneItem(source, container, sceneId) {
         // scene positioning
         // calcuation of the new window height if resizing the window
         $(window).resize(function () {
-
-            var height;
-            height = $(window).height() - 124 - 15;
+//            if (!event.handled) {
+//                event.handled = true;
+            console.log($(container).find('#scene-container').offset());
+            var height = $(window).height() - 124 - 15;
 
             if (scene.type === SCENE_VIDEO_EMBED) {
                 var width;
@@ -2515,7 +2517,10 @@ function renderSceneItem(source, container, sceneId) {
             }
 
             sceneItem.height(height);
+//            }
+
         }).resize();
+
         return sceneItem;
     }
 }

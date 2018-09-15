@@ -745,7 +745,7 @@ Identification.prototype.renderModeratorView = function () {
                         currentIdentificationScene = event.data.index;
                         openPrototypeScene(event.data.scene, data.identification.length === 1 && transitionScenes.length === 1, transitionScenes[currentIdentificationScene].description);
 
-                        if (identificationStartTriggered && !previewModeEnabled) {
+                        if (!previewModeEnabled) {
                             getGMT(function (timestamp) {
                                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                                 var scene = getSceneById(transitionScenes[currentIdentificationScene].sceneId);
@@ -1105,7 +1105,7 @@ Identification.prototype.renderTesterView = function () {
                 $(container).find('#scene-container').removeClass('hidden');
 
                 if (previewModeEnabled) {
-                    // render scene manually
+                    // render scene manually if preview opened
                     var sceneItem = renderSceneItem(source, container, sceneId);
                     console.log(sceneItem);
                 }

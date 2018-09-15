@@ -563,7 +563,11 @@ if ($h && $token && $studyId) {
             $(peerConnection).on(MESSAGE_ENTER_SURVEY, function (event, payload) {
                 console.log('enter survey', payload);
                 var query = getQueryParams(document.location.search);
-                goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken);
+                if (payload.iceTransports !== '') {
+                    goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&iceTransports=' + payload.iceTransports);
+                } else {
+                    goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken);
+                }
             });
 
             function sensorArrayHasType(sensors, type) {

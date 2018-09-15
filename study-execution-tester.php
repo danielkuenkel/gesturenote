@@ -219,6 +219,10 @@ if ($h && $token && $studyId) {
                 initPopover();
 
                 var query = getQueryParams(document.location.search);
+                if (query.iceTransports && query.iceTransports !== '') {
+                    iceTransports = query.iceTransports;
+                }
+                
                 if (query.studyId && query.h && query.token) {
                     currentView = VIEW_TESTER;
                     var status = window.location.hash.substr(1);

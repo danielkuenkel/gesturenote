@@ -12,6 +12,7 @@ if (isset($_POST['preparedSensors'])) {
     echo json_encode(array('status' => 'success'));
     exit();
 } else {
+    $_SESSION['preparedSensors'] = null;
     echo json_encode(array('status' => 'error'));
     exit();
 }

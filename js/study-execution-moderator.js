@@ -4683,14 +4683,7 @@ var Moderator = {
                 console.log('on sync request');
 
                 resetConstraints();
-
-                peerConnection.stopShareScreen();
                 peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
-
-                if (prototypeWindow) {
-                    prototypeWindow.close();
-                    prototypeWindow = null;
-                }
 
                 $('#custom-modal').find('.modal-content').empty();
                 $('#custom-modal').modal('hide');
@@ -4730,6 +4723,14 @@ var Moderator = {
             $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
                 console.log('disconnected: ', CONNECTION_STATE_DISCONNECTED);
                 removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
+
+                resetConstraints();
+                peerConnection.stopShareScreen();
+                if (prototypeWindow) {
+                    prototypeWindow.close();
+                    prototypeWindow = null;
+                }
+
                 if (getCurrentPhase().format !== THANKS) {
                     console.log('append alert please wait', $('#viewModerator'));
                     appendAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
@@ -4797,6 +4798,7 @@ var Moderator = {
         var options = getPhaseStepOptions(currentPhase.format);
         var query = getQueryParams(document.location.search);
         var mainElement = $('#video-caller');
+        console.log('append rtc live stream', iceTransports);
 
         var callerOptions = {
             target: $('#viewModerator').find('#pinnedRTC'),
@@ -4814,6 +4816,7 @@ var Moderator = {
             enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
             autoRequestMedia: true,
             roomId: query.roomId,
+            iceTransports: iceTransports || null,
             localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream, record: options.moderator.recordStream},
             remoteStream: {audio: options.tester.audio, video: options.tester.video}
         };

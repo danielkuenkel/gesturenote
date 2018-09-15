@@ -51,6 +51,22 @@ function PeerConnection(isRecordingNeeded) {
     }
 }
 
+PeerConnection.prototype.destroy = function () {
+    console.warn('destroy PeerConnection');
+
+    if (webrtc) {
+        webrtc = null;
+    }
+
+    if (webRTCPeer) {
+        webRTCPeer = null;
+    }
+
+    if (connection) {
+        connection = null;
+    }
+};
+
 PeerConnection.prototype.initialize = function (options) {
     console.log('initialize peer connection');
     if (options) {
@@ -79,7 +95,7 @@ PeerConnection.prototype.initialize = function (options) {
 //            }
         });
 
-        webrtc.webrtc.config.peerConnectionConfig.iceTransports = "relay";
+        webrtc.webrtc.config.peerConnectionConfig.iceTransports = options.iceTransports || "all";
 
 
         if (options.localMuteElement && options.callerElement) {
