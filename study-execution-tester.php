@@ -248,7 +248,7 @@ if ($h && $token && $studyId) {
             }
 
             function renderPhaseStep() {
-                var preparedSensors = JSON.parse('<?php echo json_encode($_SESSION['preparedSensors']) ?>');
+                var preparedSensors = JSON.parse('<?php echo json_encode(isset($_SESSION['preparedSensors']) ? $_SESSION['preparedSensors'] : null) ?>');
                 console.log(preparedSensors);
                 setLocalItem('preparedSensors', preparedSensors || null);
 
