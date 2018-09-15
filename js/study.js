@@ -1052,7 +1052,7 @@ function renderGestureClassification() {
             removeAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
             setLocalItem(CLASSIFICATION_GESTURES, null);
             saveClassification();
-            clearGestureSets();
+//            clearGestureSets();
             renderClassifiedGestures($('#classified-gestures'));
             renderGestureClassification();
         }
@@ -1102,6 +1102,8 @@ function updateMatchingView(updateLeft, updateRight) {
         $('#gesture-right').empty().append(rightItem);
         TweenMax.from(rightItem, .3, {opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
     }
+    
+    initPopover();
 }
 
 function getClassifiedGestures() {
