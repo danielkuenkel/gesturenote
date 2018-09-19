@@ -154,6 +154,8 @@ Identification.prototype.renderModeratorView = function () {
                     unlockButton(button, true);
                     console.warn(error);
                 }, function () {
+                    console.log('shared screen');
+                    
                     peerConnection.startScreenRecording();
                     $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
                         event.preventDefault();

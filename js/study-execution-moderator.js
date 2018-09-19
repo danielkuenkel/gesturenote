@@ -4953,13 +4953,14 @@ function checkSingleScene(data) {
 function openPrototypeScene(scene, isSingleScene, description, index) {
     var windowSpecs = "location=no,menubar=no,status=no,toolbar=no";
     console.log('open prototype window', scene, isSingleScene, prototypeWindow);
+    var currentPhase = getCurrentPhase();
     if (scene !== null) {
         if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {
             console.log('has prototype window');
             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
         } else if (!prototypeWindow && !isSingleScene) {
             console.log('has no prototype window, no single scene');
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + currentPhase.id + "&type=" + currentPhase.format, "_blank", windowSpecs);
         } else if (!prototypeWindow && isSingleScene === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
             console.log('has no prototype window, single scene, ', scene.type);
             prototypeWindow = window.open(scene.parameters.url, "_blank", windowSpecs);
@@ -4967,7 +4968,7 @@ function openPrototypeScene(scene, isSingleScene, description, index) {
 
         } else {
             console.log('else');
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + currentPhase.id + "&type=" + currentPhase.format, "_blank", windowSpecs);
         }
     } else {
         if (prototypeWindow) {
@@ -4975,7 +4976,7 @@ function openPrototypeScene(scene, isSingleScene, description, index) {
             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
         } else {
             console.log('no scene, else');
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + currentPhase.id + "&type=" + currentPhase.format, "_blank", windowSpecs);
         }
     }
 

@@ -28,23 +28,23 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['testerId'])) {
                 $decodedData = json_decode_nice($generalData, false);
                 $deleteFiles = array();
 
-                if (isset($decodedData->assembledScenes)) {
-                    $assembledScenes = $decodedData->assembledScenes;
-                    foreach ($assembledScenes as $scene) {
-                        if ($scene->type === 'image') {
-                            array_push($deleteFiles, $scene->data);
-                        }
-                    }
-                }
-
-                if (isset($decodedData->assembledFeedback)) {
-                    $assembledFeedback = $decodedData->assembledFeedback;
-                    foreach ($assembledFeedback as $feedback) {
-                        if ($feedback->type === 'sound') {
-                            array_push($deleteFiles, $feedback->data);
-                        }
-                    }
-                }
+//                if (isset($decodedData->assembledScenes)) {
+//                    $assembledScenes = $decodedData->assembledScenes;
+//                    foreach ($assembledScenes as $scene) {
+//                        if ($scene->type === 'image') {
+//                            array_push($deleteFiles, $scene->data);
+//                        }
+//                    }
+//                }
+//
+//                if (isset($decodedData->assembledFeedback)) {
+//                    $assembledFeedback = $decodedData->assembledFeedback;
+//                    foreach ($assembledFeedback as $feedback) {
+//                        if ($feedback->type === 'sound') {
+//                            array_push($deleteFiles, $feedback->data);
+//                        }
+//                    }
+//                }
 
                 if ($tester_results_select_stmt = $mysqli->prepare("SELECT data FROM study_results_tester WHERE study_id = '$deleteStudyId' && user_id = '$testerId'")) {
                     if (!$tester_results_select_stmt->execute()) {

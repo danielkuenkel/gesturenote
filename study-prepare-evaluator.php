@@ -454,8 +454,8 @@ if ($h && $token && $studyId) {
                 var requestId = $('#call-screen').attr('data-request-id');
                 reapproveParticipation({requestId: requestId}, function (result) {
                     peerConnection.leaveRoom();
-                    peerConnection.destroy();
-                    peerConnection = null;
+//                    peerConnection.destroy();
+//                    peerConnection = null;
 
                     $('#participation-queue, #check-rtc-status').removeClass('hidden');
                     $('#call-screen').addClass('hidden');
