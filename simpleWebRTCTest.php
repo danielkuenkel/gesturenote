@@ -104,7 +104,7 @@ include_once 'includes/functions.php';
             </div>
 
             <video id="localVideo" autoplay muted></video>
-            <video id="remoteVideo" autoplay></video>
+            <div id="remoteVideo"></div>
 
             <div class="select">
                 <label for="audioSource">Audio input source: </label><select id="audioSource"></select>
@@ -205,7 +205,7 @@ include_once 'includes/functions.php';
             }
 
             function renderDevices() {
-                var videoElement = document.querySelector('localVideo');
+                var videoElement = $('#localVideo');//document.querySelector('localVideo');
                 var audioInputSelect = document.querySelector('select#audioSource');
                 var audioOutputSelect = document.querySelector('select#audioOutput');
                 var videoSelect = document.querySelector('select#videoSource');
@@ -283,9 +283,11 @@ include_once 'includes/functions.php';
                 }
 
                 function gotStream(stream) {
+                    console.log('got stream', videoElement, $(videoElement)[0]);
                     window.stream = stream; // make stream available to console
-                    videoElement.srcObject = stream;
+//                    $($(videoElement)[0]).attr('src', stream);;
                     // Refresh button list in case labels have become available
+                    initVideoCaller();
                     return navigator.mediaDevices.enumerateDevices();
                 }
 
