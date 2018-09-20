@@ -4236,8 +4236,10 @@ $(document).on('click', '.btn-expand', function (event) {
             $(panel).find('.btn-expand').attr('data-content', translation.collapse).data('bs.popover').setContent();
 
             // scroll after expand
-            $('html, body').animate({
-                scrollTop: $(panel).offset().top - 70
+            setTimeout(function () {
+                $('html, body').animate({
+                    scrollTop: $(panel).offset().top - 15
+                }, 300);
             }, 300);
         } else {
             $(panel).find('.panel-body-expandable').addClass('hidden');

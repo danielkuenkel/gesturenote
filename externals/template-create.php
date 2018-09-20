@@ -2724,12 +2724,40 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
-            <span><?php echo $lang->gesture ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->gestureSequence ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
             <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
             </div>
         </div>
         <div class="panel-body panel-body-expandable hidden">
+            <div class="row">
+                <div class="col-sm-11 gesture-list-container" id="item-view"></div>
+            </div>
+            <button class="btn btn-info btn-shadow font-bold btn-add-physicalStressTestOptionGesture" type="button"><span class="fa fa-plus"></span> <span><?php echo $lang->addGesture ?></span></button>
+            <!--            <div class="form-group form-group-no-margin">
+                            <label><?php echo $lang->gesture ?></label>
+                            <div class="alert-space alert-assembled-gesture-removed"></div>
+                            <div class="input-group">
+                                <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                <div class="input-group-btn select gestureSelect" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                                </div>
+                            </div>
+                        </div>-->
+        </div>
+    </div>
+
+    <div class="panel panel-default panel-shadow root" id="physicalStressTestItem-gesture">
+        <div class="panel-heading">
+            <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+                <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
+                <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+            </div>
+            <span><?php echo $lang->gesture ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+        </div>
+        <div class="panel-body">
             <div class="form-group form-group-no-margin">
                 <label><?php echo $lang->gesture ?></label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>

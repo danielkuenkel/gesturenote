@@ -1398,13 +1398,13 @@ include '../includes/language.php';
                 </div>-->
         <div class="row" id="stressTest" style="margin-bottom: 30px;">
             <div class="col-md-7">
-                <div class="alert-space alert-no-gestures-assembled"></div>
+                <div class="alert-space alert-no-study-gestures-assembled-link"></div>
                 <div class="alert-space alert-no-phase-data"></div>
                 <div class="option-container"></div>
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-physicalStressTestOption" type="button" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addGesture ?></span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-physicalStressTestOption" type="button" style="z-index: 1000"><span class="fa fa-plus"></span> <span><?php echo $lang->addStresstestElement ?></span></button>
                 </div>
             </div>
         </div>
