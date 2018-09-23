@@ -2182,14 +2182,16 @@ function initPhysicalStressTestOverlay(id, formatClone) {
         stressTest.randomized = $(formatClone).find('#randomizeSwitch .active').attr('id') === 'yes';
         stressTest.stressAmount = $(formatClone).find('#totalStressAmount').val();
         var items = $(formatClone).find('#stressTest .option-container').children();
-        if (items) {
+        if (items && items.length > 0) {
             var set = new Array();
             for (var i = 0; i < items.length; i++) {
-                var gestureItems = $(items[i]).find('#item-view');
+                var gestureItems = $(items[i]).find('#item-view').children();
+                console.log(gestureItems);
                 if (gestureItems && gestureItems.length > 0) {
                     var gestures = [];
-                    for (var i = 0; i < gestureItems.length; i++) {
-                        var gestureId = $(gestureItems[i]).find('.chosen').attr('id');
+                    for (var j = 0; j < gestureItems.length; j++) {
+                        var gestureId = $(gestureItems[j]).find('.chosen').attr('id');
+                        console.log(gestureId);
                         if (gestureId !== 'unselected') {
                             var gesture = getGestureById(gestureId);
                             if (gesture) {

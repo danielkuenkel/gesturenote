@@ -1390,7 +1390,7 @@ include '../includes/language.php';
 
 
 
-        <h3 style="margin-top: 20px;"><?php echo $lang->gestures ?></h3>
+        <h3 style="margin-top: 20px;"><?php echo $lang->gestureSequences ?></h3>
         <!--        <div class="row">
                     <div class="col-md-11">-->
         <hr style="margin-top: 10px">

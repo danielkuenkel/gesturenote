@@ -1156,18 +1156,17 @@ if (login_check($mysqli) == true) {
             function renderPhysicalStressTest(container, studyData, resultsData) {
 //                console.log(studyData, resultsData);
                 for (var i = 0; i < studyData.stressTestItems.length; i++) {
-                    var gesture = getGestureById(studyData.stressTestItems[i]);
                     var item = $('#template-study-container').find('#physicalStressTest-item').clone().removeAttr('id');
                     container.find('#gestures-container').append(item);
-//                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
 
-                    var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
-                    $(gestureThumbnail).removeClass('deleteable');
-                    $(item).find('.gesture-container').append(gestureThumbnail);
+                    var gestures = studyData.stressTestItems[i].gestures;
+                    for (var g = 0; g < gestures.length; g++) {
+                        var gesture = getGestureById(gestures[g]);
+                        var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                        $(gestureThumbnail).removeClass('deleteable');
+                        $(item).find('.gesture-container').append(gestureThumbnail);
+                    }
 
-
-//                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-//                    $(item).find('#gesture .text').text(gesture.title);
                     $(item).find('#trigger .address').text(translation.trigger + ': ');
                     $(item).find('#trigger .text').text(trigger.title);
                     $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
@@ -1219,7 +1218,7 @@ if (login_check($mysqli) == true) {
                             var questions = new Array();
 
                             for (var j = 0; j < resultsData.answers.singleAnswers.length; j++) {
-                                if (parseInt(resultsData.answers.singleAnswers[j].gestureId) === parseInt(gesture.id)) {
+                                if (parseInt(resultsData.answers.singleAnswers[j].stressTestIndex) === i) {
                                     results.answers = results.answers.concat(resultsData.answers.singleAnswers[j].answers);
                                     questions = questions.concat(singleStressQuestionnaire);
                                 }
@@ -1239,7 +1238,7 @@ if (login_check($mysqli) == true) {
                             var questions = new Array();
 
                             for (var j = 0; j < resultsData.answers.sequenceAnswers.length; j++) {
-                                if (parseInt(resultsData.answers.sequenceAnswers[j].gestureId) === parseInt(gesture.id)) {
+                                if (parseInt(resultsData.answers.sequenceAnswers[j].stressTestIndex) === i) {
                                     results.answers = results.answers.concat(resultsData.answers.sequenceAnswers[j].answers);
                                     questions = questions.concat(sequenceStressQuestionnaire);
                                 }

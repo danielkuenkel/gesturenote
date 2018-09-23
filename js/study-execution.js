@@ -49,6 +49,7 @@ var explorationShowGestures = false;
 //var explorationDone = false;
 var currentStressTestCount = 0;
 var currentStressTestIndex = 0;
+var currentStressTestGestureIndex = 0;
 //var stressTestStartTriggered = false;
 //var stressTestGestureTriggered = false;
 //var stressTestQuestionsTriggered = false;
@@ -286,6 +287,7 @@ function resetConstraints() {
 
     currentStressTestCount = 0;
     currentStressTestIndex = 0;
+    currentStressTestGestureIndex = 0;
     stressTestStartTriggered = false;
     stressTestGestureTriggered = false;
     stressTestQuestionsTriggered = false;

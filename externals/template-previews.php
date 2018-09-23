@@ -600,47 +600,43 @@ include '../includes/language.php';
 
             <div id="stress-test-controls" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"></h3>
-                <div class="">
-                    <div class="row">
+                <!--<div class="">-->
+                <div class="row" id="stress-test-controls-container">
 
-                        <div class="col-xs-6 col-lg-4">
-                            <div class="thumbnail-container row"></div>
-                            <!--                            <div style="margin: 0 auto">
-                                                            <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-                                                            <div class="text-center gestureControls hidden">
-                                                                <div class="btn-group">
-                                                                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                                                                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                                                                </div>
-                                                            </div>
-                                                        </div>-->
+                    <!--                    <div class="col-xs-6 col-lg-4">
+                                            
+                                        </div>-->
 
-                            <div class="" style="margin-top: 0px">
-                                <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-show-gesture"><?php echo $lang->request ?></button>
-                                <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-show-question" style="margin-top: 0px"><?php echo $lang->showQuestions ?></button>
-                            </div>
-                        </div>
+                    <!--                        <div class="col-xs-6 col-lg-8">
+                                                <div id="repeats-left"><span class="address"><?php echo $lang->repeatsLeft ?>:</span> <span class="text"></span></div>
+                                                <div id="stress-for"><span class="address"><?php echo $lang->gestureShow ?>:</span> <span class="text"></span></div>
+                                            </div>-->
 
-                        <div class="col-xs-6 col-lg-8">
-                            <div id="repeats-left"><span class="address"><?php echo $lang->repeatsLeft ?>:</span> <span class="text"></span></div>
-                            <div id="stress-for"><span class="address"><?php echo $lang->gestureShow ?>:</span> <span class="text"></span></div>
-                        </div>
-
-                    </div>   
-                </div>
+                </div>   
+                <!--</div>-->
             </div>
 
-            <div id="question-container" style="margin-top: 10px" class="hidden"></div>
+            <div id="question-container" class="hidden" style="margin-top: 10px"></div>
 
             <div class="alert-space alert-phase-step-done"></div>
 
-            <div style="margin-top: 0px">
+            <div style="margin-top: 0px; margin-bottom: 15px">
                 <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-repeat-stress-test"><i class="fa fa-repeat"></i> <span class="btn-text"><?php echo $lang->repeatStressTest ?></span></button>
-                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-next-gesture"><span class="btn-text"><?php echo $lang->nextGesture ?></span> <span aria-hidden="true">&rarr;</span></button>
+                <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-show-question"><?php echo $lang->showQuestions ?></button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-next-gesture"><span class="btn-text"><?php echo $lang->nextGestureSequence ?></span> <span aria-hidden="true">&rarr;</span></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-questionnaire"><i class="fa fa-check"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stress-test-done"><i class="fa fa-check"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
 
+        </div>
+    </div>
+
+    <div id="physical-stress-test-thumbnail-controls" class="col-xs-6 col-lg-4">
+        <div class="thumbnail-container row"></div>
+
+        <div class="" style="margin-top: 0px">
+            <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-show-gesture"><i class="fa"></i> <?php echo $lang->request ?></button>
+            <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-hide-gesture"><i class="fa"></i> <?php echo $lang->quitGesturePreview ?></button>
         </div>
     </div>
 
@@ -1950,23 +1946,10 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="root row" id="physicalStressTestModerated">
-        <div class="col-sm-12 text-center" style="margin-bottom: 15px;">
-            <div style="max-width: 400px; margin: 0 auto">
-                <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3" style="border-radius: 4px"></div>
-                <!--                <div class="progress gesture-progress">
-                                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                                </div>-->
-                <div class="text-center gestureControls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="root" id="physicalStressTestModerated">
+        <div class="row" id="gestures-list-container"></div>
 
-        <div class="col-sm-12 hidden" id="stress-test-questionnaire">
+        <div class="hidden" id="stress-test-questionnaire" style="margin-top: 30px">
             <div id="questionnaire-heading" class="hidden">
                 <h3 class="headline" style="margin-top: 0"><?php echo $lang->pleaseAnswerQuestions ?></h3>
                 <!--<hr>-->
@@ -1999,7 +1982,7 @@ include '../includes/language.php';
                 <div class="question-container"></div>
             </div>
 
-            <div id="sequence-questions" class="hidden" style="margin-top: 30px">
+            <div id="sequence-questions" class="hidden" style="margin-top: 0px">
                 <!--<h4 id="headline-sequence-questions">Sequenz-Fragen</h4>-->
 
                 <div id="sequence-joint-selection" class="hidden">
@@ -2032,6 +2015,21 @@ include '../includes/language.php';
             <button class="btn btn-block btn-success btn-shadow" id="btn-done-questionnaire" name="btn-success" style="margin-top: 20px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
 
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 root" id="physicalStressTestItem-gesture">
+        <!--<div style="max-width: 400px; margin: 0 auto">-->
+        <div class="previewGesture previewProgress mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 4px"></div>
+        <!--                <div class="progress gesture-progress">
+                            <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                        </div>-->
+        <div class="text-center gestureControls">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+            </div>
+        </div>
+        <!--</div>-->
     </div>
 
     <div class="root row" id="physicalStressTestUnmoderated">
