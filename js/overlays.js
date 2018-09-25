@@ -652,10 +652,14 @@ function initGUSSingleGesturesOverlay(id, formatClone) {
         }
 
         if (data.feedbackId) {
-            var feedback = getFeedbackById(data.feedbackId);
-            if (feedback === null) {
-                appendAlert($(formatClone).find('#general'), ALERT_ASSEMBLED_FEEDBACK_REMOVED);
-                $(formatClone).find('.btn-preview-questionnaire').addClass('disabled');
+            if (data.feedbackId !== 'none') {
+                var feedback = getFeedbackById(data.feedbackId);
+                if (feedback === null) {
+                    appendAlert($(formatClone).find('#general'), ALERT_ASSEMBLED_FEEDBACK_REMOVED);
+                    $(formatClone).find('.btn-preview-questionnaire').addClass('disabled');
+                } else {
+                    $(formatClone).find('#gesture-feedback').find('#' + data.feedbackId).click();
+                }
             } else {
                 $(formatClone).find('#gesture-feedback').find('#' + data.feedbackId).click();
             }
@@ -968,8 +972,9 @@ function initGestureTrainingOverlay(id, formatClone) {
                 if (trainingItems[i].transitionScenes && trainingItems[i].transitionScenes.length > 0) {
                     for (var j = 0; j < trainingItems[i].transitionScenes.length; j++) {
                         var scene = getSceneById(trainingItems[i].transitionScenes[j].sceneId);
-                        var item = $('#form-item-container').find('#woz-transition-scene-option').clone().removeAttr('id');
+                        var item = $('#form-item-container').find('#training-woz-transition-scene-option').clone().removeAttr('id');
                         $(clone).find('.transition-scenes-option-container').append(item);
+                        $(item).find('#scene-description').val(trainingItems[i].transitionScenes[j].description);
                         initTransitionWOZSceneSelect(item);
                         if (scene) {
                             $(item).find('.sceneSelect #' + scene.id).click();
@@ -1030,7 +1035,8 @@ function initGestureTrainingOverlay(id, formatClone) {
                 var transitionScenes = [];
                 var transitionItems = $(item).find('.transition-scenes-option-container').children();
                 for (var j = 0; j < transitionItems.length; j++) {
-                    var object = {sceneId: $(transitionItems[j]).find('.sceneSelect .chosen').attr('id')};
+                    var description = $(transitionItems[j]).find('#scene-description').val();
+                    var object = {sceneId: $(transitionItems[j]).find('.sceneSelect .chosen').attr('id'), description: description};
                     if (j > 0 && j < transitionItems.length - 1) {
                         object.transitionMode = $(transitionItems[j]).find('.transition-mode .btn-option-checked').attr('id');
                         if (object.transitionMode === 'automatically') {
@@ -2112,7 +2118,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
                 if (items[i].gestures.length > 0) {
                     var clone = $('#form-item-container').find('#physicalStressTestItem').clone().removeClass('hidden');
                     container.append(clone);
-                    
+
                     var gestureListContainer = $(clone).find('#item-view');
 
                     for (var j = 0; j < items[i].gestures.length; j++) {
@@ -2126,7 +2132,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
                             appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                         }
                     }
-                    
+
                     initAddGestureButton(clone);
                     updateBadges(gestureListContainer, 'physicalStressTestItem-gesture');
                     checkCurrentListState(gestureListContainer);

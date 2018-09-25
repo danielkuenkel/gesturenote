@@ -4992,10 +4992,8 @@ function getWOZTransitionItem(source, transitionScene, disabled, active) {
     $(btn).find('.btn-text').text(scene.title);
     $(btn).find('.btn-trigger-scene').attr('id', scene.id);
     $(btn).find('.btn-trigger-scene').attr('data-transition-scene-id', scene.id);
-//    $(btn).find('.btn-trigger-scene').attr('data-scene-type', scene.type);
     $(btn).find('.btn-trigger-scene').attr('data-transition-mode', transitionScene.transitionMode);
     $(btn).find('.btn-trigger-scene').attr('data-transition-type', 'scene');
-//    $(btn).find('.btn-trigger-scene').attr('data-use-event-bus', transitionScene.useEventBus);
     $(btn).find('.btn-trigger-scene #scene-' + scene.type).removeClass('hidden');
 
     if (transitionScene.transitionMode === 'automatically') {

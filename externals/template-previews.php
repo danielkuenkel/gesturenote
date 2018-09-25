@@ -1356,9 +1356,9 @@ include '../includes/language.php';
     <div class="root" id="letterOfAcceptance" style=""></div>
 
     <div id="letterOfAcceptance-moderated" class="row">
-        <div class="col-md-4 col-lg-3 rtc-scalable" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-5 col-lg-4 rtc-scalable" id="column-left" style="margin-bottom: 15px;"></div>
 
-        <div class="col-md-8 col-lg-9" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-8 col-lg-9">
+        <div class="col-md-7 col-lg-8" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-8 col-lg-9">
             <h3 class="headline" style="margin-top: 0" ><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
             <!--<hr>-->
             <div class="letter-text text"></div>

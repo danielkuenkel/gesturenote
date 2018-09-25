@@ -1160,26 +1160,29 @@ if (login_check($mysqli) == true) {
 
             $('#phaseStepList').unbind('listItemAdded').bind('listItemAdded', function (event) {
                 event.preventDefault();
-                var scrollTarget = $('body');
-                var newScrollTop = Math.max(0, scrollTarget.height());
-                $(scrollTarget).animate({
+                var scrollTarget =  $(event.target).children().last();
+                var newScrollTop = Math.max(0, $(scrollTarget).offset().top);
+                console.log($(scrollTarget).offset(), newScrollTop);
+                $('html, body').animate({
                     scrollTop: newScrollTop
                 }, 400);
             });
 
             var overlayTween = new TimelineMax({paused: true, onReverseComplete: onReverseComplete});
-            overlayTween.add("parallel", .3)
+            overlayTween.add("parallel")
                     .to($('.sub-page-header'), .3, {autoAlpha: 0}, 'parallel')
                     .to($('.mainContent'), .3, {autoAlpha: 0}, 'parallel')
                     .to($('#breadcrumb'), .3, {autoAlpha: 0}, 'parallel')
 //                    .to($('.mainContent'), .3, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel')
 //                    .to($('#breadcrumb'), .3, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel')
                     .to($('#creation-content'), .3, {autoAlpha: 1}, 'parallel')
-                    .to($('#fixed-study-edit-controls'), .2, {autoAlpha: 0, x: -20}, 'parallel')
+                    .to($('#fixed-study-edit-controls'), .2, {autoAlpha: 0, x: -20}, 'parallel');
 //                    .to($('#creation-content-background'), .3, {autoAlpha: 1}, 'parallel');
 
             $(document).on('click', '.btn-open-overlay', function (event) {
                 event.preventDefault();
+//                $(this).addClass('disabled');
+                
                 var format = $(this).attr('id');
                 var id = $(this).closest('.root').attr('id');
                 if (format && id) {
@@ -1188,11 +1191,11 @@ if (login_check($mysqli) == true) {
                     initOverlayContentByFormat(format);
                 }
                 overlayTween.play();
-                setTimeout(function () {
+//                setTimeout(function () {
                     $('html,body').animate({
                         scrollTop: 0
                     }, 200);
-                }, 300);
+//                }, 0);
                 $('.mainContent').addClass('hidden');
             });
 

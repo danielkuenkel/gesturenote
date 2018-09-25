@@ -163,7 +163,7 @@ if (login_check($mysqli) == true) {
 
                         <div class="btn-group-vertical btn-block" id="phase-results-nav" style="margin-top: 20px"></div>
                         <div class="btn-group-vertical btn-block" id="delete-results-nav" style="margin-top: 20px">
-                            <button class="btn btn-danger" id="btn-delete-result" style="opacity: 0"><i class="fa fa-trash"></i> <?php echo $lang->deleteParticipantResults ?></button>
+                            <button class="btn btn-danger btn-shadow" id="btn-delete-result" style="opacity: 0"><i class="fa fa-trash"></i> <?php echo $lang->deleteParticipantResults ?></button>
                         </div>
                     </div>
                 </div>

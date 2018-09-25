@@ -68,7 +68,7 @@ if (login_check($mysqli) == true) {
                 <div class="panel-body panel-content">
                     <div>
                         <div class="label label-default" id="type-phase"></div>
-                        <div class="label label-default" id="type-survey"></div>
+                        <!--<div class="label label-default" id="type-survey"></div>-->
                         <div class="label label-default hidden" id="participant-count" data-toggle="popover" data-trigger="hover" data-placement="auto"><i class="fa fa-users"></i> <span class="label-text"></span></div>
                         <div class="label label-default hidden" id="shared-study" data-toggle="popover" data-trigger="hover" title="<?php echo $lang->studySharedWith ?>" data-placement="auto"><i class="fa fa-share-alt"></i> <span class="label-text"></span></div>
                     </div>

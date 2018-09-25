@@ -95,18 +95,18 @@ if ($h && $studyId) {
                 <div class="col-sm-6 col-md-5" id="login">
                     <div class="panel panel-default panel-shadow">
                         <div class="panel-heading">
-                            <h2 class="panel-title"><?php echo $lang->studyParticipant ?></h2>
+                            <div class="font-bold"><?php echo $lang->studyParticipant ?></div>
                         </div>
                         <div class="panel-body">
                             <div class="btn-group-vertical btn-block">
-                                <button type="button" class="btn btn-default" id="btn-participate-without-account"><i class="fa fa-comments" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->participateWithoutAccount ?></span></button>
+                                <button type="button" class="btn btn-default btn-shadow" id="btn-participate-without-account"><i class="fa fa-comments" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->participateWithoutAccount ?></span></button>
                             </div>
                         </div>
                     </div>
 
                     <div class="panel panel-default panel-shadow">
                         <div class="panel-heading">
-                            <h2 class="panel-title"><?php echo $lang->signIn ?></h2>
+                            <div class="font-bold"><?php echo $lang->participateAsModerator ?></div>
                         </div>
                         <div class="panel-body">
 
@@ -130,8 +130,8 @@ if ($h && $studyId) {
                                     <input type="password" class="form-control" name="password" value="" id="password">
                                 </div>
                                 <div class="btn-group-vertical btn-block">
-                                    <button type="button" class="btn btn-success" id="btn-login"><i class="fa fa-unlock-alt"></i> <span class="btn-text"><?php echo $lang->signIn ?></button>
-                                    <button type="button" class="btn btn-default" id="btn-forgot-password"><i class="fa fa-clock-o"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
+                                    <button type="button" class="btn btn-success btn-shadow" id="btn-login"><i class="fa fa-unlock-alt"></i> <span class="btn-text"><?php echo $lang->signIn ?></button>
+                                    <button type="button" class="btn btn-default btn-shadow" id="btn-forgot-password"><i class="fa fa-clock-o"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
                                 </div>
                             </div>
                         </div>

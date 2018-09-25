@@ -304,15 +304,17 @@ GestureTraining.prototype.renderModeratorView = function () {
         $(container).find('#btn-repeat-training').addClass('hidden');
         $(container).find('#btn-show-gesture').addClass('hidden');
 
+        var offsetTop = 0;
         if (currentTrainingIndex < data.training.length - 1) {
             $(container).find('#btn-next-gesture').removeClass('hidden');
+            offsetTop = $(container).find('#btn-next-gesture').offset().top + $(container).find('#btn-next-gesture').height();
         } else {
             $(container).find('#btn-no-more-training-items').removeClass('hidden');
-
-            var offsetTop = $(container).find('#btn-no-more-training-items').offset().top + $(container).find('#btn-no-more-training-items').height() + 25;
-            var scrollOffset = offsetTop - $(window).height();
-            $('html,body').animate({scrollTop: scrollOffset < 0 ? 0 : scrollOffset}, 300);
+            offsetTop = $(container).find('#btn-no-more-training-items').offset().top + $(container).find('#btn-no-more-training-items').height();
         }
+
+        var scrollOffset = offsetTop - $(window).height() + 29;
+        $('html,body').animate({scrollTop: scrollOffset < 0 ? 0 : scrollOffset}, 300);
     }
 
     function renderStateNoMoreTrainingItems() {
@@ -445,42 +447,82 @@ GestureTraining.prototype.renderModeratorView = function () {
 
         var trainingData = data.training[currentTrainingIndex];
 
-
         var hasFeedback = trainingData.feedbackId !== 'none';
         var transitionScenes = trainingData.transitionScenes;
         if (transitionScenes && transitionScenes.length > 0) {
             $(container).find('#start-scene').removeClass('hidden');
 //            $(container).find('#start-scene-header').removeClass('hidden');
-//            $(container).find('#start-scene-container').removeClass('hidden');
+            $(container).find('#start-scene-container').empty();
+            $(container).find('#transition-scene-container').empty();
+            $(container).find('#follow-scene-container').empty();
+            $(container).find('#transition-feedback-container').empty();
 
-            if (transitionScenes.length > 1) {
-                var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
-                $(container).find('#start-scene-container').empty().append(startItem);
+            for (var i = 0; i < transitionScenes.length; i++) {
+                var transitionItem = getWOZTransitionItem(source, transitionScenes[i], false, false);
 
-                $(container).find('#follow-scenes').removeClass('hidden');
-//                $(container).find('#follow-scene-container').removeClass('hidden');
-                var followItem = getWOZTransitionItem(source, transitionScenes[transitionScenes.length - 1], true, transitionScenes.length + (hasFeedback ? 1 : 0) === currentTransitionSceneIndex);
-                $(container).find('#follow-scene-container').empty().append(followItem);
-
-                if (transitionScenes.length > 2) {
+                if (i === 0) {
+                    $(container).find('#start-scene').removeClass('hidden');
+                    $(container).find('#start-scene-container').append(transitionItem);
+                } else if (transitionScenes.length > 2 && i > 0 && i < transitionScenes.length - 1) {
                     $(container).find('#transition-scenes').removeClass('hidden');
-                    $(container).find('#transition-scene-container').empty();
-                    for (var j = 1; j < transitionScenes.length - 1; j++) {
-                        var itemBetween = getWOZTransitionItem(source, transitionScenes[j], true); //  j + (hasFeedback ? 1 : 0) <= currentTransitionSceneIndex
-                        $(container).find('#transition-scene-container').append(itemBetween);
-                        if (j > 1) {
-                            $(itemBetween).css({marginTop: '6px'});
-                        }
+                    $(container).find('#transition-scene-container').append(transitionItem);
+                    $(container).find('#transition-scene-container').append(document.createElement('br'));
 
-                        if (j < transitionScenes.length - 2) {
-                            $(container).find('#transition-scene-container').append(document.createElement('br'));
-                        }
+                    if (i > 1) {
+                        $(transitionItem).find('.scene-data').css({marginTop: '8px'});
                     }
+                } else {
+                    $(container).find('#follow-scenes').removeClass('hidden');
+                    $(container).find('#follow-scene-container').append(transitionItem);
                 }
-            } else {
-                var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
-                $(container).find('#start-scene-container').empty().append(startItem);
+
+                var description = transitionScenes[i].description;
+//                console.log('description --->', description);
+                if (description && description !== '') {
+                    var descriptionItem = document.createElement('div');
+                    $(descriptionItem).addClass('scene-description text').text(description);
+                    $(transitionItem).parent().append(descriptionItem);
+//                    console.log('append description ------>', descriptionItem, $(transitionItem).parent().parent())
+                }
             }
+
+
+
+
+
+
+
+
+
+//            if (transitionScenes.length > 1) {
+//                var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true, transitionScenes[0].description);
+//                console.log(startItem);
+//                $(container).find('#start-scene-container').empty().append(startItem);
+//
+//                $(container).find('#follow-scenes').removeClass('hidden');
+////                $(container).find('#follow-scene-container').removeClass('hidden');
+//                var followItem = getWOZTransitionItem(source, transitionScenes[transitionScenes.length - 1], true, transitionScenes.length + (hasFeedback ? 1 : 0) === currentTransitionSceneIndex, transitionScenes[transitionScenes.length - 1].description);
+//                $(container).find('#follow-scene-container').empty().append(followItem);
+//
+//                if (transitionScenes.length > 2) {
+//                    $(container).find('#transition-scenes').removeClass('hidden');
+//                    $(container).find('#transition-scene-container').empty();
+//                    for (var j = 1; j < transitionScenes.length - 1; j++) {
+//                        var itemBetween = getWOZTransitionItem(source, transitionScenes[j], true, false, transitionScenes[j].description); //  j + (hasFeedback ? 1 : 0) <= currentTransitionSceneIndex
+//                        $(container).find('#transition-scene-container').append(itemBetween);
+//                        if (j > 1) {
+//                            $(itemBetween).css({marginTop: '6px'});
+//                        }
+//
+//                        if (j < transitionScenes.length - 2) {
+//                            $(container).find('#transition-scene-container').append(document.createElement('br'));
+//                        }
+//                    }
+//                }
+//            } else {
+//                var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true, transitionScenes[0].description);
+//                $(container).find('#start-scene-container').empty().append(startItem);
+//            }
         }
 
         if (trainingData.feedbackId !== 'none') {
@@ -669,7 +711,7 @@ GestureTraining.prototype.renderModeratorView = function () {
                 }
 
                 var offsetTop = $(container).find('#training').offset().top + $(container).find('#training').height();
-                var scrollOffset = offsetTop - $(window).height();
+                var scrollOffset = offsetTop - $(window).height() + 15;
                 $('html,body').animate({scrollTop: scrollOffset < 0 ? 0 : scrollOffset}, 300);
             } else {
                 currentPhaseState = 'noMoreTrainingRepeats';

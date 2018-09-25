@@ -107,10 +107,14 @@ PhysicalStressTest.prototype.renderModeratorView = function () {
         $(hideButton).removeClass('hidden').addClass('disabled');
 
         if (peerConnection) {
-
             $(peerConnection).unbind(MESSAGE_GESTURE_INFO_PRESENT).bind(MESSAGE_GESTURE_INFO_PRESENT, function (event) {
                 event.preventDefault();
                 $(hideButton).removeClass('disabled');
+            });
+
+            $(peerConnection).unbind(MESSAGE_GESTURE_INFO_CLOSED).bind(MESSAGE_GESTURE_INFO_CLOSED, function (event) {
+                event.preventDefault();
+                checkGestureIndex();
             });
 
             peerConnection.sendMessage(MESSAGE_TRIGGER_STRESS_TEST_GESTURE, {count: currentStressTestCount, index: currentStressTestIndex, gestureIndex: currentStressTestGestureIndex});
@@ -120,7 +124,12 @@ PhysicalStressTest.prototype.renderModeratorView = function () {
 
         $(hideButton).unbind('click').bind('click', function (event) {
             event.preventDefault();
-            checkGestureIndex();
+
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_CLOSE_GESTURE_INFO);
+            } else {
+                checkGestureIndex();
+            }
         });
 
         function checkGestureIndex() {
@@ -326,7 +335,7 @@ PhysicalStressTest.prototype.renderModeratorView = function () {
         $(container).find('#stress-test-controls').removeClass('hidden');
         $(container).find('#stress-test-controls-container').empty();
         $(container).find('#stress-test-controls .headline').text(translation.gestureSequence + " " + (currentStressTestIndex + 1) + " " + translation.of + " " + data.stressTestItems.length);
-        
+
         if (gestures.length > 0) {
             for (var i = 0; i < gestures.length; i++) {
                 var gesture = getGestureById(gestures[i]);
@@ -534,12 +543,21 @@ PhysicalStressTest.prototype.renderTesterView = function () {
                 currentPhaseState = 'showQuestions';
                 renderCurrentPhaseState();
             });
+
+            $(peerConnection).unbind(MESSAGE_CLOSE_GESTURE_INFO).bind(MESSAGE_CLOSE_GESTURE_INFO, function (event) {
+                event.preventDefault();
+                peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED);
+                currentPhaseState = 'gesturesPresented';
+                renderCurrentPhaseState();
+            });
         }
     }
 
     function renderStateGesturesPresented() {
         console.log('render moderator state: ', currentPhaseState);
 
+        $(container).find('#stressTestContainer').addClass('hidden');
+        $(container).find('#gestures-list-container').empty();
         clearAlerts(container);
         appendAlert(container, ALERT_PLEASE_WAIT);
     }
@@ -547,11 +565,8 @@ PhysicalStressTest.prototype.renderTesterView = function () {
 
     function renderStateShowQuestions() {
         console.log('render moderator state: ', currentPhaseState);
-
-//        renderGestureInfos();
+        clearAlerts(container);
         renderGestureSequence();
-
-//        var gesture = getGestureById(data.stressTestItems[currentStressTestIndex].gestures[currentStressTestGestureIndex]);
 
         var questionContainer = $(container).find('#stress-test-questionnaire');
         questionContainer.removeClass('hidden');

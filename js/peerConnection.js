@@ -279,7 +279,6 @@ PeerConnection.prototype.initialize = function (options) {
             if (peer && peer.pc && peer.type === TYPE_PEER_VIDEO) {
                 var connstate = document.createElement('div');
                 connstate.className = 'connectionstate';
-//                container.appendChild(connstate);
                 peer.pc.on('iceConnectionStateChange', function (event) {
                     var state = null;
                     switch (peer.pc.iceConnectionState) {
@@ -288,7 +287,6 @@ PeerConnection.prototype.initialize = function (options) {
                             break;
                         case CONNECTION_STATE_CONNECTED:
                         case CONNECTION_STATE_COMPLETED: // on caller side
-//                            $(vol).show();
                             state = 'Connection established.';
                             break;
                         case CONNECTION_STATE_DISCONNECTED:
@@ -305,7 +303,6 @@ PeerConnection.prototype.initialize = function (options) {
                     $(connection).trigger(peer.pc.iceConnectionState);
                     console.log('peer connection state: ', state);
                 });
-
             }
         });
 
@@ -364,6 +361,10 @@ PeerConnection.prototype.initialize = function (options) {
                     $(options.indicator).find('#pause-remote-stream').addClass('hidden');
                 }
             });
+        });
+
+        webrtc.on('joinedRoom', function (roomName) {
+            console.log('joined room:', roomName);
         });
 
         webrtc.on('stunservers', function (event) {
