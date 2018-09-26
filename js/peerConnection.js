@@ -55,6 +55,13 @@ PeerConnection.prototype.destroy = function () {
     console.warn('destroy PeerConnection');
 
     if (webrtc) {
+        webrtc.stopLocalVideo();
+        webrtc.off('readyToCall');
+        webrtc.off('joinedRoom');
+        webrtc.off('leftRoom');
+        webrtc.off('videoAdded');
+        webrtc.off('videoRemoved');
+        webrtc.destroy();
         webrtc = null;
     }
 
@@ -74,20 +81,19 @@ PeerConnection.prototype.initialize = function (options) {
 
         webrtc = new SimpleWebRTC({
 //            debug: true,
-//            iceTransports: 'relay',
             // the id/element dom element that will hold "our" video
             localVideoEl: options.localVideoElement,
             // the id/element dom element that will hold remote videos
             remoteVideosEl: options.remoteVideoElement,
             // immediately ask for camera access
             autoRequestMedia: options.autoRequestMedia, // immediately ask for camera access
+            nick: options.nick || null,
             localVideo: {
                 autoplay: true, // automatically play the video stream on the page
                 mirror: true, // flip the local video to mirror mode (for UX)
                 muted: true // mute local video stream to prevent echo
             },
             peerConnectionConfig: {'iceServers': [STUN, TURN]},
-//            iceTransports: 'relay',
             enableDataChannels: options.enableDataChannels
 //            receiveMedia: {
 //                offerToReceiveAudio: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0,
@@ -400,12 +406,19 @@ PeerConnection.prototype.initialize = function (options) {
         webrtc.on('createdPeer', function (peer) {
             console.log('webrtc created peer', peer);
             if (!webRTCPeer) {
-                webRTCPeer = peer;
+                webRTCPeer = peer; // check if this is working, if more than one peer is created -> moderator peer, wizard peer, etc.
             }
         });
     } else {
         console.log('no options for webrtc');
     }
+};
+
+PeerConnection.prototype.getPeers = function () {
+    if (webrtc) {
+        return webrtc.getPeers();
+    }
+    return null;
 };
 
 //$(window).on('resize', function () {

@@ -19,7 +19,9 @@ include_once 'includes/functions.php';
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
         <script src="js/chance.min.js"></script>
+        <script src="js/sha512.js"></script>
 
+        <script src="js/peerConnection.js"></script>
         <script src="js/andyet/simplewebrtc.bundle.js"></script>
         <script src="js/muazkhan/DetectRTC.min.js"></script>
 
@@ -117,6 +119,15 @@ include_once 'includes/functions.php';
                     <label for="videoSource">Video source: </label> <select id="videoSource"></select>
                 </div>
 
+
+                <div class="select">
+                    <label for="participantRole">Role ignorieren? </label> 
+                    <select id="ignoreRole">
+                        <option value="yes">Ja</option>
+                        <option value="no">Nein</option>
+                    </select>
+                </div>
+
                 <div class="select">
                     <label for="participantRole">Role: </label> 
                     <select id="participantRole">
@@ -144,13 +155,32 @@ include_once 'includes/functions.php';
                         <video autoplay id="localVideo" class="rtc-stream" style="position: relative; height: auto"></video>
                     </div>
                 </div>
+
+                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                </div>
+                <div id="stream-control-indicator">
+                    <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
+                        <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                        <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+                    </div>
+                    <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
+                        <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                        <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                    </div>
+                </div>
             </div>
 
         </div>
 
         <script>
             var selectedRole = null;
+            var ignoreRole = null;
             var webrtc = null;
+            var peerConnection = null;
+            var syncPhaseStep = false;
 
             $(document).ready(function () {
                 checkDomain();
@@ -323,6 +353,8 @@ include_once 'includes/functions.php';
 
                 function start() {
                     selectedRole = document.querySelector('select#participantRole').value;
+                    ignoreRole = document.querySelector('select#ignoreRole').value;
+
                     if (window.stream) {
                         window.stream.getTracks().forEach(function (track) {
                             track.stop();
@@ -369,139 +401,216 @@ include_once 'includes/functions.php';
             }
 
             function initVideoCaller() {
-//                console.log('init video caller');
-
-//                if (webrtc !== null) {
-//                    webrtc.joinRoom('test5690380958230948230958409458');
-//                } else {
-                var iceServers = [
-                    {
-                        'urls': 'stun:stun.l.google.com:19302'
-                    },
-                    {
-                        urls: 'turn:numb.viagenie.ca',
-                        username: 'danielkuenkel%40googlemail.com',
-                        credential: 'jyjYhjFdVXygdGKJHHt6EVV9asapAms'
-                    }
-                ];
-
-                webrtc = new SimpleWebRTC({
-                    // the id/element dom element that will hold "our" video
-                    localVideoEl: 'localVideo',
-                    // the id/element dom element that will hold remote videos
-                    remoteVideosEl: 'remoteVideo',
-                    // immediately ask for camera access
+                var mainElement = $('#video-caller');
+                console.log(mainElement);
+                var callerOptions = {
+                    callerElement: mainElement,
+                    localVideoElement: 'localVideo',
+                    remoteVideoElement: 'remoteVideo',
+                    streamControls: $(mainElement).find('#stream-controls'),
+                    localMuteElement: $(mainElement).find('#btn-stream-local-mute'),
+                    pauseStreamElement: $(mainElement).find('#btn-pause-stream'),
+                    remoteMuteElement: $(mainElement).find('#btn-stream-remote-mute'),
+                    indicator: $(mainElement).find('#stream-control-indicator'),
+                    enableWebcamStream: true,
+                    enableDataChannels: true,
                     autoRequestMedia: true,
-                    nick: selectedRole,
-                    peerConnectionConfig: {'iceServers': iceServers}
-                });
+                    roomId: hex_sha512(window.location),
+//                    iceTransports: iceTransports !== '' ? iceTransports : null,
+                    nick: ignoreRole === 'yes' ? chance.natural() : selectedRole,
+                    localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
+                    remoteStream: {audio: 'yes', video: 'yes'}
+                };
 
-//                console.log('init web rtc', webrtc);
+                peerConnection = new PeerConnection();
+                peerConnection.initialize(callerOptions);
 
-                webrtc.on('readyToCall', function () {
-                    // you can name it anything
-                    webrtc.joinRoom('test5690380958230948230958409458');
-                });
+//                var iceServers = [
+//                    {
+//                        'urls': 'stun:stun.l.google.com:19302'
+//                    },
+//                    {
+//                        urls: 'turn:numb.viagenie.ca',
+//                        username: 'danielkuenkel%40googlemail.com',
+//                        credential: 'jyjYhjFdVXygdGKJHHt6EVV9asapAms'
+//                    }
+//                ];
+//
+//                webrtc = new SimpleWebRTC({
+//                    // the id/element dom element that will hold "our" video
+//                    localVideoEl: 'localVideo',
+//                    // the id/element dom element that will hold remote videos
+//                    remoteVideosEl: 'remoteVideo',
+//                    // immediately ask for camera access
+//                    autoRequestMedia: true,
+//                    nick: ignoreRole === 'yes' ? chance.natural() : selectedRole,
+//                    peerConnectionConfig: {'iceServers': iceServers}
+//                });
+//
+//                webrtc.on('readyToCall', function () {
+//                    webrtc.joinRoom(hex_sha512(window.location));
+//                });
 
-                webrtc.connection.on('message', function (data) {
-                    if (data.roomType === 'video') {
-//                        console.log('message', data.type);
-                        $('#video-caller').trigger(data.type, [data.payload]);
+//                webrtc.connection.on('message', function (data) {
+//                    if (data.roomType === 'video') {
+//                        $('#video-caller').trigger(data.type, [data.payload]);
+//                    }
+//                });
+
+                $(peerConnection).unbind('duplicatedRoles').bind('duplicatedRoles', function (event, payload) {
+                    if (selectedRole === payload.role) {
+                        $('#btn-leave-room').click();
+                        alert('Pro Konversation darf nur eine Rolle vergeben werden. Diese Rolle gibt es schon. Wählen Sie eine andere aus.');
                     }
                 });
 
-                $('#video-caller').unbind('duplicatedRoles').bind('duplicatedRoles', function (event, payload) {
-//                    console.log('duplicated roles');
-                    $('#btn-leave-room').click();
-                    alert('Pro Konversation darf nur eine Rolle vergeben werden. Diese Rolle gibt es schon. Wählen Sie eine andere aus.');
-                });
-
-                webrtc.on('joinedRoom', function (roomName) {
-//                    console.log('join room', roomName);
-                    var localVideoElement = webrtc.getLocalVideoContainer();
-                    $(localVideoElement).css({opacity: 1});
+                $(peerConnection).on('joinedRoom', function (roomName) {
+                    $('#localVideo').css({opacity: 1});
                     unlockButton($('#btn-join-room'), true);
                     $('#btn-join-room').addClass('hidden');
                     $('#btn-leave-room').removeClass('hidden');
                 });
 
-                webrtc.on('leftRoom', function (roomName) {
-//                    console.log('left room', roomName);
-                    webrtc.stopLocalVideo();
-                    var localVideoElement = webrtc.getLocalVideoContainer();
-                    $(localVideoElement).css({opacity: 0});
+                $(peerConnection).on('leftRoom', function (roomName) {
+//                    var localVideoElement = webrtc.getLocalVideoContainer();
+                    $('#localVideo').css({opacity: 0});
 
-                    webrtc.off('readyToCall');
-                    webrtc.off('joinedRoom');
-                    webrtc.off('leftRoom');
-                    webrtc.off('videoAdded');
-                    webrtc.off('videoRemoved');
-                    webrtc.destroy();
-                    webrtc = null;
+                    peerConnection.destroy();
 
                     unlockButton($('#btn-leave-room'), true);
                     $('#btn-leave-room').addClass('hidden');
                     $('#btn-join-room').removeClass('hidden');
                 });
 
-                webrtc.on('videoAdded', function (videoElement, peer) {
-//                    console.log('video added for peer', peer);
+                $(peerConnection).on('videoAdded', function (videoElement, peer) {
                     $(videoElement).attr('data-role', peer.nick);
                     if (peer.nick === selectedRole) {
-                        webrtc.sendToAll('duplicatedRoles', {role: selectedRole});
+                        peerConnection.sendMessage('duplicatedRoles', {role: selectedRole});
                     } else {
                         arrangePeerStreams();
                     }
                 });
 
-                webrtc.on('videoRemoved', function (videoElement, peer) {
-//                    console.log('video removed for peer', peer);
+                $(peerConnection).on('videoRemoved', function (videoElement, peer) {
                     arrangePeerStreams();
                 });
 
                 function arrangePeerStreams() {
-                    var peers = webrtc.getPeers();
-                    var localVideoElement = webrtc.getLocalVideoContainer();
+                    var peers = peerConnection.getPeers();
+                    var localVideoElement = $('#localVideo');
 
-                    if (peers && peers.length > 1) {
-                        $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
+                    if (ignoreRole === 'no') {
+                        if (peers && peers.length > 1) {
+                            $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
+                            $(localVideoElement).addClass('rtc-shadow');
 
-                        var lastVideoElement = null;
-                        for (var i = 0; i < peers.length; i++) {
-                            var videoElement = $(peers[i].videoEl);
-                            if ((selectedRole === 'moderator' || selectedRole === 'wizard' || selectedRole === 'observer') && peers[i].nick === 'tester') {
-                                $(videoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
-                            } else if (selectedRole === 'tester' && peers[i].nick === 'moderator') {
-                                $(videoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
-                            } else {
-                                lastVideoElement = videoElement;
-                                var offsetTop = $('#localVideo').height() + 8;
-                                $(videoElement).css({position: 'relative', float: 'right', zIndex: 2, width: '25%', height: 'auto', top: offsetTop + 'px', left: '-5px'});
+                            var lastVideoElement = null;
+                            for (var i = 0; i < peers.length; i++) {
+                                var remoteVideoElement = $(peers[i].videoEl);
+                                $(remoteVideoElement).removeClass('main-remote side-remote');
+                                if ((selectedRole === 'moderator' || selectedRole === 'wizard' || selectedRole === 'observer') && peers[i].nick === 'tester') {
+                                    $(remoteVideoElement).removeClass('rtc-shadow').addClass('main-remote');
+                                    $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+                                } else if (selectedRole === 'tester' && peers[i].nick === 'moderator') {
+                                    $(remoteVideoElement).removeClass('rtc-shadow').addClass('main-remote');
+                                    $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+
+                                } else {
+                                    lastVideoElement = remoteVideoElement;
+                                    $(remoteVideoElement).addClass('rtc-shadow side-remote').removeClass('main-remote');
+//                                    var offsetTop = $('#localVideo').height() + 8;
+//                                    $(remoteVideoElement).css({position: 'relative', float: 'right', zIndex: 2, width: '25%', height: 'auto', top: offsetTop + 'px', left: '-5px'});
+                                }
+
+                                if (selectedRole === 'tester' && $(remoteVideoElement).attr('data-role') !== 'moderator') {
+                                    $(remoteVideoElement).addClass('hidden');
+                                } else {
+                                    $(remoteVideoElement).removeClass('hidden');
+                                }
                             }
 
-                            if (selectedRole === 'tester' && $(videoElement).attr('data-role') !== 'moderator') {
-                                $(videoElement).css({opacity: 0});
-                            } else {
-                                $(videoElement).css({opacity: 1});
-                            }
-                        }
-                    } else if (peers.length === 1) {
-                        $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
+                            checkRemoteStreamsPositions();
+                        } else if (peers.length === 1) {
+                            $(localVideoElement).addClass('rtc-shadow');
+                            $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
 
-                        var videoElement = $(peers[0].videoEl);
-                        $(videoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
-                        if (selectedRole === 'tester' && $(videoElement).attr('data-role') !== 'moderator') {
-                            $(videoElement).css({opacity: 0});
+                            var remoteVideoElement = $(peers[0].videoEl);
+                            $(remoteVideoElement).removeClass('rtc-shadow').addClass('main-remote');
+                            $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+
+                            if (selectedRole === 'tester' && $(remoteVideoElement).attr('data-role') !== 'moderator') {
+                                $(remoteVideoElement).addClass('hidden');
+                            } else {
+                                $(remoteVideoElement).removeClass('hidden');
+                            }
                         } else {
-                            $(videoElement).css({opacity: 1});
+                            $(localVideoElement).removeClass('rtc-shadow');
+                            $(localVideoElement).css({width: '', top: '', left: ''});
                         }
                     } else {
-                        $(localVideoElement).css({width: '', top: '', left: ''});
+                        if (peers && peers.length > 1) {
+                            $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
+                            $(localVideoElement).addClass('rtc-shadow');
+
+                            var lastVideoElement = null;
+                            for (var i = 0; i < peers.length; i++) {
+                                var remoteVideoElement = $(peers[i].videoEl);
+                                $(remoteVideoElement).removeClass('main-remote side-remote');
+
+                                if (i === 0) {
+                                    $(remoteVideoElement).removeClass('rtc-shadow hidden').addClass('main-remote');
+                                    $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+                                } else {
+//                                    lastVideoElement = remoteVideoElement;
+                                    $(remoteVideoElement).addClass('rtc-shadow side-remote');
+                                }
+                            }
+
+                            checkRemoteStreamsPositions();
+                        } else if (peers && peers.length === 1) {
+                            $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
+                            $(localVideoElement).addClass('rtc-shadow');
+
+                            var remoteVideoElement = $(peers[0].videoEl);
+                            $(remoteVideoElement).removeClass('rtc-shadow hidden').addClass('main-remote');
+                            $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+                        } else {
+                            $(localVideoElement).css({width: '', top: '', left: ''});
+                            $(localVideoElement).removeClass('rtc-shadow');
+                        }
+                    }
+                }
+
+                var checkTimer = null;
+                function checkRemoteStreamsPositions(checkRoles) {
+                    clearTimeout(checkTimer);
+                    if (peerConnection) {
+                        checkTimer = setTimeout(function () {
+                            var remoteVideos = $('#remoteVideo').children();
+
+                            if (remoteVideos && remoteVideos.length > 0) {
+                                var offsetTop = $('#localVideo').height() + 8;
+                                var firstSideRemote = true;
+
+                                for (var i = 0; i < remoteVideos.length; i++) {
+                                    var remoteVideoElement = $(remoteVideos[i]);
+                                    if ($(remoteVideoElement).hasClass('side-remote')) {
+                                        $(remoteVideoElement).css({position: 'relative', float: 'right', zIndex: 2, width: '25%', height: 'auto', top: offsetTop + 'px'});
+                                        var offsetLeft = $(remoteVideoElement).width() - 5;
+                                        $(remoteVideoElement).css({left: (firstSideRemote === true ? '-5px' : offsetLeft + 'px')});
+                                        offsetTop += $(remoteVideoElement).height() + 3;
+                                        firstSideRemote = false;
+                                    }
+                                }
+                            } else {
+
+                            }
+                        }, 300);
                     }
                 }
 
                 $(window).on('resize', function () {
-                    arrangePeerStreams();
+                    checkRemoteStreamsPositions(); // don't do this. arrange video elements through getRemoteVideos(), because videos should be swapable
                 });
             }
         </script>
