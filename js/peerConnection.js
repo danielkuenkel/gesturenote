@@ -105,6 +105,8 @@ PeerConnection.prototype.initialize = function (options) {
 
 
         if (options.localMuteElement && options.callerElement) {
+            initPopover();
+            
             var tween = new TweenMax(options.streamControls, .3, {opacity: 1.0, paused: true});
             $(options.callerElement).on('mouseenter', function (event) {
                 event.preventDefault();

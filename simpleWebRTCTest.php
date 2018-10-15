@@ -45,24 +45,10 @@ include_once 'includes/functions.php';
         <div id="template-general"></div>
 
 
-        <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb"style="margin-top: 0px">
-            <!--            <div class="row">
-                            <ol class="breadcrumb">-->
-            <!--                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
-                                <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
-                                <li class="active"><?php echo $lang->breadcrump->informations ?></li>-->
-            <!--                </ol>
-                        </div>-->
-        </div>
+        <!-- Container (Breadcrump) placeholder -->
+        <div class="container" id="breadcrumb"style="margin-top: 0px"> </div>
 
 
-        <!-- Container (Landing Section) -->
-        <!--        <div class="container">
-                    <button class="btn btn-default" id="startButton">Start</button>
-                    <button class="btn btn-default" id="callButton">Call</button>
-                    <button class="btn btn-default" id="hangupButton">Hangup</button>
-                </div>-->
 
         <div class="container mainContent" style="margin-top: 0px">
             <!--            <div id="check-rtc-status" class="hidden">
@@ -154,23 +140,23 @@ include_once 'includes/functions.php';
                     <div class="rtc-local-container embed-responsive-item">
                         <video autoplay id="localVideo" class="rtc-stream" style="position: relative; height: auto"></video>
                     </div>
+                    <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                        <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                        <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                        <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                    </div>
+                    <div id="stream-control-indicator">
+                        <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
+                            <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                            <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+                        </div>
+                        <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
+                            <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                            <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
-                </div>
-                <div id="stream-control-indicator">
-                    <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
-                        <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
-                        <i id="pause-local-stream" class="hidden fa fa-pause"></i>
-                    </div>
-                    <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
-                        <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
-                        <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -402,7 +388,7 @@ include_once 'includes/functions.php';
 
             function initVideoCaller() {
                 var mainElement = $('#video-caller');
-                console.log(mainElement);
+                console.log('stram controls', $(mainElement).find('#stream-controls'));
                 var callerOptions = {
                     callerElement: mainElement,
                     localVideoElement: 'localVideo',
