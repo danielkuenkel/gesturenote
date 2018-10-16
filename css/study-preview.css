@@ -43,14 +43,8 @@ and open the template in the editor.
 .web-rtc-placeholder img {
     pointer-events: none;
 }
-.web-rtc-placeholder img, #resize-sign {
-    user-drag: none; 
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-drag: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-}
+
+
 
 #column-left {
     /*margin-top: 20px;*/

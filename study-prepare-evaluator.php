@@ -82,7 +82,7 @@ if ($h && $token && $studyId) {
         </div>
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent" >
+        <div class="container mainContent">
 
             <div class="row">
                 <div class="col-xs-12">
@@ -94,7 +94,7 @@ if ($h && $token && $studyId) {
             </div>
 
             <div class="row hidden" id="study-details">
-                <div class="col-sm-5 col-md-7" style="margin-bottom: 40px">
+                <div class="col-sm-5 col-md-6 col-lg-5" style="margin-bottom: 40px">
                     <div id="study-description">
                         <h3 class="address"></h3>
                         <p class="text"></p>
@@ -103,7 +103,7 @@ if ($h && $token && $studyId) {
                     <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
                 </div>
 
-                <div class="col-sm-7 col-md-5">
+                <div class="col-sm-7 col-md-6 col-lg-7">
 
                     <div id="alert-hints" class="">
                         <div class="alert-space alert-study-over-range"></div>
@@ -114,7 +114,50 @@ if ($h && $token && $studyId) {
                         <div class="alert-space alert-contact-support"></div>
                     </div>
 
-                    <div id="check-rtc-status" class="">
+                    <div id="role-selection-container" class="">
+                        <div class="form-group root roleSelect">
+                            <label style="margin: 0">
+                                <span>Rollenauswahl</span> 
+                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->physicalStressTestSingleGraphic ?>"></i>
+                            </label><br>
+
+                            <div class="btn-group" id="radio" style="">
+                                <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="moderator">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle" id="checked"></i>
+                                    </span>
+                                    <span class="option-text">Moderator</span>
+                                </button>
+                            </div>
+                            <div class="btn-group" id="radio" style="">
+                                <button class="btn btn-default btn-radio" name="primary" id="observer">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text">Beobachter</span>
+                                </button>
+                            </div>
+                            <div class="btn-group" id="radio" style="">
+                                <button class="btn btn-default btn-radio" name="primary" id="wizard">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text">Wizard</span>
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <button class="btn btn-block btn-default btn-shadow" id="btn-check-rtc">Auswahl übernehmen</button>
+                    </div>
+
+                    <div id="check-rtc-status" class="hidden">
                         <h3>Technische Überprüfung</h3>
                         <div class="check-web-rtc">
                             <span class="status-check-indicator">
@@ -301,7 +344,6 @@ if ($h && $token && $studyId) {
                 var totalDays = rangeDays(dateFrom, dateTo);
 
                 $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + ": ");
-//                $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + translation.from + ' ' + new Date(dateFrom).toLocaleDateString() + ' (' + translation.zeroOClick + ') ' + translation.to + " " + new Date(dateTo).toLocaleDateString() + ' (' + translation.zeroOClick + ')');
                 $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + translation.from + ' ' + (totalDays === 1 ? new Date(dateFrom).toLocaleDateString() : new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString()));
                 $('.study-plan').removeClass('hidden');
 
@@ -309,11 +351,9 @@ if ($h && $token && $studyId) {
                     $('#study-details').removeClass('hidden');
                     if (now > dateFrom && now < dateTo) {
 
-                        checkRTC($('#check-rtc-status'));
+                        checkRoles();
+//                        checkRTC($('#check-rtc-status'));
 
-                        // check rtc is needed
-//                        if (isWebRTCSupported()) {
-//                            $('#participation-queue').removeClass('hidden');
                         appendAlert($('#participation-queue'), ALERT_SEARCH_PARTICIPATION_REQUESTS);
 
                         getParticipationRequests({studyId: studyData.generalData.id}, function (result) {
@@ -326,10 +366,8 @@ if ($h && $token && $studyId) {
                         $('#btn-enter-study').on('click', function (event) {
                             event.preventDefault();
                             if (!$(this).hasClass('disabled')) {
-//                                var name = $('#call-screen').attr('name').split('_');
                                 var rtcToken = $('#call-screen').attr('data-rtc-token');
                                 var testerId = $('#call-screen').attr('data-tester-id');
-//                                console.log(rtcToken);
                                 var iceTransports = $('.iceTransportsSelect').find('.btn-option-checked').attr('id') === 'yes' ? 'relay' : 'all';
                                 peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken, iceTransports: iceTransports});
 
@@ -341,10 +379,6 @@ if ($h && $token && $studyId) {
                                 }
                             }
                         });
-//                        } else {
-//                            console.log('no webRTC supported in this browser');
-//                            appendAlert($('#study-details'), ALERT_WEB_RTC_NOT_SUPPORTED);
-//                        }
                     } else if (now > dateFrom) {
                         appendAlert($('#alert-hints'), ALERT_STUDY_OVER_RANGE);
                     } else {
@@ -357,6 +391,47 @@ if ($h && $token && $studyId) {
                         event.preventDefault();
                         returnToStudyDetails();
                     });
+                }
+            }
+
+            function checkRoles() {
+                var studyData = getLocalItem(STUDY);
+                var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+                var needObserver, needWizard = false;
+                for (var i = 0; i < phaseSteps.length; i++) {
+                    var phaseStep = phaseSteps[i];
+                    var phaseStepData = getLocalItem(phaseStep.id + '.data');
+
+                    console.log(phaseStep, phaseStepData);
+                    switch (phaseStep.format) {
+                        case IDENTIFICATION:
+                        case EXPLORATION:
+                        case GESTURE_TRAINING:
+                        case SLIDESHOW_GESTURES:
+                        case SLIDESHOW_TRIGGER:
+                        case PHYSICAL_STRESS_TEST:
+                            if (phaseStepData.observations && phaseStepData.observations.length > 0) {
+                                needObserver = true;
+                            }
+                            break;
+                        case SCENARIO:
+                            if (phaseStepData.observations && phaseStepData.observations.length > 0) {
+                                needObserver = true;
+                            }
+
+                            if (phaseStepData.tasks && phaseStepData.tasks.length > 0) {
+                                needWizard = true;
+                            }
+                            break;
+                    }
+                }
+
+                if (!needWizard) {
+                    $('.roleSelect #wizard').addClass('disabled');
+                }
+
+                if (!needObserver) {
+                    $('.roleSelect #observer').addClass('disabled');
                 }
             }
 
@@ -420,7 +495,7 @@ if ($h && $token && $studyId) {
                         var waitingTime = getTimeBetweenTimestamps(created.getTime(), current.getTime());
                         $(item).find('#waiting .text').text(getTimeString(waitingTime, true));
                         $(item).find('#waiting .participant-name').text(request.name);
-//                        console.log(request.testerId);
+
                         if (isNaN(request.testerId)) {
                             $(item).find('#user .label-text').text(translation.userTypes.guest);
                         } else {
@@ -432,9 +507,8 @@ if ($h && $token && $studyId) {
                             approveParticipation({requestId: event.data.requestId}, function (result) {
                                 console.log(result);
                                 if (result.status === RESULT_SUCCESS) {
-                                    $('#participation-queue, #check-rtc-status').addClass('hidden');
+                                    $('#participation-queue, #check-rtc-status, #role-selection-container').addClass('hidden');
                                     $('#call-screen').removeClass('hidden');
-//                                    $('#call-screen').attr('name', event.data.requestId + '_' + result.data.rtcToken + '.prepare' + '_' + result.data.testerId);
                                     $('#call-screen').attr('data-request-id', event.data.requestId);
                                     $('#call-screen').attr('data-rtc-token', result.data.rtcToken);
                                     $('#call-screen').attr('data-tester-id', result.data.testerId);
@@ -454,10 +528,8 @@ if ($h && $token && $studyId) {
                 var requestId = $('#call-screen').attr('data-request-id');
                 reapproveParticipation({requestId: requestId}, function (result) {
                     peerConnection.leaveRoom();
-//                    peerConnection.destroy();
-//                    peerConnection = null;
 
-                    $('#participation-queue, #check-rtc-status').removeClass('hidden');
+                    $('#participation-queue, #check-rtc-status, #role-selection-container').removeClass('hidden');
                     $('#call-screen').addClass('hidden');
                     $('#btn-enter-study').addClass('disabled');
                     $('#btn-start-screen-sharing').addClass('disabled');
@@ -478,6 +550,8 @@ if ($h && $token && $studyId) {
 
             function checkRTC(target) {
                 $('#participation-queue').addClass('hidden');
+                $('#check-rtc-status').removeClass('hidden');
+
                 DetectRTC.load(function () {
                     navigator.mediaDevices.getUserMedia({
                         audio: true, // { deviceId: 'mic-id' }
@@ -530,18 +604,6 @@ if ($h && $token && $studyId) {
                             $(indicator).find('.status-supported').removeClass('hidden');
                         }
 
-
-//                        if (DetectRTC.isVideoSupportsStreamCapturing === false) {
-//                            errors++;
-//                            indicator = $(target).find('.check-stream-capturing .status-check-indicator');
-//                            $(indicator).find('.status-wait').addClass('hidden');
-//                            $(indicator).find('.status-warn').removeClass('hidden');
-//                        } else {
-//                            indicator = $(target).find('.check-stream-capturing .status-check-indicator');
-//                            $(indicator).find('.status-wait').addClass('hidden');
-//                            $(indicator).find('.status-supported').removeClass('hidden');
-//                        }
-
                         if (DetectRTC.isScreenCapturingSupported === false) {
                             errors++;
                             indicator = $(target).find('.check-screen-capturing .status-check-indicator');
@@ -563,152 +625,159 @@ if ($h && $token && $studyId) {
             var peerConnection = null;
             function initPeerConnection(rtcToken) {
                 console.log('initializeRTCPeerConnection', rtcToken);
-                if (peerConnection !== null) {
-                    peerConnection.joinRoom(rtcToken);
-                } else {
-                    var iceTransports = $('.iceTransportsSelect').find('.btn-option-checked').attr('id') === 'yes' ? 'relay' : '';
-                    console.log('ice transports: ', iceTransports);
-                    var mainElement = $('#video-caller');
-                    var callerOptions = {
-                        callerElement: mainElement,
-                        localVideoElement: 'local-stream',
-                        remoteVideoElement: 'remote-stream',
-                        streamControls: $(mainElement).find('#stream-controls'),
-                        localMuteElement: $(mainElement).find('#btn-stream-local-mute'),
-                        pauseStreamElement: $(mainElement).find('#btn-pause-stream'),
-                        remoteMuteElement: $(mainElement).find('#btn-stream-remote-mute'),
-                        indicator: $(mainElement).find('#stream-control-indicator'),
-                        enableWebcamStream: true,
-                        enableDataChannels: true,
-                        autoRequestMedia: true,
-                        roomId: rtcToken,
-                        iceTransports: iceTransports !== '' ? iceTransports : null,
-                        localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
-                        remoteStream: {audio: 'yes', video: 'yes'}
-                    };
+//                if (peerConnection !== null) {
+//                    peerConnection.joinRoom(rtcToken);
+//                } 
+//                else {
+                var selectedRole = $('.roleSelect').find('.btn-option-checked').attr('id');
+                var iceTransports = $('.iceTransportsSelect').find('.btn-option-checked').attr('id') === 'yes' ? 'relay' : '';
+                console.log('ice transports: ', iceTransports);
+                var mainElement = $('#video-caller');
+                var callerOptions = {
+                    callerElement: mainElement,
+                    localVideoElement: 'local-stream',
+                    remoteVideoElement: 'remote-stream',
+                    streamControls: $(mainElement).find('#stream-controls'),
+                    localMuteElement: $(mainElement).find('#btn-stream-local-mute'),
+                    pauseStreamElement: $(mainElement).find('#btn-pause-stream'),
+                    remoteMuteElement: $(mainElement).find('#btn-stream-remote-mute'),
+                    indicator: $(mainElement).find('#stream-control-indicator'),
+                    enableWebcamStream: true,
+                    enableDataChannels: true,
+                    autoRequestMedia: true,
+                    roomId: rtcToken,
+                    iceTransports: iceTransports !== '' ? iceTransports : null,
+                    nick: selectedRole,
+                    ignoreRole: 'no',
+                    selectedRole: selectedRole,
+                    visibleRoles: ['moderator', 'tester', 'observer', 'wizard'],
+                    localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
+                    remoteStream: {audio: 'yes', video: 'yes'}
+                };
 
-                    peerConnection = new PeerConnection();
-                    peerConnection.initialize(callerOptions);
+                peerConnection = new PeerConnection();
+                peerConnection.initialize(callerOptions);
 
-                    // a peer video has been added
-                    $(peerConnection).on('videoAdded', function () {
+                // joined the a specific room
+                $(peerConnection).on('joinedRoom', function (event, roomName) {
+                    event.preventDefault();
 
-                        clearAlerts($('#study-participation'));
-                        $('#study-details #initialize-recorders-list').empty();
+                    clearAlerts($('#study-participation'));
+                    $('#study-details #initialize-recorders-list').empty();
 
-                        // check if sensor has be connected
-                        var studyData = getLocalItem(STUDY);
-                        if (studyData.phase === TYPE_PHASE_ELICITATION) {
-                            var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
-                            var sensorCount = 0;
-                            var options = {
-                                record: []
-                            };
+                    // check if sensor has be connected
+                    var studyData = getLocalItem(STUDY);
+                    if (studyData.phase === TYPE_PHASE_ELICITATION) {
+                        var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+                        var sensorCount = 0;
+                        var options = {
+                            record: []
+                        };
 
-                            for (var i = 0; i < phaseSteps.length; i++) {
+                        for (var i = 0; i < phaseSteps.length; i++) {
 
-                                if (phaseSteps[i].format === IDENTIFICATION) {
-                                    var stepData = getLocalItem(phaseSteps[i].id + '.data');
-                                    if (stepData.identificationFor === 'gestures' && stepData.sensor !== 'none') {
-                                        sensorCount++;
+                            if (phaseSteps[i].format === IDENTIFICATION) {
+                                var stepData = getLocalItem(phaseSteps[i].id + '.data');
+                                if (stepData.identificationFor === 'gestures' && stepData.sensor !== 'none') {
+                                    sensorCount++;
 
-                                        if (!sensorArrayHasType(options.record, stepData.sensor)) {
-                                            options.record.push({type: stepData.sensor, banned: false, initialized: false});
+                                    if (!sensorArrayHasType(options.record, stepData.sensor)) {
+                                        options.record.push({type: stepData.sensor, banned: false, initialized: false});
 
-                                            var listItem = $('#item-container-prepare').find('#initialize-recorders-list-item').clone();
-                                            $(listItem).attr('data-sensor', stepData.sensor);
-                                            $(listItem).find('.text').text(translation.sensors[stepData.sensor].initialize);
-                                            $('#study-details #technical-check').removeClass('hidden');
-                                            $('#study-details #initialize-recorders-list').append(listItem);
+                                        var listItem = $('#item-container-prepare').find('#initialize-recorders-list-item').clone();
+                                        $(listItem).attr('data-sensor', stepData.sensor);
+                                        $(listItem).find('.text').text(translation.sensors[stepData.sensor].initialize);
+                                        $('#study-details #technical-check').removeClass('hidden');
+                                        $('#study-details #initialize-recorders-list').append(listItem);
 
-                                            $(listItem).find('.btn-ban-sensor').unbind('click').bind('click', {type: stepData.sensor}, function (event) {
-                                                event.preventDefault();
-                                                if (sensorBanned(options.record, event.data.type)) {
-                                                    $(this).removeClass('btn-success').addClass('btn-danger');
-                                                    $(this).find('.fa').removeClass('fa-check').addClass('fa-ban');
-                                                    $(this).find('.btn-text').text(translation.banSensor);
-                                                    unbanSensor(options.record, event.data.type);
-                                                } else {
-                                                    $(this).removeClass('btn-danger').addClass('btn-success');
-                                                    $(this).find('.fa').removeClass('fa-ban').addClass('fa-check');
-                                                    $(this).find('.btn-text').text(translation.unbanSensor);
-                                                    banSensor(options.record, event.data.type);
-                                                }
+                                        $(listItem).find('.btn-ban-sensor').unbind('click').bind('click', {type: stepData.sensor}, function (event) {
+                                            event.preventDefault();
+                                            if (sensorBanned(options.record, event.data.type)) {
+                                                $(this).removeClass('btn-success').addClass('btn-danger');
+                                                $(this).find('.fa').removeClass('fa-check').addClass('fa-ban');
+                                                $(this).find('.btn-text').text(translation.banSensor);
+                                                unbanSensor(options.record, event.data.type);
+                                            } else {
+                                                $(this).removeClass('btn-danger').addClass('btn-success');
+                                                $(this).find('.fa').removeClass('fa-ban').addClass('fa-check');
+                                                $(this).find('.btn-text').text(translation.unbanSensor);
+                                                banSensor(options.record, event.data.type);
+                                            }
 
-                                                saveSensors(options.record);
-                                                checkSensorStates(options.record);
-                                                peerConnection.sendMessage(MESSAGE_SYNC_SENSORS, {sensors: options.record});
-                                            });
-                                        }
+                                            saveSensors(options.record);
+                                            checkSensorStates(options.record);
+                                            peerConnection.sendMessage(MESSAGE_SYNC_SENSORS, {sensors: options.record});
+                                        });
                                     }
                                 }
                             }
+                        }
 
-                            if (sensorCount > 0) {
-                                $(peerConnection).unbind(MESSAGE_RECORDER_READY).bind(MESSAGE_RECORDER_READY, function (event, payload) {
-                                    console.log(MESSAGE_RECORDER_READY, payload);
-                                    event.preventDefault();
-                                    var listItem = $('#study-details #initialize-recorders-list').find('[data-sensor=' + payload.type + ']');
-                                    $(listItem).find('.init-icon').removeClass('fa-spin fa-circle-o-notch').addClass('fa-check success');
-                                    $(listItem).find('.text').text(translation.sensors[payload.type].title);
-                                });
+                        if (sensorCount > 0) {
+                            $(peerConnection).unbind(MESSAGE_RECORDER_READY).bind(MESSAGE_RECORDER_READY, function (event, payload) {
+                                console.log(MESSAGE_RECORDER_READY, payload);
+                                event.preventDefault();
+                                var listItem = $('#study-details #initialize-recorders-list').find('[data-sensor=' + payload.type + ']');
+                                $(listItem).find('.init-icon').removeClass('fa-spin fa-circle-o-notch').addClass('fa-check success');
+                                $(listItem).find('.text').text(translation.sensors[payload.type].title);
+                            });
 
-                                $(peerConnection).unbind(MESSAGE_RECORDER_LOST).bind(MESSAGE_RECORDER_LOST, function (event, payload) {
-                                    console.log(MESSAGE_RECORDER_LOST, payload);
-                                    event.preventDefault();
-                                    var listItem = $('#study-details #initialize-recorders-list').find('[data-sensor=' + payload.type + ']');
-                                    $(listItem).find('.init-icon').removeClass('fa-check success').addClass('fa-spin fa-circle-o-notch');
-                                    $(listItem).find('.text').text(translation.sensors[payload.type].initialize);
-                                    $('#btn-enter-study').addClass('disabled');
-                                    saveSensors(null);
-                                    checkSensorStates();
-                                });
+                            $(peerConnection).unbind(MESSAGE_RECORDER_LOST).bind(MESSAGE_RECORDER_LOST, function (event, payload) {
+                                console.log(MESSAGE_RECORDER_LOST, payload);
+                                event.preventDefault();
+                                var listItem = $('#study-details #initialize-recorders-list').find('[data-sensor=' + payload.type + ']');
+                                $(listItem).find('.init-icon').removeClass('fa-check success').addClass('fa-spin fa-circle-o-notch');
+                                $(listItem).find('.text').text(translation.sensors[payload.type].initialize);
+                                $('#btn-enter-study').addClass('disabled');
+                                saveSensors(null);
+                                checkSensorStates();
+                            });
 
-                                $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event, payload) {
-                                    event.preventDefault();
-                                    console.log(MESSAGE_ALL_RECORDER_READY, payload);
-                                    $('#btn-enter-study').removeClass('disabled');
-                                    options.record = payload.sensors;
-                                    saveSensors(options.record);
-                                    checkSensorStates();
-                                });
-
-                                $(peerConnection).unbind(MESSAGE_SYNC_SENSORS).bind(MESSAGE_SYNC_SENSORS, function (event, payload) {
-                                    event.preventDefault();
-                                    options.record = payload.sensors;
-                                    for (var i = 0; i < options.record.length; i++) {
-                                        var button = $('#study-details #initialize-recorders-list').find('[data-sensor=' + options.record[i].type + '] .btn-ban-sensor');
-                                        if (options.record[i].banned === true) {
-                                            $(button).removeClass('btn-danger').addClass('btn-success');
-                                            $(button).find('.fa').removeClass('fa-ban').addClass('fa-check');
-                                            $(button).find('.btn-text').text(translation.unbanSensor);
-                                        } else {
-                                            $(button).removeClass('btn-success').addClass('btn-danger');
-                                            $(button).find('.fa').removeClass('fa-check').addClass('fa-ban');
-                                            $(button).find('.btn-text').text(translation.banSensor);
-                                        }
-                                    }
-                                    saveSensors(options.record);
-                                    checkSensorStates();
-                                });
-
-                                peerConnection.sendMessage(MESSAGE_REQUEST_SENSOR_STATUS);
-                            } else {
+                            $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event, payload) {
+                                event.preventDefault();
+                                console.log(MESSAGE_ALL_RECORDER_READY, payload);
                                 $('#btn-enter-study').removeClass('disabled');
-                            }
+                                options.record = payload.sensors;
+                                saveSensors(options.record);
+                                checkSensorStates();
+                            });
+
+                            $(peerConnection).unbind(MESSAGE_SYNC_SENSORS).bind(MESSAGE_SYNC_SENSORS, function (event, payload) {
+                                event.preventDefault();
+                                options.record = payload.sensors;
+                                for (var i = 0; i < options.record.length; i++) {
+                                    var button = $('#study-details #initialize-recorders-list').find('[data-sensor=' + options.record[i].type + '] .btn-ban-sensor');
+                                    if (options.record[i].banned === true) {
+                                        $(button).removeClass('btn-danger').addClass('btn-success');
+                                        $(button).find('.fa').removeClass('fa-ban').addClass('fa-check');
+                                        $(button).find('.btn-text').text(translation.unbanSensor);
+                                    } else {
+                                        $(button).removeClass('btn-success').addClass('btn-danger');
+                                        $(button).find('.fa').removeClass('fa-check').addClass('fa-ban');
+                                        $(button).find('.btn-text').text(translation.banSensor);
+                                    }
+                                }
+                                saveSensors(options.record);
+                                checkSensorStates();
+                            });
+
+                            peerConnection.sendMessage(MESSAGE_REQUEST_SENSOR_STATUS);
                         } else {
                             $('#btn-enter-study').removeClass('disabled');
                         }
-                    });
+                    } else {
+                        $('#btn-enter-study').removeClass('disabled');
+                    }
+                });
 
-                    // a peer video has been removed
-                    $(peerConnection).on('videoRemoved', function () {
-                        clearAlerts($('#study-participation'));
-                        $('#study-details #technical-check').addClass('hidden');
-                        $('#btn-enter-study').addClass('disabled');
-                        $('#btn-start-screen-sharing').addClass('disabled');
-                    });
-                }
+                $(peerConnection).on('leftRoom', function (event, roomName) {
+                    event.preventDefault();
+
+                    clearAlerts($('#study-participation'));
+                    $('#study-details #technical-check').addClass('hidden');
+                    $('#btn-enter-study').addClass('disabled');
+                    $('#btn-start-screen-sharing').addClass('disabled');
+                });
             }
 
             function sensorArrayHasType(sensors, type) {
@@ -779,6 +848,10 @@ if ($h && $token && $studyId) {
                     $('#btn-enter-study').addClass('disabled');
                 }
             }
+
+            $('#btn-check-rtc').unbind('click').bind('click', function (event) {
+                checkRTC($('#check-rtc-status'));
+            });
         </script>
     </body>
 </html>

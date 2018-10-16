@@ -84,6 +84,11 @@ if (login_check($mysqli) == true) {
         <script src="js/gestureRecorder/leapRecorder.js"></script>
         <script src="js/resumable/resumable.js"></script>
 
+        <!-- peer connection with webrtc -->
+        <script src="js/collaborativeVideo.js"></script>
+        <script src="js/peerConnection.js"></script>
+        <script src="js/andyet/simplewebrtc.bundle.js"></script>
+
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
@@ -111,6 +116,20 @@ if (login_check($mysqli) == true) {
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->cache ?> <i class="fa fa-folder-open-o" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-leave-conversation hidden" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->leaveConversation ?> 
+                        <span style="margin-left: 15px">
+                            <i class="fa fa-group"></i>
+                            <i class="fa fa-ban" style="
+                               font-size: 9pt;
+                               position: absolute;
+                               right: 9px;
+                               top: 9px;"></i>
+                        </span></button>
+                </div>
+                <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-save-study" style="position: relative; float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->saveAndClose ?> <i class="fa fa-save" style="margin-left: 15px"></i></button>
                 </div>
             </div>
@@ -130,7 +149,7 @@ if (login_check($mysqli) == true) {
         </div>
 
         <!-- Modal -->
-        <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog" data-conv-allowed="false">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -499,6 +518,45 @@ if (login_check($mysqli) == true) {
         </div>
 
 
+
+
+
+
+        <div id="draggableCollaborativeRTC" class="hidden" style="position: fixed; z-index: 10002; top: 150px; left:100px; display: block; opacity: .7">
+            <div style="width: 300px; border-radius: 5px" id="video-caller-container" class="shadow">
+                <div class="embed-responsive embed-responsive-4by3" id="video-caller">
+                    <div class="embed-responsive-item" style="border-radius: 4px; background-color: #eee; display: flex; justify-content: center; align-items: center;">
+                        <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+                    </div>
+                    <div id="remoteVideo" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 4px;"></div>
+                    <div class="rtc-local-container embed-responsive-item">
+                        <video autoplay id="localVideo" class="rtc-stream" style="position: relative; height: auto"></video>
+                    </div>
+                    <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                        <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                        <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                        <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                    </div>
+                    <div id="stream-control-indicator">
+                        <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
+                            <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                            <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+                        </div>
+                        <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
+                            <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                            <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <img src="img/resize-white.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
+            <div id="btn-leave-room" class="" style="font-size: 14pt; position: absolute; top: -5px; right: 4px; cursor: pointer; color: white; text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.0);"><i class="fa fa-close"></i></div>
+
+        </div>
+
+
         <script>
             var firstInit = false;
             var jumpToId = null;
@@ -536,7 +594,7 @@ if (login_check($mysqli) == true) {
                 }});
 
             previewButtonTimeline.add("previewStudy", 0)
-                    .to(previewStudyButton, .3, {left: +305, ease:Quad.easeInOut}, "previewStudy");
+                    .to(previewStudyButton, .3, {left: +305, ease: Quad.easeInOut}, "previewStudy");
 
             $(previewStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -557,9 +615,9 @@ if (login_check($mysqli) == true) {
                     $(cacheButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
                     $(cacheButton).removeClass('btn-primary');
                 }});
-            
+
             cacheButtonTimeline.add("cacheStudy", 0)
-                    .to(cacheButton, .3, {left: +173, ease:Quad.easeInOut}, "cacheStudy");
+                    .to(cacheButton, .3, {left: +173, ease: Quad.easeInOut}, "cacheStudy");
 
             $(cacheButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -580,9 +638,9 @@ if (login_check($mysqli) == true) {
                     $(saveStudyButton).css({borderTopRightRadius: '0px'});
                     $(saveStudyButton).removeClass('btn-primary');
                 }});
-            
+
             saveButtonTimeline.add("saveStudy", 0)
-                    .to(saveStudyButton, .3, {left: +192, ease:Quad.easeInOut}, "saveStudy");
+                    .to(saveStudyButton, .3, {left: +192, ease: Quad.easeInOut}, "saveStudy");
 
             $(saveStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -593,6 +651,67 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 saveButtonTimeline.reverse();
             });
+
+
+            var joinConversationButton = $('#fixed-study-edit-controls .btn-join-conversation');
+            var conversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+                    $(joinConversationButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(joinConversationButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
+                    $(joinConversationButton).removeClass('btn-primary');
+                }});
+
+            conversationButtonTimeline.add("saveStudy", 0)
+                    .to(joinConversationButton, .3, {left: +202, ease: Quad.easeInOut}, "saveStudy");
+
+            $(joinConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                conversationButtonTimeline.play();
+            });
+
+            $(joinConversationButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                conversationButtonTimeline.reverse();
+            });
+
+
+            var leaveConversationButton = $('#fixed-study-edit-controls .btn-leave-conversation');
+            var leaveConversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+                    $(leaveConversationButton).addClass('btn-danger');
+                }, onReverseComplete: function () {
+                    $(leaveConversationButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
+                    $(leaveConversationButton).removeClass('btn-danger');
+                }});
+
+            leaveConversationButtonTimeline.add("saveStudy", 0)
+                    .to(leaveConversationButton, .3, {left: +203, ease: Quad.easeInOut}, "saveStudy");
+
+            $(leaveConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                leaveConversationButtonTimeline.play();
+            });
+
+            $(leaveConversationButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                leaveConversationButtonTimeline.reverse();
+            });
+
+
+            $(joinConversationButton).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                var query = getQueryParams(document.location.search);
+                initCollaborativeVideoCaller('study' + query.studyId);
+            });
+
+            $(leaveConversationButton).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                leaveCollaborativeVideoCaller();
+            });
+
+
+
 
 
             // rendering
@@ -648,6 +767,9 @@ if (login_check($mysqli) == true) {
                 if (studyEditable === false || !study) {
                     // set min date to current date
                     minDate = now;
+
+                    $('.btn-join-conversation').remove();
+                    $('.btn-leave-conversation').remove();
                 } else {
                     // set min date to saved beginning date
                     if (parseInt(study.dateFrom) * 1000 > now.getTime()) {
@@ -655,6 +777,8 @@ if (login_check($mysqli) == true) {
                     } else {
                         minDate = new Date(parseInt(study.dateFrom) * 1000);
                     }
+
+                    checkCollaborativeConversation();
                 }
 
                 $('#from-date-picker').datetimepicker({
@@ -925,7 +1049,7 @@ if (login_check($mysqli) == true) {
                 if (jumpToId !== null) {
                     if (jumpToId === 'btn-study') {
                         var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                        goto("study.php?studyId=" + editableStudyId + "&h=" + hash);
+                        goto("study.php?studyId=" + editableStudyId + "&h=" + hash + "&joinedConv=" + joinedRoom);
                     } else {
                         switch (jumpToId) {
                             case 'btn-dashboard':
@@ -970,7 +1094,7 @@ if (login_check($mysqli) == true) {
                 if (checkInputs() === true && !$(this).hasClass('disabled')) {
                     saveGeneralData();
                     if (studyEditable === true) {
-                        goto("study-preview.php?edit=true&studyId=" + editableStudyId);
+                        goto("study-preview.php?edit=true&studyId=" + editableStudyId + "&joinedConv=" + joinedRoom);
                     } else {
                         gotoCreateStudyPreview();
                     }
@@ -1000,7 +1124,7 @@ if (login_check($mysqli) == true) {
                                     checkJumpId();
                                 } else {
                                     var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                                    goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+                                    goto("study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom);
                                 }
                             }
                         });
@@ -1016,7 +1140,7 @@ if (login_check($mysqli) == true) {
                                     checkJumpId();
                                 } else {
                                     var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                                    goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+                                    goto("study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom);
                                 }
                             }
                         });
@@ -1042,13 +1166,13 @@ if (login_check($mysqli) == true) {
                             $(button).removeClass('disabled');
                             $('.btn-save-study, .btn-preview-study').removeClass('disabled');
                             unlockButton(button, true, 'fa-save');
-                            if (result.status === RESULT_SUCCESS) {
-//                                clearLocalItems();
-//                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-//                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
-                            } else {
-                                //                            appendAlert()
-                            }
+//                            if (result.status === RESULT_SUCCESS) {
+////                                clearLocalItems();
+////                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+////                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+//                            } else {
+//                                //                            appendAlert()
+//                            }
                         });
                     } else {
                         saveStudy(getStudyData(), function (result) {
@@ -1056,13 +1180,13 @@ if (login_check($mysqli) == true) {
                             $(button).removeClass('disabled');
                             $('.tn-save-study, .btn-preview-study').removeClass('disabled');
                             unlockButton(button, true, 'fa-save');
-                            if (result.status === RESULT_SUCCESS) {
-//                                clearLocalItems();
-//                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-//                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
-                            } else {
-                                //                            appendAlert()
-                            }
+//                            if (result.status === RESULT_SUCCESS) {
+////                                clearLocalItems();
+////                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+////                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+//                            } else {
+//                                //                            appendAlert()
+//                            }
                         });
                     }
                 } else {
@@ -1160,7 +1284,7 @@ if (login_check($mysqli) == true) {
 
             $('#phaseStepList').unbind('listItemAdded').bind('listItemAdded', function (event) {
                 event.preventDefault();
-                var scrollTarget =  $(event.target).children().last();
+                var scrollTarget = $(event.target).children().last();
                 var newScrollTop = Math.max(0, $(scrollTarget).offset().top);
                 console.log($(scrollTarget).offset(), newScrollTop);
                 $('html, body').animate({
@@ -1182,7 +1306,7 @@ if (login_check($mysqli) == true) {
             $(document).on('click', '.btn-open-overlay', function (event) {
                 event.preventDefault();
 //                $(this).addClass('disabled');
-                
+
                 var format = $(this).attr('id');
                 var id = $(this).closest('.root').attr('id');
                 if (format && id) {
@@ -1192,9 +1316,9 @@ if (login_check($mysqli) == true) {
                 }
                 overlayTween.play();
 //                setTimeout(function () {
-                    $('html,body').animate({
-                        scrollTop: 0
-                    }, 200);
+                $('html,body').animate({
+                    scrollTop: 0
+                }, 200);
 //                }, 0);
                 $('.mainContent').addClass('hidden');
             });

@@ -605,6 +605,19 @@ label {
     box-shadow: 0px 4px 7px rgba(0,0,0, .2);
 }
 
+/*#draggableRTC:hover {
+    opacity: 1;
+}*/
+
+#resize-sign {
+    user-drag: none; 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
 .rtc-shadow {
     -webkit-box-shadow: 0px 0px 7px rgba(0,0,0, .4);
     -moz-box-shadow: 0px 0px 7px rgba(0,0,0, .4);
@@ -1068,10 +1081,10 @@ li.disabledTab > a[data-toggle="tab"] {
 }
 
 #help-description .image-border-rounded {
-/*    border: 1px solid;
-    border-color: #eee;*/
+    /*    border: 1px solid;
+        border-color: #eee;*/
     border-radius: 8px;
-     -webkit-box-shadow: rgba(0,0,0,0.5) 0px 0px 20px;
+    -webkit-box-shadow: rgba(0,0,0,0.5) 0px 0px 20px;
     -moz-box-shadow: rgba(0,0,0,0.5) 0 0px 20px;
     box-shadow: 0px 0px 20px rgba(0,0,0, .5);
 }
@@ -1461,4 +1474,8 @@ canvas {
     -moz-box-shadow: rgba(0,0,0,0.8) 0 5px 10px;
     box-shadow: 0px 5px 10px rgba(0,0,0, .3);
     background-color: #eee;
+}
+
+#btn-leave-room:hover {
+    color: #d9534f !important;
 }

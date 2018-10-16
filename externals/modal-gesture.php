@@ -4,7 +4,9 @@ include '../includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title"><?php echo $lang->gesturePreview ?></h4>
+    <h4 class="modal-title">
+        <?php echo $lang->gesturePreview ?>
+    </h4>
 </div>
 <div id="modal-body" class="modal-body">
 
@@ -126,7 +128,7 @@ include '../includes/language.php';
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="input-email" minlength="8" maxlength="50" placeholder="<?php echo $lang->email ?>">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button" id="btn-invite-user"><i class="fa fa-paper-plane"></i> <span class="btn-text"><?php echo $lang->invite ?></span></button>
+                                        <button class="btn btn-default btn-shadow" type="button" id="btn-invite-user"><i class="fa fa-paper-plane"></i> <span class="btn-text"><?php echo $lang->invite ?></span></button>
                                     </span>
                                 </div>
 
@@ -262,6 +264,19 @@ include '../includes/language.php';
 
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-shadow btn-danger pull-left gesture-owner-controls" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
+    <div class="" style="display: inline-block; margin-right: 12px">
+        <button type="button" class="btn btn-default btn-shadow btn-join-conversation"><span class=""><?php echo $lang->joinConversation ?></span> <i class="fa fa-group"></i></button>
+        <button type="button" class="btn btn-default btn-shadow btn-leave-conversation hidden"><span class=""><?php echo $lang->leaveConversation ?></span> 
+            <span>
+                <i class="fa fa-group"></i>
+                <i class="fa fa-ban" style="
+                   font-size: 9pt;
+                   position: relative;
+                   right: 5px;
+                   top: -6px;"></i>
+            </span>
+        </button>
+    </div>
     <button type="button" class="btn btn-shadow btn-default" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
 </div>
 
@@ -291,6 +306,22 @@ include '../includes/language.php';
                     break;
             }
             initPopover();
+
+            if ($('.custom-modal').attr('data-conv-allowed') === 'false') {
+                $('.custom-modal').find('.btn-join-conversation').remove();
+                $('.custom-modal').find('.btn-leave-conversation').remove();
+            } else {
+                // join and leave conversation about this gesture
+                $('.btn-join-conversation').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    initCollaborativeVideoCaller('gesture' + currentPreviewGesture.gesture.id);
+                });
+
+                $('.btn-leave-conversation').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    leaveCollaborativeVideoCaller();
+                });
+            }
         });
 
         if (currentPreviewGesture.startTab) {
@@ -346,6 +377,10 @@ include '../includes/language.php';
             if (gestureUpdateRecorder) {
                 gestureUpdateRecorder.destroy();
                 gestureUpdateRecorder = null;
+            }
+            
+            if ($('.custom-modal').attr('data-conv-allowed') !== 'false') {
+                $('.btn-leave-conversation').click();
             }
 
             $(this).unbind('hide.bs.modal');

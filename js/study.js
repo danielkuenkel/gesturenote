@@ -75,7 +75,7 @@ function renderData(data, hash) {
 
         } else {
             $('#fixed-study-owner-controls').find('.btn-preview-study').css({borderBottomRightRadius: '0px'});
-            $('#fixed-study-owner-controls').find('.btn-open-static-execution-url').css({borderBottomRightRadius: '8px'});
+//            $('#fixed-study-owner-controls').find('.btn-open-static-execution-url').css({borderBottomRightRadius: '8px'});
         }
 
         $('#copy-to-clipboard #static-study-url').removeClass('readonly');
@@ -142,14 +142,14 @@ function renderData(data, hash) {
     $('.btn-edit-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-            goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash);
+            goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom);
         }
     });
 
     $('.btn-preview-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-            goto("study-preview.php?studyId=" + event.data.studyId + "&h=" + hash);
+            goto("study-preview.php?studyId=" + event.data.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom);
         }
     });
 
@@ -188,7 +188,9 @@ function renderData(data, hash) {
         $('.btn-delete-study').remove();
         $('.btn-edit-study').remove();
 //        $('#fixed-study-owner-controls').find('.btn-preview-study').css({borderBottomLeftRadius: '0px'});
-        $('#fixed-study-owner-controls').find('.btn-open-static-execution-url').css({borderBottomLeftRadius: '0px', borderBottomRightRadius: '8px'});
+//        $('#fixed-study-owner-controls').find('.btn-open-static-execution-url').css({borderBottomLeftRadius: '0px', borderBottomRightRadius: '8px'});
+        $('#fixed-study-owner-controls').find('.btn-join-conversation').css({borderBottomLeftRadius: '0px', borderBottomRightRadius: '8px'});
+        $('#fixed-study-owner-controls').find('.btn-leave-conversation').css({borderBottomLeftRadius: '0px', borderBottomRightRadius: '8px'});
     }
 
 
@@ -215,9 +217,9 @@ function renderData(data, hash) {
         } else {
             if (!event.handled && !$(this).parent().hasClass('active') && !$(this).hasClass('dropdown-toggle')) {
                 event.handled = true;
-                console.log('check if disabled', $(this).parent().hasClass('disabled'));
+//                console.log('check if disabled', $(this).parent().hasClass('disabled'));
                 $(this).trigger('change', [$(this).closest('li').attr('id')]);
-                console.log('tab pane clicked', $(this).closest('li').attr('id'));
+//                console.log('tab pane clicked', $(this).closest('li').attr('id'));
             }
         }
     });
@@ -225,7 +227,7 @@ function renderData(data, hash) {
     $('#tab-pane').on('change', function (event, activeId) {
         event.preventDefault();
 //        $('#btn-scroll-to-top').addClass('hidden');
-        console.log('active ID', activeId);
+//        console.log('active ID', activeId);
         if (activeId !== 'tab-introduction') {
             switch (activeId) {
                 case 'catalogs':
@@ -255,12 +257,12 @@ function renderData(data, hash) {
                 $('#tab-introduction a').click();
             }, 300);
 
-            var status = window.location.hash.substr(1);
-            if (status !== 'gesture-extraction' && status !== 'trigger-extraction') {
-                fixedOwnerControlsTween.play();
-            } else {
-                fixedOwnerControlsTween.reverse();
-            }
+//            var status = window.location.hash.substr(1);
+//            if (status !== 'gesture-extraction' && status !== 'trigger-extraction') {
+            fixedOwnerControlsTween.play();
+//            } else {
+//                fixedOwnerControlsTween.reverse();
+//            }
         }
     });
 
@@ -591,7 +593,7 @@ function renderStudyParticipants(data, hash) {
         $(item).find('.panel').on('click', {studyId: data[i].studyId, participantId: data[i].userId}, function (event) {
             event.preventDefault();
             clearLocalItems();
-            goto('study-participant.php?studyId=' + event.data.studyId + '&participantId=' + event.data.participantId + '&h=' + hash);
+            goto('study-participant.php?studyId=' + event.data.studyId + '&participantId=' + event.data.participantId + '&h=' + hash + "&joinedConv=" + joinedRoom);
         });
     }
 
@@ -1102,7 +1104,7 @@ function updateMatchingView(updateLeft, updateRight) {
         $('#gesture-right').empty().append(rightItem);
         TweenMax.from(rightItem, .3, {opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
     }
-    
+
     initPopover();
 }
 

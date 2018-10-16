@@ -11,6 +11,9 @@ var UPLOADS = 'uploads/';
 // user specific constants
 var USER = 'user';
 
+var DRAGGABLE_MAX_WIDTH = 1250;
+var DRAGGABLE_MIN_WIDTH = 180;//296;
+
 // ajax result constants
 var RESULT_SUCCESS = 'success';
 var RESULT_ERROR = 'error';

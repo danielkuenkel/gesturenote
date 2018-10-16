@@ -74,6 +74,11 @@ if (login_check($mysqli) == true) {
         <script src="js/gestureRecorder/leapRecorder.js"></script>
         <script src="js/resumable/resumable.js"></script>
 
+        <!-- peer connection with webrtc -->
+        <script src="js/collaborativeVideo.js"></script>
+        <script src="js/peerConnection.js"></script>
+        <script src="js/andyet/simplewebrtc.bundle.js"></script>
+
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
@@ -324,6 +329,44 @@ if (login_check($mysqli) == true) {
 
     </div>
 
+
+
+
+
+    <div id="draggableCollaborativeRTC" class="hidden" style="position: fixed; z-index: 10001; top: 150px; left:100px; display: block; opacity: .7">
+        <div style="width: 300px; border-radius: 5px" id="video-caller-container" class="shadow">
+            <div class="embed-responsive embed-responsive-4by3" id="video-caller">
+                <div class="embed-responsive-item" style="border-radius: 4px; background-color: #eee; display: flex; justify-content: center; align-items: center;">
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+                </div>
+                <div id="remoteVideo" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 4px;"></div>
+                <div class="rtc-local-container embed-responsive-item">
+                    <video autoplay id="localVideo" class="rtc-stream" style="position: relative; height: auto"></video>
+                </div>
+                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                    <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                </div>
+                <div id="stream-control-indicator">
+                    <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
+                        <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                        <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+                    </div>
+                    <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
+                        <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                        <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <img src="img/resize-white.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
+        <div id="btn-leave-room" class="" style="font-size: 14pt; position: absolute; top: -5px; right: 4px; cursor: pointer; color: white; text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.0);"><i class="fa fa-close"></i></div>
+
+    </div>
+
     <script>
         var firstInit = true;
         $(document).ready(function () {
@@ -375,9 +418,9 @@ if (login_check($mysqli) == true) {
 
         function showPageContent() {
             $('#gesture-catalog-content').removeClass('hidden');
-            TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete:function() {
-                $('#loading-indicator').remove();
-            }});
+            TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                    $('#loading-indicator').remove();
+                }});
             TweenMax.from($('#gesture-catalog-content'), .3, {delay: .3, opacity: 0});
         }
 

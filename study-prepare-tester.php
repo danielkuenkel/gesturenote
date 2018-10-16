@@ -418,6 +418,10 @@ if ($h && $token && $studyId) {
                 enableDataChannels: true,
                 autoRequestMedia: true,
                 roomId: rtcToken,
+                nick: 'tester',
+                ignoreRole: 'no',
+                selectedRole: 'tester',
+                visibleRoles: ['moderator', 'tester', 'observer', 'wizard'],
                 localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
                 remoteStream: {audio: 'yes', video: 'yes'}
             };

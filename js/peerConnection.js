@@ -106,19 +106,19 @@ PeerConnection.prototype.initialize = function (options) {
 
         if (options.localMuteElement && options.callerElement) {
             initPopover();
-            
+
             var tween = new TweenMax(options.streamControls, .3, {opacity: 1.0, paused: true});
-            $(options.callerElement).on('mouseenter', function (event) {
+            $(options.callerElement).unbind('click').bind('mouseenter', function (event) {
                 event.preventDefault();
                 tween.play();
             });
 
-            $(options.callerElement).on('mouseleave', function (event) {
+            $(options.callerElement).unbind('click').bind('mouseleave', function (event) {
                 event.preventDefault();
                 tween.reverse();
             });
 
-            $(options.localMuteElement).on('click', function (event) {
+            $(options.localMuteElement).unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 console.log('mute local');
                 $(this).popover('hide');
@@ -146,9 +146,11 @@ PeerConnection.prototype.initialize = function (options) {
                 $(this).blur();
             });
 
-            $(options.pauseStreamElement).on('click', function (event) {
+            $(options.pauseStreamElement).unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 $(this).popover('hide');
+                console.log('mute local stream');
+
                 if (!$(this).hasClass('paused')) {
                     $(this).addClass('paused');
                     $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
@@ -176,7 +178,7 @@ PeerConnection.prototype.initialize = function (options) {
                 $(this).blur();
             });
 
-            $(options.remoteMuteElement).on('click', function (event) {
+            $(options.remoteMuteElement).unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
                     $(this).popover('hide');
@@ -196,7 +198,7 @@ PeerConnection.prototype.initialize = function (options) {
             });
 
             if (options.togglePinnedElement) {
-                $(options.togglePinnedElement).on('click', function (event) {
+                $(options.togglePinnedElement).unbind('click').bind('click', function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
                         $(this).popover('hide');
@@ -256,7 +258,15 @@ PeerConnection.prototype.initialize = function (options) {
                 console.log('screen added');
                 $(connection).trigger(MESSAGE_SHARED_SCREEN_ADDED, [video]);
             } else {
-                $(connection).trigger('videoAdded', [video]);
+                $(video).attr('data-role', peer.nick);
+
+                if (peer.nick === options.selectedRole) {
+                    connection.sendMessage('duplicatedRoles', {role: options.selectedRole});
+                } else {
+                    arrangePeerStreams();
+                }
+
+                $(connection).trigger('videoAdded', [video, peer]);
                 if (!syncPhaseStep) {
                     connection.update(connection.options);
                 }
@@ -294,6 +304,8 @@ PeerConnection.prototype.initialize = function (options) {
                             state = 'Connecting to peer ...';
                             break;
                         case CONNECTION_STATE_CONNECTED:
+                            state = 'Connected.';
+                            break;
                         case CONNECTION_STATE_COMPLETED: // on caller side
                             state = 'Connection established.';
                             break;
@@ -319,9 +331,10 @@ PeerConnection.prototype.initialize = function (options) {
             console.log('web rtc video removed', video, peer);
             if (peer && peer.type === TYPE_PEER_SCREEN || $(video).attr('id') === 'localScreen') {
 //                $(video).remove();
-                $(connection).trigger('localScreenRemoved', [video]);
+                $(connection).trigger('localScreenRemoved', [video, peer]);
             } else if (peer && peer.type === TYPE_PEER_VIDEO) {
-                $(connection).trigger('videoRemoved');
+                $(connection).trigger('videoRemoved', [video, peer]);
+                arrangePeerStreams();
 
                 if (options.indicator) {
                     $(options.indicator).find('#mute-remote-audio').addClass('hidden');
@@ -338,7 +351,7 @@ PeerConnection.prototype.initialize = function (options) {
 //                            .tooltip('setContent');
                 }
 
-                connection.hideRemoteStream();
+//                connection.hideRemoteStream();
 
                 if (connection.options.localStream.record === 'yes') {
                     connection.stopRecording(null, false);
@@ -373,6 +386,19 @@ PeerConnection.prototype.initialize = function (options) {
 
         webrtc.on('joinedRoom', function (roomName) {
             console.log('joined room:', roomName);
+            connection.showLocalStream();
+            $(connection).trigger('joinedRoom', [roomName]);
+
+//            $('#localVideo').css({opacity: 1});
+        });
+
+        webrtc.on('leftRoom', function (roomName) {
+            console.log('left room:', roomName);
+            connection.hideLocalStream();
+            $(connection).trigger('leftRoom', [roomName]);
+            connection.destroy();
+
+//            $('#localVideo').css({opacity: 0});
         });
 
         webrtc.on('stunservers', function (event) {
@@ -411,9 +437,147 @@ PeerConnection.prototype.initialize = function (options) {
                 webRTCPeer = peer; // check if this is working, if more than one peer is created -> moderator peer, wizard peer, etc.
             }
         });
+
+        $(connection).unbind('duplicatedRoles').bind('duplicatedRoles', function (event, payload) {
+            event.preventDefault();
+            console.log('duplicated roles detected');
+            if (options.selectedRole === payload.role) {
+                connection.leaveRoom();
+                alert('Pro Konversation darf nur jeweils eine Rolle eingenommen werden. Diese Rolle gibt es schon. Wählen Sie eine andere aus.');
+            }
+        });
     } else {
         console.log('no options for webrtc');
     }
+
+    function arrangePeerStreams() {
+        var peers = webrtc.getPeers();
+        var localVideoElement = $('#' + options.localVideoElement);
+
+        if (options.ignoreRole === 'no') {
+            if (peers && peers.length > 0) {
+                $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
+                $(localVideoElement).addClass('rtc-shadow');
+
+//                var lastVideoElement = null;
+                for (var i = 0; i < peers.length; i++) {
+                    var remoteVideoElement = $(peers[i].videoEl);
+                    $(remoteVideoElement).removeClass('main-remote side-remote');
+                    var peerVisible = options.visibleRoles === 'all' || options.visibleRoles.indexOf(peers[i].nick) > -1;
+
+                    if (peerVisible) {
+                        $(remoteVideoElement).removeClass('hidden');
+
+                        if (options.selectedRole !== 'tester' && peers[i].nick === 'tester') {
+                            $(remoteVideoElement).removeClass('rtc-shadow').addClass('main-remote');
+                            $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+                        } else if (options.selectedRole === 'tester' && peers[i].nick === 'moderator') {
+                            $(remoteVideoElement).removeClass('rtc-shadow').addClass('main-remote');
+                            $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+                        } else {
+//                            lastVideoElement = remoteVideoElement;
+                            $(remoteVideoElement).addClass('rtc-shadow side-remote').removeClass('main-remote');
+                        }
+                    } else {
+                        $(remoteVideoElement).addClass('hidden');
+                    }
+
+//                    console.log(peers[i], peerVisible, options.visibleRoles);
+                    //options.selectedRole === 'tester' && $(remoteVideoElement).attr('data-role') !== 'moderator' && options.prepareStudy === true
+//                    if (peerVisible) {
+//                        
+//                    } else {
+//                        
+//                    }
+                }
+
+                checkRemoteStreamsPositions();
+            }
+//            else if (peers.length === 1) {
+//                console.log('peers length === 1');
+//                $(localVideoElement).addClass('rtc-shadow');
+//                $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
+//
+//                var remoteVideoElement = $(peers[0].videoEl);
+//                $(remoteVideoElement).removeClass('rtc-shadow').addClass('main-remote');
+//                $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+//
+//                if (options.selectedRole === 'tester' && $(remoteVideoElement).attr('data-role') !== 'moderator') {
+//                    $(remoteVideoElement).addClass('hidden');
+//                } else {
+//                    $(remoteVideoElement).removeClass('hidden');
+//                }
+//            }
+            else {
+                console.log('only local stream', localVideoElement);
+                $(localVideoElement).removeClass('rtc-shadow');
+                $(localVideoElement).css({width: '', top: '', left: ''});
+            }
+        } else {
+            if (peers && peers.length > 1) {
+                $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
+                $(localVideoElement).addClass('rtc-shadow');
+
+                for (var i = 0; i < peers.length; i++) {
+                    var remoteVideoElement = $(peers[i].videoEl);
+                    $(remoteVideoElement).removeClass('main-remote side-remote');
+
+                    if (i === 0) {
+                        $(remoteVideoElement).removeClass('rtc-shadow hidden').addClass('main-remote');
+                        $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+                    } else {
+                        $(remoteVideoElement).addClass('rtc-shadow side-remote');
+                    }
+                }
+
+                checkRemoteStreamsPositions();
+            } else if (peers && peers.length === 1) {
+                $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
+                $(localVideoElement).addClass('rtc-shadow');
+
+                var remoteVideoElement = $(peers[0].videoEl);
+                $(remoteVideoElement).removeClass('rtc-shadow hidden').addClass('main-remote');
+                $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+            } else {
+                $(localVideoElement).css({width: '', top: '', left: ''});
+                $(localVideoElement).removeClass('rtc-shadow');
+            }
+        }
+    }
+
+//    var checkTimer = null;
+    function checkRemoteStreamsPositions() {
+//        clearTimeout(checkTimer);
+        if (peerConnection) {
+//            checkTimer = setTimeout(function () {
+                var remoteVideoElement = $('#' + options.remoteVideoElement);
+                var remoteVideos = $(remoteVideoElement).children();
+
+                if (remoteVideos && remoteVideos.length > 0) {
+                    var localVideoElement = $('#' + options.localVideoElement);
+                    var offsetTop = $(localVideoElement).height() + 8;
+                    var firstSideRemote = true;
+
+                    for (var i = 0; i < remoteVideos.length; i++) {
+                        var remoteVideoElement = $(remoteVideos[i]);
+                        if ($(remoteVideoElement).hasClass('side-remote')) {
+                            $(remoteVideoElement).css({position: 'relative', float: 'right', zIndex: 2, width: '25%', height: 'auto', top: offsetTop + 'px'});
+                            var offsetLeft = $(remoteVideoElement).width() - 5;
+                            $(remoteVideoElement).css({left: (firstSideRemote === true ? '-5px' : offsetLeft + 'px')});
+                            offsetTop += $(remoteVideoElement).height() + 3;
+                            firstSideRemote = false;
+                        }
+                    }
+                } else {
+
+                }
+//            }, 300);
+        }
+    }
+
+    $(window).on('resize', function () {
+        checkRemoteStreamsPositions(); // don't do this. arrange video elements through getRemoteVideos(), because videos should be swapable
+    });
 };
 
 PeerConnection.prototype.getPeers = function () {
@@ -519,28 +683,54 @@ PeerConnection.prototype.showRemoteStream = function () {
 //        var width = Math.floor($('#' + currentOptions.remoteVideoElement).width() * .3);
 //        var height = Math.floor(width * 3 / 4);
     $('#' + currentOptions.localVideoElement).addClass('rtc-shadow');
-    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {css: {width: '30%', height: 'auto', left: 5, top: 5}, ease: Quad.easeIn, clearProps: 'all'});
-    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: 0, opacity: 1.0});
+    $('#' + currentOptions.localVideoElement).css({width: '30%', height: 'auto', left: 5, top: 5});
+    $('#' + currentOptions.remoteVideoElement).css({opacity: 1});
+//    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {css: , ease: Quad.easeIn, clearProps: 'all'});
+//    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: 0, opacity: 1.0});
 //    }, 500);
 };
 
 PeerConnection.prototype.hideRemoteStream = function () {
     var currentOptions = this.options;
     $('#' + currentOptions.localVideoElement).removeClass('rtc-shadow');
-    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0});
-    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: 0, css: {width: '100%', height: 'auto', left: 0, top: 0}, ease: Quad.easeIn, clearProps: 'all'});
+    $('#' + currentOptions.remoteVideoElement).css({opacity: 0});
+    $('#' + currentOptions.localVideoElement).css({width: '', height: '', left: '', top: ''});
+//    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0});
+//    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: 0, css: {width: '100%', height: 'auto', left: 0, top: 0}, ease: Quad.easeIn, clearProps: 'all'});
 };
 
 PeerConnection.prototype.showRecordIndicator = function () {
     var currentOptions = this.options;
     console.log('show record indicator', currentOptions);
+
+    var stream = $(currentOptions.callerElement);
+//    if (previewModeEnabled !== true) {
+//        stream = $('#video-caller');
+//    }
+    var indicator = $(stream).find('.record-stream-indicator').removeClass('hidden');
+    TweenMax.to(indicator, 1, {opacity: 1, onComplete: function () {
+            TweenMax.to(indicator, 1, {opacity: .2, yoyo: true, repeat: -1});
+        }});
+
     showRecordIndicator();
 };
 
 PeerConnection.prototype.hideRecordInidicator = function () {
     var currentOptions = this.options;
     console.log('hide record indicator', currentOptions);
-    hideRecordIndicator();
+
+
+    var stream = $(currentOptions.callerElement);
+//    if (previewModeEnabled !== true) {
+//        stream = $('#video-caller');
+//    }
+    var indicator = $(stream).find('.record-stream-indicator');
+    TweenMax.to(indicator, .3, {opacity: 0, onComplete: function () {
+            $(indicator).addClass('hidden');
+        }});
+
+    $(connection).trigger('hideRecordIndicator');
+//    hideRecordIndicator();
 };
 
 

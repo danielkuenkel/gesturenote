@@ -80,19 +80,19 @@ include '../includes/language.php';
                                 <div id="title"><?php echo $lang->title ?>:<span class="address"></span> <span class="text"></span></div>
 
                             </div>
-                            
+
                             <button type="button" class="btn btn-block btn-default btn-shadow gesture-set-owner-controls" id="btn-edit-gesture-set" style="margin-top: 20px"><i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $lang->editGestureSet ?></button>
                         </div>
                     </div>
 
-<!--                    <div class="row" style="margin-top: 20px" id="gesture-set-owner-controls">
-                        <div class="col-xs-6">
-                            
-                        </div>
-                        <div class="col-xs-6">
-                            
-                        </div>
-                    </div>-->
+                    <!--                    <div class="row" style="margin-top: 20px" id="gesture-set-owner-controls">
+                                            <div class="col-xs-6">
+                                                
+                                            </div>
+                                            <div class="col-xs-6">
+                                                
+                                            </div>
+                                        </div>-->
 
                 </div>
             </div>
@@ -178,6 +178,19 @@ include '../includes/language.php';
 
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-shadow btn-danger pull-left gesture-set-owner-controls" id="btn-delete-gesture-set"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGestureSet ?></span></button>
+    <div class="" style="display: inline-block; margin-right: 12px">
+        <button type="button" class="btn btn-default btn-shadow btn-join-conversation"><span class=""><?php echo $lang->joinConversation ?></span> <i class="fa fa-group"></i></button>
+        <button type="button" class="btn btn-default btn-shadow btn-leave-conversation hidden"><span class=""><?php echo $lang->leaveConversation ?></span> 
+            <span>
+                <i class="fa fa-group"></i>
+                <i class="fa fa-ban" style="
+                   font-size: 9pt;
+                   position: relative;
+                   right: 5px;
+                   top: -6px;"></i>
+            </span>
+        </button>
+    </div>
     <button type="button" class="btn btn-shadow btn-default" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
 </div>
 
@@ -218,6 +231,22 @@ include '../includes/language.php';
             $('#gesture-set-nav-tab a[href="#tab-gesture-set-general"]').tab('show');
         }
 
+        if ($('.custom-modal').attr('data-conv-allowed') === 'false') {
+            $('.custom-modal').find('.btn-join-conversation').remove();
+            $('.custom-modal').find('.btn-leave-conversation').remove();
+        } else {
+            // join and leave conversation about this gesture
+            $('.btn-join-conversation').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                initCollaborativeVideoCaller('gestureSet' + currentPreviewGestureSet.set.id);
+            });
+
+            $('.btn-leave-conversation').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                leaveCollaborativeVideoCaller();
+            });
+        }
+
         $('#custom-modal').bind('hidden.bs.modal', function () {
             currentPreviewGestureSet = null;
             gestureSetPreviewOpened = false;
@@ -225,6 +254,10 @@ include '../includes/language.php';
         });
 
         $('#custom-modal').bind('hide.bs.modal', function () {
+            if ($('.custom-modal').attr('data-conv-allowed') !== 'false') {
+                $('.btn-leave-conversation').click();
+            }
+
             $(this).unbind('hide.bs.modal');
         });
     });

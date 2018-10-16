@@ -416,8 +416,7 @@ function getMainContent() {
 var draggable = null;
 var resizable = false;
 var resizing = false;
-var DRAGGABLE_MAX_WIDTH = 1250;
-var DRAGGABLE_MIN_WIDTH = 160;//296;
+
 function dragRTC(opacity) {
     var video = $('#web-rtc-placeholder');
     if (previewModeEnabled !== true) {
@@ -599,14 +598,14 @@ function showStream() {
 
 function showRecordIndicator() {
     console.log('show record indicator');
-    var stream = $('#web-rtc-placeholder');
-    if (previewModeEnabled !== true) {
-        stream = $('#video-caller');
-    }
-    var indicator = $(stream).find('.record-stream-indicator').removeClass('hidden');
-    TweenMax.to(indicator, 1, {opacity: 1, onComplete: function () {
-            TweenMax.to(indicator, 1, {opacity: .2, yoyo: true, repeat: -1});
-        }});
+//    var stream = $('#web-rtc-placeholder');
+//    if (previewModeEnabled !== true) {
+//        stream = $('#video-caller');
+//    }
+//    var indicator = $(stream).find('.record-stream-indicator').removeClass('hidden');
+//    TweenMax.to(indicator, 1, {opacity: 1, onComplete: function () {
+//            TweenMax.to(indicator, 1, {opacity: .2, yoyo: true, repeat: -1});
+//        }});
 
     var showStreamButtonIcon = $('#btn-show-stream').find('.fa');
     TweenMax.to(showStreamButtonIcon, 1, {color: "#ff0000", yoyo: true, repeat: -1});
@@ -614,14 +613,14 @@ function showRecordIndicator() {
 
 function hideRecordIndicator() {
     console.log('hide record indicator');
-    var stream = $('#web-rtc-placeholder');
-    if (previewModeEnabled !== true) {
-        stream = $('#video-caller');
-    }
-    var indicator = $(stream).find('.record-stream-indicator');
-    TweenMax.to(indicator, .3, {opacity: 0, onComplete: function () {
-            $(indicator).addClass('hidden');
-        }});
+//    var stream = $('#web-rtc-placeholder');
+//    if (previewModeEnabled !== true) {
+//        stream = $('#video-caller');
+//    }
+//    var indicator = $(stream).find('.record-stream-indicator');
+//    TweenMax.to(indicator, .3, {opacity: 0, onComplete: function () {
+//            $(indicator).addClass('hidden');
+//        }});
 
     var showStreamButtonIcon = $('#btn-show-stream').find('.fa');
     TweenMax.to(showStreamButtonIcon, .3, {color: "#000000"});

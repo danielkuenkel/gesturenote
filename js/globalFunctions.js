@@ -5,8 +5,8 @@
  */
 
 function checkDomain() {
-    if (location.hostname.includes("www.gesturenote.de")) {
-        location.href = "http://gesturenote.com";
+    if (!location.protocol.includes('https') || location.hostname.includes('gesturenote.com')) {
+        location.href = "https://gesturenote.de";
     }
 }
 
@@ -27,6 +27,14 @@ function checkCookies(cookiesAccepted) {
             gotoImprint();
         });
     }
+}
+
+function setParam(uri, key, val) {
+    var newurl = uri
+            .replace(new RegExp("([?&]" + key + "(?=[=&#]|$)[^#&]*|(?=#|$))"), "&" + key + "=" + encodeURIComponent(val))
+            .replace(/^([^?&]+)&/, "$1?");
+    //prevents browser from storing history with each change:
+    window.history.replaceState({}, null, newurl);
 }
 
 // check supported local storage

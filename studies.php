@@ -227,9 +227,9 @@ if (login_check($mysqli) == true) {
                     }, onReverseComplete: function () {
                         $(createStudyButton).removeClass('btn-primary');
                     }});
-                
+
                 timeline.add("createStudy", 0)
-                        .to(createStudyButton, .3, {left: +186, ease:Quad.easeInOut}, "createStudy");
+                        .to(createStudyButton, .3, {left: +186, ease: Quad.easeInOut}, "createStudy");
 
                 $(createStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                     event.preventDefault();
@@ -308,13 +308,13 @@ if (login_check($mysqli) == true) {
                             event.preventDefault();
                             console.log('catch gotoStudyParticipants', payload.studyId);
                             var hash = hex_sha512(parseInt(payload.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                            goto("study.php?studyId=" + payload.studyId + "&h=" + hash + '#participants');
+                            goto("study.php?studyId=" + payload.studyId + "&h=" + hash + '&joinedConv=false#participants');
                         });
 
                         $(clone).find('.panel').click({studyId: currentFilterData[i].id}, function (event) {
                             event.preventDefault();
                             var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                            goto("study.php?studyId=" + event.data.studyId + "&h=" + hash);
+                            goto("study.php?studyId=" + event.data.studyId + "&h=" + hash + '&joinedConv=false');
                         });
                     }
                 } else {
