@@ -406,11 +406,29 @@ function getCurrentPhaseData() {
 }
 
 function getSourceContainer(selector) {
-    return selector === VIEW_MODERATOR ? $('#item-container-moderator') : $('#item-container-tester');
+    switch (selector) {
+        case VIEW_MODERATOR:
+            return $('#item-container-moderator');
+        case VIEW_OBSERVER:
+            return $('#item-container-observer');
+        case VIEW_WIZARD:
+            return $('#item-container-wizard');
+        case VIEW_TESTER:
+            return $('#item-container-tester');
+    }
 }
 
 function getMainContent() {
-    return currentView === VIEW_MODERATOR ? $('#viewModerator') : $('#viewTester');
+    switch (currentView) {
+        case VIEW_MODERATOR:
+            return $('#viewModerator');
+        case VIEW_OBSERVER:
+            return $('#viewObserver');
+        case VIEW_WIZARD:
+            return $('#viewWizard');
+        case VIEW_TESTER:
+            return $('#viewTester');
+    }
 }
 
 var draggable = null;
@@ -509,6 +527,10 @@ function dragRTC(opacity) {
         if (resizable) {
             resizable = false;
             resizing = false;
+
+            if (peerConnection) {
+                peerConnection.checkRemoteStreamsPositions();
+            }
         }
     });
 
@@ -524,6 +546,10 @@ function dragRTC(opacity) {
             }
         }
     });
+
+    if (peerConnection) {
+        peerConnection.checkRemoteStreamsPositions();
+    }
 }
 
 function pinRTC() {
@@ -545,23 +571,23 @@ function pinRTC() {
         }
     }
 
-    var view = currentView === VIEW_MODERATOR ? '#viewModerator' : '#viewTester';
+    var view = getMainContent();
     var video = $('#web-rtc-placeholder');
     if (previewModeEnabled !== true) {
         video = $('#video-caller');
     }
     $(video).css({opacity: 1});
-    console.log('pin rtc', video, $(view + " .pinnedRTC"));
+//    console.log('pin rtc', video, $(view).find('.pinnedRTC'));
     var toggleButton = $(video).find('#btn-toggle-rtc-fixed');
     $(toggleButton).addClass('pinned');
     $(toggleButton).find('.fa').removeClass('fa-window-maximize').addClass('fa-window-restore');
 //    $(toggleButton).attr('data-content', translation.dragRTC).data('bs.popover').setContent();
 
     $(video).find('#resize-sign').addClass('hidden');
-    $(view + ' .pinnedRTC').removeClass('hidden');
+    $(view).find('.pinnedRTC').removeClass('hidden');
     $('#draggableRTC').addClass('hidden');
     $(video).removeClass('shadow');
-    $(video).appendTo($(view + " .pinnedRTC"));
+    $(video).appendTo($(view).find('.pinnedRTC'));
     $(document).scrollTop(0);
 
     $('#draggableRTC').css({top: 150, left: 50});

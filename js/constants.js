@@ -158,6 +158,8 @@ var SORT_NEWEST = 'newest';
 // view
 var VIEW_MODERATOR = 'moderator';
 var VIEW_TESTER = 'tester';
+var VIEW_WIZARD = 'wizard';
+var VIEW_OBSERVER = 'observer';
 
 // scales
 var PERCENT = 'percent';
@@ -212,6 +214,8 @@ var CURSOR_CELL = 'cell';
 
 // messages
 var MESSAGE_REQUEST_SYNC = 'requestSync';
+var MESSAGE_SYNC_REQUEST = 'syncRequest';
+var MESSAGE_SYNC_RESPONSE = 'syncResponse';
 var MESSAGE_SYNC_PHASE_STEP = 'syncPhaseStep';
 var MESSAGE_ENTER_SURVEY = 'enterSurvey';
 var MESSAGE_NEXT_STEP = 'nextStep';

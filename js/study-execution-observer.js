@@ -4,19 +4,18 @@
  * and open the template in the editor.
  */
 
-var prototypeWindow = null;
 var rtcStreamControlsTween = null;
-var continuousMouseManipluationGesture = null;
 
-var Moderator = {
+var Observer = {
     renderView: function renderView() {
         if (syncPhaseStep) {
-            appendAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
-            Moderator.initializePeerConnection();
-            Moderator.initializeRTC();
+            appendAlert(getMainContent(), ALERT_GENERAL_PLEASE_WAIT);
+            Observer.initializePeerConnection();
+            Observer.initializeRTC();
         } else {
             var currentPhase = getCurrentPhase();
             var currentPhaseData = getCurrentPhaseData();
+//        var source = getSourceContainer(currentView);
             if (previewModeEnabled === false) {
                 setLocalItem(currentPhase.id + '.tempSaveData', {});
                 getGMT(function (timestamp) {
@@ -25,8 +24,8 @@ var Moderator = {
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 });
             }
+//        console.log('render view', currentPhase);
 
-//            Moderator.initializePeerConnection();
             if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
 
                 var item = null;
@@ -80,15 +79,15 @@ var Moderator = {
                         currentClass = new Exploration();
                         break;
                 }
-                item = currentClass.renderModeratorView();
+                item = currentClass.renderObserverView();
 
                 if (item !== false) {
                     console.log('append item', item, syncPhaseStep);
                     if (!syncPhaseStep || currentPhase.format === THANKS) {
-                        $('#viewModerator #phase-content').empty().append(item);
+                        $('#viewObserver #phase-content').empty().append(item);
                     }
                 } else {
-                    Moderator.renderNoDataView();
+                    Observer.renderNoDataView();
                 }
 
                 if (currentPhase.format === THANKS) {
@@ -97,37 +96,26 @@ var Moderator = {
                     $('.btn-cancel').removeClass('disabled');
                 }
             } else {
-                Moderator.renderNoDataView();
+                Observer.renderNoDataView();
             }
 
-            Moderator.initializeRTC();
-            removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
-            $('#viewModerator').find('#phase-content').removeClass('hidden');
-            $('#viewModerator').find('#pinnedRTC').css({opacity: 1});
+            Observer.initializeRTC();
+            removeAlert($('#viewObserver'), ALERT_GENERAL_PLEASE_WAIT);
+            $('#viewObserver').find('#phase-content').removeClass('hidden');
+            $('#viewObserver').find('#pinnedRTC').css({opacity: 1});
             pinRTC();
-            updateRTCHeight($('#viewModerator #column-left').width(), true);
+            updateRTCHeight($('#viewObserver #column-left').width(), true);
 
-            $('#viewModerator #column-right').css({y: 0, opacity: 1});
+            $('#viewObserver #column-right').css({y: 0, opacity: 1});
             TweenMax.from($('#phase-content #column-right'), .2, {y: -20, opacity: 0, clearProps: 'all'});
             if ($(document).scrollTop() > 0) {
                 $(document).scrollTop(0);
-            }
-
-            if (isPidocoSocketNeeded() && getBrowser() === BROWSER_FIREFOX &&
-                    (currentPhase.format === SCENARIO ||
-                            currentPhase.format === GESTURE_TRAINING ||
-                            currentPhase.format === EXPLORATION ||
-                            currentPhase.format === IDENTIFICATION)) {
-                console.log('pidoco socket needed');
-                initWebSocket();
-            } else {
-                destroyWebsocket();
             }
         }
     },
     renderNoDataView: function renderNoDataView() {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
-        $('#viewModerator #phase-content').append(alert);
+        $('#viewObserver #phase-content').append(alert);
         appendAlert(alert, ALERT_NO_PHASE_DATA);
     },
     initializePeerConnection: function initializePeerConnection() {
@@ -139,31 +127,31 @@ var Moderator = {
 
             $(peerConnection).unbind(MESSAGE_CANCEL_SURVEY).bind(MESSAGE_CANCEL_SURVEY, function (event, payload) {
                 var currentPhase = getCurrentPhase();
-                if (currentPhase.format === IDENTIFICATION || currentPhase.format === EXPLORATION || currentPhase.format === GESTURE_TRAINING || currentPhase.format === SCENARIO) {
-                    if (prototypeWindow) {
-                        peerConnection.stopShareScreen(true, function () {
-                            prototypeWindow.close();
-                            prototypeWindow = null;
-                            console.log('screen stopped for canceling');
-
-                            saveCurrentStatus(false);
-                            peerConnection.stopRecording(function () {
-                                console.log('recording stopped for canceling');
-                                currentPhaseStepIndex = getThanksStepIndex();
-                                renderPhaseStep();
-                                updateProgress();
-                            }, true);
-                        });
-                        peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
-                    }
-                } else {
-                    saveCurrentStatus(false);
-                    peerConnection.stopRecording(function () {
-                        currentPhaseStepIndex = getThanksStepIndex();
-                        renderPhaseStep();
-                        updateProgress();
-                    }, true);
-                }
+//                if (currentPhase.format === IDENTIFICATION || currentPhase.format === EXPLORATION || currentPhase.format === GESTURE_TRAINING || currentPhase.format === SCENARIO) {
+//                    if (prototypeWindow) {
+//                        peerConnection.stopShareScreen(true, function () {
+//                            prototypeWindow.close();
+//                            prototypeWindow = null;
+//                            console.log('screen stopped for canceling');
+//
+//                            saveCurrentStatus(false);
+//                            peerConnection.stopRecording(function () {
+//                                console.log('recording stopped for canceling');
+//                                currentPhaseStepIndex = getThanksStepIndex();
+//                                renderPhaseStep();
+//                                updateProgress();
+//                            }, true);
+//                        });
+//                        peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
+//                    }
+//                } else {
+                saveCurrentStatus(false);
+                peerConnection.stopRecording(function () {
+                    currentPhaseStepIndex = getThanksStepIndex();
+                    renderPhaseStep();
+                    updateProgress();
+                }, true);
+//                }
             });
 
 //            $(peerConnection).unbind(MESSAGE_REQUEST_SYNC).bind(MESSAGE_REQUEST_SYNC, function (event, payload) {
@@ -177,7 +165,7 @@ var Moderator = {
 //
 //                renderPhaseStep();
 //            });
-
+//
 //            $(peerConnection).unbind(MESSAGE_SYNC_PHASE_STEP).bind(MESSAGE_SYNC_PHASE_STEP, function (event, payload) {
 //                console.log('sync phase step', payload.index);
 //
@@ -192,13 +180,24 @@ var Moderator = {
 //                updateProgress();
 //            });
 
+//            $(peerConnection).unbind('videoAdded').bind('videoAdded', function () {
+//                if (syncPhaseStep) {
+//                    peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
+//                }
+//            });
+
 //            $(peerConnection).unbind(CONNECTION_STATE_CONNECTED).bind(CONNECTION_STATE_CONNECTED, function () {
 //                console.log('connected: ', CONNECTION_STATE_CONNECTED);
+//                removeAlert($('#viewObserver'), ALERT_GENERAL_PLEASE_WAIT);
+//                $('#viewObserver').find('#phase-content').removeClass('hidden');
+//                $('#viewObserver').find('#pinnedRTC').css({opacity: 1});
+//                pinRTC();
+//                updateRTCHeight($('#viewObserver #column-left').width(), true);
 //            });
 //
 //            $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
 //                console.log('disconnected: ', CONNECTION_STATE_DISCONNECTED);
-//                removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
+//                removeAlert($('#viewObserver'), ALERT_GENERAL_PLEASE_WAIT);
 //
 //                resetConstraints();
 //                peerConnection.stopShareScreen();
@@ -208,52 +207,68 @@ var Moderator = {
 //                }
 //
 //                if (getCurrentPhase().format !== THANKS) {
-////                    console.log('append alert please wait', $('#viewModerator'));
-//                    appendAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
-//                    $('#viewModerator').find('#phase-content').addClass('hidden');
-//                    $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
+////                    console.log('append alert please wait', $('#viewObserver'));
+//                    appendAlert($('#viewObserver'), ALERT_GENERAL_PLEASE_WAIT);
+//                    $('#viewObserver').find('#phase-content').addClass('hidden');
+//                    $('#viewObserver').find('#pinnedRTC').css({opacity: 0});
 //                }
 //            });
 
-//            $(peerConnection).unbind('videoAdded').bind('videoAdded', function () {
-//                if (syncPhaseStep) {
-//                    peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
-//                }
-//            });
-
-            $(peerConnection).unbind(MESSAGE_SYNC_REQUEST).bind(MESSAGE_SYNC_REQUEST, function (event, payload) {
-//                console.log('SYNC REQUEST', payload);
-
+            $(peerConnection).unbind(MESSAGE_REQUEST_SYNC).bind(MESSAGE_REQUEST_SYNC, function (event, payload) {
+//                console.log('REQUEST SYNC');
                 event.preventDefault();
+                currentPhaseStepIndex = payload.index;
                 setTimeout(function () {
-                    peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: payload.nick});
 //                    console.log('CONNECTION:', peerConnection);
-
-                    $('#custom-modal').find('.modal-content').empty();
-                    $('#custom-modal').modal('hide');
-                    syncPhaseStep = false;
-                    resetConstraints();
-                    renderPhaseStep();
+                    peerConnection.sendMessage(MESSAGE_SYNC_REQUEST, {nick: VIEW_OBSERVER});
                 }, 500);
+
+            });
+
+            $(peerConnection).unbind(MESSAGE_SYNC_RESPONSE).bind(MESSAGE_SYNC_RESPONSE, function (event, payload) {
+                event.preventDefault();
+                if (payload && payload.nick === VIEW_OBSERVER) {
+//                    console.log('SYNC RESPONSE', payload);
+                    syncPhaseStep = false;
+                    currentPhaseStepIndex = payload.index;
+                    renderPhaseStep();
+                    updateProgress();
+                }
             });
 
             $(peerConnection).unbind('joinedRoom').bind('joinedRoom', function () {
-//                console.log('CONNECTION:', peerConnection);
-                peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
+                peerConnection.sendMessage(MESSAGE_SYNC_REQUEST, {nick: VIEW_OBSERVER});
             });
 
-
             $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function (video, peer) {
-//                console.log('videoRemoved', video, peer);
-                removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
-                if (peer.nick === VIEW_TESTER) {
-                    if (getCurrentPhase().format !== THANKS) {
-                        appendAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
-                        $('#viewModerator').find('#phase-content').addClass('hidden');
-                        $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
-                    }
+                console.log('videoRemoved', video, peer);
+                removeAlert($('#viewObserver'), ALERT_GENERAL_PLEASE_WAIT);
+                if (getCurrentPhase().format !== THANKS) {
+                    appendAlert($('#viewObserver'), ALERT_GENERAL_PLEASE_WAIT);
+                    $('#viewObserver').find('#phase-content').addClass('hidden');
+                    $('#viewObserver').find('#pinnedRTC').css({opacity: 0});
                 }
+            });
 
+            $(peerConnection).unbind(MESSAGE_SHARED_SCREEN_ADDED).bind(MESSAGE_SHARED_SCREEN_ADDED, function (event, video) {
+                console.log('on add shared screen', video);
+                var container = $(getMainContent()).find('#scene-container');
+                $(container).empty().append(video);
+                var newHeight = $(window).height() - 70 - 15;
+                $(container).css({height: newHeight + "px"});
+                $(video).css({height: '100%', width: '100%', objectFit: 'contain'});
+                $(video).removeAttr('controls');
+                $(video).removeAttr('id');
+                $(window).on('resize', function () {
+                    var newHeight = $(window).height() - 70 - 15;
+//                console.log('resize:', newHeight);
+                    $(container).css({height: newHeight + "px"});
+                }).resize();
+
+                peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
+                Observer.keepStreamsPlaying($('#video-caller'));
+                Observer.keepStreamsPlaying(container);
+                $(container).trigger('sharedScreenAdded');
             });
         }
     },
@@ -263,9 +278,9 @@ var Moderator = {
         initPopover();
         if (isWebRTCNeededInFuture()) {
             if (previewModeEnabled === true) {
-                Moderator.appendRTCPreviewStream();
+                Observer.appendRTCPreviewStream();
             } else {
-                Moderator.appendRTCLiveStream();
+                Observer.appendRTCLiveStream();
             }
         } else {
             resetLiveStream();
@@ -273,16 +288,16 @@ var Moderator = {
     },
     appendRTCPreviewStream: function appendRTCPreviewStream() {
         var source = getSourceContainer(currentView);
-        var target = $('#viewModerator').find('.pinnedRTC');
-        var callerElement = $(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
+        var target = $('#viewObserver').find('.pinnedRTC');
+        var callerElement = $(source).find('#observer-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
         $(target).empty().prepend(callerElement);
         pinRTC();
-        updateRTCHeight($('#viewModerator #column-left').width(), true);
+        updateRTCHeight($('#viewObserver #column-left').width(), true);
 
         var currentPhase = getCurrentPhase();
         var options = getPhaseStepOptions(currentPhase.format);
-        console.log('options: ', options);
-        if (options.moderator.recordStream === 'yes') {
+//        console.log('options: ', options);
+        if (options.observer.recordStream === 'yes') {
             showRecordIndicator();
         } else {
             hideRecordIndicator();
@@ -308,7 +323,7 @@ var Moderator = {
         console.log('append rtc live stream', iceTransports);
 
         var callerOptions = {
-            target: $('#viewModerator').find('#pinnedRTC'),
+            target: $('#viewObserver').find('#pinnedRTC'),
             callerElement: mainElement,
             localVideoElement: 'local-stream',
             remoteVideoElement: 'remote-stream',
@@ -324,20 +339,20 @@ var Moderator = {
             autoRequestMedia: true,
             roomId: query.roomId,
             iceTransports: iceTransports || null,
-            nick: 'moderator',
+            nick: 'observer',
             ignoreRole: 'no',
-            selectedRole: 'moderator',
+            selectedRole: 'observer',
             visibleRoles: ['moderator', 'tester', 'observer', 'wizard'],
-            localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream, record: options.moderator.recordStream},
+            localStream: {audio: options.observer.audio, video: options.observer.video, visualize: options.observer.visualizeStream, record: options.observer.recordStream},
             remoteStream: {audio: options.tester.audio, video: options.tester.video}
         };
 
         $(callerOptions.target).prepend(callerOptions.callerElement);
         pinRTC();
-        updateRTCHeight($('#viewModerator #column-left').width(), true);
+        updateRTCHeight($('#viewObserver #column-left').width(), true);
 
         peerConnection.update(callerOptions);
-        Moderator.keepStreamsPlaying(callerOptions.callerElement);
+        Observer.keepStreamsPlaying(callerOptions.callerElement);
     },
     keepStreamsPlaying: function keepStreamsPlaying(element) {
         if (peerConnection.status !== STATUS_UNINITIALIZED) {
@@ -350,6 +365,14 @@ var Moderator = {
         }
     }
 };
+
+
+function initScreenSharing(container) {
+    if (!previewModeEnabled && peerConnection) {
+
+    }
+}
+
 
 function checkRTCUploadStatus(container) {
     if (uploadQueue && !uploadQueue.allFilesUploaded() && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
@@ -394,8 +417,8 @@ function renderObservations(data, container) {
                 renderEditableObservations($(container).find('#observations .question-container'), data.observations, savedObservations);
             } else {
                 var questionnaire = new Questionnaire({isPreview: false, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations')});
-                questionnaire.renderModeratorView();
-//                Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+                questionnaire.renderObserverView();
+//                Observer.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
             }
 
             $(container).find('#observations').on('change', function () {
@@ -405,143 +428,13 @@ function renderObservations(data, container) {
             });
         } else {
             console.log('render observations');
-//            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+//            Observer.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
             var questionnaire = new Questionnaire({isPreview: false, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations')});
-            questionnaire.renderModeratorView();
+            questionnaire.renderObserverView();
         }
 
         $(container).find('#observations').css({marginBottom: '30px'});
     } else {
         appendAlert($(container).find('#observations'), ALERT_NO_PHASE_DATA);
     }
-}
-
-function checkSingleScene(data) {
-    var sceneCount = 0;
-    var sceneIds = [];
-    var currentPhase = getCurrentPhase();
-
-    switch (currentPhase.format) {
-        case SCENARIO:
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].woz && data[i].woz.length > 0) {
-                    for (var j = 0; j < data[i].woz.length; j++) {
-                        for (var k = 0; k < data[i].woz[j].transitionScenes.length; k++) {
-                            sceneIds.push(data[i].woz[j].transitionScenes[k].sceneId);
-                        }
-
-                    }
-                    sceneCount += data[i].woz.length;
-                }
-            }
-            break;
-        case GESTURE_TRAINING:
-            console.log(data);
-            data && data.length === 1;
-            if (data && data.length > 0) {
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].transitionScenes && data[i].transitionScenes.length > 0) {
-                        for (var j = 0; j < data[i].transitionScenes.length; j++) {
-                            sceneIds.push(data[i].transitionScenes[j].sceneId);
-                        }
-                    }
-                }
-            }
-
-            break;
-    }
-
-    sceneIds = unique(sceneIds);
-
-    console.log('check single scene: ', sceneIds.length);
-
-    if (sceneIds.length === 1) {
-        return {single: true, pidoco: getSceneById(sceneIds[0]).type === SCENE_PIDOCO};
-    }
-    return {single: sceneIds.length === 1};
-}
-
-function openPrototypeScene(scene, isSingleScene, description, index) {
-    var windowSpecs = "location=no,menubar=no,status=no,toolbar=no";
-    console.log('open prototype window', scene, isSingleScene, prototypeWindow);
-    var currentPhase = getCurrentPhase();
-    if (scene !== null) {
-        if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {
-            console.log('has prototype window');
-            prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
-        } else if (!prototypeWindow && !isSingleScene) {
-            console.log('has no prototype window, no single scene');
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + currentPhase.id + "&type=" + currentPhase.format, "_blank", windowSpecs);
-        } else if (!prototypeWindow && isSingleScene === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
-            console.log('has no prototype window, single scene, ', scene.type);
-            prototypeWindow = window.open(scene.parameters.url, "_blank", windowSpecs);
-        } else if (prototypeWindow && isSingleScene) {
-
-        } else {
-            console.log('else');
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + currentPhase.id + "&type=" + currentPhase.format, "_blank", windowSpecs);
-        }
-    } else {
-        if (prototypeWindow) {
-            console.log('no scene, but prototype window');
-            prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
-        } else {
-            console.log('no scene, else');
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + currentPhase.id + "&type=" + currentPhase.format, "_blank", windowSpecs);
-        }
-    }
-
-    if (!previewModeEnabled && peerConnection) {
-        peerConnection.sendMessage(MESSAGE_RENDER_SCENE, {description: description, index: index});
-    }
-}
-
-
-function getWOZTransitionItem(source, transitionScene, disabled, active) {
-    var scene = getSceneById(transitionScene.sceneId);
-    var btn = $(source).find('#wozItemWithScenesButton').clone().removeAttr('id');
-    $(btn).find('.btn-text').text(scene.title);
-    $(btn).find('.btn-trigger-scene').attr('id', scene.id);
-    $(btn).find('.btn-trigger-scene').attr('data-transition-scene-id', scene.id);
-    $(btn).find('.btn-trigger-scene').attr('data-transition-mode', transitionScene.transitionMode);
-    $(btn).find('.btn-trigger-scene').attr('data-transition-type', 'scene');
-    $(btn).find('.btn-trigger-scene #scene-' + scene.type).removeClass('hidden');
-
-    if (transitionScene.transitionMode === 'automatically') {
-        $(btn).find('.btn-trigger-scene').attr('data-transition-time', transitionScene.transitionTime);
-        $(btn).find('.btn-trigger-scene').find('.transition-time').text(transitionScene.transitionTime + 's');
-    }
-
-    if (disabled === false) {
-        $(btn).find('.btn-trigger-scene').removeClass('disabled');
-    }
-
-    if (active === true) {
-        $(btn).find('.btn-trigger-scene').addClass('btn-primary');
-    }
-
-    return btn;
-}
-
-function getWOZTransitionFeedbackItem(source, feedback, transitionMode, time, disabled, active) {
-    var btn = $(source).find('#wozFeedbackItemButton').clone().removeAttr('id');
-    $(btn).find('.btn-text').text(feedback.title);
-    $(btn).find('.btn-trigger-feedback').attr('id', feedback.id);
-    $(btn).find('.btn-trigger-feedback').attr('data-transition-mode', transitionMode);
-    $(btn).find('.btn-trigger-feedback').attr('data-transition-type', 'feedback');
-    $(btn).find('.btn-trigger-feedback #feedback-' + feedback.type).removeClass('hidden');
-    if (transitionMode === 'automatically') {
-        $(btn).find('.btn-trigger-feedback').attr('data-transition-time', time);
-        $(btn).find('.btn-trigger-feedback').find('.transition-time').text(time + 's');
-    }
-
-    if (disabled === false) {
-        $(btn).find('.btn-trigger-feedback').removeClass('disabled');
-    }
-
-    if (active === true) {
-        $(btn).find('.btn-trigger-feedback').addClass('btn-primary');
-    }
-
-    return btn;
 }

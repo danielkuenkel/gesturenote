@@ -26,8 +26,6 @@ LetterOfAcceptance.prototype.renderModeratorView = function () {
     $(container).find('.letter-text').text(data);
     appendAlert(container, ALERT_PLEASE_WAIT);
     return container;
-
-    return container;
 };
 
 
@@ -72,5 +70,27 @@ LetterOfAcceptance.prototype.renderTesterView = function () {
         $('.btn-cancel').click();
     });
 
+    return container;
+};
+
+
+
+
+
+
+/*
+ * observer view rendering
+ */
+
+LetterOfAcceptance.prototype.renderObserverView = function () {
+    console.log('render observer view:', LETTER_OF_ACCEPTANCE.toUpperCase());
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+
+    $(container).find('.letter-text').text(data);
+    appendAlert(container, ALERT_PLEASE_WAIT);
     return container;
 };

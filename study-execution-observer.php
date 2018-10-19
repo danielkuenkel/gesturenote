@@ -6,28 +6,16 @@ include_once 'includes/functions.php';
 $h = getv('h');
 $studyId = getv('studyId');
 $token = getv('token');
+$roomId = getv('roomId');
 
 if ($h && $token && $studyId) {
     if (login_check($mysqli) == true) {
         $hash = hash('sha512', $studyId . $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname']);
         if ($hash != $h) {
-            header('Location: study-prepare-failure.php');
-        }
-    } else {
-        $_SESSION['usertype'] = 'guest';
-        if (!isset($_SESSION['user_id'])) {
-            $time = time();
-            $_SESSION['user_id'] = hash('sha512', $time . $_SESSION['usertype']);
-        }
-
-        if (studyExecutionExists($studyId, $mysqli)) {
-            header('Location: study-execution-exists.php');
-        }
-
-        $hash = hash('sha512', $studyId . $_SESSION['usertype']);
-        if ($hash != $h) {
             header('Location: study-prepare-fallback.php?studyId=' . $studyId . '&h=' . $token);
         }
+    } else {
+        header('Location: study-prepare-fallback.php?studyId=' . $studyId . '&h=' . $token);
     }
 } else {
     header('Location: study-prepare-failure.php');
@@ -48,17 +36,24 @@ if ($h && $token && $studyId) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
+
         <script src="js/resumable/resumable.js"></script>
+        <script src="js/gifshot/gifshot.min.js"></script>
+        <script src="js/color-thief/color-thief.js"></script> 
+        <script src="js/filesaver/FileSaver.min.js"></script>
 
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/study-preview.css">
-        <link rel="stylesheet" href="css/gesture.css">
+        <link rel="stylesheet" href="css/gesture.css">        
+
+        <script src="js/stomp/stomp.js"></script>
+        <script src="js/websocket.js"></script>
 
         <script src="js/chance.min.js"></script>
-        <script src="js/color-thief/color-thief.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
+        <script src="js/forms.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/refreshSession.js"></script>
         <script src="js/storage.js"></script>
@@ -66,14 +61,14 @@ if ($h && $token && $studyId) {
         <script src="js/language.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/alert.js"></script>
-        <script src="js/goto-general.js"></script>  
+        <script src="js/goto-general.js"></script>
+        <script src="js/goto-evaluator.js"></script>       
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
-        <script src="js/forms.js"></script>
         <script src="js/joint-selection.js"></script>
         <script src="js/study-execution.js"></script>
-        <script src="js/study-execution-tester.js"></script>
-        <script src="js/study-execution-tester-save.js"></script>
+        <script src="js/study-execution-observer.js"></script>
+        <script src="js/study-execution-observer-save.js"></script>
         <script src="js/upload-queue.js"></script>
 
         <!-- phase step formats -->
@@ -105,7 +100,7 @@ if ($h && $token && $studyId) {
         <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
         <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
 
-        <!-- gesture recorder sources -->
+        <!--gesture recorder--> 
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
@@ -114,13 +109,16 @@ if ($h && $token && $studyId) {
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
     </head>
-    <body id="pageBody">
+    <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
         <!-- externals -->
         <div id="alerts"></div>
         <div id="template-gesture"></div>
         <div id="template-previews"></div>
+        <div id="template-study"></div>
         <div id="template-gesture-recorder"></div>
+
+        <!--<div id="screenSharingTarget" class="hidden"></div>-->
 
         <!-- modals -->
         <div id="custom-modal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -145,28 +143,21 @@ if ($h && $token && $studyId) {
                 </div>
             </div>
         </div>
-        
-        
-        <div id="animatableRTC" class="hidden" style="position: fixed; z-index: 99; top: 124px; left:15px; display: block">
-        </div>
 
         <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 999; top: 150px; left:100px; display: block">
             <img src="img/resize-white.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
         </div>
 
         <!-- Container (Panel Section) -->
-        <div class="mainContent" id="mainContent" style="padding-top: 70px; padding-left: 15px; padding-right: 15px; padding-bottom: 0px">
-            <div id="viewTester">
+        <div class="mainContent" id="mainContent" style="padding-left: 15px; padding-right: 15px; padding-top: 70px; padding-bottom: 0px">
+            <div id="viewObserver">
                 <div id="sync-alert-container">
                     <div class="alert-space alert-general-please-wait" style=""></div>
                 </div>
-                
                 <div class="pinnedRTC" id="pinnedRTC" style="position: fixed; opacity: 0; z-index: 99"></div>
                 <div id="phase-content" class="hidden"></div>
             </div>
         </div>
-        
-        <div id="btn-show-stream" class="btn btn-shadow btn-default hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showStream ?>" style="border-bottom-left-radius: 0px; border-top-left-radius: 0px; position: fixed; top:50%; transform: translateY(-50%); padding: 15px 10px;"><i class="fa fa-video-camera"></i></div>
 
         <div id="video-caller-holder" class="hidden">
             <div class="embed-responsive embed-responsive-4by3" id="video-caller">
@@ -177,8 +168,7 @@ if ($h && $token && $studyId) {
                 <div class="rtc-local-container embed-responsive-item">
                     <video autoplay id="local-stream" class="rtc-stream" style="display:block;"></video>
                 </div>
-                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0; display:flex">
-                    <button type="button" class="btn btn-sm stream-control" id="btn-hide-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->hideStream ?>"><i class="fa fa-close"></i> </button>
+                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
                     <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
                     <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
                     <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
@@ -196,10 +186,16 @@ if ($h && $token && $studyId) {
                     </div>
                 </div>
             </div>
+
         </div>
 
 
         <script>
+//            window.onerror = function (msg, url, lineNo, columnNo, error) {
+//                console.log(msg, url, lineNo, columnNo, error);
+//                return false;
+//            };
+
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();
@@ -210,74 +206,82 @@ if ($h && $token && $studyId) {
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
+                    externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
                 });
             });
 
             function onAllExternalsLoadedSuccessfully() {
-                appendAlert($('#viewTester'), ALERT_PLEASE_WAIT);
+                appendAlert($('#viewObserver'), ALERT_PLEASE_WAIT);
                 initPopover();
 
                 var query = getQueryParams(document.location.search);
                 if (query.iceTransports && query.iceTransports !== '') {
                     iceTransports = query.iceTransports;
                 }
-                
-                if (query.studyId && query.h && query.token) {
-                    currentView = VIEW_TESTER;
+
+                if (query.studyId && query.h && query.token && query.testerId) {
+                    console.log('tester id:', query.testerId);
+                    currentView = VIEW_OBSERVER;
                     var status = window.location.hash.substr(1);
                     var statusAddressMatch = statusAddressMatchIndex(status);
 
                     // check if there was a page reload, status = '' for debugging
                     if (status !== '' && statusAddressMatch !== null) {
                         currentPhaseStepIndex = statusAddressMatch.index;
-                        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
-                            syncPhaseStep = true;
-                        }
-
-                        checkStorage();
+                        syncPhaseStep = true;
+                        var study = getLocalItem(STUDY);
+                        study.testerId = query.testerId;
+                        setLocalItem(STUDY, study);
+                        checkObservations();
                     } else {
                         getStudyById({studyId: query.studyId}, function (result) {
                             if (result.status === RESULT_SUCCESS) {
                                 setStudyData(result);
-                                checkStorage();
+                                var study = getLocalItem(STUDY);
+                                study.testerId = query.testerId;
+                                setLocalItem(STUDY, study);
+                                checkObservations();
                             }
                         });
                     }
                 }
             }
 
-            function renderPhaseStep() {
-                var preparedSensors = JSON.parse('<?php echo json_encode(isset($_SESSION['preparedSensors']) ? $_SESSION['preparedSensors'] : null) ?>');
-                console.log(preparedSensors);
-                setLocalItem('preparedSensors', preparedSensors || null);
+            function checkObservations() {
+                var query = getQueryParams(document.location.search);
+                getObservations({studyId: query.studyId, participantId: query.testerId}, function (result) {
+                    if (result.status === RESULT_SUCCESS) {
+                        if (result.evaluatorData && result.evaluatorData.observations && result.evaluatorData.observations.length > 0) {
+                            setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, result.evaluatorData.observations);
+                        }
+                    }
 
-                rescueVideoCaller();
-                removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-                window.location.hash = getCurrentPhase().id;
-                Tester.renderView();
+                    checkStorage();
+                });
             }
 
 
             // resize rtc placeholder functionalities
             $(window).on('resize', function () {
-                if (!$('#viewTester #pinnedRTC').hasClass('hidden') && $('#viewTester #column-left').hasClass('rtc-scalable')) {
+                if (!$('#viewObserver #pinnedRTC').hasClass('hidden') && $('#viewObserver #column-left').hasClass('rtc-scalable')) {
                     if ($(document).scrollTop() === 0) {
-                        updateRTCHeight($('#viewTester #column-left').width(), true);
+                        updateRTCHeight($('#viewObserver #column-left').width(), true);
                     } else {
                         $(document).scrollTop(0);
                     }
                 } else {
-                    var width = $('#viewTester #column-left').width();
+
+                    var width = $('#viewObserver #column-left').width();
                     var height = 3 / 4 * width;
                     console.log('reset resize', width);
-                    $('#viewTester #video-caller').css({width: width + 'px', height: height + 'px'});
+                    $('#viewObserver #video-caller').css({width: width + 'px', height: height + 'px'});
                 }
             });
 
             $(window).scroll(function () {
-                updateRTCHeight($('#viewTester #column-left').width());
+                updateRTCHeight($('#viewObserver #column-left').width());
                 if(peerConnection) {
                     peerConnection.checkRemoteStreamsPositions();
                 }
@@ -288,74 +292,35 @@ if ($h && $token && $studyId) {
             }
 
             function updateRTCHeight(updateWidth, updateColumn) {
-                if ($('#viewTester #column-left').hasClass('rtc-scalable')) {
-
+                if ($('#viewObserver #column-left').hasClass('rtc-scalable')) {
                     var scrollTop = $(document).scrollTop();
                     var newHeight = 3 / 4 * updateWidth - scrollTop;
                     var newWidth = 4 / 3 * newHeight;
                     if (newWidth > DRAGGABLE_MIN_WIDTH) {
-                        $('#viewTester #video-caller').css({height: newHeight + 'px', width: newWidth + 'px'});
+                        $('#viewObserver #video-caller').css({height: newHeight + 'px', width: newWidth + 'px'});
                     }
 
                     if (scrollTop > 0) {
-                        $('#viewTester #video-caller').css({opacity: .7});
+                        $('#viewObserver #video-caller').css({opacity: .7});
                     } else {
-                        $('#viewTester #video-caller').css({opacity: 1});
+                        $('#viewObserver #video-caller').css({opacity: 1});
                     }
 
                     if (updateColumn) {
-                        TweenMax.to($('#viewTester #column-left'), .2, {css: {marginTop: newHeight + 20}});
+                        TweenMax.to($('#viewObserver #column-left'), .2, {css: {marginTop: newHeight + 20}});
                     }
                 }
             }
 
-            $(document).on('click', '#btn-hide-stream', function (event) {
-                event.preventDefault();
-                hideStream();
-            });
+            function renderPhaseStep() {
+                var preparedSensors = JSON.parse('<?php echo json_encode(isset($_SESSION['preparedSensors']) ? $_SESSION['preparedSensors'] : null) ?>');
+                setLocalItem('preparedSensors', preparedSensors || null);
 
-            $(document).on('click', '#btn-show-stream', function (event) {
-                event.preventDefault();
-                showStream();
-            });
-
-
-
-
-
-
-
-            // resize rtc placeholder functionalities
-//            $(window).on('resize', function () {
-//                if (!$('#pinnedRTC').hasClass('hidden') && $('#viewTester #column-left').hasClass('rtc-scalable')) {
-//                    if ($(document).scrollTop() === 0) {
-//                        updateRTCHeight($('#viewTester #column-left').width(), true);
-//                    } else {
-//                        $(document).scrollTop(0);
-//                    }
-//                }
-//            });
-//
-//            $(window).scroll(function () {
-//                updateRTCHeight($('#viewTester #column-left').width());
-//            });
-//
-//            function resetRTC() {
-//                $(window).resize();
-//            }
-//
-//            function updateRTCHeight(updateWidth, updateColumn) {
-//                var scrollTop = $(document).scrollTop();
-//                var newHeight = 3 / 4 * updateWidth - scrollTop;
-//                var newWidth = 4 / 3 * newHeight;
-//                if (newWidth > DRAGGABLE_MIN_WIDTH) {
-//                    $('#viewTester #pinnedRTC #video-caller').css({height: newHeight + 'px', width: newWidth + 'px'});
-//                }
-//
-//                if (updateColumn) {
-//                    TweenMax.to($('#viewTester #column-left'), .2, {css: {marginTop: newHeight + 20}});
-//                }
-//            }
+                removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
+                $('#viewObserver').find('#phase-content').empty();
+                window.location.hash = getCurrentPhase().id;
+                Observer.renderView();
+            }
         </script>
     </body>
 </html>

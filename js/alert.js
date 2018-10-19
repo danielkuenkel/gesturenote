@@ -95,6 +95,7 @@ var ALERT_NO_PARTICIPATION_REQUESTS = 'no-participation-requests';
 var ALERT_SEARCH_PARTICIPATION_REQUESTS = 'search-participation-requests';
 var ALERT_STUDY_OVER_RANGE = 'study-over-range';
 var ALERT_STUDY_UNDER_RANGE = 'study-under-range';
+var ALERT_DUPLICATED_ROLE_DETECTED = 'duplicated-role-detected';
 
 var ALERT_PLEASE_WAIT = 'please-wait';
 var ALERT_GENERAL_PLEASE_WAIT = 'general-please-wait';

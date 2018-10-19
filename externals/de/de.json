@@ -48,7 +48,7 @@
     "helpHeadlines": {
         "createStudy": "Planung",
         "studyPreview": "Durchführung",
-        "study": "Studie & Teilnahmen",
+        "study": "Studie & Sessions",
         "extraction": "Extraktion",
         "participant": "Analyse",
         "gestureCatalog": "Gesten",
@@ -370,9 +370,11 @@
         "panel": "Wen, Was & Wann?"
     },
     "participants": "Probanden",
-    "participation": "Teilnahme",
-    "participations": "Teilnahmen",
-    "noParticipations": "Keine Teilnahmen",
+    "participation": "Session",
+    "participations": "Sessions",
+    "noParticipations": "Keine Sessions",
+    "waitingParticipants": "Wartende Probanden",
+    "bypassFirewall": "Firewall umgehen?",
     "editStudy": "Studie bearbeiten",
     "deleteStudy": "Studie löschen",
     "cancelExecution": "Die Befragung wirklich abbrechen?",
@@ -420,6 +422,14 @@
     "repeatStressTest": "Wiederholen",
     "startNow": "Jetzt starten",
     "openPrototype": "UI öffnen",
+    "roleSelection": "Rollenauswahl",
+    "applySelection": "Auswahl übernehmen",
+    "technicalTest": "Technische Überprüfung",
+    "webrtc": "WebRTC",
+    "webcam": "Webcam",
+    "audioInput": "Mikrofon",
+    "audioOutput": "Audioausgabe",
+    "screensharing": "Screen-Sharing",
     "startScreensharing": "Screen-Sharing starten",
     "stopScreensharing": "Screen-Sharing beenden",
     "done": "Fertig",
@@ -752,6 +762,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -785,6 +802,13 @@
                     "recordStream": "no"
                 },
                 "moderator": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "observer": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "yes",
@@ -830,6 +854,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -868,6 +899,13 @@
                     "audio": "yes",
                     "visualizeStream": "yes",
                     "recordStream": "yes"
+                },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
                 },
                 "enableDataChannels": "yes"
             },
@@ -908,6 +946,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "yes"
                 },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -947,6 +992,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "yes"
                 },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -980,6 +1032,13 @@
                     "recordStream": "no"
                 },
                 "moderator": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "observer": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "yes",
@@ -1025,6 +1084,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -1058,6 +1124,13 @@
                     "recordStream": "no"
                 },
                 "moderator": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "observer": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "yes",
@@ -1103,6 +1176,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -1141,6 +1221,13 @@
                     "audio": "yes",
                     "visualizeStream": "yes",
                     "recordStream": "yes"
+                },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
                 },
                 "enableDataChannels": "yes"
             },
@@ -1181,6 +1268,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "yes"
                 },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -1218,6 +1312,13 @@
                     "video": "no",
                     "audio": "yes",
                     "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
                     "recordStream": "no"
                 },
                 "enableDataChannels": "yes"
@@ -1259,6 +1360,13 @@
                     "visualizeStream": "no",
                     "recordStream": "no"
                 },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -1296,6 +1404,13 @@
                     "video": "no",
                     "audio": "yes",
                     "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
                     "recordStream": "no"
                 },
                 "enableDataChannels": "yes"
@@ -1336,6 +1451,13 @@
                     "audio": "yes",
                     "visualizeStream": "no",
                     "recordStream": "yes"
+                },
+                "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
                 },
                 "enableDataChannels": "yes"
             },
@@ -1515,7 +1637,9 @@
         "guest": "Gast",
         "registered": "Registriert",
         "tester": "Proband",
-        "evaluator": "Moderator"
+        "evaluator": "Moderator",
+        "wizard": "Wizard",
+        "observer": "Beobachter"
     },
     "userTypesRegister": {
         "tester": "Ich möchte an interessanten Studien als Proband teilnehmen.",
@@ -2236,7 +2360,8 @@
         "execution": {
             "valuesNotInverted": "Geste nicht invertiert",
             "valuesInverted": "Geste invertiert",
-            "participantPretest": "Diese Befragung ist ein Pretest"
+            "participantPretest": "Diese Befragung ist ein Pretest",
+            "bypassFirewall": "Kommt es während des Verbindungsaufbaus zu Problemen, liegt dies ggf. an einer aktiven Firewall."
         }
     },
     "gestureStyleguides": {
@@ -4919,6 +5044,11 @@
             "type": "warning",
             "text": "Studienteilnahme nicht möglich. Studie noch nicht gestartet."
         },
+        "duplicatedRoleDetected": {
+            "id": "duplicated-role-detected",
+            "type": "warning",
+            "text": "Pro Konversation darf nur jeweils eine Rolle eingenommen werden. Diese Rolle gibt es schon. Wählen Sie eine andere aus."
+        },
         "pleaseWait": {
             "id": "please-wait",
             "type": "warning",
@@ -5342,9 +5472,9 @@
         {
             "tabId": "study-participants",
             "imgSrc": "img/de/introduction/study/carousel-04.jpg",
-            "title": "Teilnahmen",
-            "text": "Alle Teilnahmen auf einen Blick.",
-            "popover": "Teilnahmen",
+            "title": "Sessions",
+            "text": "Alle Sessions auf einen Blick.",
+            "popover": "Sessions",
             "description": [
                 "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study/carousel-04-01.jpg' style='max-width:722px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
                 "<p>Um Probanden zu akquirieren, teilen Sie die Befragungs-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet. Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Befragungs-URL. Oder kopieren Sie die Befragungs-URL in das Adressfeld Ihres Browsers.</p>",

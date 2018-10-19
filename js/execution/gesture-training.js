@@ -908,18 +908,136 @@ GestureTraining.prototype.renderTesterView = function () {
                     if (peerConnection) {
                         peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN);
                     }
-//                    else if (currentWOZScene) {
-//                        renderSceneItem(source, container, currentWOZScene.id);
-//                    }
                 });
             } else {
                 triggeredFeedback = null;
                 if (peerConnection) {
                     peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN);
                 }
-//                else {
-//                    renderSceneItem(source, container, currentWOZScene.id);
-//                }
+            }
+        }
+    }
+
+    return container;
+};
+
+
+
+
+
+
+
+
+
+/*
+ * observer view rendering
+ */
+
+GestureTraining.prototype.renderObserverView = function () {
+    console.log('render tester view:', GESTURE_TRAINING.toUpperCase(), currentPhaseState);
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+
+    if (!data.training || data.training.length === 0) {
+        return false;
+    }
+
+    renderCurrentPhaseState();
+    function renderCurrentPhaseState() {
+        if (currentPhaseState === null) {
+            currentPhaseState = 'initialize';
+        }
+
+        switch (currentPhaseState) {
+            case 'initialize':
+                renderStateInitialize();
+                break;
+            case 'prototypeOpened':
+                renderStatePrototypeOpened();
+                break;
+            case 'gestureTrainingStarted':
+                renderStateGestureTrainingStarted();
+                break;
+            case 'showGesture':
+                renderStateShowGesture();
+                break;
+            case 'showScenes':
+                renderStateShowScenes();
+                break;
+            case 'noMoreTrainingRepeats':
+            case 'noMoreTrainingItems':
+            case 'screenSharingStopped':
+            case 'trainingDone':
+                renderStateGestureTraningDone();
+                break;
+        }
+    }
+
+    function renderStateInitialize() {
+        console.log('render tester state: ', currentPhaseState);
+        appendAlert(container, ALERT_PLEASE_WAIT);
+
+        if (!previewModeEnabled && peerConnection) {
+            initScreenSharing($(container).find('#scene-container'));
+
+            $(peerConnection).unbind(MESSAGE_START_GESTURE_TRAINING).bind(MESSAGE_START_GESTURE_TRAINING, function () {
+                currentPhaseState = 'gestureTrainingStarted';
+                renderCurrentPhaseState();
+            });
+        }
+    }
+
+    function renderStatePrototypeOpened() {
+        console.log('render observer state: ', currentPhaseState);
+        appendAlert(container, ALERT_PLEASE_WAIT);
+    }
+
+    function renderStateGestureTrainingStarted() {
+        console.log('render observer state: ', currentPhaseState);
+        clearAlerts(container);
+        checkScenes();
+    }
+
+    function renderStateShowGesture() {
+        console.log('render observer state: ', currentPhaseState);
+        clearAlerts(container);
+        checkScenes();
+    }
+
+    function renderStateShowScenes() {
+        console.log('render observer state: ', currentPhaseState);
+        clearAlerts(container);
+        checkScenes();
+    }
+
+    function renderStateNoMoreTrainingRepeats() {
+        console.log('render observer state: ', currentPhaseState);
+        clearAlerts(container);
+        checkScenes();
+    }
+
+    function renderStateGestureTraningDone() {
+        console.log('render tester state: ', currentPhaseState);
+        appendAlert(container, ALERT_PLEASE_WAIT);
+        $(container).find('#scene-container').addClass('hidden');
+        showStream();
+    }
+
+
+
+    // state independent functions
+
+    function checkScenes() {
+        if (areThereScenes(data.training) === true) {
+            $(container).find('#scene-container').removeClass('hidden');
+
+            if (previewModeEnabled && currentWOZScene) {
+                // render scene manually
+                var sceneItem = renderSceneItem(source, container, currentWOZScene.id);
+                console.log(sceneItem);
             }
         }
     }

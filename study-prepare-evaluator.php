@@ -115,11 +115,13 @@ if ($h && $token && $studyId) {
                     </div>
 
                     <div id="role-selection-container" class="">
+                        <h3><?php echo $lang->roleSelection ?></h3>
+                        <div class="alert-space alert-duplicated-role-detected"></div>
                         <div class="form-group root roleSelect">
-                            <label style="margin: 0">
-                                <span>Rollenauswahl</span> 
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->physicalStressTestSingleGraphic ?>"></i>
-                            </label><br>
+                            <!--                            <label style="margin: 0">
+                                                            <span><?php echo $lang->roleSelection ?></span> 
+                                                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->physicalStressTestSingleGraphic ?>"></i>
+                                                        </label><br>-->
 
                             <div class="btn-group" id="radio" style="">
                                 <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="moderator">
@@ -128,7 +130,7 @@ if ($h && $token && $studyId) {
                                         <i class="fa fa-circle hidden" id="over"></i>
                                         <i class="fa fa-check-circle" id="checked"></i>
                                     </span>
-                                    <span class="option-text">Moderator</span>
+                                    <span class="option-text"><?php echo $lang->userTypes->evaluator ?></span>
                                 </button>
                             </div>
                             <div class="btn-group" id="radio" style="">
@@ -138,7 +140,7 @@ if ($h && $token && $studyId) {
                                         <i class="fa fa-circle hidden" id="over"></i>
                                         <i class="fa fa-check-circle hidden" id="checked"></i>
                                     </span>
-                                    <span class="option-text">Beobachter</span>
+                                    <span class="option-text"><?php echo $lang->userTypes->observer ?></span>
                                 </button>
                             </div>
                             <div class="btn-group" id="radio" style="">
@@ -148,24 +150,24 @@ if ($h && $token && $studyId) {
                                         <i class="fa fa-circle hidden" id="over"></i>
                                         <i class="fa fa-check-circle hidden" id="checked"></i>
                                     </span>
-                                    <span class="option-text">Wizard</span>
+                                    <span class="option-text"><?php echo $lang->userTypes->wizard ?></span>
                                 </button>
                             </div>
 
                         </div>
 
-                        <button class="btn btn-block btn-default btn-shadow" id="btn-check-rtc">Auswahl übernehmen</button>
+                        <button class="btn btn-block btn-default btn-shadow" id="btn-check-rtc"><?php echo $lang->applySelection ?></button>
                     </div>
 
                     <div id="check-rtc-status" class="hidden">
-                        <h3>Technische Überprüfung</h3>
+                        <h3><?php echo $lang->technicalTest ?></h3>
                         <div class="check-web-rtc">
                             <span class="status-check-indicator">
                                 <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
                                 <i class="status-warn fa fa-warning warning hidden"></i>
                                 <i class="status-supported fa fa-check success hidden"></i>
                             </span>
-                            <span class="status-check-text text">WebRTC</span>
+                            <span class="status-check-text text"><?php echo $lang->webrtc ?></span>
                         </div>
                         <div class="check-webcam">
                             <span class="status-check-indicator">
@@ -173,7 +175,7 @@ if ($h && $token && $studyId) {
                                 <i class="status-warn fa fa-warning warning hidden"></i>
                                 <i class="status-supported fa fa-check success hidden"></i>
                             </span>
-                            <span class="status-check-text text">Webcam</span>
+                            <span class="status-check-text text"><?php echo $lang->webcam ?></span>
                         </div>
                         <div class="check-microphone">
                             <span class="status-check-indicator">
@@ -181,7 +183,7 @@ if ($h && $token && $studyId) {
                                 <i class="status-warn fa fa-warning warning hidden"></i>
                                 <i class="status-supported fa fa-check success hidden"></i>
                             </span>
-                            <span class="status-check-text text">Mikrofon</span>
+                            <span class="status-check-text text"><?php echo $lang->audioInput ?></span>
                         </div>
                         <div class="check-speakers">
                             <span class="status-check-indicator">
@@ -189,7 +191,7 @@ if ($h && $token && $studyId) {
                                 <i class="status-warn fa fa-warning warning hidden"></i>
                                 <i class="status-supported fa fa-check success hidden"></i>
                             </span>
-                            <span class="status-check-text text">Audioausgabe</span>
+                            <span class="status-check-text text"><?php echo $lang->audioOutput ?></span>
                         </div>
                         <!--                        <div class="check-stream-capturing">
                                                     <span class="status-check-indicator">
@@ -205,17 +207,17 @@ if ($h && $token && $studyId) {
                                 <i class="status-warn fa fa-warning warning hidden"></i>
                                 <i class="status-supported fa fa-check success hidden"></i>
                             </span>
-                            <span class="status-check-text text">Screen-Sharing</span>
+                            <span class="status-check-text text"><?php echo $lang->screensharing ?></span>
                         </div>
                     </div>
 
                     <div id="participation-queue" class="hidden" style="margin-top: 40px">
-                        <h3>Wartende Probanden</h3>
+                        <h3><?php echo $lang->waitingParticipants ?></h3>
 
                         <div class="form-group hidden root iceTransportsSelect">
                             <label style="margin: 0">
-                                <span>Firewall umgehen?</span> 
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->physicalStressTestSingleGraphic ?>"></i>
+                                <span><?php echo $lang->bypassFirewall ?></span> 
+                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->bypassFirewall ?>"></i>
                             </label><br>
 
                             <div class="btn-group" id="radio" style="">
@@ -369,14 +371,17 @@ if ($h && $token && $studyId) {
                                 var rtcToken = $('#call-screen').attr('data-rtc-token');
                                 var testerId = $('#call-screen').attr('data-tester-id');
                                 var iceTransports = $('.iceTransportsSelect').find('.btn-option-checked').attr('id') === 'yes' ? 'relay' : 'all';
-                                peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken, iceTransports: iceTransports});
+                                peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken, iceTransports: iceTransports, testerId: testerId});
 
-                                var query = getQueryParams(document.location.search);
-                                if (iceTransports !== '') {
-                                    goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId + '&iceTransports=' + iceTransports);
-                                } else {
-                                    goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId);
-                                }
+                                setTimeout(function () {
+                                    var query = getQueryParams(document.location.search);
+                                    if (iceTransports !== '') {
+                                        goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId + '&iceTransports=' + iceTransports);
+                                    } else {
+                                        goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId);
+                                    }
+                                }, 1000);
+
                             }
                         });
                     } else if (now > dateFrom) {
@@ -528,11 +533,6 @@ if ($h && $token && $studyId) {
                 var requestId = $('#call-screen').attr('data-request-id');
                 reapproveParticipation({requestId: requestId}, function (result) {
                     peerConnection.leaveRoom();
-
-                    $('#participation-queue, #check-rtc-status, #role-selection-container').removeClass('hidden');
-                    $('#call-screen').addClass('hidden');
-                    $('#btn-enter-study').addClass('disabled');
-                    $('#btn-start-screen-sharing').addClass('disabled');
                     requestParticipations();
                 });
             });
@@ -617,6 +617,7 @@ if ($h && $token && $studyId) {
 
                         if (errors === 0) {
                             $('#participation-queue').removeClass('hidden');
+                            $('#check-rtc-status').addClass('hidden');
                         }
                     });
                 });
@@ -662,7 +663,7 @@ if ($h && $token && $studyId) {
                 $(peerConnection).on('joinedRoom', function (event, roomName) {
                     event.preventDefault();
 
-                    clearAlerts($('#study-participation'));
+                    clearAlerts($('#study-participation, #role-selection-container'));
                     $('#study-details #initialize-recorders-list').empty();
 
                     // check if sensor has be connected
@@ -764,20 +765,38 @@ if ($h && $token && $studyId) {
                             peerConnection.sendMessage(MESSAGE_REQUEST_SENSOR_STATUS);
                         } else {
                             $('#btn-enter-study').removeClass('disabled');
+                            checkExecutionRole();
                         }
                     } else {
                         $('#btn-enter-study').removeClass('disabled');
+                        checkExecutionRole();
                     }
+                });
+
+                $(peerConnection).on('leaveRoomDuplicatedRoles', function (event) {
+                    event.preventDefault();
+                    console.log('leaveRoomDuplicatedRoles');
+                    appendAlert($('#role-selection-container'), ALERT_DUPLICATED_ROLE_DETECTED);
                 });
 
                 $(peerConnection).on('leftRoom', function (event, roomName) {
                     event.preventDefault();
+                    console.log('LEFT ROOM');
 
                     clearAlerts($('#study-participation'));
-                    $('#study-details #technical-check').addClass('hidden');
+                    $('#participation-queue, #role-selection-container').removeClass('hidden');
+                    $('#call-screen').addClass('hidden');
                     $('#btn-enter-study').addClass('disabled');
                     $('#btn-start-screen-sharing').addClass('disabled');
                 });
+
+                if (selectedRole !== VIEW_MODERATOR) {
+                    $('#btn-close-call').css({borderTopRightRadius: '4px', borderBottomRightRadius: '4px'});
+                    $('#btn-enter-study').addClass('hidden');
+                } else {
+                    $('#btn-close-call').css({borderTopRightRadius: '', borderBottomRightRadius: ''});
+                    $('#btn-enter-study').removeClass('hidden');
+                }
             }
 
             function sensorArrayHasType(sensors, type) {
@@ -844,6 +863,7 @@ if ($h && $token && $studyId) {
 
                 if (readyForExecution) {
                     $('#btn-enter-study').removeClass('disabled');
+                    checkExecutionRole();
                 } else {
                     $('#btn-enter-study').addClass('disabled');
                 }
@@ -852,6 +872,25 @@ if ($h && $token && $studyId) {
             $('#btn-check-rtc').unbind('click').bind('click', function (event) {
                 checkRTC($('#check-rtc-status'));
             });
+
+            function checkExecutionRole() {
+                console.log('check execution role', peerConnection);
+                var selectedRole = $('.roleSelect').find('.btn-option-checked').attr('id');
+
+                if (selectedRole !== VIEW_MODERATOR) {
+                    $(peerConnection).on(MESSAGE_ENTER_SURVEY, function (event, payload) {
+                        event.preventDefault();
+                        console.log('message enter survey');
+                        var query = getQueryParams(document.location.search);
+
+                        if (payload.iceTransports !== '') {
+                            goto('study-execution-' + selectedRole + '.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&testerId=' + payload.testerId + '&iceTransports=' + payload.iceTransports);
+                        } else {
+                            goto('study-execution-' + selectedRole + '.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&testerId=' + payload.testerId);
+                        }
+                    });
+                }
+            }
         </script>
     </body>
 </html>

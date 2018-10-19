@@ -1325,6 +1325,116 @@ include '../includes/language.php';
 
 
 
+<div id="item-container-observer" class="hidden">
+
+    <div id="observer-web-rtc-placeholder" class="web-rtc-placeholder embed-responsive embed-responsive-4by3" style="position: absolute">
+        <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
+        <div class="btn-group stream-controls" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0; display:flex">
+            <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+            <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+            <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+            <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
+        </div>
+        <div class="hidden record-stream-indicator" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->recordingStream ?>"><i class="fa fa-video-camera"></i></div>
+
+        <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
+    </div>
+
+    <div class="row root" id="no-phase-data">
+        <div class="col-md-4" id="column-left"></div>
+        <div class="col-md-8" id="column-right">
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+
+    <div class="row root" id="letterOfAcceptance">
+        <div class="col-md-6 col-lg-4 rtc-scalable" id="column-left">
+        </div>
+        <div class="col-md-6 col-lg-8" id="column-right" style="margin-bottom: 15px">
+            <div class="">
+                <div class="">
+                    <h3 style="margin-top: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
+                </div>
+                <div class="">
+                    <p class="text letter-text"></p>
+                    <div class="alert-space alert-please-wait"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row root" id="thanks">
+
+        <div class="col-sm-5 col-md-4 rtc-scalable" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 15px;">
+            <h3 class="headline" style="margin-top: 0"><?php echo $lang->thanksHeadline ?></h3>
+            <div class="row " style="margin-top: 20px">
+
+                <div class="col-sm-12" id="upload-instructions" style="margin-bottom: 20px;">
+                    <i class="fa fa-upload" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
+                    <div class="text">
+                        <?php echo $lang->thanksWait ?>
+                    </div>
+                    <div id="rtc-uploads-status" class="hidden text">
+                        <?php echo $lang->thanksWaitForVideoUpload ?>
+                    </div>
+                </div>
+                <div class="col-sm-12 hidden" id="upload-retry" style="margin-bottom: 20px;">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size: 70pt; color: #d9534f"></i>
+                    <div class="text">
+                        <p><?php echo $lang->thanksSaveError ?></p>
+                        <button type="button" class="btn btn-danger btn-shadow" id="btn-retry-upload"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->thanksResave ?></span></button>
+                    </div>
+                </div>
+                <div class="col-sm-12 hidden" style="margin-bottom: 20px;" id="upload-done">
+                    <i class="fa fa-check" aria-hidden="true" style="font-size: 70pt; color: #5cb85c"></i>
+                    <div class="text">
+                        <?php echo $lang->thanksSaveSuccess ?>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-success btn-block btn-shadow hidden" id="btn-leave-survey"><?php echo $lang->leaveExecution ?></button>
+        </div>
+    </div>
+
+
+
+    <div class="root row" id="gestureTraining" style="">
+
+        <div class="col-md-5 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
+            <div class="alert-space alert-please-wait"></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div id="item-container-tester" class="hidden">
 
     <!-- alerts -->

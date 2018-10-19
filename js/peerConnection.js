@@ -253,11 +253,12 @@ PeerConnection.prototype.initialize = function (options) {
 
         // a peer video has been added
         webrtc.on('videoAdded', function (video, peer) {
-            console.log('webrtc video added', peer);
+
             if (peer.type === TYPE_PEER_SCREEN) {
-                console.log('screen added');
+                console.log('screen added', peer);
                 $(connection).trigger(MESSAGE_SHARED_SCREEN_ADDED, [video]);
             } else {
+                console.log('webrtc stream added', peer);
                 $(video).attr('data-role', peer.nick);
 
                 if (peer.nick === options.selectedRole) {
@@ -366,10 +367,12 @@ PeerConnection.prototype.initialize = function (options) {
         // handle mute stream from other person
         webrtc.on('mute', function (data) { // show muted symbol
             webrtc.getPeers(data.id).forEach(function (peer) {
-                if (data.name === 'audio' && options.indicator) {
-                    $(options.indicator).find('#mute-remote-audio').removeClass('hidden');
-                } else if (data.name === 'video') {
-                    $(options.indicator).find('#pause-remote-stream').removeClass('hidden');
+                if (options.visibleRoles.indexOf(peer.nick) > -1) {
+                    if (data.name === 'audio' && options.indicator) {
+                        $(options.indicator).find('#mute-remote-audio').removeClass('hidden');
+                    } else if (data.name === 'video') {
+                        $(options.indicator).find('#pause-remote-stream').removeClass('hidden');
+                    }
                 }
             });
         });
@@ -442,8 +445,10 @@ PeerConnection.prototype.initialize = function (options) {
             event.preventDefault();
             console.log('duplicated roles detected');
             if (options.selectedRole === payload.role) {
+                $(connection).trigger('leaveRoomDuplicatedRoles');
                 connection.leaveRoom();
-                alert('Pro Konversation darf nur jeweils eine Rolle eingenommen werden. Diese Rolle gibt es schon. Wählen Sie eine andere aus.');
+
+//                alert('Pro Konversation darf nur jeweils eine Rolle eingenommen werden. Diese Rolle gibt es schon. Wählen Sie eine andere aus.');
             }
         });
     } else {
@@ -491,7 +496,7 @@ PeerConnection.prototype.initialize = function (options) {
 //                    }
                 }
 
-                checkRemoteStreamsPositions();
+                connection.checkRemoteStreamsPositions();
             }
 //            else if (peers.length === 1) {
 //                console.log('peers length === 1');
@@ -530,7 +535,7 @@ PeerConnection.prototype.initialize = function (options) {
                     }
                 }
 
-                checkRemoteStreamsPositions();
+                connection.checkRemoteStreamsPositions();
             } else if (peers && peers.length === 1) {
                 $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
                 $(localVideoElement).addClass('rtc-shadow');
@@ -545,39 +550,38 @@ PeerConnection.prototype.initialize = function (options) {
         }
     }
 
-//    var checkTimer = null;
-    function checkRemoteStreamsPositions() {
-//        clearTimeout(checkTimer);
-        if (peerConnection) {
-//            checkTimer = setTimeout(function () {
-                var remoteVideoElement = $('#' + options.remoteVideoElement);
-                var remoteVideos = $(remoteVideoElement).children();
-
-                if (remoteVideos && remoteVideos.length > 0) {
-                    var localVideoElement = $('#' + options.localVideoElement);
-                    var offsetTop = $(localVideoElement).height() + 8;
-                    var firstSideRemote = true;
-
-                    for (var i = 0; i < remoteVideos.length; i++) {
-                        var remoteVideoElement = $(remoteVideos[i]);
-                        if ($(remoteVideoElement).hasClass('side-remote')) {
-                            $(remoteVideoElement).css({position: 'relative', float: 'right', zIndex: 2, width: '25%', height: 'auto', top: offsetTop + 'px'});
-                            var offsetLeft = $(remoteVideoElement).width() - 5;
-                            $(remoteVideoElement).css({left: (firstSideRemote === true ? '-5px' : offsetLeft + 'px')});
-                            offsetTop += $(remoteVideoElement).height() + 3;
-                            firstSideRemote = false;
-                        }
-                    }
-                } else {
-
-                }
-//            }, 300);
-        }
-    }
-
     $(window).on('resize', function () {
-        checkRemoteStreamsPositions(); // don't do this. arrange video elements through getRemoteVideos(), because videos should be swapable
+        connection.checkRemoteStreamsPositions(); // don't do this. arrange video elements through getRemoteVideos(), because videos should be swapable
     });
+};
+
+PeerConnection.prototype.checkRemoteStreamsPositions = function () {
+    var currentOptions = this.options;
+    setTimeout(function () {
+
+        var remoteVideoElement = $('#' + currentOptions.remoteVideoElement);
+        var remoteVideos = $(remoteVideoElement).children();
+
+
+        if (remoteVideos && remoteVideos.length > 0) {
+            var localVideoElement = $('#' + currentOptions.localVideoElement);
+            var offsetTop = $(localVideoElement).height() + 8;
+            var firstSideRemote = true;
+
+            for (var i = 0; i < remoteVideos.length; i++) {
+                var remoteVideoElement = $(remoteVideos[i]);
+                if ($(remoteVideoElement).hasClass('side-remote')) {
+                    $(remoteVideoElement).css({position: 'relative', float: 'right', zIndex: 2, width: '25%', height: 'auto', top: offsetTop + 'px'});
+                    var offsetLeft = $(remoteVideoElement).width() - 5;
+                    $(remoteVideoElement).css({left: (firstSideRemote === true ? '-5px' : offsetLeft + 'px')});
+                    offsetTop += $(remoteVideoElement).height() + 3;
+                    firstSideRemote = false;
+                }
+            }
+        } else {
+
+        }
+    }, 200);
 };
 
 PeerConnection.prototype.getPeers = function () {
@@ -701,7 +705,7 @@ PeerConnection.prototype.hideRemoteStream = function () {
 
 PeerConnection.prototype.showRecordIndicator = function () {
     var currentOptions = this.options;
-    console.log('show record indicator', currentOptions);
+//    console.log('show record indicator', currentOptions);
 
     var stream = $(currentOptions.callerElement);
 //    if (previewModeEnabled !== true) {
@@ -717,7 +721,7 @@ PeerConnection.prototype.showRecordIndicator = function () {
 
 PeerConnection.prototype.hideRecordInidicator = function () {
     var currentOptions = this.options;
-    console.log('hide record indicator', currentOptions);
+//    console.log('hide record indicator', currentOptions);
 
 
     var stream = $(currentOptions.callerElement);

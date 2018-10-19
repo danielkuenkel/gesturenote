@@ -199,6 +199,7 @@ if ($h && $token && $studyId) {
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();
+                syncPhaseStep = true;
 
                 checkLanguage(function () {
                     var externals = new Array();
@@ -229,7 +230,6 @@ if ($h && $token && $studyId) {
                     // check if there was a page reload, status = '' for debugging
                     if (status !== '' && statusAddressMatch !== null) {
                         currentPhaseStepIndex = statusAddressMatch.index;
-                        syncPhaseStep = true;
                         var study = getLocalItem(STUDY);
                         study.testerId = query.testerId;
                         setLocalItem(STUDY, study);
@@ -281,6 +281,9 @@ if ($h && $token && $studyId) {
 
             $(window).scroll(function () {
                 updateRTCHeight($('#viewModerator #column-left').width());
+                if(peerConnection) {
+                    peerConnection.checkRemoteStreamsPositions();
+                }
             });
 
             function resetRTC() {
