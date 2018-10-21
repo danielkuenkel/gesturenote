@@ -1403,7 +1403,13 @@ include '../includes/language.php';
 
     <div class="root row" id="gestureTraining" style="">
 
-        <div class="col-md-5 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-5 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="observations">
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>                  
+            </div>
+        </div>
         <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
             <div class="alert-space alert-please-wait"></div>
             <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>

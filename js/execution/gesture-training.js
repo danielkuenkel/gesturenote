@@ -934,7 +934,7 @@ GestureTraining.prototype.renderTesterView = function () {
  */
 
 GestureTraining.prototype.renderObserverView = function () {
-    console.log('render tester view:', GESTURE_TRAINING.toUpperCase(), currentPhaseState);
+    console.log('render observer view:', GESTURE_TRAINING.toUpperCase(), currentPhaseState);
 
     var currentPhase = currentClass.options.currentPhase;
     var data = currentClass.options.currentPhaseData;
@@ -944,7 +944,10 @@ GestureTraining.prototype.renderObserverView = function () {
     if (!data.training || data.training.length === 0) {
         return false;
     }
-
+    
+    // observation section
+    renderObservations(data, container);
+    
     renderCurrentPhaseState();
     function renderCurrentPhaseState() {
         if (currentPhaseState === null) {
@@ -977,12 +980,10 @@ GestureTraining.prototype.renderObserverView = function () {
     }
 
     function renderStateInitialize() {
-        console.log('render tester state: ', currentPhaseState);
+        console.log('render observer state: ', currentPhaseState);
         appendAlert(container, ALERT_PLEASE_WAIT);
 
         if (!previewModeEnabled && peerConnection) {
-            initScreenSharing($(container).find('#scene-container'));
-
             $(peerConnection).unbind(MESSAGE_START_GESTURE_TRAINING).bind(MESSAGE_START_GESTURE_TRAINING, function () {
                 currentPhaseState = 'gestureTrainingStarted';
                 renderCurrentPhaseState();
@@ -999,6 +1000,14 @@ GestureTraining.prototype.renderObserverView = function () {
         console.log('render observer state: ', currentPhaseState);
         clearAlerts(container);
         checkScenes();
+
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function () {
+                $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING);
+                currentPhaseState = 'trainingDone';
+                renderCurrentPhaseState();
+            });
+        }
     }
 
     function renderStateShowGesture() {
@@ -1023,7 +1032,6 @@ GestureTraining.prototype.renderObserverView = function () {
         console.log('render tester state: ', currentPhaseState);
         appendAlert(container, ALERT_PLEASE_WAIT);
         $(container).find('#scene-container').addClass('hidden');
-        showStream();
     }
 
 

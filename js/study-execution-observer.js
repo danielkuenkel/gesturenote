@@ -5,6 +5,7 @@
  */
 
 var rtcStreamControlsTween = null;
+var currentSharedScreen = null;
 
 var Observer = {
     renderView: function renderView() {
@@ -231,6 +232,7 @@ var Observer = {
 //                    console.log('SYNC RESPONSE', payload);
                     syncPhaseStep = false;
                     currentPhaseStepIndex = payload.index;
+                    currentPhaseState = payload.currentPhaseState;
                     renderPhaseStep();
                     updateProgress();
                 }
@@ -240,7 +242,7 @@ var Observer = {
                 peerConnection.sendMessage(MESSAGE_SYNC_REQUEST, {nick: VIEW_OBSERVER});
             });
 
-            $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function (video, peer) {
+            $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function (event, video, peer) {
                 console.log('videoRemoved', video, peer);
                 removeAlert($('#viewObserver'), ALERT_GENERAL_PLEASE_WAIT);
                 if (getCurrentPhase().format !== THANKS) {
@@ -252,23 +254,12 @@ var Observer = {
 
             $(peerConnection).unbind(MESSAGE_SHARED_SCREEN_ADDED).bind(MESSAGE_SHARED_SCREEN_ADDED, function (event, video) {
                 console.log('on add shared screen', video);
-                var container = $(getMainContent()).find('#scene-container');
-                $(container).empty().append(video);
-                var newHeight = $(window).height() - 70 - 15;
-                $(container).css({height: newHeight + "px"});
-                $(video).css({height: '100%', width: '100%', objectFit: 'contain'});
-                $(video).removeAttr('controls');
-                $(video).removeAttr('id');
-                $(window).on('resize', function () {
-                    var newHeight = $(window).height() - 70 - 15;
-//                console.log('resize:', newHeight);
-                    $(container).css({height: newHeight + "px"});
-                }).resize();
+                currentSharedScreen = video;
+                setTimeout(function () {
+                    initScreenSharing();
+                }, 1000);
 
                 peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
-                Observer.keepStreamsPlaying($('#video-caller'));
-                Observer.keepStreamsPlaying(container);
-                $(container).trigger('sharedScreenAdded');
             });
         }
     },
@@ -367,9 +358,24 @@ var Observer = {
 };
 
 
-function initScreenSharing(container) {
-    if (!previewModeEnabled && peerConnection) {
+function initScreenSharing() {
+    var container = $(getMainContent()).find('#scene-container');
+    console.log('INIT SCREEN SHARING', container, currentSharedScreen);
+    if (!previewModeEnabled && peerConnection && currentSharedScreen) {
+        $(container).empty().append(currentSharedScreen);
+        var newHeight = $(window).height() - 70 - 15;
+        $(container).css({height: newHeight + "px"});
+        $(currentSharedScreen).css({height: '100%', width: '100%', objectFit: 'contain'});
+        $(currentSharedScreen).removeAttr('controls');
+        $(currentSharedScreen).removeAttr('id');
 
+        $(window).on('resize', function () {
+            var newHeight = $(window).height() - 70 - 15;
+            $(container).css({height: newHeight + "px"});
+        }).resize();
+
+        Observer.keepStreamsPlaying($('#video-caller'));
+        Observer.keepStreamsPlaying(container);
     }
 }
 
@@ -409,6 +415,7 @@ function submitFinalData(container, areAllRTCsUploaded) {
 }
 
 function renderObservations(data, container) {
+    console.log('render observations:', data.observations);
     if (data.observations && data.observations.length > 0) {
         if (!previewModeEnabled) {
             var savedObservations = getObservationResults(getCurrentPhase().id);
@@ -418,7 +425,6 @@ function renderObservations(data, container) {
             } else {
                 var questionnaire = new Questionnaire({isPreview: false, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations')});
                 questionnaire.renderObserverView();
-//                Observer.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
             }
 
             $(container).find('#observations').on('change', function () {
@@ -428,7 +434,6 @@ function renderObservations(data, container) {
             });
         } else {
             console.log('render observations');
-//            Observer.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
             var questionnaire = new Questionnaire({isPreview: false, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations')});
             questionnaire.renderObserverView();
         }

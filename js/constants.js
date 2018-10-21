@@ -221,6 +221,7 @@ var MESSAGE_ENTER_SURVEY = 'enterSurvey';
 var MESSAGE_NEXT_STEP = 'nextStep';
 var MESSAGE_CANCEL_SURVEY = 'cancelSurvey';
 var MESSAGE_UPDATE_QUESTIONNAIRE = 'updateQuestionnaire';
+var MESSAGE_UPDATE_OBSERVATIONS = 'updateObservations';
 var MESSAGE_QUESTIONNAIRE_DONE = 'questionnaireDone';
 var MESSAGE_SHARED_SCREEN_ADDED = 'sharedScreenAdded';
 

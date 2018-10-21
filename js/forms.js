@@ -3218,7 +3218,7 @@ function renderEditableObservations(target, studyData, resultData) {
     }
 }
 
-function saveObservationAnwers(target, studyId, testerId, currentPhaseId) {
+function saveObservationAnwers(target, studyId, testerId, currentPhaseId, submitData) {
     var observationAnswerItems = $(target).children();
     var answers = getQuestionnaireAnswers(observationAnswerItems);
     var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
@@ -3238,7 +3238,14 @@ function saveObservationAnwers(target, studyId, testerId, currentPhaseId) {
     }
 
     setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, observations);
-    saveObservations({studyId: studyId, testerId: testerId, observations: observations});
+
+    if (submitData && submitData === true) {
+        saveObservations({studyId: studyId, testerId: testerId, observations: observations});
+    } else {
+        if (peerConnection) {
+            peerConnection.sendMessage(MESSAGE_UPDATE_OBSERVATIONS, {observations: observations});
+        }
+    }
 }
 
 function isObservationPresent(phaseId) {

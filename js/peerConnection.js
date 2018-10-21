@@ -333,6 +333,7 @@ PeerConnection.prototype.initialize = function (options) {
             if (peer && peer.type === TYPE_PEER_SCREEN || $(video).attr('id') === 'localScreen') {
 //                $(video).remove();
                 $(connection).trigger('localScreenRemoved', [video, peer]);
+                currentSharedScreen = null;
             } else if (peer && peer.type === TYPE_PEER_VIDEO) {
                 $(connection).trigger('videoRemoved', [video, peer]);
                 arrangePeerStreams();
@@ -347,14 +348,9 @@ PeerConnection.prototype.initialize = function (options) {
                     $(options.remoteMuteElement).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
                     $(options.remoteMuteElement).find('video').attr('volume', 1);
                     $(options.remoteMuteElement).attr('data-content', translation.pauseOtherWebRTC).data('bs.popover').setContent();
-//                    $(options.remoteMuteElement).attr('title', 'Gesprächspartner stummschalten')
-//                            .tooltip('fixTitle')
-//                            .tooltip('setContent');
                 }
 
-//                connection.hideRemoteStream();
-
-                if (connection.options.localStream.record === 'yes') {
+                if ((peer.nick === VIEW_TESTER || peer.nick === VIEW_MODERATOR) && connection.options.localStream.record === 'yes') {
                     connection.stopRecording(null, false);
                 }
 
@@ -467,25 +463,28 @@ PeerConnection.prototype.initialize = function (options) {
 //                var lastVideoElement = null;
                 for (var i = 0; i < peers.length; i++) {
                     var remoteVideoElement = $(peers[i].videoEl);
-                    $(remoteVideoElement).removeClass('main-remote side-remote');
-                    var peerVisible = options.visibleRoles === 'all' || options.visibleRoles.indexOf(peers[i].nick) > -1;
+                    if (peers[i].type === TYPE_PEER_VIDEO) {
+                        $(remoteVideoElement).removeClass('main-remote side-remote');
+                        var peerVisible = options.visibleRoles === 'all' || options.visibleRoles.indexOf(peers[i].nick) > -1;
 
-                    if (peerVisible) {
-                        $(remoteVideoElement).removeClass('hidden');
+                        if (peerVisible) {
+                            $(remoteVideoElement).removeClass('hidden');
 
-                        if (options.selectedRole !== 'tester' && peers[i].nick === 'tester') {
-                            $(remoteVideoElement).removeClass('rtc-shadow').addClass('main-remote');
-                            $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
-                        } else if (options.selectedRole === 'tester' && peers[i].nick === 'moderator') {
-                            $(remoteVideoElement).removeClass('rtc-shadow').addClass('main-remote');
-                            $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
-                        } else {
+                            if (options.selectedRole !== 'tester' && peers[i].nick === 'tester') {
+                                $(remoteVideoElement).removeClass('rtc-shadow').addClass('main-remote');
+                                $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+                            } else if (options.selectedRole === 'tester' && peers[i].nick === 'moderator') {
+                                $(remoteVideoElement).removeClass('rtc-shadow').addClass('main-remote');
+                                $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+                            } else {
 //                            lastVideoElement = remoteVideoElement;
-                            $(remoteVideoElement).addClass('rtc-shadow side-remote').removeClass('main-remote');
+                                $(remoteVideoElement).addClass('rtc-shadow side-remote').removeClass('main-remote');
+                            }
+                        } else {
+                            $(remoteVideoElement).addClass('hidden');
                         }
-                    } else {
-                        $(remoteVideoElement).addClass('hidden');
                     }
+
 
 //                    console.log(peers[i], peerVisible, options.visibleRoles);
                     //options.selectedRole === 'tester' && $(remoteVideoElement).attr('data-role') !== 'moderator' && options.prepareStudy === true
@@ -525,13 +524,15 @@ PeerConnection.prototype.initialize = function (options) {
 
                 for (var i = 0; i < peers.length; i++) {
                     var remoteVideoElement = $(peers[i].videoEl);
-                    $(remoteVideoElement).removeClass('main-remote side-remote');
+                    if (peers[i].type === TYPE_PEER_VIDEO) {
+                        $(remoteVideoElement).removeClass('main-remote side-remote');
 
-                    if (i === 0) {
-                        $(remoteVideoElement).removeClass('rtc-shadow hidden').addClass('main-remote');
-                        $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
-                    } else {
-                        $(remoteVideoElement).addClass('rtc-shadow side-remote');
+                        if (i === 0) {
+                            $(remoteVideoElement).removeClass('rtc-shadow hidden').addClass('main-remote');
+                            $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
+                        } else {
+                            $(remoteVideoElement).addClass('rtc-shadow side-remote');
+                        }
                     }
                 }
 

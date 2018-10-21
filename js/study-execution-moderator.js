@@ -220,20 +220,31 @@ var Moderator = {
 //                    peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
 //                }
 //            });
-
             $(peerConnection).unbind(MESSAGE_SYNC_REQUEST).bind(MESSAGE_SYNC_REQUEST, function (event, payload) {
 //                console.log('SYNC REQUEST', payload);
 
                 event.preventDefault();
                 setTimeout(function () {
-                    peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: payload.nick});
+                    if (payload.nick === VIEW_TESTER) {
+                        var peers = peerConnection.getPeers();
+                        if (peers && peers.length > 0) {
+                            for (var i = 0; i < peers.length; i++) {
+                                peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: peers[i].nick, currentPhaseState: currentPhaseState});
+                            }
+                        }
+                    } else {
+                        peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: payload.nick, currentPhaseState: currentPhaseState});
+                    }
+
 //                    console.log('CONNECTION:', peerConnection);
 
-                    $('#custom-modal').find('.modal-content').empty();
-                    $('#custom-modal').modal('hide');
-                    syncPhaseStep = false;
-                    resetConstraints();
-                    renderPhaseStep();
+                    if (payload.nick === VIEW_TESTER) {
+                        $('#custom-modal').find('.modal-content').empty();
+                        $('#custom-modal').modal('hide');
+                        syncPhaseStep = false;
+                        resetConstraints();
+                        renderPhaseStep();
+                    }
                 }, 500);
             });
 
@@ -243,7 +254,7 @@ var Moderator = {
             });
 
 
-            $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function (video, peer) {
+            $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function (event, video, peer) {
 //                console.log('videoRemoved', video, peer);
                 removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
                 if (peer.nick === VIEW_TESTER) {
@@ -388,24 +399,38 @@ function submitFinalData(container, areAllRTCsUploaded) {
 function renderObservations(data, container) {
     if (data.observations && data.observations.length > 0) {
         if (!previewModeEnabled) {
-            var savedObservations = getObservationResults(getCurrentPhase().id);
-            console.log('render observations with answers: ', savedObservations, data.observations);
-            if (savedObservations && savedObservations.length > 0) {
-                renderEditableObservations($(container).find('#observations .question-container'), data.observations, savedObservations);
-            } else {
-                var questionnaire = new Questionnaire({isPreview: false, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations')});
-                questionnaire.renderModeratorView();
-//                Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
-            }
+            var study = getLocalItem(STUDY);
+            if (isObserverConnected()) {
+                console.log('OBSERVER CONNECTED for Observation rendering');
+                $(peerConnection).unbind(MESSAGE_UPDATE_OBSERVATIONS).bind(MESSAGE_UPDATE_OBSERVATIONS, function (event, payload) {
+                    console.log('UPDATE OBSERVATIONS:', payload.observations);
+                    setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, payload.observations);
+                    saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id, true);
 
-            $(container).find('#observations').on('change', function () {
-                var study = getLocalItem(STUDY);
-                console.log('save observation answers');
-                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
-            });
+                    var questionnaire = new Questionnaire({isPreview: true, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations'), answers: payload.observations});
+                    questionnaire.renderModeratorView();
+                });
+                
+                var savedObservations = getObservationResults(getCurrentPhase().id);
+                var questionnaire = new Questionnaire({isPreview: true, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations'), answers: savedObservations});
+                questionnaire.renderModeratorView();
+            } else {
+                var savedObservations = getObservationResults(getCurrentPhase().id);
+                console.log('render observations with answers: ', savedObservations, data.observations);
+                if (savedObservations && savedObservations.length > 0) {
+                    renderEditableObservations($(container).find('#observations .question-container'), data.observations, savedObservations);
+                } else {
+                    var questionnaire = new Questionnaire({isPreview: false, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations')});
+                    questionnaire.renderModeratorView();
+                }
+
+                $(container).find('#observations').on('change', function () {
+                    console.log('save observation answers');
+                    saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id, true);
+                });
+            }
         } else {
             console.log('render observations');
-//            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
             var questionnaire = new Questionnaire({isPreview: false, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations')});
             questionnaire.renderModeratorView();
         }
@@ -414,6 +439,21 @@ function renderObservations(data, container) {
     } else {
         appendAlert($(container).find('#observations'), ALERT_NO_PHASE_DATA);
     }
+}
+
+function isObserverConnected() {
+    if (!previewModeEnabled && peerConnection) {
+        var peers = peerConnection.getPeers();
+        if (peers && peers.length > 0) {
+            for (var i = 0; i < peers.length; i++) {
+                if (peers[i].nick === VIEW_OBSERVER) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 function checkSingleScene(data) {
