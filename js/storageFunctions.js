@@ -366,6 +366,7 @@ function setStudyData(data) {
 
         setData.generalData.id = data.id;
         setData.generalData.urlToken = data.urlToken;
+        setData.generalData.sessionUserId = data.sessionUserId;
         setLocalItem(STUDY, setData.generalData);
 
         if (setData.phases && setData.phases.length > 0) {

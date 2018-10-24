@@ -68,7 +68,7 @@ if ($h && $token && $studyId) {
         <script src="js/joint-selection.js"></script>
         <script src="js/study-execution.js"></script>
         <script src="js/study-execution-observer.js"></script>
-        <script src="js/study-execution-observer-save.js"></script>
+        <!--<script src="js/study-execution-observer-save.js"></script>-->
         <script src="js/upload-queue.js"></script>
 
         <!-- phase step formats -->

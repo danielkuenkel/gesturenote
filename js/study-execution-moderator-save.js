@@ -97,6 +97,7 @@ function getInterviewFormData(data) {
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
         data.answers = tempData.answers;
+        data.annotations = tempData.annotations;
     }
     console.log(data);
     return data;
@@ -126,7 +127,7 @@ function getGestureSlideshowFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
         data.restarts = tempData.restarts;
-//        data.annotations = tempData.annotations;
+        data.annotations = tempData.annotations;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
@@ -137,6 +138,7 @@ function getTriggerSlideshowFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.selectedOptions = tempData.selectedOptions;
+        data.annotations = tempData.annotations;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;

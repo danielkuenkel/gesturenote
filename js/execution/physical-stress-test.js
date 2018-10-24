@@ -27,6 +27,12 @@ PhysicalStressTest.prototype.renderModeratorView = function () {
         return false;
     }
 
+    if (!previewModeEnabled) {
+        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+        tempData.annotations = new Array();
+        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+    }
+
     // observation section
     renderObservations(data, container);
 
@@ -445,7 +451,6 @@ PhysicalStressTest.prototype.renderTesterView = function () {
     }
 
     renderCurrentPhaseState();
-
     function renderCurrentPhaseState() {
         if (currentPhaseState === null) {
             currentPhaseState = 'initialize';
@@ -477,7 +482,7 @@ PhysicalStressTest.prototype.renderTesterView = function () {
     }
 
     function renderStateInitialize() {
-        console.log('render moderator state: ', currentPhaseState);
+        console.log('render tester state: ', currentPhaseState);
 
         // general data section
         $(container).find('.headline').text(data.title);
@@ -489,7 +494,7 @@ PhysicalStressTest.prototype.renderTesterView = function () {
             getGMT(function (timestamp) {
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.startStressTestTime = timestamp;
-                tempData.annotations = new Array();
+                tempData.annotations = [];
                 tempData.answers = {singleAnswers: [], sequenceAnswers: []};
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
@@ -504,7 +509,7 @@ PhysicalStressTest.prototype.renderTesterView = function () {
     }
 
     function renderStateStressTestStarted() {
-        console.log('render moderator state: ', currentPhaseState);
+        console.log('render tester state: ', currentPhaseState);
         appendAlert(container, ALERT_PLEASE_WAIT);
 
         if (!previewModeEnabled) {
@@ -522,7 +527,7 @@ PhysicalStressTest.prototype.renderTesterView = function () {
     }
 
     function renderStateShowGesture() {
-        console.log('render moderator state: ', currentPhaseState);
+        console.log('render tester state: ', currentPhaseState);
 
         clearAlerts(container);
         renderGestureInfos();
@@ -536,6 +541,7 @@ PhysicalStressTest.prototype.renderTesterView = function () {
             });
 
             $(peerConnection).unbind(MESSAGE_TRIGGER_STRESS_TEST_QUESTION).bind(MESSAGE_TRIGGER_STRESS_TEST_QUESTION, function (event, payload) {
+                event.preventDefault();
                 currentStressTestCount = parseInt(payload.count);
                 currentStressTestIndex = parseInt(payload.index);
                 currentStressTestGestureIndex = parseInt(payload.gestureIndex);
@@ -554,7 +560,7 @@ PhysicalStressTest.prototype.renderTesterView = function () {
     }
 
     function renderStateGesturesPresented() {
-        console.log('render moderator state: ', currentPhaseState);
+        console.log('render tester state: ', currentPhaseState);
 
         $(container).find('#stressTestContainer').addClass('hidden');
         $(container).find('#gestures-list-container').empty();
@@ -564,7 +570,7 @@ PhysicalStressTest.prototype.renderTesterView = function () {
 
 
     function renderStateShowQuestions() {
-        console.log('render moderator state: ', currentPhaseState);
+        console.log('render tester state: ', currentPhaseState);
         clearAlerts(container);
         renderGestureSequence();
 
@@ -629,7 +635,7 @@ PhysicalStressTest.prototype.renderTesterView = function () {
     }
 
     function renderStateAskQuestionsDone() {
-        console.log('render moderator state: ', currentPhaseState);
+        console.log('render tester state: ', currentPhaseState);
         $(container).find('#stressTestContainer').empty().addClass('hidden');
         appendAlert(container, ALERT_PLEASE_WAIT);
 
@@ -709,7 +715,7 @@ PhysicalStressTest.prototype.renderTesterView = function () {
             peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
 
             // save joints and questionnaire answers if in live mode
-            var answerIndex = currentStressTestIndex === 0 ? currentStressTestCount : currentStressTestIndex + 1 + currentStressTestCount;
+            var answerIndex = (parseInt(data.stressAmount) * currentStressTestIndex) + currentStressTestCount;           
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
             tempData.answers.singleAnswers[answerIndex] = singleAnswer;
             tempData.answers.sequenceAnswers[currentStressTestIndex] = sequenceAnswer;
@@ -766,6 +772,326 @@ PhysicalStressTest.prototype.renderTesterView = function () {
             console.log('getJointSelectionRatings', answers);
         }
         return answers;
+    }
+
+    return container;
+};
+
+
+
+
+
+
+/*
+ * observer view rendering
+ */
+
+PhysicalStressTest.prototype.renderObserverView = function () {
+    console.log('render observer view:', PHYSICAL_STRESS_TEST.toUpperCase());
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+
+    if (!data.stressTestItems || data.stressTestItems.length === 0) {
+        return false;
+    }
+    // observation section
+    renderObservations(data, container);
+
+    // init annotation controls
+    renderAnnotationControls(container);
+
+    renderCurrentPhaseState();
+
+    function renderCurrentPhaseState() {
+        if (currentPhaseState === null) {
+            currentPhaseState = 'initialize';
+        }
+
+        switch (currentPhaseState) {
+            case 'initialize':
+                renderStateInitialize();
+                break;
+            case 'stressTestStarted':
+                renderStateStressTestStarted();
+                break;
+            case 'showGesture':
+                renderStateShowGesture();
+                break;
+            case 'gesturesPresented':
+                renderStateGesturesPresented();
+                break;
+            case 'showQuestions':
+                renderStateShowQuestions();
+                break;
+            case 'askQuestionsDone':
+                renderStateAskQuestionsDone();
+                break;
+            case 'stressTestDone':
+                renderStateStressTestDone();
+                break;
+        }
+    }
+
+    function renderStateInitialize() {
+        console.log('render observer state: ', currentPhaseState);
+
+        $(document).scrollTop(0);
+        appendAlert(container, ALERT_PLEASE_WAIT);
+
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).bind(MESSAGE_START_STRESS_TEST).bind(MESSAGE_START_STRESS_TEST, function () {
+                currentPhaseState = 'stressTestStarted';
+                renderCurrentPhaseState();
+            });
+        }
+    }
+
+    function renderStateStressTestStarted() {
+        console.log('render observer state: ', currentPhaseState);
+
+        clearAlerts(container);
+        $(document).scrollTop(0);
+        renderStressTestControls();
+//        var showButton = $(container).find('#btn-show-gesture');
+//        $(showButton).removeClass('hidden');
+//        $(container).find('#question-container').addClass('hidden');
+
+        if (!previewModeEnabled) {
+            $(peerConnection).unbind(MESSAGE_TRIGGER_STRESS_TEST_GESTURE).bind(MESSAGE_TRIGGER_STRESS_TEST_GESTURE, function (event, payload) {
+                clearAlerts($(container));
+                currentStressTestCount = parseInt(payload.count);
+                currentStressTestIndex = parseInt(payload.index);
+                currentStressTestGestureIndex = parseInt(payload.gestureIndex)
+
+                currentPhaseState = 'showGesture';
+                renderCurrentPhaseState();
+            });
+        }
+    }
+
+    function renderStateShowGesture() {
+        console.log('render observer state: ', currentPhaseState);
+
+        renderStressTestControls();
+
+        if (peerConnection) {
+            $(peerConnection).unbind(MESSAGE_GESTURE_INFO_PRESENT).bind(MESSAGE_GESTURE_INFO_PRESENT, function (event) {
+                event.preventDefault();
+            });
+
+            $(peerConnection).unbind(MESSAGE_GESTURE_INFO_CLOSED).bind(MESSAGE_GESTURE_INFO_CLOSED, function (event) {
+                event.preventDefault();
+                currentPhaseState = 'gesturesPresented';
+                renderCurrentPhaseState();
+//                checkGestureIndex();
+            });
+
+//            peerConnection.sendMessage(MESSAGE_TRIGGER_STRESS_TEST_GESTURE, {count: currentStressTestCount, index: currentStressTestIndex, gestureIndex: currentStressTestGestureIndex});
+        } else {
+//            $(hideButton).removeClass('disabled');
+        }
+
+    }
+
+    function renderStateGesturesPresented() {
+        console.log('render observer state: ', currentPhaseState);
+
+        renderStressTestSequence();
+
+        if (currentStressTestCount < parseInt(data.stressAmount) - 1) {
+            if (data.singleStressQuestions) {
+                $(container).find('#btn-show-question').removeClass('hidden');
+            } else {
+                var gestures = data.stressTestItems[currentStressTestIndex].gestures;
+                if (currentStressTestGestureIndex < gestures.length - 1) {
+                    currentPhaseState = 'stressTestStarted';
+                    renderCurrentPhaseState();
+                } else {
+                    currentPhaseState = 'askQuestionsDone';
+                    renderCurrentPhaseState();
+                }
+            }
+        } else {
+            if (data.singleStressQuestions || data.sequenceStressQuestions) {
+                $(container).find('#btn-show-question').removeClass('hidden');
+            } else {
+                currentPhaseState = 'askQuestionsDone';
+                renderCurrentPhaseState();
+            }
+        }
+
+
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_TRIGGER_STRESS_TEST_QUESTION).bind(MESSAGE_TRIGGER_STRESS_TEST_QUESTION, function (event, payload) {
+                currentStressTestCount = parseInt(payload.count);
+                currentStressTestIndex = parseInt(payload.index);
+                currentStressTestGestureIndex = parseInt(payload.gestureIndex);
+
+                currentPhaseState = 'showQuestions';
+                renderCurrentPhaseState();
+            });
+        }
+    }
+
+    function renderStateShowQuestions() {
+        console.log('render observer state: ', currentPhaseState);
+
+        renderStressTestSequence();
+        renderStressTestQuestions();
+        $(container).find('#question-container').removeClass('hidden');
+
+        if (!previewModeEnabled) {
+            $(peerConnection).unbind(MESSAGE_REACTIVATE_CONTROLS).bind(MESSAGE_REACTIVATE_CONTROLS, function (event, payload) {
+                currentQuestionnaireAnswers = null;
+                currentPhaseState = 'askQuestionsDone';
+                renderCurrentPhaseState();
+            });
+
+            $(peerConnection).unbind(MESSAGE_UPDATE_QUESTIONNAIRE).bind(MESSAGE_UPDATE_QUESTIONNAIRE, function (event, payload) {
+                console.log('update questionnaire for physical stress test', payload);
+                currentQuestionnaireAnswers = payload;
+                renderStressTestQuestions();
+            });
+        }
+    }
+
+    function renderStateAskQuestionsDone() {
+        console.log('render observer state: ', currentPhaseState);
+
+        currentStressTestGestureIndex = 0;
+        $(container).find('#question-container, #stress-test-controls').addClass('hidden');
+        
+        appendAlert(container, ALERT_PLEASE_WAIT);
+
+        if (!previewModeEnabled) {
+            $(peerConnection).unbind(MESSAGE_START_STRESS_TEST).bind(MESSAGE_START_STRESS_TEST, function (event, payload) {
+                currentPhaseState = 'renderStateStressTestStarted';
+                renderCurrentPhaseState();
+            });
+        }
+    }
+
+    function renderStateStressTestDone() {
+        console.log('render observer state: ', currentPhaseState);
+        $(document).scrollTop(0);
+        appendAlert(container, ALERT_PLEASE_WAIT);
+        $(container).find('#stress-test-controls, #question-container').addClass('hidden');
+    }
+
+
+
+
+
+
+
+
+
+    function renderStressTestControls() {
+        $(container).find('#general').addClass('hidden');
+        $(container).find('#stress-test-controls').removeClass('hidden');
+        $(container).find('#stress-test-controls .headline').text(translation.gestureSequence + " " + (currentStressTestIndex + 1) + " " + translation.of + " " + data.stressTestItems.length);
+
+        var gestures = data.stressTestItems[currentStressTestIndex].gestures;
+        if (gestures.length > 0) {
+            var gesture = getGestureById(gestures[currentStressTestGestureIndex]);
+            if (gesture) {
+                var thumbnailControls = $(getSourceContainer(VIEW_MODERATOR)).find('#physical-stress-test-thumbnail-controls').clone().removeAttr('id');
+                $(container).find('#stress-test-controls-container').empty().append(thumbnailControls);
+                $(thumbnailControls).find('.thumbnail-container').empty().append(getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-12'));
+            } else {
+            }
+        }
+    }
+
+    function renderStressTestSequence() {
+        var gestures = data.stressTestItems[currentStressTestIndex].gestures;
+        $(container).find('#stress-test-controls').removeClass('hidden');
+        $(container).find('#stress-test-controls-container').empty();
+        $(container).find('#stress-test-controls .headline').text(translation.gestureSequence + " " + (currentStressTestIndex + 1) + " " + translation.of + " " + data.stressTestItems.length);
+
+        if (gestures.length > 0) {
+            for (var i = 0; i < gestures.length; i++) {
+                var gesture = getGestureById(gestures[i]);
+                if (gesture) {
+                    var gestureThumbnail = getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-12 col-sm-4 col-md-4 col-lg-3');
+                    $(container).find('#stress-test-controls-container').append(gestureThumbnail);
+                }
+            }
+        }
+    }
+
+    function renderStressTestQuestions() {
+        var answers = currentQuestionnaireAnswers;
+        console.log('render stress test questions, answers:', currentQuestionnaireAnswers, currentStressTestCount, currentStressTestIndex, currentStressTestCount >= parseInt(data.stressAmount) - 1);
+        var currentStressTestData = data.stressTestItems[currentStressTestIndex];
+        var gesture = getGestureById(currentStressTestData);
+        var item = $('#item-container-moderator').find('#physical-stress-test-questions').clone().removeAttr('id');
+        $(container).find('#question-container').empty().append(item);
+
+        // single joint section
+        var singleStressGraphicsRating = data.singleStressGraphicsRating;
+        if (singleStressGraphicsRating && singleStressGraphicsRating !== 'none') {
+            var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
+            $(jointAnswers).insertAfter($(item).find('#headline-single-questions'));
+            if (singleStressGraphicsRating === 'hands') {
+                $(jointAnswers).find('#joint-answers-body').remove();
+                renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
+            } else if (singleStressGraphicsRating === 'body') {
+                $(jointAnswers).find('#joint-answers-hands').remove();
+                renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
+            } else {
+                renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
+                renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
+            }
+        }
+
+        // single answers section
+        var singleStressQuestionnaire = data.singleStressQuestions;
+        if (singleStressQuestionnaire && singleStressQuestionnaire.length > 0) {
+            $(item).find('#single-stress-answers').removeClass('hidden');
+            if (answers && answers.answers && answers.answers.singleAnswers && answers.answers.singleAnswers[0]) {
+                renderQuestionnaireAnswers($(item).find('#single-stress-answers'), singleStressQuestionnaire, {answers: answers.answers.singleAnswers[0].answers}, false, true);
+            } else {
+                renderQuestionnaireAnswers($(item).find('#single-stress-answers'), singleStressQuestionnaire, null, false);
+            }
+        } else {
+
+        }
+
+        if (currentStressTestCount >= parseInt(data.stressAmount) - 1) {
+            // sequence answers section
+            $(item).find('#sequence-stress-answers').addClass('hidden');
+            var sequenceStressQuestionnaire = data.sequenceStressQuestions;
+            if (sequenceStressQuestionnaire && sequenceStressQuestionnaire.length > 0) {
+                $(item).find('#sequence-stress-answers').removeClass('hidden');
+                if (answers && answers.answers && answers.answers.sequenceAnswers && answers.answers.sequenceAnswers[0]) {
+                    renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), sequenceStressQuestionnaire, {answers: answers.answers.sequenceAnswers[0].answers}, false, true);
+                } else {
+                    renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), sequenceStressQuestionnaire, null, false);
+                }
+            }
+
+            // sequence joint section
+            var sequenceStressGraphicsRating = data.sequenceStressGraphicsRating;
+            if (sequenceStressGraphicsRating && sequenceStressGraphicsRating !== 'none') {
+                $(item).find('#sequence-stress-answers').removeClass('hidden');
+                var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
+                $(jointAnswers).insertAfter($(item).find('#headline-sequence-questions'));
+                if (sequenceStressGraphicsRating === 'hands') {
+                    $(jointAnswers).find('#joint-answers-body').remove();
+                    renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
+                } else if (sequenceStressGraphicsRating === 'body') {
+                    $(jointAnswers).find('#joint-answers-hands').remove();
+                    renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
+                } else {
+                    renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
+                    renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
+                }
+            }
+        }
     }
 
     return container;

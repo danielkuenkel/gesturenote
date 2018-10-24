@@ -598,13 +598,13 @@ if (login_check($mysqli) == true) {
                     $(nextParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
                     $(nextParticipantButton).addClass('btn-primary');
                 }, onReverseComplete: function () {
-                    if (study.isOwner === 'false' || study.isOwner === false) {
-                        $(nextParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
-                        $(nextParticipantButton).removeClass('btn-primary');
-                    } else {
-                        $(nextParticipantButton).css({borderRadius: '0px'});
-                        $(nextParticipantButton).removeClass('btn-primary');
-                    }
+//                    if (study.isOwner === 'false' || study.isOwner === false) {
+//                        $(nextParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
+//                        $(nextParticipantButton).removeClass('btn-primary');
+//                    } else {
+                    $(nextParticipantButton).css({borderRadius: '0px'});
+                    $(nextParticipantButton).removeClass('btn-primary');
+//                    }
                 }});
 
             nextParticipantButtonTimeline.add("saveStudy", 0)
@@ -674,6 +674,13 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 leaveConversationButtonTimeline.reverse();
             });
+
+            if (study.isOwner === 'false' || study.isOwner === false) {
+                $(nextParticipantButton).css({borderRadius: '0px'});
+                $(joinConversationButton).css({borderBottomRightRadius: '8px'});
+                $(leaveConversationButton).css({borderBottomRightRadius: '8px'});
+            }
+
 
 
             $('.btn-join-conversation').unbind('click').bind('click', function (event) {
@@ -875,12 +882,14 @@ if (login_check($mysqli) == true) {
                         }
                     }
 
+                    var study = getLocalItem(STUDY);
+                    var evaluatorData = getLocalItem(STUDY_DATA_EVALUATOR);
                     clearTimeout(saveTimer);
                     if (instantSave === true) {
-                        saveNotes({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY_RESULTS).userId, notes: notesArray});
+                        saveNotes({studyId: study.id, testerId: getLocalItem(STUDY_RESULTS).userId, evaluatorId: evaluatorData.evaluatorId, notes: notesArray});
                     } else {
                         saveTimer = setTimeout(function () {
-                            saveNotes({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY_RESULTS).userId, notes: notesArray});
+                            saveNotes({studyId: study.id, testerId: getLocalItem(STUDY_RESULTS).userId, evaluatorId: evaluatorData.evaluatorId, notes: notesArray});
                         }, 1000);
                     }
                 }
@@ -1639,9 +1648,10 @@ if (login_check($mysqli) == true) {
 
         function renderObservation(target, studyData, observationResults) {
             if (studyData.observations && studyData.observations.length > 0) {
+                var evaluator = getLocalItem(STUDY_DATA_EVALUATOR);
                 renderQuestionnaire(target, studyData.observations, observationResults && observationResults.length > 0 ? {answers: observationResults} : null);
                 $(target).find('#observations-container').on('change', function () {
-                    saveObservationAnwers($(target).find('#observations-container'), getLocalItem(STUDY).id, getLocalItem(STUDY_RESULTS).userId, $('#phase-results-nav').find('.active').attr('id'));
+                    saveObservationAnwers($(target).find('#observations-container'), getLocalItem(STUDY).id, getLocalItem(STUDY_RESULTS).userId, evaluator.evaluatorId, $('#phase-results-nav').find('.active').attr('id'), false, true);
                 });
             } else {
                 $(target).addClass('hidden');

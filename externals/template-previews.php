@@ -307,8 +307,6 @@ include '../includes/language.php';
             <div class="question text"></div>
             <div style="display: inline;">
                 <div class="hidden" id="item-factors" style="display: inline-block">
-                    <!--                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
                     <div class="label label-primary" id="factor-primary"></div>
                 </div>
                 <div class="label label-danger hidden" id="reversed" style="display: inline-block"><?php echo $lang->negated ?></div>
@@ -600,20 +598,7 @@ include '../includes/language.php';
 
             <div id="stress-test-controls" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"></h3>
-                <!--<div class="">-->
-                <div class="row" id="stress-test-controls-container">
-
-                    <!--                    <div class="col-xs-6 col-lg-4">
-                                            
-                                        </div>-->
-
-                    <!--                        <div class="col-xs-6 col-lg-8">
-                                                <div id="repeats-left"><span class="address"><?php echo $lang->repeatsLeft ?>:</span> <span class="text"></span></div>
-                                                <div id="stress-for"><span class="address"><?php echo $lang->gestureShow ?>:</span> <span class="text"></span></div>
-                                            </div>-->
-
-                </div>   
-                <!--</div>-->
+                <div class="row" id="stress-test-controls-container"></div>
             </div>
 
             <div id="question-container" class="hidden" style="margin-top: 10px"></div>
@@ -1327,6 +1312,13 @@ include '../includes/language.php';
 
 <div id="item-container-observer" class="hidden">
 
+    <div class="root" id="notes" style="">
+        <h3 id="headline" style="margin-top: 0"><?php echo $lang->notes ?></h3>
+        <textarea class="form-control" id="notes-input" rows="5"></textarea>
+    </div>
+
+
+
     <div id="observer-web-rtc-placeholder" class="web-rtc-placeholder embed-responsive embed-responsive-4by3" style="position: absolute">
         <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
         <div class="btn-group stream-controls" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0; display:flex">
@@ -1371,23 +1363,7 @@ include '../includes/language.php';
             <h3 class="headline" style="margin-top: 0"><?php echo $lang->thanksHeadline ?></h3>
             <div class="row " style="margin-top: 20px">
 
-                <div class="col-sm-12" id="upload-instructions" style="margin-bottom: 20px;">
-                    <i class="fa fa-upload" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
-                    <div class="text">
-                        <?php echo $lang->thanksWait ?>
-                    </div>
-                    <div id="rtc-uploads-status" class="hidden text">
-                        <?php echo $lang->thanksWaitForVideoUpload ?>
-                    </div>
-                </div>
-                <div class="col-sm-12 hidden" id="upload-retry" style="margin-bottom: 20px;">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size: 70pt; color: #d9534f"></i>
-                    <div class="text">
-                        <p><?php echo $lang->thanksSaveError ?></p>
-                        <button type="button" class="btn btn-danger btn-shadow" id="btn-retry-upload"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->thanksResave ?></span></button>
-                    </div>
-                </div>
-                <div class="col-sm-12 hidden" style="margin-bottom: 20px;" id="upload-done">
+                <div class="col-sm-12" style="margin-bottom: 20px;" id="upload-done">
                     <i class="fa fa-check" aria-hidden="true" style="font-size: 70pt; color: #5cb85c"></i>
                     <div class="text">
                         <?php echo $lang->thanksSaveSuccess ?>
@@ -1395,8 +1371,77 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <button class="btn btn-success btn-block btn-shadow hidden" id="btn-leave-survey"><?php echo $lang->leaveExecution ?></button>
+            <button class="btn btn-success btn-block btn-shadow" id="btn-leave-survey"><?php echo $lang->leaveExecution ?></button>
         </div>
+    </div>
+
+
+
+    <div class="root row" id="identification" style="">
+
+        <div class="col-md-5 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="observation-annotations">
+                <h3 class="panel-heading-text"><?php echo $lang->annotations ?></h3>
+                <div class="observation-annotation-select">
+                    <div class="btn-observer-color-selector darkblue" data-id='darkblue'></div>
+                    <div class="btn-observer-color-selector green" data-id='green'></div>
+                    <div class="btn-observer-color-selector blue" data-id='blue'></div>
+                    <div class="btn-observer-color-selector yellow" data-id='yellow'></div>
+                    <div class="btn-observer-color-selector red" data-id='red'></div>
+                </div>
+            </div>
+            <div class="" id="observations">
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>                  
+            </div>
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
+            <div class="alert-space alert-please-wait"></div>
+            <div class="hidden" id="identified-trigger">
+                <h3 class="headline" style="margin-top: 0px"><?php echo $lang->favoriteTrigger ?></h3>
+                <div class="alert-space alert-waiting-for-tester"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row" id="thumbnail-container"></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="question-container"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+        </div>
+
+    </div>
+
+
+    <div class="root row" id="exploration" style="">
+
+        <div class="col-md-5 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="observation-annotations">
+                <h3 class="panel-heading-text"><?php echo $lang->annotations ?></h3>
+                <div class="observation-annotation-select">
+                    <div class="btn-observer-color-selector darkblue" data-id='darkblue'></div>
+                    <div class="btn-observer-color-selector green" data-id='green'></div>
+                    <div class="btn-observer-color-selector blue" data-id='blue'></div>
+                    <div class="btn-observer-color-selector yellow" data-id='yellow'></div>
+                    <div class="btn-observer-color-selector red" data-id='red'></div>
+                </div>
+            </div>
+            <div class="" id="observations">
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>                  
+            </div>
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
+            <div class="alert-space alert-please-wait"></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+        </div>
+
     </div>
 
 
@@ -1404,17 +1449,252 @@ include '../includes/language.php';
     <div class="root row" id="gestureTraining" style="">
 
         <div class="col-md-5 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="observation-annotations">
+                <h3 class="panel-heading-text"><?php echo $lang->annotations ?></h3>
+                <div class="observation-annotation-select">
+                    <div class="btn-observer-color-selector darkblue" data-id='darkblue'></div>
+                    <div class="btn-observer-color-selector green" data-id='green'></div>
+                    <div class="btn-observer-color-selector blue" data-id='blue'></div>
+                    <div class="btn-observer-color-selector yellow" data-id='yellow'></div>
+                    <div class="btn-observer-color-selector red" data-id='red'></div>
+                </div>
+            </div>
             <div class="" id="observations">
                 <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
                 <div class="alert-space alert-no-phase-data"></div>
                 <div class="question-container"></div>                  
             </div>
+            <div class="" id="notes-container"></div>
         </div>
         <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
             <div class="alert-space alert-please-wait"></div>
             <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
         </div>
 
+    </div>
+
+
+
+    <div class="root row" id="scenario" style="">
+
+        <div class="col-md-5 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="observation-annotations">
+                <h3 class="panel-heading-text"><?php echo $lang->annotations ?></h3>
+                <div class="observation-annotation-select">
+                    <div class="btn-observer-color-selector darkblue" data-id='darkblue'></div>
+                    <div class="btn-observer-color-selector green" data-id='green'></div>
+                    <div class="btn-observer-color-selector blue" data-id='blue'></div>
+                    <div class="btn-observer-color-selector yellow" data-id='yellow'></div>
+                    <div class="btn-observer-color-selector red" data-id='red'></div>
+                </div>
+            </div>
+            <div class="" id="observations">
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
+            </div>
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
+            <div class="alert-space alert-please-wait"></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+        </div>
+
+    </div>
+
+
+
+    <div class="root row" id="gestureSlideshow" style="">
+
+        <div class="col-md-5 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="observation-annotations">
+                <h3 class="panel-heading-text"><?php echo $lang->annotations ?></h3>
+                <div class="observation-annotation-select">
+                    <div class="btn-observer-color-selector darkblue" data-id='darkblue'></div>
+                    <div class="btn-observer-color-selector green" data-id='green'></div>
+                    <div class="btn-observer-color-selector blue" data-id='blue'></div>
+                    <div class="btn-observer-color-selector yellow" data-id='yellow'></div>
+                    <div class="btn-observer-color-selector red" data-id='red'></div>
+                </div>
+            </div>
+            <div class="" id="observations">
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
+            </div>
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
+            <div class="alert-space alert-please-wait"></div>
+            <div class="row hidden" id="slideshowContainer"></div>
+
+            <div id="ask-gesture-container" class="hidden">
+                <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
+                    <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+                </div>
+                <div class="trigger-title text-center" style="font-size: 30pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="root row" id="triggerSlideshow" style="">
+
+        <div class="col-md-5 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="observation-annotations">
+                <h3 class="panel-heading-text"><?php echo $lang->annotations ?></h3>
+                <div class="observation-annotation-select">
+                    <div class="btn-observer-color-selector darkblue" data-id='darkblue'></div>
+                    <div class="btn-observer-color-selector green" data-id='green'></div>
+                    <div class="btn-observer-color-selector blue" data-id='blue'></div>
+                    <div class="btn-observer-color-selector yellow" data-id='yellow'></div>
+                    <div class="btn-observer-color-selector red" data-id='red'></div>
+                </div>
+            </div>
+            <div class="" id="observations">
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
+            </div>
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
+            <div class="alert-space alert-please-wait"></div>
+
+            <div id="elements" class="hidden">
+                <h3 style="margin-top: 0px"><?php echo $lang->studyCatalogs->trigger ?></h3>
+                <div class="question-container" style="margin-top: 20px"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="root row" id="physicalStressTest" style="">
+
+        <div class="col-md-5 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="observation-annotations">
+                <h3 class="panel-heading-text"><?php echo $lang->annotations ?></h3>
+                <div class="observation-annotation-select">
+                    <div class="btn-observer-color-selector darkblue" data-id='darkblue'></div>
+                    <div class="btn-observer-color-selector green" data-id='green'></div>
+                    <div class="btn-observer-color-selector blue" data-id='blue'></div>
+                    <div class="btn-observer-color-selector yellow" data-id='yellow'></div>
+                    <div class="btn-observer-color-selector red" data-id='red'></div>
+                </div>
+            </div>
+            <div class="" id="observations">
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
+            </div>
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
+            <div class="alert-space alert-please-wait"></div>
+            <div id="stress-test-controls" class="hidden">
+                <h3 class="headline" style="margin-top: 0px"></h3>
+                <div class="row" id="stress-test-controls-container"></div>
+            </div>
+
+            <div id="question-container" class="hidden" style="margin-top: 10px"></div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="row root" id="gus">
+        <div class="col-md-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7" id="column-right">
+            <h3 style="margin-top: 0"><?php echo $lang->formats->gus->text ?></h3>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+                    <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+                    <div id="feedback"><span class="address"></span> <span class="text"></span></div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                    <div class="text-center gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                            <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 question-container" style="margin-top: 10px"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row root" id="questionnaireGestures">
+        <div class="col-md-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7" id="column-right">
+            <h3 style="margin-top: 0"><?php echo $lang->formats->questionnaireGestures->text ?></h3>
+            <div class="question-container" style="margin-top: 10px"></div>
+        </div>
+    </div>
+
+    <div class="row root" id="sus">
+        <div class="col-md-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7" id="column-right">
+            <h3 style="margin-top: 0"><?php echo $lang->formats->sus->text ?></h3>
+            <div class="question-container" style="margin-top: 10px"></div>
+        </div>
+    </div>
+
+    <div class="row root" id="ueq">
+        <div class="col-md-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7" id="column-right">
+            <h3 style="margin-top: 0"><?php echo $lang->formats->ueq->text ?></h3>
+            <div class="question-container" style="margin-top: 10px"></div>
+        </div>
+    </div>
+
+    <div class="row root" id="questionnaire">
+        <div class="col-md-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7" id="column-right">
+            <h3 style="margin-top: 0"><?php echo $lang->formats->questionnaire->text ?></h3>
+            <div class="question-container" style="margin-top: 10px"></div>
+        </div>
+    </div>
+
+    <div class="row root" id="interview">
+        <div class="col-md-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
+            <div class="" id="observation-annotations">
+                <h3 class="panel-heading-text"><?php echo $lang->annotations ?></h3>
+                <div class="observation-annotation-select">
+                    <div class="btn-observer-color-selector darkblue" data-id='darkblue'></div>
+                    <div class="btn-observer-color-selector green" data-id='green'></div>
+                    <div class="btn-observer-color-selector blue" data-id='blue'></div>
+                    <div class="btn-observer-color-selector yellow" data-id='yellow'></div>
+                    <div class="btn-observer-color-selector red" data-id='red'></div>
+                </div>
+            </div>
+            <div class="" id="notes-container"></div>
+        </div>
+        <div class="col-md-7" id="column-right">
+            <h3 style="margin-top: 0"><?php echo $lang->formats->interview->text ?></h3>
+            <div class="question-container" style="margin-top: 10px"></div>
+        </div>
     </div>
 
 

@@ -9,12 +9,12 @@ include_once 'psl-config.php';
 
 session_start();
 if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
-    $sessionUserId = $_SESSION['user_id'];
+//    $sessionUserId = $_SESSION['user_id'];
     $selectStudyId = $_POST['studyId'];
     $selectParticipantId = $_POST['participantId'];
 
     $studyResultsEvaluator = null;
-    if ($select_stmt = $mysqli->prepare("SELECT * FROM study_results_evaluator WHERE study_id = '$selectStudyId' && evaluator_id = '$sessionUserId' && tester_id = '$selectParticipantId' LIMIT 1")) {
+    if ($select_stmt = $mysqli->prepare("SELECT * FROM study_results_evaluator WHERE study_id = '$selectStudyId' && tester_id = '$selectParticipantId' LIMIT 1")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();

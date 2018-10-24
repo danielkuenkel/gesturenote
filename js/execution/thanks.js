@@ -120,3 +120,33 @@ Thanks.prototype.renderTesterView = function () {
 
     return container;
 };
+
+
+
+
+/*
+ * observer view rendering
+ */
+
+Thanks.prototype.renderObserverView = function () {
+    console.log('render observer view:', THANKS.toUpperCase());
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+
+    var content = $(getSourceContainer(VIEW_OBSERVER)).find('#thanks-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
+    $(container).append(content);
+    $(container).find('#thanks-text').text(data);
+    
+    $(container).find('#btn-leave-survey').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        var query = getQueryParams(document.location.search);
+        if (query.studyId && query.h && query.token) {
+            goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
+        }
+    });
+
+    return container;
+};

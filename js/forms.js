@@ -1463,7 +1463,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
 
         }
 
-//console.log(studyData[i].format, getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
+//        console.log(studyData[i].format, getAnswerForId(studyData[i].id, resultsData.answers, sequentialAnswerSearch, i));
         switch (studyData[i].format) {
             case COUNTER:
                 renderCounter(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
@@ -1523,7 +1523,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
 }
 
 function getAnswerForId(id, data, sequentialAnswerSearch, index) {
-//    console.log(id, data, sequentialAnswerSearch);
+    console.log(id, data, sequentialAnswerSearch);
     if (sequentialAnswerSearch && sequentialAnswerSearch === true) {
         var answer = data.answers[index].answer;
         if (answer) {
@@ -1594,7 +1594,7 @@ function renderOpenQuestion(item, studyData, answer) {
 
 function renderEditableOpenQuestion(item, studyData, answer) {
     renderOpenQuestionInput(item, studyData.parameters);
-//    console.log(answer);
+    console.log(answer);
     if (answer) {
         $(item).find('#openQuestionInput').val(answer.openAnswer);
     }
@@ -2585,8 +2585,10 @@ function renderUEQItem(item, studyData, answer) {
             $(item).find('#score-container').remove();
             $(item).find('#no-answer').removeClass('hidden');
         } else if (studyData.parameters.showRatingInfo && studyData.parameters.showRatingInfo === 'yes') {
-            renderRatingSigns($(item).find('#score-container'), score, 7, -4);
+//            renderRatingSigns($(item).find('#score-container'), score, 7, -4);
         }
+        
+        renderRatingSigns($(item).find('#score-container'), score, 7, -4);
     } else {
         $(item).find('#no-answer').removeClass('hidden');
     }
@@ -3163,6 +3165,9 @@ function getObservationResults(currentPhaseId) {
 }
 
 function renderEditableObservations(target, studyData, resultData) {
+    console.log('RENDER EDITABLE OBSERVATIONS', studyData, resultData);
+    $(target).empty();
+
     if (studyData && studyData.length > 0) {
         for (var i = 0; i < studyData.length; i++) {
             var listItem = $('#item-container-inputs').find('#' + studyData[i].format).clone();
@@ -3176,10 +3181,10 @@ function renderEditableObservations(target, studyData, resultData) {
 //                $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
             }
 
-            for (var j = 0; j < resultData.length; j++) {
-                if (parseInt(studyData[i].id) === parseInt(resultData[j].id)) {
+            for (var j = 0; j < resultData.answers.length; j++) {
+                if (parseInt(studyData[i].id) === parseInt(resultData.answers[j].id)) {
                     var answer = getAnswerForId(studyData[i].id, resultData);
-//                    console.log(studyData[i].format, answer);
+                    console.log(studyData[i].format, answer);
 
                     switch (studyData[i].format) {
                         case COUNTER:
@@ -3187,7 +3192,7 @@ function renderEditableObservations(target, studyData, resultData) {
                             break;
                         case OPEN_QUESTION:
                         case OPEN_QUESTION_GUS:
-                            renderEditableOpenQuestion(listItem, answer);
+                            renderEditableOpenQuestion(listItem, studyData[i], answer);
                             break;
                         case DICHOTOMOUS_QUESTION:
                         case DICHOTOMOUS_QUESTION_GUS:
@@ -3218,7 +3223,9 @@ function renderEditableObservations(target, studyData, resultData) {
     }
 }
 
-function saveObservationAnwers(target, studyId, testerId, currentPhaseId, submitData) {
+function saveObservationAnwers(target, studyId, testerId, evaluatorId, currentPhaseId, isObserver, submitObservations) {
+    console.log('SAVE OBSERVATION ANSWERS');
+
     var observationAnswerItems = $(target).children();
     var answers = getQuestionnaireAnswers(observationAnswerItems);
     var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
@@ -3239,13 +3246,15 @@ function saveObservationAnwers(target, studyId, testerId, currentPhaseId, submit
 
     setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, observations);
 
-    if (submitData && submitData === true) {
-        saveObservations({studyId: studyId, testerId: testerId, observations: observations});
-    } else {
-        if (peerConnection) {
-            peerConnection.sendMessage(MESSAGE_UPDATE_OBSERVATIONS, {observations: observations});
-        }
+    if (submitObservations && submitObservations === true) {
+        saveObservations({studyId: studyId, testerId: testerId, evaluatorId: evaluatorId, observations: observations});
     }
+
+    if (isObserver && isObserver === true && peerConnection) {
+        peerConnection.sendMessage(MESSAGE_UPDATE_OBSERVATIONS, {observations: observations});
+    }
+
+    return observations;
 }
 
 function isObservationPresent(phaseId) {

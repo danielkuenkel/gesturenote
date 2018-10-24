@@ -32,6 +32,28 @@ UserExperienceQuestionnaire.prototype.renderModeratorView = function () {
 
 
 
+
+
+/*
+ * observer view rendering
+ */
+
+UserExperienceQuestionnaire.prototype.renderObserverView = function () {
+    console.log('render observer view:', UEQ.toUpperCase());
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+    $(container).find('.headline').text(currentPhase.title);
+
+    var questionnaire = new Questionnaire({isPreview: true, container: container});
+    container = questionnaire.renderObserverView();
+    return container;
+};
+
+
+
 /*
  * tester view rendering
  */

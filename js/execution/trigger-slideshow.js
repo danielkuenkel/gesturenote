@@ -35,6 +35,12 @@ TriggerSlideshow.prototype.renderModeratorView = function () {
     $(container).find('#general .headline').text(currentPhase.title);
     $(container).find('#general #description').text(data.description);
 
+    if (!previewModeEnabled) {
+        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+        tempData.annotations = new Array();
+        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+    }
+
     // observation section
     renderObservations(data, container);
 
@@ -66,7 +72,7 @@ TriggerSlideshow.prototype.renderModeratorView = function () {
 
         $(container).find('#btn-start-slideshow').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            
+
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_START_TRIGGER_SLIDESHOW);
             }
@@ -87,11 +93,13 @@ TriggerSlideshow.prototype.renderModeratorView = function () {
 
         if (!previewModeEnabled) {
             $(peerConnection).unbind(MESSAGE_UPDATE_QUESTIONNAIRE).bind(MESSAGE_UPDATE_QUESTIONNAIRE, function (event, payload) {
+                event.preventDefault();
                 currentQuestionnaireAnswers = payload;
                 renderSlideshowItems(payload);
             });
 
             $(peerConnection).unbind(MESSAGE_TRIGGER_SLIDESHOW_DONE).bind(MESSAGE_TRIGGER_SLIDESHOW_DONE, function (event, payload) {
+                event.preventDefault();
                 currentQuestionnaireAnswers = payload;
                 currentPhaseState = 'slideshowDone';
                 renderCurrentPhaseState();
@@ -102,7 +110,7 @@ TriggerSlideshow.prototype.renderModeratorView = function () {
     }
 
     function renderStateSlideshowDone() {
-        console.log('render moderator state: ', currentPhaseState);
+        console.log('render moderator state: ', currentPhaseState, currentQuestionnaireAnswers);
 
         renderSlideshowItems(currentQuestionnaireAnswers);
         appendAlert(container, ALERT_PHASE_STEP_DONE);
@@ -122,7 +130,9 @@ TriggerSlideshow.prototype.renderModeratorView = function () {
     }
 
     function renderSlideshowItems(answers) {
-        $(container).find('.question-container').empty();
+        $(container).find('#elements .question-container').empty();
+        console.log("renderSlideshowItems()", currentQuestionnaireAnswers);
+
         for (var i = 0; i < data.slideshow.length; i++) {
             var item = $(source).find('#triggerSlideshowItem').clone().removeAttr('id');
             $(container).find('#elements .question-container').append(item);
@@ -175,6 +185,12 @@ TriggerSlideshow.prototype.renderTesterView = function () {
 
     if (!data.slideshow || data.slideshow.length === 0) {
         return false;
+    }
+
+    if (!previewModeEnabled) {
+        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+        tempData.selectedOptions = [];
+        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
     }
 
     renderCurrentPhaseState();
@@ -269,23 +285,157 @@ TriggerSlideshow.prototype.renderTesterView = function () {
         selectedOption = selectedOption === undefined ? -1 : selectedOption;
 
         if (!previewModeEnabled && peerConnection) {
-            var currentPhase = getCurrentPhase();
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
-                tempData.selectedOptions.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-            } else {
-                var array = new Array();
-                array.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-                tempData.selectedOptions = array;
-            }
-
+            tempData.selectedOptions[currentSlideIndex] = {correctTriggerId: slideData.triggerId, selectedId: selectedOption};
             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            
+            currentQuestionnaireAnswers = tempData.selectedOptions;
             peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, tempData.selectedOptions);
         } else {
             if (currentQuestionnaireAnswers) {
-                currentQuestionnaireAnswers.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
+                currentQuestionnaireAnswers[currentSlideIndex] = {correctTriggerId: slideData.triggerId, selectedId: selectedOption};
             } else {
                 currentQuestionnaireAnswers = [{correctTriggerId: slideData.triggerId, selectedId: selectedOption}];
+            }
+        }
+    }
+
+    return container;
+};
+
+
+
+
+
+
+/*
+ * observer view rendering
+ */
+
+TriggerSlideshow.prototype.renderObserverView = function () {
+    console.log('render observer view:', SLIDESHOW_TRIGGER.toUpperCase());
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+
+    if (data.slideshow.length === 0) {
+        return false;
+    }
+
+    if (!data.slideshow || data.slideshow.length === 0) {
+        return false;
+    }
+
+    // observation section
+    renderObservations(data, container);
+
+    // init annotation controls
+    renderAnnotationControls(container);
+
+    renderCurrentPhaseState();
+
+    function renderCurrentPhaseState() {
+        if (currentPhaseState === null) {
+            currentPhaseState = 'initialize';
+        }
+
+        switch (currentPhaseState) {
+            case 'initialize':
+                renderStateInitialize();
+                break;
+            case 'slideshowStarted':
+                renderStateSlideshowStarted();
+                break;
+            case 'slideshowDone':
+                renderStateSlideshowDone();
+                break;
+        }
+    }
+
+    function renderStateInitialize() {
+        console.log('render observer state: ', currentPhaseState);
+
+        appendAlert(container, ALERT_PLEASE_WAIT);
+        $(document).scrollTop(0);
+//        $(container).find('#general').removeClass('hidden');
+
+        if (peerConnection) {
+            $(peerConnection).unbind(MESSAGE_START_TRIGGER_SLIDESHOW).bind(MESSAGE_START_TRIGGER_SLIDESHOW, function (event) {
+                currentPhaseState = 'slideshowStarted';
+                renderCurrentPhaseState();
+            });
+        }
+    }
+
+    function renderStateSlideshowStarted() {
+        console.log('render observer state: ', currentPhaseState);
+        clearAlerts(container);
+
+//        $(container).find('#btn-start-slideshow').addClass('hidden');
+//        $(container).find('#btn-done-slideshow').removeClass('hidden');
+        $(container).find('#general').remove();
+        $(container).find('#elements').removeClass('hidden');
+
+        renderSlideshowItems(currentQuestionnaireAnswers);
+
+        if (!previewModeEnabled) {
+            $(peerConnection).unbind(MESSAGE_UPDATE_QUESTIONNAIRE).bind(MESSAGE_UPDATE_QUESTIONNAIRE, function (event, payload) {
+                currentQuestionnaireAnswers = payload;
+                renderSlideshowItems(payload);
+            });
+
+            $(peerConnection).unbind(MESSAGE_TRIGGER_SLIDESHOW_DONE).bind(MESSAGE_TRIGGER_SLIDESHOW_DONE, function (event, payload) {
+                currentQuestionnaireAnswers = payload;
+                currentPhaseState = 'slideshowDone';
+                renderCurrentPhaseState();
+            });
+        }
+
+
+    }
+
+    function renderStateSlideshowDone() {
+        console.log('render observer state: ', currentPhaseState);
+
+        appendAlert(container, ALERT_PLEASE_WAIT);
+
+        $(container).find('#elements').addClass('hidden');
+    }
+
+    function renderSlideshowItems(answers) {
+        $(container).find('#elements .question-container').empty();
+
+        for (var i = 0; i < data.slideshow.length; i++) {
+            var item = $(getSourceContainer(VIEW_MODERATOR)).find('#triggerSlideshowItem').clone().removeAttr('id');
+            $(container).find('#elements .question-container').append(item);
+            var gesture = getGestureById(data.slideshow[i].gestureId);
+            var trigger = getTriggerById(data.slideshow[i].triggerId);
+            $(item).find('#searched').text(trigger.title);
+            $(item).find('#given').text(gesture.title);
+            $(item).find('.btn-popover-gesture-preview').attr('name', gesture.id);
+            var answer = null;
+
+            if (answers && answers.length > 0) {
+                for (var j = 0; j < answers.length; j++) {
+                    if (parseInt(answers[j].correctTriggerId) === parseInt(trigger.id)) {
+                        answer = answers[j];
+                        break;
+                    }
+                }
+            }
+
+            if (answer) {
+                if (parseInt(answer.selectedId) === parseInt(trigger.id)) {
+                    item.addClass('panel-success');
+                    item.find('#answered-correct').removeClass('hidden');
+                } else {
+                    item.addClass('panel-danger');
+                    item.find('#answered-wrong').removeClass('hidden');
+                }
+            } else {
+                item.find('#not-answered').removeClass('hidden');
             }
         }
     }

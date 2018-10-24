@@ -27,6 +27,12 @@ UserTest.prototype.renderModeratorView = function () {
         return false;
     }
 
+    if (!previewModeEnabled) {
+        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+        tempData.annotations = new Array();
+        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+    }
+
     // observation section
     renderObservations(data, container);
 
@@ -61,12 +67,6 @@ UserTest.prototype.renderModeratorView = function () {
 
     function renderStateInitialize() {
         console.log('render moderator state: ', currentPhaseState);
-
-        if (!previewModeEnabled) {
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.annotations = new Array();
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-        }
 
         triggeredHelp, triggeredWoz, triggeredFeedback = null;
         currentWOZScene = getSceneById(data.scene);
@@ -236,6 +236,8 @@ UserTest.prototype.renderModeratorView = function () {
 
     function renderTaskAssessment() {
         if (!$.isEmptyObject(data.taskAssessments)) {
+            $(container).find('#assessment-controls-container').empty();
+
             for (var assessment in data.taskAssessments) {
                 var assessmentButton = document.createElement('button');
                 $(assessmentButton).attr('data-trigger', data.taskAssessments[assessment].trigger);
@@ -880,6 +882,112 @@ UserTest.prototype.renderTesterView = function () {
                     peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN);
                 }
             }
+        }
+    }
+
+    return container;
+};
+
+
+
+
+
+/*
+ * observer view rendering
+ */
+
+UserTest.prototype.renderObserverView = function () {
+    console.log('render observer view:', SCENARIO.toUpperCase());
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+
+    if (!data.tasks || data.tasks.length === 0) {
+        return false;
+    }
+
+    // observation section
+    renderObservations(data, container);
+
+    // annotation section
+    renderAnnotationControls(container);
+
+    renderCurrentPhaseState();
+    function renderCurrentPhaseState() {
+        if (currentPhaseState === null) {
+            currentPhaseState = 'initialize';
+        }
+
+        switch (currentPhaseState) {
+            case 'initialize':
+                renderStateInitialize();
+                break;
+            case 'prototypeOpened':
+                renderStatePrototypeOpened();
+                break;
+            case 'usertestStarted':
+                renderStateUsertestStarted();
+                break;
+            case 'noTasksLeft':
+            case 'usertestDone':
+                renderStateUsertestDone();
+                break;
+        }
+    }
+
+    function renderStateInitialize() {
+        console.log('render observer state: ', currentPhaseState);
+        appendAlert(container, ALERT_PLEASE_WAIT);
+
+//        initScreenSharing($(container).find('#scene-container'));
+
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_START_SCENARIO).bind(MESSAGE_START_SCENARIO, function () {
+                currentPhaseState = 'usertestStarted';
+                renderCurrentPhaseState();
+            });
+        }
+    }
+
+    function renderStatePrototypeOpened() {
+        console.log('render observer state: ', currentPhaseState);
+        appendAlert(container, ALERT_PLEASE_WAIT);
+    }
+
+    function renderStateUsertestStarted() {
+        console.log('render observer state: ', currentPhaseState);
+        clearAlerts(container);
+        checkScenes();
+
+        if (peerConnection) {
+            $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
+                $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING);
+                currentPhaseState = 'usertestDone';
+                renderCurrentPhaseState();
+            });
+        }
+    }
+
+    function renderStateUsertestDone() {
+        console.log('render observer state: ', currentPhaseState);
+        appendAlert(container, ALERT_PLEASE_WAIT);
+        $(container).find('#scene-container').addClass('hidden');
+        showStream();
+    }
+
+
+
+
+    // state independent functions
+
+    function checkScenes() {
+        $(container).find('#scene-container').removeClass('hidden');
+        if (previewModeEnabled && currentWOZScene) {
+            // render scene manually
+            var sceneItem = renderSceneItem(source, container, currentWOZScene.id);
+            console.log(sceneItem);
         }
     }
 

@@ -87,6 +87,7 @@ var Moderator = {
                     if (!syncPhaseStep || currentPhase.format === THANKS) {
                         $('#viewModerator #phase-content').empty().append(item);
                     }
+                    initObserverAnnotationHandling();
                 } else {
                     Moderator.renderNoDataView();
                 }
@@ -99,6 +100,7 @@ var Moderator = {
             } else {
                 Moderator.renderNoDataView();
             }
+
 
             Moderator.initializeRTC();
             removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
@@ -225,15 +227,17 @@ var Moderator = {
 
                 event.preventDefault();
                 setTimeout(function () {
+                    var study = getLocalItem(STUDY);
+
                     if (payload.nick === VIEW_TESTER) {
                         var peers = peerConnection.getPeers();
                         if (peers && peers.length > 0) {
                             for (var i = 0; i < peers.length; i++) {
-                                peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: peers[i].nick, currentPhaseState: currentPhaseState});
+                                peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: peers[i].nick, currentPhaseState: currentPhaseState, evaluatorId: study.sessionUserId});
                             }
                         }
                     } else {
-                        peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: payload.nick, currentPhaseState: currentPhaseState});
+                        peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: payload.nick, currentPhaseState: currentPhaseState, evaluatorId: study.sessionUserId});
                     }
 
 //                    console.log('CONNECTION:', peerConnection);
@@ -244,6 +248,8 @@ var Moderator = {
                         syncPhaseStep = false;
                         resetConstraints();
                         renderPhaseStep();
+                    } else {
+                        renderObservations(getCurrentPhaseData(), getMainContent());
                     }
                 }, 500);
             });
@@ -263,6 +269,8 @@ var Moderator = {
                         $('#viewModerator').find('#phase-content').addClass('hidden');
                         $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
                     }
+                } else {
+                    renderObservations(getCurrentPhaseData(), getMainContent());
                 }
 
             });
@@ -348,17 +356,22 @@ var Moderator = {
         updateRTCHeight($('#viewModerator #column-left').width(), true);
 
         peerConnection.update(callerOptions);
-        Moderator.keepStreamsPlaying(callerOptions.callerElement);
+        Moderator.keepStreamsPlaying();
     },
-    keepStreamsPlaying: function keepStreamsPlaying(element) {
-        if (peerConnection.status !== STATUS_UNINITIALIZED) {
-            var videos = $(element).find('video');
-            for (var i = 0; i < videos.length; i++) {
-//                if (new String($(videos[i]).attr('id')).includes('video') && !videos[i].playing) {
-                videos[i].play();
-//                }
-            }
+    keepStreamsPlaying: function keepStreamsPlaying() {
+        if (peerConnection) {
+            peerConnection.keepStreamsPlaying();
         }
+
+//        if (peerConnection.status !== STATUS_UNINITIALIZED) {
+//            var peers = peerConnection
+//            var videos = $(element).find('video');
+//            for (var i = 0; i < videos.length; i++) {
+////                if (new String($(videos[i]).attr('id')).includes('video') && !videos[i].playing) {
+//                videos[i].play();
+////                }
+//            }
+//        }
     }
 };
 
@@ -398,62 +411,64 @@ function submitFinalData(container, areAllRTCsUploaded) {
 
 function renderObservations(data, container) {
     if (data.observations && data.observations.length > 0) {
+        var study = getLocalItem(STUDY);
+
         if (!previewModeEnabled) {
-            var study = getLocalItem(STUDY);
-            if (isObserverConnected()) {
+            var savedObservations = getObservationResults(getCurrentPhase().id);
+
+            if (peerConnection && peerConnection.isObserverConnected()) {
                 console.log('OBSERVER CONNECTED for Observation rendering');
                 $(peerConnection).unbind(MESSAGE_UPDATE_OBSERVATIONS).bind(MESSAGE_UPDATE_OBSERVATIONS, function (event, payload) {
-                    console.log('UPDATE OBSERVATIONS:', payload.observations);
+                    event.preventDefault();
                     setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, payload.observations);
-                    saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id, true);
+                    console.log('UPDATE OBSERVATIONS:', getLocalItem(STUDY_EVALUATOR_OBSERVATIONS));
+                    savedObservations = getObservationResults(getCurrentPhase().id);
+//                    saveObservations({studyId: study.id, testerId: study.testerId, observations: getLocalItem(STUDY_EVALUATOR_OBSERVATIONS)});
 
-                    var questionnaire = new Questionnaire({isPreview: true, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations'), answers: payload.observations});
+                    var questionnaire = new Questionnaire({isPreview: true, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations'), answers: {answers: savedObservations}});
                     questionnaire.renderModeratorView();
                 });
-                
-                var savedObservations = getObservationResults(getCurrentPhase().id);
-                var questionnaire = new Questionnaire({isPreview: true, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations'), answers: savedObservations});
+
+                $(container).find('#observations').unbind('change');
+                var questionnaire = new Questionnaire({isPreview: true, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations'), answers: {answers: savedObservations}});
                 questionnaire.renderModeratorView();
             } else {
-                var savedObservations = getObservationResults(getCurrentPhase().id);
-                console.log('render observations with answers: ', savedObservations, data.observations);
+                console.log('render observations with answers: ', data.observations, savedObservations);
                 if (savedObservations && savedObservations.length > 0) {
-                    renderEditableObservations($(container).find('#observations .question-container'), data.observations, savedObservations);
+                    savedObservations = getObservationResults(getCurrentPhase().id);
+                    renderEditableObservations($(container).find('#observations .question-container'), data.observations, {answers: savedObservations});
                 } else {
                     var questionnaire = new Questionnaire({isPreview: false, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations')});
                     questionnaire.renderModeratorView();
                 }
 
-                $(container).find('#observations').on('change', function () {
+                $(container).find('#observations').unbind('change').bind('change', function () {
                     console.log('save observation answers');
-                    saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id, true);
+                    saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, study.sessionUserId, getCurrentPhase().id, false, true);
                 });
             }
         } else {
             console.log('render observations');
-            var questionnaire = new Questionnaire({isPreview: false, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations')});
-            questionnaire.renderModeratorView();
+            var savedObservations = getObservationResults(getCurrentPhase().id);
+
+            savedObservations = getObservationResults(getCurrentPhase().id);
+            if (savedObservations) {
+                renderEditableObservations($(container).find('#observations .question-container'), data.observations, {answers: savedObservations});
+            } else {
+                var questionnaire = new Questionnaire({isPreview: false, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations')});
+                questionnaire.renderModeratorView();
+            }
+
+            $(container).find('#observations').unbind('change').bind('change', function () {
+                console.log('save observation answers');
+                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, study.sessionUserId, getCurrentPhase().id, false, true);
+            });
         }
 
         $(container).find('#observations').css({marginBottom: '30px'});
     } else {
         appendAlert($(container).find('#observations'), ALERT_NO_PHASE_DATA);
     }
-}
-
-function isObserverConnected() {
-    if (!previewModeEnabled && peerConnection) {
-        var peers = peerConnection.getPeers();
-        if (peers && peers.length > 0) {
-            for (var i = 0; i < peers.length; i++) {
-                if (peers[i].nick === VIEW_OBSERVER) {
-                    return true;
-                }
-            }
-        }
-    }
-
-    return false;
 }
 
 function checkSingleScene(data) {
@@ -584,4 +599,16 @@ function getWOZTransitionFeedbackItem(source, feedback, transitionMode, time, di
     }
 
     return btn;
+}
+
+function initObserverAnnotationHandling() {
+    if (!previewModeEnabled && peerConnection && peerConnection.isObserverConnected()) {
+        $(peerConnection).unbind(MESSAGE_OBSERVER_ANNOTATION).bind(MESSAGE_OBSERVER_ANNOTATION, function (event, payload) {
+            event.preventDefault();
+            var currentPhase = getCurrentPhase();
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_OBSERVER_ANNOTATION, annotationId: payload.annotationColor, time: payload.timestamp});
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+        });
+    }
 }

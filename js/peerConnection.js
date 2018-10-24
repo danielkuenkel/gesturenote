@@ -72,6 +72,10 @@ PeerConnection.prototype.destroy = function () {
     if (connection) {
         connection = null;
     }
+
+    if (peerConnection) {
+        peerConnection = null;
+    }
 };
 
 PeerConnection.prototype.initialize = function (options) {
@@ -411,22 +415,25 @@ PeerConnection.prototype.initialize = function (options) {
         // local p2p/ice failure
         webrtc.on('iceFailed', function (peer) {
             var pc = peer.pc;
-            console.log('local p2p/ice failure');
+            console.error('local p2p/ice failure');
             console.log('had local relay candidate', pc.hadLocalRelayCandidate);
             console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
 
             if (connection.options.localStream.record === 'yes') {
-                connection.stopRecording(null, false);
+//                connection.stopRecording(null, false);
             }
         });
 
         // remote p2p/ice failure
         webrtc.on('connectivityError', function (peer) {
             var pc = peer.pc;
-            console.log('remote p2p/ice failure');
+            console.error('remote p2p/ice failure');
             console.log('had local relay candidate', pc.hadLocalRelayCandidate);
             console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
-            connection.stopRecording(null, false);
+
+            if (connection.options.localStream.record === 'yes') {
+//                connection.stopRecording(null, false);
+            }
         });
 
 //        // called when a peer is created
@@ -552,7 +559,9 @@ PeerConnection.prototype.initialize = function (options) {
     }
 
     $(window).on('resize', function () {
-        connection.checkRemoteStreamsPositions(); // don't do this. arrange video elements through getRemoteVideos(), because videos should be swapable
+        if (connection) {
+            connection.checkRemoteStreamsPositions(); // don't do this. arrange video elements through getRemoteVideos(), because videos should be swapable
+        }
     });
 };
 
@@ -1158,7 +1167,7 @@ PeerConnection.prototype.transferFile = function (file) {
 
 PeerConnection.prototype.shareScreen = function (errorCallback, successCallback) {
     if (webrtc && webrtc.capabilities.supportScreenSharing) {
-        console.log(webrtc.getLocalScreen());
+//        console.log(webrtc.getLocalScreen());
         webrtc.shareScreen(function (error) {
             if (error) {
                 if (errorCallback) {
@@ -1183,4 +1192,42 @@ PeerConnection.prototype.stopShareScreen = function (save, callback) {
 };
 
 PeerConnection.prototype.reset = function () {
+};
+
+PeerConnection.prototype.keepStreamsPlaying = function () {
+    if (webrtc && this.status !== STATUS_UNINITIALIZED) {
+        var peers = webrtc.getPeers();
+        if (peers && peers.length > 0) {
+            for (var i = 0; i < peers.length; i++) {
+//                if (peers[i].type === TYPE_PEER_VIDEO) {
+
+                var videoElement = peers[i].videoEl;
+                if (videoElement && videoElement !== undefined) {
+//                    console.log(videoElement);
+                    videoElement.play();
+                }
+
+//                }
+            }
+        }
+
+        var localContainer = webrtc.getLocalVideoContainer();
+        if (localContainer) {
+            localContainer.play();
+        }
+    }
+};
+
+
+PeerConnection.prototype.isObserverConnected = function () {
+    var peers = connection.getPeers();
+    if (peers && peers.length > 0) {
+        for (var i = 0; i < peers.length; i++) {
+            if (peers[i].nick === VIEW_OBSERVER) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 };

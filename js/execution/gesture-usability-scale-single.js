@@ -79,6 +79,76 @@ GestureUsabilityScaleSingle.prototype.renderModeratorView = function () {
 
 
 
+
+
+
+
+
+
+
+
+
+/*
+ * observer view rendering
+ */
+
+GestureUsabilityScaleSingle.prototype.renderObserverView = function () {
+    console.log('render observer view:', GUS_SINGLE_GESTURES.toUpperCase());
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+
+    currentGUSData = data;
+    var gesture = getGestureById(data.gestureId);
+    var trigger = getTriggerById(data.triggerId);
+    var feedback = getFeedbackById(data.feedbackId);
+
+    if (gesture) {
+        renderGestureImages($(container).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+        $(container).find('#gesture .address').text(translation.gesture + ':');
+        $(container).find('#gesture .text').text(gesture.title);
+        $(container).find('#trigger .address').text(translation.trigger + ':');
+        $(container).find('#trigger .text').text(trigger.title);
+
+
+        if (feedback) {
+            $(container).find('#feedback .address').text(translation.feedback + ':');
+            $(container).find('#feedback .text').text(feedback.title);
+            var icon = document.createElement('i');
+            var label = document.createElement('div');
+            $(label).addClass('label label-default');
+            switch (feedback.type) {
+                case TYPE_FEEDBACK_SOUND:
+                    $(label).text(' Sound');
+                    $(icon).addClass('fa fa-volume-up');
+                    break;
+                case TYPE_FEEDBACK_TEXT:
+                    $(label).text(' Text');
+                    $(icon).addClass('fa fa-font');
+                    break;
+            }
+
+            container.find('#feedback .text').text(" " + feedback.title);
+            $(label).prepend(icon);
+            container.find('#feedback .text').prepend(label);
+        }
+    }
+
+    var questionnaire = new Questionnaire({isPreview: true, questions: getAssembledItems(data.gus), container: container});
+    container = questionnaire.renderObserverView();
+    return container;
+};
+
+
+
+
+
+
+
+
+
 /*
  * tester view rendering
  */

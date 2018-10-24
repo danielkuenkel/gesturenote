@@ -65,6 +65,10 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['testerId'])) {
                                     }
                                 }
                             }
+                            
+                            if(isset($decodedTesterResultData->snapshot)) {
+                                array_push($deleteFiles, $decodedTesterResultData->snapshot);
+                            }
                         }
                     }
                 }
@@ -85,6 +89,11 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['testerId'])) {
                                     if (isset($item->recordUrl)) {
                                         $recordUrl = 'uploads/' . $item->recordUrl;
                                         array_push($deleteFiles, $recordUrl);
+                                    }
+                                    
+                                    if(isset($item->screenRecordUrl)) {
+                                        $screenRecordUrl = 'uploads/' . $item->screenRecordUrl;
+                                        array_push($deleteFiles, $screenRecordUrl);
                                     }
                                 }
                             }

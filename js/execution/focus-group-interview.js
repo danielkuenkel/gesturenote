@@ -24,7 +24,6 @@ FocusGroupInterview.prototype.renderModeratorView = function () {
     var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
 
     if (!previewModeEnabled) {
-        var currentPhase = getCurrentPhase();
         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
         tempData.annotations = new Array();
         setLocalItem(currentPhase.id + '.tempSaveData', tempData);

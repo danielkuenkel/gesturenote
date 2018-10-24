@@ -223,10 +223,14 @@ function nextStep() {
 
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {
-        if (currentPhaseStepIndex < phases.length - 1) {
-            saveCurrentStatus(false, function () {
+        if (currentView !== VIEW_OBSERVER) {
+            if (currentPhaseStepIndex < phases.length - 1) {
+                saveCurrentStatus(false, function () {
+                    checkIfStopRecordingNeeded(phases);
+                });
+            } else {
                 checkIfStopRecordingNeeded(phases);
-            });
+            }
         } else {
             checkIfStopRecordingNeeded(phases);
         }
@@ -455,7 +459,10 @@ function dragRTC(opacity) {
     $(video).appendTo("#draggableRTC");
     $(video).find('#resize-sign').removeClass('hidden').css({zIndex: 1000});
 
-    keepStreamsAlive(video);
+    if (peerConnection) {
+        peerConnection.keepStreamsPlaying();
+    }
+//    keepStreamsAlive(video);
 
     TweenMax.to($('#phase-content #column-left'), .2, {css: {marginTop: 0, opacity: 1.0}});
 
@@ -591,7 +598,10 @@ function pinRTC() {
     $(document).scrollTop(0);
 
     $('#draggableRTC').css({top: 150, left: 50});
-    keepStreamsAlive(video);
+    if (peerConnection) {
+        peerConnection.keepStreamsPlaying();
+    }
+//    keepStreamsAlive(video);
     resetRTC();
 }
 
@@ -652,18 +662,18 @@ function hideRecordIndicator() {
     TweenMax.to(showStreamButtonIcon, .3, {color: "#000000"});
 }
 
-function keepStreamsAlive(target) {
-    if (previewModeEnabled === false) {
-        var pausedStreams = $(target).find('video');
-        if (pausedStreams.length > 0) {
-            for (var i = 0; i < pausedStreams.length; i++) {
-//                if (pausedStreams[i].paused) {
-                pausedStreams[i].play();
-//                }
-            }
-        }
-    }
-}
+//function keepStreamsAlive(target) {
+//    if (previewModeEnabled === false) {
+//        var pausedStreams = $(target).find('video');
+//        if (pausedStreams.length > 0) {
+//            for (var i = 0; i < pausedStreams.length; i++) {
+////                if (pausedStreams[i].paused) {
+//                pausedStreams[i].play();
+////                }
+//            }
+//        }
+//    }
+//}
 
 function checkScreenSharingZombies(target) {
     if (previewModeEnabled === false) {

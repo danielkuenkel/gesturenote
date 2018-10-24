@@ -86,6 +86,7 @@ var Tester = {
                     if (!syncPhaseStep) {
                         $('#viewTester #phase-content').empty().append(item);
                     }
+                    initObserverAnnotationHandling();
                 } else {
                     Tester.renderNoDataView();
                 }
@@ -214,7 +215,7 @@ var Tester = {
                     removeAlert($('#viewTester'), ALERT_GENERAL_PLEASE_WAIT);
                     if (peer.nick === VIEW_MODERATOR) {
                         syncPhaseStep = true;
-                        
+
                         peerConnection.stopRecording(function () {
                             resetConstraints();
                         }, false);
@@ -380,17 +381,20 @@ var Tester = {
         }
 
         peerConnection.update(callerOptions);
-        Tester.keepStreamsPlaying(callerOptions.callerElement);
+        Tester.keepStreamsPlaying();
     },
-    keepStreamsPlaying: function keepStreamsPlaying(element) {
-        if (peerConnection.status !== STATUS_UNINITIALIZED) {
-            var videos = $(element).find('video');
-            for (var i = 0; i < videos.length; i++) {
-//                if (videos[i].paused) {
-                videos[i].play();
-//                }
-            }
+    keepStreamsPlaying: function keepStreamsPlaying() {
+        if (peerConnection) {
+            peerConnection.keepStreamsPlaying();
         }
+//        if (peerConnection.status !== STATUS_UNINITIALIZED) {
+//            var videos = $(element).find('video');
+//            for (var i = 0; i < videos.length; i++) {
+////                if (videos[i].paused) {
+//                videos[i].play();
+////                }
+//            }
+//        }
     }
 };
 
@@ -412,8 +416,8 @@ function initScreenSharing(container) {
             }).resize();
 
             peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
-            Tester.keepStreamsPlaying($('#video-caller'));
-            Tester.keepStreamsPlaying(container);
+            Tester.keepStreamsPlaying();
+//            Tester.keepStreamsPlaying(container);
             $(container).trigger('sharedScreenAdded');
         });
     }
@@ -591,7 +595,8 @@ function animateLiveStream(zoom, swap, callback) {
 //            keepStreamsAlive(stream);
         }
 
-        keepStreamsAlive(stream);
+        Tester.keepStreamsPlaying();
+//        keepStreamsAlive(stream);
     }, 300);
 }
 
@@ -609,4 +614,18 @@ function calcDimensions() {
     var newTop = previewModeEnabled ? ((screenSize.height - maxHeight) / 2) + 62 : ((screenSize.height - maxHeight) / 2) + 35;
     var newLeft = (screenSize.width - maxWidth) / 2;
     return {width: maxWidth, height: maxHeight, top: newTop, left: newLeft};
+}
+
+function initObserverAnnotationHandling() {
+    if (!previewModeEnabled && peerConnection && peerConnection.isObserverConnected()) {
+        console.log('INIT OBSERVATION HANDLING');
+        $(peerConnection).unbind(MESSAGE_OBSERVER_ANNOTATION).bind(MESSAGE_OBSERVER_ANNOTATION, function (event, payload) {
+            console.log('save observation', payload);
+            event.preventDefault();
+            var currentPhase = getCurrentPhase();
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_OBSERVER_ANNOTATION, annotationId: payload.annotationColor, time: payload.timestamp});
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+        });
+    }
 }

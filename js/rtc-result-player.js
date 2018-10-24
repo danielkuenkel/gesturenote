@@ -14,7 +14,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 //        console.log('server time: ', timestamp);
 //    });
 //    console.log('tester results:', testerResults);
-//    console.log('evaluator results:', evaluatorResults);
+    console.log('evaluator results:', evaluatorResults);
 //    console.log('phase data results:', phaseData);
 //    console.log('execution time:', executionTime);
 
@@ -674,6 +674,18 @@ function getVisDataSet(timelineData) {
 
     var className = 'item-primary-full';
     var annotations = timelineData.phaseResults.annotations;
+//    var evaluatorData = getLocalItem(timelineData.phaseResults.id + '.evaluator');
+//    if (evaluatorData && evaluatorData.annotations && !timelineData.checkedVideos.secondVideo) {
+//        var evaluatorAnnotations = evaluatorData.annotations;
+//        
+//        for (var i = 0; i < evaluatorAnnotations.length; i++) {
+//            evaluatorAnnotations[i].id = chance.natural();
+//        }
+//        
+//        annotations = annotations.concat(evaluatorAnnotations);
+//        console.log('ANNOTATIONS EVAULTOR:', annotations);
+//    }
+
     var tempData = getLocalItem(timelineData.phaseResults.id + (timelineData.checkedVideos.secondVideo ? '.evaluator' : '.results'));
     if (annotations) {
         for (var i = 0; i < annotations.length; i++) {
@@ -692,7 +704,7 @@ function getVisDataSet(timelineData) {
                 case ACTION_START_PERFORM_GESTURE:
                 case ACTION_START_PERFORM_TRIGGER_IDENTIFICATION:
                 case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
-                    
+
                     var gesture = getGestureById(annotations[i].gestureId);
                     console.log(annotations[i].gestureId, gesture);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
@@ -769,6 +781,27 @@ function getVisDataSet(timelineData) {
                 case ACTION_HIDE_TRIGGER_INFO:
                     var trigger = getTriggerById(annotations[i].triggerId);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + trigger.title;
+                    break;
+                case ACTION_OBSERVER_ANNOTATION:
+                    contentText = translation.observatorHint;
+                    var color = annotations[i].annotationId;
+                    switch (color) {
+                        case ASSESSMENT_COLOR_GREEN:
+                            className = 'item-success-full';
+                            break;
+                        case ASSESSMENT_COLOR_BLUE:
+                            className = 'item-info-full';
+                            break;
+                        case ASSESSMENT_COLOR_RED:
+                            className = 'item-danger-full';
+                            break;
+                        case ASSESSMENT_COLOR_YELLOW:
+                            className = 'item-warning-full';
+                            break;
+                        case ASSESSMENT_COLOR_DARKBLUE:
+                            className = 'item-advanced-primary-full';
+                            break;
+                    }
                     break;
             }
 

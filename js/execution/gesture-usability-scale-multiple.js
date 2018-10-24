@@ -44,6 +44,32 @@ GestureUsabilityScaleMultiple.prototype.renderModeratorView = function () {
 
 
 
+/*
+ * observer view rendering
+ */
+
+GestureUsabilityScaleMultiple.prototype.renderObserverView = function () {
+    console.log('render observer view:', GUS_MULTIPLE_GESTURES.toUpperCase());
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+
+    var questionnaire = new Questionnaire({isPreview: true, questions: getAssembledItems(data.gus), container: container});
+    container = questionnaire.renderObserverView();
+    return container;
+};
+
+
+
+
+
+
+
+
+
+
 
 /*
  * tester view rendering

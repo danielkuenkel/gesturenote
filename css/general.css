@@ -1190,6 +1190,35 @@ li.disabledTab > a[data-toggle="tab"] {
     background-color: #d9534f
 }
 
+.btn-observer-color-selector {
+    display: inline-block;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 2px solid white;
+    margin-right: 3px;
+}
+
+.btn-observer-color-selector.darkblue {
+    background-color: #337ab7
+}
+.btn-observer-color-selector.green {
+    background-color: #5cb85c
+}
+
+.btn-observer-color-selector.blue {
+    background-color: #5bc0de
+}
+
+.btn-observer-color-selector.yellow {
+    background-color: #f0ad4e
+}
+
+.btn-observer-color-selector.red {
+    background-color: #d9534f
+}
+
 .bs-example {
     margin-right: 0;
     margin-left: 0;

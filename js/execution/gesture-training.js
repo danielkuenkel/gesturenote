@@ -420,7 +420,6 @@ GestureTraining.prototype.renderModeratorView = function () {
     function resetToStartScene() {
         var trainingData = data.training[currentTrainingIndex];
 
-
         if (trainingData.transitionScenes && trainingData.transitionScenes.length > 0) {
             currentWOZScene = getSceneById(trainingData.transitionScenes[0].sceneId);
 //            console.log('currentTransitionSceneIndex', currentTransitionSceneIndex);
@@ -944,10 +943,13 @@ GestureTraining.prototype.renderObserverView = function () {
     if (!data.training || data.training.length === 0) {
         return false;
     }
-    
+
     // observation section
     renderObservations(data, container);
-    
+
+    // init annotation controls
+    renderAnnotationControls(container);
+
     renderCurrentPhaseState();
     function renderCurrentPhaseState() {
         if (currentPhaseState === null) {
@@ -1017,12 +1019,6 @@ GestureTraining.prototype.renderObserverView = function () {
     }
 
     function renderStateShowScenes() {
-        console.log('render observer state: ', currentPhaseState);
-        clearAlerts(container);
-        checkScenes();
-    }
-
-    function renderStateNoMoreTrainingRepeats() {
         console.log('render observer state: ', currentPhaseState);
         clearAlerts(container);
         checkScenes();

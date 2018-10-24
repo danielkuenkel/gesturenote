@@ -34,6 +34,27 @@ SystemUsabilityScale.prototype.renderModeratorView = function () {
 
 
 /*
+ * observer view rendering
+ */
+
+SystemUsabilityScale.prototype.renderObserverView = function () {
+    console.log('render moderator view:', SUS.toUpperCase());
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+    console.log(container, $(container).find('.headline'), currentPhase.title)
+    $(container).find('.headline').text(currentPhase.title);
+
+    var questionnaire = new Questionnaire({isPreview: true, container: container});
+    container = questionnaire.renderObserverView();
+    return container;
+};
+
+
+
+/*
  * tester view rendering
  */
 

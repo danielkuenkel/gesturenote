@@ -87,6 +87,7 @@ var Observer = {
                     if (!syncPhaseStep || currentPhase.format === THANKS) {
                         $('#viewObserver #phase-content').empty().append(item);
                     }
+                    renderNotes();
                 } else {
                     Observer.renderNoDataView();
                 }
@@ -146,7 +147,7 @@ var Observer = {
 //                        peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
 //                    }
 //                } else {
-                saveCurrentStatus(false);
+//                saveCurrentStatus(false);
                 peerConnection.stopRecording(function () {
                     currentPhaseStepIndex = getThanksStepIndex();
                     renderPhaseStep();
@@ -230,6 +231,10 @@ var Observer = {
                 event.preventDefault();
                 if (payload && payload.nick === VIEW_OBSERVER) {
 //                    console.log('SYNC RESPONSE', payload);
+                    var study = getLocalItem(STUDY);
+                    study.evaluatorId = payload.evaluatorId;
+                    setLocalItem(STUDY, study);
+
                     syncPhaseStep = false;
                     currentPhaseStepIndex = payload.index;
                     currentPhaseState = payload.currentPhaseState;
@@ -343,17 +348,21 @@ var Observer = {
         updateRTCHeight($('#viewObserver #column-left').width(), true);
 
         peerConnection.update(callerOptions);
-        Observer.keepStreamsPlaying(callerOptions.callerElement);
+        Observer.keepStreamsPlaying();
     },
-    keepStreamsPlaying: function keepStreamsPlaying(element) {
-        if (peerConnection.status !== STATUS_UNINITIALIZED) {
-            var videos = $(element).find('video');
-            for (var i = 0; i < videos.length; i++) {
-//                if (new String($(videos[i]).attr('id')).includes('video') && !videos[i].playing) {
-                videos[i].play();
-//                }
-            }
+    keepStreamsPlaying: function keepStreamsPlaying() {
+        if (peerConnection) {
+            peerConnection.keepStreamsPlaying();
         }
+
+//        if (peerConnection.status !== STATUS_UNINITIALIZED) {
+//            var videos = $(element).find('video');
+//            for (var i = 0; i < videos.length; i++) {
+////                if (new String($(videos[i]).attr('id')).includes('video') && !videos[i].playing) {
+//                videos[i].play();
+////                }
+//            }
+//        }
     }
 };
 
@@ -374,8 +383,8 @@ function initScreenSharing() {
             $(container).css({height: newHeight + "px"});
         }).resize();
 
-        Observer.keepStreamsPlaying($('#video-caller'));
-        Observer.keepStreamsPlaying(container);
+//        Observer.keepStreamsPlaying($('#video-caller'));
+        Observer.keepStreamsPlaying();
     }
 }
 
@@ -419,10 +428,11 @@ function renderObservations(data, container) {
     if (data.observations && data.observations.length > 0) {
         if (!previewModeEnabled) {
             var savedObservations = getObservationResults(getCurrentPhase().id);
-            console.log('render observations with answers: ', savedObservations, data.observations);
+            console.log('render observations with answers: ', data.observations, savedObservations);
             if (savedObservations && savedObservations.length > 0) {
-                renderEditableObservations($(container).find('#observations .question-container'), data.observations, savedObservations);
+                renderEditableObservations($(container).find('#observations .question-container'), data.observations, {answers: savedObservations});
             } else {
+//                renderEditableObservations($(container).find('#observations .question-container'), data.observations, {answers: null});
                 var questionnaire = new Questionnaire({isPreview: false, questions: data.observations, source: $('#item-container-inputs'), container: $(container).find('#observations')});
                 questionnaire.renderObserverView();
             }
@@ -430,7 +440,7 @@ function renderObservations(data, container) {
             $(container).find('#observations').on('change', function () {
                 var study = getLocalItem(STUDY);
                 console.log('save observation answers');
-                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
+                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, study.evaluatorId, getCurrentPhase().id, true, true);
             });
         } else {
             console.log('render observations');
@@ -441,5 +451,71 @@ function renderObservations(data, container) {
         $(container).find('#observations').css({marginBottom: '30px'});
     } else {
         appendAlert($(container).find('#observations'), ALERT_NO_PHASE_DATA);
+    }
+}
+
+function renderAnnotationControls(container) {
+//    var predefinedObservations = translation.predefinedAnnotations;
+    console.log('INIT ANNOTATION CONTROLS', container);
+    $(container).unbind('annotationSelected').bind('annotationSelected', function (event, id) {
+        event.preventDefault();
+        console.log('annotation selected', id);
+        getGMT(function (timestamp) {
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_OBSERVER_ANNOTATION, {annotationColor: id, timestamp: timestamp});
+            }
+        });
+    });
+}
+
+function renderNotes() {
+    var currentPhase = getCurrentPhase();
+    var mainContent = getMainContent();
+    
+    if (translation.formats[currentPhase.format].notes === 'yes') {
+        var notesData = getLocalItem(currentPhase.id + '.notes');
+        var notes = $(getSourceContainer(VIEW_OBSERVER)).find('#notes').clone();
+        
+        console.log('RENDER NOTES', $(mainContent).find('#notes-container'));
+        $(mainContent).find('#notes-container').append(notes);
+//        TweenMax.from(notes, .2, {delay: .1, opacity: 0, y: -60});
+
+        if (notesData) {
+            notes.find('#notes-input').val(notesData);
+        }
+
+        notes.find('#notes-input').on('input', function (event) {
+            event.preventDefault();
+            cacheNotes();
+        });
+    }
+
+    var saveTimer = null;
+    function cacheNotes(instantSave) {
+        if (currentPhase && currentPhase.id) {
+//            var phaseResults = getLocalItem(currentPhase.id + '.results');
+//            if (phaseResults && translation.formats[phaseResults.format].notes === 'yes') {
+            var note = $(mainContent).find('#notes-input').val();
+            setLocalItem(currentPhase.id + '.notes', note);
+
+            var phases = getLocalItem(STUDY_PHASE_STEPS);
+            var notesArray = new Array();
+            for (var i = 0; i < phases.length; i++) {
+                var phaseNote = getLocalItem(phases[i].id + '.notes');
+                if (phaseNote) {
+                    notesArray.push({phaseId: phases[i].id, note: phaseNote});
+                }
+            }
+
+            clearTimeout(saveTimer);
+            var study = getLocalItem(STUDY);
+            if (instantSave === true) {
+                saveNotes({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY).testerId, evaluatorId: study.evaluatorId, notes: notesArray});
+            } else {
+                saveTimer = setTimeout(function () {
+                    saveNotes({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY).testerId, evaluatorId: study.evaluatorId, notes: notesArray});
+                }, 1000);
+            }
+        }
     }
 }

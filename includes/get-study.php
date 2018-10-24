@@ -147,7 +147,7 @@ if (isset($_POST['studyId'])) {
                 }
 
                 $isStudyOwner = intval($sessionUserId) === intval($studyUserId);
-                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'isOwner' => $isStudyOwner, 'studyData' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'invitedUsers' => $invitedUsers, 'gestureCatalog' => $gestures));
+                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'sessionUserId' => $sessionUserId, 'isOwner' => $isStudyOwner, 'studyData' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'invitedUsers' => $invitedUsers, 'gestureCatalog' => $gestures));
                 exit();
             } else {
                 echo json_encode(array('status' => 'rowsError'));

@@ -4112,6 +4112,20 @@ $(document).on('click', '.btn-color-selector', function (event) {
     }
 });
 
+$(document).on('click', '.btn-observer-color-selector', function (event) {
+    event.preventDefault();
+    var button = $(this);
+    if (!$(button).hasClass('selected')) {
+        $(button).parent().children().removeClass('selected');
+        $(button).addClass('selected');
+        $(button).trigger('annotationSelected', [$(button).attr('data-id')]);
+
+        TweenMax.to(button, .1, {scaleX: 1.5, scaleY: 1.5, opacity: 0, clearProps: 'all', onComplete: function () {
+                $(button).removeClass('selected');
+            }});
+    }
+});
+
 $(document).on('click', '.btn-toggle-sensor-source', function (event) {
     event.preventDefault();
     if (!$(this).hasClass('disabled') && !$(this).hasClass('active')) {

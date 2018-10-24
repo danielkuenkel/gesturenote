@@ -200,6 +200,7 @@ var ACTION_HIDE_FEEDBACK = 'hideFeedback';
 var ACTION_ASSESSMENT = 'assessment';
 var ACTION_ALL_RECORDER_READY = 'allRecorderReady';
 var ACTION_RECORDER_LOST = 'recorderLost';
+var ACTION_OBSERVER_ANNOTATION = 'observerAnnotation';
 
 // cursors
 var CURSOR_AUTO = 'auto';
@@ -282,6 +283,8 @@ var MESSAGE_RESPONSE_PREFERRED_TRIGGER = 'responsePreferredTrigger';
 
 var MESSAGE_SCREEN_SHARING_ESTABLISHED = 'screenSharingEstablished';
 var MESSAGE_STOP_SCREEN_SHARING = 'stopScreenSharing';
+
+var MESSAGE_OBSERVER_ANNOTATION = 'observerAnnotation';
 
 /*
  * assessment color constants
