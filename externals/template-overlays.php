@@ -618,10 +618,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>
+            </div>-->
         </div>
         <!--<div class="row">-->
         <!--<div class="col-md-12">-->
@@ -859,10 +859,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>
+            </div>-->
         </div>
         <!--<div class="row">-->
         <!--<div class="col-md-11">-->
@@ -1046,10 +1046,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>
+            </div>-->
         </div>
         <!--        <div class="row">
                     <div class="col-md-11">-->
@@ -1233,10 +1233,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>
+            </div>-->
         </div>
         <!--        <div class="row">
                     <div class="col-md-11">-->
@@ -1683,10 +1683,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>
+            </div>-->
         </div>
         <!--        <div class="row">
                     <div class="col-md-11">-->
@@ -1932,10 +1932,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>
+            </div>-->
         </div>
         <!--        <div class="row">
                     <div class="col-md-11">-->
@@ -2178,17 +2178,45 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
+
+<!--            <div class="form-group root" id="useObservationsSwitch">
+                <div class="btn-group" id="radio" style="margin: 0">
+                    <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                        <span id="icons" style="margin-right: 6px">
+                            <i class="fa fa-circle-thin hidden" id="normal"></i>
+                            <i class="fa fa-circle hidden" id="over"></i>
+                            <i class="fa fa-check-circle" id="checked"></i>
+                        </span>
+                        <span class="option-text"><?php echo $lang->no ?></span>
+                    </button>
+                </div>
+                <div class="btn-group" id="radio" style="margin: 0">
+                    <button class="btn btn-default btn-radio" name="primary" id="yes">
+                        <span id="icons" style="margin-right: 6px">
+                            <i class="fa fa-circle-thin" id="normal"></i>
+                            <i class="fa fa-circle hidden" id="over"></i>
+                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                        </span>
+                        <span class="option-text"><?php echo $lang->yes ?></span>
+                    </button>
+                </div>
+            </div>-->
+
+
+
+
+<!--
             <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>
+            </div>-->
         </div>
         <!--        <div class="row">
                     <div class="col-md-11">-->
         <hr style="margin-top: 10px">
         <!--            </div>
                 </div>-->
-        <div class="row hidden" id="observations">
+        <div class="row" id="observations">
             <div class="col-md-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
                 <div class="form-group container-root" id="list-container"></div>

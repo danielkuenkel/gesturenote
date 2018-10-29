@@ -1086,8 +1086,22 @@ include '../includes/language.php';
     <div id="explorationItem-trigger">
         <div class="scenes-container" style="margin-bottom: 20px">
             <div><?php echo $lang->scenes ?></div>
-            <div id="transition-scenes" class="root"></div>
+            <div id="transition-scenes-container" class="root">
+                <div class="bs-example hidden" id="start-scene">
+                    <div class="bs-example-headline"><?php echo $lang->stateCharts->inputState ?></div>
+                    <div class="bs-example-body" id="start-scene-container"></div>
+                </div>
+                <div class="bs-example hidden" id="transition-scenes" style="margin-top: 10px">
+                    <div class="bs-example-headline"><?php echo $lang->stateCharts->intermediateStates ?></div>
+                    <div class="bs-example-body" id="transition-scene-container"></div>
+                </div>
+                <div class="bs-example hidden" id="follow-scenes" style="margin-top: 10px">
+                    <div class="bs-example-headline"><?php echo $lang->stateCharts->entryAction ?></div>
+                    <div class="bs-example-body" id="follow-scene-container"></div>
+                </div>
+            </div>
         </div>
+        
         <div class="assembled-trigger-container" style="margin-top: 20px">
             <div class="row container-root">
                 <div class="col-xs-12 col-sm-8" id="assembled-trigger-container">
@@ -1440,6 +1454,25 @@ include '../includes/language.php';
         <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
             <div class="alert-space alert-please-wait"></div>
             <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+
+            <div class="hidden" id="identified-gestures">
+                <h3 class="headline" style="margin-top: 0px"><?php echo $lang->favoriteGestures ?></h3>
+                <div class="alert-space alert-waiting-for-tester"></div>
+                <div class="question-container"></div>
+            </div>
+
+            <div class="hidden" id="identified-trigger">
+                <h3 class="headline" style="margin-top: 0px"><?php echo $lang->favoriteTrigger ?></h3>
+                <div class="alert-space alert-waiting-for-tester"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row" id="thumbnail-container"></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="question-container"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

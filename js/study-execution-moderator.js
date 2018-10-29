@@ -519,6 +519,7 @@ function checkSingleScene(data) {
 function openPrototypeScene(scene, isSingleScene, description, index) {
     var windowSpecs = "location=no,menubar=no,status=no,toolbar=no";
     console.log('open prototype window', scene, isSingleScene, prototypeWindow);
+    
     var currentPhase = getCurrentPhase();
     if (scene !== null) {
         if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {
@@ -531,7 +532,7 @@ function openPrototypeScene(scene, isSingleScene, description, index) {
             console.log('has no prototype window, single scene, ', scene.type);
             prototypeWindow = window.open(scene.parameters.url, "_blank", windowSpecs);
         } else if (prototypeWindow && isSingleScene) {
-
+            // do nothing
         } else {
             console.log('else');
             prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + currentPhase.id + "&type=" + currentPhase.format, "_blank", windowSpecs);

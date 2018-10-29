@@ -402,7 +402,6 @@ UserTest.prototype.renderModeratorView = function () {
             if (prototypeWindow && prototypeWindow.closed !== true) {
                 if (!previewModeEnabled) {
                     getGMT(function (timestamp) {
-                        var currentPhase = getCurrentPhase();
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);

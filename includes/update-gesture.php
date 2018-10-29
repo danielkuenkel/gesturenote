@@ -7,7 +7,7 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 
 session_start();
-if (isset($_SESSION['user_id'], $_POST['id'], $_POST['title'], $_POST['titleQuality'], $_POST['type'], $_POST['interactionType'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['doubleSidedUse'], $_POST['images'], $_POST['previewImage'], $_POST['gif'], $_POST['sensorData'], $_POST['ownerId'])) {
+if (isset($_SESSION['user_id'], $_POST['id'], $_POST['title'], $_POST['titleQuality'], $_POST['type'], $_POST['interactionType'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['doubleSidedUse'], $_POST['images'], $_POST['previewImage'], $_POST['gif'], $_POST['ownerId'])) {
     $sessionUserId = $_SESSION['user_id'];
     $gestureId = $_POST['id'];
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
@@ -17,12 +17,22 @@ if (isset($_SESSION['user_id'], $_POST['id'], $_POST['title'], $_POST['titleQual
     $context = filter_input(INPUT_POST, 'context', FILTER_SANITIZE_STRING);
     $association = filter_input(INPUT_POST, 'association', FILTER_SANITIZE_STRING);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
-    $joints = json_encode($_POST['joints']);
     $doubleSidedUse = $_POST['doubleSidedUse'];
     $previewImage = $_POST['previewImage'];
     $gif = $_POST['gif'];
-    $encodedSensorData = json_encode($_POST['sensorData']);
-    $sensorData = $encodedSensorData === '' ? NULL : $encodedSensorData;
+    
+    $sensorData = NULL;
+    if (isset($_POST['sensorData']) && $_POST['sensorData'] !== '') {
+        $encodedSensorData = json_encode($_POST['sensorData']);
+        $sensorData = $encodedSensorData === '' ? NULL : $encodedSensorData;
+    }
+    
+    if (isset($_POST['joints'])) {
+        $joints = json_encode($_POST['joints']);
+    } else {
+        $joints = json_encode(array());
+    }
+    
     $imageURLs = $_POST['images'];
     $dbImageURLs = json_encode($imageURLs);
     $ownerId = $_POST['ownerId'];

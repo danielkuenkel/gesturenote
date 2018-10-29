@@ -914,6 +914,7 @@ function initGestureTrainingOverlay(id, formatClone) {
         appendAlert($(formatClone).find('#training'), ALERT_NO_PHASE_DATA);
         appendAlert($(formatClone).find('#observations'), ALERT_NO_DATA_QUESTIONNAIRE);
     }
+    renderObservations(formatClone, data && data.observations ? data.observations : null);
 
     initDynamicAffixScrolling(formatClone);
     function renderData(data)
@@ -1008,7 +1009,7 @@ function initGestureTrainingOverlay(id, formatClone) {
             appendAlert($(formatClone).find('#training'), ALERT_NO_PHASE_DATA);
         }
 
-        renderObservations(formatClone, data.observations);
+//        renderObservations(formatClone, data.observations);
     }
 
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
@@ -1239,6 +1240,7 @@ function initScenarioOverlay(id, formatClone) {
         appendAlert($(formatClone).find('#tasks-container'), ALERT_NO_PHASE_DATA);
         appendAlert($(formatClone).find('#help'), ALERT_NO_PHASE_DATA);
     }
+    renderObservations(formatClone, data && data.observations ? data.observations : null);
 
     renderTaskAssessments(data);
     initDynamicAffixScrolling(formatClone);
@@ -1408,7 +1410,7 @@ function initScenarioOverlay(id, formatClone) {
             appendAlert($(formatClone).find('#help'), ALERT_NO_PHASE_DATA);
         }
 
-        renderObservations(formatClone, data.observations);
+//        renderObservations(formatClone, data.observations);
     }
 
     function renderTaskAssessments(data) {
@@ -1850,6 +1852,7 @@ function initGestureSlideshowOverlay(id, formatClone) {
         appendAlert($(formatClone).find('#slideshow'), ALERT_NO_PHASE_DATA);
         appendAlert($(formatClone).find('#observations'), ALERT_NO_DATA_QUESTIONNAIRE);
     }
+    renderObservations(formatClone, data && data.observations ? data.observations : null);
 
     initDynamicAffixScrolling(formatClone);
     function renderData(data) {
@@ -1888,7 +1891,7 @@ function initGestureSlideshowOverlay(id, formatClone) {
             appendAlert($(formatClone).find('#slideshow'), ALERT_NO_PHASE_DATA);
         }
 
-        renderObservations(formatClone, data.observations);
+//        renderObservations(formatClone, data.observations);
     }
 
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
@@ -1975,6 +1978,8 @@ function initTriggerSlideshowOverlay(id, formatClone) {
         appendAlert($(formatClone).find('#slideshow'), ALERT_NO_PHASE_DATA);
         appendAlert($(formatClone).find('#observations'), ALERT_NO_DATA_QUESTIONNAIRE);
     }
+    renderObservations(formatClone, data && data.observations ? data.observations : null);
+    
     initDynamicAffixScrolling(formatClone);
     function renderData(data) {
         var slideshowItems = data.slideshow;
@@ -2008,7 +2013,7 @@ function initTriggerSlideshowOverlay(id, formatClone) {
             appendAlert($(formatClone).find('#slideshow'), ALERT_NO_PHASE_DATA);
         }
 
-        renderObservations(formatClone, data.observations);
+//        renderObservations(formatClone, data.observations);
     }
 
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
@@ -2103,6 +2108,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
         appendAlert($(formatClone).find('#sequenceStressQuestions'), ALERT_NO_DATA_QUESTIONNAIRE);
         appendAlert($(formatClone).find('#observations'), ALERT_NO_DATA_QUESTIONNAIRE);
     }
+    renderObservations(formatClone, data && data.observations ? data.observations : null);
 
     initDynamicAffixScrolling(formatClone);
     function renderData(data)
@@ -2177,7 +2183,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
             appendAlert($(formatClone).find('#sequenceStressQuestions'), ALERT_NO_DATA_QUESTIONNAIRE);
         }
 
-        renderObservations(formatClone, data.observations);
+//        renderObservations(formatClone, data.observations);
     }
 
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
@@ -2344,6 +2350,7 @@ function initElicitationOverlay(id, formatClone) {
         appendAlert($(formatClone).find('#identificationElements'), ALERT_NO_PHASE_DATA);
         appendAlert($(formatClone).find('#observations'), ALERT_NO_DATA_QUESTIONNAIRE);
     }
+    renderObservations(formatClone, data && data.observations ? data.observations : null);
 
     initDynamicAffixScrolling(formatClone);
     function renderData(data) {
@@ -2402,8 +2409,6 @@ function initElicitationOverlay(id, formatClone) {
         } else {
             appendAlert($(formatClone).find('#identificationElements'), ALERT_NO_PHASE_DATA);
         }
-
-        renderObservations(formatClone, data.observations);
     }
 
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
@@ -2502,8 +2507,9 @@ function initElicitationOverlay(id, formatClone) {
 function initExplorationOverlay(id, formatClone) {
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#observations #add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
-    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
+//    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
     renderAssembledGestures();
+    
     var assemGestures = assembledGestures();
     if (assemGestures === null || (assemGestures && assemGestures.length === 0)) {
         appendAlert($(formatClone).find('#explorationElements'), ALERT_NO_STUDY_GESTURES_ASSEMBLED_LINK);
@@ -2550,6 +2556,7 @@ function initExplorationOverlay(id, formatClone) {
     } else if (assembledGestures() !== null && assembledTrigger && assembledScenes) {
         appendAlert($(formatClone).find('#explorationElements'), ALERT_NO_PHASE_DATA);
     }
+    renderObservations(formatClone, data && data.observations ? data.observations : null);
 
 
     initDynamicAffixScrolling(formatClone);
@@ -2568,7 +2575,6 @@ function initExplorationOverlay(id, formatClone) {
         }
 
         renderExplorationItems(data.exploration);
-        renderObservations(formatClone, data.observations);
     }
 
 //    function initExpandTaskButtonForTrigger(item) {
@@ -3787,7 +3793,7 @@ function renderObservations(formatClone, obeservationItems) {
 }
 
 function saveObservations(formatClone, observationItems, data) {
-    if ($(formatClone).find('#useObservationsSwitch #yes').hasClass('active') && observationItems.length > 0)
+    if (observationItems.length > 0)
     {
         var questionnaire = new Array();
         for (var i = 0; i < observationItems.length; i++) {

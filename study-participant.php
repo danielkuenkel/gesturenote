@@ -29,6 +29,8 @@ if (login_check($mysqli) == true) {
         <script src="js/greensock/TweenMax.min.js"></script>
         <link href="js/vis/vis.min.css" rel="stylesheet">
         <script src="js/vis/vis.min.js"></script>
+        <script src="js/color-thief/color-thief.js"></script> 
+        <script src="js/randomColor/randomColor.js"></script>
 
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
@@ -54,6 +56,7 @@ if (login_check($mysqli) == true) {
         <script src="js/globalFunctions.js"></script>
         <script src="js/rtc-result-player.js"></script>
         <script src="js/study-execution.js"></script>
+        <script src="js/upload-queue.js"></script>
 
         <!-- leap and plugins -->
         <script src="js/leapjs/leap-0.6.4.min.js"></script>
@@ -66,6 +69,8 @@ if (login_check($mysqli) == true) {
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
+        <script src="js/resumable/resumable.js"></script>
+        <script src="js/gifshot/gifshot.min.js"></script>
 
         <!-- peer connection with webrtc -->
         <script src="js/collaborativeVideo.js"></script>
@@ -86,6 +91,7 @@ if (login_check($mysqli) == true) {
         <div id="template-subpages"></div>
         <div id="template-study"></div>
         <div id="template-previews"></div>
+        <div id="template-gesture-recorder"></div>
 
 
         <div class="hidden-xs hidden-sm study-participant-controls" id="fixed-study-participant-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 10001; opacity: 0; left:-204px">
@@ -284,6 +290,7 @@ if (login_check($mysqli) == true) {
                 externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                 externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                 externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
+                externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                 loadExternals(externals);
             });
         });

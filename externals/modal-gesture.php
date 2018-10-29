@@ -174,7 +174,7 @@ include '../includes/language.php';
 
             <div class="row hidden" id="gesture-edit-general-info-container">
                 <div class="col-xs-12 col-md-8 col-md-offset-2">
-                    <div class="recorder-content"></div>
+                    <div class="recorder-content" id="update-gesture-recorder-content"></div>
                     <button type="button" class="btn btn-default btn-shadow btn-block" id="btn-cancel-edit-gesture" style="margin-top: 10px"><i class="fa fa-close"></i> <?php echo $lang->gesturePreviewable ?></button>
                 </div>
             </div>
@@ -614,10 +614,10 @@ include '../includes/language.php';
 
             $(modal).find('#gesture-general-info-container').addClass('hidden');
             $(modal).find('#gesture-edit-general-info-container').removeClass('hidden');
-            $(modal).find('#gesture-edit-general-info-container .recorder-content').empty();
+            $(modal).find('#gesture-edit-general-info-container #update-gesture-recorder-content').empty();
 
             var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
-            $(modal).find('#gesture-edit-general-info-container .recorder-content').empty().append(recorder);
+            $(modal).find('#gesture-edit-general-info-container #update-gesture-recorder-content').append(recorder);
 
             var initRecorders = [];
             var startState = GR_STATE_PRE_INITIALIZE;
@@ -727,7 +727,7 @@ include '../includes/language.php';
                 event.preventDefault();
                 var button = $(this);
 
-                console.log('delete button clicked');
+//                console.log('delete button clicked');
 
                 if (!event.handled && !$(this).hasClass('disabled')) {
 

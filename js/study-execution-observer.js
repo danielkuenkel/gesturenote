@@ -264,7 +264,7 @@ var Observer = {
                     initScreenSharing();
                 }, 1000);
 
-                peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
+//                peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
             });
         }
     },

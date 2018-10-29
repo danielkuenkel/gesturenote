@@ -166,7 +166,6 @@ Identification.prototype.renderModeratorView = function () {
                     var currentScene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
                     if (currentScene) {
                         getGMT(function (timestamp) {
-                            var currentPhase = getCurrentPhase();
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: currentScene.id});
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -203,7 +202,7 @@ Identification.prototype.renderModeratorView = function () {
         $(container).find('#slides').removeClass('hidden');
         $(container).find('#identified-gesture').addClass('hidden');
         $(container).find('#slides .headline').text(translation.formats.identification.text + " " + (currentIdentificationIndex + 1) + " " + translation.of + " " + data.identification.length);
-        console.log(container.find('#gesture-recorder-container'));
+//        console.log(container.find('#gesture-recorder-container'));
         $(container).find('#gesture-recorder-container').addClass('hidden').empty();
 
         var item = $(source).find('#identificationItem-gestures').clone().removeAttr('id');
@@ -438,6 +437,9 @@ Identification.prototype.renderModeratorView = function () {
         if (currentQuestionnaireAnswers.saveAnswers === true) {
             $(container).find('#btn-next-gesture').removeClass('disabled');
             $(container).find('#btn-done').removeClass('disabled');
+        } else {
+            $(container).find('#btn-next-gesture').addClass('disabled');
+            $(container).find('#btn-done').addClass('disabled');
         }
 
         if (currentIdentificationIndex < data.identification.length - 1) {
@@ -462,7 +464,7 @@ Identification.prototype.renderModeratorView = function () {
                 }
             });
         } else {
-            $(container).find('#btn-done').removeClass('hidden disabled');
+            $(container).find('#btn-done').removeClass('hidden');
             $(container).find('#btn-done').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
@@ -751,7 +753,7 @@ Identification.prototype.renderModeratorView = function () {
                     $(transitionItem).find('.btn-trigger-scene').addClass('btn-primary');
                 }
 
-                $(itemData).find('.btn-trigger-scene').unbind('click').bind('click', {scene: scene, index: i}, function (event) {
+                $(itemData).find('#info-' + scene.type + ' .btn-trigger-scene').unbind('click').bind('click', {scene: scene, index: i}, function (event) {
                     if (!$(this).hasClass('btn-primary') && !$(this).hasClass('disabled')) {
                         $(this).closest('.root').find('.btn-trigger-scene').removeClass('btn-primary');
                         $(this).addClass('btn-primary');
@@ -762,8 +764,7 @@ Identification.prototype.renderModeratorView = function () {
                         if (!previewModeEnabled) {
                             getGMT(function (timestamp) {
                                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                var scene = getSceneById(transitionScenes[currentIdentificationScene].sceneId);
-                                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: scene.id});
+                                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, time: timestamp, scene: event.data.scene.id});
                                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                             });
                         }
@@ -813,7 +814,7 @@ Identification.prototype.renderModeratorView = function () {
 //            appendAlert($(container).find('#identified-trigger'), ALERT_WAITING_FOR_TESTER);
 
 //            identificationTriggerRequest = true;
-            console.log('request trigger', currentIdentificationIndex);
+//            console.log('request trigger', currentIdentificationIndex);
             if (peerConnection) {
                 getGMT(function (timestamp) {
                     var identificationData = data.identification[currentIdentificationIndex];
@@ -1070,6 +1071,11 @@ Identification.prototype.renderTesterView = function () {
                 currentPhaseState = 'askPreferredTrigger';
                 renderCurrentPhaseState();
             });
+
+            $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
+                currentPhaseState = 'identificationDone';
+                renderCurrentPhaseState();
+            });
         }
     }
 
@@ -1121,7 +1127,7 @@ Identification.prototype.renderTesterView = function () {
                 if (previewModeEnabled) {
                     // render scene manually if preview opened
                     var sceneItem = renderSceneItem(source, container, sceneId);
-                    console.log(sceneItem);
+//                    console.log(sceneItem);
                 }
             } else {
                 $(container).find('#scene-container').addClass('hidden');
@@ -1243,7 +1249,7 @@ Identification.prototype.renderObserverView = function () {
     }
 
 
-    var testerGestureRecorder = null;
+//    var testerGestureRecorder = null;
     function renderStateIdentifyGestures() {
         console.log('render observer state: ', currentPhaseState);
         clearAlerts(container);
@@ -1392,6 +1398,11 @@ Identification.prototype.renderObserverView = function () {
                 currentPhaseState = 'askResponsePreferredTrigger';
                 renderCurrentPhaseState();
             });
+
+            $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
+                currentPhaseState = 'identificationDone';
+                renderCurrentPhaseState();
+            });
         }
     }
 
@@ -1408,12 +1419,14 @@ Identification.prototype.renderObserverView = function () {
         console.log('render observer state: ', currentPhaseState);
         clearAlerts(container);
         appendAlert(container, ALERT_PLEASE_WAIT);
+        $(container).find('#identified-trigger').addClass('hidden');
         $(container).find('#scene-container').addClass('hidden');
     }
 
     function renderStateIdentificationDone() {
         console.log('render observer state: ', currentPhaseState);
         appendAlert(container, ALERT_PLEASE_WAIT);
+        $(container).find('#identified-trigger').addClass('hidden');
         $(container).find('#scene-container').addClass('hidden');
     }
 
@@ -1432,7 +1445,7 @@ Identification.prototype.renderObserverView = function () {
                 if (previewModeEnabled) {
                     // render scene manually if preview opened
                     var sceneItem = renderSceneItem(source, container, sceneId);
-                    console.log(sceneItem);
+//                    console.log(sceneItem);
                 }
             } else {
                 $(container).find('#scene-container').addClass('hidden');
