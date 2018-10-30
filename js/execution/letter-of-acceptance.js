@@ -94,3 +94,27 @@ LetterOfAcceptance.prototype.renderObserverView = function () {
     appendAlert(container, ALERT_PLEASE_WAIT);
     return container;
 };
+
+
+
+
+
+
+
+/*
+ * observer view rendering
+ */
+
+LetterOfAcceptance.prototype.renderWizardView = function () {
+    console.log('render wizard view:', LETTER_OF_ACCEPTANCE.toUpperCase());
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+
+    $(container).find('.letter-text').text(data);
+    appendAlert(container, ALERT_PLEASE_WAIT);
+    return container;
+};
+

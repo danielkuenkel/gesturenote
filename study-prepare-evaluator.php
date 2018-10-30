@@ -368,6 +368,9 @@ if ($h && $token && $studyId) {
                         $('#btn-enter-study').on('click', function (event) {
                             event.preventDefault();
                             if (!$(this).hasClass('disabled')) {
+                                $('#btn-enter-study').addClass('disabled');
+                                $('#btn-close-call').addClass('disabled');
+                                
                                 var rtcToken = $('#call-screen').attr('data-rtc-token');
                                 var testerId = $('#call-screen').attr('data-tester-id');
                                 var iceTransports = $('.iceTransportsSelect').find('.btn-option-checked').attr('id') === 'yes' ? 'relay' : 'all';

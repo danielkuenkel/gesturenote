@@ -1101,7 +1101,7 @@ include '../includes/language.php';
                 </div>
             </div>
         </div>
-        
+
         <div class="assembled-trigger-container" style="margin-top: 20px">
             <div class="row container-root">
                 <div class="col-xs-12 col-sm-8" id="assembled-trigger-container">
@@ -1733,6 +1733,96 @@ include '../includes/language.php';
 
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="item-container-wizard" class="hidden">
+
+    <div class="root" id="notes" style="">
+        <h3 id="headline" style="margin-top: 0"><?php echo $lang->notes ?></h3>
+        <textarea class="form-control" id="notes-input" rows="5"></textarea>
+    </div>
+
+
+
+    <div id="observer-web-rtc-placeholder" class="web-rtc-placeholder embed-responsive embed-responsive-4by3" style="position: absolute">
+        <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
+        <div class="btn-group stream-controls" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0; display:flex">
+            <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+            <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+            <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+            <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
+        </div>
+        <div class="hidden record-stream-indicator" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->recordingStream ?>"><i class="fa fa-video-camera"></i></div>
+
+        <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
+    </div>
+
+    <div class="row root" id="no-phase-data">
+        <div class="col-md-4" id="column-left"></div>
+        <div class="col-md-8" id="column-right">
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+
+    <div class="row root" id="letterOfAcceptance">
+        <div class="col-md-6 col-lg-4 rtc-scalable" id="column-left">
+        </div>
+        <div class="col-md-6 col-lg-8" id="column-right" style="margin-bottom: 15px">
+            <div class="">
+                <div class="">
+                    <h3 style="margin-top: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
+                </div>
+                <div class="">
+                    <p class="text letter-text"></p>
+                    <div class="alert-space alert-please-wait"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row root" id="thanks">
+
+        <div class="col-sm-5 col-md-4 rtc-scalable" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 15px;">
+            <h3 class="headline" style="margin-top: 0"><?php echo $lang->thanksHeadline ?></h3>
+            <div class="row " style="margin-top: 20px">
+
+                <div class="col-sm-12" style="margin-bottom: 20px;" id="upload-done">
+                    <i class="fa fa-check" aria-hidden="true" style="font-size: 70pt; color: #5cb85c"></i>
+                    <div class="text">
+                        <?php echo $lang->thanksSaveSuccess ?>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-success btn-block btn-shadow" id="btn-leave-survey"><?php echo $lang->leaveExecution ?></button>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+</div>
 
 
 
