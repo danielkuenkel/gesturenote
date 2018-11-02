@@ -1531,6 +1531,27 @@ function saveExecutionModerator(data, callback) {
     });
 }
 
+/*
+ * wizard execution save
+ */
+function saveExecutionWizard(data, callback) {
+    $.ajax({
+        url: 'includes/save-execution-wizard.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getServerTime(callback) {
     $.ajax({
         url: 'includes/get-time.php',

@@ -468,4 +468,19 @@ function setStudyData(data) {
             setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, data.evaluatorData.observations);
         }
     }
+
+    if (data.wizardData) {
+//        setData = new Object();
+
+//        setLocalItem(STUDY_DATA_WIZARD, setData);
+
+        if (data.wizardData.results && data.wizardData.results.phases) {
+            var phases = data.wizardData.results.phases;
+            if (phases && phases.length > 0) {
+                for (var i = 0; i < phases.length; i++) {
+                    setLocalItem(phases[i].id + '.wizard', phases[i]);
+                }
+            }
+        }
+    }
 }

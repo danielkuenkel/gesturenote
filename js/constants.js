@@ -25,6 +25,7 @@ var STUDY_RESULTS = 'studyResults';
 var STUDY_PANEL = 'studyPanel';
 var STUDY_DATA_EVALUATOR = 'dataEvaluator';
 var STUDY_EVALUATOR_OBSERVATIONS = 'evaluatorObservations';
+var STUDY_DATA_WIZARD = 'dataWizard';
 var STUDY_ORIGIN_GUS = 'study.originGUS';
 var STUDY_ORIGIN_SUS = 'study.originSUS';
 var STUDY_ORIGIN_FAVORITE_GESTURES = 'study.originFavoriteGestures';
@@ -241,12 +242,15 @@ var MESSAGE_RESPONSE_TRIGGER = 'responseTrigger';
 
 var MESSAGE_START_TRIGGER_SLIDESHOW = 'startTriggerSlideshow';
 var MESSAGE_START_SCENARIO = 'startScenario';
+var MESSAGE_UPDATE_SCENARIO = 'updateScenario';
 var MESSAGE_RELOAD_SCENE = 'reloadScene';
 var MESSAGE_RENDER_SCENE = 'renderScene';
 var MESSAGE_TRIGGER_WOZ = 'triggerWOZ';
 var MESSAGE_TRIGGER_FEEDBACK = 'triggerFeedback';
 var MESSAGE_FEEDBACK_HIDDEN = 'feedbackHidden';
 var MESSAGE_TRIGGER_HELP = 'triggerHelp';
+var MESSAGE_HELP_PRESENT = 'helpPresent';
+var MESSAGE_CLOSE_HELP = 'closeHelp';
 var MESSAGE_HELP_CLOSED = 'helpClosed';
 
 var MESSAGE_SHOW_GESTURE_SLIDESHOW_OVERVIEW = 'showGestureSlideshowOverview';

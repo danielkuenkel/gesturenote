@@ -708,6 +708,8 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
+            
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
 
             <div class="alert-space alert-quit-screen-sharing"></div>
             <div class="alert-space alert-phase-step-done"></div>
@@ -836,7 +838,7 @@ include '../includes/language.php';
     <div id="helpItem" style="margin-bottom: 16px;">
         <div class="help-title"></div>
         <div class="btn-group" style="margin-top: 10px;">
-            <button type="button" class="btn btn-info btn-shadow disabled" id="offer-help"><i class="fa fa-life-ring"></i> <?php echo $lang->offerHelp ?></button>
+            <button type="button" class="btn btn-info btn-shadow" id="offer-help"><i class="fa fa-life-ring"></i> <?php echo $lang->offerHelp ?></button>
             <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
         </div>
     </div>
@@ -1819,6 +1821,75 @@ include '../includes/language.php';
     </div>
     
     
+    
+    
+    <!-- scenario container -->
+
+    <div  class="row root" id="scenario">
+        <div class="col-sm-6 col-md-5 rtc-scalable" id="column-left">
+<!--            <div class="" id="observations">
+                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
+            </div>-->
+        </div>
+
+        <div class="col-sm-6 col-md-7" id="column-right">
+            <div class="hidden" id="general" style="margin-bottom: 20px">
+                <h3 class="headline" style="margin-top: 0px"><?php echo $lang->general ?></h3>
+                <div class="">
+                    <div class="alert-space alert-no-more-tasks"></div>
+                    <div class="read-aloud">
+                        <span class="read-aloud-text" id="description" style="padding-left: 0"></span>
+                    </div>
+                    <!--<div id="description"><span class="address"></span>: <span class="text font-bold"></span></div>-->
+                    <div>
+                        <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype"><?php echo $lang->openPrototype ?></button>
+                        <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" ><i class="fa"></i> <?php echo $lang->startScreensharing ?></button>
+                        <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-scenario"><?php echo $lang->startNow ?></button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="hidden" id="scenario-controls">
+                <div class="" id="assessment-controls">
+                    <h3 class="headline" style="margin-top: 0"><?php echo $lang->task ?> </h3>
+                    <div class="" style="padding-bottom: 0">
+                        <div class="alert-space alert-no-phase-data"></div>
+                        <div class="read-aloud"><span class="read-aloud-text" id="task" style="padding-left: 0"></span></div>
+                        <!--<div id="task"><span class="text font-bold"></span></div>-->
+                        <!--<div id="asassessment-controls-containersessment-controls-container" style=""></div>-->
+                    </div>
+                </div>
+                <div class="" id="woz-controls">
+                    <h3><?php echo $lang->wozControlElements ?> <button class="btn btn-xs btn-default pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button></h3>
+                    <div class="" style="padding-bottom: 0">
+                        <div id="wozExperiment" style="margin-bottom: 20px;">
+                            <div style="margin-bottom: 10px" class="text"><?php echo $lang->whichGestureWasDemonstrated ?></div>
+                            <div class="alert-space alert-no-phase-data"></div>
+                            <div class="row woz-container"></div>
+                            <!--<button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found" style="margin-top: 20px"><?php echo $lang->anotherGestureWasDemonstrated ?></button>-->
+                        </div>
+                    </div>
+                </div>
+<!--                <div class="" id="help-controls">
+                    <h3><?php echo $lang->help ?></h3>
+                    <div class="" style="padding-bottom: 0">
+                        <div class="alert-space alert-no-phase-data"></div>
+                        <div class="help-container"></div>
+                    </div>
+                </div>-->
+            </div>
+
+            <div class="alert-space alert-quit-screen-sharing"></div>
+            <div class="alert-space alert-phase-step-done"></div>
+            <div style="margin-top: 0px">
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" ><?php echo $lang->stopScreensharing ?></button>
+                <!--<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
+            </div>
+
+        </div>
+    </div>
     
     
     

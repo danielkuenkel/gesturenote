@@ -3,7 +3,7 @@ var EVENT_STUDY_SAVE_SUCCESSFULL = 'studySaveSuccessfull';
 
 function savePhaseStep(id, callback) {
     var phaseStep = getPhaseById(id);
-    console.log('save phase step: ', phaseStep.format);
+//    console.log('save phase step: ', phaseStep.format);
     var data = new Object();
     data.id = phaseStep.id;
     data.format = phaseStep.format;
@@ -20,8 +20,6 @@ function savePhaseStep(id, callback) {
         case GUS_MULTIPLE_GESTURES:
         case SUS:
         case UEQ:
-//            var questionnaire = $('#viewModerator #phase-content').find('.question-container').children();
-            console.log('save phase step data:', data);
             data = getQuestionnaireFormData(data);
             break;
         case INTERVIEW:
@@ -99,7 +97,6 @@ function getInterviewFormData(data) {
         data.answers = tempData.answers;
         data.annotations = tempData.annotations;
     }
-    console.log(data);
     return data;
 }
 
@@ -128,7 +125,6 @@ function getGestureSlideshowFormData(data) {
         data.endRecordingTime = tempData.endRecordingTime;
         data.restarts = tempData.restarts;
         data.annotations = tempData.annotations;
-//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -139,7 +135,6 @@ function getTriggerSlideshowFormData(data) {
         data.startTime = tempData.startTime;
         data.selectedOptions = tempData.selectedOptions;
         data.annotations = tempData.annotations;
-//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -152,8 +147,6 @@ function getScenarioFormData(data) {
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
         data.annotations = tempData.annotations;
-//        data.assessments = tempData.assessments;
-//        data.transitions = tempData.transitions;
         data.startScreenRecordingTime = tempData.startScreenRecordingTime;
         data.endScreenRecordingTime = tempData.endScreenRecordingTime;
         data.screenRecordUrl = tempData.screenRecordUrl;

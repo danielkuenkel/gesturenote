@@ -838,7 +838,8 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                 };
 
                 mediaRecorder.onstart = function () {
-                    console.log('Start recording ... ');
+                    console.log('Start recording ...');
+                    
                     // save start recording time
                     if (previewModeEnabled === false) {
                         getGMT(function (timestamp) {
@@ -1224,6 +1225,20 @@ PeerConnection.prototype.isObserverConnected = function () {
     if (peers && peers.length > 0) {
         for (var i = 0; i < peers.length; i++) {
             if (peers[i].nick === VIEW_OBSERVER) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+};
+
+
+PeerConnection.prototype.isWizardConnected = function () {
+    var peers = connection.getPeers();
+    if (peers && peers.length > 0) {
+        for (var i = 0; i < peers.length; i++) {
+            if (peers[i].nick === VIEW_WIZARD) {
                 return true;
             }
         }

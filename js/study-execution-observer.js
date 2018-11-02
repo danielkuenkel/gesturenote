@@ -238,6 +238,7 @@ var Observer = {
                     syncPhaseStep = false;
                     currentPhaseStepIndex = payload.index;
                     currentPhaseState = payload.currentPhaseState;
+                    
                     renderPhaseStep();
                     updateProgress();
                 }
@@ -354,15 +355,6 @@ var Observer = {
         if (peerConnection) {
             peerConnection.keepStreamsPlaying();
         }
-
-//        if (peerConnection.status !== STATUS_UNINITIALIZED) {
-//            var videos = $(element).find('video');
-//            for (var i = 0; i < videos.length; i++) {
-////                if (new String($(videos[i]).attr('id')).includes('video') && !videos[i].playing) {
-//                videos[i].play();
-////                }
-//            }
-//        }
     }
 };
 

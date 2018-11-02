@@ -150,3 +150,55 @@ Thanks.prototype.renderObserverView = function () {
 
     return container;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * moderator view rendering
+ */
+
+Thanks.prototype.renderWizardView = function () {
+    console.log('render wizard view:', THANKS.toUpperCase());
+
+    var currentPhase = currentClass.options.currentPhase;
+    var data = currentClass.options.currentPhaseData;
+    var source = currentClass.options.source;
+    var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+
+    removeAlert($('#viewWizard'), ALERT_PLEASE_WAIT);
+    $('#viewWizard').find('#phase-content').removeClass('hidden');
+    $('#viewWizard').find('#pinnedRTC').css({opacity: 1});
+
+    TweenMax.to(container.find('.fa-upload'), .5, {yoyo: true, repeat: -1, opacity: .4});
+    $(container).find('#thanks-text').text(data);
+    $(container).find('.thanks-text').text(data);
+    $(container).find('#btn-leave-survey').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        var query = getQueryParams(document.location.search);
+        if (query.studyId && query.h && query.token) {
+            goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
+        }
+    });
+
+    $(container).find('#btn-retry-upload').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        if (previewModeEnabled === false) {
+            submitFinalData(container);
+        }
+    });
+
+    if (previewModeEnabled === false) {
+        checkRTCUploadStatus(container);
+    }
+
+    return container;
+};

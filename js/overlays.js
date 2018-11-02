@@ -877,7 +877,8 @@ function initGestureTrainingOverlay(id, formatClone) {
     renderDimensions($(formatClone).find('#dimension-controls'), translation.observationsGestureTraining, $(formatClone).find('#observations #list-container'), translation.dimensions);
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone).find('#observations'));
-    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
+//    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
+
     if (assembledGestures()) {
         renderAssembledGestures();
     } else {
@@ -1186,8 +1187,9 @@ function initScenarioOverlay(id, formatClone) {
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone).find('#observations'));
 //    initToggleSwitch(formatClone, $(formatClone).find('#useWOZSwitch'), $(formatClone).find('#wozExperiment'));
 //    initToggleSwitch(formatClone, $(formatClone).find('#useWorstCasesSwitch'), $(formatClone).find('#worstCases'));
-    initToggleSwitch(formatClone, $(formatClone).find('#useHelpSwitch'), $(formatClone).find('#help'));
-    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
+//    initToggleSwitch(formatClone, $(formatClone).find('#useHelpSwitch'), $(formatClone).find('#help'));
+//    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
+
     var scenes = getLocalItem(ASSEMBLED_SCENES);
     renderAssembledScenes($(formatClone).find('#start-scene-select'));
     renderAssembledScenes();
@@ -1367,7 +1369,7 @@ function initScenarioOverlay(id, formatClone) {
         var helpItems = data.help;
         if (helpItems && helpItems.length > 0) {
 
-            $(formatClone).find('#useHelpSwitch #yes').click();
+//            $(formatClone).find('#useHelpSwitch #yes').click();
             container = $(formatClone).find('#help .option-container');
             for (var i = 0; i < helpItems.length; i++) {
 
@@ -1546,29 +1548,29 @@ function initScenarioOverlay(id, formatClone) {
         scenario.taskAssessments = assessments;
 
         var helpItems = $(formatClone).find('#help .option-container').children();
-        if ($(formatClone).find('#useHelpSwitch #yes').hasClass('active'))
-        {
-            var scenarioHelp = new Array();
-            for (var i = 0; i < helpItems.length; i++) {
-                var item = helpItems[i];
-                var help = new Object();
-                help.taskId = $(item).find('.taskSelect .chosen').attr('id');
-                help.sceneId = $(item).find('.sceneSelect .chosen').attr('id');
-                help.option = $(item).find('.option-text').val().trim();
-                var showGesture = $(item).find('.useGestureHelpSwitch .btn-option-checked').attr('id') === 'yes' ? true : false;
-                help.useGestureHelp = showGesture;
-                help.gestureId = showGesture === true ? $(item).find('.gestureSelect .chosen').attr('id') : null;
-                if (help.taskId && getSceneById(help.sceneId) && help.option !== "") {
-                    scenarioHelp.push(help);
-                }
-            }
-
-            if (scenarioHelp.length > 0) {
-                scenario.help = scenarioHelp;
-            } else {
-                scenario.help = null;
+//        if ($(formatClone).find('#useHelpSwitch #yes').hasClass('active'))
+//        {
+        var scenarioHelp = new Array();
+        for (var i = 0; i < helpItems.length; i++) {
+            var item = helpItems[i];
+            var help = new Object();
+            help.taskId = $(item).find('.taskSelect .chosen').attr('id');
+            help.sceneId = $(item).find('.sceneSelect .chosen').attr('id');
+            help.option = $(item).find('.option-text').val().trim();
+            var showGesture = $(item).find('.useGestureHelpSwitch .btn-option-checked').attr('id') === 'yes' ? true : false;
+            help.useGestureHelp = showGesture;
+            help.gestureId = showGesture === true ? $(item).find('.gestureSelect .chosen').attr('id') : null;
+            if (help.taskId && getSceneById(help.sceneId) && help.option !== "") {
+                scenarioHelp.push(help);
             }
         }
+
+        if (scenarioHelp.length > 0) {
+            scenario.help = scenarioHelp;
+        } else {
+            scenario.help = null;
+        }
+//        }
 
         saveObservations($(formatClone), $(formatClone).find('#observations #list-container').children(), scenario);
         setLocalItem(id + ".data", scenario);
@@ -1828,7 +1830,7 @@ function initGestureSlideshowOverlay(id, formatClone) {
     renderDimensions($(formatClone).find('#dimension-controls'), translation.observationsGestureSlideshow, $(formatClone).find('#observations #list-container'), translation.dimensions);
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone).find('#observations'));
-    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
+//    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
 
     if (assembledGestures()) {
         renderAssembledGestures();
@@ -1953,7 +1955,7 @@ function initTriggerSlideshowOverlay(id, formatClone) {
 //    renderDimensions($(formatClone).find('#dimension-controls'), translation.observationsGestureSlideshow, $(formatClone).find('#observations #list-container'));
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
 //    initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone).find('#observations'));
-    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
+//    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
 
     if (assembledGestures()) {
         renderAssembledGestures();
@@ -1979,7 +1981,7 @@ function initTriggerSlideshowOverlay(id, formatClone) {
         appendAlert($(formatClone).find('#observations'), ALERT_NO_DATA_QUESTIONNAIRE);
     }
     renderObservations(formatClone, data && data.observations ? data.observations : null);
-    
+
     initDynamicAffixScrolling(formatClone);
     function renderData(data) {
         var slideshowItems = data.slideshow;
@@ -2074,9 +2076,9 @@ function initPhysicalStressTestOverlay(id, formatClone) {
     renderDimensions($(formatClone).find('#observations #dimension-controls'), translation.observationsPhysicalStressTest, $(formatClone).find('#observations #list-container'), translation.dimensions);
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone).find('#observations'));
-    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
-    initToggleSwitch(formatClone, $(formatClone).find('#useSingleStressQuestionsSwitch'), $(formatClone).find('#singleStressQuestions'));
-    initToggleSwitch(formatClone, $(formatClone).find('#useSequenceStressQuestionsSwitch'), $(formatClone).find('#sequenceStressQuestions'));
+//    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
+//    initToggleSwitch(formatClone, $(formatClone).find('#useSingleStressQuestionsSwitch'), $(formatClone).find('#singleStressQuestions'));
+//    initToggleSwitch(formatClone, $(formatClone).find('#useSequenceStressQuestionsSwitch'), $(formatClone).find('#sequenceStressQuestions'));
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#singleStressQuestions #add-question-button-group'), $(formatClone).find('#singleStressQuestions #list-container'), $(formatClone).find('#singleStressQuestions'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#sequenceStressQuestions #add-question-button-group'), $(formatClone).find('#sequenceStressQuestions #list-container'), $(formatClone).find('#sequenceStressQuestions'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
 
@@ -2154,7 +2156,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
         var singleStressQuestions = data.singleStressQuestions;
         if ((singleStressQuestions !== undefined && singleStressQuestions.length > 0) || (data.singleStressGraphicsRating !== undefined && data.singleStressGraphicsRating !== 'none')) {
             $(formatClone).find('#useGraphicalSingleStressSwitch #' + data.singleStressGraphicsRating).click();
-            $(formatClone).find('#useSingleStressQuestionsSwitch #yes').click();
+//            $(formatClone).find('#useSingleStressQuestionsSwitch #yes').click();
             container = $(formatClone).find('#singleStressQuestions #list-container');
             if (singleStressQuestions !== undefined && singleStressQuestions.length > 0) {
                 for (var i = 0; i < singleStressQuestions.length; i++) {
@@ -2170,7 +2172,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
         var sequenceStressQuestions = data.sequenceStressQuestions;
         if ((sequenceStressQuestions !== undefined && sequenceStressQuestions.length > 0) || (data.sequenceStressGraphicsRating !== undefined && data.sequenceStressGraphicsRating !== 'none')) {
             $(formatClone).find('#useGraphicalSequenceStressSwitch #' + data.sequenceStressGraphicsRating).click();
-            $(formatClone).find('#useSequenceStressQuestionsSwitch #yes').click();
+//            $(formatClone).find('#useSequenceStressQuestionsSwitch #yes').click();
             container = $(formatClone).find('#sequenceStressQuestions #list-container');
             if (sequenceStressQuestions !== undefined && sequenceStressQuestions.length > 0) {
                 for (var i = 0; i < sequenceStressQuestions.length; i++) {
@@ -2223,7 +2225,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
         }
 
         var singleStressQuestions = $(formatClone).find('#singleStressQuestions #list-container').children();
-        if ($(formatClone).find('#useSingleStressQuestionsSwitch #yes').hasClass('active') &&
+        if (
                 (singleStressQuestions.length > 0 || $(formatClone).find('#useGraphicalSingleStressSwitch .btn-option-checked').attr('id') !== 'none'))
         {
             var questionnaire = new Array();
@@ -2237,7 +2239,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
         }
 
         var sequenceStressQuestions = $(formatClone).find('#sequenceStressQuestions #list-container').children();
-        if ($(formatClone).find('#useSequenceStressQuestionsSwitch #yes').hasClass('active') &&
+        if (
                 (sequenceStressQuestions.length > 0 || $(formatClone).find('#useGraphicalSequenceStressSwitch .btn-option-checked').attr('id') !== 'none'))
         {
             var questionnaire = new Array();
@@ -2299,7 +2301,8 @@ function initPhysicalStressTestOverlay(id, formatClone) {
 function initElicitationOverlay(id, formatClone) {
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#observations #add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
-    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
+//    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
+
     $(formatClone).find('#identificationTypeSwitch').on('change', function () {
         var container = $(formatClone).find('#identificationElements');
         clearAlerts(container);
@@ -2508,8 +2511,8 @@ function initExplorationOverlay(id, formatClone) {
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#observations #add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
 //    initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
+
     renderAssembledGestures();
-    
     var assemGestures = assembledGestures();
     if (assemGestures === null || (assemGestures && assemGestures.length === 0)) {
         appendAlert($(formatClone).find('#explorationElements'), ALERT_NO_STUDY_GESTURES_ASSEMBLED_LINK);

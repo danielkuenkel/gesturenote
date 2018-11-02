@@ -222,33 +222,58 @@ var Moderator = {
 //                    peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
 //                }
 //            });
+
+            var wizardTimer = null;
+            var waitForWizard = false;
             $(peerConnection).unbind(MESSAGE_SYNC_REQUEST).bind(MESSAGE_SYNC_REQUEST, function (event, payload) {
 //                console.log('SYNC REQUEST', payload);
+                var study = getLocalItem(STUDY);
+                var currentPhase = getCurrentPhase();
+
+                if (payload.nick === VIEW_WIZARD && currentPhase.format === SCENARIO) {
+                    clearTimeout(wizardTimer);
+//                    test();
+
+                    if (waitForWizard === true) {
+                        console.log('WAIT FOR WIZARD');
+                        setTimeout(function () {
+                            resetConstraints();
+                            renderPhaseStep();
+                            waitForWizard = false;
+                            test();
+                        }, 500);
+
+//                        var peers = peerConnection.getPeers();
+//                        if (peers && peers.length > 0) {
+//                            for (var i = 0; i < peers.length; i++) {
+//                                if (peers[i].type === TYPE_PEER_VIDEO) {
+//                                    peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: peers[i].nick, currentPhaseState: currentPhaseState, evaluatorId: study.sessionUserId});
+//                                }
+//                            }
+//                        }
+                    }
+                }
 
                 event.preventDefault();
                 setTimeout(function () {
-                    var study = getLocalItem(STUDY);
-
-                    if (payload.nick === VIEW_TESTER) {
-                        var peers = peerConnection.getPeers();
-                        if (peers && peers.length > 0) {
-                            for (var i = 0; i < peers.length; i++) {
-                                peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: peers[i].nick, currentPhaseState: currentPhaseState, evaluatorId: study.sessionUserId});
-                            }
-                        }
-                    } else {
-                        peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: payload.nick, currentPhaseState: currentPhaseState, evaluatorId: study.sessionUserId});
-                    }
-
-//                    console.log('CONNECTION:', peerConnection);
-
                     if (payload.nick === VIEW_TESTER) {
                         $('#custom-modal').find('.modal-content').empty();
                         $('#custom-modal').modal('hide');
                         syncPhaseStep = false;
                         resetConstraints();
                         renderPhaseStep();
+                        test();
+
+//                        var peers = peerConnection.getPeers();
+//                        if (peers && peers.length > 0) {
+//                            for (var i = 0; i < peers.length; i++) {
+//                                if (peers[i].type === TYPE_PEER_VIDEO) {
+//                                    peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: peers[i].nick, currentPhaseState: currentPhaseState, evaluatorId: study.sessionUserId});
+//                                }
+//                            }
+//                        }
                     } else {
+                        peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: payload.nick, currentPhaseState: currentPhaseState, evaluatorId: study.sessionUserId});
                         renderObservations(getCurrentPhaseData(), getMainContent());
                     }
                 }, 500);
@@ -259,20 +284,53 @@ var Moderator = {
                 peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
             });
 
-
             $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function (event, video, peer) {
 //                console.log('videoRemoved', video, peer);
                 removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
-                if (peer.nick === VIEW_TESTER) {
+                var currentPhase = getCurrentPhase();
+                if (peer.nick === VIEW_TESTER || (peer.nick === VIEW_WIZARD && currentPhase.format === SCENARIO)) {
                     if (getCurrentPhase().format !== THANKS) {
                         appendAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
                         $('#viewModerator').find('#phase-content').addClass('hidden');
                         $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
                     }
+
+                    if (peer.nick === VIEW_WIZARD && currentPhase.format === SCENARIO) {
+                        clearTimeout(wizardTimer);
+                        waitForWizard = true;
+                        peerConnection.stopRecording(null, false);
+                        wizardTimer = setTimeout(function () {
+                            syncPhaseStep = false;
+                            resetConstraints();
+                            renderPhaseStep();
+                        }, 8000);
+                    }
                 } else {
                     renderObservations(getCurrentPhaseData(), getMainContent());
                 }
+            });
 
+            function test() {
+                var study = getLocalItem(STUDY);
+                var peers = peerConnection.getPeers();
+
+                if (peers && peers.length > 0) {
+                    for (var i = 0; i < peers.length; i++) {
+                        if (peers[i].type === TYPE_PEER_VIDEO) {
+                            peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: peers[i].nick, currentPhaseState: currentPhaseState, evaluatorId: study.sessionUserId});
+                        }
+                    }
+                }
+            }
+
+            $(peerConnection).unbind(MESSAGE_SHARED_SCREEN_ADDED).bind(MESSAGE_SHARED_SCREEN_ADDED, function (event, video) {
+                console.log('on add shared screen', video);
+                currentSharedScreen = video;
+                setTimeout(function () {
+                    initScreenSharing();
+                }, 1000);
+
+//                peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
             });
         }
     },
@@ -362,18 +420,31 @@ var Moderator = {
         if (peerConnection) {
             peerConnection.keepStreamsPlaying();
         }
-
-//        if (peerConnection.status !== STATUS_UNINITIALIZED) {
-//            var peers = peerConnection
-//            var videos = $(element).find('video');
-//            for (var i = 0; i < videos.length; i++) {
-////                if (new String($(videos[i]).attr('id')).includes('video') && !videos[i].playing) {
-//                videos[i].play();
-////                }
-//            }
-//        }
     }
 };
+
+function initScreenSharing() {
+    var container = $(getMainContent()).find('#scene-container');
+    console.log('INIT SCREEN SHARING', container, currentSharedScreen);
+
+    if (!previewModeEnabled && peerConnection && currentSharedScreen) {
+        $(container).empty().append(currentSharedScreen);
+        var newHeight = $(window).height() - 70 - 15;
+        $(container).css({height: newHeight + "px"});
+        $(currentSharedScreen).css({height: '100%', width: '100%', objectFit: 'contain'});
+        $(currentSharedScreen).removeAttr('controls');
+        $(currentSharedScreen).removeAttr('id');
+
+        $(window).on('resize', function () {
+            var newHeight = $(window).height() - 70 - 15;
+            $(container).css({height: newHeight + "px"});
+        }).resize();
+
+        $(container).removeClass('hidden');
+        Moderator.keepStreamsPlaying();
+    }
+}
+
 
 function checkRTCUploadStatus(container) {
     if (uploadQueue && !uploadQueue.allFilesUploaded() && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
@@ -519,7 +590,7 @@ function checkSingleScene(data) {
 function openPrototypeScene(scene, isSingleScene, description, index) {
     var windowSpecs = "location=no,menubar=no,status=no,toolbar=no";
     console.log('open prototype window', scene, isSingleScene, prototypeWindow);
-    
+
     var currentPhase = getCurrentPhase();
     if (scene !== null) {
         if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {

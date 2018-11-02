@@ -389,6 +389,7 @@
     "help": "Hilfe",
     "moreHelp": "Mehr Hilfe",
     "offerHelp": "Hilfe anbieten",
+    "closeHelp": "Hilfe beenden",
     "reload": "Neu laden",
     "userDefined": "Benutzerdefiniert",
     "studyTitle": "Studien-Titel",
@@ -766,7 +767,14 @@
                 "observer": {
                     "stream": "yes",
                     "video": "yes",
-                    "audio": "mo",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "wizard": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
@@ -810,6 +818,13 @@
                     "recordStream": "no"
                 },
                 "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "wizard": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "no",
@@ -862,6 +877,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
+                "wizard": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -902,6 +924,13 @@
                     "recordStream": "yes"
                 },
                 "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "wizard": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "no",
@@ -954,6 +983,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
+                "wizard": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -994,6 +1030,13 @@
                     "recordStream": "yes"
                 },
                 "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "wizard": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "no",
@@ -1046,6 +1089,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
+                "wizard": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -1086,6 +1136,13 @@
                     "recordStream": "no"
                 },
                 "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "wizard": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "no",
@@ -1138,6 +1195,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
+                "wizard": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -1178,6 +1242,13 @@
                     "recordStream": "no"
                 },
                 "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "wizard": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "no",
@@ -1230,6 +1301,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
+                "wizard": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -1270,6 +1348,13 @@
                     "recordStream": "yes"
                 },
                 "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "wizard": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "no",
@@ -1322,6 +1407,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
+                "wizard": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -1362,6 +1454,13 @@
                     "recordStream": "no"
                 },
                 "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "wizard": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "no",
@@ -1414,6 +1513,13 @@
                     "visualizeStream": "yes",
                     "recordStream": "no"
                 },
+                "wizard": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
                 "enableDataChannels": "yes"
             },
             "unmoderated": {
@@ -1454,6 +1560,13 @@
                     "recordStream": "yes"
                 },
                 "observer": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "no",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "wizard": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "no",

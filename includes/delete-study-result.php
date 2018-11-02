@@ -65,8 +65,8 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['testerId'])) {
                                     }
                                 }
                             }
-                            
-                            if(isset($decodedTesterResultData->snapshot)) {
+
+                            if (isset($decodedTesterResultData->snapshot)) {
                                 array_push($deleteFiles, $decodedTesterResultData->snapshot);
                             }
                         }
@@ -90,8 +90,36 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['testerId'])) {
                                         $recordUrl = 'uploads/' . $item->recordUrl;
                                         array_push($deleteFiles, $recordUrl);
                                     }
-                                    
-                                    if(isset($item->screenRecordUrl)) {
+
+                                    if (isset($item->screenRecordUrl)) {
+                                        $screenRecordUrl = 'uploads/' . $item->screenRecordUrl;
+                                        array_push($deleteFiles, $screenRecordUrl);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if ($wizard_results_select_stmt = $mysqli->prepare("SELECT data FROM study_results_wizard WHERE study_id = '$deleteStudyId' && tester_id = '$testerId'")) {
+                    if (!$wizard_results_select_stmt->execute()) {
+                        echo json_encode(array('status' => 'testerResultsSelectError'));
+                        exit();
+                    } else {
+                        $wizard_results_select_stmt->store_result();
+                        $wizard_results_select_stmt->bind_result($wizardResults);
+
+                        while ($wizard_results_select_stmt->fetch()) {
+                            $decodedWizardResultData = json_decode_nice($wizardResults, false);
+                            if (isset($decodedWizardResultData->phases)) {
+                                $phases = $decodedWizardResultData->phases;
+                                foreach ($phases as $item) {
+                                    if (isset($item->recordUrl)) {
+                                        $recordUrl = 'uploads/' . $item->recordUrl;
+                                        array_push($deleteFiles, $recordUrl);
+                                    }
+
+                                    if (isset($item->screenRecordUrl)) {
                                         $screenRecordUrl = 'uploads/' . $item->screenRecordUrl;
                                         array_push($deleteFiles, $screenRecordUrl);
                                     }
@@ -111,7 +139,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['testerId'])) {
                     exit();
                 }
 
-                if ($delete_stmt = $mysqli->prepare("DELETE FROM study_results_evaluator WHERE study_id = '$deleteStudyId' && evaluator_id = '$sessionUserId' && tester_id = '$testerId'")) {
+                if ($delete_stmt = $mysqli->prepare("DELETE FROM study_results_evaluator WHERE study_id = '$deleteStudyId' && tester_id = '$testerId'")) {
                     if (!$delete_stmt->execute()) {
                         echo json_encode(array('status' => 'deleteEvaluatorResultsError'));
                         exit();
@@ -121,11 +149,21 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['testerId'])) {
                     exit();
                 }
 
+                if ($delete_stmt = $mysqli->prepare("DELETE FROM study_results_wizard WHERE study_id = '$deleteStudyId' && tester_id = '$testerId'")) {
+                    if (!$delete_stmt->execute()) {
+                        echo json_encode(array('status' => 'deleteWizardResultsError'));
+                        exit();
+                    }
+                } else {
+                    echo json_encode(array('status' => 'deleteWizardResultsStatemantError'));
+                    exit();
+                }
+
                 $deleteFiles = array_filter($deleteFiles);
                 if (!empty($deleteFiles)) {
                     deleteFiles($target_dir, $deleteFiles);
                 }
-                
+
                 echo json_encode(array('status' => 'success', 'deletedFiles' => $deleteFiles));
                 exit();
 

@@ -746,8 +746,12 @@ if (login_check($mysqli) == true) {
             var phaseData = getLocalItem(phaseId + '.data');
             var testerResults = getLocalItem(phaseId + '.results');
             var evaluatorResults = getLocalItem(phaseId + '.evaluator');
+            var wizardResults = getLocalItem(phaseId + '.wizard');
             var study = getLocalItem(STUDY);
-            console.log(phaseData, testerResults, evaluatorResults);
+            console.log('PHASE DATA: ', phaseData);
+            console.log('TESTER DATA: ', testerResults);
+            console.log('EVALUATOR DATA: ', evaluatorResults);
+            console.log('WIZARD DATA: ', wizardResults);
 
             if (phaseData && testerResults && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults && evaluatorResults.startTime) || (testerResults && testerResults.startTime))) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults && testerResults.startTime))) {
                 var content = $('#template-study-container').find('#' + testerResults.format).clone().removeAttr('id');
@@ -785,7 +789,7 @@ if (login_check($mysqli) == true) {
 //                        console.log('web rtc is needed for phase step');
 
                     if (testerResults && testerResults.recordUrl && testerResults.recordUrl !== '') {
-                        resultsPlayer = new RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionTime, content);
+                        resultsPlayer = new RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseData, executionTime, content);
                         $(resultsPlayer.player).unbind('initialized').bind('initialized', function (event) {
                             event.preventDefault();
                             $(resultsPlayer.player).unbind('initialized');

@@ -174,10 +174,13 @@ var Tester = {
 
                 $(peerConnection).unbind(MESSAGE_SYNC_RESPONSE).bind(MESSAGE_SYNC_RESPONSE, function (event, payload) {
                     event.preventDefault();
+                    console.log('SYNC RESPONSE', payload);
                     if (payload && payload.nick === VIEW_TESTER) {
-//                        console.log('SYNC RESPONSE', payload);
+//                        
                         syncPhaseStep = false;
                         currentPhaseStepIndex = payload.index;
+                        currentPhaseState = payload.currentPhaseState;
+
                         renderPhaseStep();
                         updateProgress();
 
@@ -211,9 +214,11 @@ var Tester = {
 
                 $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function (event, video, peer) {
                     event.preventDefault();
-                    console.log('videoRemoved');
+                    console.log('videoRemoved', peer);
+
                     removeAlert($('#viewTester'), ALERT_GENERAL_PLEASE_WAIT);
-                    if (peer.nick === VIEW_MODERATOR) {
+                    var currentPhase = getCurrentPhase();
+                    if (peer.nick === VIEW_MODERATOR || (peer.nick === VIEW_WIZARD && currentPhase.format === SCENARIO)) {
                         syncPhaseStep = true;
 
                         peerConnection.stopRecording(function () {
@@ -387,14 +392,6 @@ var Tester = {
         if (peerConnection) {
             peerConnection.keepStreamsPlaying();
         }
-//        if (peerConnection.status !== STATUS_UNINITIALIZED) {
-//            var videos = $(element).find('video');
-//            for (var i = 0; i < videos.length; i++) {
-////                if (videos[i].paused) {
-//                videos[i].play();
-////                }
-//            }
-//        }
     }
 };
 

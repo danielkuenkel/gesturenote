@@ -5,7 +5,7 @@
  */
 
 var resultsPlayer, player = null;
-function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionTime, content) {
+function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseData, executionTime, content) {
 //    getTime('GMT', function (time) {
 //        // This is where you do whatever you want with the time:
 //        console.log(new Date(time).getTime());
@@ -14,7 +14,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 //        console.log('server time: ', timestamp);
 //    });
 //    console.log('tester results:', testerResults);
-    console.log('evaluator results:', evaluatorResults);
+//    console.log('evaluator results:', evaluatorResults);
 //    console.log('phase data results:', phaseData);
 //    console.log('execution time:', executionTime);
 
@@ -37,7 +37,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
         resultsPlayer.find('#loader').removeClass('hidden');
 
         if (evaluatorResults) {
-            if (evaluatorResults.screenRecordUrl) {
+            if (evaluatorResults.screenRecordUrl || wizardResults.screenRecordUrl) {
                 videoCount++;
                 initScreenSharingVideoPlayer();
             }
@@ -60,10 +60,14 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
         function initScreenSharingVideoPlayer() {
             var screenRecordingFileExist = true;
-
-            $.get(UPLOADS + evaluatorResults.screenRecordUrl)
+            var startScreenRecordingTime = 0;
+            var endScreenRecordingTime = 0;
+            var startTime = 0;
+            var screenRecordUrl = evaluatorResults.screenRecordUrl || wizardResults.screenRecordUrl;
+            
+            $.get(UPLOADS + screenRecordUrl)
                     .fail(function () {
-                        console.warn('file does not exist: ' + UPLOADS + evaluatorResults.screenRecordUrl);
+                        console.warn('file does not exist: ' + UPLOADS + screenRecordUrl);
                         screenRecordingFileExist = false;
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
 
@@ -73,22 +77,33 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
             screenShareVideoHolder = $(resultsPlayer).find('#screen-share-video-holder');
             if (screenRecordingFileExist) {
-                $(screenShareVideoHolder).attr('src', UPLOADS + evaluatorResults.screenRecordUrl);
+                if(evaluatorResults.screenRecordUrl) {
+                    startScreenRecordingTime = evaluatorResults.startScreenRecordingTime;
+                    endScreenRecordingTime = evaluatorResults.endScreenRecordingTime;
+                    startTime = evaluatorResults.startTime;
+                } else if(wizardResults.screenRecordUrl) {
+                    startScreenRecordingTime = wizardResults.startScreenRecordingTime;
+                    endScreenRecordingTime = wizardResults.endScreenRecordingTime;
+                    startTime = wizardResults.startTime;
+                }
+                
+                
+                $(screenShareVideoHolder).attr('src', UPLOADS + screenRecordUrl);
 
                 $(screenShareVideoHolder).on('loadedmetadata', function () {
                     // google chrome no-duration workaround
                     if (screenShareVideoHolder[0].duration === Infinity) {
-                        var duration = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.endScreenRecordingTime), true);
+                        var duration = getSeconds(getTimeBetweenTimestamps(startScreenRecordingTime, endScreenRecordingTime), true);
                         if (!moderatorVideoHolder && testerVideoHolder) {
-                            var participantsStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startTime, testerResults.startTime), true);
-                            if (evaluatorResults.startTime > testerResults.startTime) {
+                            var participantsStartGap = getSeconds(getTimeBetweenTimestamps(startTime, testerResults.startTime), true);
+                            if (startTime > testerResults.startTime) {
                                 participantsStartGap *= -1;
                             }
-                            screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, testerResults.startTime), true) + participantsStartGap;
-                            screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true) + participantsStartGap;
+                            screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(startScreenRecordingTime, testerResults.startTime), true) + participantsStartGap;
+//                            screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true) + participantsStartGap;
                         } else if (moderatorVideoHolder) {
-                            screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.startTime), true);
-                            screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
+                            screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(startScreenRecordingTime, evaluatorResults.startTime), true);
+//                            screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
                         }
 
                         console.log('total screen duration:', duration);

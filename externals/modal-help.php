@@ -54,6 +54,12 @@ include '../includes/language.php';
             }
             triggeredHelp = null;
         });
+        
+        if(!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_CLOSE_HELP).bind(MESSAGE_CLOSE_HELP, function() {
+                $('#modal-body').closest('.modal').modal('hide');
+            });
+        }
     });
 
     function renderHelpItem() {

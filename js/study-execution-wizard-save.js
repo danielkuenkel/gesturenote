@@ -240,8 +240,8 @@ function saveCurrentStatus(studyFinished, callback) {
             }
 
             var study = getLocalItem(STUDY);
-            saveExecutionModerator({studyId: study.id, testerId: study.testerId, data: data}, function (result) {
-                console.log('saveExecutionModerator', result, data);
+            saveExecutionWizard({studyId: study.id, testerId: study.testerId, data: data, evaluatorId: study.evaluatorId}, function (result) {
+                console.log('save execution wizard', result, data);
                 if (callback) {
                     callback(result);
                 }
