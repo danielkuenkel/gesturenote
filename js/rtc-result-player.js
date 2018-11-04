@@ -64,7 +64,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
             var endScreenRecordingTime = 0;
             var startTime = 0;
             var screenRecordUrl = evaluatorResults.screenRecordUrl || wizardResults.screenRecordUrl;
-            
+
             $.get(UPLOADS + screenRecordUrl)
                     .fail(function () {
                         console.warn('file does not exist: ' + UPLOADS + screenRecordUrl);
@@ -77,17 +77,17 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
 
             screenShareVideoHolder = $(resultsPlayer).find('#screen-share-video-holder');
             if (screenRecordingFileExist) {
-                if(evaluatorResults.screenRecordUrl) {
+                if (evaluatorResults.screenRecordUrl) {
                     startScreenRecordingTime = evaluatorResults.startScreenRecordingTime;
                     endScreenRecordingTime = evaluatorResults.endScreenRecordingTime;
                     startTime = evaluatorResults.startTime;
-                } else if(wizardResults.screenRecordUrl) {
+                } else if (wizardResults.screenRecordUrl) {
                     startScreenRecordingTime = wizardResults.startScreenRecordingTime;
                     endScreenRecordingTime = wizardResults.endScreenRecordingTime;
                     startTime = wizardResults.startTime;
                 }
-                
-                
+
+
                 $(screenShareVideoHolder).attr('src', UPLOADS + screenRecordUrl);
 
                 $(screenShareVideoHolder).on('loadedmetadata', function () {
@@ -597,6 +597,7 @@ function initializeTimeline(timelineData, content) {
     if (timelineData) {
         // Create a Timeline
         var data = getVisDataSet(timelineData);
+        console.log('INITIALIZE TIMELINE:', data);
         currentVisData = data;
 
         $(player).trigger('initialized');
@@ -684,13 +685,56 @@ RTCResultsPlayer.prototype.visData = function () {
 // Create a DataSet (allows two way data-binding)
 function getVisDataSet(timelineData) {
     var array = [];
+    var annotations = [];
     array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.startRecordingTime || timelineData.phaseResults.startTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.startRecordingTime || timelineData.phaseResults.startTime)});
     array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.endRecordingTime || timelineData.phaseResults.endTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.endRecordingTime || timelineData.phaseResults.endTime)});
 
+    // prepare tester annotations for deleting
+    var testerData = getLocalItem(timelineData.phaseResults.id + '.tester');
+    if (testerData && testerData.annotations && testerData.annotations.length > 0) {
+        for (var i = 0; i < testerData.annotations.length; i++) {
+            var annotation = testerData.annotations[i];
+            if (!annotation.id) {
+                annotation.id = chance.natural();
+            }
+            annotation.source = VIEW_TESTER;
+            annotation.id = annotation.id + '-' + annotation.source;
+            annotations.push(annotation);
+        }
+    }
+
+    // prepare evaluator annotations for deleting
+    var evaluatorData = getLocalItem(timelineData.phaseResults.id + '.evaluator');
+    if (evaluatorData && evaluatorData.annotations && evaluatorData.annotations.length > 0) {
+        for (var i = 0; i < evaluatorData.annotations.length; i++) {
+            var annotation = evaluatorData.annotations[i];
+            if (!annotation.id) {
+                annotation.id = chance.natural();
+            }
+            annotation.source = 'evaluator';
+            annotation.id = annotation.id + '-' + annotation.source;
+            annotations.push(annotation);
+        }
+    }
+
+    // prepare wizard annotations for deleting
+    var wizardData = getLocalItem(timelineData.phaseResults.id + '.wizard');
+    if (wizardData && wizardData.annotations && wizardData.annotations.length > 0) {
+        for (var i = 0; i < wizardData.annotations.length; i++) {
+            var annotation = wizardData.annotations[i];
+            if (!annotation.id) {
+                annotation.id = chance.natural();
+            }
+            annotation.source = VIEW_WIZARD;
+            annotation.id = annotation.id + '-' + annotation.source;
+            annotations.push(annotation);
+        }
+    }
+
     var className = 'item-primary-full';
-    var annotations = timelineData.phaseResults.annotations;
-//    var evaluatorData = getLocalItem(timelineData.phaseResults.id + '.evaluator');
-//    if (evaluatorData && evaluatorData.annotations && !timelineData.checkedVideos.secondVideo) {
+//    var annotations = timelineData.phaseResults.annotations;
+//    
+//    if (wizardData && wizardData.annotations) {
 //        var evaluatorAnnotations = evaluatorData.annotations;
 //        
 //        for (var i = 0; i < evaluatorAnnotations.length; i++) {
@@ -820,14 +864,14 @@ function getVisDataSet(timelineData) {
                     break;
             }
 
-            var originalId = annotations[i].id;
-            if (!annotations[i].id) {
-                originalId = chance.natural();
-                tempData.annotations[i].id = originalId;
-            }
-            array.push({id: originalId, content: contentText, start: new Date(parseInt(annotations[i].time)), className: className, timestamp: parseInt(annotations[i].time)});
+//            var originalId = annotations[i].id;
+//            if (!annotations[i].id) {
+//                originalId = chance.natural();
+//                tempData.annotations[i].id = originalId;
+//            }
+            array.push({id: annotations[i].id, content: contentText, start: new Date(parseInt(annotations[i].time)), className: className, timestamp: parseInt(annotations[i].time), source: annotations[i].source});
         }
-        setLocalItem(timelineData.phaseResults.id + (timelineData.checkedVideos.secondVideo ? '.evaluator' : '.results'), tempData);
+//        setLocalItem(timelineData.phaseResults.id + (timelineData.checkedVideos.secondVideo ? '.evaluator' : '.results'), tempData);
     }
 
     function getTaskById(id) {
@@ -919,6 +963,7 @@ function renderListData(visData, timelineData, content) {
                     var linkListItem = $('#template-study-container').find('#link-list-item').clone().removeAttr('id');
                     $(linkListItem).find('.link-list-item-url').attr('data-jumpto', seconds);
                     $(linkListItem).find('.btn-delete-annotation').attr('data-id', visData[i].id);
+                    $(linkListItem).find('.btn-delete-annotation').attr('data-source', visData[i].source);
                     $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)));
                     $(linkListItem).find('.link-list-item-title').text(visData[i].content);
                     $(linkListItem).find('.link-list-item-title').addClass(visData[i].className);
@@ -934,7 +979,8 @@ function renderListData(visData, timelineData, content) {
                     $(linkListItem).find('.btn-delete-annotation').on('click', function (event) {
                         event.preventDefault();
 //                    console.log('delete annotation', $(this).attr('data-id'), checkedVideos.secondVideo);
-                        deleteAnnotation($(this).attr('data-id'), timelineData, content);
+                        var annotationId = $(this).attr('data-id').split('-')[0];
+                        deleteAnnotation(annotationId, timelineData, content, $(this).attr('data-source'));
                     });
                 }
             }
@@ -963,23 +1009,28 @@ function updateLinkList(currentTime, content) {
     }
 }
 
-function deleteAnnotation(annotationId, timelineData, content) {
+function deleteAnnotation(annotationId, timelineData, content, source) {
+    console.log('delete annoation:', annotationId, source, timelineData);
+//    return false;
 //    console.log(annotationId, timelineData);
 //    if (timelineData.phaseResults) {
 //    }
 
     var tempData = null;
-    tempData = getLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource);
+    tempData = getLocalItem(timelineData.phaseResults.id + '.' + source);
+    console.log(tempData);
     if (tempData.annotations && tempData.annotations.length > 0) {
         for (var i = 0; i < tempData.annotations.length; i++) {
             if (parseInt(annotationId) === parseInt(tempData.annotations[i].id)) {
                 tempData.annotations.splice(i, 1);
             }
         }
-//        console.log(tempData.annotations);
-        timelineData.phaseResults = tempData;
-        setLocalItem(tempData.id + '.' + timelineData.resultSource, tempData);
-        saveUpdatedPhaseResults(timelineData);
+        console.log(tempData.annotations);
+        
+//        timelineData.phaseResults = tempData;
+        setLocalItem(tempData.id + '.' + source, tempData);
+//        return false;
+        saveUpdatedPhaseResults(source);
 
         if (tempData.annotations.length === 0) {
             if ($(content).find('#btn-toggle-timeline').hasClass('present')) {
@@ -1038,7 +1089,7 @@ function initializeAnnotationHandling(timelineData, content) {
                 updateLinkList(mainVideo.currentTime, content);
 
                 setLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource, timelineData.phaseResults);
-                saveUpdatedPhaseResults(timelineData);
+                saveUpdatedPhaseResults(timelineData.resultSource);
 
                 $(content).find('.annotation-title-input').val('');
             } else {
@@ -1054,24 +1105,36 @@ function initializeAnnotationHandling(timelineData, content) {
     });
 }
 
-function saveUpdatedPhaseResults(timelineData) {
+function saveUpdatedPhaseResults(source) {
     var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     var generalStudyResults = getLocalItem(STUDY_RESULTS);
     var saveData = {studySuccessfull: generalStudyResults.executionSuccess, aborted: generalStudyResults.executionAborted, phases: []};
 
     for (var i = 0; i < phaseSteps.length; i++) {
-        saveData.phases.push(getLocalItem(phaseSteps[i].id + '.' + timelineData.resultSource));
+        saveData.phases.push(getLocalItem(phaseSteps[i].id + '.' + source));
     }
 
-    if (timelineData.resultSource === 'evaluator') {
-        saveExecutionModerator({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData}, function (result) {
-            console.log('saveExecutionModerator', result);
-        });
-    } else {
-        saveExecutionTester({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData}, function (result) {
-            console.log('saveExecutionTester', result);
-        });
+    var evaluatorData = getLocalItem(STUDY_DATA_EVALUATOR);
+    switch (source) {
+        case 'evaluator':
+            saveExecutionModerator({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData}, function (result) {
+                console.log('save execution moderator', result);
+            });
+            break;
+        case VIEW_TESTER:
+            saveExecutionTester({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData}, function (result) {
+                console.log('saved execution tester', result);
+            });
+            break;
+        case VIEW_WIZARD:
+            saveExecutionWizard({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData, evaluatorId: evaluatorData.evaluatorId}, function (result) {
+                console.log('saved execution wizard', result);
+            });
+            break;
+        case VIEW_OBSERVER:
+            saveExecutionObserver({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData, evaluatorId: evaluatorData.evaluatorId}, function (result) {
+                console.log('saved execution wizard', result);
+            });
+            break;
     }
-
-//    console.log('saveData', saveData);
 }

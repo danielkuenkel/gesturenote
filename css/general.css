@@ -239,12 +239,16 @@ h4 {
 
 .line {
     position: relative;
-    height: 3px;
-    background-color: #5cb85c;
-    z-index: 9998;
+    height: 3px; 
+    z-index: 2;
     top: -50px;
     box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, .2);
 
+    background: #5cb85c;
+    background: -moz-linear-gradient(left, #5cb85c 0%, #75ea75 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #5cb85c 0%,#75ea75 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #5cb85c 0%,#75ea75 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5cb85c', endColorstr='#75ea75',GradientType=1 ); /* IE6-9 */
 }
 /*.line.affix {
     top: 0px;

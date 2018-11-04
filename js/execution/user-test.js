@@ -309,13 +309,17 @@ UserTest.prototype.renderModeratorView = function () {
                             renderHelp();
                         } else {
                             currentPhaseState = 'noTasksLeft';
-                            peerConnection.sendMessage(MESSAGE_UPDATE_SCENARIO, {currentPhaseState: currentPhaseState});
+                            if (!previewModeEnabled && peerConnection && peerConnection.isWizardConnected()) {
+                                peerConnection.sendMessage(MESSAGE_UPDATE_SCENARIO, {currentPhaseState: currentPhaseState});
+                            }
                             renderCurrentPhaseState();
                         }
                         break;
                     case 'nextStep':
                         currentPhaseState = 'noTasksLeft';
-                        peerConnection.sendMessage(MESSAGE_UPDATE_SCENARIO, {currentPhaseState: currentPhaseState});
+                        if (!previewModeEnabled && peerConnection && peerConnection.isWizardConnected()) {
+                            peerConnection.sendMessage(MESSAGE_UPDATE_SCENARIO, {currentPhaseState: currentPhaseState});
+                        }
                         renderCurrentPhaseState();
                         break;
                 }
@@ -1299,7 +1303,7 @@ UserTest.prototype.renderWizardView = function () {
         getGMT(function (timestamp) {
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
-            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
+//            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
         });
 

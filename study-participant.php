@@ -794,8 +794,9 @@ if (login_check($mysqli) == true) {
                             event.preventDefault();
                             $(resultsPlayer.player).unbind('initialized');
 //                                console.log('results player initialized');
-                            switchDataRendering();
+                            
                         });
+                        switchDataRendering();
 
                         if (getBrowser() !== 'Safari') {
                             $(content).find('#horizontalLine').after(resultsPlayer.domElement);

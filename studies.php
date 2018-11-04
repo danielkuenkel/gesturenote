@@ -60,7 +60,7 @@ if (login_check($mysqli) == true) {
                 </div>
 
                 <div class="panel-body panel-body-progress">
-                    <div class="progress" style="margin:0; border-radius:0; height:3px">
+                    <div class="progress" style="margin:0; border-radius:0; height:2px">
                         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="10" aria-valuemax="100" style="width: 100%;"></div>
                     </div>
                 </div>

@@ -166,7 +166,9 @@ include '../includes/language.php';
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
         <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
-
+        
+        <h3 style=""><?php echo $lang->gesturesCatalog->elicitedGestures ?></h3>
+        <hr>
         <div id="item-view" style="margin-top: 30px;">
             <div class="alert-space alert-no-phase-data"></div>
             <div class="list-container row" id="gestures-list-container"></div>

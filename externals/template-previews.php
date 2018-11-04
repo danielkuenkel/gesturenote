@@ -275,8 +275,8 @@ include '../includes/language.php';
 
     <!-- GUS container & item -->
     <div class="row root" id="gus">
-        <div class="col-md-4" id="column-left"></div>
-        <div class="col-md-8" id="column-right">
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px" ></div>
+        <div class="col-md-8" id="column-right" style="margin-bottom: 15px" >
             <h3 style="margin-top: 0"><?php echo $lang->gus ?></h3>
             <div class="row">
                 <div class="col-sm-6">
@@ -1648,7 +1648,7 @@ include '../includes/language.php';
         <div class="col-md-5 rtc-scalable" id="column-left" style="margin-bottom: 15px;">
             <div class="" id="notes-container"></div>
         </div>
-        <div class="col-md-7" id="column-right">
+        <div class="col-md-7" id="column-right" style="margin-bottom: 15px">
             <h3 style="margin-top: 0"><?php echo $lang->formats->gus->text ?></h3>
             <div class="row">
                 <div class="col-sm-6">

@@ -56,3 +56,35 @@ and open the template in the editor.
 .studies-catalog-thumbnail .panel-body .text, .studies-catalog-thumbnail .panel-body .address {
     font-size: 10pt;
 }
+
+.progress-bar {
+    box-shadow: none;
+}
+
+.progress-bar-success {
+    background: #5cb85c;
+    background: -moz-linear-gradient(left, #75ea75 0%, #5cb85c 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #75ea75  0%, #5cb85c 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #75ea75 0%,#5cb85c 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#75ea75', endColorstr='#5cb85c',GradientType=1 ); /* IE6-9 */
+}
+
+.progress-bar-info {
+    background: #5BC0DE; /* Old browsers */
+    background: -moz-linear-gradient(left, #64daef 0%, #5bc0de 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #64daef 0%,#5bc0de 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #64daef 0%,#5bc0de 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#64daef', endColorstr='#5bc0de',GradientType=1 ); /* IE6-9 */
+}
+
+.progress-bar-warning {
+    background: #f0ad4e; /* Old browsers */
+    background: -moz-linear-gradient(left, #ffc654 0%, #f0ad4e 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #ffc654 0%,#f0ad4e 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #ffc654 0%,#f0ad4e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffc654', endColorstr='#f0ad4e',GradientType=1 ); /* IE6-9 */
+}
+
+.panel-default>.panel-heading {
+    border-color: #f5f5f5;
+}

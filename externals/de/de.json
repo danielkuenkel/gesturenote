@@ -2281,6 +2281,7 @@
         "publicUserGestures": "freigegebene Gesten",
         "elicitedGestures": "Ermittelte Gesten"
     },
+    "elicitedTrigger": "Ermittelte Interaktionsaufgaben",
     "mainDimensions": {
         "effectiveness": "Effektivität",
         "efficiency": "Effizienz",

@@ -110,7 +110,7 @@ var Moderator = {
             updateRTCHeight($('#viewModerator #column-left').width(), true);
 
             $('#viewModerator #column-right').css({y: 0, opacity: 1});
-            TweenMax.from($('#phase-content #column-right'), .2, {y: -20, opacity: 0, clearProps: 'all'});
+            TweenMax.from($('#phase-content #column-right'), .2, {y: -20, opacity: 0});
             if ($(document).scrollTop() > 0) {
                 $(document).scrollTop(0);
             }

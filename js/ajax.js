@@ -1552,6 +1552,27 @@ function saveExecutionWizard(data, callback) {
     });
 }
 
+/*
+ * observer execution save
+ */
+function saveExecutionObserver(data, callback) {
+    $.ajax({
+        url: 'includes/save-execution-observer.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getServerTime(callback) {
     $.ajax({
         url: 'includes/get-time.php',
