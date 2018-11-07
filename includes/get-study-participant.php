@@ -272,7 +272,35 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                     exit();
                 }
 
-                echo json_encode(array('status' => 'success', 'id' => $originalStudyId, 'userId' => $studyUserId, 'isOwner' => strcmp($studyUserId, $sessionUserId) === 0, 'studyData' => $decodedData, 'resultData' => $results, 'evaluatorData' => $studyResultsEvaluator, 'wizardData' => $studyResultsWizard, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestureCatalog));
+                $studyResultsObserver = null;
+                if ($select_stmt = $mysqli->prepare("SELECT * FROM study_results_observer WHERE study_id = '$selectStudyId' && tester_id = '$selectParticipantId' LIMIT 1")) {
+                    if (!$select_stmt->execute()) {
+                        echo json_encode(array('status' => 'selectError'));
+                        exit();
+                    } else {
+                        $select_stmt->store_result();
+                        $select_stmt->bind_result($id, $studyId, $evaluatorId, $testerId, $data, $executionPhase, $created);
+                        $select_stmt->fetch();
+
+                        if ($select_stmt->num_rows == 1) {
+                            $studyResultsObserver = array('id' => $id,
+                                'studyId' => $studyId,
+                                'evaluatorId' => $evaluatorId,
+                                'testerId' => $testerId,
+                                'results' => json_decode_nice($data, false),
+                                'executionPhase' => $executionPhase,
+                                'created' => $created);
+                        } else {
+//                            echo json_encode(array('status' => 'rowsError', 'num_rows' => $select_stmt->num_rows, 'studyId' => $selectStudyId, "evaluatorId" => $sessionUserId, 'testerId' => $selectParticipantId));
+//                            exit();
+                        }
+                    }
+                } else {
+                    echo json_encode(array('status' => 'statemantError'));
+                    exit();
+                }
+
+                echo json_encode(array('status' => 'success', 'id' => $originalStudyId, 'userId' => $studyUserId, 'isOwner' => strcmp($studyUserId, $sessionUserId) === 0, 'studyData' => $decodedData, 'resultData' => $results, 'evaluatorData' => $studyResultsEvaluator, 'observerData' => $studyResultsObserver, 'wizardData' => $studyResultsWizard, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestureCatalog));
                 exit();
             } else {
                 echo json_encode(array('status' => 'rowsError'));

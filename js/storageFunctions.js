@@ -469,11 +469,18 @@ function setStudyData(data) {
         }
     }
 
+    if (data.observerData) {
+        if (data.observerData.results && data.observerData.results.phases) {
+            var phases = data.observerData.results.phases;
+            if (phases && phases.length > 0) {
+                for (var i = 0; i < phases.length; i++) {
+                    setLocalItem(phases[i].id + '.observer', phases[i]);
+                }
+            }
+        }
+    }
+    
     if (data.wizardData) {
-//        setData = new Object();
-
-//        setLocalItem(STUDY_DATA_WIZARD, setData);
-
         if (data.wizardData.results && data.wizardData.results.phases) {
             var phases = data.wizardData.results.phases;
             if (phases && phases.length > 0) {

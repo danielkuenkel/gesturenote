@@ -238,7 +238,7 @@ var Observer = {
                     syncPhaseStep = false;
                     currentPhaseStepIndex = payload.index;
                     currentPhaseState = payload.currentPhaseState;
-                    
+
                     renderPhaseStep();
                     updateProgress();
                 }
@@ -452,22 +452,26 @@ function renderAnnotationControls(container) {
     $(container).unbind('annotationSelected').bind('annotationSelected', function (event, id) {
         event.preventDefault();
         console.log('annotation selected', id);
-        getGMT(function (timestamp) {
-            if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_OBSERVER_ANNOTATION, {annotationColor: id, timestamp: timestamp});
-            }
-        });
+        if (!previewModeEnabled && peerConnection) {
+            getGMT(function (timestamp) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_OBSERVER_ANNOTATION, annotationColor: id, time: timestamp});
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            });
+        }
+
     });
 }
 
 function renderNotes() {
     var currentPhase = getCurrentPhase();
     var mainContent = getMainContent();
-    
+
     if (translation.formats[currentPhase.format].notes === 'yes') {
         var notesData = getLocalItem(currentPhase.id + '.notes');
         var notes = $(getSourceContainer(VIEW_OBSERVER)).find('#notes').clone();
-        
+
         console.log('RENDER NOTES', $(mainContent).find('#notes-container'));
         $(mainContent).find('#notes-container').append(notes);
 //        TweenMax.from(notes, .2, {delay: .1, opacity: 0, y: -60});

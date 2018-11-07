@@ -87,7 +87,7 @@ var Moderator = {
                     if (!syncPhaseStep || currentPhase.format === THANKS) {
                         $('#viewModerator #phase-content').empty().append(item);
                     }
-                    initObserverAnnotationHandling();
+//                    initObserverAnnotationHandling();
                 } else {
                     Moderator.renderNoDataView();
                 }
@@ -673,14 +673,14 @@ function getWOZTransitionFeedbackItem(source, feedback, transitionMode, time, di
     return btn;
 }
 
-function initObserverAnnotationHandling() {
-    if (!previewModeEnabled && peerConnection && peerConnection.isObserverConnected()) {
-        $(peerConnection).unbind(MESSAGE_OBSERVER_ANNOTATION).bind(MESSAGE_OBSERVER_ANNOTATION, function (event, payload) {
-            event.preventDefault();
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_OBSERVER_ANNOTATION, annotationId: payload.annotationColor, time: payload.timestamp});
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-        });
-    }
-}
+//function initObserverAnnotationHandling() {
+//    if (!previewModeEnabled && peerConnection && peerConnection.isObserverConnected()) {
+//        $(peerConnection).unbind(MESSAGE_OBSERVER_ANNOTATION).bind(MESSAGE_OBSERVER_ANNOTATION, function (event, payload) {
+//            event.preventDefault();
+//            var currentPhase = getCurrentPhase();
+//            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_OBSERVER_ANNOTATION, annotationId: payload.annotationColor, time: payload.timestamp});
+//            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//        });
+//    }
+//}

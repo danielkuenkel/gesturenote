@@ -747,11 +747,13 @@ if (login_check($mysqli) == true) {
             var testerResults = getLocalItem(phaseId + '.results');
             var evaluatorResults = getLocalItem(phaseId + '.evaluator');
             var wizardResults = getLocalItem(phaseId + '.wizard');
+            var observerResults = getLocalItem(phaseId + '.observer');
             var study = getLocalItem(STUDY);
             console.log('PHASE DATA: ', phaseData);
             console.log('TESTER DATA: ', testerResults);
             console.log('EVALUATOR DATA: ', evaluatorResults);
             console.log('WIZARD DATA: ', wizardResults);
+            console.log('OBSERVER DATA: ', observerResults);
 
             if (phaseData && testerResults && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults && evaluatorResults.startTime) || (testerResults && testerResults.startTime))) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults && testerResults.startTime))) {
                 var content = $('#template-study-container').find('#' + testerResults.format).clone().removeAttr('id');
@@ -794,9 +796,10 @@ if (login_check($mysqli) == true) {
                             event.preventDefault();
                             $(resultsPlayer.player).unbind('initialized');
 //                                console.log('results player initialized');
-                            
+                            initPopover();
                         });
                         switchDataRendering();
+                        
 
                         if (getBrowser() !== 'Safari') {
                             $(content).find('#horizontalLine').after(resultsPlayer.domElement);

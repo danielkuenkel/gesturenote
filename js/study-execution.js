@@ -223,7 +223,7 @@ function nextStep() {
 
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {
-        if (currentView !== VIEW_OBSERVER) {
+//        if (currentView !== VIEW_OBSERVER) {
             if (currentPhaseStepIndex < phases.length - 1) {
                 saveCurrentStatus(false, function () {
                     checkIfStopRecordingNeeded(phases);
@@ -231,9 +231,9 @@ function nextStep() {
             } else {
                 checkIfStopRecordingNeeded(phases);
             }
-        } else {
-            checkIfStopRecordingNeeded(phases);
-        }
+//        } else {
+//            checkIfStopRecordingNeeded(phases);
+//        }
     } else {
         currentPhaseStepIndex = Math.min(currentPhaseStepIndex + 1, phases.length - 1);
         $('.phaseStepsSelect .dropdown-menu .selected').next().click();

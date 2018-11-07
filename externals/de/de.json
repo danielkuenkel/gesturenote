@@ -437,6 +437,7 @@
     "done": "Fertig",
     "cancel": "Abbrechen",
     "cancelStudy": "Befragung abbrechen",
+    "accept": "Übernehmen",
     "general": "Allgemeines",
     "generalEdit": "Daten bearbeiten",
     "name": "Name",
@@ -686,9 +687,10 @@
     "hideLinklist": "Zeitlinks ausblenden",
     "showLinklist": "Zeitlinks einblenden",
     "turnOnAudio": "Audio anschalten",
-    "turnOffAudio": "Audio ausschalten",
+    "turnOffAudio": "Audio stummschalten",
     "overlapVideos": "Videos überlappen",
-    "singleVideos": "Videos nicht überlappen",
+    "bigScreen": "Videos untereinander",
+    "sideBySide": "Videos nebeneinander",
     "restart": "Neustart",
     "restarts": "Neustarts",
     "fitsFalse": "Falsche Übereinstimmungen",
@@ -1874,9 +1876,13 @@
             "annotationColor": "red"
         }
     },
-    "addAnnotation": "Annotation hinzufügen",
+    "addAnnotation": "Hinzufügen",
+    "updateAnnotation": "Annotation bearbeiten",
+    "searchAnnotation": "Durchsuchen",
+    "resetSearchAnnotation": "Suche zurücksetzen",
     "annotationColor": "Annotations-Farbe",
     "annotationLabel": "Annotations-Label",
+    "annotationSearchLabel": "Suchbegriff",
     "addAnnotationLabelInput": "Annotations-Label einfügen (max. 40 Zeichen)",
     "annotationColors": {
         "green": {
@@ -1924,6 +1930,11 @@
     },
     "pretest": "Pretest",
     "isPretest": "Ist ein Pretest?",
+    "play": "Abspielen",
+    "pause": "Pausieren",
+    "stepForward": "Schritt vorwärts",
+    "stepBackward": "Schritt rückwärts",
+    "editSyncGap": "Synchronisierung anpassen",
     "nextTask": "nächste Aufgabe",
     "nextStep": "nächster Leitfadenschritt",
     "NextStep": "Nächstem Leitfadenschritt",
@@ -2345,8 +2356,8 @@
         "startTask": "Aufgabe starten",
         "requestHelp": "Hilfe anfordern",
         "startPerformGesture": "Geste",
-        "startPerformGestureIdentification": "Start Geste für Interaktionsaufgabe",
-        "startPerformTriggerIdentification": "Start Interaktionsaufgabe für Geste",
+        "startPerformGestureIdentification": "Geste für Interaktionsaufgabe",
+        "startPerformTriggerIdentification": "Interaktionsaufgabe für Geste",
         "startPerformGestureStressTest": "Geste",
         "endPerformGesture": "Ende Geste",
         "refreshScene": "Szene neu laden",
@@ -5027,7 +5038,7 @@
         "noSearchResults": {
             "id": "no-search-results",
             "type": "warning",
-            "text": "Für den Suchbegriff gibt es keine Treffer."
+            "text": "Keine Treffer gefunden."
         },
         "noPhaseData": {
             "id": "no-phase-data",

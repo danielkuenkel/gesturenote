@@ -33,8 +33,8 @@ function GestureRecorder(options) {
     recorder.options = options;
     initRecorderEvents();
     if (options.startState) {
-        console.log('initalize Recorders', recorder.options.updateGesture && recorder.options.updateGesture === true, options.initRecorders && options.initRecorders.length > 0)
-        if (options.initRecorders && options.initRecorders.length > 0) {
+        console.log('initalize Recorders', recorder.options.updateGesture && recorder.options.updateGesture === true, options.initRecorders && options.initRecorders.length > 0);
+        if (options.initRecorders && options.initRecorders.length > 0 && options.startState !== GR_STATE_INITIALIZE) {
             initializeRecorders();
         }
 //        if(recorder.options.updateGesture && recorder.options.updateGesture === true) {
@@ -310,6 +310,7 @@ function renderStateInitialize() {
 
 function initializeRecorders() {
     var recordersList = $(recorder.currentRecorderContent).find('#initialize-recorders-list').empty();
+    console.log('INITIALIZE RECORDERS:', recorder.options.initRecorders);
     for (var i = 0; i < recorder.options.initRecorders.length; i++) {
         var recordType = recorder.options.initRecorders[i].type;
         switch (recordType) {

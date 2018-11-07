@@ -88,8 +88,40 @@ and open the template in the editor.
     border: solid 2px #337ab7;
 }
 
+.vis-timeline {
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    border: none;
+}
+
+.vis-custom-time {
+    width: 6px;
+    box-shadow: 0px 0px 8px rgba(0,0,0,.4);
+    background-color: #fff;
+    z-index: 2;
+    opacity: .5;
+    transform: translateX(-3px);
+}
+
+.vis-item.vis-box {
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px 1px rgba(0,0,0,.1);
+}
+
 .vis-item.invisible {
     visibility: hidden;
+}
+
+.vis-dot {
+    opacity: 0;
+}
+.vis-item.vis-line {
+    width: 2px;
+}
+
+.vis-time-axis.vis-background {
+    opacity: .5;
 }
 
 
@@ -105,14 +137,14 @@ and open the template in the editor.
 }
 
 .vis-item.item-advanced-primary {
-    color: #428bca;
-    background-color: #c9e6fe;
-    border-color: #428bca;
+    color: #5a5a5a;
+    background-color: #bdbdbd;
+    border-color: #5a5a5a;
 }
 .vis-item.item-advanced-primary-full {
     color: white;
-    background-color: #428bca;
-    border-color: #428bca;
+    background-color: #5a5a5a;
+    border-color: #5a5a5a;
 }
 
 .vis-item.item-info {
@@ -175,12 +207,13 @@ and open the template in the editor.
     height: 10px;
     opacity: 0.3;
     position: absolute;
+    transform: translateX(-1px);
 }
 .seekbarInfoData.item-primary-full {
     background-color: #428bca;
 }
 .seekbarInfoData.item-advanced-primary-full {
-    background-color: #428bca;
+    background-color: #5a5a5a;
 }
 .seekbarInfoData.item-info-full {
     background-color: #5bc0de;
@@ -205,6 +238,9 @@ and open the template in the editor.
     text-decoration: underline;
 }
 .link-list-item-url .link-list-item-title.item-advanced-primary-full {
+    color: #5a5a5a;
+}
+.link-list-item-url .link-list-item-title.item-primary-full {
     color: #428bca;
 }
 .link-list-item-url .link-list-item-title.item-success-full {
@@ -227,8 +263,40 @@ and open the template in the editor.
     cursor: pointer;
     font-size: 10pt;
 }
+.btn-delete-annotation.disabled {
+    cursor: not-allowed;
+    font-size: 10pt;
+    color: #bdbdbd;
+}
 .btn-delete-annotation:hover {
-    color: #d9534f
+    color: #d9534f;
+}
+.btn-delete-annotation.disabled:hover {
+    color: #bdbdbd;
+}
+
+.btn-edit-annotation {
+    cursor: pointer;
+    font-size: 10pt;
+}
+.btn-edit-annotation.disabled {
+    cursor: not-allowed;
+    font-size: 10pt;
+    color: #bdbdbd;
+}
+.btn-edit-annotation:hover {
+    color: #000;
+}
+.btn-edit-annotation.disabled:hover {
+    color: #bdbdbd;
+}
+
+.btn-cancel-edit-annotation {
+    cursor: pointer;
+    font-size: 10pt;
+}
+.btn-cancel-edit-annotation:hover {
+    color: #000;
 }
 
 
@@ -249,4 +317,18 @@ and open the template in the editor.
 }
 #moderator-video-container:hover {
     opacity: 1;
+}
+
+.btn-video-adjustment {
+    background-color: rgba(0,0,0,0.8); 
+    padding-left: 10px; 
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 1px;
+    color: white;
+    font-size: 7pt;
+}
+
+.btn-video-adjustment.selected {
+    background-color: #337ab7;
 }

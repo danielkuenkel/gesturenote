@@ -148,6 +148,17 @@ Thanks.prototype.renderObserverView = function () {
         }
     });
 
+    $(container).find('#btn-retry-upload').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        if (previewModeEnabled === false) {
+            submitFinalData(container);
+        }
+    });
+
+    if (previewModeEnabled === false) {
+        checkRTCUploadStatus(container);
+    }
+
     return container;
 };
 

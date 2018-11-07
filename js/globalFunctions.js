@@ -4109,6 +4109,7 @@ $(document).on('click', '.btn-color-selector', function (event) {
     if (!$(this).hasClass('selected')) {
         $(this).parent().children().removeClass('selected');
         $(this).addClass('selected');
+        $(this).trigger('change');
     }
 });
 

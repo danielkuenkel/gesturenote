@@ -166,7 +166,7 @@ include '../includes/language.php';
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
         <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
-        
+
         <h3 style=""><?php echo $lang->gesturesCatalog->elicitedGestures ?></h3>
         <hr>
         <div id="item-view" style="margin-top: 30px;">
@@ -729,28 +729,42 @@ include '../includes/language.php';
             </div>
         </div>
         <div id="video-timeline" class="hidden">
-            <div>
-                <div class="row hidden" id="screen-share-video-container" >
-                    <div class="col-xs-12">
-                        <video id="screen-share-video-holder" preload="auto" autoplay="false" style="width: 100%; height: auto;  border-top-left-radius: 10px; border-top-right-radius: 10px; position: relative"></video>
-                        <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
-                            <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
+            <div id="results-video-container" class="row">
+                <div class="col-xs-12 hidden" id="screen-share-video-container" >
+                    <video id="screen-share-video-holder" preload="auto" autoplay="false" style="width: 100%; height: auto;  border-top-left-radius: 8px; border-top-right-radius: 8px; position: relative"></video>
+                    <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
+                        <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
+                    </div>
+                    <div class="rtc-results-controls-container" style="">
+                        <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused" style="border-radius: 50%; background-color: rgba(0,0,0,0.8); color:white; padding: 10px 13px; display: flex; margin: 0 auto; top: 50%; left: 50%; position: absolute; transform: translate(-50%,-48%);"><i class="fa fa-play fa-2x"></i></div>
+                    </div>
+                    <div class="video-user-type-info" style="position: absolute; top: 0px; border-top-left-radius: 8px; border-bottom-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 8px; padding-right: 5px; font-size: 8pt; color: white;">
+                        <i class="fa fa-tv"></i> <?php echo $lang->screensharing ?>
+                    </div>
+                    <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
+                        <span class="video-time-code-current-time">00:00:00</span>
+                        <span> / </span>
+                        <span class="video-time-code-duration">00:00:00</span>
+                    </div>
+                    <div style="position: absolute; bottom: 6px; right: 15px; display:inline-flex">
+                        <div class="btn-shadow btn-video-adjustment" id="toggle-overlap-videos" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->overlapVideos ?>" style="border-top-left-radius: 4px;">
+                            <i class="fa fa-window-restore" style="color: white"></i>
                         </div>
-                        <div class="rtc-results-controls-container" style="">
-                            <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused" style="border-radius: 50%; background-color: rgba(0,0,0,0.8); color:white; padding: 10px 13px; display: flex; margin: 0 auto; top: 50%; left: 50%; position: absolute; transform: translate(-50%,-48%);"><i class="fa fa-play fa-2x"></i></div>
+                        <div class="btn-shadow btn-video-adjustment" id="toggle-side-by-side" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->sideBySide ?>" style="">
+                            <i class="fa fa-align-justify fa-rotate-90" style="color: white"></i>
                         </div>
-                        <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
-                            <span class="video-time-code-current-time">00:00:00</span>
-                            <span> / </span>
-                            <span class="video-time-code-duration">00:00:00</span>
-                        </div>
-                        <div class="btn-shadow" id="toggle-shrink-videos" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->overlapVideos ?>" style="position: absolute; bottom: 6px; right: 15px; border-top-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; color: white">
-                            <i class="fa fa-window-maximize" style="color: white"></i>
+                        <div class="btn-shadow btn-video-adjustment selected" id="toggle-big-screen" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->bigScreen ?>" style="">
+                            <i class="fa fa-align-justify" style="color: white"></i>
                         </div>
                     </div>
                 </div>
+                <!--                <div class="row hidden">
+                                    <div class="col-xs-12">
+                                        
+                                    </div>-->
 
-                <div id="webcam-video-container">
+
+                <div id="webcam-video-container" class="col-xs-12">
                     <div class="row">
                         <div class="col-xs-6 hidden" id="tester-video-container">
                             <video id="tester-video-holder" class="mirroredHorizontally" preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative"></video>
@@ -762,6 +776,9 @@ include '../includes/language.php';
                             </div>
                             <div class="btn-shadow btn-toggle-mute" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->turnOffAudio ?>" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
                                 <i class="fa fa-volume-up" style="color: white"></i>
+                            </div>
+                            <div class="video-user-type-info" style="position: absolute; top: 0px; border-top-left-radius: 4px; border-bottom-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 7px; padding-right: 5px; font-size: 8pt; color: white;">
+                                <i class="fa fa-user"></i> <?php echo $lang->userTypes->tester ?>
                             </div>
                             <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
                                 <span class="video-time-code-current-time">00:00:00</span>
@@ -780,6 +797,9 @@ include '../includes/language.php';
                             <div class="btn-shadow btn-toggle-mute" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->turnOffAudio ?>" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
                                 <i class="fa fa-volume-up" style="color: white"></i>
                             </div>
+                            <div class="video-user-type-info" style="position: absolute; top: 0px; border-top-left-radius: 4px; border-bottom-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 7px; padding-right: 5px; font-size: 8pt; color: white;">
+                                <i class="fa fa-user"></i> <?php echo $lang->userTypes->evaluator ?>
+                            </div>
                             <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
                                 <span class="video-time-code-current-time">00:00:00</span>
                                 <span> / </span>
@@ -792,18 +812,28 @@ include '../includes/language.php';
 
             <div id="video-controls" style="margin-top: 10px">
                 <div class="row">
-                    <div class="col-xs-3 col-sm-2 col-lg-2" id="gap-input-container">
+                    <div class="col-xs-3 col-sm-3 col-lg-2" id="gap-input-container">
                         <div class="input-group">
                             <input type="number" class="input-sm form-control text-center" id="gap-input" min="-10" max="10" step="0.01" readonly />
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-sm btn-default" id="btn-lock-unlock-gap-input"><i class="fa fa-pencil"></i></button>
+                                <button type="button" class="btn btn-sm btn-default btn-shadow" id="btn-lock-unlock-gap-input"  data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->editSyncGap ?>"><i class="fa fa-pencil"></i></button>
                             </span>
                         </div>
                     </div>
-                    <div class="col-xs-2 col-lg-1" id="play-pause-container">
-                        <button type="button" class="btn btn-sm btn-block btn-default" id="btn-play-pause"><i class="fa fa-play"></i></button>
+                    <div class="col-xs-2 col-lg-2" id="play-pause-container">
+                        <div class="btn-group btn-group-justified">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-default btn-shadow" id="btn-step-backward" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->stepBackward ?>"><i class="fa fa-backward"></i></button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-default btn-shadow" id="btn-play-pause" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->play ?>"><i class="fa fa-play"></i></button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-default btn-shadow" id="btn-step-forward" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->stepForward ?>"><i class="fa fa-forward"></i></button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-xs-7 col-sm-8 col-lg-9" id="seek-bar-container">
+                    <div class="col-xs-7 col-sm-7 col-lg-8" id="seek-bar-container">
                         <div class="progress" id="main-seek-bar" style="border-radius: 4px; height:30px; margin: 0; cursor: pointer">
                             <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                         </div>
@@ -812,44 +842,124 @@ include '../includes/language.php';
                 </div>
                 <div class="row" style="margin-top: 20px;" id="timeline-content">
                     <div class="col-xs-12">
-                        <button type="button" id="btn-toggle-timeline" class="btn btn-default btn-xs btn-shadow present"><i class="fa fa-eye-slash"></i> <span class="text"><?php echo $lang->hideTimeline ?></span></button>
+                        <button type="button" id="btn-toggle-timeline" class="btn btn-default btn-shadow present" style="display: contents"><i class="fa fa-eye-slash"></i> <span class="text"><?php echo $lang->hideTimeline ?></span></button>
                         <div class="alert-space alert-no-annotations" style="margin-top: 5px"></div>
                         <div id="results-timeline" style="margin-top: 5px"></div>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 20px;" id="link-list-content">
                     <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8" style="margin-bottom: 20px">
-                        <button type="button" id="btn-toggle-link-list" class="btn btn-default btn-xs btn-shadow"><i class="fa fa-eye"></i> <span class="text"><?php echo $lang->showLinklist ?></span></button>
-                        <div class="alert-space alert-no-annotations" style="margin-top: 5px"></div>
-                        <div class="hidden" id="link-list-container" style="margin-top: 5px"></div>
+                        <button type="button" id="btn-toggle-link-list" class="btn btn-default btn-shadow" style="display: contents"><i class="fa fa-eye"></i> <span class="text"><?php echo $lang->showLinklist ?></span></button>
+                        <div style="margin-top: 5px">
+                            <div class="alert-space alert-no-annotations" style=""></div>
+                            <div class="alert-space alert-no-search-results" style=""></div>
+                            <div class="hidden" id="link-list-container"></div>
+                        </div>
                     </div>
                     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4" id="add-annotation-container" style="">
-                        <div class="bs-example">
-                            <div class="bs-example-headline"><?php echo $lang->addAnnotation ?></div>
+
+                        <div class="bs-example" id="create-annotation-container">
+                            <div class="bs-example-headline"><?php echo $lang->annotations ?></div>
                             <div class="bs-example-body">
-                                <div class="row">
-                                    <div class="col-xs-12 ">
+
+                                <ul class="nav nav-pills nav-justified" role="tablist" id="annotation-nav-pills">
+                                    <li role="presentation" class="active"><a href="#search-annotation-container" aria-controls="search-annotation" role="tab" data-toggle="pill" style="padding: 2px 9px;"><?php echo $lang->searchAnnotation ?></a></li>
+                                    <li role="presentation"><a href="#add-annotation-container" aria-controls="add-annotation" role="tab" data-toggle="pill" style="padding: 2px 9px;"><?php echo $lang->addAnnotation ?></a></li>
+                                </ul>
+
+                                <div class="tab-content" id="annotation-nav-tab-content" style="margin-top: 10px">
+                                    <div role="tabpanel" class="tab-pane active" id="search-annotation-container">
                                         <div class="form-group">
-                                            <label><?php echo $lang->annotationLabel ?></label>
-                                            <input type="text" class="form-control annotation-title-input" maxlength="40" placeholder="<?php echo $lang->addAnnotationLabelInput ?>" />
+                                            <label><?php echo $lang->annotationSearchLabel ?></label>
+                                            <input type="text" class="form-control annotation-search-title-input" maxlength="40" placeholder="" />
                                         </div>
-                                    </div>
-                                    <div class="col-xs-12 ">
                                         <div class="form-group">
                                             <label><?php echo $lang->annotationColor ?></label>
-                                            <div class="color-selector">
-                                                <div class="btn-color-selector darkblue selected" data-id='item-advanced-primary-full'></div>
+                                            <div class="search-color-selector text-center">
+                                                <div class="btn-color-selector none selected" data-id='none'>
+                                                    <!--<i class="fa fa-close" style="position: absolute"></i>-->
+                                                    <div style="transform: rotate(45deg); position: relative; top: 8px; left: 1px;">
+                                                        <div style="width: 17px; height: 2px; position: absolute; background-color: #d9534f;"></div>
+                                                        <div style="width: 17px; height: 2px; position: absolute; background-color: #d9534f; transform: rotate(90deg)"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="btn-color-selector grey" data-id='item-advanced-primary-full'></div>
+                                                <div class="btn-color-selector darkblue" data-id='item-primary-full'></div>
                                                 <div class="btn-color-selector green" data-id='item-success-full'></div>
                                                 <div class="btn-color-selector blue" data-id='item-info-full'></div>
                                                 <div class="btn-color-selector yellow" data-id='item-warning-full'></div>
                                                 <div class="btn-color-selector red" data-id='item-danger-full'></div>
                                             </div>
                                         </div>
+                                        <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-reset-search-annotation-input"><i class="fa fa-refresh"></i> <?php echo $lang->resetSearchAnnotation ?></button>
+                                    </div>
+
+                                    <div role="tabpanel" class="tab-pane" id="add-annotation-container">
+                                        <div class="form-group">
+                                            <label><?php echo $lang->annotationLabel ?></label>
+                                            <input type="text" class="form-control annotation-title-input" maxlength="40" placeholder="<?php echo $lang->addAnnotationLabelInput ?>" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label><?php echo $lang->annotationColor ?></label>
+                                            <div class="color-selector text-center">
+                                                <div class="btn-color-selector grey" data-id='item-advanced-primary-full'></div>
+                                                <div class="btn-color-selector darkblue selected" data-id='item-primary-full'></div>
+                                                <div class="btn-color-selector green" data-id='item-success-full'></div>
+                                                <div class="btn-color-selector blue" data-id='item-info-full'></div>
+                                                <div class="btn-color-selector yellow" data-id='item-warning-full'></div>
+                                                <div class="btn-color-selector red" data-id='item-danger-full'></div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-annotation-input"><i class="fa fa-plus"></i> <?php echo $lang->addAnnotation ?></button>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-info btn-default btn-shadow" id="btn-add-annotation-input"><i class="fa fa-plus"></i> <?php echo $lang->addAnnotation ?></button>
+
+
                             </div>
                         </div>
+
+                        <!--<div style="margin-top: 10px">-->
+                        <!--                            <div class="bs-example" id="create-annotation-container">
+                        
+                                                    </div>-->
+
+                        <div class="bs-example hidden" id="update-annotation-container">
+                            <div class="bs-example-headline"><?php echo $lang->updateAnnotation ?></div>
+                            <div class="bs-example-body">
+                                <div class="row">
+                                    <div class="col-xs-12 ">
+                                        <div class="form-group">
+                                            <label><?php echo $lang->annotationLabel ?></label>
+                                            <input type="text" class="form-control update-annotation-title-input" maxlength="40" placeholder="<?php echo $lang->addAnnotationLabelInput ?>" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label><?php echo $lang->annotationColor ?></label>
+                                            <div class="update-color-selector text-center">
+                                                <div class="btn-color-selector grey" data-id='item-advanced-primary-full'></div>
+                                                <div class="btn-color-selector darkblue" data-id='item-primary-full'></div>
+                                                <div class="btn-color-selector green" data-id='item-success-full' data-color="green"></div>
+                                                <div class="btn-color-selector blue" data-id='item-info-full' data-color="blue"></div>
+                                                <div class="btn-color-selector yellow" data-id='item-warning-full' data-color="yellow"></div>
+                                                <div class="btn-color-selector red" data-id='item-danger-full' data-color="red"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="btn-group btn-group-justified">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-danger btn-shadow" id="btn-cancel-update-annotation-input"><i class="fa fa-close"></i> <?php echo $lang->cancel ?></button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default btn-shadow" id="btn-update-annotation-input"><i class="fa fa-save"></i> <?php echo $lang->accept ?></button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--</div>-->
 
                     </div>
                 </div>
@@ -861,7 +971,7 @@ include '../includes/language.php';
 
     </div>
 
-    <div id="link-list-item" class="link-list-item"><span class="link-list-item-url"><span class="link-list-item-time" style="margin-right: 5px"></span> <span class="text link-list-item-title"></span></span> <span class="btn-delete-annotation"><i class="fa fa-trash"></i> <?php echo $lang->delete ?></span></div>
+    <div id="link-list-item" class="link-list-item"><span class="link-list-item-url"><span class="link-list-item-time" style="margin-right: 5px"></span> <span class="text link-list-item-title"></span></span> <span class="btn-cancel-edit-annotation hidden" style="margin-right: 5px"><i class="fa fa-close"></i> <?php echo $lang->cancel ?></span> <span class="btn-edit-annotation" style="margin-right: 5px"><i class="fa fa-pencil"></i> <?php echo $lang->edit ?></span> <span class="btn-delete-annotation"><i class="fa fa-trash"></i> <?php echo $lang->delete ?></span></div>
 
     <div id="shared-list-item" class="shared-list-item"><span class="shared-study-item-email text"></span> <span class="btn-uninvite-user"><i class="fa fa-trash"></i> <?php echo $lang->withdraw ?></span></div>
 

@@ -49,6 +49,12 @@ Interview.prototype.renderObserverView = function () {
     if (!data || (data && data.length === 0)) {
         return false;
     }
+    
+    if (!previewModeEnabled) {
+        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+        tempData.annotations = new Array();
+        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+    }
 
     // init annotation controls
     renderAnnotationControls(container);

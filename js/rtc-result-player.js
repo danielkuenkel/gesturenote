@@ -27,6 +27,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
     if (getBrowser() !== 'Safari') {
         resultsPlayer = $('#template-study-container').find('#rtc-video-result').clone().removeAttr('id');
         var playButton = $(resultsPlayer).find('#btn-play-pause');
+        var buttonStepBackward = $(resultsPlayer).find('#btn-step-backward');
+        var buttonStepForward = $(resultsPlayer).find('#btn-step-forward');
         var seekBar = $(resultsPlayer).find('#main-seek-bar');
 
         var screenShareVideoHolder = null;
@@ -81,10 +83,12 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                     startScreenRecordingTime = evaluatorResults.startScreenRecordingTime;
                     endScreenRecordingTime = evaluatorResults.endScreenRecordingTime;
                     startTime = evaluatorResults.startTime;
+//                    console.log('USE evaluator times');
                 } else if (wizardResults.screenRecordUrl) {
                     startScreenRecordingTime = wizardResults.startScreenRecordingTime;
                     endScreenRecordingTime = wizardResults.endScreenRecordingTime;
                     startTime = wizardResults.startTime;
+//                    console.log('USE wizard times');
                 }
 
 
@@ -100,12 +104,11 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                                 participantsStartGap *= -1;
                             }
                             screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(startScreenRecordingTime, testerResults.startTime), true) + participantsStartGap;
-//                            screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true) + participantsStartGap;
                         } else if (moderatorVideoHolder) {
-                            screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(startScreenRecordingTime, evaluatorResults.startTime), true);
-//                            screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
+                            screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(startScreenRecordingTime, startTime), true);
                         }
 
+//                        console.log('SCREEN SHARING START GAP:', screenSharingStartGap)
                         console.log('total screen duration:', duration);
                         screenShareVideoHolder[0].currentTime = duration - 2;
                         screenShareVideoHolder[0].playbackRate = 10;
@@ -127,24 +130,67 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                     }
                 });
 
-                $(screenShareVideoHolder).parent().find('#toggle-shrink-videos').unbind('click').bind('click', function (event) {
+                $(screenShareVideoHolder).parent().find('#toggle-overlap-videos').unbind('click').bind('click', function (event) {
                     event.preventDefault();
                     $(this).popover('hide');
-                    if ($(this).hasClass('shrinked')) {
-                        $(this).removeClass('shrinked');
-                        $(this).find('.fa').removeClass('fa-window-close-o').addClass('fa-window-maximize');
-                        $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('shrinked');
-                        $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('shrinked');
-                        $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('shrinked');
-                        $(this).attr('data-content', translation.overlapVideos);
-                    } else {
-                        $(this).addClass('shrinked');
-                        $(this).find('.fa').removeClass('fa-window-maximize').addClass('fa-window-close-o');
-                        $(this).closest('#video-timeline').find('#webcam-video-container').addClass('shrinked');
-                        $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').addClass('shrinked');
-                        $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').addClass('shrinked');
-                        $(this).attr('data-content', translation.singleVideos);
-                    }
+                    $(this).parent().find('.btn-video-adjustment').removeClass('selected');
+                    $(this).addClass('selected');
+//                    $(this).addClass('hidden');
+//                    $(screenShareVideoHolder).parent().find('#toggle-big-screen').removeClass('hidden');
+
+//                    if ($(this).hasClass('shrinked')) {
+//                        $(this).removeClass('shrinked');
+//                        $(this).find('.fa').removeClass('fa-window-close-o').addClass('fa-window-maximize');
+//                        $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('shrinked');
+//                        $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('shrinked');
+//                        $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('shrinked');
+//                        $(this).attr('data-content', translation.overlapVideos);
+//                    } else {
+//                        $(this).addClass('shrinked');
+//                        $(this).find('.fa').removeClass('fa-window-maximize').addClass('fa-window-close-o');
+                    $(this).closest('#video-timeline').find('#webcam-video-container').addClass('shrinked');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').addClass('shrinked');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').addClass('shrinked');
+
+                    $(this).closest('#video-timeline').find('#screen-share-video-container').removeClass('col-xs-9').addClass('col-xs-12');
+                    $(this).closest('#video-timeline').find('#screen-share-video-container .hidden-controls-container-btn').css({top: '80%'});
+                    $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('col-xs-3').addClass('col-xs-12').css({marginTop: '10px', marginLeft: '15px'});
+                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('col-xs-12').addClass('col-xs-6');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('col-xs-12').addClass('col-xs-6').css({marginTop: ''});
+                });
+
+                $(screenShareVideoHolder).parent().find('#toggle-big-screen').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    $(this).popover('hide');
+                    $(this).parent().find('.btn-video-adjustment').removeClass('selected');
+                    $(this).addClass('selected');
+
+                    $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('shrinked');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('shrinked');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('shrinked');
+
+                    $(this).closest('#video-timeline').find('#screen-share-video-container').removeClass('col-xs-9').addClass('col-xs-12');
+                    $(this).closest('#video-timeline').find('#screen-share-video-container .hidden-controls-container-btn').css({top: '50%'});
+                    $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('col-xs-3').addClass('col-xs-12').css({marginTop: '10px', marginLeft: ''});
+                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('col-xs-12').addClass('col-xs-6');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('col-xs-12').addClass('col-xs-6').css({marginTop: ''});
+                });
+
+                $(screenShareVideoHolder).parent().find('#toggle-side-by-side').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    $(this).popover('hide');
+                    $(this).parent().find('.btn-video-adjustment').removeClass('selected');
+                    $(this).addClass('selected');
+
+                    $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('shrinked');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('shrinked');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('shrinked');
+
+                    $(this).closest('#video-timeline').find('#screen-share-video-container').removeClass('col-xs-12').addClass('col-xs-9');
+                    $(this).closest('#video-timeline').find('#screen-share-video-container .hidden-controls-container-btn').css({top: '50%'});
+                    $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('col-xs-12').addClass('col-xs-3').css({marginTop: '', marginLeft: ''});
+                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('col-xs-6').addClass('col-xs-12');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('col-xs-6').addClass('col-xs-12').css({marginTop: '10px'});
                 });
             }
         }
@@ -439,7 +485,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
 //                    });
 
                     var togglePlayPauseButtons = $('#phase-results').find('.btn-toggle-playback');
-                    console.log('togglePlayPauseButtons', togglePlayPauseButtons);
+//                    console.log('togglePlayPauseButtons', togglePlayPauseButtons);
 
                     $(playButton).unbind('click').bind('click', function (event) {
                         event.preventDefault();
@@ -460,18 +506,88 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                         }
                     });
 
+
+                    // back and forward stepping functionalities
+
+                    var stepInterval = null;
+                    $(buttonStepBackward).unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        step('backward');
+                    });
+
+                    $(buttonStepBackward).unbind('mousedown').bind('mousedown', function (event) {
+                        event.preventDefault();
+                        clearInterval(stepInterval);
+                        stepInterval = setInterval(function () {
+                            step('backward');
+                        }, 200);
+                    });
+
+                    $(buttonStepBackward).unbind('mouseup').bind('mouseup', function (event) {
+                        event.preventDefault();
+                        clearInterval(stepInterval);
+                    });
+
+                    $(buttonStepForward).unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        step('forward');
+                    });
+
+                    $(buttonStepForward).unbind('mousedown').bind('mousedown', function (event) {
+                        event.preventDefault();
+                        clearInterval(stepInterval);
+                        stepInterval = setInterval(function () {
+                            step('forward');
+                        }, 200);
+                    });
+
+                    $(buttonStepForward).unbind('mouseup').bind('mouseup', function (event) {
+                        event.preventDefault();
+                        clearInterval(stepInterval);
+                    });
+
+                    function step(direction) {
+                        var video = mainVideo[0];
+                        if (video.paused !== true) {
+                            video.pause();
+                        }
+
+                        if (secondVideo && secondVideo[0].paused !== true) {
+                            secondVideo[0].pause();
+                        }
+//                        console.log(video.currentTime);
+                        switch (direction) {
+                            case 'backward':
+                                video.currentTime = Math.max(video.currentTime - 0.033, 0);
+                                break;
+                            case 'forward':
+                                video.currentTime = Math.min(video.currentTime + 0.033, video.duration);
+                                break;
+                        }
+//                        console.log(video.currentTime);
+                        readGapInput();
+                    }
+
+
+                    // streaming button functionalities
+
                     $(togglePlayPauseButtons).unbind('click').bind('click', function (event) {
+                        event.preventDefault();
                         $(playButton).click();
                     });
 
                     $(mainVideo).unbind('pause').bind('pause', function () {
                         $(playButton).find('.fa').removeClass('fa-pause').addClass('fa-play');
                         $(togglePlayPauseButtons).find('.fa').removeClass('fa-pause').addClass('fa-play');
+                        $(playButton).popover('hide');
+                        $(playButton).attr('data-content', translation.play);
                     });
 
                     $(mainVideo).unbind('play').bind('play', function () {
                         $(playButton).find('.fa').removeClass('fa-play').addClass('fa-pause');
                         $(togglePlayPauseButtons).find('.fa').removeClass('fa-play').addClass('fa-pause');
+                        $(playButton).popover('hide');
+                        $(playButton).attr('data-content', translation.pause);
                     });
 
                     if (gap) {
@@ -597,7 +713,8 @@ function initializeTimeline(timelineData, content) {
     if (timelineData) {
         // Create a Timeline
         var data = getVisDataSet(timelineData);
-        console.log('INITIALIZE TIMELINE:', data);
+//        console.log('INITIALIZE TIMELINE:', data);
+
         currentVisData = data;
 
         $(player).trigger('initialized');
@@ -617,7 +734,7 @@ function initializeTimeline(timelineData, content) {
                 $(this).find('.fa').removeClass('fa-eye').addClass('fa-eye-slash');
 //                console.log(data);
                 var tempData = getLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource);
-                console.log(tempData.annotations);
+//                console.log(tempData.annotations);
                 if ((tempData && tempData.annotations && tempData.annotations.length > 0) || (data && data.length > 2)) {
                     clearAlerts();
                     $(content).find('#results-timeline').removeClass('hidden');
@@ -642,7 +759,8 @@ function initializeTimeline(timelineData, content) {
                 showMinorLabels: false,
                 zoomMax: 10000,
                 selectable: false,
-                autoResize: true
+                autoResize: true,
+                minHeight: '60px'
             };
 
             timeline = new vis.Timeline($(resultsPlayer.domElement).find('#results-timeline').empty()[0], new vis.DataSet(data), options);
@@ -731,7 +849,21 @@ function getVisDataSet(timelineData) {
         }
     }
 
-    var className = 'item-primary-full';
+    // prepare observer annotations for deleting
+    var observerData = getLocalItem(timelineData.phaseResults.id + '.observer');
+    if (observerData && observerData.annotations && observerData.annotations.length > 0) {
+        for (var i = 0; i < observerData.annotations.length; i++) {
+            var annotation = observerData.annotations[i];
+            if (!annotation.id) {
+                annotation.id = chance.natural();
+            }
+            annotation.source = VIEW_OBSERVER;
+            annotation.id = annotation.id + '-' + annotation.source;
+            annotations.push(annotation);
+        }
+    }
+
+//    var className = 'item-primary-full';
 //    var annotations = timelineData.phaseResults.annotations;
 //    
 //    if (wizardData && wizardData.annotations) {
@@ -745,10 +877,10 @@ function getVisDataSet(timelineData) {
 //        console.log('ANNOTATIONS EVAULTOR:', annotations);
 //    }
 
-    var tempData = getLocalItem(timelineData.phaseResults.id + (timelineData.checkedVideos.secondVideo ? '.evaluator' : '.results'));
+//    var tempData = getLocalItem(timelineData.phaseResults.id + (timelineData.checkedVideos.secondVideo ? '.evaluator' : '.results'));
     if (annotations) {
         for (var i = 0; i < annotations.length; i++) {
-            var className = 'item-primary-full';
+            var className = 'item-advanced-primary-full';
             var contentText = translation.annotationsList[annotations[i].action];
             switch (annotations[i].action) {
                 case ACTION_CUSTOM:
@@ -765,7 +897,7 @@ function getVisDataSet(timelineData) {
                 case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
 
                     var gesture = getGestureById(annotations[i].gestureId);
-                    console.log(annotations[i].gestureId, gesture);
+//                    console.log(annotations[i].gestureId, gesture);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
                     break;
 //                case ACTION_START_PERFORM_GESTURE:
@@ -814,6 +946,9 @@ function getVisDataSet(timelineData) {
                         case ASSESSMENT_COLOR_YELLOW:
                             className = 'item-warning-full';
                             break;
+                        case ASSESSMENT_COLOR_DARKBLUE:
+                            className = 'item-primary-full';
+                            break;
                     }
                     break;
                 case ACTION_SHOW_FEEDBACK:
@@ -843,7 +978,7 @@ function getVisDataSet(timelineData) {
                     break;
                 case ACTION_OBSERVER_ANNOTATION:
                     contentText = translation.observatorHint;
-                    var color = annotations[i].annotationId;
+                    var color = annotations[i].annotationColor;
                     switch (color) {
                         case ASSESSMENT_COLOR_GREEN:
                             className = 'item-success-full';
@@ -858,7 +993,7 @@ function getVisDataSet(timelineData) {
                             className = 'item-warning-full';
                             break;
                         case ASSESSMENT_COLOR_DARKBLUE:
-                            className = 'item-advanced-primary-full';
+                            className = 'item-primary-full';
                             break;
                     }
                     break;
@@ -964,9 +1099,14 @@ function renderListData(visData, timelineData, content) {
                     $(linkListItem).find('.link-list-item-url').attr('data-jumpto', seconds);
                     $(linkListItem).find('.btn-delete-annotation').attr('data-id', visData[i].id);
                     $(linkListItem).find('.btn-delete-annotation').attr('data-source', visData[i].source);
+                    $(linkListItem).find('.btn-edit-annotation').attr('data-id', visData[i].id);
+                    $(linkListItem).find('.btn-edit-annotation').attr('data-source', visData[i].source);
                     $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)));
                     $(linkListItem).find('.link-list-item-title').text(visData[i].content);
                     $(linkListItem).find('.link-list-item-title').addClass(visData[i].className);
+                    $(linkListItem).attr('data-content', visData[i].content);
+                    $(linkListItem).attr('data-source', visData[i].source);
+                    $(linkListItem).attr('data-color', visData[i].className);
 
                     $(container).append(linkListItem);
                     $(linkListItem).find('.link-list-item-url').on('click', function (event) {
@@ -978,9 +1118,20 @@ function renderListData(visData, timelineData, content) {
 
                     $(linkListItem).find('.btn-delete-annotation').on('click', function (event) {
                         event.preventDefault();
-//                    console.log('delete annotation', $(this).attr('data-id'), checkedVideos.secondVideo);
-                        var annotationId = $(this).attr('data-id').split('-')[0];
-                        deleteAnnotation(annotationId, timelineData, content, $(this).attr('data-source'));
+                        if (!$(this).hasClass('disabled')) {
+                            var annotationId = $(this).attr('data-id').split('-')[0];
+                            deleteAnnotation(annotationId, timelineData, content, $(this).attr('data-source'));
+                        }
+                    });
+
+                    $(linkListItem).find('.btn-edit-annotation').on('click', function (event) {
+                        event.preventDefault();
+                        if (!$(this).hasClass('disabled')) {
+                            var annotationId = $(this).attr('data-id').split('-')[0];
+                            $(this).parent().find('.btn-cancel-edit-annotation').removeClass('hidden');
+                            $(this).addClass('hidden');
+                            editAnnotation(annotationId, timelineData, content, $(this).attr('data-source'), $(this).parent());
+                        }
                     });
                 }
             }
@@ -1010,7 +1161,7 @@ function updateLinkList(currentTime, content) {
 }
 
 function deleteAnnotation(annotationId, timelineData, content, source) {
-    console.log('delete annoation:', annotationId, source, timelineData);
+//    console.log('delete annoation:', annotationId, source, timelineData);
 //    return false;
 //    console.log(annotationId, timelineData);
 //    if (timelineData.phaseResults) {
@@ -1018,15 +1169,15 @@ function deleteAnnotation(annotationId, timelineData, content, source) {
 
     var tempData = null;
     tempData = getLocalItem(timelineData.phaseResults.id + '.' + source);
-    console.log(tempData);
+//    console.log(tempData);
     if (tempData.annotations && tempData.annotations.length > 0) {
         for (var i = 0; i < tempData.annotations.length; i++) {
             if (parseInt(annotationId) === parseInt(tempData.annotations[i].id)) {
                 tempData.annotations.splice(i, 1);
             }
         }
-        console.log(tempData.annotations);
-        
+//        console.log(tempData.annotations);
+
 //        timelineData.phaseResults = tempData;
         setLocalItem(tempData.id + '.' + source, tempData);
 //        return false;
@@ -1051,10 +1202,240 @@ function deleteAnnotation(annotationId, timelineData, content, source) {
     }
 }
 
+function editAnnotation(annotationId, timelineData, content, source, linkListItem) {
+//    console.log('delete annoation:', annotationId, source, timelineData);
+//    return false;
+//    console.log(annotationId, timelineData);
+//    if (timelineData.phaseResults) {
+//    }
+
+    var phaseData = getLocalItem(timelineData.phaseResults.id + '.' + source);
+
+    var annotations = phaseData && phaseData.annotations ? phaseData.annotations : null;
+    console.log(source, timelineData, phaseData, phaseData.annotations, annotations);
+    var annotation = null;
+    if (annotations && annotations.length > 0) {
+        for (var i = 0; i < annotations.length; i++) {
+            if (parseInt(annotationId) === parseInt(annotations[i].id)) {
+                annotation = annotations[i];
+                break;
+            }
+        }
+    }
+
+    if (annotation) {
+        console.log('ANNOTATION:', annotation);
+
+        var selectedColor = 'item-advanced-primary-full';
+        var contentText = translation.annotationsList[annotation.action];
+
+        switch (annotation.action) {
+            case ACTION_CUSTOM:
+                contentText = annotation.content;
+                selectedColor = annotation.annotationColor;
+                break;
+            case ACTION_RENDER_SCENE:
+                var scene = getSceneById(annotation.scene);
+                contentText = translation.scene + ': ' + scene.title;
+                break;
+            case ACTION_START_GESTURE_TRAINING:
+            case ACTION_START_PERFORM_GESTURE:
+            case ACTION_START_PERFORM_TRIGGER_IDENTIFICATION:
+            case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
+                var gesture = getGestureById(annotation.gestureId);
+                contentText = translation.annotationsList[annotation.action] + ': ' + gesture.title;
+                break;
+            case ACTION_START_PERFORM_GESTURE_IDENTIFICATION:
+                var trigger = getTriggerById(annotation.triggerId);
+                contentText = translation.annotationsList[annotation.action] + ': ' + trigger.title;
+                break;
+            case ACTION_SELECT_GESTURE:
+                var gesture = getGestureById(annotation.selectedGestureId);
+                selectedColor = 'item-success-full';
+                contentText = translation.annotationsList[annotation.action] + ': ' + gesture.title;
+                break;
+            case ACTION_NO_GESTURE_DEMONSTRATED:
+            case ACTION_NO_GESTURE_FIT_FOUND:
+                selectedColor = 'item-warning-full';
+                break;
+            case ACTION_START_TASK:
+                var task = getTaskById(annotation.taskId);
+                contentText = translation.task + ': ' + task.title;
+                break;
+            case ACTION_ASSESSMENT:
+                contentText = timelineData.phaseData.taskAssessments[annotation.assessmentId].title + ': ' + getTaskById(annotation.taskId).title;
+                selectedColor = timelineData.phaseData.taskAssessments[annotation.assessmentId].annotationColor;
+                break;
+            case ACTION_SHOW_FEEDBACK:
+                if (annotation.feedback.parameters.negative === 'yes') {
+                    selectedColor = 'item-danger-full';
+                }
+                break;
+            case ACTION_HIDE_FEEDBACK:
+                break;
+            case ACTION_ALL_RECORDER_READY:
+                contentText = translation.annotationsList[annotation.action];
+                selectedColor = 'item-success-full';
+                break;
+            case ACTION_RECORDER_LOST:
+                contentText = translation.annotationsList[annotation.action];
+                selectedColor = 'item-danger-full';
+                break;
+            case ACTION_SHOW_GESTURE_INFO:
+            case ACTION_HIDE_GESTURE_INFO:
+                var gesture = getGestureById(annotation.gestureId);
+                contentText = translation.annotationsList[annotation.action] + ': ' + gesture.title;
+                break;
+            case ACTION_SHOW_TRIGGER_INFO:
+            case ACTION_HIDE_TRIGGER_INFO:
+                var trigger = getTriggerById(annotation.triggerId);
+                contentText = translation.annotationsList[annotation.action] + ': ' + trigger.title;
+                break;
+            case ACTION_OBSERVER_ANNOTATION:
+                contentText = translation.observatorHint;
+                console.log('OBSERVER COLOR', annotation.annotationColor);
+                switch (annotation.annotationColor) {
+                    case ASSESSMENT_COLOR_GREEN:
+                        selectedColor = 'item-success-full';
+                        break;
+                    case ASSESSMENT_COLOR_BLUE:
+                        selectedColor = 'item-info-full';
+                        break;
+                    case ASSESSMENT_COLOR_RED:
+                        selectedColor = 'item-danger-full';
+                        break;
+                    case ASSESSMENT_COLOR_YELLOW:
+                        selectedColor = 'item-warning-full';
+                        break;
+                    case ASSESSMENT_COLOR_DARKBLUE:
+                        selectedColor = 'item-primary-full';
+                        break;
+                }
+
+                break;
+        }
+        console.log('SELECTED COLOR', selectedColor);
+        $(content).find('#update-annotation-container .update-annotation-title-input').val(contentText);
+        $(content).find('#update-annotation-container [data-id=' + selectedColor + ']').click();
+
+
+        var submitButton = $(content).find('#update-annotation-container #btn-update-annotation-input');
+        $(submitButton).unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                annotation.action = ACTION_CUSTOM;
+                annotation.content = $(content).find('#update-annotation-container .update-annotation-title-input').val();
+                annotation.annotationColor = $(content).find('.update-color-selector .selected').attr('data-id');
+                updateAnnotation(annotation);
+            }
+        });
+
+        var cancelButton = $(content).find('#update-annotation-container #btn-cancel-update-annotation-input');
+        $(cancelButton).unbind('click').bind('click', function (event) {
+            event.preventDefault();
+
+            $(linkListItem).find('.btn-cancel-edit-annotation').addClass('hidden');
+            $(linkListItem).find('.btn-edit-annotation').removeClass('hidden');
+
+            TweenMax.to($(content).find('#update-annotation-container'), .15, {opacity: 0, scaleX: .5, scaleY: .5, ease: Quad.easeOut, clearProps: 'all', onComplete: function () {
+                    $(content).find('#update-annotation-container').addClass('hidden');
+                    $(content).find('#create-annotation-container').removeClass('hidden');
+                    $(content).find('#update-annotation-container .update-annotation-title-input').val('');
+                    TweenMax.from($(content).find('#create-annotation-container'), .15, {opacity: 0, scaleX: 1.5, scaleY: 1.5, ease: Quad.easeOut, clearProps: 'all'});
+                }});
+
+            $(content).find('#link-list-container .btn-edit-annotation').removeClass('disabled');
+            $(content).find('#link-list-container .btn-delete-annotation').removeClass('disabled');
+        });
+
+        var listItemCancelButton = $(linkListItem).find('.btn-cancel-edit-annotation');
+        $(listItemCancelButton).unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            $(cancelButton).click();
+        });
+
+        TweenMax.to($(content).find('#create-annotation-container'), .15, {opacity: 0, scaleX: 1.5, scaleY: 1.5, ease: Quad.easeIn, clearProps: 'all', onComplete: function () {
+                $(content).find('#create-annotation-container').addClass('hidden');
+                $(content).find('#update-annotation-container').removeClass('hidden');
+                TweenMax.from($(content).find('#update-annotation-container'), .15, {opacity: 0, scaleX: .5, scaleY: .5, ease: Quad.easeIn, clearProps: 'all'});
+            }});
+
+        $(content).find('#link-list-container .btn-edit-annotation').addClass('disabled');
+        $(content).find('#link-list-container .btn-delete-annotation').addClass('disabled');
+    }
+
+    function updateAnnotation(updatedAnnotation) {
+        if (phaseData.annotations && phaseData.annotations.length > 0) {
+
+            for (var i = 0; i < phaseData.annotations.length; i++) {
+                if (parseInt(updatedAnnotation.id) === parseInt(phaseData.annotations[i].id)) {
+                    phaseData.annotations[i] = updatedAnnotation;
+                }
+            }
+
+//            if (phaseData.annotations.length === 0) {
+//                if ($(content).find('#btn-toggle-timeline').hasClass('present')) {
+//                    $(content).find('#btn-toggle-timeline').click();
+//                }
+//
+//                if ($(content).find('#btn-toggle-link-list').hasClass('present')) {
+//                    $(content).find('#btn-toggle-link-list').click();
+//                }
+//            }
+
+
+            var mainVideo = timelineData.checkedVideos.mainVideo[0];
+            if (mainVideo.paused === false) {
+                $(content).find('#btn-play-pause').click();
+            }
+
+            var annotationLabel = $(content).find('.update-annotation-title-input').val().trim();
+            if (annotationLabel !== '') {
+//                var visData = getVisDataSet(timelineData);
+//                timeline.setItems(new vis.DataSet(visData));
+//                timeline.redraw();
+//                renderSeekbarData(visData, timelineData, content);
+//                renderListData(visData, timelineData, content);
+
+                if (!$(content).find('#btn-toggle-timeline').hasClass('present')) {
+                    $(content).find('#btn-toggle-timeline').click();
+                }
+//                updateLinkList(mainVideo.currentTime, content);
+
+                setLocalItem(phaseData.id + '.' + source, phaseData);
+                saveUpdatedPhaseResults(source, function () {
+                    $(cancelButton).click();
+
+                    // render timeline and other elements
+                    var visData = getVisDataSet(timelineData);
+                    timeline.setItems(new vis.DataSet(visData));
+                    renderSeekbarData(visData, timelineData, content);
+                    renderListData(visData, timelineData, content);
+                    updateLinkList(timelineData.checkedVideos.mainVideo[0].currentTime, content);
+                    searchThroughAnnotations(content);
+
+                });
+            } else {
+                $(content).find('.update-annotation-title-input').parent().addClass('has-error');
+            }
+        }
+
+        setInputChangeEvent($(content).find('.update-annotation-title-input'));
+        $(content).find('.update-annotation-title-input').unbind('change').bind('change', function (event) {
+            event.preventDefault();
+            $(content).find('.update-annotation-title-input').parent().removeClass('has-error');
+        });
+    }
+}
+
 function initializeAnnotationHandling(timelineData, content) {
     $(content).find('#btn-add-annotation-input').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
+            $(content).find('#btn-reset-search-annotation-input').click();
+
+            console.log(timelineData.phaseResults.id);
+            var tempData = getLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource);
             var mainVideo = timelineData.checkedVideos.mainVideo[0];
             if (mainVideo.paused === false) {
                 $(content).find('#btn-play-pause').click();
@@ -1065,31 +1446,38 @@ function initializeAnnotationHandling(timelineData, content) {
                 var annotation = {id: chance.natural(), action: ACTION_CUSTOM, content: annotationLabel, annotationColor: $(content).find('.color-selector .selected').attr('data-id'), time: annotationTime};
                 var firstInitializeTimeline = false;
 
-                if (timelineData.phaseResults.annotations && timelineData.phaseResults.annotations.length > 0) {
-                    timelineData.phaseResults.annotations.push(annotation);
+                if (tempData.annotations && tempData.annotations.length > 0) {
+                    tempData.annotations.push(annotation);
                 } else {
                     firstInitializeTimeline = true;
-                    timelineData.phaseResults.annotations = [annotation];
+                    tempData.annotations = [annotation];
                 }
 
-                var visData = getVisDataSet(timelineData);
+//                var visData = getVisDataSet(timelineData);
                 if (firstInitializeTimeline) {
                     initializeTimeline(timelineData, content);
                     updateTimeline(timelineData.checkedVideos.mainVideo[0].currentTime, content);
                 } else {
-                    timeline.setItems(new vis.DataSet(visData));
-                    timeline.redraw();
-                    renderSeekbarData(visData, timelineData, content);
-                    renderListData(visData, timelineData, content);
+//                    timeline.setItems(new vis.DataSet(visData));
+//                    timeline.redraw();
+//                    renderSeekbarData(visData, timelineData, content);
+//                    renderListData(visData, timelineData, content);
 
                     if (!$(content).find('#btn-toggle-timeline').hasClass('present')) {
                         $(content).find('#btn-toggle-timeline').click();
                     }
                 }
-                updateLinkList(mainVideo.currentTime, content);
-
-                setLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource, timelineData.phaseResults);
-                saveUpdatedPhaseResults(timelineData.resultSource);
+//                updateLinkList(mainVideo.currentTime, content);
+                timelineData.phaseResults = tempData;
+                setLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource, tempData);
+                saveUpdatedPhaseResults(timelineData.resultSource, function () {
+                    // render timeline and other elements
+                    var visData = getVisDataSet(timelineData);
+                    timeline.setItems(new vis.DataSet(visData));
+                    renderSeekbarData(visData, timelineData, content);
+                    renderListData(visData, timelineData, content);
+                    updateLinkList(timelineData.checkedVideos.mainVideo[0].currentTime, content);
+                });
 
                 $(content).find('.annotation-title-input').val('');
             } else {
@@ -1103,9 +1491,94 @@ function initializeAnnotationHandling(timelineData, content) {
             $(content).find('.annotation-title-input').parent().removeClass('has-error');
         });
     });
+
+    var resetSearchButton = $(content).find('#btn-reset-search-annotation-input');
+    var searchInput = $(content).find('#search-annotation-container .annotation-search-title-input');
+    var searchColorSelector = $(content).find('#search-annotation-container .search-color-selector');
+
+    $(resetSearchButton).unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        $(searchInput).val('');
+        $(searchColorSelector).find('.none').click();
+        searchThroughAnnotations(content, true);
+    });
+
+    setInputChangeEvent(searchInput);
+    $(searchInput).unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        searchThroughAnnotations();
+    });
+    $(searchInput).unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        searchThroughAnnotations(content);
+    });
+
+    $(searchColorSelector).unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        searchThroughAnnotations(content);
+    });
+
+    $('#annotation-nav-pills a').click(function (event) {
+        event.preventDefault();
+        
+        $(content).find('#annotation-nav-tab-content .active').removeClass('active');
+        console.log($(content).find('#annotation-nav-tab-content .active'));
+        var activeTab = $(event.currentTarget).attr('href');
+        $(content).find('#annotation-nav-tab-content ' + activeTab).addClass('active');
+        console.log('nav pill clicked', $(event.currentTarget).attr('href'),$('#annotation-nav-tab-content').find(activeTab) );
+//        $(this).tab('show');
+    });
 }
 
-function saveUpdatedPhaseResults(source) {
+function searchThroughAnnotations(contentDom, resetList) {
+    var searchInput = $(contentDom).find('#search-annotation-container .annotation-search-title-input');
+    var searchColorSelector = $(contentDom).find('#search-annotation-container .search-color-selector');
+    var items = $(contentDom).find('#link-list-container').children();
+
+    if (resetList && resetList === true) {
+        $(items).removeClass('hidden');
+        removeAlert(contentDom, ALERT_NO_SEARCH_RESULTS)
+    } else {
+        var coloreredItems = [];
+        var visibleItems = [];
+
+        var selectedColor = $(searchColorSelector).find('.selected').attr('data-id');
+        if (selectedColor && selectedColor !== 'none') {
+            // search only through items with this color
+            for (var i = 0; i < items.length; i++) {
+                if ($(items[i]).attr('data-color') === selectedColor) {
+                    coloreredItems.push(items[i]);
+                }
+            }
+        } else {
+            coloreredItems = items;
+        }
+
+        var searchInputVal = $(searchInput).val();
+        if (searchInputVal.trim() !== '' && coloreredItems.length > 0) {
+            // search only through items with this content
+            for (var i = 0; i < coloreredItems.length; i++) {
+                var content = $(coloreredItems[i]).attr('data-content');
+                if (content.search(new RegExp(searchInputVal.trim(), "i")) > -1) {
+                    visibleItems.push(coloreredItems[i]);
+                }
+            }
+        } else {
+            visibleItems = coloreredItems;
+        }
+
+        $(items).addClass('hidden');
+        if (visibleItems && visibleItems.length > 0) {
+            removeAlert(contentDom, ALERT_NO_SEARCH_RESULTS)
+            $(visibleItems).removeClass('hidden');
+        } else {
+            // append alert
+            appendAlert(contentDom, ALERT_NO_SEARCH_RESULTS);
+        }
+    }
+}
+
+function saveUpdatedPhaseResults(source, callback) {
     var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     var generalStudyResults = getLocalItem(STUDY_RESULTS);
     var saveData = {studySuccessfull: generalStudyResults.executionSuccess, aborted: generalStudyResults.executionAborted, phases: []};
@@ -1119,21 +1592,33 @@ function saveUpdatedPhaseResults(source) {
         case 'evaluator':
             saveExecutionModerator({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData}, function (result) {
                 console.log('save execution moderator', result);
+                if (callback) {
+                    callback();
+                }
             });
             break;
         case VIEW_TESTER:
             saveExecutionTester({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData}, function (result) {
                 console.log('saved execution tester', result);
+                if (callback) {
+                    callback();
+                }
             });
             break;
         case VIEW_WIZARD:
             saveExecutionWizard({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData, evaluatorId: evaluatorData.evaluatorId}, function (result) {
                 console.log('saved execution wizard', result);
+                if (callback) {
+                    callback();
+                }
             });
             break;
         case VIEW_OBSERVER:
             saveExecutionObserver({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData, evaluatorId: evaluatorData.evaluatorId}, function (result) {
-                console.log('saved execution wizard', result);
+                console.log('saved execution observer', result);
+                if (callback) {
+                    callback();
+                }
             });
             break;
     }

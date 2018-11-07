@@ -335,7 +335,9 @@ UserTest.prototype.renderModeratorView = function () {
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ASSESSMENT, assessmentId: assessmentId, taskId: currentScenarioTask.id, time: timestamp});
                         checkAssessment(trigger);
-                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
+                        if (currentScenarioTaskIndex < data.tasks.length - 1) {
+                            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
+                        }
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                     });
                 } else {
@@ -987,6 +989,12 @@ UserTest.prototype.renderObserverView = function () {
 
     if (!data.tasks || data.tasks.length === 0) {
         return false;
+    }
+
+    if (!previewModeEnabled) {
+        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+        tempData.annotations = new Array();
+        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
     }
 
     // observation section

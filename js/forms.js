@@ -3139,7 +3139,9 @@ function renderSusInput(item) {
 
 var changeTriggerTimer = null;
 function setInputChangeEvent(target, milliseconds) {
-    $(target).keypress(function (event) {
+//    console.log('set input change event', target);
+    $(target).keyup(function (event) {
+//        console.log('key pressed');
         clearTimeout(changeTriggerTimer);
         changeTriggerTimer = setTimeout(function () {
             clearTimeout(changeTriggerTimer);

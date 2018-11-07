@@ -1,3 +1,4 @@
+
 Identification.prototype.options = null;
 
 function Identification(options) {
@@ -585,10 +586,14 @@ Identification.prototype.renderModeratorView = function () {
             $(item).find('#transition-scenes-controls').removeClass('hidden');
         }
 
-        if (data.sensor !== 'none' && !sensorTypeBanned(data.sensor) && peerConnection) {
+        console.log('SENSOR DATA:', data.sensor, sensorTypeBanned(data.sensor));
+        if (!previewModeEnabled && peerConnection) {
+            $(container).find('#btn-start-gesture-recording').addClass('disabled');
+            $(container).find('#waiting-for-sensor').removeClass('hidden');
+            
             $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event) {
                 event.preventDefault();
-                console.log('all recorder ready');
+                console.log('ALL RECORDER READY');
                 identificationSensorInitialized = true;
                 $(container).find('#btn-start-gesture-recording').removeClass('disabled');
                 $(container).find('#waiting-for-sensor').addClass('hidden');
@@ -1005,12 +1010,14 @@ Identification.prototype.renderTesterView = function () {
         checkScenes();
         clearAlerts(container);
         showStream();
+
+        testerGestureRecorder.record();
         animateLiveStream(true, VIEW_TESTER, function () {
             if (!previewModeEnabled && peerConnection) {
-                testerGestureRecorder.record();
 
                 $(peerConnection).unbind(MESSAGE_STOP_RECORDING_GESTURE).bind(MESSAGE_STOP_RECORDING_GESTURE, function (event, payload) {
                     event.preventDefault();
+                    console.log('MESSAGE STOP RECORDING GESTURE');
                     $(testerGestureRecorder).unbind('recorderStopped').bind('recorderStopped', function (event) {
                         event.preventDefault();
                         currentPhaseState = 'gestureRecorded';
@@ -1158,6 +1165,12 @@ Identification.prototype.renderObserverView = function () {
 
     if (!data.identification || data.identification.length === 0) {
         return false;
+    }
+
+    if (!previewModeEnabled) {
+        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+        tempData.annotations = new Array();
+        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
     }
 
     // observation section

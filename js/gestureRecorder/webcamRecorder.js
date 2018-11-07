@@ -28,6 +28,7 @@ function WebcamRecorder(options) {
     }
 
     function gotDevices(deviceInfos) {
+        console.log('got devices for webcam recorder')
         var videoSource = null;
         for (var i = 0; i < deviceInfos.length; i++) {
             if (deviceInfos[i].kind === 'videoinput') {

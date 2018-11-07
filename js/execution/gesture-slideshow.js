@@ -526,6 +526,12 @@ GestureSlideshow.prototype.renderObserverView = function () {
     if (!data.slideshow || data.slideshow.length === 0) {
         return false;
     }
+    
+    if (!previewModeEnabled) {
+        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+        tempData.annotations = new Array();
+        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+    }
 
     // observation section
     renderObservations(data, container);
