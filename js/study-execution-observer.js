@@ -261,6 +261,7 @@ var Observer = {
             $(peerConnection).unbind(MESSAGE_SHARED_SCREEN_ADDED).bind(MESSAGE_SHARED_SCREEN_ADDED, function (event, video) {
                 console.log('on add shared screen', video);
                 currentSharedScreen = video;
+                $(video).css({opacity: 0});
                 setTimeout(function () {
                     initScreenSharing();
                 }, 1000);
@@ -364,16 +365,16 @@ function initScreenSharing() {
     console.log('INIT SCREEN SHARING', container, currentSharedScreen);
     if (!previewModeEnabled && peerConnection && currentSharedScreen) {
         $(container).empty().append(currentSharedScreen);
-        var newHeight = $(window).height() - 70 - 15;
-        $(container).css({height: newHeight + "px"});
-        $(currentSharedScreen).css({height: '100%', width: '100%', objectFit: 'contain'});
+//        var newHeight = $(window).height() - 70 - 15;
+//        $(container).css({height: newHeight + "px"});
+        $(currentSharedScreen).css({height: '100%', width: '100%', objectFit: 'contain', opacity: 1, borderRadius: '4px'});
         $(currentSharedScreen).removeAttr('controls');
         $(currentSharedScreen).removeAttr('id');
 
-        $(window).on('resize', function () {
-            var newHeight = $(window).height() - 70 - 15;
-            $(container).css({height: newHeight + "px"});
-        }).resize();
+//        $(window).on('resize', function () {
+//            var newHeight = $(window).height() - 70 - 15;
+//            $(container).css({height: newHeight + "px"});
+//        }).resize();
 
 //        Observer.keepStreamsPlaying($('#video-caller'));
         Observer.keepStreamsPlaying();

@@ -153,10 +153,10 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                     $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').addClass('shrinked');
 
                     $(this).closest('#video-timeline').find('#screen-share-video-container').removeClass('col-xs-9').addClass('col-xs-12');
-                    $(this).closest('#video-timeline').find('#screen-share-video-container .hidden-controls-container-btn').css({top: '80%'});
-                    $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('col-xs-3').addClass('col-xs-12').css({marginTop: '10px', marginLeft: '15px'});
-                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('col-xs-12').addClass('col-xs-6');
-                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('col-xs-12').addClass('col-xs-6').css({marginTop: ''});
+                    $(this).closest('#video-timeline').find('#screen-share-video-container .hidden-controls-container-btn').css({top: '65%'});
+                    $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('col-xs-3').addClass('col-xs-12').css({marginTop: '30px', marginLeft: '15px'});
+                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('col-xs-12').addClass('col-xs-5 col-sm-4');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('col-xs-12').addClass('col-xs-5 col-sm-4 col-xs-offset-2 col-sm-offset-4').css({marginTop: ''});
                 });
 
                 $(screenShareVideoHolder).parent().find('#toggle-big-screen').unbind('click').bind('click', function (event) {
@@ -172,8 +172,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                     $(this).closest('#video-timeline').find('#screen-share-video-container').removeClass('col-xs-9').addClass('col-xs-12');
                     $(this).closest('#video-timeline').find('#screen-share-video-container .hidden-controls-container-btn').css({top: '50%'});
                     $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('col-xs-3').addClass('col-xs-12').css({marginTop: '10px', marginLeft: ''});
-                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('col-xs-12').addClass('col-xs-6');
-                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('col-xs-12').addClass('col-xs-6').css({marginTop: ''});
+                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('col-xs-12 col-xs-5 col-sm-4').addClass('col-xs-6');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('col-xs-12 col-xs-5 col-sm-4 col-xs-offset-2 col-sm-offset-4').addClass('col-xs-6').css({marginTop: ''});
                 });
 
                 $(screenShareVideoHolder).parent().find('#toggle-side-by-side').unbind('click').bind('click', function (event) {
@@ -189,8 +189,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                     $(this).closest('#video-timeline').find('#screen-share-video-container').removeClass('col-xs-12').addClass('col-xs-9');
                     $(this).closest('#video-timeline').find('#screen-share-video-container .hidden-controls-container-btn').css({top: '50%'});
                     $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('col-xs-12').addClass('col-xs-3').css({marginTop: '', marginLeft: ''});
-                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('col-xs-6').addClass('col-xs-12');
-                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('col-xs-6').addClass('col-xs-12').css({marginTop: '10px'});
+                    $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('col-xs-6 col-xs-5 col-sm-4').addClass('col-xs-12');
+                    $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('col-xs-6 col-xs-5 col-sm-4 col-xs-offset-2 col-sm-offset-4').addClass('col-xs-12').css({marginTop: '10px'});
                 });
             }
         }
@@ -1522,10 +1522,10 @@ function initializeAnnotationHandling(timelineData, content) {
         event.preventDefault();
         
         $(content).find('#annotation-nav-tab-content .active').removeClass('active');
-        console.log($(content).find('#annotation-nav-tab-content .active'));
+//        console.log($(content).find('#annotation-nav-tab-content .active'));
         var activeTab = $(event.currentTarget).attr('href');
         $(content).find('#annotation-nav-tab-content ' + activeTab).addClass('active');
-        console.log('nav pill clicked', $(event.currentTarget).attr('href'),$('#annotation-nav-tab-content').find(activeTab) );
+//        console.log('nav pill clicked', $(event.currentTarget).attr('href'),$('#annotation-nav-tab-content').find(activeTab) );
 //        $(this).tab('show');
     });
 }

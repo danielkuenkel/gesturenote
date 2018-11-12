@@ -709,7 +709,7 @@ include '../includes/language.php';
                 </div>
             </div>
             
-            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius:8px" allowtransparency></div>
 
             <div class="alert-space alert-quit-screen-sharing"></div>
             <div class="alert-space alert-phase-step-done"></div>
@@ -1427,7 +1427,7 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 8px" allowtransparency></div>
         </div>
 
     </div>
@@ -1455,7 +1455,7 @@ include '../includes/language.php';
         </div>
         <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
             <div class="alert-space alert-please-wait"></div>
-            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 8px" allowtransparency></div>
 
             <div class="hidden" id="identified-gestures">
                 <h3 class="headline" style="margin-top: 0px"><?php echo $lang->favoriteGestures ?></h3>
@@ -1503,7 +1503,7 @@ include '../includes/language.php';
         </div>
         <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
             <div class="alert-space alert-please-wait"></div>
-            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 8px" allowtransparency></div>
         </div>
 
     </div>
@@ -1532,7 +1532,7 @@ include '../includes/language.php';
         </div>
         <div class="col-md-7 col-lg-7" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-7 col-lg-7">
             <div class="alert-space alert-please-wait"></div>
-            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 8px" allowtransparency></div>
         </div>
 
     </div>
