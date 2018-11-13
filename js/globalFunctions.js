@@ -6,7 +6,7 @@
 
 function checkDomain() {
     const LOCAL_DOMAINS = ["localhost", "127.0.0.1"];
-    if (LOCAL_DOMAINS.includes(location.hostname)) {
+    if (location.hostname.includes('localhost')) {
 
     } else if (!location.protocol.includes('https') || location.hostname.includes('gesturenote.com')) {
         location.href = "https://gesturenote.de";
