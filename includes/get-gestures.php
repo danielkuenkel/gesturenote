@@ -235,7 +235,7 @@ if (isset($_SESSION['user_id'])) {
                                             exit();
                                         } else {
                                             $select_invited_users_stmt->store_result();
-                                            $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedSetId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited, $forename, $surname);
+                                            $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedSetId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited, $forenameTwo, $surnameTwo);
 
                                             while ($select_invited_users_stmt->fetch()) {
                                                 $hasShared = true;
@@ -285,8 +285,8 @@ if (isset($_SESSION['user_id'])) {
                                         'ratingAmount' => $ratingCount,
                                         'hasRated' => $hasRated,
                                         'invitedUsers' => $invitedUsers,
-                                        'forename' => $forename,
-                                        'surname' => $surname
+                                        'forename' => $forenameTwo,
+                                        'surname' => $surnameTwo
                                     );
                                 }
                             }

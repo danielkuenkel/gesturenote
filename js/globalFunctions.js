@@ -5,7 +5,6 @@
  */
 
 function checkDomain() {
-    const LOCAL_DOMAINS = ["localhost", "127.0.0.1"];
     if (location.hostname.includes('localhost')) {
 
     } else if (!location.protocol.includes('https') || location.hostname.includes('gesturenote.com')) {

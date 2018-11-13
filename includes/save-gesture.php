@@ -11,7 +11,7 @@ $target_dir = "../uploads/";
 $target_preview_dir = "uploads/";
 
 session_start();
-if (isset($_POST['title'], $_POST['titleQuality'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['doubleSidedUse'], $_POST['previewImage'], $_POST['sensorData'])) {
+if (isset($_POST['title'], $_POST['titleQuality'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['doubleSidedUse'], $_POST['previewImage'])) {
     $userId = $_SESSION['user_id'];
     if (isset($_POST['userId']) && $_POST['userId'] != null) {
         $userId = $_POST['userId'];

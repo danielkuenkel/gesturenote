@@ -313,6 +313,10 @@ $(document).on('exchangableSaveDataAttached', function (event, gesture) {
     delete gesture.blobs;
     delete gesture.id;
 
+    gesture.context = translation.notSpecified;
+    gesture.association = translation.notSpecified;
+    gesture.doubleSidedUse = true;
+
     var container = $('#gesture-importer');
     saveRecordedGesture(gesture, function (result) {
         if (result.status === RESULT_SUCCESS) {
