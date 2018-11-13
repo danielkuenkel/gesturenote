@@ -392,33 +392,31 @@ var Tester = {
         if (peerConnection) {
             peerConnection.keepStreamsPlaying();
         }
+    },
+    initScreenSharing: function initScreenSharing(container) {
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_SHARED_SCREEN_ADDED).bind(MESSAGE_SHARED_SCREEN_ADDED, function (event, video) {
+                console.log('on add shared screen', video);
+
+                $(container).empty().append(video);
+                var newHeight = $(window).height() - 70 - 15;
+                $(container).css({height: newHeight + "px"});
+                $(video).css({height: '100%', width: '100%', objectFit: 'contain'});
+                $(video).removeAttr('controls');
+                $(video).removeAttr('id');
+                $(window).on('resize', function () {
+                    var newHeight = $(window).height() - 70 - 15;
+                    console.log('resize:', newHeight);
+                    $(container).css({height: newHeight + "px"});
+                }).resize();
+
+                peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
+                Tester.keepStreamsPlaying();
+                $(container).trigger('sharedScreenAdded');
+            });
+        }
     }
 };
-
-function initScreenSharing(container) {
-    if (!previewModeEnabled && peerConnection) {
-        $(peerConnection).unbind(MESSAGE_SHARED_SCREEN_ADDED).bind(MESSAGE_SHARED_SCREEN_ADDED, function (event, video) {
-            console.log('on add shared screen', video);
-
-            $(container).empty().append(video);
-            var newHeight = $(window).height() - 70 - 15;
-            $(container).css({height: newHeight + "px"});
-            $(video).css({height: '100%', width: '100%', objectFit: 'contain'});
-            $(video).removeAttr('controls');
-            $(video).removeAttr('id');
-            $(window).on('resize', function () {
-                var newHeight = $(window).height() - 70 - 15;
-                console.log('resize:', newHeight);
-                $(container).css({height: newHeight + "px"});
-            }).resize();
-
-            peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
-            Tester.keepStreamsPlaying();
-//            Tester.keepStreamsPlaying(container);
-            $(container).trigger('sharedScreenAdded');
-        });
-    }
-}
 
 function checkRTCUploadStatus(container) {
     if (isUploadRecordingNeeded() && uploadQueue && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {

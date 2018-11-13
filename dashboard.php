@@ -112,6 +112,12 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-simulator">
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->breadcrump->simulator ?></div>
+                        <div class="panel-body panel-content"><?php echo $lang->dashboard->simulatorPanelBody ?></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-news">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <?php echo $lang->breadcrump->news ?></div>
                         <div class="panel-body panel-content"><?php echo $lang->dashboard->newsPanelBody ?></div>
@@ -177,7 +183,7 @@ if (login_check($mysqli) == true) {
                 }});
 
             createStudyButtonTimeline.add("createStudy", 0)
-                    .to(createStudyButton, .3, {left: +186, ease:Quad.easeInOut}, "previewStudy");
+                    .to(createStudyButton, .3, {left: +186, ease: Quad.easeInOut}, "previewStudy");
 
             $(createStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -200,7 +206,7 @@ if (login_check($mysqli) == true) {
                 }});
 
             recordGestureButtonTimeline.add("cacheStudy", 0)
-                    .to(recordGestureButton, .3, {left: +166, ease:Quad.easeInOut}, "cacheStudy");
+                    .to(recordGestureButton, .3, {left: +166, ease: Quad.easeInOut}, "cacheStudy");
 
             $(recordGestureButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -223,7 +229,7 @@ if (login_check($mysqli) == true) {
                 }});
 
             gestureSetsButtonTimeline.add("saveStudy", 0)
-                    .to(gestureSetsButton, .3, {left: +113, ease:Quad.easeInOut}, "saveStudy");
+                    .to(gestureSetsButton, .3, {left: +113, ease: Quad.easeInOut}, "saveStudy");
 
             $(gestureSetsButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -293,6 +299,12 @@ if (login_check($mysqli) == true) {
                     itemSelector: '.dashboard-item'
                 });
             }
+
+            $('#btn-simulator').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                console.log('open simulator');
+                goto('simulator.php');
+            });
         </script>
 
     </body>

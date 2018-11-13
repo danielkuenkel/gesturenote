@@ -109,6 +109,9 @@ if ($h && $token && $studyId) {
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
+        
+        <!-- gesture recognizers -->
+        <script src="js/gestureRecognizer/leapStandardRecognizer.js"></script>
 
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">

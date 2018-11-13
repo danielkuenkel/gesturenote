@@ -168,9 +168,30 @@ UserTest.prototype.renderModeratorView = function () {
                 });
             } else {
                 renderWOZ();
+
+                $(peerConnection).unbind(MESSAGE_LEAP_GESTURE_RECOGNIZED).bind(MESSAGE_LEAP_GESTURE_RECOGNIZED, function (event, payload) {
+                    console.log('LEAP GESTURE RECOGNIZED');
+                    event.preventDefault();
+                    checkRecognizedGesture(payload);
+                });
             }
         } else {
             renderWOZ();
+
+            if (recognizeLeapGestures(data)) {
+                console.log('LEAP GESTURE RECOGNIZED');
+                leapRecognizer = null;
+                leapRecognizer = new LeapStandardRecognizer(null);
+
+                // handle recognized gestures for preview mode
+                if (previewModeEnabled) {
+                    $(leapRecognizer).unbind(EVENT_LEAP_GESTURE).bind(EVENT_LEAP_GESTURE, function (event, payload) {
+                        event.preventDefault();
+                        console.log(payload);
+                        checkRecognizedGesture(payload);
+                    });
+                }
+            }
         }
 
         // help section
@@ -303,6 +324,17 @@ UserTest.prototype.renderModeratorView = function () {
                                 currentPhaseState = 'usertestStarted';
                                 renderCurrentPhaseState();
                             } else {
+                                if (prototypeWindow && prototypeWindow.closed !== true) {
+                                    if (!previewModeEnabled) {
+                                        getGMT(function (timestamp) {
+                                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+                                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                                        });
+                                    }
+                                    prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
+                                }
+
                                 renderWOZ();
                             }
 
@@ -483,6 +515,7 @@ UserTest.prototype.renderModeratorView = function () {
                     for (var i = 0; i < wozData.length; i++) {
                         var transitionScenes = wozData[i].transitionScenes;
                         var item = $(source).find('#wozItemWithScenes').clone().removeAttr('id');
+                        item.find('#btn-trigger-woz').attr('data-gesture-id', wozData[i].gestureId);
                         $(container).find('.woz-container').append(item);
 
                         if (transitionScenes.length > 1) {
@@ -829,6 +862,17 @@ UserTest.prototype.renderModeratorView = function () {
 
     }
 
+    function checkRecognizedGesture(data) {
+        console.log('CHECK RECOGNIZED GESTURE', data, currentScenarioTask, currentWOZScene);
+        for (var i = 0; i < currentScenarioTask.woz.length; i++) {
+            var gestureId = currentScenarioTask.woz[i].gestureId;
+            if (parseInt(gestureId) === parseInt(data.id)) {
+                var button = $(container).find('[data-gesture-id=' + gestureId + ']');
+                $(button).click();
+            }
+        }
+    }
+
     return container;
 };
 
@@ -840,6 +884,7 @@ UserTest.prototype.renderModeratorView = function () {
  * tester view rendering
  */
 
+var leapRecognizer = null;
 UserTest.prototype.renderTesterView = function () {
     console.log('render tester view:', SCENARIO.toUpperCase());
 
@@ -879,7 +924,7 @@ UserTest.prototype.renderTesterView = function () {
         console.log('render tester state: ', currentPhaseState);
         appendAlert(container, ALERT_PLEASE_WAIT);
 
-        initScreenSharing($(container).find('#scene-container'));
+        Tester.initScreenSharing($(container).find('#scene-container'));
 
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_START_SCENARIO).bind(MESSAGE_START_SCENARIO, function () {
@@ -918,6 +963,17 @@ UserTest.prototype.renderTesterView = function () {
                 currentPhaseState = 'usertestDone';
                 renderCurrentPhaseState();
             });
+
+            if (recognizeLeapGestures(data)) {
+                leapRecognizer = null;
+                leapRecognizer = new LeapStandardRecognizer(null);
+
+                // handle recognized gestures for preview mode
+                $(leapRecognizer).unbind(EVENT_LEAP_GESTURE).bind(EVENT_LEAP_GESTURE, function (event, payload) {
+                    event.preventDefault();
+                    peerConnection.sendMessage(MESSAGE_LEAP_GESTURE_RECOGNIZED, payload);
+                });
+            }
         }
     }
 
@@ -1258,6 +1314,12 @@ UserTest.prototype.renderWizardView = function () {
                     currentPhaseState = payload.currentPhaseState;
                     renderCurrentPhaseState();
                 }
+            });
+
+            $(peerConnection).unbind(MESSAGE_LEAP_GESTURE_RECOGNIZED).bind(MESSAGE_LEAP_GESTURE_RECOGNIZED, function (event, payload) {
+                console.log('LEAP GESTURE RECOGNIZED');
+                event.preventDefault();
+                checkRecognizedGesture(payload);
             });
         }
     }
@@ -1696,6 +1758,17 @@ UserTest.prototype.renderWizardView = function () {
                 $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
             }
         }
+    }
 
+
+    function checkRecognizedGesture(data) {
+        console.log('CHECK RECOGNIZED GESTURE', data, currentScenarioTask, currentWOZScene);
+        for (var i = 0; i < currentScenarioTask.woz.length; i++) {
+            var gestureId = currentScenarioTask.woz[i].gestureId;
+            if (parseInt(gestureId) === parseInt(data.id)) {
+                var button = $(container).find('[data-gesture-id=' + gestureId + ']');
+                $(button).click();
+            }
+        }
     }
 };

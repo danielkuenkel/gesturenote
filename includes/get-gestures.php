@@ -12,9 +12,9 @@ if (isset($_SESSION['user_id'])) {
     $sessionUserId = $_SESSION['user_id'];
     $sessionUserMail = $_SESSION['email'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE (owner_id = '$sessionUserId' && scope = 'private') OR scope = 'public' ORDER BY created DESC")) {
+    if ($select_stmt = $mysqli->prepare("SELECT gestures.*, users.forename, users.surname FROM gestures JOIN users ON gestures.owner_id = users.id AND ((owner_id = '$sessionUserId' && scope = 'private') OR scope = 'public') ORDER BY created DESC")) {
         // get variables from result.
-        $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $context, $association, $description, $joints, $doubleSidedUse, $previewImage, $images, $gif, $sensorData, $created);
+        $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $context, $association, $description, $joints, $doubleSidedUse, $previewImage, $images, $gif, $sensorData, $created, $forename, $surname);
 
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
@@ -131,14 +131,16 @@ if (isset($_SESSION['user_id'])) {
                     'hasLiked' => $hasLiked,
                     'ratingAmount' => $ratingCount,
                     'hasRated' => $hasRated,
-                    'invitedUsers' => $invitedUsers
+                    'invitedUsers' => $invitedUsers,
+                    'forename' => $forename,
+                    'surname' => $surname
                 );
             }
 //            echo json_encode(array('status' => 'success', 'gestures' => $gestures));
 //            exit();
         }
     } else {
-        echo json_encode(array('status' => 'statementError'));
+        echo json_encode(array('status' => 'statementError1'));
         exit();
     }
 
@@ -163,8 +165,8 @@ if (isset($_SESSION['user_id'])) {
                     if ($decodedGestures) {
                         $comma_separated = implode(",", $decodedGestures);
 
-                        if ($select_stmt = $mysqli2->prepare("SELECT * FROM gestures WHERE id IN ($comma_separated) ORDER BY created DESC")) {
-                            $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $context, $association, $description, $joints, $doubleSidedUse, $previewImage, $images, $gif, $sensorData, $created);
+                        if ($select_stmt = $mysqli2->prepare("SELECT gestures.*, users.forename, users.surname FROM gestures JOIN users ON gestures.owner_id = users.id AND gestures.id IN ($comma_separated) ORDER BY created DESC")) {
+                            $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $context, $association, $description, $joints, $doubleSidedUse, $previewImage, $images, $gif, $sensorData, $created, $forename, $surname);
 
                             if (!$select_stmt->execute()) {
                                 echo json_encode(array('status' => 'selectErrorCommaGestures'));
@@ -282,12 +284,14 @@ if (isset($_SESSION['user_id'])) {
                                         'hasLiked' => $hasLiked,
                                         'ratingAmount' => $ratingCount,
                                         'hasRated' => $hasRated,
-                                        'invitedUsers' => $invitedUsers
+                                        'invitedUsers' => $invitedUsers,
+                                        'forename' => $forename,
+                                        'surname' => $surname
                                     );
                                 }
                             }
                         } else {
-                            echo json_encode(array('status' => 'statementError'));
+                            echo json_encode(array('status' => 'statementError2'));
                             exit();
                         }
                     }
@@ -297,7 +301,7 @@ if (isset($_SESSION['user_id'])) {
             }
         }
     } else {
-        echo json_encode(array('status' => 'statementError'));
+        echo json_encode(array('status' => 'statementError3'));
         exit();
     }
 

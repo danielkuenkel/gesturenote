@@ -370,7 +370,7 @@ if ($h && $token && $studyId) {
                             if (!$(this).hasClass('disabled')) {
                                 $('#btn-enter-study').addClass('disabled');
                                 $('#btn-close-call').addClass('disabled');
-                                
+
                                 var rtcToken = $('#call-screen').attr('data-rtc-token');
                                 var testerId = $('#call-screen').attr('data-tester-id');
                                 var iceTransports = $('.iceTransportsSelect').find('.btn-option-checked').attr('id') === 'yes' ? 'relay' : 'all';
@@ -551,79 +551,129 @@ if ($h && $token && $studyId) {
                 goto("study.php?studyId=" + query.studyId + "&h=" + hash + '#participants');
             }
 
+            var sources = {video: null, mic: null, constraints: null};
             function checkRTC(target) {
                 $('#participation-queue').addClass('hidden');
                 $('#check-rtc-status').removeClass('hidden');
 
-                DetectRTC.load(function () {
-                    navigator.mediaDevices.getUserMedia({
-                        audio: true, // { deviceId: 'mic-id' }
-                        video: true // { deviceId: 'camera-id' }
-                    }).then(function (stream) {
-                        var indicator = null;
-                        var errors = 0;
+                navigator.getUserMedia = navigator.getUserMedia ||
+                        navigator.webkitGetUserMedia ||
+                        navigator.mozGetUserMedia;
 
-                        if (DetectRTC.isWebRTCSupported === false) {
-                            errors++;
-                            indicator = $(target).find('.check-web-rtc .status-check-indicator');
-                            $(indicator).find('.status-wait').addClass('hidden');
-                            $(indicator).find('.status-warn').removeClass('hidden');
-                        } else {
-                            indicator = $(target).find('.check-web-rtc .status-check-indicator');
-                            $(indicator).find('.status-wait').addClass('hidden');
-                            $(indicator).find('.status-supported').removeClass('hidden');
-                        }
+                if (navigator.getUserMedia) {
+                    navigator.mediaDevices.enumerateDevices()
+                            .then(gotDevices)
+                            .catch(errorCallback);
+                } else {
+                    console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
+                }
 
-                        if (DetectRTC.hasWebcam === false) {
-                            errors++;
-                            indicator = $(target).find('.check-webcam .status-check-indicator');
-                            $(indicator).find('.status-wait').addClass('hidden');
-                            $(indicator).find('.status-warn').removeClass('hidden');
-                        } else {
-                            indicator = $(target).find('.check-webcam .status-check-indicator');
-                            $(indicator).find('.status-wait').addClass('hidden');
-                            $(indicator).find('.status-supported').removeClass('hidden');
-                        }
+                function gotDevices(deviceInfos) {
+                    console.log('got devices for webcam recorder', deviceInfos);
+                    var videoSource = null;
+                    var micSource = null;
 
-                        if (DetectRTC.hasMicrophone === false) {
-                            errors++;
-                            indicator = $(target).find('.check-microphone .status-check-indicator');
-                            $(indicator).find('.status-wait').addClass('hidden');
-                            $(indicator).find('.status-warn').removeClass('hidden');
-                        } else {
-                            indicator = $(target).find('.check-microphone .status-check-indicator');
-                            $(indicator).find('.status-wait').addClass('hidden');
-                            $(indicator).find('.status-supported').removeClass('hidden');
+                    for (var i = 0; i < deviceInfos.length; i++) {
+                        if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap')) {
+                            console.log('standard device is', deviceInfos[i], deviceInfos[i].label.toLowerCase().includes('leap'));
+                            videoSource = deviceInfos[i].deviceId;
+                        } else if (deviceInfos[i].kind === 'audioinput' && deviceInfos[i].deviceId === 'default') {
+                            micSource = deviceInfos[i].deviceId;
                         }
+                    }
 
-                        if (DetectRTC.hasSpeakers === false && (DetectRTC.browser.name === 'Chrome' || DetectRTC.browser.name === 'Edge')) {
-                            errors++;
-                            indicator = $(target).find('.check-speakers .status-check-indicator');
-                            $(indicator).find('.status-wait').addClass('hidden');
-                            $(indicator).find('.status-warn').removeClass('hidden');
-                        } else {
-                            indicator = $(target).find('.check-speakers .status-check-indicator');
-                            $(indicator).find('.status-wait').addClass('hidden');
-                            $(indicator).find('.status-supported').removeClass('hidden');
-                        }
+                    if (getBrowser() === "Chrome") {
+                        var constraints = {audio: false,
+                            video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}
+                            }};
+                    } else if (getBrowser() === "Firefox") {
+                        var constraints = {audio: false,
+                            video: {deviceId: {exact: videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
+                            }};
+                    }
 
-                        if (DetectRTC.isScreenCapturingSupported === false) {
-                            errors++;
-                            indicator = $(target).find('.check-screen-capturing .status-check-indicator');
-                            $(indicator).find('.status-wait').addClass('hidden');
-                            $(indicator).find('.status-warn').removeClass('hidden');
-                        } else {
-                            indicator = $(target).find('.check-screen-capturing .status-check-indicator');
-                            $(indicator).find('.status-wait').addClass('hidden');
-                            $(indicator).find('.status-supported').removeClass('hidden');
-                        }
+                    sources.video = videoSource;
+                    sources.mic = micSource;
+                    sources.constraints = constraints;
+                    loadDevice();
+                }
 
-                        if (errors === 0) {
-                            $('#participation-queue').removeClass('hidden');
-                            $('#check-rtc-status').addClass('hidden');
-                        }
+                function errorCallback(deviceInfos) {
+                    console.error('error', deviceInfos);
+                }
+
+                function loadDevice() {
+
+                    DetectRTC.load(function () {
+                        navigator.mediaDevices.getUserMedia({
+                            audio: sources.mic && sources.mic !== null ? {deviceId: sources.mic} : true, // { deviceId: 'mic-id' }
+                            video: sources.video && sources.video !== null ? {deviceId: sources.video} : true // { deviceId: 'camera-id' }
+                        }).then(function (stream) {
+                            var indicator = null;
+                            var errors = 0;
+
+                            if (DetectRTC.isWebRTCSupported === false) {
+                                errors++;
+                                indicator = $(target).find('.check-web-rtc .status-check-indicator');
+                                $(indicator).find('.status-wait').addClass('hidden');
+                                $(indicator).find('.status-warn').removeClass('hidden');
+                            } else {
+                                indicator = $(target).find('.check-web-rtc .status-check-indicator');
+                                $(indicator).find('.status-wait').addClass('hidden');
+                                $(indicator).find('.status-supported').removeClass('hidden');
+                            }
+
+                            if (DetectRTC.hasWebcam === false) {
+                                errors++;
+                                indicator = $(target).find('.check-webcam .status-check-indicator');
+                                $(indicator).find('.status-wait').addClass('hidden');
+                                $(indicator).find('.status-warn').removeClass('hidden');
+                            } else {
+                                indicator = $(target).find('.check-webcam .status-check-indicator');
+                                $(indicator).find('.status-wait').addClass('hidden');
+                                $(indicator).find('.status-supported').removeClass('hidden');
+                            }
+
+                            if (DetectRTC.hasMicrophone === false) {
+                                errors++;
+                                indicator = $(target).find('.check-microphone .status-check-indicator');
+                                $(indicator).find('.status-wait').addClass('hidden');
+                                $(indicator).find('.status-warn').removeClass('hidden');
+                            } else {
+                                indicator = $(target).find('.check-microphone .status-check-indicator');
+                                $(indicator).find('.status-wait').addClass('hidden');
+                                $(indicator).find('.status-supported').removeClass('hidden');
+                            }
+
+                            if (DetectRTC.hasSpeakers === false && (DetectRTC.browser.name === 'Chrome' || DetectRTC.browser.name === 'Edge')) {
+                                errors++;
+                                indicator = $(target).find('.check-speakers .status-check-indicator');
+                                $(indicator).find('.status-wait').addClass('hidden');
+                                $(indicator).find('.status-warn').removeClass('hidden');
+                            } else {
+                                indicator = $(target).find('.check-speakers .status-check-indicator');
+                                $(indicator).find('.status-wait').addClass('hidden');
+                                $(indicator).find('.status-supported').removeClass('hidden');
+                            }
+
+                            if (DetectRTC.isScreenCapturingSupported === false) {
+                                errors++;
+                                indicator = $(target).find('.check-screen-capturing .status-check-indicator');
+                                $(indicator).find('.status-wait').addClass('hidden');
+                                $(indicator).find('.status-warn').removeClass('hidden');
+                            } else {
+                                indicator = $(target).find('.check-screen-capturing .status-check-indicator');
+                                $(indicator).find('.status-wait').addClass('hidden');
+                                $(indicator).find('.status-supported').removeClass('hidden');
+                            }
+
+                            if (errors === 0) {
+                                $('#participation-queue').removeClass('hidden');
+                                $('#check-rtc-status').addClass('hidden');
+                            }
+                        });
                     });
-                });
+                }
             }
 
             var peerConnection = null;
@@ -655,6 +705,7 @@ if ($h && $token && $studyId) {
                     ignoreRole: 'no',
                     selectedRole: selectedRole,
                     visibleRoles: ['moderator', 'tester', 'observer', 'wizard'],
+                    sources: sources,
                     localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
                     remoteStream: {audio: 'yes', video: 'yes'}
                 };

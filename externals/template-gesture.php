@@ -453,6 +453,7 @@ include '../includes/language.php';
             <div class="btn-group pull-right hole-set-control-buttons">
                 <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
                 <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-exchangeable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsExchangeable ?>"><i class="fa fa-file-archive-o"></i></button>
+                <button class="btn btn-sm btn-default btn-shadow" id="btn-simulate-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->simulatorGestureSet ?>"><i class="fa fa-sign-language"></i></button>
             </div>
             <div style="clear: both"></div>
         </div>

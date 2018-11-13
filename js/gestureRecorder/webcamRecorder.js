@@ -28,10 +28,11 @@ function WebcamRecorder(options) {
     }
 
     function gotDevices(deviceInfos) {
-        console.log('got devices for webcam recorder')
+        console.log('got devices for webcam recorder', deviceInfos);
         var videoSource = null;
         for (var i = 0; i < deviceInfos.length; i++) {
-            if (deviceInfos[i].kind === 'videoinput') {
+            if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap')) {
+                console.log('standard device is', deviceInfos[i], deviceInfos[i].label.toLowerCase().includes('leap'));
                 videoSource = deviceInfos[i].deviceId;
                 break;
             }
@@ -464,8 +465,8 @@ WebcamRecorder.prototype.showSave = function () {
     if (webcamRecorder.options.autoplaySave && webcamRecorder.options.autoplaySave === true && $(togglePlaybackButton).attr('data-state') === 'paused') {
         $(togglePlaybackButton).click();
     }
-    
-    if(webcamSaveGestureData && webcamSaveGestureData.previewImage) {
+
+    if (webcamSaveGestureData && webcamSaveGestureData.previewImage) {
         $(webcamRecorder.options.parent).find('.btn-tag-as-preview .preview-image-index').text(parseInt(webcamSaveGestureData.previewImage) + 1);
     }
 };

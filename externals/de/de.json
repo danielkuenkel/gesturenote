@@ -44,7 +44,8 @@
         "imprint": "Impressum",
         "informations": "Über GestureNote",
         "news": "Aktuelles",
-        "help": "Hilfe"
+        "help": "Hilfe",
+        "simulator": "Simulator"
     },
     "helpHeadlines": {
         "createStudy": "Planung",
@@ -731,7 +732,8 @@
         "publicationsPanelBody": "Wissenschaftliche Beiträge zum Thema Gesten-Design-Prozess",
         "helpPanelBody": "Zugriff auf sämtliche Inhalte der bereitgestellten Hilfebeiträge.",
         "informationsPanelBody": "Informationen über den Funktionsumfang von GestureNote.",
-        "imprintPanelBody": "Haftungsausschluss und Datenschutz."
+        "imprintPanelBody": "Haftungsausschluss und Datenschutz.",
+        "simulatorPanelBody": "ProGesture Simulator"
     },
     "createNewStudy": "Neue Studie erstellen",
     "copy": "Kopieren",
@@ -1987,6 +1989,7 @@
     "In": "In",
     "created": "erstellt",
     "Created": "Erstellt",
+    "creator": "Ersteller",
     "type": "Typ",
     "element": "Element",
     "elements": "Elemente",
@@ -2126,6 +2129,7 @@
     "downloadAsPidocoJSON": "Als Pidoco-Gesten-Set herunterladen",
     "downloadAsExchangeable": "Als ProGesture-Datei herunterladen",
     "downloadAsCompressed": "Als komprimierte Datei herunterladen",
+    "simulatorGestureSet": "Simulation starten",
     "previewImage": "Vorschaubild",
     "tagAsPreviewImage": "Aktuellen Frame als Vorschaubild festlegen",
     "runsPerGesture": "Durchläufe pro Geste",
@@ -5362,6 +5366,11 @@
             "id": "share-gesture-to-yourself",
             "type": "success",
             "text": "Sie können sich die Geste nicht selbst freigeben."
+        },
+        "noGestureSetMappings": {
+            "id": "no-gesture-set-mappings",
+            "type": "warning",
+            "text": "Für dieses Gesten-Set sind keine Mappings vorhanden. Eine Simulation ist deshalb nicht möglich."
         }
     },
     "introductionCreateStudy": [
@@ -5913,5 +5922,7 @@
             "short": "EN",
             "locale": "en-gb"
         }
-    }
+    },
+    "mappings": "Mappings",
+    "chooseMappings": "Mappings auswählen"
 }

@@ -232,7 +232,6 @@ var Moderator = {
 
                 if (payload.nick === VIEW_WIZARD && currentPhase.format === SCENARIO) {
                     clearTimeout(wizardTimer);
-//                    test();
 
                     if (waitForWizard === true) {
                         console.log('WAIT FOR WIZARD');
@@ -242,15 +241,6 @@ var Moderator = {
                             waitForWizard = false;
                             test();
                         }, 500);
-
-//                        var peers = peerConnection.getPeers();
-//                        if (peers && peers.length > 0) {
-//                            for (var i = 0; i < peers.length; i++) {
-//                                if (peers[i].type === TYPE_PEER_VIDEO) {
-//                                    peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: peers[i].nick, currentPhaseState: currentPhaseState, evaluatorId: study.sessionUserId});
-//                                }
-//                            }
-//                        }
                     }
                 }
 
@@ -263,15 +253,6 @@ var Moderator = {
                         resetConstraints();
                         renderPhaseStep();
                         test();
-
-//                        var peers = peerConnection.getPeers();
-//                        if (peers && peers.length > 0) {
-//                            for (var i = 0; i < peers.length; i++) {
-//                                if (peers[i].type === TYPE_PEER_VIDEO) {
-//                                    peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: peers[i].nick, currentPhaseState: currentPhaseState, evaluatorId: study.sessionUserId});
-//                                }
-//                            }
-//                        }
                     } else {
                         peerConnection.sendMessage(MESSAGE_SYNC_RESPONSE, {index: currentPhaseStepIndex, nick: payload.nick, currentPhaseState: currentPhaseState, evaluatorId: study.sessionUserId});
                         renderObservations(getCurrentPhaseData(), getMainContent());
@@ -280,7 +261,6 @@ var Moderator = {
             });
 
             $(peerConnection).unbind('joinedRoom').bind('joinedRoom', function () {
-//                console.log('CONNECTION:', peerConnection);
                 peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
             });
 

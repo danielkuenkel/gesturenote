@@ -131,6 +131,9 @@ var ALERT_SHARE_GESTURE_TO_YOURSELF = 'share-gesture-to-yourself';
 var ALERT_NO_EXCHANGEABLE_FILE_SELECTED = 'no-exchangeable-file-selected';
 var ALERT_EXCHANGEABLE_GESTURES_IMPORTED_SUCCESS = 'exchangeable-gestures-imported-success';
 
+// progesture alerts
+var ALERT_NO_GESTURE_SET_MAPPINGS = 'no-gesture-set-mappings';
+
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);
     if (children.length === 0) {

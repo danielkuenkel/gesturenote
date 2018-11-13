@@ -5,7 +5,10 @@
  */
 
 function checkDomain() {
-    if (!location.protocol.includes('https') || location.hostname.includes('gesturenote.com')) {
+    const LOCAL_DOMAINS = ["localhost", "127.0.0.1"];
+    if (LOCAL_DOMAINS.includes(location.hostname)) {
+
+    } else if (!location.protocol.includes('https') || location.hostname.includes('gesturenote.com')) {
         location.href = "https://gesturenote.de";
     }
 }
@@ -430,8 +433,11 @@ $(document).on('mouseenter', '.select .option li', function (event) {
 
 $(document).on('mouseleave', '.select .option li', function (event) {
     event.preventDefault();
-    resetPopover();
-    resetScenePopover();
+    var parent = $(this).closest('.select');
+    if ($(parent).hasClass('gestureSelect') || $(parent).hasClass('sceneSelect')) {
+        resetPopover();
+        resetScenePopover();
+    }
 });
 
 
@@ -1326,6 +1332,74 @@ function renderAssembledTasks(tasks, targetContainer, addNoneItem) {
         $(dropdown).find('#' + selectedItem).addClass('selected');
         $(dropdown).parent().find('.item-input-text').val($(target).find('#' + selectedItem + ' a').text());
     }
+}
+
+
+/*
+ * actions for scenario help item with tasks
+ */
+function renderAssembledGestureSets(gestureSets, targetContainer, addNoneItem) {
+    var target = $('#form-item-container');
+    if (targetContainer !== undefined && targetContainer !== null) {
+        target = targetContainer;
+    }
+
+    var listItem, link;
+    var dropdown = target === null ? $('#form-item-container').find('.select-gesture-sets') : $(target).find('.select-gesture-sets');
+    var selectedItem = $(dropdown).find('.selected').attr('id');
+    $(dropdown).find('.option').empty();
+
+    if (gestureSets && gestureSets.length > 0) {
+//        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
+        $(target).find('.dropdown-toggle').removeClass('disabled');
+        $(target).find('.option-gesture-sets').attr('placeholder', translation.pleaseSelect);
+
+        for (var i = 0; i < gestureSets.length; i++) {
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', gestureSets[i].id);
+            link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(gestureSets[i].title));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
+        }
+
+        if (addNoneItem) {
+            link = document.createElement('a');
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', 'none');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(translation.none));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
+        }
+    } else {
+        if (addNoneItem === true) {
+            $(target).find('.dropdown-toggle').removeClass('disabled');
+            $(target).find('.option-gesture-sets').attr('placeholder', translation.pleaseSelect);
+
+            link = document.createElement('a');
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', 'none');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(translation.none));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
+        } else {
+            $(target).find('.dropdown-toggle').addClass('disabled');
+            $(target).find('.option-task').attr('placeholder', translation.noGestureSetPresent);
+        }
+    }
+
+    if (selectedItem) {
+        $(dropdown).find('#' + selectedItem).addClass('selected');
+        $(dropdown).parent().find('.item-input-text').val($(target).find('#' + selectedItem + ' a').text());
+    }
+}
+
+function resetDropdown(target) {
+    $(target).find('.item-input-text').val(translation.pleaseSelect);
+    $(target).find('.dropdown-menu .selected').removeClass('selected');
 }
 
 
@@ -3193,25 +3267,30 @@ function getGestureCatalogGestureSetPanel(data, type, layout) {
     initCommentGestureSet($(panel).find('.btn-comment-set'), panel, data);
     initMoreInfoGestureSet($(panel).find('.btn-show-set-info'), panel, data);
     initStandardGestureSetList(panel, data, type, layout);
+    initGestureSetSimulation(panel, data);
 
-    $(panel).find('#btn-delete-gesture-set').unbind('click').bind('click', {setId: data.id}, function (event) {
-        event.preventDefault();
-        var button = $(this);
+    if (data.isOwner === true) {
+        $(panel).find('#btn-delete-gesture-set').unbind('click').bind('click', {setId: data.id}, function (event) {
+            event.preventDefault();
+            var button = $(this);
 
-        if (!$(button).hasClass('disabled')) {
-            lockButton(button, true, 'fa-trash');
-            $(button).popover('hide');
+            if (!$(button).hasClass('disabled')) {
+                lockButton(button, true, 'fa-trash');
+                $(button).popover('hide');
 
-            deleteGestureSet({setId: event.data.setId}, function (result) {
-                unlockButton(button, true, 'fa-trash');
-                if (result.status === RESULT_SUCCESS) {
-                    $(button).trigger('gestureSetDeleted');
-                } else {
-                    // append alert
-                }
-            });
-        }
-    });
+                deleteGestureSet({setId: event.data.setId}, function (result) {
+                    unlockButton(button, true, 'fa-trash');
+                    if (result.status === RESULT_SUCCESS) {
+                        $(button).trigger('gestureSetDeleted');
+                    } else {
+                        // append alert
+                    }
+                });
+            }
+        });
+    } else {
+        $(panel).find('#btn-delete-gesture-set').parent().remove();
+    }
 
     return panel;
 }
@@ -3438,6 +3517,19 @@ function initStandardGestureSetList(panel, data, type, layout) {
         }
     } else {
         appendAlert(panel, ALERT_EMPTY_GESTURE_SET);
+    }
+}
+
+function initGestureSetSimulation(panel, data) {
+    var simulateButton = $(panel).find('#btn-simulate-gesture-set');
+    if (data.gestures !== null) {
+        $(simulateButton).unbind('click').bind('click', function (event) {
+            if (!$(this).hasClass('disabled')) {
+                goto('simulator.php?gestureSetId=' + data.id);
+            }
+        });
+    } else {
+        $(simulateButton).addClass('disabled');
     }
 }
 

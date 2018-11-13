@@ -46,9 +46,9 @@ var TURN = {
 function PeerConnection(isRecordingNeeded) {
     connection = this;
 //    console.log('is recording needed:', isRecordingNeeded, isRecordingNeededInFuture());
-    if (isRecordingNeeded === true && isRecordingNeededInFuture()) {
-        connection.initRecording();
-    }
+//    if (isRecordingNeeded === true && isRecordingNeededInFuture() && webrtc) {
+//        connection.initRecording();
+//    }
 }
 
 PeerConnection.prototype.destroy = function () {
@@ -83,377 +83,431 @@ PeerConnection.prototype.initialize = function (options) {
     if (options) {
         this.options = options;
 
-        webrtc = new SimpleWebRTC({
+
+        navigator.getUserMedia = navigator.getUserMedia ||
+                navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia;
+
+        if (navigator.getUserMedia) {
+            navigator.mediaDevices.enumerateDevices()
+                    .then(gotDevices)
+                    .catch(errorCallback);
+        } else {
+            console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
+        }
+
+        function gotDevices(deviceInfos) {
+            var sources = {video: null, mic: null, constraints: null};
+            console.log('got devices for webcam recorder', deviceInfos);
+            var videoSource = null;
+            var micSource = null;
+
+            for (var i = 0; i < deviceInfos.length; i++) {
+                if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap')) {
+                    console.log('standard video input device:', deviceInfos[i]);
+                    videoSource = deviceInfos[i].deviceId;
+                } else if (deviceInfos[i].kind === 'audioinput' && deviceInfos[i].deviceId === 'default') {
+                    console.log('standard audio input device:', deviceInfos[i]);
+                    micSource = deviceInfos[i].deviceId;
+                }
+            }
+
+            if (getBrowser() === "Chrome") {
+                var constraints = {audio: false,
+                    video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}
+                    }};
+            } else if (getBrowser() === "Firefox") {
+                var constraints = {audio: false,
+                    video: {deviceId: {exact: videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
+                    }};
+            }
+
+            sources.video = videoSource;
+            sources.mic = micSource;
+            sources.constraints = constraints;
+            initWebRTC(sources);
+        }
+
+        function errorCallback(deviceInfos) {
+            console.error('error', deviceInfos);
+        }
+
+        function initWebRTC(sources) {
+
+            webrtc = new SimpleWebRTC({
 //            debug: true,
-            // the id/element dom element that will hold "our" video
-            localVideoEl: options.localVideoElement,
-            // the id/element dom element that will hold remote videos
-            remoteVideosEl: options.remoteVideoElement,
-            // immediately ask for camera access
-            autoRequestMedia: options.autoRequestMedia, // immediately ask for camera access
-            nick: options.nick || null,
-            localVideo: {
-                autoplay: true, // automatically play the video stream on the page
-                mirror: true, // flip the local video to mirror mode (for UX)
-                muted: true // mute local video stream to prevent echo
-            },
-            peerConnectionConfig: {'iceServers': [STUN, TURN]},
-            enableDataChannels: options.enableDataChannels
+                // the id/element dom element that will hold "our" video
+                localVideoEl: options.localVideoElement,
+                // the id/element dom element that will hold remote videos
+                remoteVideosEl: options.remoteVideoElement,
+                // immediately ask for camera access
+                autoRequestMedia: options.autoRequestMedia, // immediately ask for camera access
+                nick: options.nick || null,
+                localVideo: {
+                    autoplay: true, // automatically play the video stream on the page
+                    mirror: true, // flip the local video to mirror mode (for UX)
+                    muted: true // mute local video stream to prevent echo
+                },
+                peerConnectionConfig: {'iceServers': [STUN, TURN]},
+                enableDataChannels: options.enableDataChannels,
 //            receiveMedia: {
 //                offerToReceiveAudio: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0,
 //                offerToReceiveVideo: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0
 //            }
-        });
-
-        webrtc.webrtc.config.peerConnectionConfig.iceTransports = options.iceTransports || "all";
-
-
-        if (options.localMuteElement && options.callerElement) {
-            initPopover();
-
-            var tween = new TweenMax(options.streamControls, .3, {opacity: 1.0, paused: true});
-            $(options.callerElement).unbind('click').bind('mouseenter', function (event) {
-                event.preventDefault();
-                tween.play();
+                media: sources && sources.constraints ? sources.constraints : {audio: true, video: true}
             });
 
-            $(options.callerElement).unbind('click').bind('mouseleave', function (event) {
-                event.preventDefault();
-                tween.reverse();
-            });
+            webrtc.webrtc.config.peerConnectionConfig.iceTransports = options.iceTransports || "all";
 
-            $(options.localMuteElement).unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                console.log('mute local');
-                $(this).popover('hide');
 
-                if (!$(this).hasClass('muted')) {
-                    $(this).addClass('muted');
-                    $(this).find('.fa').removeClass('fa fa-microphone-slash').addClass('fa fa-microphone');
-                    $('#' + options.localVideoElement).attr('volume', 0);
+            if (options.localMuteElement && options.callerElement) {
+                initPopover();
 
-                    $(this).attr('data-content', translation.unmuteMicrofone).data('bs.popover').setContent();
-                    webrtc.mute();
-                    if (options.indicator) {
-                        $(options.indicator).find('#mute-local-audio').removeClass('hidden');
-                    }
-                } else {
-                    $(this).removeClass('muted');
-                    $(this).find('.fa').removeClass('fa fa-microphone').addClass('fa fa-microphone-slash');
-                    $('#' + options.localVideoElement).attr('volume', 1);
-                    $(this).attr('data-content', translation.muteMicrofone).data('bs.popover').setContent();
-                    webrtc.unmute();
-                    if (options.indicator) {
-                        $(options.indicator).find('#mute-local-audio').addClass('hidden');
-                    }
-                }
-                $(this).blur();
-            });
+                var tween = new TweenMax(options.streamControls, .3, {opacity: 1.0, paused: true});
+                $(options.callerElement).unbind('click').bind('mouseenter', function (event) {
+                    event.preventDefault();
+                    tween.play();
+                });
 
-            $(options.pauseStreamElement).unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                $(this).popover('hide');
-                console.log('mute local stream');
+                $(options.callerElement).unbind('click').bind('mouseleave', function (event) {
+                    event.preventDefault();
+                    tween.reverse();
+                });
 
-                if (!$(this).hasClass('paused')) {
-                    $(this).addClass('paused');
-                    $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
-                    $(this).attr('data-content', translation.resumeOwnWebRTC).data('bs.popover').setContent();
-                    webrtc.pause(); // pauses sending audio and video to all peers
-
-                    if (options.localMuteElement) {
-                        $(options.indicator).find('#mute-local-audio').removeClass('hidden');
-                        $(options.indicator).find('#pause-local-stream').removeClass('hidden');
-                        $(options.localMuteElement).removeClass('muted');
-                        $(options.localMuteElement).find('.fa').removeClass('fa fa-microphone').addClass('fa fa-microphone-slash');
-                        $(options.localMuteElement).attr('data-content', translation.muteMicrofone).data('bs.popover').setContent();
-                    }
-                } else {
-                    $(this).removeClass('paused');
-                    $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
-                    $(this).attr('data-content', translation.pauseOwnWebRTC).data('bs.popover').setContent();
-                    webrtc.resume(); // resumes sending audio and video to all peers
-
-                    if (options.localMuteElement) {
-                        $(options.indicator).find('#mute-local-audio').addClass('hidden');
-                        $(options.indicator).find('#pause-local-stream').addClass('hidden');
-                    }
-                }
-                $(this).blur();
-            });
-
-            $(options.remoteMuteElement).unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
+                $(options.localMuteElement).unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    console.log('mute local');
                     $(this).popover('hide');
+
                     if (!$(this).hasClass('muted')) {
                         $(this).addClass('muted');
-                        $(this).find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
-                        $('#' + options.remoteVideoElement).find('video').attr('volume', 0);
-                        $(this).attr('data-content', translation.resumeOtherWebRTC).data('bs.popover').setContent();
+                        $(this).find('.fa').removeClass('fa fa-microphone-slash').addClass('fa fa-microphone');
+                        $('#' + options.localVideoElement).attr('volume', 0);
+
+                        $(this).attr('data-content', translation.unmuteMicrofone).data('bs.popover').setContent();
+                        webrtc.mute();
+                        if (options.indicator) {
+                            $(options.indicator).find('#mute-local-audio').removeClass('hidden');
+                        }
                     } else {
                         $(this).removeClass('muted');
-                        $(this).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
-                        $('#' + options.remoteVideoElement).find('video').attr('volume', 1);
-                        $(this).attr('data-content', translation.pauseOtherWebRTC).data('bs.popover').setContent();
-                    }
-                }
-                $(this).blur();
-            });
-
-            if (options.togglePinnedElement) {
-                $(options.togglePinnedElement).unbind('click').bind('click', function (event) {
-                    event.preventDefault();
-                    if (!$(this).hasClass('disabled')) {
-                        $(this).popover('hide');
-                        if ($(this).hasClass('pinned')) {
-                            dragRTC();
-                        } else {
-                            pinRTC();
+                        $(this).find('.fa').removeClass('fa fa-microphone').addClass('fa fa-microphone-slash');
+                        $('#' + options.localVideoElement).attr('volume', 1);
+                        $(this).attr('data-content', translation.muteMicrofone).data('bs.popover').setContent();
+                        webrtc.unmute();
+                        if (options.indicator) {
+                            $(options.indicator).find('#mute-local-audio').addClass('hidden');
                         }
                     }
                     $(this).blur();
                 });
+
+                $(options.pauseStreamElement).unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    $(this).popover('hide');
+                    console.log('mute local stream');
+
+                    if (!$(this).hasClass('paused')) {
+                        $(this).addClass('paused');
+                        $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
+                        $(this).attr('data-content', translation.resumeOwnWebRTC).data('bs.popover').setContent();
+                        webrtc.pause(); // pauses sending audio and video to all peers
+
+                        if (options.localMuteElement) {
+                            $(options.indicator).find('#mute-local-audio').removeClass('hidden');
+                            $(options.indicator).find('#pause-local-stream').removeClass('hidden');
+                            $(options.localMuteElement).removeClass('muted');
+                            $(options.localMuteElement).find('.fa').removeClass('fa fa-microphone').addClass('fa fa-microphone-slash');
+                            $(options.localMuteElement).attr('data-content', translation.muteMicrofone).data('bs.popover').setContent();
+                        }
+                    } else {
+                        $(this).removeClass('paused');
+                        $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
+                        $(this).attr('data-content', translation.pauseOwnWebRTC).data('bs.popover').setContent();
+                        webrtc.resume(); // resumes sending audio and video to all peers
+
+                        if (options.localMuteElement) {
+                            $(options.indicator).find('#mute-local-audio').addClass('hidden');
+                            $(options.indicator).find('#pause-local-stream').addClass('hidden');
+                        }
+                    }
+                    $(this).blur();
+                });
+
+                $(options.remoteMuteElement).unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
+                        $(this).popover('hide');
+                        if (!$(this).hasClass('muted')) {
+                            $(this).addClass('muted');
+                            $(this).find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
+                            $('#' + options.remoteVideoElement).find('video').attr('volume', 0);
+                            $(this).attr('data-content', translation.resumeOtherWebRTC).data('bs.popover').setContent();
+                        } else {
+                            $(this).removeClass('muted');
+                            $(this).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
+                            $('#' + options.remoteVideoElement).find('video').attr('volume', 1);
+                            $(this).attr('data-content', translation.pauseOtherWebRTC).data('bs.popover').setContent();
+                        }
+                    }
+                    $(this).blur();
+                });
+
+                if (options.togglePinnedElement) {
+                    $(options.togglePinnedElement).unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        if (!$(this).hasClass('disabled')) {
+                            $(this).popover('hide');
+                            if ($(this).hasClass('pinned')) {
+                                dragRTC();
+                            } else {
+                                pinRTC();
+                            }
+                        }
+                        $(this).blur();
+                    });
+                }
             }
-        }
 
-        // we have to wait until it's ready
-        webrtc.on('readyToCall', function () {
-            if (connection.options.roomId !== undefined) {
-                console.log('ready to call', connection.options.roomId);
-                webrtc.joinRoom(connection.options.roomId);
-            }
-
-            if (!syncPhaseStep && connection.options.remoteStream.video === 'no') {
-                connection.update(connection.options);
-            }
-        });
-
-        // we got access to the camera
-        webrtc.on('localStream', function (stream) {
-            console.log('on local stream');
-        });
-
-        // we did not get access to the camera
-        webrtc.on('localMediaError', function (err) {
-            console.log('local media error');
-        });
-
-        webrtc.connection.on('message', function (data) {
-//            console.log('on message', data);
-            if (data.roomType === 'video') {
-                $(connection).trigger(data.type, [data.payload]);
-            }
-        });
-
-        // local screen obtained
-        webrtc.on('localScreenAdded', function (video) {
-            console.log('local screen added', video);
-            if (options.target && options.remoteVideoElement) {
-                $(video).addClass('hidden');
-                $(options.target).find('#' + options.remoteVideoElement).append(video);
-            }
-        });
-
-        // a peer video has been added
-        webrtc.on('videoAdded', function (video, peer) {
-
-            if (peer.type === TYPE_PEER_SCREEN) {
-                console.log('screen added', peer);
-                $(connection).trigger(MESSAGE_SHARED_SCREEN_ADDED, [video]);
-            } else {
-                console.log('webrtc stream added', peer);
-                $(video).attr('data-role', peer.nick);
-
-                if (peer.nick === options.selectedRole) {
-                    connection.sendMessage('duplicatedRoles', {role: options.selectedRole});
-                } else {
-                    arrangePeerStreams();
+            // we have to wait until it's ready
+            webrtc.on('readyToCall', function () {
+                if (connection.options.roomId !== undefined) {
+                    console.log('ready to call', connection.options.roomId);
+                    webrtc.joinRoom(connection.options.roomId);
                 }
 
-                $(connection).trigger('videoAdded', [video, peer]);
-                if (!syncPhaseStep) {
+                if (!syncPhaseStep && connection.options.remoteStream.video === 'no') {
                     connection.update(connection.options);
                 }
+            });
 
-                if (options.remoteMuteElement) {
-                    $(options.remoteMuteElement).removeClass('disabled');
+            // we got access to the camera
+            webrtc.on('localStream', function (stream) {
+                console.log('on local stream');
+                localMediaStream = stream;
+            });
+
+            // we did not get access to the camera
+            webrtc.on('localMediaError', function (err) {
+                console.log('local media error');
+            });
+
+            webrtc.connection.on('message', function (data) {
+//            console.log('on message', data);
+                if (data.roomType === 'video') {
+                    $(connection).trigger(data.type, [data.payload]);
                 }
+            });
 
-                webRTCPeer = peer;
-                peer.on('fileTransfer', function (metadata, receiver) {
-                    console.log('incoming filetransfer', metadata.name, metadata);
-                    receiver.on('progress', function (bytesReceived) {
+            // local screen obtained
+            webrtc.on('localScreenAdded', function (video) {
+                console.log('local screen added', video);
+                if (options.target && options.remoteVideoElement) {
+                    $(video).addClass('hidden');
+                    $(options.target).find('#' + options.remoteVideoElement).append(video);
+                }
+            });
+
+            // a peer video has been added
+            webrtc.on('videoAdded', function (video, peer) {
+
+                if (peer.type === TYPE_PEER_SCREEN) {
+                    console.log('screen added', peer);
+                    $(connection).trigger(MESSAGE_SHARED_SCREEN_ADDED, [video]);
+                } else {
+                    console.log('webrtc stream added', peer);
+                    $(video).attr('data-role', peer.nick);
+
+                    if (peer.nick === options.selectedRole) {
+                        connection.sendMessage('duplicatedRoles', {role: options.selectedRole});
+                    } else {
+                        arrangePeerStreams();
+                    }
+
+                    $(connection).trigger('videoAdded', [video, peer]);
+                    if (!syncPhaseStep) {
+                        connection.update(connection.options);
+                    }
+
+                    if (options.remoteMuteElement) {
+                        $(options.remoteMuteElement).removeClass('disabled');
+                    }
+
+                    webRTCPeer = peer;
+                    peer.on('fileTransfer', function (metadata, receiver) {
+                        console.log('incoming filetransfer', metadata.name, metadata);
+                        receiver.on('progress', function (bytesReceived) {
 //                    console.log('receive progress', bytesReceived, 'out of', metadata.size);
-                        $(connection).trigger(EVENT_FILE_TRANSFER, [bytesReceived, metadata.size]);
+                            $(connection).trigger(EVENT_FILE_TRANSFER, [bytesReceived, metadata.size]);
+                        });
+
+                        // get notified when file is done
+                        receiver.on('receivedFile', function (file, metadata) {
+                            console.log('received file', file, metadata.name, metadata.size);
+                            $(connection).trigger(EVENT_RECEIVED_FILE, [file, metadata]);
+                            // close the channel
+                            receiver.channel.close();
+                        });
                     });
+                }
 
-                    // get notified when file is done
-                    receiver.on('receivedFile', function (file, metadata) {
-                        console.log('received file', file, metadata.name, metadata.size);
-                        $(connection).trigger(EVENT_RECEIVED_FILE, [file, metadata]);
-                        // close the channel
-                        receiver.channel.close();
+                // show the ice connection state
+                if (peer && peer.pc && peer.type === TYPE_PEER_VIDEO) {
+                    var connstate = document.createElement('div');
+                    connstate.className = 'connectionstate';
+                    peer.pc.on('iceConnectionStateChange', function (event) {
+                        var state = null;
+                        switch (peer.pc.iceConnectionState) {
+                            case CONNECTION_STATE_CHECKING:
+                                state = 'Connecting to peer ...';
+                                break;
+                            case CONNECTION_STATE_CONNECTED:
+                                state = 'Connected.';
+                                break;
+                            case CONNECTION_STATE_COMPLETED: // on caller side
+                                state = 'Connection established.';
+                                break;
+                            case CONNECTION_STATE_DISCONNECTED:
+                                state = 'Disconnected.';
+                                break;
+                            case CONNECTION_STATE_FAILED:
+                                state = 'Connection failed.';
+                                break;
+                            case CONNECTION_STATE_CLOSED:
+                                state = 'Connection closed.';
+                                break;
+                        }
+
+                        $(connection).trigger(peer.pc.iceConnectionState);
+                        console.log('peer connection state: ', state);
                     });
-                });
-            }
+                }
+            });
 
-            // show the ice connection state
-            if (peer && peer.pc && peer.type === TYPE_PEER_VIDEO) {
-                var connstate = document.createElement('div');
-                connstate.className = 'connectionstate';
-                peer.pc.on('iceConnectionStateChange', function (event) {
-                    var state = null;
-                    switch (peer.pc.iceConnectionState) {
-                        case CONNECTION_STATE_CHECKING:
-                            state = 'Connecting to peer ...';
-                            break;
-                        case CONNECTION_STATE_CONNECTED:
-                            state = 'Connected.';
-                            break;
-                        case CONNECTION_STATE_COMPLETED: // on caller side
-                            state = 'Connection established.';
-                            break;
-                        case CONNECTION_STATE_DISCONNECTED:
-                            state = 'Disconnected.';
-                            break;
-                        case CONNECTION_STATE_FAILED:
-                            state = 'Connection failed.';
-                            break;
-                        case CONNECTION_STATE_CLOSED:
-                            state = 'Connection closed.';
-                            break;
-                    }
-
-                    $(connection).trigger(peer.pc.iceConnectionState);
-                    console.log('peer connection state: ', state);
-                });
-            }
-        });
-
-        // a peer video has been removed
-        webrtc.on('videoRemoved', function (video, peer) {
-            console.log('web rtc video removed', video, peer);
-            if (peer && peer.type === TYPE_PEER_SCREEN || $(video).attr('id') === 'localScreen') {
+            // a peer video has been removed
+            webrtc.on('videoRemoved', function (video, peer) {
+                console.log('web rtc video removed', video, peer);
+                if (peer && peer.type === TYPE_PEER_SCREEN || $(video).attr('id') === 'localScreen') {
 //                $(video).remove();
-                $(connection).trigger('localScreenRemoved', [video, peer]);
-                currentSharedScreen = null;
-            } else if (peer && peer.type === TYPE_PEER_VIDEO) {
-                $(connection).trigger('videoRemoved', [video, peer]);
-                arrangePeerStreams();
+                    $(connection).trigger('localScreenRemoved', [video, peer]);
+                    currentSharedScreen = null;
+                } else if (peer && peer.type === TYPE_PEER_VIDEO) {
+                    $(connection).trigger('videoRemoved', [video, peer]);
+                    arrangePeerStreams();
 
-                if (options.indicator) {
-                    $(options.indicator).find('#mute-remote-audio').addClass('hidden');
-                    $(options.indicator).find('#pause-remote-stream').addClass('hidden');
-                }
+                    if (options.indicator) {
+                        $(options.indicator).find('#mute-remote-audio').addClass('hidden');
+                        $(options.indicator).find('#pause-remote-stream').addClass('hidden');
+                    }
 
-                if (options.remoteMuteElement) {
-                    $(options.remoteMuteElement).removeClass('muted');
-                    $(options.remoteMuteElement).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
-                    $(options.remoteMuteElement).find('video').attr('volume', 1);
-                    $(options.remoteMuteElement).attr('data-content', translation.pauseOtherWebRTC).data('bs.popover').setContent();
-                }
+                    if (options.remoteMuteElement) {
+                        $(options.remoteMuteElement).removeClass('muted');
+                        $(options.remoteMuteElement).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
+                        $(options.remoteMuteElement).find('video').attr('volume', 1);
+                        $(options.remoteMuteElement).attr('data-content', translation.pauseOtherWebRTC).data('bs.popover').setContent();
+                    }
 
-                if ((peer.nick === VIEW_TESTER || peer.nick === VIEW_MODERATOR) && connection.options.localStream.record === 'yes') {
-                    connection.stopRecording(null, false);
-                }
+                    if ((peer.nick === VIEW_TESTER || peer.nick === VIEW_MODERATOR) && connection.options.localStream.record === 'yes') {
+                        connection.stopRecording(null, false);
+                    }
 
-                if (options.remoteMuteElement) {
-                    $(options.remoteMuteElement).addClass('disabled');
-                }
-            }
-        });
-
-        // handle mute stream from other person
-        webrtc.on('mute', function (data) { // show muted symbol
-            webrtc.getPeers(data.id).forEach(function (peer) {
-                if (options.visibleRoles.indexOf(peer.nick) > -1) {
-                    if (data.name === 'audio' && options.indicator) {
-                        $(options.indicator).find('#mute-remote-audio').removeClass('hidden');
-                    } else if (data.name === 'video') {
-                        $(options.indicator).find('#pause-remote-stream').removeClass('hidden');
+                    if (options.remoteMuteElement) {
+                        $(options.remoteMuteElement).addClass('disabled');
                     }
                 }
             });
-        });
 
-        webrtc.on('unmute', function (data) { // hide muted symbol
-            webrtc.getPeers(data.id).forEach(function (peer) {
-                if (data.name === 'audio') {
-                    $(options.indicator).find('#mute-remote-audio').addClass('hidden');
-                } else if (data.name === 'video') {
-                    $(options.indicator).find('#pause-remote-stream').addClass('hidden');
-                }
+            // handle mute stream from other person
+            webrtc.on('mute', function (data) { // show muted symbol
+                webrtc.getPeers(data.id).forEach(function (peer) {
+                    if (options.visibleRoles.indexOf(peer.nick) > -1) {
+                        if (data.name === 'audio' && options.indicator) {
+                            $(options.indicator).find('#mute-remote-audio').removeClass('hidden');
+                        } else if (data.name === 'video') {
+                            $(options.indicator).find('#pause-remote-stream').removeClass('hidden');
+                        }
+                    }
+                });
             });
-        });
 
-        webrtc.on('joinedRoom', function (roomName) {
-            console.log('joined room:', roomName);
-            connection.showLocalStream();
-            $(connection).trigger('joinedRoom', [roomName]);
+            webrtc.on('unmute', function (data) { // hide muted symbol
+                webrtc.getPeers(data.id).forEach(function (peer) {
+                    if (data.name === 'audio') {
+                        $(options.indicator).find('#mute-remote-audio').addClass('hidden');
+                    } else if (data.name === 'video') {
+                        $(options.indicator).find('#pause-remote-stream').addClass('hidden');
+                    }
+                });
+            });
+
+            webrtc.on('joinedRoom', function (roomName) {
+                console.log('joined room:', roomName);
+                connection.showLocalStream();
+                $(connection).trigger('joinedRoom', [roomName]);
 
 //            $('#localVideo').css({opacity: 1});
-        });
+            });
 
-        webrtc.on('leftRoom', function (roomName) {
-            console.log('left room:', roomName);
-            connection.hideLocalStream();
-            $(connection).trigger('leftRoom', [roomName]);
-            connection.destroy();
+            webrtc.on('leftRoom', function (roomName) {
+                console.log('left room:', roomName);
+                connection.hideLocalStream();
+                $(connection).trigger('leftRoom', [roomName]);
+                connection.destroy();
 
 //            $('#localVideo').css({opacity: 0});
-        });
+            });
 
-        webrtc.on('stunservers', function (event) {
-            console.log('on stun servers', event);
-        });
+            webrtc.on('stunservers', function (event) {
+                console.log('on stun servers', event);
+            });
 
-        webrtc.on('turnservers', function (event) {
-            console.log('on turn servers', event);
-        });
+            webrtc.on('turnservers', function (event) {
+                console.log('on turn servers', event);
+            });
 
-        // local p2p/ice failure
-        webrtc.on('iceFailed', function (peer) {
-            var pc = peer.pc;
-            console.error('local p2p/ice failure');
-            console.log('had local relay candidate', pc.hadLocalRelayCandidate);
-            console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
+            // local p2p/ice failure
+            webrtc.on('iceFailed', function (peer) {
+                var pc = peer.pc;
+                console.error('local p2p/ice failure');
+                console.log('had local relay candidate', pc.hadLocalRelayCandidate);
+                console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
 
-            if (connection.options.localStream.record === 'yes') {
+                if (connection.options.localStream.record === 'yes') {
 //                connection.stopRecording(null, false);
-            }
-        });
+                }
+            });
 
-        // remote p2p/ice failure
-        webrtc.on('connectivityError', function (peer) {
-            var pc = peer.pc;
-            console.error('remote p2p/ice failure');
-            console.log('had local relay candidate', pc.hadLocalRelayCandidate);
-            console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
+            // remote p2p/ice failure
+            webrtc.on('connectivityError', function (peer) {
+                var pc = peer.pc;
+                console.error('remote p2p/ice failure');
+                console.log('had local relay candidate', pc.hadLocalRelayCandidate);
+                console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
 
-            if (connection.options.localStream.record === 'yes') {
+                if (connection.options.localStream.record === 'yes') {
 //                connection.stopRecording(null, false);
-            }
-        });
+                }
+            });
 
 //        // called when a peer is created
-        webrtc.on('createdPeer', function (peer) {
-            console.log('webrtc created peer', peer);
-            if (!webRTCPeer) {
-                webRTCPeer = peer; // check if this is working, if more than one peer is created -> moderator peer, wizard peer, etc.
-            }
-        });
+            webrtc.on('createdPeer', function (peer) {
+                console.log('webrtc created peer', peer);
+                if (!webRTCPeer) {
+                    webRTCPeer = peer; // check if this is working, if more than one peer is created -> moderator peer, wizard peer, etc.
+                }
+            });
 
-        $(connection).unbind('duplicatedRoles').bind('duplicatedRoles', function (event, payload) {
-            event.preventDefault();
-            console.log('duplicated roles detected');
-            if (options.selectedRole === payload.role) {
-                $(connection).trigger('leaveRoomDuplicatedRoles');
-                connection.leaveRoom();
+            $(connection).unbind('duplicatedRoles').bind('duplicatedRoles', function (event, payload) {
+                event.preventDefault();
+                console.log('duplicated roles detected');
+                if (options.selectedRole === payload.role) {
+                    $(connection).trigger('leaveRoomDuplicatedRoles');
+                    connection.leaveRoom();
 
 //                alert('Pro Konversation darf nur jeweils eine Rolle eingenommen werden. Diese Rolle gibt es schon. Wählen Sie eine andere aus.');
-            }
-        });
+                }
+            });
+        }
     } else {
         console.log('no options for webrtc');
     }
@@ -601,23 +655,6 @@ PeerConnection.prototype.getPeers = function () {
     return null;
 };
 
-//$(window).on('resize', function () {
-//    onTweenComplete();
-//});
-//
-function onTweenComplete() {
-//    var remoteHeight = $('.rtc-remote-container').find('video').height();
-//    var offset = 0;
-//    if (remoteHeight > 0) {
-//        offset = remoteHeight - $('#local-stream').height() - 5;
-//    }
-//    $('#local-stream').css({marginBottom: offset + 'px'});
-}
-
-function onLocalTweenComplete() {
-//    $('#local-stream').css({width: '30%', height: 'auto'});
-}
-
 PeerConnection.prototype.update = function (options) {
     this.status = STATUS_INITIALIZED;
     var currentOptions = this.options = options;
@@ -692,16 +729,10 @@ PeerConnection.prototype.hideLocalStream = function () {
 };
 
 PeerConnection.prototype.showRemoteStream = function () {
-//    setTimeout(function () {
     var currentOptions = connection.options;
-//        var width = Math.floor($('#' + currentOptions.remoteVideoElement).width() * .3);
-//        var height = Math.floor(width * 3 / 4);
     $('#' + currentOptions.localVideoElement).addClass('rtc-shadow');
     $('#' + currentOptions.localVideoElement).css({width: '30%', height: 'auto', left: 5, top: 5});
     $('#' + currentOptions.remoteVideoElement).css({opacity: 1});
-//    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {css: , ease: Quad.easeIn, clearProps: 'all'});
-//    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: 0, opacity: 1.0});
-//    }, 500);
 };
 
 PeerConnection.prototype.hideRemoteStream = function () {
@@ -709,18 +740,12 @@ PeerConnection.prototype.hideRemoteStream = function () {
     $('#' + currentOptions.localVideoElement).removeClass('rtc-shadow');
     $('#' + currentOptions.remoteVideoElement).css({opacity: 0});
     $('#' + currentOptions.localVideoElement).css({width: '', height: '', left: '', top: ''});
-//    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0});
-//    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: 0, css: {width: '100%', height: 'auto', left: 0, top: 0}, ease: Quad.easeIn, clearProps: 'all'});
 };
 
 PeerConnection.prototype.showRecordIndicator = function () {
     var currentOptions = this.options;
-//    console.log('show record indicator', currentOptions);
 
     var stream = $(currentOptions.callerElement);
-//    if (previewModeEnabled !== true) {
-//        stream = $('#video-caller');
-//    }
     var indicator = $(stream).find('.record-stream-indicator').removeClass('hidden');
     TweenMax.to(indicator, 1, {opacity: 1, onComplete: function () {
             TweenMax.to(indicator, 1, {opacity: .2, yoyo: true, repeat: -1});
@@ -731,20 +756,14 @@ PeerConnection.prototype.showRecordIndicator = function () {
 
 PeerConnection.prototype.hideRecordInidicator = function () {
     var currentOptions = this.options;
-//    console.log('hide record indicator', currentOptions);
-
 
     var stream = $(currentOptions.callerElement);
-//    if (previewModeEnabled !== true) {
-//        stream = $('#video-caller');
-//    }
     var indicator = $(stream).find('.record-stream-indicator');
     TweenMax.to(indicator, .3, {opacity: 0, onComplete: function () {
             $(indicator).addClass('hidden');
         }});
 
     $(connection).trigger('hideRecordIndicator');
-//    hideRecordIndicator();
 };
 
 
@@ -752,158 +771,219 @@ PeerConnection.prototype.hideRecordInidicator = function () {
  * recording
  */
 var chunks = {};
-var recordingStream = null;
+var localMediaStream = null;
 var mediaRecorder = null;
 PeerConnection.prototype.initRecording = function (startRecording) {
-    if (!recordingStream) {
-        navigator.getUserMedia = navigator.getUserMedia ||
-                navigator.webkitGetUserMedia ||
-                navigator.mozGetUserMedia;
+    if (!mediaRecorder) {
+        console.log('init local stream recording');
 
-        if (navigator.getUserMedia) {
-            navigator.mediaDevices.enumerateDevices()
-                    .then(gotDevices)
-                    .catch(errorCallback);
-        } else {
-            console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
-        }
+//        console.log(recordingStream);
+        mediaRecorder = new MediaRecorder(localMediaStream);
+//        console.log(webrtc, mediaRecorder);
 
-        function gotDevices(deviceInfos) {
-            var videoSource = null;
-            for (var i = 0; i < deviceInfos.length; i++) {
-                if (deviceInfos[i].kind === 'videoinput') {
-                    videoSource = deviceInfos[i].deviceId;
-                    break;
-                }
+        mediaRecorder.ondataavailable = function (event) {
+            console.log('on data available');
+
+            if (event.data && event.data.size > 0) {
+                var currentPhase = getCurrentPhase();
+                chunks[currentPhase.id].push(event.data);
             }
+        };
 
-            if (getBrowser() === "Chrome") {
-                var constraints = {audio: true,
-                    video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}}
-                    }};
-            } else if (getBrowser() === "Firefox") {
-                var constraints = {audio: true,
-                    video: {deviceId: {exact: videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
-                    }};
+        mediaRecorder.onstart = function () {
+            console.log('Start recording ...');
+
+            // save start recording time
+            if (previewModeEnabled === false) {
+                getGMT(function (timestamp) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.startRecordingTime = timestamp;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                    chunks[currentPhase.id] = [];
+                });
             }
+        };
 
-            navigator.mediaDevices.getUserMedia(constraints).then(onSuccess).catch(onError);
-        }
+        mediaRecorder.onstop = function () {
+            console.log('Stopped recording, state = ' + mediaRecorder.state);
+            if (mediaRecorder) {
+                if (saveRecording) {
+                    console.log('Save recording');
+                    uploadQueue.uploadIsPending();
 
-        function errorCallback(deviceInfos) {
-            console.error('error', deviceInfos);
-        }
+                    var currentPhase = getCurrentPhase();
+                    getGMT(function (timestamp) {
+                        var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
+                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                        tempData.endRecordingTime = timestamp;
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
-        // check current browser for building constraints
-//        if (getBrowser() == "Chrome") {
-//            var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
-//        } else if (getBrowser() == "Firefox") {
-//            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
-//        }
-//
-//        // set user media for specifig browsers
-//        navigator.getUserMedia = navigator.getUserMedia ||
-//                navigator.webkitGetUserMedia ||
-//                navigator.mozGetUserMedia;
-////        navigator.getUserMedia = (navigator.getUserMedia ||
-////                navigator.mozGetUserMedia ||
-////                navigator.msGetUserMedia ||
-////                navigator.webkitGetUserMedia);
-//        if (navigator.getUserMedia) {
-//            console.log(navigator.getUserMedia);
-//            navigator.mediaDevices.getUserMedia(constraints).then(onSuccess).catch(onError);
-////            navigator.getUserMedia(constraints, onSuccess, onError);
-//        } else {
-//            console.log('Sorry! This requires Firefox 30 and up or Chrome 47 and up.');
-//        }
+                        uploadQueue.upload(chunks[currentPhase.id], filename, currentPhase.id, 'recordUrl');
+                        chunks[currentPhase.id] = [];
 
-        // media recorder functions
-        function onError(error) {
-            console.log(error);
-        }
-
-        function onSuccess(stream) {
-            console.log('init recorder', mediaRecorder, stream);
-            recordingStream = stream;
-            if (!mediaRecorder || mediaRecorder === undefined) {
-                mediaRecorder = new MediaRecorder(stream);
-
-                mediaRecorder.ondataavailable = function (event) {
-                    console.log('on data available');
-
-                    if (event.data && event.data.size > 0) {
-                        var currentPhase = getCurrentPhase();
-                        chunks[currentPhase.id].push(event.data);
-                    }
-                };
-
-                mediaRecorder.onstart = function () {
-                    console.log('Start recording ...');
-                    
-                    // save start recording time
-                    if (previewModeEnabled === false) {
-                        getGMT(function (timestamp) {
-                            var currentPhase = getCurrentPhase();
-                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                            tempData.startRecordingTime = timestamp;
-                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                            chunks[currentPhase.id] = [];
-                        });
-                    }
-                };
-
-                mediaRecorder.onstop = function () {
-                    console.log('Stopped recording, state = ' + mediaRecorder.state);
-                    if (saveRecording) {
-                        console.log('Save recording');
-                        uploadQueue.uploadIsPending();
-
-                        var currentPhase = getCurrentPhase();
-                        getGMT(function (timestamp) {
-                            var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
-                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                            tempData.endRecordingTime = timestamp;
-                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-
-                            uploadQueue.upload(chunks[currentPhase.id], filename, currentPhase.id, 'recordUrl');
-                            chunks[currentPhase.id] = [];
-
-                            if (stopRecordingCallback) {
-                                stopRecordingCallback();
-                            }
-                        });
-                    } else {
                         if (stopRecordingCallback) {
                             stopRecordingCallback();
                         }
+                    });
+                } else {
+                    if (stopRecordingCallback) {
+                        stopRecordingCallback();
                     }
-                };
-
-                mediaRecorder.onerror = function (e) {
-                    console.log('Error: ', e);
-                };
-
-                mediaRecorder.onwarning = function (e) {
-                    console.log('Warning: ' + e);
-                };
-
-                console.log('startRecording', startRecording);
-                if (startRecording === true) {
-                    mediaRecorder.start(1000);
                 }
+
+                mediaRecorder = null;
             }
-        }
-    } else {
-        console.log('startRecording init', startRecording);
-        if (mediaRecorder.state !== 'recording' && startRecording) {
+        };
+
+        mediaRecorder.onerror = function (e) {
+            console.log('Error: ', e);
+        };
+
+        mediaRecorder.onwarning = function (e) {
+            console.log('Warning: ' + e);
+        };
+
+        console.log('startRecording', startRecording);
+        if (startRecording === true) {
             mediaRecorder.start(1000);
         }
+    } else if(mediaRecorder.state !== 'recording' && startRecording) {
+//        if (mediaRecorder && mediaRecorder.state !== 'recording' && startRecording) {
+            mediaRecorder.start(1000);
+//        }
     }
+
+
+
+//        navigator.getUserMedia = navigator.getUserMedia ||
+//                navigator.webkitGetUserMedia ||
+//                navigator.mozGetUserMedia;
+//
+//        if (navigator.getUserMedia) {
+//            navigator.mediaDevices.enumerateDevices()
+//                    .then(gotDevices)
+//                    .catch(errorCallback);
+//        } else {
+//            console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
+//        }
+//
+//        function gotDevices(deviceInfos) {
+//            var videoSource = null;
+//            var audioSource = null;
+//            for (var i = 0; i < deviceInfos.length; i++) {
+//                if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap')) {
+//                    console.log('standard recording video input device:', deviceInfos[i]);
+//                    videoSource = deviceInfos[i].deviceId;
+//                } else if (deviceInfos[i].kind === 'audioinput' && deviceInfos[i].deviceId === 'default') {
+//                    console.log('standard recording audio input device:', deviceInfos[i]);
+//                    audioSource = deviceInfos[i].deviceId;
+//                }
+//            }
+//
+//            if (getBrowser() === "Chrome") {
+//                var constraints = {audio: true,
+//                    video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}}
+//                    }};
+//            } else if (getBrowser() === "Firefox") {
+//                var constraints = {audio: true,
+//                    video: {deviceId: {exact: videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
+//                    }};
+//            }
+//
+//            navigator.mediaDevices.getUserMedia(constraints).then(onSuccess).catch(onError);
+//        }
+//
+//        function errorCallback(deviceInfos) {
+//            console.error('error', deviceInfos);
+//        }
+//
+//        // media recorder functions
+//        function onError(error) {
+//            console.log(error);
+//        }
+//
+//        function onSuccess(stream) {
+//            console.log('init recorder', mediaRecorder, stream);
+//            recordingStream = stream;
+//            if (!mediaRecorder || mediaRecorder === undefined) {
+//                mediaRecorder = new MediaRecorder(stream);
+//
+//                mediaRecorder.ondataavailable = function (event) {
+//                    console.log('on data available');
+//
+//                    if (event.data && event.data.size > 0) {
+//                        var currentPhase = getCurrentPhase();
+//                        chunks[currentPhase.id].push(event.data);
+//                    }
+//                };
+//
+//                mediaRecorder.onstart = function () {
+//                    console.log('Start recording ...');
+//
+//                    // save start recording time
+//                    if (previewModeEnabled === false) {
+//                        getGMT(function (timestamp) {
+//                            var currentPhase = getCurrentPhase();
+//                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                            tempData.startRecordingTime = timestamp;
+//                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                            chunks[currentPhase.id] = [];
+//                        });
+//                    }
+//                };
+//
+//                mediaRecorder.onstop = function () {
+//                    console.log('Stopped recording, state = ' + mediaRecorder.state);
+//                    if (saveRecording) {
+//                        console.log('Save recording');
+//                        uploadQueue.uploadIsPending();
+//
+//                        var currentPhase = getCurrentPhase();
+//                        getGMT(function (timestamp) {
+//                            var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
+//                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                            tempData.endRecordingTime = timestamp;
+//                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//
+//                            uploadQueue.upload(chunks[currentPhase.id], filename, currentPhase.id, 'recordUrl');
+//                            chunks[currentPhase.id] = [];
+//
+//                            if (stopRecordingCallback) {
+//                                stopRecordingCallback();
+//                            }
+//                        });
+//                    } else {
+//                        if (stopRecordingCallback) {
+//                            stopRecordingCallback();
+//                        }
+//                    }
+//                };
+//
+//                mediaRecorder.onerror = function (e) {
+//                    console.log('Error: ', e);
+//                };
+//
+//                mediaRecorder.onwarning = function (e) {
+//                    console.log('Warning: ' + e);
+//                };
+//
+//                console.log('startRecording', startRecording);
+//                if (startRecording === true) {
+//                    mediaRecorder.start(1000);
+//                }
+//            }
+//        }
+//    } else {
+//        console.log('startRecording init', startRecording);
+//        if (mediaRecorder && mediaRecorder.state !== 'recording' && startRecording) {
+//            mediaRecorder.start(1000);
+//        }
+//    }
 };
 
 PeerConnection.prototype.startRecording = function () {
     if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
-//        console.log('check start: start recording');
         connection.initRecording(true);
     }
 };
@@ -925,161 +1005,12 @@ PeerConnection.prototype.stopRecording = function (callback, save) {
     }
 };
 
-var snapshotTimer = null;
-PeerConnection.prototype.takeSnapshot = function (upload) {
-    var snapshotUrl = getLocalItem(STUDY).snapshot;
-
-    if (snapshotUrl && snapshotUrl !== '') {
-        return snapshotUrl;
-    } else {
-        clearTimeout(snapshotTimer);
-        snapshotTimer = setTimeout(function () {
-            var localStream = $('#' + connection.options.localVideoElement)[0];
-//            console.log('take a snapshot of ', $(localStream).width());
-
-            // create snapshot from stream
-            var canvas = document.createElement('canvas');
-            canvas.width = $(localStream).width();
-            canvas.height = $(localStream).height();
-            var ctx = canvas.getContext('2d');
-
-            ctx.drawImage($(localStream)[0], 0, 0, canvas.width, canvas.height);
-//            console.log(canvas, $(localStream).width());
-            canvas.toBlob(function (blob) {
-//                var url = URL.createObjectURL(blob);
-                var colorThief = new ColorThief();
-                var dominantColor = colorThief.getColor(canvas);
-//                console.log('blob created', blob);
-
-                // black frame detection
-                if (dominantColor && (dominantColor[0] + dominantColor[1] + dominantColor[2]) > 0) {
-//                    console.log(blob);
-
-                    if (upload && upload === true) {
-                        var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.jpg';
-                        var snapshotUploadQueue = new UploadQueue();
-                        $(snapshotUploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
-                            var url = snapshotUploadQueue.getUploadURLs()[0];
-                            var study = getLocalItem(STUDY);
-                            study.snapshot = url;
-                            setLocalItem(STUDY, study);
-//                            $(peerConnection).trigger('snapshotUploaded', [url]);
-                        });
-                        snapshotUploadQueue.upload([blob], filename);
-                    }
-                } else {
-                    console.log('black frame of snapshot detected');
-                }
-            }, 'image/jpeg', 0.8);
-        }, 3000);
-    }
-};
-
-
-//var separateRecordingStream = null;
-//var separateMediaRecorder = null;
-//PeerConnection.prototype.initSeparateRecording = function (startRecording) {
-//    if (!separateRecordingStream) {
-//        // check current browser for building constraints
-//        if (getBrowser() == "Chrome") {
-//            var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
-//        } else if (getBrowser() == "Firefox") {
-//            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
-//        }
-//
-//        // set user media for specific browsers
-//        navigator.getUserMedia = (navigator.getUserMedia ||
-//                navigator.mozGetUserMedia ||
-//                navigator.msGetUserMedia ||
-//                navigator.webkitGetUserMedia);
-//        if (navigator.getUserMedia) {
-//            navigator.getUserMedia(constraints)
-//                    .then(function (stream) {
-//                        onSuccess(stream);
-//                    })
-//                    .catch(function (err) {
-//                        onError(err);
-//                    });
-//        } else {
-//            console.log('Sorry! This requires Firefox 30 and up or Chrome 47 and up.');
-//        }
-//
-//        // media recorder functions
-//        function onError(error) {
-//            console.log(error);
-//        }
-//
-//        function onSuccess(stream) {
-//            console.log('init recorder', separateMediaRecorder, stream);
-//            separateRecordingStream = stream;
-//            if (!separateMediaRecorder || separateMediaRecorder === undefined) {
-//                separateMediaRecorder = new MediaRecorder(stream);
-//
-//                separateMediaRecorder.ondataavailable = function (event) {
-//                    console.log('on separate data available');
-//                    if (event.data && event.data.size > 0) {
-//                        separateChunks.push(event.data);
-//                    }
-//                };
-//
-//                separateMediaRecorder.onerror = function (e) {
-//                    console.log('Error: ', e);
-//                };
-//
-//                separateMediaRecorder.onwarning = function (e) {
-//                    console.log('Warning: ' + e);
-//                };
-//
-//                console.log('startRecording', startRecording);
-//                if (startRecording === true) {
-//                    separateMediaRecorder.start(1000);
-//                }
-//            }
-//        }
-//    } else {
-//        console.log('start separate ecording init', startRecording);
-//        if (separateMediaRecorder.state !== 'recording' && startRecording) {
-//            separateMediaRecorder.start(1000);
-//        }
-//    }
-//};
-//
-//var separateChunks = [];
-//PeerConnection.prototype.initSeparateChunksRecording = function () {
-//    console.log('init separate chunks recording');
-//    separateChunks = [];
-//    connection.initSeparateRecording(false);
-//};
-//
-//PeerConnection.prototype.startRecordSeparateChunks = function () {
-//    console.log('start record separate chunks');
-//    separateChunks = [];
-//    connection.initSeparateRecording(true);
-//};
-//
-//PeerConnection.prototype.stopRecordSeparateChunks = function () {
-//    console.log('stop record separate chunks');
-//    if (separateMediaRecorder && separateMediaRecorder.state !== 'inactive') {
-//        separateMediaRecorder.stop();
-//    }
-//    
-//    return separateChunks;
-//};
-
-
 var screenChunks = [];
 var screenMediaRecorder = null;
 PeerConnection.prototype.initScreenRecording = function () {
-
     var localScreenStream = webrtc.getLocalScreen();
     console.log('initScreenRecording');
     screenMediaRecorder = new MediaRecorder(localScreenStream);
-    console.log(webrtc, screenMediaRecorder);
-
-//    var hiddenVideo = document.createElement('video');
-//    hiddenVideo.srcObject = localScreenStream; // this line is required to make sure stream tracks aren't stopped/released
-//    hiddenVideo.muted = true;
-//    hiddenVideo.play();
 
     screenMediaRecorder.ondataavailable = function (e) {
         console.log('on screen sharing data available');
@@ -1157,6 +1088,50 @@ PeerConnection.prototype.stopScreenRecording = function (save, callback) {
     }
 };
 
+var snapshotTimer = null;
+PeerConnection.prototype.takeSnapshot = function (upload) {
+    var snapshotUrl = getLocalItem(STUDY).snapshot;
+
+    if (snapshotUrl && snapshotUrl !== '') {
+        return snapshotUrl;
+    } else {
+        clearTimeout(snapshotTimer);
+        snapshotTimer = setTimeout(function () {
+            var localStream = $('#' + connection.options.localVideoElement)[0];
+
+            // create snapshot from stream
+            var canvas = document.createElement('canvas');
+            canvas.width = $(localStream).width();
+            canvas.height = $(localStream).height();
+            var ctx = canvas.getContext('2d');
+
+            ctx.drawImage($(localStream)[0], 0, 0, canvas.width, canvas.height);
+            canvas.toBlob(function (blob) {
+                var colorThief = new ColorThief();
+                var dominantColor = colorThief.getColor(canvas);
+
+                // black frame detection
+                if (dominantColor && (dominantColor[0] + dominantColor[1] + dominantColor[2]) > 0) {
+
+                    if (upload && upload === true) {
+                        var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.jpg';
+                        var snapshotUploadQueue = new UploadQueue();
+                        $(snapshotUploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
+                            var url = snapshotUploadQueue.getUploadURLs()[0];
+                            var study = getLocalItem(STUDY);
+                            study.snapshot = url;
+                            setLocalItem(STUDY, study);
+                        });
+                        snapshotUploadQueue.upload([blob], filename);
+                    }
+                } else {
+                    console.log('black frame of snapshot detected');
+                }
+            }, 'image/jpeg', 0.8);
+        }, 3000);
+    }
+};
+
 PeerConnection.prototype.transferFile = function (file) {
     if (webRTCPeer) {
         console.log('transfer file:', file);
@@ -1168,7 +1143,6 @@ PeerConnection.prototype.transferFile = function (file) {
 
 PeerConnection.prototype.shareScreen = function (errorCallback, successCallback) {
     if (webrtc && webrtc.capabilities.supportScreenSharing) {
-//        console.log(webrtc.getLocalScreen());
         webrtc.shareScreen(function (error) {
             if (error) {
                 if (errorCallback) {
@@ -1200,15 +1174,10 @@ PeerConnection.prototype.keepStreamsPlaying = function () {
         var peers = webrtc.getPeers();
         if (peers && peers.length > 0) {
             for (var i = 0; i < peers.length; i++) {
-//                if (peers[i].type === TYPE_PEER_VIDEO) {
-
                 var videoElement = peers[i].videoEl;
                 if (videoElement && videoElement !== undefined) {
-//                    console.log(videoElement);
                     videoElement.play();
                 }
-
-//                }
             }
         }
 

@@ -149,6 +149,7 @@ include '../includes/language.php';
 
                             <div style="margin-top: 10px">
                                 <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
+                                <div id="creator"><?php echo $lang->creator ?>: <span class="text"></span></div>
                                 <div id="title"><?php echo $lang->title ?>: <span class="label label-default" id="gesture-title-quality"></span> <span class="text"></span></div>
                                 <div id="type" style="display:flex"><?php echo $lang->gestureType ?>: <div class="gesture-info-symbol symbol-gesture-execution" style="margin-top: 9px; margin-left: 6px; margin-right: 2px;"></div> <span class="address"></span> <span class="text"></span></div>
                                 <div id="interactionType" style="display:flex"><?php echo $lang->gestureInteractionType ?>: <div class="gesture-info-symbol symbol-gesture-interaction" style="margin-top: 9px; margin-left: 6px;margin-right: 2px"></div> <span class="address"></span> <span class="text"></span></div>
@@ -378,7 +379,7 @@ include '../includes/language.php';
                 gestureUpdateRecorder.destroy();
                 gestureUpdateRecorder = null;
             }
-            
+
             if ($('.custom-modal').attr('data-conv-allowed') !== 'false') {
                 $('.btn-leave-conversation').click();
             }
@@ -1022,6 +1023,19 @@ include '../includes/language.php';
                 if (sets[i].gestures && sets[i].gestures.length > 0) {
                     if (checkSetAssignment(sets[i].gestures, currentPreviewGesture.gesture.id)) {
                         option.find('.btn-checkbox').click();
+                    }
+                }
+
+
+                console.log('set', sets[i].isOwner)
+                if (sets[i].isOwner === false) {
+                    console.log('disabled option', option);
+                    $(option).find('.btn').addClass('disabled');
+
+                    if (sets[i].invitedUsers === null) {
+                        $(option).find('.btn-checkbox').text(sets[i].title + ' (' + translation.inviteAllUsersForGestureSet + ')');
+                    } else {
+                        $(option).find('.btn-checkbox').text(sets[i].title + ' (' + translation.gestureSetSharedWithYou + ')');
                     }
                 }
             }

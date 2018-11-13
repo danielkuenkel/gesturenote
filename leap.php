@@ -38,6 +38,9 @@ session_start();
         <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
         <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
+        
+        <!-- gesture recognizers -->
+        <script src="js/gestureRecognizer/leapStandardRecognizer.js"></script>
 
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
@@ -126,7 +129,9 @@ session_start();
 
         <script>
             $(document).ready(function () {
-                initializeLeapMotion();
+//                initializeLeapMotion();
+                initializeLeapMotionTracking();
+
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
@@ -161,6 +166,10 @@ session_start();
                     cropSliderElement: $('#leap-playback-crop-slider')
                 };
                 new LeapRecorder(options); // destroy leap motion recorder instance via variable, e.g. lmr = new LeapMotionRecorder(options); lmr.destroy(); lmr = null;
+            }
+
+            function initializeLeapMotionTracking() {
+                var leapRecognizer = new LeapStandardRecognizer(null);
             }
         </script>
 

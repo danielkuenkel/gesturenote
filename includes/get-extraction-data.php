@@ -37,13 +37,14 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['surveyType'])) {
                                     foreach ($gestures as $gesture) {
                                         $gestureId = $gesture->id;
                                         $triggerId = $gesture->triggerId;
-                                        if ($select_gesture_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE id = '$gestureId' LIMIT 1")) {
+                                        
+                                        if ($select_gesture_stmt = $mysqli->prepare("SELECT gestures.*, users.forename, users.surname FROM gestures JOIN users ON gestures.owner_id = users.id AND gestures.id = '$gestureId' LIMIT 1")) {
                                             if (!$select_gesture_stmt->execute()) {
                                                 echo json_encode(array('status' => 'selectGesturesError'));
                                             } else {
 
                                                 $select_gesture_stmt->store_result();
-                                                $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated);
+                                                $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated, $forename, $surname);
                                                 $select_gesture_stmt->fetch();
 
                                                 $elicitedGestures[] = array('id' => $originalGestureId,
@@ -66,7 +67,9 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['surveyType'])) {
                                                     'sensorData' => json_decode($sensorData),
                                                     'created' => $gestureCreated,
                                                     'isOwner' => $sessionUserId == $gestureOwnerId,
-                                                    'triggerId' => $triggerId);
+                                                    'triggerId' => $triggerId,
+                                                    'forename' => $forename,
+                                                    'surname' => $surname);
                                             }
                                             $count++;
                                         } else {

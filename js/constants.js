@@ -289,6 +289,7 @@ var MESSAGE_SCREEN_SHARING_ESTABLISHED = 'screenSharingEstablished';
 var MESSAGE_STOP_SCREEN_SHARING = 'stopScreenSharing';
 
 var MESSAGE_OBSERVER_ANNOTATION = 'observerAnnotation';
+var MESSAGE_LEAP_GESTURE_RECOGNIZED = 'leapGestureRecognized';
 
 /*
  * assessment color constants

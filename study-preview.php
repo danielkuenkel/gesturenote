@@ -80,6 +80,13 @@ if (login_check($mysqli) == true) {
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
         <script src="js/gestureRecorder/webcamRecorder.js"></script>
         <script src="js/gestureRecorder/leapRecorder.js"></script>
+        
+        <!-- leap and plugins -->
+        <script src="js/leapjs/leap-0.6.4.min.js"></script>
+        <script src="js/leapjs/leap-plugins-0.1.12.min.js"></script>
+        
+        <!-- gesture recognizers -->
+        <script src="js/gestureRecognizer/leapStandardRecognizer.js"></script>
 
         <!-- peer connection with webrtc -->
         <script src="js/collaborativeVideo.js"></script>

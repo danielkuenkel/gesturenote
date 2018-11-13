@@ -12,6 +12,7 @@ include '../includes/language.php';
     <ul class="nav nav-pills" id="gesture-set-nav-tab" style="display: flex; justify-content: center;">
         <li role="presentation"><a href="#tab-gesture-set-general" aria-controls="tab-gesture-set-general" role="tab" data-toggle="pill"><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $lang->general ?></a></li>
         <li role="presentation"><a href="#tab-gesture-set-gestures" aria-controls="tab-gesture-set-gestures" role="tab" data-toggle="pill"><i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo $lang->gestures ?></a></li>
+        <li role="presentation"><a href="#tab-gesture-set-mappings" aria-controls="tab-gesture-set-mappings" role="tab" data-toggle="pill"><i class="fa fa-exchange" aria-hidden="true"></i> <?php echo $lang->mappings ?></a></li>
         <li role="presentation"><a href="#tab-gesture-set-comments" aria-controls="tab-gesture-set-comments" role="tab" data-toggle="pill"><i class="fa fa-comments-o" aria-hidden="true"></i> <?php echo $lang->comments ?></a></li>
     </ul>
 
@@ -77,6 +78,7 @@ include '../includes/language.php';
 
                             <div style="">
                                 <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
+                                <div id="creator"><?php echo $lang->creator ?>: <span class="text"></span></div>
                                 <div id="title"><?php echo $lang->title ?>:<span class="address"></span> <span class="text"></span></div>
 
                             </div>
@@ -113,37 +115,11 @@ include '../includes/language.php';
         </div>
 
         <div role="tabpanel" class="tab-pane" id="tab-gesture-set-gestures">
-            <div class="row" id="attached-gestures">
+            <div class="row" id="attached-gestures"></div>
+        </div>
 
-                <!--                            <div id="add-to-gesture-set">
-                                                <div class="create-gesture-set-input">
-                                                    <label class="text"><?php echo $lang->createNewGestureSet ?></label>
-                            
-                                                    <div class="alert-space alert-gesture-set-title-too-short"></div>
-                            
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="<?php echo $lang->createNewGestureSetPlaceholder ?>">
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-info btn-shadow btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                            
-                                                <div class="row text-center" style="margin-top: 20px">
-                                                    <label class="uppercase" style="font-size: 10pt"><?php echo $lang->or ?></label>
-                                                </div>
-                            
-                                                <div style="margin-top: 10px">
-                                                    <label class="text"><?php echo $lang->assignToGestureSet ?></label>
-                            
-                                                    <div id="existing-sets-container">
-                                                        <div class="option-container root"></div>
-                                                    </div>
-                                                    <div class="alert-space alert-no-gesture-sets-for-study"></div>
-                                                </div>
-                            
-                                            </div>-->
-            </div>
+        <div role="tabpanel" class="tab-pane" id="tab-gesture-set-mappings">
+
         </div>
 
         <div role="tabpanel" class="tab-pane" id="tab-gesture-set-comments">

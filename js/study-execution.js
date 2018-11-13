@@ -224,13 +224,13 @@ function nextStep() {
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {
 //        if (currentView !== VIEW_OBSERVER) {
-            if (currentPhaseStepIndex < phases.length - 1) {
-                saveCurrentStatus(false, function () {
-                    checkIfStopRecordingNeeded(phases);
-                });
-            } else {
+        if (currentPhaseStepIndex < phases.length - 1) {
+            saveCurrentStatus(false, function () {
                 checkIfStopRecordingNeeded(phases);
-            }
+            });
+        } else {
+            checkIfStopRecordingNeeded(phases);
+        }
 //        } else {
 //            checkIfStopRecordingNeeded(phases);
 //        }
@@ -751,4 +751,23 @@ function sensorTypeBanned(type) {
         }
     }
     return true;
+}
+
+function recognizeLeapGestures(data) {
+    console.log(data);
+    if (data && data.tasks && data.tasks.length > 0) {
+        for (var i = 0; i < data.tasks.length; i++) {
+            if (data.tasks[i].woz && data.tasks[i].woz.length > 0) {
+                for (var j = 0; j < data.tasks[i].woz.length; j++) {
+                    var gestureId = data.tasks[i].woz[j].gestureId;
+                    var gesture = getGestureById(gestureId);
+                    if (gesture.sensorData && gesture.sensorData !== null && gesture.sensorData.type === 'leap') {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    return false;
 }

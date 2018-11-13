@@ -1216,9 +1216,9 @@ function renderClassifiedGestures(target, type) {
                             $(container).find('#item-view').append(appearanceTriggerGesture);
                             updateGestureAssignmentInfos(container, type, assignment.mainGestureId, assignment);
 
-//                            if (type === POTENTIAL_GESTURES) {
-                            $(container).find('#item-view').append(document.createElement('hr'));
-//                            }
+                            var horizontalLine = document.createElement('hr');
+                            $(horizontalLine).css({marginTop: type === POTENTIAL_GESTURES ? '10px' : '20px', marginBottom: type === POTENTIAL_GESTURES ? '80px' : '20px'});
+                            $(container).find('#item-view').append(horizontalLine);
                         }
                     }
 
@@ -3029,7 +3029,10 @@ function renderClassifiedTrigger(target, type) {
                             appearanceTriggerGesture.find('#headline-gesture-trigger').text(translation.Class + ' ' + counter);
                             container.find('#item-view').append(appearanceTriggerGesture);
                             updateTriggerAssignmentInfos(container, type, assignment.mainTriggerId, assignment);
-                            $(container).find('#item-view').append(document.createElement('hr'));
+
+                            var horizontalLine = document.createElement('hr');
+                            $(horizontalLine).css({marginTop: '20px', marginBottom: type === POTENTIAL_TRIGGER ? '80px' : '20px'});
+                            $(container).find('#item-view').append(horizontalLine);
                         }
                     }
 
