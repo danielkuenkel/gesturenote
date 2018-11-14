@@ -13,6 +13,10 @@ session_start();
 if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
     $gestureId = $_POST['gestureId'];
     $userId = $_SESSION['user_id'];
+    
+    if (isLocalhost()) {
+        $target_dir = "http://localhost/gesturenote/";
+    }
 
     if ($select_stmt = $mysqli->prepare("SELECT `images`, `gif`, `sensor_data` FROM gestures WHERE id = '$gestureId'")) {
         if (!$select_stmt->execute()) {

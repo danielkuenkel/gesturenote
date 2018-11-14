@@ -493,7 +493,7 @@ if (login_check($mysqli) == true) {
                                 <i class="fa fa-trash"></i>
                             </button>
                             <button class="btn btn-default btn-shadow btn-text-button btn-open-overlay" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->editPhasestep ?>">
-                                <span class="phase-step-format"></span>
+                                <i class="fa"></i> <span class="phase-step-format"></span>
                             </button>
                         </div>
                     </div>
@@ -1305,22 +1305,30 @@ if (login_check($mysqli) == true) {
 
             $(document).on('click', '.btn-open-overlay', function (event) {
                 event.preventDefault();
-//                $(this).addClass('disabled');
+                var button = $(this);
+                lockButton(button, true);
+                $(button).popover('hide');
+                var deleteButton = $(button).parent().find('.btn-delete');
+                lockButton(deleteButton);
+                
 
-                var format = $(this).attr('id');
-                var id = $(this).closest('.root').attr('id');
-                if (format && id) {
-                    initOverlayContent(format, id);
-                } else if (format) {
-                    initOverlayContentByFormat(format);
-                }
-                overlayTween.play();
-//                setTimeout(function () {
-                $('html,body').animate({
-                    scrollTop: 0
+                setTimeout(function () {
+                    var format = $(button).attr('id');
+                    var id = $(button).closest('.root').attr('id');
+                    if (format && id) {
+                        initOverlayContent(format, id);
+                    } else if (format) {
+                        initOverlayContentByFormat(format);
+                    }
+                    overlayTween.play();
+                    unlockButton(button, true);
+                    unlockButton(deleteButton);
+
+                    $('html,body').animate({
+                        scrollTop: 0
+                    }, 200);
+                    $('.mainContent').addClass('hidden');
                 }, 200);
-//                }, 0);
-                $('.mainContent').addClass('hidden');
             });
 
             function onReverseComplete() {

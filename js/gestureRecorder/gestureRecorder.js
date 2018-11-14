@@ -693,6 +693,7 @@ function onRecorderInstanceDataExtracted(event, type) {
 var gestureSaveData = null;
 function renderStateSave() {
     resetInputs(true);
+    var saveForm = $(recorder.currentRecorderContent).find('#gesture-save-form');
     var saveButton = $(recorder.currentRecorderContent).find('#btn-save-gesture');
     var titleInput = $(recorder.currentRecorderContent).find('#gestureName');
     var titleQualityInput = $(recorder.currentRecorderContent).find('#gestureNameQualitySelect');
@@ -738,13 +739,13 @@ function renderStateSave() {
     }
 
 
-//    $('#gestureName').unbind('input').bind('input', function () {
-//        if (gestureInputsValid()) {
-//            $(saveButton).removeClass('disabled');
-//        } else {
-//            $(saveButton).addClass('disabled');
-//        }
-//    });
+    $(titleInput).unbind('input').bind('input', function () {
+        if (gestureInputsValid()) {
+            $(saveButton).removeClass('disabled');
+        } else {
+            $(saveButton).addClass('disabled');
+        }
+    });
 
     $(recorder.currentRecorderContent).find('#gesture-save-form').unbind('change').bind('change', function () {
         if (gestureInputsValid()) {
@@ -815,6 +816,8 @@ function renderStateSave() {
 
         if (gestureInputsValid(true) && !$(this).hasClass('disabled')) {
             lockButton(saveButton, true, 'fa-floppy-o');
+            $(saveForm).addClass('hidden');
+            
             if (recorder.options.updateGesture && recorder.options.updateGesture === true) {
                 initInstancesEvents();
             }
@@ -960,6 +963,10 @@ function renderStateSave() {
 
 function resetInputs(resetInputs) {
     clearAlerts($(recorder.options.recorderTarget));
+    
+    var saveForm = $(recorder.currentRecorderContent).find('#gesture-save-form');
+    $(saveForm).removeClass('hidden');
+    
     var repeatRecordingButton = $(recorder.options.recorderTarget).find('.btn-repeat-recording');
     unlockButton(repeatRecordingButton);
 

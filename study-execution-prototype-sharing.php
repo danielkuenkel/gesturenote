@@ -108,7 +108,7 @@ include 'includes/language.php';
                     console.log('render scene item', scene);
                     var sceneItem = $('#item-container-tester').find('#' + scene.type).clone().removeAttr('id');
                     $('#shared-scenario').find('#scene-container').append(sceneItem);
-                    $('#shared-scenario').find('#scene-container').css({backgroundColor: "rgb(255,255,255)"});
+                    $('#shared-scenario').find('#scene-container').css({backgroundColor: "#e3e3e3"});
 
                     switch (scene.type) {
                         case SCENE_WEB:
@@ -116,10 +116,10 @@ include 'includes/language.php';
                             break;
                         case SCENE_IMAGE:
                             sceneItem[0].onload = function () {
-                                var image = sceneItem[0];
-                                var colorThief = new ColorThief();
-                                var dominantColor = colorThief.getColor(image);
-                                $('#shared-scenario').find('#scene-container').css("backgroundColor", "rgb(" + dominantColor[0] + "," + dominantColor[1] + "," + dominantColor[2] + ")");
+//                                var image = sceneItem[0];
+//                                var colorThief = new ColorThief();
+//                                var dominantColor = colorThief.getColor(image);
+//                                $('#shared-scenario').find('#scene-container').css("backgroundColor", "rgb(" + dominantColor[0] + "," + dominantColor[1] + "," + dominantColor[2] + ")");
                             };
                             sceneItem[0].src = scene.parameters.url;
                             break;

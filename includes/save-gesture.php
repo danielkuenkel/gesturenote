@@ -18,10 +18,6 @@ if (isset($_POST['title'], $_POST['titleQuality'], $_POST['context'], $_POST['as
     }
 
     $ownerId = $_SESSION['user_id'];
-//    if (isset($_POST['ownerId']) && $_POST['ownerId'] != null) {
-//        $ownerId = $_POST['ownerId'];
-//    }
-
     $source = $_SESSION['usertype'];
     if (isset($_POST['source']) && $_POST['source'] != null) {
         $source = $_POST['source'];

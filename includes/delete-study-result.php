@@ -14,6 +14,10 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['testerId'])) {
     $sessionUserId = $_SESSION['user_id'];
     $deleteStudyId = $_POST['studyId'];
     $testerId = $_POST['testerId'];
+    
+    if (isLocalhost()) {
+        $target_dir = "http://localhost/gesturenote/";
+    }
 
     if ($select_stmt = $mysqli->prepare("SELECT general_data FROM studies WHERE id = '$deleteStudyId' && user_id = '$sessionUserId'")) {
         if (!$select_stmt->execute()) {

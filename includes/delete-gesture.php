@@ -7,7 +7,7 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 include_once 'functions.php';
 
-$target_dir = "https://gesturenote.de/";
+$target_dir = "../";
 
 session_start();
 if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
@@ -34,28 +34,65 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
                         echo json_encode(array('status' => 'deleteError'));
                         exit();
                     } else {
+                        $deleteFiles = array();
                         if ($delete_stmt = $mysqli->prepare("DELETE FROM comments WHERE gesture_id = '$gestureId'")) {
                             if (!$delete_stmt->execute()) {
                                 echo json_encode(array('status' => 'deleteError'));
                                 exit();
                             } else {
                                 if ($imageURLs !== NULL || $imageURLs !== '') {
-                                    deleteFiles($target_dir, json_decode($imageURLs));
+                                    $deleteFiles = json_decode($imageURLs);
                                 }
                                 if ($gifUrl !== NULL || $imageURLs !== '') {
-                                    deleteFiles($target_dir, array($gifUrl));
+                                    array_push($deleteFiles, $gifUrl);
                                 }
                                 $parseSensorData = json_decode($sensorData);
                                 if ($sensorData !== NULL && $sensorData !== '' && $parseSensorData->url) {
-                                    deleteFiles($target_dir, array($parseSensorData->url));
+                                    array_push($deleteFiles, $parseSensorData->url);
                                 }
-                                echo json_encode(array('status' => 'success', 'imageUrls' => json_decode($imageURLs), 'gifUrl' => $gifUrl, 'sensorData' => json_decode($sensorData)));
-                                exit();
+
+                                $deleteFiles = array_filter($deleteFiles);
+                                if (!empty($deleteFiles)) {
+                                    deleteFiles($target_dir, $deleteFiles);
+                                }
                             }
                         } else {
                             echo json_encode(array('status' => 'deleteCommentsStatemantError'));
                             exit();
                         }
+
+                        if ($delete_stmt = $mysqli->prepare("DELETE FROM gesture_ratings WHERE gesture_id = '$gestureId'")) {
+                            if (!$delete_stmt->execute()) {
+                                echo json_encode(array('status' => 'deleteError'));
+                                exit();
+                            }
+                        } else {
+                            echo json_encode(array('status' => 'deleteRatingsStatemantError'));
+                            exit();
+                        }
+
+                        if ($delete_stmt = $mysqli->prepare("DELETE FROM likes WHERE gesture_id = '$gestureId'")) {
+                            if (!$delete_stmt->execute()) {
+                                echo json_encode(array('status' => 'deleteError'));
+                                exit();
+                            }
+                        } else {
+                            echo json_encode(array('status' => 'deleteLikeStatemantError'));
+                            exit();
+                        }
+                        
+                        if ($delete_stmt = $mysqli->prepare("DELETE FROM gestures_shared WHERE gesture_id = '$gestureId'")) {
+                            if (!$delete_stmt->execute()) {
+                                echo json_encode(array('status' => 'deleteError'));
+                                exit();
+                            }
+                        } else {
+                            echo json_encode(array('status' => 'deleteSharedStatemantError'));
+                            exit();
+                        }
+
+                        echo json_encode(array('status' => 'success'));
+                        exit();
                     }
                 } else {
                     echo json_encode(array('status' => 'deleteStatemantError'));

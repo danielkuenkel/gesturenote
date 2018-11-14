@@ -30,7 +30,6 @@ include '../includes/language.php';
                                     <div class="controls-container embed-responsive-item">
                                         <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                         <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
-                                        <!--<div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single btn-tag-as-preview hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i> <?php echo $lang->previewImage ?>: <span class="preview-image-index">1</span></div>-->
                                     </div>
                                 </div>
 
@@ -149,7 +148,7 @@ include '../includes/language.php';
 
                             <div style="margin-top: 10px">
                                 <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
-                                <div id="creator"><?php echo $lang->creator ?>: <span class="text"></span></div>
+                                <div id="creator"><?php echo $lang->userTypes->interactionDesigner ?>: <span class="text"></span></div>
                                 <div id="title"><?php echo $lang->title ?>: <span class="label label-default" id="gesture-title-quality"></span> <span class="text"></span></div>
                                 <div id="type" style="display:flex"><?php echo $lang->gestureType ?>: <div class="gesture-info-symbol symbol-gesture-execution" style="margin-top: 9px; margin-left: 6px; margin-right: 2px;"></div> <span class="address"></span> <span class="text"></span></div>
                                 <div id="interactionType" style="display:flex"><?php echo $lang->gestureInteractionType ?>: <div class="gesture-info-symbol symbol-gesture-interaction" style="margin-top: 9px; margin-left: 6px;margin-right: 2px"></div> <span class="address"></span> <span class="text"></span></div>
@@ -567,6 +566,7 @@ include '../includes/language.php';
 
         var container = $('#modal-body');
         container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
+        container.find('#creator .text').text(gesture.forename + (gesture.surname !== '.' ? ' ' + gesture.surname : ''));
         container.find('#title .text').text(gesture.title);
         container.find('#title #gesture-title-quality').text(translation.gestureNameQualities[gesture.titleQuality].title);
         container.find('#type .text').text(gesture.type === null ? '-' : translation.gestureTypes[gesture.type]);
@@ -728,8 +728,6 @@ include '../includes/language.php';
                 event.preventDefault();
                 var button = $(this);
 
-//                console.log('delete button clicked');
-
                 if (!event.handled && !$(this).hasClass('disabled')) {
 
                     event.handled = true;
@@ -774,7 +772,6 @@ include '../includes/language.php';
             });
         } else {
             $(modal).find('#btn-delete-gesture').remove();
-//            $(modal).find('#btn-edit-gesture').parent().removeClass('col-xs-6').addClass('col-xs-12');
         }
     }
 
@@ -1007,37 +1004,32 @@ include '../includes/language.php';
             var container = $('#add-to-gesture-set #existing-sets-container');
             container.find('.option-container').empty();
 
+            var ownSetsCount = 0;
             for (var i = 0; i < sets.length; i++) {
-                var option = $('#template-general-container').find('#checkbox').clone();
-                option.find('.option-text').text(sets[i].title);
-                option.find('.btn-checkbox').attr('id', sets[i].id);
-                container.find('.option-container').append(option);
-                container.find('.option-container').append(document.createElement('br'));
+                if (sets[i].isOwner === true) {
+                    var option = $('#template-general-container').find('#checkbox').clone();
+                    option.find('.option-text').text(sets[i].title);
+                    option.find('.btn-checkbox').attr('id', sets[i].id);
+                    container.find('.option-container').append(option);
+                    container.find('.option-container').append(document.createElement('br'));
 
-                // preselect item after adding new gesture set
-                if (preselect === true && id && parseInt(id) === parseInt(sets[i].id)) {
-                    option.find('.btn-checkbox').click();
-                }
-
-                // check gestures and make checkbox selected if gesture is in gesture set [i]
-                if (sets[i].gestures && sets[i].gestures.length > 0) {
-                    if (checkSetAssignment(sets[i].gestures, currentPreviewGesture.gesture.id)) {
+                    // preselect item after adding new gesture set
+                    if (preselect === true && id && parseInt(id) === parseInt(sets[i].id)) {
                         option.find('.btn-checkbox').click();
                     }
-                }
 
-
-                console.log('set', sets[i].isOwner)
-                if (sets[i].isOwner === false) {
-                    console.log('disabled option', option);
-                    $(option).find('.btn').addClass('disabled');
-
-                    if (sets[i].invitedUsers === null) {
-                        $(option).find('.btn-checkbox').text(sets[i].title + ' (' + translation.inviteAllUsersForGestureSet + ')');
-                    } else {
-                        $(option).find('.btn-checkbox').text(sets[i].title + ' (' + translation.gestureSetSharedWithYou + ')');
+                    // check gestures and make checkbox selected if gesture is in gesture set [i]
+                    if (sets[i].gestures && sets[i].gestures.length > 0) {
+                        if (checkSetAssignment(sets[i].gestures, currentPreviewGesture.gesture.id)) {
+                            option.find('.btn-checkbox').click();
+                        }
                     }
+                    ownSetsCount++;
                 }
+            }
+
+            if (ownSetsCount === 0) {
+                appendAlert($('#add-to-gesture-set'), ALERT_NO_GESTURE_SETS_FOR_STUDY);
             }
 
             $('#add-to-gesture-set .create-gesture-set-input').unbind('gestureSetCreated').bind('gestureSetCreated', function (event, newSetId) {
@@ -1094,7 +1086,8 @@ include '../includes/language.php';
                             $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set .amount').text('');
                         }
                     }
-
+                    
+                    clearAlerts($('#add-to-gesture-set'));
                     $(container).trigger('gestureSetsUpdated', [currentPreviewGesture.gesture.id]);
                 });
             }

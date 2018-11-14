@@ -12,6 +12,9 @@ $target_preview_dir = "uploads/";
 
 session_start();
 if (isset($_SESSION['user_id'], $_POST['image'])) {
+    if (isLocalhost()) {
+        $target_dir = "http://localhost/gesturenote/";
+    }
     deleteFiles($target_dir, $_POST['image']);
     echo json_encode(array('status' => 'success'));
 } else {

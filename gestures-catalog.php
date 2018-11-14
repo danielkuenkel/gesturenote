@@ -229,7 +229,7 @@ if (login_check($mysqli) == true) {
                         <div class="input-group">
                             <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="<?php echo $lang->createNewGestureSetPlaceholder ?>">
                             <span class="input-group-btn">
-                                <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                                <button class="btn btn-info btn-add-gesture-set btn-shadow" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
                             </span>
                         </div>
                     </div>

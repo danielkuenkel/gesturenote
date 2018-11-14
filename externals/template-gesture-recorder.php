@@ -480,8 +480,9 @@ include '../includes/language.php';
                     </div>
 
                     <div class="alert-space alert-general-error"></div>
-                    <button class="btn btn-block btn-success btn-shadow disabled" id="btn-save-gesture"><i class="fa fa-floppy-o" aria-hidden="true"></i> <?php echo $lang->saveGesture ?></button>
                 </div>
+
+                <button class="btn btn-block btn-success btn-shadow disabled" id="btn-save-gesture"><i class="fa fa-floppy-o" aria-hidden="true"></i> <?php echo $lang->saveGesture ?></button>
 
             </div>
 
@@ -966,9 +967,9 @@ include '../includes/language.php';
                     </div>
 
                     <div class="alert-space alert-general-error"></div>
-                    <button class="btn btn-block btn-success btn-shadow disabled" id="btn-save-gesture"><i class="fa fa-floppy-o" aria-hidden="true"></i> <?php echo $lang->saveGesture ?></button>
                 </div>
-
+                
+                <button class="btn btn-block btn-success btn-shadow disabled" id="btn-save-gesture"><i class="fa fa-floppy-o" aria-hidden="true"></i> <?php echo $lang->saveGesture ?></button>
             </div>
 
             <!-- success screen with gesture preview -->

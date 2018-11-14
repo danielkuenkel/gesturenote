@@ -898,7 +898,33 @@ function getGestureCatalog(callback) {
 
                         gestureCatalog = gestureCatalog.concat(tempGestures);
                         setLocalItem(GESTURE_CATALOG, gestureCatalog);
-                        console.log(tempGestures, getLocalItem(GESTURE_CATALOG));
+                    } else {
+                        setLocalItem(GESTURE_CATALOG, result.sharedSetGestures);
+                    }
+                }
+
+                gestureCatalog = getLocalItem(GESTURE_CATALOG);
+                if (result.sharedGestures && result.sharedGestures.length > 0) {
+                    if (gestureCatalog && gestureCatalog.length > 0) {
+                        var tempGestures = [];
+                        for (var i = 0; i < result.sharedGestures.length; i++) {
+                            var sharedGestureExistsInCatalog = false;
+                            var sharedGesture = result.sharedGestures[i];
+                            for (var j = 0; j < gestureCatalog.length; j++) {
+                                var gesture = gestureCatalog[j];
+                                if (parseInt(sharedGesture.id) === parseInt(gesture.id)) {
+                                    sharedGestureExistsInCatalog = true;
+                                }
+                            }
+
+                            if (sharedGestureExistsInCatalog === false) {
+                                tempGestures.push(sharedGesture);
+                            }
+                        }
+
+                        gestureCatalog = gestureCatalog.concat(tempGestures);
+                        setLocalItem(GESTURE_CATALOG, gestureCatalog);
+//                        console.log(tempGestures, getLocalItem(GESTURE_CATALOG));
                     } else {
                         setLocalItem(GESTURE_CATALOG, result.sharedSetGestures);
                     }

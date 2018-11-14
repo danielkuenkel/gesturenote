@@ -384,6 +384,7 @@
     "deleteStudyResultModal": "Wollen Sie alle Daten dieser Befragung wirklich löschen? Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.",
     "deleteCreateModal": "Die Erstellung dieser Studie wirklich beenden? Sollen die gemachten Änderungen gespeichert werden?",
     "deleteGestureModal": "Wollen Sie alle Daten dieser Geste wirklich löschen?",
+    "deleteGestureSetModal": "Wollen Sie alle Daten dieses Geste-Sets wirklich löschen? Die zugeordneten Gesten verbleiben im Gesten-Katalog.",
     "executeStudy": "Befragung starten",
     "showIntroduction": "Zeige Einführung",
     "introduction": "Einführung",
@@ -1757,7 +1758,8 @@
         "tester": "Proband",
         "evaluator": "Moderator",
         "wizard": "Wizard",
-        "observer": "Beobachter"
+        "observer": "Beobachter",
+        "interactionDesigner": "Interaktions-Designer"
     },
     "userTypesRegister": {
         "tester": "Ich möchte an interessanten Studien als Proband teilnehmen.",
@@ -5260,7 +5262,7 @@
         "noGestureSetsForStudy": {
             "id": "no-gesture-sets-for-study-text",
             "type": "warning",
-            "text": "Es wurden noch keine Gesten-Sets für diese Studie angelegt."
+            "text": "Es wurden noch keine eigenen Gesten-Sets angelegt."
         },
         "gestureSetTitleTooShort": {
             "id": "gesture-set-title-too-short",

@@ -12,13 +12,13 @@ if (isset($_SESSION['user_id'])) {
     $sessionUserId = $_SESSION['user_id'];
     $sessionUserMail = $_SESSION['email'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT * FROM gesture_sets WHERE (user_id = '$sessionUserId' && scope = 'private') OR scope = 'public' ORDER BY created DESC")) {
+    if ($select_stmt = $mysqli->prepare("SELECT gesture_sets.*, users.forename, users.surname FROM gesture_sets JOIN users ON gesture_sets.user_id = users.id WHERE (user_id = '$sessionUserId' && scope = 'private') OR scope = 'public' ORDER BY created DESC")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();
         } else {
             $select_stmt->store_result();
-            $select_stmt->bind_result($id, $studyId, $userId, $scope, $title, $gestures, $sensorData, $created);
+            $select_stmt->bind_result($id, $studyId, $userId, $scope, $title, $gestures, $sensorData, $created, $forename, $surname);
 
             $gestureSets;
 
@@ -79,7 +79,7 @@ if (isset($_SESSION['user_id'])) {
                         exit();
                     } else {
                         $select_invited_users_stmt->store_result();
-                        $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedSetId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited, $forename, $surname);
+                        $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedSetId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited, $forenameShared, $surnameShared);
 
                         while ($select_invited_users_stmt->fetch()) {
                             $sharedCount++;
@@ -114,7 +114,9 @@ if (isset($_SESSION['user_id'])) {
                     'commentAmount' => $commentCount,
                     'hasCommented' => $hasCommented,
                     'created' => $created,
-                    'invitedUsers' => $invitedUsers
+                    'invitedUsers' => $invitedUsers,
+                    'forename' => $forename,
+                    'surname' => $surname[0] . '.'
                 );
             }
         }
@@ -125,12 +127,12 @@ if (isset($_SESSION['user_id'])) {
 
 
     // get all gesture sets, which were shared with you
-    if ($select_shared_stmt = $mysqli->prepare("SELECT gesture_sets.* FROM gesture_sets LEFT JOIN gesture_sets_shared ON gesture_sets.id = gesture_sets_shared.set_id WHERE gesture_sets_shared.email = '$sessionUserMail' GROUP BY gesture_sets.id ORDER BY gesture_sets.created ASC")) {
+    if ($select_shared_stmt = $mysqli->prepare("SELECT gesture_sets.*, users.forename, users.surname FROM gesture_sets LEFT JOIN gesture_sets_shared ON gesture_sets.id = gesture_sets_shared.set_id JOIN users ON users.id = gesture_sets.user_id WHERE gesture_sets_shared.email = '$sessionUserMail' GROUP BY gesture_sets.id ORDER BY gesture_sets.created ASC")) {
         if (!$select_shared_stmt->execute()) {
             echo json_encode(array('status' => 'selectInvitedError'));
             exit();
         } else {
-            $select_shared_stmt->bind_result($id, $studyId, $userId, $scope, $title, $gestures, $sensorData, $created);
+            $select_shared_stmt->bind_result($id, $studyId, $userId, $scope, $title, $gestures, $sensorData, $created, $forename, $surname);
             $invitedGestureSets = null;
 
             while ($select_shared_stmt->fetch()) {
@@ -177,7 +179,7 @@ if (isset($_SESSION['user_id'])) {
                         exit();
                     } else {
                         $select_invited_users_stmt->store_result();
-                        $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedSetId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited, $forename, $surname);
+                        $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedSetId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited, $forenameShared, $surnameShared);
 
                         while ($select_invited_users_stmt->fetch()) {
                             $sharedCount++;
@@ -240,7 +242,9 @@ if (isset($_SESSION['user_id'])) {
                     'commentAmount' => $commentCount,
                     'hasCommented' => $hasCommented,
                     'created' => $created,
-                    'invitedUsers' => $invitedUsers
+                    'invitedUsers' => $invitedUsers,
+                    'forename' => $forename,
+                    'surname' => $surname[0] . '.'
                 );
             }
 

@@ -8,7 +8,6 @@
 function initOverlayContent(format, id) {
     var formatClone = $('#overlays-item-container').find('#' + format).clone().removeAttr('id');
     $('#overlay-content-placeholder').empty().append(formatClone);
-    console.log(format, id, formatClone);
     $(window).unbind('scroll resize');
     initOverlayContentFunctionalities(format, id, formatClone);
     initPopover();
@@ -1267,7 +1266,6 @@ function initScenarioOverlay(id, formatClone) {
         var container;
         var tasks = data.tasks;
 
-
         if (tasks && tasks.length > 0) {
             for (var i = 0; i < tasks.length; i++) {
                 var wozItems = tasks[i].woz;
@@ -1283,7 +1281,6 @@ function initScenarioOverlay(id, formatClone) {
                 $(formatClone).find('#tasks-container .task-option-container').append(taskItem);
 
                 initAddWOZButton(taskItem);
-//                initExpandTaskButton(taskItem);
                 initTaskTitleChange(taskItem);
 
                 if (wozItems && wozItems.length > 0) {
@@ -1292,6 +1289,7 @@ function initScenarioOverlay(id, formatClone) {
                         var clone = $('#form-item-container').find('#wozExperimentItem').clone().removeAttr('id');
                         $(clone).removeAttr('id');
                         container.append(clone);
+                        
                         var gesture = getGestureById(wozItems[j].gestureId);
                         if (gesture && isGestureAssembled(gesture.id)) {
                             $(clone).find('.gestureSelect #' + gesture.id).click();
@@ -1596,13 +1594,9 @@ function initScenarioOverlay(id, formatClone) {
             event.handled = true;
             clearAlerts($(formatClone).find('#tasks-container'));
             var item = $('#form-item-container').find('#taskItem').clone();
-//            $(formatClone).find('#tasks-container .task-option-container .panel-body').addClass('hidden');
-//            $(formatClone).find('#tasks-container .task-option-container .btn-expand').removeClass('hidden');
             $(item).attr('data-id', chance.natural());
-//            $(item).find('.btn-expand').addClass('hidden');
             tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#tasks-container .task-option-container'), 'taskItem', true);
             initAddWOZButton(item);
-//            initExpandTaskButton(item);
             initTaskTitleChange(item);
 
             setTimeout(function () {
@@ -3718,7 +3712,7 @@ function initQuestionnaireDimensionControl(formatClone, dimensionControls, listC
         var addedElement = $(listContainer).children().last();
         clearAlerts(alertContainer);
         var newScrollTop = Math.max(0, $(addedElement).offset().top + $(addedElement).height() - $(window).height() + 190); // 190 due to padding-top 110px + padding-bottom 80px
-        console.warn('dimension listItemAdded -> scroll to: ', newScrollTop);
+//        console.warn('dimension listItemAdded -> scroll to: ', newScrollTop);
         $('html,body').animate({
             scrollTop: newScrollTop
         }, 200);
@@ -3742,11 +3736,11 @@ function initQuestionnaireListItemAdded(listContainer, alertContainer, dontScrol
         var addedElement = $(event.target).children().last();
         initializeItemType(addedElement);
         clearAlerts(alertContainer);
-        console.log($(addedElement).offset().top);
+//        console.log($(addedElement).offset().top);
 //        var newScrollTop = Math.max(0, $(addedElement).offset().top + $(addedElement).height() - $(window).height()); // 190 due to padding-top 110px + padding-bottom 80px
         var newScrollTop = Math.max(0, $(addedElement).offset().top - 15); // 190 due to padding-top 110px + padding-bottom 80px
 //        console.log($(addedElement).offset().top, $(addedElement).height(), $(window).height(), newScrollTop)
-        console.log('questionnaire listItemAdded -> scroll to: ', newScrollTop);
+//        console.log('questionnaire listItemAdded -> scroll to: ', newScrollTop);
         if (!dontScroll || (dontScroll && dontScroll === false)) {
             $('html,body').animate({
                 scrollTop: newScrollTop

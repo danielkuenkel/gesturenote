@@ -2828,6 +2828,7 @@ function updateGestureThumbnailSharing(thumbnail, gesture) {
     if (gesture.scope === SCOPE_GESTURE_PRIVATE) {
         var shareAmount = gesture.invitedUsers ? gesture.invitedUsers.length : 0;
         $(button).find('.amount').text(shareAmount > 0 ? shareAmount : '');
+
         if (shareAmount > 0) {
             if (gesture.isOwner === true) {
                 if (shareAmount > 7) {
@@ -2851,8 +2852,13 @@ function updateGestureThumbnailSharing(thumbnail, gesture) {
 
             $(button).addClass('gesture-shared');
         } else {
-            $(button).removeClass('gesture-shared');
-            $(button).attr('data-content', translation.shareGesture);
+            if (gesture.isOwner === true) {
+                $(button).removeClass('gesture-shared');
+                $(button).attr('data-content', translation.shareGesture);
+            } else {
+                $(button).addClass('gesture-shared');
+                $(button).attr('data-content', translation.gestureSharedWithYou);
+            }
         }
     } else {
         $(button).addClass('gesture-shared');
@@ -3340,13 +3346,17 @@ function initGestureSetPanel(data, panelId) {
     $(panel).find('#btn-download-as-json').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(this).popover('hide');
-        downloadGestureSetAsJSON($(panel).find('.gesture-thumbnail'), data.title);
+        if (!$(this).hasClass('disabled')) {
+            downloadGestureSetAsJSON($(panel).find('.gesture-thumbnail'), data.title);
+        }
     });
 
     $(panel).find('#btn-download-as-exchangeable').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(this).popover('hide');
-        downloadGestureSetAsExchangeable($(panel).find('.gesture-thumbnail'), data.title);
+        if (!$(this).hasClass('disabled')) {
+            downloadGestureSetAsExchangeable($(panel).find('.gesture-thumbnail'), data.title);
+        }
     });
 
     return panel;
@@ -3516,6 +3526,7 @@ function initStandardGestureSetList(panel, data, type, layout) {
         }
     } else {
         appendAlert(panel, ALERT_EMPTY_GESTURE_SET);
+        $(panel).find('#btn-download-as-json, #btn-download-as-exchangeable').addClass('disabled');
     }
 }
 

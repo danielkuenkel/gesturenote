@@ -30,7 +30,7 @@ if (isset($_SESSION['user_id'], $_POST['setId'])) {
                         'comment' => $comment,
                         'created' => $created,
                         'forename' => $forename,
-                        'surname' => $surname,
+                        'surname' => $surname[0] . '.',
                         'isOwner' => $sessionUserId == $userId);
                 }
                 echo json_encode(array('status' => 'success', 'comments' => $comments));

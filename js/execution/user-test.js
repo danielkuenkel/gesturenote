@@ -151,7 +151,6 @@ UserTest.prototype.renderModeratorView = function () {
                 }
 
                 $(peerConnection).unbind(MESSAGE_UPDATE_SCENARIO).bind(MESSAGE_UPDATE_SCENARIO, function (event, payload) {
-                    console.log('UPDATE SCENARIO:', payload);
                     event.preventDefault();
 
                     currentScenarioTaskIndex = payload.currentScenarioTaskIndex;
@@ -170,7 +169,6 @@ UserTest.prototype.renderModeratorView = function () {
                 renderWOZ();
 
                 $(peerConnection).unbind(MESSAGE_LEAP_GESTURE_RECOGNIZED).bind(MESSAGE_LEAP_GESTURE_RECOGNIZED, function (event, payload) {
-                    console.log('LEAP GESTURE RECOGNIZED');
                     event.preventDefault();
                     checkRecognizedGesture(payload);
                 });
@@ -179,7 +177,6 @@ UserTest.prototype.renderModeratorView = function () {
             renderWOZ();
 
             if (recognizeLeapGestures(data)) {
-                console.log('LEAP GESTURE RECOGNIZED');
                 leapRecognizer = null;
                 leapRecognizer = new LeapStandardRecognizer(null);
 
@@ -187,7 +184,6 @@ UserTest.prototype.renderModeratorView = function () {
                 if (previewModeEnabled) {
                     $(leapRecognizer).unbind(EVENT_LEAP_GESTURE).bind(EVENT_LEAP_GESTURE, function (event, payload) {
                         event.preventDefault();
-                        console.log(payload);
                         checkRecognizedGesture(payload);
                     });
                 }
@@ -311,7 +307,7 @@ UserTest.prototype.renderModeratorView = function () {
             }
 
             function checkAssessment(trigger) {
-                console.log('CHECK ASSESSMENT:', currentScenarioTaskIndex, trigger);
+//                console.log('CHECK ASSESSMENT:', currentScenarioTaskIndex, trigger);
                 switch (trigger) {
                     case 'nextTask':
                         if (currentScenarioTaskIndex < data.tasks.length - 1) {
@@ -328,11 +324,13 @@ UserTest.prototype.renderModeratorView = function () {
                                     if (!previewModeEnabled) {
                                         getGMT(function (timestamp) {
                                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
                                             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
                                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                                         });
                                     }
-                                    prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
+                                    openPrototypeScene(currentWOZScene, checkedScenes.single);
+//                                    prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                                 }
 
                                 renderWOZ();
@@ -366,11 +364,8 @@ UserTest.prototype.renderModeratorView = function () {
                     getGMT(function (timestamp) {
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ASSESSMENT, assessmentId: assessmentId, taskId: currentScenarioTask.id, time: timestamp});
-                        checkAssessment(trigger);
-                        if (currentScenarioTaskIndex < data.tasks.length - 1) {
-                            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
-                        }
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                        checkAssessment(trigger);
                     });
                 } else {
                     checkAssessment(trigger);
@@ -507,7 +502,7 @@ UserTest.prototype.renderModeratorView = function () {
 
             if (currentScenarioTask.woz) {
                 var wozData = getWOZItemsForSceneId(currentScenarioTask.woz, currentWOZScene.id);
-                console.log('woz data', wozData, currentWOZScene);
+//                console.log('woz data', wozData, currentWOZScene);
                 removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
                 $(container).find('.woz-container').empty();
                 if (wozData && wozData.length > 0) {
@@ -641,7 +636,7 @@ UserTest.prototype.renderModeratorView = function () {
                         triggeredHelp = event.data.helpData;
                         if (peerConnection) {
                             $(peerConnection).unbind(MESSAGE_HELP_PRESENT).bind(MESSAGE_HELP_PRESET, function () {
-                                console.log('HELP PRESENT');
+//                                console.log('HELP PRESENT');
                                 $(button).addClass('helpOffered');
                                 unlockButton(button, true, 'fa-life-ring');
                                 $(button).removeClass('btn-info').addClass('btn-danger');
@@ -650,7 +645,7 @@ UserTest.prototype.renderModeratorView = function () {
                             });
 
                             $(peerConnection).unbind(MESSAGE_HELP_CLOSED).bind(MESSAGE_HELP_CLOSED, function () {
-                                console.log('HELP CLOSED');
+//                                console.log('HELP CLOSED');
                                 $(button).removeClass('helpOffered');
                                 unlockButton(button, true, 'fa-close');
                                 $(button).removeClass('btn-danger').addClass('btn-info');
@@ -696,24 +691,24 @@ UserTest.prototype.renderModeratorView = function () {
         }
     }
 
-    function enableScenarioControls(container) {
-        $(container).find('#general #description').closest('.read-aloud').remove();
-        $(container).find('#general').addClass('hidden');
-
-        var wozItems = $(container).find('.woz-container .disabled');
-        wozItems.removeClass('disabled');
-
-        var sliders = $(container).find('.woz-container #continuous-slider');
-        $(sliders).slider('enable');
-
-        var helpItems = $(container).find('.help-container .disabled');
-        helpItems.removeClass('disabled');
-    }
+//    function enableScenarioControls(container) {
+//        $(container).find('#general #description').closest('.read-aloud').remove();
+//        $(container).find('#general').addClass('hidden');
+//
+//        var wozItems = $(container).find('.woz-container .disabled');
+//        wozItems.removeClass('disabled');
+//
+//        var sliders = $(container).find('.woz-container #continuous-slider');
+//        $(sliders).slider('enable');
+//
+//        var helpItems = $(container).find('.help-container .disabled');
+//        helpItems.removeClass('disabled');
+//    }
 
     function checkGestureUI(item, wozData) {
         var currentActiveBtn = $(item).find('.btn-primary').last();
         var gesture = getGestureById($(item).find('.previewGesture').attr('id'));
-        console.log('gesture', gesture, wozData, currentActiveBtn, $(currentActiveBtn).attr('data-transition-scene-id'));
+//        console.log('gesture', gesture, wozData, currentActiveBtn, $(currentActiveBtn).attr('data-transition-scene-id'));
         if (gesture) {
 
             // find current active transition id for this woz element
@@ -724,7 +719,7 @@ UserTest.prototype.renderModeratorView = function () {
                 }
             }
 
-            console.log('activeTransitionScene', activeTransitionScene);
+//            console.log('activeTransitionScene', activeTransitionScene);
             var scene = getSceneById(activeTransitionScene.sceneId);
 
             if (activeTransitionScene.useEventBus === 'yes' && scene.type === SCENE_PIDOCO) {
@@ -732,7 +727,7 @@ UserTest.prototype.renderModeratorView = function () {
                 Moderator.initMousePositionFunctionalities();
                 console.log('show event bus specific controls');
 //            var sceneType = $(currentActiveBtn).attr('data-scene-type');
-                console.log('sceneType', scene.type);
+//                console.log('sceneType', scene.type);
 
                 if (activeTransitionScene.continuousValueType === 'none') {
                     if (gesture.type === TYPE_GESTURE_POSE && gesture.interactionType === TYPE_GESTURE_CONTINUOUS) {
@@ -849,26 +844,22 @@ UserTest.prototype.renderModeratorView = function () {
                         $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
                     }
                 }
-
             } else {
-                console.log('show standard controls');
-
                 $(item).find('#control-continuous-slider').remove();
                 $(item).find('.continuous-gesture-controls').remove();
                 $(item).find('.static-continuous-controls').remove();
                 $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
             }
         }
-
     }
 
     function checkRecognizedGesture(data) {
-        console.log('CHECK RECOGNIZED GESTURE', data, currentScenarioTask, currentWOZScene);
         for (var i = 0; i < currentScenarioTask.woz.length; i++) {
             var gestureId = currentScenarioTask.woz[i].gestureId;
             if (parseInt(gestureId) === parseInt(data.id)) {
                 var button = $(container).find('[data-gesture-id=' + gestureId + ']');
                 $(button).click();
+                break;
             }
         }
     }
@@ -1278,12 +1269,12 @@ UserTest.prototype.renderWizardView = function () {
                 if (!previewModeEnabled) {
                     peerConnection.sendMessage(MESSAGE_UPDATE_SCENARIO, {currentScenarioTaskIndex: currentScenarioTaskIndex});
 
-//                    getGMT(function (timestamp) {
-//                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
-//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
-//                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-//                    });
+                    getGMT(function (timestamp) {
+                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                    });
                 }
 
                 openPrototypeScene(currentWOZScene, checkedScenes.single);
@@ -1291,16 +1282,7 @@ UserTest.prototype.renderWizardView = function () {
         });
 
         if (!previewModeEnabled && peerConnection) {
-//            getGMT(function (timestamp) {
-//                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-//                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
-//                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
-//                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-//            });
-
-
             $(peerConnection).unbind(MESSAGE_UPDATE_SCENARIO).bind(MESSAGE_UPDATE_SCENARIO, function (event, payload) {
-                console.log('UPDATE SCENARIO');
                 event.preventDefault();
 
                 if (payload.currentScenarioTaskIndex) {
@@ -1317,7 +1299,6 @@ UserTest.prototype.renderWizardView = function () {
             });
 
             $(peerConnection).unbind(MESSAGE_LEAP_GESTURE_RECOGNIZED).bind(MESSAGE_LEAP_GESTURE_RECOGNIZED, function (event, payload) {
-                console.log('LEAP GESTURE RECOGNIZED');
                 event.preventDefault();
                 checkRecognizedGesture(payload);
             });
@@ -1351,7 +1332,7 @@ UserTest.prototype.renderWizardView = function () {
     }
 
     function renderStateUsertestDone() {
-        console.log('render moderator state: ', currentPhaseState);
+        console.log('render wizard state: ', currentPhaseState);
 
         clearAlerts($(container).find('#column-right'));
         appendAlert(container, ALERT_PHASE_STEP_DONE);
@@ -1612,7 +1593,7 @@ UserTest.prototype.renderWizardView = function () {
     function checkGestureUI(item, wozData) {
         var currentActiveBtn = $(item).find('.btn-primary').last();
         var gesture = getGestureById($(item).find('.previewGesture').attr('id'));
-        console.log('gesture', gesture, wozData, currentActiveBtn, $(currentActiveBtn).attr('data-transition-scene-id'));
+//        console.log('gesture', gesture, wozData, currentActiveBtn, $(currentActiveBtn).attr('data-transition-scene-id'));
         if (gesture) {
 
             // find current active transition id for this woz element
@@ -1623,7 +1604,7 @@ UserTest.prototype.renderWizardView = function () {
                 }
             }
 
-            console.log('activeTransitionScene', activeTransitionScene);
+//            console.log('activeTransitionScene', activeTransitionScene);
             var scene = getSceneById(activeTransitionScene.sceneId);
 
             if (activeTransitionScene.useEventBus === 'yes' && scene.type === SCENE_PIDOCO) {
@@ -1631,7 +1612,7 @@ UserTest.prototype.renderWizardView = function () {
                 Moderator.initMousePositionFunctionalities();
                 console.log('show event bus specific controls');
 //            var sceneType = $(currentActiveBtn).attr('data-scene-type');
-                console.log('sceneType', scene.type);
+//                console.log('sceneType', scene.type);
 
                 if (activeTransitionScene.continuousValueType === 'none') {
                     if (gesture.type === TYPE_GESTURE_POSE && gesture.interactionType === TYPE_GESTURE_CONTINUOUS) {

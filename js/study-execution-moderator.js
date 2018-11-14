@@ -401,6 +401,54 @@ var Moderator = {
         if (peerConnection) {
             peerConnection.keepStreamsPlaying();
         }
+    },
+    initMousePositionFunctionalities: function initMousePositionFunctionalities() {
+        var shiftKeyDown = false;
+        $(window).keydown(function (event) {
+            if (event.keyCode === 16) {
+                var mouseTarget = previewModeEnabled ? $('body').find('#web-rtc-placeholder') : $('body').find('#video-caller');
+                shiftKeyDown = true;
+                console.log('shift key down', $(mouseTarget), getMainContent());
+                $(mouseTarget).on('mousemove', function (event) {
+                    if (shiftKeyDown === true) {
+                        var targetDimensions = {width: $(mouseTarget).width(), height: $(mouseTarget).height()};
+                        var targetOffset = $(mouseTarget).offset();
+                        var pageCoords = {x: event.pageX, y: event.pageY};
+                        var relPosX = Math.max(0, Math.min(1, (pageCoords.x - targetOffset.left) / targetDimensions.width));
+                        var relPosY = Math.max(0, Math.min(1, (pageCoords.y - targetOffset.top) / targetDimensions.height));
+
+                        showCursor(mouseTarget, CURSOR_CROSSHAIR);
+                        if (continuousMouseManipluationGesture) {
+                            sendContinuousPosition(continuousMouseManipluationGesture, null, relPosX, relPosY);
+                        } else {
+                            sendContinuousPosition('', PIDOCO_TYPE_MOUSE_SIMULATION, relPosX, relPosY);
+                        }
+
+
+                        $(mouseTarget).on('click', function () {
+                            if (continuousMouseManipluationGesture) {
+                                sendContinuousPosition(continuousMouseManipluationGesture, null, relPosX, relPosY, true);
+                            } else {
+                                sendContinuousPosition('', PIDOCO_TYPE_MOUSE_SIMULATION, relPosX, relPosY, true);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        $(window).keyup(function (event) {
+            var mouseTarget = previewModeEnabled ? $('body').find('#web-rtc-placeholder') : $('body').find('#video-caller');
+            if (event.keyCode === 16) {
+                shiftKeyDown = false;
+                console.log('shift key up');
+                if ($(mouseTarget).parent().attr('id') === 'draggableRTC') {
+                    showCursor(mouseTarget, CURSOR_MOVE);
+                } else {
+                    showCursor(mouseTarget, CURSOR_DEFAULT);
+                }
+            }
+        });
     }
 };
 
@@ -412,7 +460,7 @@ function initScreenSharing() {
         $(container).empty().append(currentSharedScreen);
 //        var newHeight = $(window).height() - 70 - 15;
 //        $(container).css({height: newHeight + "px"});
-        $(currentSharedScreen).css({height: '100%', width: '100%', objectFit: 'contain', opacity:1, borderRadius: '4px'});
+        $(currentSharedScreen).css({height: '100%', width: '100%', objectFit: 'contain', opacity: 1, borderRadius: '4px'});
         $(currentSharedScreen).removeAttr('controls');
         $(currentSharedScreen).removeAttr('id');
 

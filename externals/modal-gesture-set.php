@@ -78,9 +78,8 @@ include '../includes/language.php';
 
                             <div style="">
                                 <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
-                                <div id="creator"><?php echo $lang->creator ?>: <span class="text"></span></div>
+                                <div id="creator"><?php echo $lang->userTypes->interactionDesigner ?>: <span class="text"></span></div>
                                 <div id="title"><?php echo $lang->title ?>:<span class="address"></span> <span class="text"></span></div>
-
                             </div>
 
                             <button type="button" class="btn btn-block btn-default btn-shadow gesture-set-owner-controls" id="btn-edit-gesture-set" style="margin-top: 20px"><i class="fa fa-pencil" aria-hidden="true"></i> <?php echo $lang->editGestureSet ?></button>
@@ -139,6 +138,24 @@ include '../includes/language.php';
 
     </div>
 
+</div>
+
+<div id="modal-body-delete-gesture-set" class="modal-body hidden">
+    <div class="text-center text">
+        <p>
+            <?php echo $lang->deleteGestureSetModal ?>
+        </p>
+    </div>
+
+    <div class="btn-group btn-group-justified">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default btn-shadow" id="btn-yes"><i class="fa fa-check"></i> <?php echo $lang->yes ?></button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn  btn-default btn-shadow" id="btn-no"><i class="fa fa-close"></i> <?php echo $lang->no ?></button>
+        </div>
+
+    </div>
 </div>
 
 <div class="hidden panel panel-default panel-sm panel-shadow" id="gesture-set-comment-item" style="margin-top: 0px; margin-bottom: 8px">
@@ -248,6 +265,7 @@ include '../includes/language.php';
 
         var container = $('#modal-body');
         container.find('#created .text').text(convertSQLTimestampToDate(set.created).toLocaleString());
+        container.find('#creator .text').text(set.forename + (set.surname !== '.' ? ' ' + set.surname : ''));
         container.find('#title .text').text(set.title);
 
         var shareButton = $(container).find('.btn-share-set');
@@ -316,6 +334,7 @@ include '../includes/language.php';
             });
         });
 
+        var modal = $('#custom-modal');
         $('#modal-body #btn-cancel-edit-gesture-set').unbind('click').bind('click', function (event) {
             event.preventDefault();
 
@@ -327,31 +346,52 @@ include '../includes/language.php';
         });
 
         if ($(currentPreviewGestureSet.thumbnail).hasClass('deleteable') && currentPreviewGestureSet.set.isOwner === true) {
-            $(container).find('#btn-delete-gesture-set').unbind('click').bind('click', function (event) {
+            $('#custom-modal').find('#btn-delete-gesture-set').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 var button = $(this);
+
                 if (!event.handled && !$(this).hasClass('disabled')) {
+
                     event.handled = true;
                     lockButton(button, true, 'fa-trash');
-                    showCursor($('body'), CURSOR_PROGRESS);
 
-                    deleteGestureSet({setId: currentPreviewGestureSet.set.id}, function (result) {
-                        if (result.status === RESULT_SUCCESS) {
-                            getGestureSets(function (result) {
-                                showCursor($('body'), CURSOR_DEFAULT);
-                                unlockButton(button, true, 'fa-trash');
-                                if (result.status === RESULT_SUCCESS) {
-                                    setLocalItem(GESTURE_SETS, result.gestureSets);
-                                    originalFilterData = result.gestureSets;
-                                    currentFilterData = sort();
-                                } else {
-                                    // show error;
-                                }
+                    $(modal).find('#modal-body').addClass('hidden');
+                    $(modal).find('#modal-body-delete-gesture-set').removeClass('hidden');
+                    $(modal).find('#modal-body-delete-gesture-set #btn-yes').unbind('click').bind('click', function (event) {
+                        event.preventDefault();
 
-                                $('#custom-modal').modal('hide');
-                                $('#custom-modal').trigger('gesture-set-deleted');
-                            });
-                        }
+                        var button = $(this);
+                        lockButton(button, true, 'fa-check');
+                        showCursor($('body'), CURSOR_PROGRESS);
+                        $(modal).find('#modal-body-delete-gesture-set #btn-no').addClass('disabled');
+
+                        deleteGestureSet({setId: currentPreviewGestureSet.set.id}, function (result) {
+                            if (result.status === RESULT_SUCCESS) {
+                                getGestureSets(function (result) {
+                                    showCursor($('body'), CURSOR_DEFAULT);
+                                    unlockButton(button, true, 'fa-trash');
+                                    $(modal).find('#modal-body-delete-gesture-set #btn-no').removeClass('disabled');
+
+                                    if (result.status === RESULT_SUCCESS) {
+                                        setLocalItem(GESTURE_SETS, result.gestureSets);
+                                        originalFilterData = result.gestureSets;
+                                        currentFilterData = sort();
+                                    } else {
+                                        // show error;
+                                    }
+
+                                    $('#custom-modal').modal('hide');
+                                    $('#custom-modal').trigger('gesture-set-deleted');
+                                });
+                            }
+                        });
+                    });
+
+                    $(modal).find('#modal-body-delete-gesture-set #btn-no').unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        $(modal).find('#modal-body').removeClass('hidden');
+                        $(modal).find('#modal-body-delete-gesture-set').addClass('hidden');
+                        unlockButton(button, true, 'fa-trash');
                     });
                 }
             });
@@ -449,6 +489,7 @@ include '../includes/language.php';
                 clone.find('.panel-heading #created .text').text(convertSQLTimestampToDate(data[i].created).toLocaleString());
                 clone.find('.panel-body').text(data[i].comment);
                 list.prepend(clone);
+
                 if (data[i].isOwner === true) {
                     clone.find('#btn-delete-comment').click({commentId: data[i].id, setId: data[i].setId}, function (event) {
                         var button = $(this);
