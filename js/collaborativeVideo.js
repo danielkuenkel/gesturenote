@@ -10,7 +10,7 @@ var joinedRoom = false;
 
 function checkCollaborativeConversation() {
     var query = getQueryParams(document.location.search);
-    
+
     if (query && query.joinedConv && query.joinedConv === 'true') {
         console.log('joined room =', query.joinedConv, $('.btn-join-conversation'));
         $('.btn-join-conversation').click();
@@ -41,6 +41,7 @@ function initCollaborativeVideoCaller(roomId) {
         nick: selectedRole,
         ignoreRole: 'yes',
         selectedRole: selectedRole,
+        maxParticipants: 4,
         localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
         remoteStream: {audio: 'yes', video: 'yes'}
     };

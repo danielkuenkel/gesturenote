@@ -927,11 +927,11 @@ function getVisDataSet(timelineData) {
 //                    contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
 //                    break;
                 case ACTION_START_TASK:
-                    var task = getTaskById(annotations[i].taskId);
+                    var task = getTaskById(timelineData, annotations[i].taskId);
                     contentText = translation.task + ': ' + task.title;
                     break;
                 case ACTION_ASSESSMENT:
-                    contentText = timelineData.phaseData.taskAssessments[annotations[i].assessmentId].title + ': ' + getTaskById(annotations[i].taskId).title;
+                    contentText = timelineData.phaseData.taskAssessments[annotations[i].assessmentId].title + ': ' + getTaskById(timelineData, annotations[i].taskId).title;
                     var color = timelineData.phaseData.taskAssessments[annotations[i].assessmentId].annotationColor;
                     switch (color) {
                         case ASSESSMENT_COLOR_GREEN:
@@ -1009,16 +1009,17 @@ function getVisDataSet(timelineData) {
 //        setLocalItem(timelineData.phaseResults.id + (timelineData.checkedVideos.secondVideo ? '.evaluator' : '.results'), tempData);
     }
 
-    function getTaskById(id) {
-        for (var i = 0; i < timelineData.phaseData.tasks.length; i++) {
-            if (parseInt(timelineData.phaseData.tasks[i].id) === parseInt(id)) {
-                return timelineData.phaseData.tasks[i];
-            }
-        }
-        return null;
-    }
-
     return array;
+}
+
+
+function getTaskById(timelineData, id) {
+    for (var i = 0; i < timelineData.phaseData.tasks.length; i++) {
+        if (parseInt(timelineData.phaseData.tasks[i].id) === parseInt(id)) {
+            return timelineData.phaseData.tasks[i];
+        }
+    }
+    return null;
 }
 
 function renderSeekbarData(visData, timelineData, content) {
@@ -1259,11 +1260,11 @@ function editAnnotation(annotationId, timelineData, content, source, linkListIte
                 selectedColor = 'item-warning-full';
                 break;
             case ACTION_START_TASK:
-                var task = getTaskById(annotation.taskId);
+                var task = getTaskById(timelineData, annotation.taskId);
                 contentText = translation.task + ': ' + task.title;
                 break;
             case ACTION_ASSESSMENT:
-                contentText = timelineData.phaseData.taskAssessments[annotation.assessmentId].title + ': ' + getTaskById(annotation.taskId).title;
+                contentText = timelineData.phaseData.taskAssessments[annotation.assessmentId].title + ': ' + getTaskById(timelineData, annotation.taskId).title;
                 selectedColor = timelineData.phaseData.taskAssessments[annotation.assessmentId].annotationColor;
                 break;
             case ACTION_SHOW_FEEDBACK:
@@ -1520,7 +1521,7 @@ function initializeAnnotationHandling(timelineData, content) {
 
     $('#annotation-nav-pills a').click(function (event) {
         event.preventDefault();
-        
+
         $(content).find('#annotation-nav-tab-content .active').removeClass('active');
 //        console.log($(content).find('#annotation-nav-tab-content .active'));
         var activeTab = $(event.currentTarget).attr('href');

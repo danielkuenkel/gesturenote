@@ -84,6 +84,7 @@ include_once 'includes/functions.php';
                 allHelp.push({id: 'study', content: translation.introductionStudy});
                 allHelp.push({id: 'extraction', content: translation.introductionExtraction});
                 allHelp.push({id: 'participant', content: translation.introductionParticipant});
+                allHelp.push({id: 'collaboration', content: translation.introductionCollaboration});
 
                 for (var i = 0; i < allHelp.length; i++) {
                     console.log('help:', allHelp[i]);

@@ -413,7 +413,7 @@ UserTest.prototype.renderModeratorView = function () {
                         $(feedbackButton).find('#waiting-indicator').addClass('hidden');
 
                         getGMT(function (timestamp) {
-                            var currentPhase = getCurrentPhase();
+//                            var currentPhase = getCurrentPhase();
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_FEEDBACK, feeback: feedback, time: timestamp});
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -421,7 +421,7 @@ UserTest.prototype.renderModeratorView = function () {
                     });
 
                     getGMT(function (timestamp) {
-                        var currentPhase = getCurrentPhase();
+//                        var currentPhase = getCurrentPhase();
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_FEEDBACK, feeback: feedback, time: timestamp});
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);

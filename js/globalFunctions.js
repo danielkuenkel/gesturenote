@@ -2522,6 +2522,20 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
         clone.find('.gesture-info-symbols').addClass('hidden');
     }
 
+    if (data.sensorData) {
+        $(clone).find('.symbol-container-sensor').removeClass('hidden');
+        $(clone).find('.symbol-container-sensor').attr('data-content', translation.sensors[data.sensorData.sensor].title);
+        
+        switch (data.sensorData.sensor) {
+            case TYPE_RECORD_LEAP:
+                $(clone).find('.symbol-container-sensor .text-sensor-leap').removeClass('hidden');
+                break;
+            case TYPE_RECORD_KINECT:
+                $(clone).find('.symbol-container-sensor .text-sensor-kinect').removeClass('hidden');
+                break;
+        }
+    }
+
     if (panelStyle) {
         clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
     }

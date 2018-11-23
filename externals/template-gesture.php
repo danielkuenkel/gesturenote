@@ -26,6 +26,12 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
+                        <span class="gesture-info-symbol-text text-sensor">
+                            <span class="text-sensor-leap hidden"><?php echo $lang->sensors->leap->titleShort ?></span>
+                            <span class="text-sensor-kinect hidden"><?php echo $lang->sensors->kinect->titleShort ?></span>
+                        </span>
+                    </span>
                     <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
                         <span class="gesture-info-symbol-text text-gesture-execution"></span>
                         <div class="gesture-info-symbol symbol-gesture-execution"></div>
@@ -34,9 +40,6 @@ include '../includes/language.php';
                         <span class="gesture-info-symbol-text text-gesture-interaction"></span>
                         <div class="gesture-info-symbol symbol-gesture-interaction"></div>
                     </span>
-<!--                    <span class="symbol-container-gesture-sets" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
-                        <span class="gesture-sets-info-symbol-text">SETS</span>
-                    </span>-->
                 </div>
             </div>
             <div class="caption text-center">
@@ -69,6 +72,12 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
+                        <span class="gesture-info-symbol-text text-sensor">
+                            <span class="text-sensor-leap hidden"><?php echo $lang->sensors->leap->titleShort ?></span>
+                            <span class="text-sensor-kinect hidden"><?php echo $lang->sensors->kinect->titleShort ?></span>
+                        </span>
+                    </span>
                     <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
                         <span class="gesture-info-symbol-text text-gesture-execution"></span>
                         <div class="gesture-info-symbol symbol-gesture-execution"></div>
@@ -107,6 +116,12 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
+                        <span class="gesture-info-symbol-text text-sensor">
+                            <span class="text-sensor-leap hidden"><?php echo $lang->sensors->leap->titleShort ?></span>
+                            <span class="text-sensor-kinect hidden"><?php echo $lang->sensors->kinect->titleShort ?></span>
+                        </span>
+                    </span>
                     <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
                         <span class="gesture-info-symbol-text text-gesture-execution"></span>
                         <div class="gesture-info-symbol symbol-gesture-execution"></div>
@@ -152,6 +167,12 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
+                        <span class="gesture-info-symbol-text text-sensor">
+                            <span class="text-sensor-leap hidden"><?php echo $lang->sensors->leap->titleShort ?></span>
+                            <span class="text-sensor-kinect hidden"><?php echo $lang->sensors->kinect->titleShort ?></span>
+                        </span>
+                    </span>
                     <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
                         <span class="gesture-info-symbol-text text-gesture-execution"></span>
                         <div class="gesture-info-symbol symbol-gesture-execution"></div>
@@ -195,6 +216,12 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
+                        <span class="gesture-info-symbol-text text-sensor">
+                            <span class="text-sensor-leap hidden"><?php echo $lang->sensors->leap->titleShort ?></span>
+                            <span class="text-sensor-kinect hidden"><?php echo $lang->sensors->kinect->titleShort ?></span>
+                        </span>
+                    </span>
                     <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
                         <span class="gesture-info-symbol-text text-gesture-execution"></span>
                         <div class="gesture-info-symbol symbol-gesture-execution"></div>
@@ -226,6 +253,12 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
+                        <span class="gesture-info-symbol-text text-sensor">
+                            <span class="text-sensor-leap hidden"><?php echo $lang->sensors->leap->titleShort ?></span>
+                            <span class="text-sensor-kinect hidden"><?php echo $lang->sensors->kinect->titleShort ?></span>
+                        </span>
+                    </span>
                     <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
                         <span class="gesture-info-symbol-text text-gesture-execution"></span>
                         <div class="gesture-info-symbol symbol-gesture-execution"></div>
@@ -310,6 +343,12 @@ include '../includes/language.php';
                     <i class="fa fa-asterisk"></i>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
+                        <span class="gesture-info-symbol-text text-sensor">
+                            <span class="text-sensor-leap hidden"><?php echo $lang->sensors->leap->titleShort ?></span>
+                            <span class="text-sensor-kinect hidden"><?php echo $lang->sensors->kinect->titleShort ?></span>
+                        </span>
+                    </span>
                     <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
                         <span class="gesture-info-symbol-text text-gesture-execution"></span>
                         <div class="gesture-info-symbol symbol-gesture-execution"></div>
@@ -383,6 +422,12 @@ include '../includes/language.php';
                     <i class="fa fa-asterisk"></i>
                 </div>
                 <div class="gesture-info-symbols">
+                    <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
+                        <span class="gesture-info-symbol-text text-sensor">
+                            <span class="text-sensor-leap hidden"><?php echo $lang->sensors->leap->titleShort ?></span>
+                            <span class="text-sensor-kinect hidden"><?php echo $lang->sensors->kinect->titleShort ?></span>
+                        </span>
+                    </span>
                     <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
                         <span class="gesture-info-symbol-text text-gesture-execution"></span>
                         <div class="gesture-info-symbol symbol-gesture-execution"></div>

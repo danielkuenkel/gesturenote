@@ -106,18 +106,24 @@ PeerConnection.prototype.initialize = function (options) {
                 if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap')) {
                     console.log('standard video input device:', deviceInfos[i]);
                     videoSource = deviceInfos[i].deviceId;
+                    if (micSource !== null) {
+                        break;
+                    }
                 } else if (deviceInfos[i].kind === 'audioinput' && deviceInfos[i].deviceId === 'default') {
                     console.log('standard audio input device:', deviceInfos[i]);
                     micSource = deviceInfos[i].deviceId;
+                    if (videoSource !== null) {
+                        break;
+                    }
                 }
             }
 
             if (getBrowser() === "Chrome") {
-                var constraints = {audio: false,
-                    video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}
+                var constraints = {audio: {deviceId: {exact: micSource}},
+                    video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, frameRate: {ideal: 20, min: 10}, "optional": []}
                     }};
             } else if (getBrowser() === "Firefox") {
-                var constraints = {audio: false,
+                var constraints = {audio: {deviceId: {exact: micSource}},
                     video: {deviceId: {exact: videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
                     }};
             }
@@ -315,6 +321,12 @@ PeerConnection.prototype.initialize = function (options) {
                     console.log('screen added', peer);
                     $(connection).trigger(MESSAGE_SHARED_SCREEN_ADDED, [video]);
                 } else {
+                    var peers = webrtc.getPeers();
+                    if (connection.options.maxParticipants && connection.options.maxParticipants && peers.length > connection.options.maxParticipants) {
+                        console.warn('only 4 participants for one room allowed');
+                        connection.sendMessage('roomIsFull');
+                        return false;
+                    }
                     console.log('webrtc stream added', peer);
                     $(video).attr('data-role', peer.nick);
 
@@ -444,8 +456,6 @@ PeerConnection.prototype.initialize = function (options) {
                 console.log('joined room:', roomName);
                 connection.showLocalStream();
                 $(connection).trigger('joinedRoom', [roomName]);
-
-//            $('#localVideo').css({opacity: 1});
             });
 
             webrtc.on('leftRoom', function (roomName) {
@@ -453,8 +463,6 @@ PeerConnection.prototype.initialize = function (options) {
                 connection.hideLocalStream();
                 $(connection).trigger('leftRoom', [roomName]);
                 connection.destroy();
-
-//            $('#localVideo').css({opacity: 0});
             });
 
             webrtc.on('stunservers', function (event) {
@@ -503,9 +511,14 @@ PeerConnection.prototype.initialize = function (options) {
                 if (options.selectedRole === payload.role) {
                     $(connection).trigger('leaveRoomDuplicatedRoles');
                     connection.leaveRoom();
-
-//                alert('Pro Konversation darf nur jeweils eine Rolle eingenommen werden. Diese Rolle gibt es schon. Wählen Sie eine andere aus.');
                 }
+            });
+
+            $(connection).unbind('roomIsFull').bind('roomIsFull', function (event) {
+                event.preventDefault();
+                console.log('full room detected');
+                $(connection).trigger('leaveFullRoom');
+                connection.leaveRoom();
             });
         }
     } else {
@@ -848,9 +861,9 @@ PeerConnection.prototype.initRecording = function (startRecording) {
         if (startRecording === true) {
             mediaRecorder.start(1000);
         }
-    } else if(mediaRecorder.state !== 'recording' && startRecording) {
+    } else if (mediaRecorder.state !== 'recording' && startRecording) {
 //        if (mediaRecorder && mediaRecorder.state !== 'recording' && startRecording) {
-            mediaRecorder.start(1000);
+        mediaRecorder.start(1000);
 //        }
     }
 

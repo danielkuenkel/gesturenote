@@ -88,10 +88,14 @@ include '../includes/language.php';
                             <div id="rated-by-myself" class="hidden"><?php echo $lang->gestureRated ?></div>
                             <div class="alert-space alert-rating-submitted" style="margin-top: 10px;"></div>
                         </div>
-                        <button type="button" class="btn btn-block btn-warning" id="btn-rate-gesture" style="margin-top: 10px;"><?php echo $lang->rateGesture ?></button>
-                        <div class="btn-group-vertical btn-block hidden" id="rating-submit-buttons" style="margin-top: 0px;">
-                            <button type="button" class="btn btn-success" id="btn-submit-gesture-rating"><?php echo $lang->submitGestureRating ?></button>
-                            <button type="button" class="btn btn-danger" id="btn-cancel-gesture-rating"><?php echo $lang->cancel ?></button>
+                        <button type="button" class="btn btn-block btn-default" id="btn-rate-gesture" style="margin-top: 10px;"><i class="fa fa-star"></i> <?php echo $lang->rateGesture ?></button>
+                        <div class="btn-group  btn-group-justified hidden" id="rating-submit-buttons" style="margin-top: 0px;">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success" id="btn-submit-gesture-rating"><i class="fa fa-check"></i> <span class="btn-text"><?php echo $lang->submitGestureRating ?></span></button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-danger" id="btn-cancel-gesture-rating"><i class="fa fa-close"></i> <span class="btn-text"><?php echo $lang->cancel ?></span></button>
+                            </div>
                         </div>
                     </div>
 
@@ -1086,7 +1090,7 @@ include '../includes/language.php';
                             $(currentPreviewGesture.thumbnail).find('.btn-edit-gesture-set .amount').text('');
                         }
                     }
-                    
+
                     clearAlerts($('#add-to-gesture-set'));
                     $(container).trigger('gestureSetsUpdated', [currentPreviewGesture.gesture.id]);
                 });

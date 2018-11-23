@@ -405,28 +405,16 @@ if ($h && $token && $studyId) {
             function checkRoles() {
                 var studyData = getLocalItem(STUDY);
                 var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
-                var needObserver, needWizard = false;
+                var needObserver = true;
+                var needWizard = false;
+
                 for (var i = 0; i < phaseSteps.length; i++) {
                     var phaseStep = phaseSteps[i];
                     var phaseStepData = getLocalItem(phaseStep.id + '.data');
 
                     console.log(phaseStep, phaseStepData);
                     switch (phaseStep.format) {
-                        case IDENTIFICATION:
-                        case EXPLORATION:
-                        case GESTURE_TRAINING:
-                        case SLIDESHOW_GESTURES:
-                        case SLIDESHOW_TRIGGER:
-                        case PHYSICAL_STRESS_TEST:
-                            if (phaseStepData.observations && phaseStepData.observations.length > 0) {
-                                needObserver = true;
-                            }
-                            break;
                         case SCENARIO:
-                            if (phaseStepData.observations && phaseStepData.observations.length > 0) {
-                                needObserver = true;
-                            }
-
                             if (phaseStepData.tasks && phaseStepData.tasks.length > 0) {
                                 needWizard = true;
                             }
