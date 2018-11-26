@@ -59,6 +59,7 @@ if (login_check($mysqli) == true) {
 
         <script src="js/upload-queue.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
+        <script src="js/color-thief/color-thief.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
 
         <!-- leap and plugins -->

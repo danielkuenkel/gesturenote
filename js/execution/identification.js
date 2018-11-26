@@ -923,7 +923,7 @@ Identification.prototype.renderTesterView = function () {
         appendAlert(container, ALERT_PLEASE_WAIT);
 
         if (!previewModeEnabled && peerConnection) {
-            initScreenSharing($(container).find('#scene-container'));
+            Tester.initScreenSharing($(container).find('#scene-container'));
 
             $(peerConnection).unbind(MESSAGE_START_IDENTIFICATION).bind(MESSAGE_START_IDENTIFICATION, function (event, payload) {
                 currentIdentificationIndex = payload.currentIdentificationIndex;

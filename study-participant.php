@@ -698,7 +698,6 @@ if (login_check($mysqli) == true) {
 
             $('.btn-leave-conversation').unbind('click').bind('click', function (event) {
                 event.preventDefault();
-                console.log('leave clicked');
                 leaveCollaborativeVideoCaller();
             });
 
@@ -749,18 +748,22 @@ if (login_check($mysqli) == true) {
             var wizardResults = getLocalItem(phaseId + '.wizard');
             var observerResults = getLocalItem(phaseId + '.observer');
             var study = getLocalItem(STUDY);
+            
+            console.log('STUDY DATA: ', study);
             console.log('PHASE DATA: ', phaseData);
             console.log('TESTER DATA: ', testerResults);
             console.log('EVALUATOR DATA: ', evaluatorResults);
             console.log('WIZARD DATA: ', wizardResults);
             console.log('OBSERVER DATA: ', observerResults);
+//            console.log('OBSERVER LOG: ', (phaseData !== null && testerResults !== null));
+//            console.log('OBSERVER LOG: ', phaseData !== null && testerResults !== null && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults !== null && evaluatorResults.startTime !== undefined) || testerResults.startTime !== undefined)) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults.startTime)));
 
-            if (phaseData && testerResults && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults && evaluatorResults.startTime) || (testerResults && testerResults.startTime))) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults && testerResults.startTime))) {
+            if (phaseData !== null && testerResults !== null && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults && evaluatorResults.startTime) || testerResults.startTime)) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults.startTime))) {
                 var content = $('#template-study-container').find('#' + testerResults.format).clone().removeAttr('id');
                 $(content).find('#headline').text(translation.formats[testerResults.format].text);
                 $('#phase-result').empty().append(content);
 
-                var executionTime = study.surveyType === TYPE_SURVEY_MODERATED ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
+                var executionTime = study.surveyType === TYPE_SURVEY_MODERATED && evaluatorResults !== null ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
                 console.log(executionTime);
                 if (!isEmpty(executionTime)) {
                     var badge = document.createElement('span');

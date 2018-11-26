@@ -897,7 +897,7 @@ Exploration.prototype.renderTesterView = function () {
         appendAlert(container, ALERT_PLEASE_WAIT);
 
         if (!previewModeEnabled && peerConnection) {
-            initScreenSharing($(container).find('#scene-container'));
+            Tester.initScreenSharing($(container).find('#scene-container'));
 
             $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function () {
                 currentPhaseState = 'explorationStarted';

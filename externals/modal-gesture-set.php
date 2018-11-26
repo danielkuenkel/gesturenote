@@ -224,9 +224,9 @@ include '../includes/language.php';
             $('#gesture-set-nav-tab a[href="#tab-gesture-set-general"]').tab('show');
         }
 
-        if ($('.custom-modal').attr('data-conv-allowed') === 'false') {
-            $('.custom-modal').find('.btn-join-conversation').remove();
-            $('.custom-modal').find('.btn-leave-conversation').remove();
+        if ($(modal).attr('data-conv-allowed') === 'false') {
+            $(modal).find('.btn-join-conversation').remove();
+            $(modal).find('.btn-leave-conversation').remove();
         } else {
             // join and leave conversation about this gesture
             $('.btn-join-conversation').unbind('click').bind('click', function (event) {
@@ -240,13 +240,13 @@ include '../includes/language.php';
             });
         }
 
-        $('#custom-modal').bind('hidden.bs.modal', function () {
+        $(modal).bind('hidden.bs.modal', function () {
             currentPreviewGestureSet = null;
             gestureSetPreviewOpened = false;
             $(this).unbind('hidden.bs.modal');
         });
 
-        $('#custom-modal').bind('hide.bs.modal', function () {
+        $(modal).bind('hide.bs.modal', function () {
             if ($('.custom-modal').attr('data-conv-allowed') !== 'false') {
                 $('.btn-leave-conversation').click();
             }
@@ -281,6 +281,7 @@ include '../includes/language.php';
                 $(container).find('#gesture-set-sharing .shared-self').text(translation.gestureSetShared);
             }
         } else {
+           
             var shareAmount = 0;
             if (set.invitedUsers) {
                 shareAmount = set.invitedUsers.length;
@@ -334,7 +335,6 @@ include '../includes/language.php';
             });
         });
 
-        var modal = $('#custom-modal');
         $('#modal-body #btn-cancel-edit-gesture-set').unbind('click').bind('click', function (event) {
             event.preventDefault();
 
@@ -346,7 +346,7 @@ include '../includes/language.php';
         });
 
         if ($(currentPreviewGestureSet.thumbnail).hasClass('deleteable') && currentPreviewGestureSet.set.isOwner === true) {
-            $('#custom-modal').find('#btn-delete-gesture-set').unbind('click').bind('click', function (event) {
+            $(modal).find('#btn-delete-gesture-set').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 var button = $(this);
 
@@ -380,8 +380,8 @@ include '../includes/language.php';
                                         // show error;
                                     }
 
-                                    $('#custom-modal').modal('hide');
-                                    $('#custom-modal').trigger('gesture-set-deleted');
+                                    $(modal).modal('hide');
+                                    $(modal).trigger('gesture-set-deleted');
                                 });
                             }
                         });
@@ -402,7 +402,6 @@ include '../includes/language.php';
     }
 
     function resetGeneralGestureInfo() {
-        var modal = $('#custom-modal');
         $(modal).find('#gesture-general-info-container').removeClass('hidden');
         $(modal).find('#gesture-edit-general-info-container').addClass('hidden');
         $(modal).find('#gesture-edit-general-info-container .edit-content').empty();
@@ -729,7 +728,6 @@ include '../includes/language.php';
     }
 
     function updateGestureSetSharing() {
-        var modal = $('#custom-modal');
 
         initShareGestureSetModalButton($(modal).find('#gesture-set-sharing .btn-share-set'), currentPreviewGestureSet.thumbnail, currentPreviewGestureSet.source, currentPreviewGestureSet.set, function () {
             var button = $(modal).find('#gesture-set-sharing .btn-share-set');
