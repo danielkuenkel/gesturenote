@@ -217,15 +217,53 @@ include '../includes/language.php';
                 <div class="text-center">
                     <div style="font-size: 100pt; line-height: 100pt; margin-top: 0" id="average-score"></div>
                     <div id="score-adjective" style="margin-top: 0"><span class="address"></span> <span class="text"></span> <span class="tail"></span></div>
+                    <div id="sus-grade" style="margin-top: 0"><span class="address"></span> <span class="text"></span> <span class="tail"></span></div>
+                    <div id="sus-acceptability" style="margin-top: 0"><span class="address"></span> <span class="text"></span> <span class="tail"></span></div>
                 </div>
+
                 <i class="fa fa-chevron-down text" id="sus-score-pointer" aria-hidden="true" style="position: relative;"></i>
-                <div class="progress" id="sus-score-progress" style="margin: 0; margin-top: -4px"></div>
+
+                <div class="progress" id="sus-grade-scale-progress" style="margin-bottom: -1px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; box-shadow: none">
+                    <div class="progress-bar progress-bar-default" style="width: 50%; background-color: #d2d2d2; color: black; box-shadow: none;">
+                        <?php echo $lang->susAcceptabilityRange->inacceptable->title ?>
+                    </div>
+                    <div class="progress-bar progress-bar-default" style="width: 12.5%; background-color: #525252; color: white; box-shadow: none; cursor: pointer" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->susAcceptabilityRange->marginalLow->title ?>">
+                        <?php echo $lang->susAcceptabilityRange->marginalLow->titleShort ?>
+                    </div>
+                    <div class="progress-bar progress-bar-default" style="width: 7.5%; background-color: #525252; color: white; box-shadow: none; border-left: 2px solid; cursor: pointer" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->susAcceptabilityRange->marginalHigh->title ?>">
+                        <?php echo $lang->susAcceptabilityRange->marginalHigh->titleShort ?>
+                    </div>
+                    <div class="progress-bar progress-bar-default" style="width: 30%; background-color: #d2d2d2; color: black; box-shadow: none;">
+                        <?php echo $lang->susAcceptabilityRange->acceptable->title ?>
+                    </div>
+                </div>
+
+                <div class="progress" id="sus-grade-scale-progress" style="margin-bottom: 4px; border-radius: 0px; box-shadow: none">
+                    <div class="progress-bar progress-bar-success" style="width: 60%; background: none; color: black; box-shadow: none; border: 1px solid rgba(0,0,0,.1);">
+                        E
+                    </div>
+                    <div class="progress-bar progress-bar-warning" style="width: 10%; background: none; color: black; box-shadow: none; border: 1px solid rgba(0,0,0,.1);">
+                        D
+                    </div>
+                    <div class="progress-bar progress-bar-danger" style="width: 10%; background: none; color: black; box-shadow: none; border: 1px solid rgba(0,0,0,.1);">
+                        C
+                    </div>
+                    <div class="progress-bar progress-bar-danger" style="width: 10%; background: none; color: black; box-shadow: none; border: 1px solid rgba(0,0,0,.1);">
+                        B
+                    </div>
+                    <div class="progress-bar progress-bar-danger" style="width: 10%; background: none; color: black; box-shadow: none; border: 1px solid rgba(0,0,0,.1);">
+                        A
+                    </div>
+                </div>
+
+
+                <div class="progress" id="sus-score-progress" style="margin: 0; margin-top: -4px; border-top-left-radius: 0px; border-top-right-radius: 0px; height: 10px"></div>
 
                 <div id="sus-marker-container" style="margin-top: 3px; margin-bottom: 100px"></div>
             </div>
         </div>
-        <hr>
-        <div class="question-container"></div>
+        <!--<hr>-->
+        <div class="question-container" style="padding-top: 40px"></div>
     </div>
 
     <div class="text" id="sus-marker-item" style="position: absolute; display: inline-block">

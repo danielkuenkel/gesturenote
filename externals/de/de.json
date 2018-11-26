@@ -2545,6 +2545,8 @@
     },
     "systemIs": "Das System wurde mit",
     "rated": "bewertet",
+    "grade": "Note",
+    "received": "erhalten",
     "threeDefaultScales": [{
             "title": "Trifft nicht zu"
         }, {
@@ -2662,7 +2664,7 @@
     "susGradeScale": [
         {
             "score": "60",
-            "grade": "F"
+            "grade": "E"
         },
         {
             "score": "70",
@@ -2681,24 +2683,26 @@
             "grade": "A"
         }
     ],
-    "susAcceptabilityRange": [
-        {
-            "score": "50",
-            "range": "Inakzeptabel"
+    "susAcceptabilityRange": {
+        "inacceptable": {
+            "title": "Inakzeptabel",
+            "score": "50"
         },
-        {
-            "score": "60",
-            "range": "Marginal akzeptabel niedrig"
+        "marginalLow": {
+            "title": "Akzeptabel (marginal niedrig)",
+            "titleShort": "Niedrig",
+            "score": "62.5"
         },
-        {
-            "score": "70",
-            "range": "Marginal akzeptabel hoch"
+        "marginalHigh": {
+            "title": "Akzeptabel (marginal hoch)",
+            "titleShort": "Hoch",
+            "score": "70"
         },
-        {
-            "score": "100",
-            "range": "Akzeptabel"
+        "acceptable": {
+            "title": "Akzeptabel",
+            "score": "100"
         }
-    ],
+    },
     "objectiveExtractionChecklistQuestion": "Ist die Geste aufgrund der beantworteten Fragen für ein Gesten-Set geeignet?",
     "objectiveCognitiveRelationshipQuestion": "Ist die Geste aufgrund der Assoziationen für ein Gesten-Set geeignet?",
     "extractionChecklistItems": [

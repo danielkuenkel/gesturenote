@@ -799,7 +799,7 @@ if (login_check($mysqli) == true) {
                             initPopover();
                         });
                         switchDataRendering();
-                        
+
 
                         if (getBrowser() !== 'Safari') {
                             $(content).find('#horizontalLine').after(resultsPlayer.domElement);
@@ -960,11 +960,16 @@ if (login_check($mysqli) == true) {
             if (susResultsValid) {
                 var fittedScore = getSUSAdjective(count);
                 $(content).find('.alert-space').remove();
-//                    $(content).find('#average-score').text(count);
-                $(content).find('#average-score').css({color: fittedScore.color});
+                $(content).find('#average-score').css({color: fittedScore.adjective.color});
                 $(content).find('#score-adjective .address').text(translation.systemIs);
-                $(content).find('#score-adjective .text').text(fittedScore.adjective);
+                $(content).find('#score-adjective .text').text(fittedScore.adjective.adjective);
                 $(content).find('#score-adjective .tail').text(translation.rated);
+                $(content).find('#sus-grade .address').text(translation.grade);
+                $(content).find('#sus-grade .text').text(fittedScore.susGrade);
+                $(content).find('#sus-grade .tail').text(translation.received);
+//                $(content).find('#sus-acceptability .address').text(translation.systemIs);
+                $(content).find('#sus-acceptability .text').text(fittedScore.susAcceptability);
+//                $(content).find('#sus-acceptability .tail').text(translation.rated);
                 renderSUSProgress($(content), translation.susScores, count);
             } else {
                 $(content).find('#sus-score-results').remove();
@@ -984,8 +989,8 @@ if (login_check($mysqli) == true) {
 
                 var progressBar = document.createElement('div');
                 $(progressBar).addClass('progress-bar');
-                $(progressBar).css('background-color', susQuartiles[i].color);
-                $(progressBar).css({width: currentWidth + '%'});
+//                $(progressBar).css('background-color', susQuartiles[i].color);
+                $(progressBar).css({width: currentWidth + '%', backgroundColor: susQuartiles[i].color, boxShadow: 'none'});
                 $(container).find('#sus-score-progress').append(progressBar);
 
                 var markerItem = $('#template-study-container').find('#sus-marker-item').clone().removeAttr('id');
@@ -1000,13 +1005,18 @@ if (login_check($mysqli) == true) {
                 var markerOffset = ($(markerItem).width() / 2) / targetWidth * 100;
                 var markerPercentage = parseFloat(susQuartiles[i].score) - markerOffset;
                 $(markerItem).css({left: markerPercentage + '%'});
-                TweenMax.from(markerItem, .2, {delay: 2.4 + (i * .05), opacity: 0, y: -10});
+                TweenMax.from(markerItem, .2, {delay: 1.4 + (i * .05), opacity: 0, y: -10});
             }
 
-            TweenMax.to($(container).find('#sus-score-pointer'), 3, {left: score + '%'});
+            var gradeScales = translation.susGradeScale;
+            for (var i = 0; i < gradeScales; i++) {
+
+            }
+
+            TweenMax.to($(container).find('#sus-score-pointer'), 2, {left: score + '%'});
 
             var counter = {var : 0};
-            TweenMax.to(counter, 3, {
+            TweenMax.to(counter, 2, {
                 var : score,
                 onUpdate: function () {
                     $(container).find('#average-score').text(Math.floor(counter.var));

@@ -2525,7 +2525,7 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
     if (data.sensorData) {
         $(clone).find('.symbol-container-sensor').removeClass('hidden');
         $(clone).find('.symbol-container-sensor').attr('data-content', translation.sensors[data.sensorData.sensor].title);
-        
+
         switch (data.sensorData.sensor) {
             case TYPE_RECORD_LEAP:
                 $(clone).find('.symbol-container-sensor .text-sensor-leap').removeClass('hidden');
@@ -4168,7 +4168,29 @@ function getSUSAdjective(score) {
             break;
         }
     }
-    return adjective;
+
+    var susGradeScale = translation.susGradeScale;
+    var susGrade = susGradeScale[susGradeScale.length - 1].grade;
+    for (var i = 0; i < susGradeScale.length; i++) {
+        if (score >= parseFloat(susGradeScale[i].score)) {
+        } else {
+            susGrade = susGradeScale[i].grade;
+            break;
+        }
+    }
+
+    var susAcceptabilityRange = translation.susAcceptabilityRange;
+    var susAcceptability = susAcceptabilityRange.acceptable.title;
+    for (var key in susAcceptabilityRange) {
+        var acceptabilityRange = susAcceptabilityRange[key];
+        if (score >= parseFloat(acceptabilityRange.score)) {
+        } else {
+            susAcceptability = acceptabilityRange.title;
+            break;
+        }
+    }
+
+    return {susAcceptability: susAcceptability, susGrade: susGrade, adjective: adjective};
 }
 
 
