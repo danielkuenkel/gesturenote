@@ -113,7 +113,7 @@ if (login_check($mysqli) == true) {
                     <button type="button" class="btn btn-default" id="btnViewModerator"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->evaluator ?></span><span class="hidden-md hidden-lg">M</span></button>
                     <button type="button" class="btn btn-default" id="btnViewTester"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->tester ?></span><span class="hidden-md hidden-lg">T</span></button>
                 </div>
-                <input class="form-control item-input-text option-phase-steps show-dropdown text-center readonly" type="text" value=""/>
+                <input class="form-control item-input-text option-phase-steps text-center show-dropdown" tabindex="-1" type="text" value=""/>
                 <div class="input-group-btn phaseStepsSelect select" role="group">
                     <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                     <ul class="dropdown-menu option" role="menu">

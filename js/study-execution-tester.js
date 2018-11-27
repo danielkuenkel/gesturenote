@@ -371,6 +371,8 @@ var Tester = {
             ignoreRole: 'no',
             selectedRole: 'tester',
             visibleRoles: ['moderator', 'tester'],
+            videoSource: query.vSource ? query.vSource : null,
+            audioSource: query.aSource ? query.aSource : null,
             localStream: {audio: options.tester.audio, video: options.tester.video, visualize: options.tester.visualizeStream, record: options.tester.recordStream},
             remoteStream: {audio: options.moderator.audio, video: options.moderator.video}
         };

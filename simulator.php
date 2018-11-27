@@ -81,7 +81,7 @@ if (login_check($mysqli) == true) {
         <!-- Container (Landing Section) -->
         <div class="container mainContent" id="gesture-sets-content" style="margin-top: 0px">
             <div class="input-group" id="gesture-sets-select">
-                <input class="form-control item-input-text option-gesture-sets show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                <input class="form-control item-input-text option-gesture-sets show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                 <div class="input-group-btn select select-gesture-sets" role="group">
                     <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                     <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>

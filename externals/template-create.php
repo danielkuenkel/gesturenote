@@ -24,7 +24,7 @@ include '../includes/language.php';
                             <label style="margin: 0"><?php echo $lang->AtAnswerSelect ?></label><br>
 
                             <div class="input-group">
-                                <input class="form-control item-input-text option-at-answer show-dropdown readonly" type="text" value=""/>
+                                <input class="form-control item-input-text option-at-answer show-dropdown" tabindex="-1" type="text" value=""/>
                                 <div class="input-group-btn select select-update" data-update-option="filter" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -39,7 +39,7 @@ include '../includes/language.php';
                             <label style="margin: 0"><?php echo $lang->JumpToQuestion ?></label><br>
 
                             <div class="input-group">
-                                <input class="form-control item-input-text option-jump-to show-dropdown readonly" type="text" value=""/>
+                                <input class="form-control item-input-text option-jump-to show-dropdown" tabindex="-1" type="text" value=""/>
                                 <div class="input-group-btn select select-update" data-update-option="filter" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -74,7 +74,7 @@ include '../includes/language.php';
                             <label style="margin: 0"><?php echo $lang->AtAnswerSelect ?></label><br>
 
                             <div class="input-group">
-                                <input class="form-control item-input-text option-at-answer show-dropdown readonly" type="text" value=""/>
+                                <input class="form-control item-input-text option-at-answer show-dropdown" tabindex="-1" type="text" value=""/>
                                 <div class="input-group-btn select" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -89,7 +89,7 @@ include '../includes/language.php';
                             <label style="margin: 0"><?php echo $lang->AtPositionSelect ?></label><br>
 
                             <div class="input-group">
-                                <input class="form-control text-center item-input-text option-position show-dropdown readonly" type="text" value=""/>
+                                <input class="form-control text-center item-input-text option-position show-dropdown" tabindex="-1" type="text" value=""/>
                                 <div class="input-group-btn select" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -104,7 +104,7 @@ include '../includes/language.php';
                             <label style="margin: 0"><?php echo $lang->JumpToQuestion ?></label><br>
 
                             <div class="input-group">
-                                <input class="form-control item-input-text option-jump-to show-dropdown readonly" type="text" value=""/>
+                                <input class="form-control item-input-text option-jump-to show-dropdown" tabindex="-1" type="text" value=""/>
                                 <div class="input-group-btn select" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -139,7 +139,7 @@ include '../includes/language.php';
                             <label style="margin: 0"><?php echo $lang->AtAnswerSelect ?></label><br>
 
                             <div class="input-group">
-                                <input class="form-control item-input-text option-at-answer show-dropdown readonly" type="text" value=""/>
+                                <input class="form-control item-input-text option-at-answer show-dropdown" tabindex="-1" type="text" value=""/>
                                 <div class="input-group-btn select" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -154,7 +154,7 @@ include '../includes/language.php';
                             <label style="margin: 0"><?php echo $lang->operator ?></label><br>
 
                             <div class="input-group">
-                                <input class="form-control text-center item-input-text option-position show-dropdown readonly" type="text" value="="/>
+                                <input class="form-control text-center item-input-text option-position show-dropdown" tabindex="-1" type="text" value="="/>
                                 <div class="input-group-btn select" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="equals"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -194,7 +194,7 @@ include '../includes/language.php';
                             <label style="margin: 0"><?php echo $lang->JumpToQuestion ?></label><br>
 
                             <div class="input-group">
-                                <input class="form-control item-input-text option-jump-to show-dropdown readonly" type="text" value=""/>
+                                <input class="form-control item-input-text option-jump-to show-dropdown" tabindex="-1" type="text" value=""/>
                                 <div class="input-group-btn select" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -230,7 +230,7 @@ include '../includes/language.php';
                             <label style="margin: 0"><?php echo $lang->operator ?></label><br>
 
                             <div class="input-group">
-                                <input class="form-control text-center item-input-text option-position show-dropdown readonly" type="text" value="="/>
+                                <input class="form-control text-center item-input-text option-position show-dropdown" tabindex="-1" type="text" value="="/>
                                 <div class="input-group-btn select" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="equals"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -270,7 +270,7 @@ include '../includes/language.php';
                             <label style="margin: 0"><?php echo $lang->JumpToQuestion ?></label><br>
 
                             <div class="input-group">
-                                <input class="form-control item-input-text option-jump-to show-dropdown readonly" type="text" value=""/>
+                                <input class="form-control item-input-text option-jump-to show-dropdown" tabindex="-1" type="text" value=""/>
                                 <div class="input-group-btn select" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -640,7 +640,7 @@ include '../includes/language.php';
             <div class="form-group form-group-no-margin alternativeGestureSelect hidden">
                 <div class="input-group">
                     <span class="input-group-addon"><?php echo $lang->gesture ?></span>
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value=""/>
+                    <input class="form-control item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value=""/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -652,7 +652,7 @@ include '../includes/language.php';
             <div class="form-group form-group-no-margin alternativeTriggerSelect hidden">
                 <div class="input-group">
                     <span class="input-group-addon"><?php echo $lang->trigger ?></span>
-                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-trigger show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select triggerSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -663,7 +663,7 @@ include '../includes/language.php';
             <div class="form-group form-group-no-margin alternativeFeedbackSelect hidden">
                 <div class="input-group">
                     <span class="input-group-addon"><?php echo $lang->feedback ?></span>
-                    <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-feedback show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select feedbackSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -1364,7 +1364,7 @@ include '../includes/language.php';
                     <label style="margin: 0"><?php echo $lang->scale ?></label><br>
 
                     <div class="input-group">
-                        <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="3"/>
+                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="3"/>
                         <div class="input-group-btn select scaleSelect" role="group">
                             <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -1438,7 +1438,7 @@ include '../includes/language.php';
                         <label style="margin: 0"><?php echo $lang->scale ?></label><br>
 
                         <div class="input-group">
-                            <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="3"/>
+                            <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="3"/>
                             <div class="input-group-btn select scaleSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle" style="border-radius: 0px" type="button" data-toggle="dropdown"><span class="chosen" id="scale_3"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -1689,7 +1689,7 @@ include '../includes/language.php';
                         <label><?php echo $lang->task ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpTask ?>"></i></label>
                         <div class="alert-space alert-assembled-task-removed"></div>
                         <div class="input-group">
-                            <input class="form-control item-input-text option-task show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <input class="form-control item-input-text option-task show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select taskSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -1702,7 +1702,7 @@ include '../includes/language.php';
                         <label><?php echo $lang->scene ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpScene ?>"></i></label>
                         <div class="alert-space alert-assembled-scene-removed"></div>
                         <div class="input-group">
-                            <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select sceneSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -1751,7 +1751,7 @@ include '../includes/language.php';
                 <div class="alert-space alert-no-gestures-assembled"></div>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="input-group">
-                    <input class="form-control ellipsis item-input-text option-gesture show-dropdown readonly" type="text" value=""/>
+                    <input class="form-control ellipsis item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value=""/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -1828,7 +1828,7 @@ include '../includes/language.php';
                     <div class="form-group">
                         <label><?php echo $lang->afterAssessment ?></label>
                         <div class="input-group">
-                            <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select assessmentTriggerSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -1872,7 +1872,7 @@ include '../includes/language.php';
                             <label><?php echo $lang->stateCharts->transition ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioTrigger ?>"></i></label>
                             <div class="alert-space alert-assembled-trigger-removed"></div>
                             <div class="input-group trigger">
-                                <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                <input class="form-control item-input-text option-trigger show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                                 <div class="input-group-btn select triggerSelect wozTriggerSelect" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -1893,7 +1893,7 @@ include '../includes/language.php';
                                             <label><?php echo $lang->stateCharts->transitionCondition ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioGesture ?>"></i></label>
                                             <div class="alert-space alert-assembled-gesture-removed"></div>
                                             <div class="input-group evaluation">
-                                                <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                                <input class="form-control item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                                                 <div class="input-group-btn select gestureSelect" role="group">
                                                     <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -1953,7 +1953,7 @@ include '../includes/language.php';
                                             <div class="alert-space alert-assembled-feedback-removed"></div>
                                             <div class="feedback-input">
                                                 <div class="input-group">
-                                                    <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                                    <input class="form-control item-input-text option-feedback show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                                                     <div class="input-group-btn select feedbackSelect" role="group">
                                                         <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2147,7 +2147,7 @@ include '../includes/language.php';
                         <div class="alert-space alert-assembled-scene-removed"></div>
                         <label><?php echo $lang->stateCharts->state ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingScene ?>"></i></label>
                         <div class="input-group">
-                            <input class="form-control item-input-text option-scene show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->noScenesPresent ?>"/>
+                            <input class="form-control item-input-text option-scene show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->noScenesPresent ?>"/>
                             <div class="input-group-btn select sceneSelect"  role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2305,7 +2305,7 @@ include '../includes/language.php';
                         <div class="alert-space alert-assembled-scene-removed"></div>
                         <label><?php echo $lang->stateCharts->state ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingScene ?>"></i></label>
                         <div class="input-group">
-                            <input class="form-control item-input-text option-scene show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->noScenesPresent ?>"/>
+                            <input class="form-control item-input-text option-scene show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->noScenesPresent ?>"/>
                             <div class="input-group-btn select sceneSelect"  role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2482,7 +2482,7 @@ include '../includes/language.php';
                     <!--                    <div class="form-group">
                                             <label><?php echo $lang->afterAssessment ?></label>
                                             <div class="input-group">
-                                                <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                                <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                                                 <div class="input-group-btn select assessmentTriggerSelect" role="group">
                                                     <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2550,7 +2550,7 @@ include '../includes/language.php';
                 <label><?php echo $lang->stateCharts->transition ?></label>
                 <div class="alert-space alert-assembled-trigger-removed"></div>
                 <div class="input-group">
-                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-trigger show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select triggerSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2600,7 +2600,7 @@ include '../includes/language.php';
                 <label><?php echo $lang->gesture ?> </label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="input-group">
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2643,7 +2643,7 @@ include '../includes/language.php';
                         <label><?php echo $lang->trigger ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingTrigger ?>"></i></label>
                         <div class="alert-space alert-assembled-trigger-removed"></div>
                         <div class="input-group">
-                            <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <input class="form-control item-input-text option-trigger show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select triggerSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2656,7 +2656,7 @@ include '../includes/language.php';
                         <label><?php echo $lang->gesture ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingGesture ?>"></i></label>
                         <div class="alert-space alert-assembled-gesture-removed"></div>
                         <div class="input-group evaluation">
-                            <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>" tabindex="-1"/>
+                            <input class="form-control item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>" tabindex="-1"/>
                             <div class="input-group-btn select gestureSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2673,8 +2673,8 @@ include '../includes/language.php';
                     <div class="form-group" style="">
                         <label><?php echo $lang->feedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingFeedback ?>"></i></label>
                         <div class="alert-space alert-assembled-feedback-removed"></div>
-                        <div class="input-group">
-                            <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>" tabindex="-1"/>
+                        <div class="input-group"> 
+                            <input class="form-control item-input-text option-feedback show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>" tabindex="-1"/>
                             <div class="input-group-btn select feedbackSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2793,7 +2793,7 @@ include '../includes/language.php';
                 <label><?php echo $lang->trigger ?></label>
                 <div class="alert-space alert-assembled-trigger-removed"></div>
                 <div class="input-group">
-                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-trigger show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select triggerSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2805,7 +2805,7 @@ include '../includes/language.php';
                 <label><?php echo $lang->gesture ?></label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="input-group evaluation">
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2855,7 +2855,7 @@ include '../includes/language.php';
 
                 <div class="alert-space alert-assembled-trigger-removed"></div>
                 <div class="input-group">
-                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-trigger show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select triggerSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2867,7 +2867,7 @@ include '../includes/language.php';
                 <label><?php echo $lang->gesture ?></label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="input-group evaluation">
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2901,7 +2901,7 @@ include '../includes/language.php';
                             <label><?php echo $lang->gesture ?></label>
                             <div class="alert-space alert-assembled-gesture-removed"></div>
                             <div class="input-group">
-                                <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                <input class="form-control item-input-text option-gesture show-dropdown" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                                 <div class="input-group-btn select gestureSelect" role="group">
                                     <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2925,7 +2925,7 @@ include '../includes/language.php';
                 <label><?php echo $lang->gesture ?></label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="input-group">
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2955,7 +2955,7 @@ include '../includes/language.php';
                 <label><?php echo $lang->stateCharts->transition ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationTrigger ?>"></i></label>
                 <div class="alert-space alert-assembled-trigger-removed"></div>
                 <div class="input-group trigger">
-                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-trigger show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select triggerSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -3001,7 +3001,7 @@ include '../includes/language.php';
                 <label><?php echo $lang->gesture ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationGesture ?>"></i></label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="input-group gesture">
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -3071,7 +3071,7 @@ include '../includes/language.php';
                 <div class="alert-space alert-assembled-scene-removed"></div>
                 <label><?php echo $lang->stateCharts->state ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationScene ?>"></i></label>
                 <div class="input-group">
-                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select sceneSelect"  role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -3211,7 +3211,7 @@ include '../includes/language.php';
                     <div class="form-group">
                         <label><?php echo $lang->ratio ?></label>
                         <div class="input-group">
-                            <input class="form-control item-input-text option-ratio show-dropdown readonly" type="text" value="16:9" placeholder=""/>
+                            <input class="form-control item-input-text option-ratio show-dropdown" tabindex="-1" type="text" value="16:9" placeholder=""/>
                             <div class="input-group-btn select ratioSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="ratio_16_9"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">

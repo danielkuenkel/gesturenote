@@ -62,6 +62,17 @@ include_once 'includes/functions.php';
             </div>
         </div>
 
+        <div class="hidden-sm hidden-xs" id="dynamic-link-list" style="position: fixed; top:20px; width: 100%; opacity:0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 col-lg-4" id="dynamic-link-list-items"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="btn-scroll-to-top" class="hidden" style="cursor:pointer; display: block; position: fixed; bottom: 15px; right: 15px; padding: 8px 10px; color:white; border-radius: 5px; background-color: rgba(0,0,0,.6)"><i class="fa fa-arrow-up fa-2x"></i></div>
+
         <script>
             $(document).ready(function () {
                 checkDomain();
@@ -87,14 +98,13 @@ include_once 'includes/functions.php';
                 allHelp.push({id: 'collaboration', content: translation.introductionCollaboration});
 
                 for (var i = 0; i < allHelp.length; i++) {
-                    console.log('help:', allHelp[i]);
-
                     var helpItem = document.createElement('div');
-                    //                    $(helpItem).addClass('row');
                     $('#help-description').append(helpItem);
 
                     var headline = document.createElement('h1');
+                    $(headline).addClass('dynamic-scrolling-item');
                     $(headline).attr('id', allHelp[i].id);
+                    $(headline).attr('data-headline-format', 'h1');
                     $(headline).text((i + 1) + '. ' + translation.helpHeadlines[allHelp[i].id]);
                     $(helpItem).append(headline);
 
@@ -114,9 +124,11 @@ include_once 'includes/functions.php';
 
                     for (var j = 0; j < allHelp[i].content.length; j++) {
                         var contentHeadline = document.createElement('h2');
+                        $(contentHeadline).addClass('dynamic-scrolling-item');
                         var contentHeadlineNumber = document.createElement('span');
                         $(contentHeadlineNumber).css({marginRight: '10px'}).text((i + 1) + '.' + (j + 1));
                         $(contentHeadline).attr('id', allHelp[i].id + '-' + allHelp[i].content[j].tabId);
+                        $(contentHeadline).attr('data-headline-format', 'h2');
                         $(contentHeadline).text(allHelp[i].content[j].title).css({marginTop: '60px'});
                         $(contentHeadline).prepend(contentHeadlineNumber);
                         $(helpItem).append(contentHeadline);
@@ -137,6 +149,8 @@ include_once 'includes/functions.php';
                         $(helpItem).append(helpContent);
 
                         var headlines = $(helpContent).find('h4');
+                        $(headlines).addClass('dynamic-scrolling-item');
+                        $(headlines).attr('data-headline-format', 'h4');
 
                         for (var k = 0; k < headlines.length; k++) {
                             var number = (i + 1) + '.' + (j + 1) + '.' + (k + 1);
@@ -159,9 +173,85 @@ include_once 'includes/functions.php';
             }
 
             $(document).on('click', '.smooth-goto', function () {
-                console.log($('#help-description').find($(this).attr('id')), $(this).attr('href'));
-                $('html, body').animate({scrollTop: $('#help-description').find($(this).attr('href')).offset().top - 70}, 300);
+//                console.log($('#help-description').find($(this).attr('id')), $(this).attr('href'));
+                $('html, body').animate({scrollTop: $('#help-description').find($(this).attr('href')).offset().top - 30}, 300);
                 return false;
+            });
+
+            $(document).scroll(function (event) {
+                event.preventDefault();
+                var linkListHeight = $('#link-list').height() + $('#link-list').offset().top;
+                var scrollTop = $(document).scrollTop();
+                if (scrollTop > linkListHeight) {
+                    $('#btn-scroll-to-top').removeClass('hidden');
+                    if (!$('#dynamic-link-list').hasClass('active')) {
+                        $('#dynamic-link-list').addClass('active');
+                        $('#dynamic-link-list').removeClass('hidden');
+                        TweenMax.to($('#dynamic-link-list'), .3, {opacity: 1});
+                    }
+
+                    var activeItems = [];
+                    var prevItems = [];
+                    var nextItems = [];
+
+                    var dynamicScrollItems = $('#help-description').find('.dynamic-scrolling-item');
+                    for (var i = 0; i < dynamicScrollItems.length; i++) {
+                        // set previous default link list items
+                        prevItems = [{item: $(dynamicScrollItems[i - 2])}, {item: $(dynamicScrollItems[i - 1])}];
+
+                        // set active default link list item
+                        activeItems = [{item: $(dynamicScrollItems[i]), active: true}];
+
+                        if ($(dynamicScrollItems[i]).offset().top > scrollTop + 40) {
+                            // set previous link list items
+                            prevItems = [{item: $(dynamicScrollItems[i - 3])}, {item: $(dynamicScrollItems[i - 2])}];
+
+                            // set active link list item
+                            activeItems = [{item: $(dynamicScrollItems[i - 1]), active: true}];
+                            
+                            // set next link list items
+                            if (i < dynamicScrollItems.length - 3) {
+                                nextItems = [{item: $(dynamicScrollItems[i])}, {item: $(dynamicScrollItems[i + 1])}, {item: $(dynamicScrollItems[i + 2])}, {item: $(dynamicScrollItems[i + 3])}];
+                            } else if (i < dynamicScrollItems.length - 2) {
+                                nextItems = [{item: $(dynamicScrollItems[i])}, {item: $(dynamicScrollItems[i + 1])}, {item: $(dynamicScrollItems[i + 2])}];
+                            } else if (i < dynamicScrollItems.length - 1) {
+                                nextItems = [{item: $(dynamicScrollItems[i])}, {item: $(dynamicScrollItems[i + 1])}];
+                            } else if (i < dynamicScrollItems.length) {
+                                nextItems = [{item: $(dynamicScrollItems[i])}];
+                            }
+
+                            break;
+                        }
+                    }
+                    var renderItems = prevItems.concat(activeItems);
+                    renderItems = renderItems.concat(nextItems);
+
+//                    console.log(prevItems, activeItems, nextItems, renderItems);
+                    $('#dynamic-link-list-items').empty();
+                    for (var i = 0; i < renderItems.length; i++) {
+                        var link = document.createElement(renderItems[i].active && renderItems[i].active === true ? 'span' : 'a');
+                        $(link).html($(renderItems[i].item).html());
+                        if (renderItems[i].active && renderItems[i].active === true) {
+                            $(link).css({fontWeight: 'bold', color: 'black'});
+                        } else {
+                            $(link).attr('href', '#' + $(renderItems[i].item).attr('id')).addClass('smooth-goto ellipsis');
+                        }
+                        $('#dynamic-link-list-items').append(document.createElement('br')).append(link);
+                    }
+                } else {
+                    $('#btn-scroll-to-top').addClass('hidden');
+                    if ($('#dynamic-link-list').hasClass('active')) {
+                        $('#dynamic-link-list').removeClass('active');
+                        TweenMax.to($('#dynamic-link-list'), .1, {opacity: 0, onComplete:function() {
+                                $('#dynamic-link-list').addClass('hidden');
+                        }});
+                    }
+                }
+            });
+
+            $('#btn-scroll-to-top').click(function (event) {
+                event.preventDefault();
+                $('html, body').animate({scrollTop: 0}, "fast");
             });
         </script>
 

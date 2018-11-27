@@ -354,6 +354,24 @@ $(document).on('click', '#language-selection li a', function (event) {
     }
 });
 
+
+$(document).on('click', '.show-dropdown', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    var button = $(this);
+    $(button).addClass('readonly');
+    $(button).blur();
+
+    var dropdown = $(button).next().find('[data-toggle=dropdown]');
+    $(dropdown).parent().unbind('hidden.bs.dropdown').bind('hidden.bs.dropdown', function (event) {
+        $(button).removeClass('readonly');
+        $(button).blur();
+    });
+    $(dropdown).dropdown('toggle');
+});
+
+
+
 $(document).on('click', '.select .option li', function (event) {
     event.preventDefault();
     if (!event.handled && !$(this).hasClass('disabled')) {
@@ -571,12 +589,6 @@ $(document).on('mouseenter', '.btn-show-hole-text', function (event) {
             $(this).tooltip('show');
         }
     }
-});
-
-$(document).on('click', '.show-dropdown', function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    $(this).next().find('[data-toggle=dropdown]').dropdown('toggle');
 });
 
 $(document).on('click', '.btn-delete', function (event) {
@@ -1396,6 +1408,69 @@ function renderAssembledGestureSets(gestureSets, targetContainer, addNoneItem) {
     }
 }
 
+
+/*
+ * dropdown rendering for video source selection
+ */
+function renderAssembledVideoSources(dropdown, sources, selectedSourceId) {
+    var listItem, link;
+    $(dropdown).find('.option').empty();
+
+    if (sources && sources.length > 0) {
+        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
+        $(dropdown).find('.item-input-text').attr('placeholder', translation.pleaseSelect);
+
+        for (var i = 0; i < sources.length; i++) {
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', sources[i].deviceId);
+            link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(sources[i].label));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
+
+            if (sources[i].deviceId === selectedSourceId) {
+                $(listItem).addClass('selected');
+                $(dropdown).find('.item-input-text').val(sources[i].label);
+            }
+        }
+    } else {
+        $(dropdown).find('.dropdown-toggle').addClass('disabled');
+        $(dropdown).find('.option-task').attr('placeholder', translation.noVideoSourcesPresent);
+    }
+}
+
+/*
+ * dropdown rendering for audio source selection
+ */
+function renderAssembledAudioSources(dropdown, sources, selectedSourceId) {
+    var listItem, link;
+    $(dropdown).find('.option').empty();
+
+    if (sources && sources.length > 0) {
+        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
+        $(dropdown).find('.item-input-text').attr('placeholder', translation.pleaseSelect);
+
+        for (var i = 0; i < sources.length; i++) {
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', sources[i].deviceId);
+            link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(sources[i].label));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
+
+            if (sources[i].deviceId === selectedSourceId) {
+                $(listItem).addClass('selected');
+                $(dropdown).find('.item-input-text').val(sources[i].label);
+            }
+        }
+    } else {
+        $(dropdown).find('.dropdown-toggle').addClass('disabled');
+        $(dropdown).find('.option-task').attr('placeholder', translation.noAudioSourcesPresent);
+    }
+}
+
 function resetDropdown(target) {
     $(target).find('.item-input-text').val(translation.pleaseSelect);
     $(target).find('.dropdown-menu .selected').removeClass('selected');
@@ -2189,10 +2264,10 @@ function filter(filterId) {
     } else if (originalFilterData && originalFilterData.length > 0) {
         for (var i = 0; i < originalFilterData.length; i++) {
             if (originalFilterData[i].setOnly === false || !originalFilterData[i].setOnly) {
-                if (filterId === SOURCE_GESTURE_RECORDED && originalFilterData[i].isOwner === true) {
-                    if (originalFilterData[i].source === SOURCE_GESTURE_EVALUATOR) {
+                if (filterId === SOURCE_GESTURE_RECORDED && originalFilterData[i].isOwner === true && originalFilterData[i].source === SOURCE_GESTURE_EVALUATOR) {
+//                    if () {
                         array.push(originalFilterData[i]);
-                    }
+//                    }
                 } else if (filterId === SCOPE_GESTURE_LIKED && originalFilterData[i].hasLiked === true) {
                     array.push(originalFilterData[i]);
                 } else if (filterId === SCOPE_GESTURE_RATED && originalFilterData[i].hasRated === true) {
@@ -2213,8 +2288,6 @@ function filter(filterId) {
                     if (originalFilterData[i].isOwner === true && (originalFilterData[i].scope === filterId || !originalFilterData[i].invitedUsers || (originalFilterData[i].shared && parseInt(originalFilterData[i].shared) > 0))) {
                         array.push(originalFilterData[i]);
                     }
-                } else if (filterId === 'recorded' && originalFilterData[i].source === 'evaluator') {
-                    array.push(originalFilterData[i]);
                 } else if (filterId === 'tester' && originalFilterData[i].source === 'tester') {
                     array.push(originalFilterData[i]);
                 }

@@ -186,6 +186,7 @@ if ($h && $token && $studyId) {
                                                 <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
                                                 <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
                                                 <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                                                <button type="button" class="btn stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
                                             </div>
                                             <div id="stream-control-indicator">
                                                 <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
@@ -195,6 +196,36 @@ if ($h && $token && $studyId) {
                                                 <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
                                                     <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
                                                     <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                                                </div>
+                                            </div>
+
+                                            <div id="rtc-config-panel" class="embed-responsive-item hidden" style="border-radius: 4px; background-color: rgba(0,0,0,.7); padding: 0px 15px 0px 15px">
+                                                <div id="btn-close-config" class="" style="font-size: 14pt; position: absolute; right: 8px; cursor: pointer; color: white; text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.0);"><i class="fa fa-close"></i></div>
+                                                <div style="margin-top: 40px">
+                                                    <div class="form-group" id="video-input-select">
+                                                        <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+
+                                                        <div class="input-group">
+                                                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                            <div class="input-group-btn select select-video-input" role="group">
+                                                                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" id="audio-input-select">
+                                                        <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
+
+                                                        <div class="input-group">
+                                                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                            <div class="input-group-btn select select-audio-input" role="group">
+                                                                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -351,31 +382,24 @@ if ($h && $token && $studyId) {
             function gotDevices(deviceInfos) {
                 console.log('got devices for webcam recorder', deviceInfos);
                 var videoSource = null;
-                var micSource = null;
+                var audioSource = null;
 
                 for (var i = 0; i < deviceInfos.length; i++) {
-                    if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap')) {
-                        console.log('standard device is', deviceInfos[i], deviceInfos[i].label.toLowerCase().includes('leap'));
+                    if (!videoSource && deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
+                        console.log('rtc check: standard video input device´', deviceInfos[i]);
                         videoSource = deviceInfos[i].deviceId;
-//                            break;
-                    } else if (deviceInfos[i].kind === 'audioinput' && deviceInfos[i].deviceId === 'default') {
-                        micSource = deviceInfos[i].deviceId;
+                    } else if (!audioSource && deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
+                        console.log('rtc check: standard audio input device:', deviceInfos[i]);
+                        audioSource = deviceInfos[i].deviceId;
+                    }
+
+                    if (audioSource && videoSource) {
+                        selectedVideoSource = videoSource;
+                        selectedAudioSource = audioSource;
+                        break;
                     }
                 }
 
-                if (getBrowser() === "Chrome") {
-                    var constraints = {audio: false,
-                        video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}
-                        }};
-                } else if (getBrowser() === "Firefox") {
-                    var constraints = {audio: false,
-                        video: {deviceId: {exact: videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
-                        }};
-                }
-
-                sources.video = videoSource;
-                sources.mic = micSource;
-                sources.constraints = constraints;
                 loadDevice();
             }
 
@@ -386,8 +410,8 @@ if ($h && $token && $studyId) {
             function loadDevice() {
                 DetectRTC.load(function () {
                     navigator.mediaDevices.getUserMedia({
-                        audio: sources.mic && sources.mic !== null ? {deviceId: sources.mic} : true, // { deviceId: 'mic-id' }
-                        video: sources.video && sources.video !== null ? {deviceId: sources.video} : true // { deviceId: 'camera-id' }
+                        audio: selectedAudioSource ? {deviceId: selectedAudioSource} : true, // { deviceId: 'mic-id' }
+                        video: selectedVideoSource ? {deviceId: selectedVideoSource} : true // { deviceId: 'camera-id' }
                     }).then(function (stream) {
                         var indicator = null;
                         var errors = 0;
@@ -441,7 +465,7 @@ if ($h && $token && $studyId) {
                             var progressBar = $('#init-timer-progress-bar');
                             $(progressBar).css({width: '100%'});
                             TweenMax.to(progressBar, 3, {width: '0%', ease: Linear.easeNone, onComplete: function () {
-                                    initVideoCaller(rtcToken + '.prepare');
+                                    initPeerConnection(rtcToken + '.prepare', selectedVideoSource, selectedAudioSource);
                                 }});
                         } else {
                         }
@@ -451,7 +475,9 @@ if ($h && $token && $studyId) {
         }
 
         var peerConnection = null;
-        function initVideoCaller(rtcToken) {
+        var selectedVideoSource = null;
+        var selectedAudioSource = null;
+        function initPeerConnection(rtcToken, videoSource, audioSource) {
             $('#check-rtc-status').addClass('hidden');
             $('#video-caller-container').removeClass('hidden');
             var mainElement = $('#video-caller');
@@ -464,6 +490,7 @@ if ($h && $token && $studyId) {
                 pauseStreamElement: $(mainElement).find('#btn-pause-stream'),
                 remoteMuteElement: $(mainElement).find('#btn-stream-remote-mute'),
                 indicator: $(mainElement).find('#stream-control-indicator'),
+                configElement: $(mainElement).find('#btn-config-rtc'),
                 enableWebcamStream: true,
                 enableDataChannels: true,
                 autoRequestMedia: true,
@@ -472,7 +499,8 @@ if ($h && $token && $studyId) {
                 ignoreRole: 'no',
                 selectedRole: 'tester',
                 visibleRoles: ['moderator', 'tester', 'observer', 'wizard'],
-                sources: sources,
+                videoSource: videoSource,
+                audioSource: audioSource,
                 localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
                 remoteStream: {audio: 'yes', video: 'yes'}
             };
@@ -615,13 +643,31 @@ if ($h && $token && $studyId) {
                 }
             });
 
+            $(peerConnection).on('renegotiate', function (event, videoSource, audioSource) {
+                event.preventDefault();
+                console.log('RENEGOTIATE');
+                peerConnection.leaveRoom();
+
+                selectedVideoSource = videoSource;
+                selectedAudioSource = audioSource;
+
+                initPeerConnection(rtcToken, videoSource, audioSource);
+            });
+
             $(peerConnection).on(MESSAGE_ENTER_SURVEY, function (event, payload) {
-                console.log('enter survey', payload);
+//                console.log('enter survey', payload);
+                event.preventDefault();
+                peerConnection.sendMessage(MESSAGE_PARTICIPANT_ENTERED_STUDY);
                 var query = getQueryParams(document.location.search);
-                if (payload.iceTransports !== '') {
-                    goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&iceTransports=' + payload.iceTransports);
+                var mediaSources = peerConnection.mediaSources();
+                if (mediaSources && mediaSources.video && mediaSources.audio) {
+                    if (payload.iceTransports !== '') {
+                        goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio + '&iceTransports=' + payload.iceTransports);
+                    } else {
+                        goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio);
+                    }
                 } else {
-                    goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken);
+                    // send message to moderator with more infos why the participant cant start the execution, missing sources (audio or video)
                 }
             });
 

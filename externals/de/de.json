@@ -101,19 +101,19 @@
         "unmoderated": "Unmoderiert",
         "moderated": "Moderiert",
         "ownRecorded": "Selbst aufgezeichnet",
-        "tester": "Proband",
+        "tester": "Ermittelte Gesten",
         "shared": "Von Ihnen freigegeben",
         "sharedWithYou": "Für Sie freigegeben",
         "private": "Nicht freigegeben",
-        "rated": "Bewertet",
-        "liked": "Favoriten"
+        "rated": "Von Ihnen bewertet",
+        "liked": "Ihre Favoriten"
     },
     "sorting": {
         "name": "Sortierung",
         "dateHeadline": "Datum",
         "ASC": "Neueste zuerst",
         "DESC": "Älteste zuerst",
-        "titelHeadline": "Titel",
+        "titleHeadline": "Titel",
         "gestureTitelHeadline": "Gesten-Titel",
         "AToZ": "A bis Z",
         "ZToA": "Z bis A"
@@ -157,7 +157,7 @@
     "acceptCookies": "OK",
     "infosContent": {
         "general": {
-            "content": "<p>GestureNote entsteht im Rahmen der Promotion mit dem Titel <em>Werkzeuggestütztes Remote-Design gestenbasierter Interaktionen</em>. Das Promotionsvorhaben beschäftigt sich mit den theoretischen und praktischen Grundlagen bekannter Methoden und Vorgehensweisen für den Gesten-Design-Prozess. Die Leitfrage, die man sich für Gesten-Interaktionen in der Mensch-Computer-Interaktion immer wieder stellen muss, ist: Was sind gute Gesten und wie kann man sie designen?</p><div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px;' src='img/de/introduction/study-create/gesture-design-process.svg'><div class='image-caption'>Die drei Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluieurng</em> im Gesten-Design-Prozess. Blaue Boxen stellen mögliche Einstiegspunkte dar. Gelbe Boxen stellen die Ergebnisse der jeweiligen Phase dar.</div></div><p>Um an gute Gesten zu gelangen durchläuft ein sog. Interaktions-Designer in der Regel drei Phasen im Gesten-Design-Prozess: Ermittlung, Extraktion und Evaluierung. Bei der <strong>Ermittlung</strong> werden Gesten für Interaktionsaufgaben wie z.B. <em>Musik lauter stellen</em> gesucht. Der Interaktions-Designer erfragt diese aktuell entweder in einem Usability-Lab oder vorort mit Hilfe szenariobasierter Aufgaben. Die Gesten werden aufgezeichnet und anschließend ausgewertet. Danach erfolgt meist eine Klassifizierung in der <strong>Extraktion</strong>, d.h. der Interaktions-Designer gruppiert die ermittelten Gesten und analysiert, welche Gesten für eine Evaluierung in Frage kämen (sog. potentielle Gesten). Die potentiellen Gesten werden dann in einem Gesten-Set zusammengefasst. Bei der <strong>Evaluierung</strong> werden dann die potentiellen Gesten auf ihre Gebrauchstauglichkeit und weitere Aspete (z.B. Erlernbarkeit, Ergonomie, etc.) hin überprüft. Wie in der oberen Abbildung zu sehen ist, gibt es nicht nur den einen Weg um an gute Gesten zu gelangen. Der Interaktions-Designer kann z.B. ohne Probanden Gesten expertenbasiert für eine Evaluierung zusammenstellen. Eine Extraktion kann ebenso auch nutzerzentriert durchgeführt werden.</p><p>Der nutzerzentrierte Anteil ist in der Regel sehr hoch. Dadurch können potentielle Endanwender früh in den Design-Prozess eingebunden werden. Es hat sich jedoch gezeigt, dass diese Vorgehensweise sehr aufwendig und zeitraubend ist. Die ortsgebundenen Befragungen erlauben zudem eine geringe und oft nur regionale Stichprobe. Des Weiteren kommt hinzu, dass unerfahrene Interaktions-Designer (wie z.B. Studierende) nicht wissen, auf was beispielsweise bei einer Gesten-Evaluierung alles zu achten ist. Für jede Design-Phase stehen unterschiedliche Methoden und Vorgehensweisen zur Verfügung. Um einen schnellen Überblick zu bekommen, muss man in Erfahrung bringen welche Methoden es gibt und was die Besonderheiten sind.</p><p>Mit GestureNote wird versucht, diese Probleme zu lösen und darüber hinaus die Phasen des Gesten-Design-Prozesses in der Planung, Durchführung und Analyse zu unterstützen. Zum einen wurden bekannte Methoden und Vorgehensweisen aus der Literatur in GestureNote integriert und erweitert (z.B. Wizard-of-Oz-Experimente, Gesten-Training, Physischer Belastungstest, etc.). Zum anderen wurden neue Ansätze identifiziert und entwickelt (z.B. Gesture Usability Scale, Gesten-Katalog, etc.).</p><p>Nachfolgend sind auszugsweise Beispiele für die Planung, Durchführung und Analyse dargestellt. Eine Übersicht über die wichtigesten Features ist weiter unten zu finden.</p>"
+            "content": "<p>GestureNote entsteht im Rahmen der Promotion mit dem Titel <em>Werkzeuggestütztes Remote-Design gestenbasierter Interaktionen</em>. Das Promotionsvorhaben beschäftigt sich mit den theoretischen und praktischen Grundlagen bekannter Methoden und Vorgehensweisen für den Gesten-Design-Prozess. Die Leitfrage, die man sich für Gesten-Interaktionen in der Mensch-Computer-Interaktion immer wieder stellen muss, ist: Was sind gute Gesten und wie kann man sie designen?</p><div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px;' src='img/de/introduction/study-create/gesture-design-process.svg'><div class='image-caption'>Die drei Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluieurng</em> im Gesten-Design-Prozess. Blaue Boxen stellen mögliche Einstiegspunkte dar. Gelbe Boxen stellen die Ergebnisse der jeweiligen Phase dar.</div></div><p>Um an gute Gesten zu gelangen durchläuft ein sog. Interaktionsdesigner in der Regel drei Phasen im Gesten-Design-Prozess: Ermittlung, Extraktion und Evaluierung. Bei der <strong>Ermittlung</strong> werden Gesten für Interaktionsaufgaben wie z.B. <em>Musik lauter stellen</em> gesucht. Der Interaktionsdesigner erfragt diese aktuell entweder in einem Usability-Lab oder vorort mit Hilfe szenariobasierter Aufgaben. Die Gesten werden aufgezeichnet und anschließend ausgewertet. Danach erfolgt meist eine Klassifizierung in der <strong>Extraktion</strong>, d.h. der Interaktionsdesigner gruppiert die ermittelten Gesten und analysiert, welche Gesten für eine Evaluierung in Frage kämen (sog. potentielle Gesten). Die potentiellen Gesten werden dann in einem Gesten-Set zusammengefasst. Bei der <strong>Evaluierung</strong> werden dann die potentiellen Gesten auf ihre Gebrauchstauglichkeit und weitere Aspete (z.B. Erlernbarkeit, Ergonomie, etc.) hin überprüft. Wie in der oberen Abbildung zu sehen ist, gibt es nicht nur den einen Weg um an gute Gesten zu gelangen. Der Interaktionsdesigner kann z.B. ohne Probanden Gesten expertenbasiert für eine Evaluierung zusammenstellen. Eine Extraktion kann ebenso auch nutzerzentriert durchgeführt werden.</p><p>Der nutzerzentrierte Anteil ist in der Regel sehr hoch. Dadurch können potentielle Endanwender früh in den Design-Prozess eingebunden werden. Es hat sich jedoch gezeigt, dass diese Vorgehensweise sehr aufwendig und zeitraubend ist. Die ortsgebundenen Befragungen erlauben zudem eine geringe und oft nur regionale Stichprobe. Des Weiteren kommt hinzu, dass unerfahrene Interaktionsdesigner (wie z.B. Studierende) nicht wissen, auf was beispielsweise bei einer Gesten-Evaluierung alles zu achten ist. Für jede Design-Phase stehen unterschiedliche Methoden und Vorgehensweisen zur Verfügung. Um einen schnellen Überblick zu bekommen, muss man in Erfahrung bringen welche Methoden es gibt und was die Besonderheiten sind.</p><p>Mit GestureNote wird versucht, diese Probleme zu lösen und darüber hinaus die Phasen des Gesten-Design-Prozesses in der Planung, Durchführung und Analyse zu unterstützen. Zum einen wurden bekannte Methoden und Vorgehensweisen aus der Literatur in GestureNote integriert und erweitert (z.B. Wizard-of-Oz-Experimente, Gesten-Training, Physischer Belastungstest, etc.). Zum anderen wurden neue Ansätze identifiziert und entwickelt (z.B. Gesture Usability Scale, Gesten-Katalog, etc.).</p><p>Nachfolgend sind auszugsweise Beispiele für die Planung, Durchführung und Analyse dargestellt. Eine Übersicht über die wichtigesten Features ist weiter unten zu finden.</p>"
         },
         "planning": {
             "title": "Planung",
@@ -180,7 +180,7 @@
         "features": {
             "title": "Funktionsumfang",
             "usercentered": {
-                "subline": "Interaktions-Designer treten in Kontakt mit potentiellen Nutzern von Gesten-Interaktionen. Ortsungebunden! Probanden können in alle drei Phasen des Gesten-Designs-Prozesses eingebunden werden. Nutzen Sie Screen-Sharing, um ihren Probanden zu veranschaulichen, wofür Gesten gesucht, extrahiert oder berwertet werden sollen. Binden Sie dazu Bilder, Videos oder Webseiten in ihren Leitfaden ein. Zeichnen Sie Gesten ganz einfach über die Webcam ihrer Probanden auf. Nutzen Sie vordefinierte Fragebögen, um schnell und einfach Gesten-Interaktionen bewerten zu lassen. Koppeln Sie Gesten an vorhandene UIs, um Gesten-Interaktionen zu evaluieren. Akquirieren Sie Probanden aus aller Welt über soziale Netzwerke.",
+                "subline": "Interaktionsdesigner treten in Kontakt mit potentiellen Nutzern von Gesten-Interaktionen. Ortsungebunden! Probanden können in alle drei Phasen des Gesten-Designs-Prozesses eingebunden werden. Nutzen Sie Screen-Sharing, um ihren Probanden zu veranschaulichen, wofür Gesten gesucht, extrahiert oder berwertet werden sollen. Binden Sie dazu Bilder, Videos oder Webseiten in ihren Leitfaden ein. Zeichnen Sie Gesten ganz einfach über die Webcam ihrer Probanden auf. Nutzen Sie vordefinierte Fragebögen, um schnell und einfach Gesten-Interaktionen bewerten zu lassen. Koppeln Sie Gesten an vorhandene UIs, um Gesten-Interaktionen zu evaluieren. Akquirieren Sie Probanden aus aller Welt über soziale Netzwerke.",
                 "content": {
                     "col01": "<ul><li><strong>Ermittlung (Top-Down):</strong> Gesten für vorhandene Interaktionsaufgaben ermitteln.</li><li><strong>Ermittlung (Bottom-Up):</strong> Interaktionsaufgaben für vorhandene Gesten ermitteln.</li></ul>",
                     "col02": "<ul><li><strong>Exploration (Top-Down):</strong> Abfrage favorisierter Gesten für vorhandene Interaktionsaufgaben.</li><li><strong>Exploration (Bottom-Up):</strong> Abfrage favorisierter Interaktionsaufgaben für vorhandene Gesten.</li></ul>",
@@ -188,11 +188,11 @@
                 }
             },
             "expertbased": {
-                "subline": "Hier steht die Analyse und Bewertung von Gesten-Interaktionen durch den Interaktions-Designer im Fokus. GestureNote unterstützt Vorgehensweisen und Methoden, die ohne direkten Kontakt zu potentiellen Nutzern von Gesten-Interaktionen auskommen. Geben Sie Studien-Ergebnisse für andere registrierte Interaktions-Designer frei.",
+                "subline": "Hier steht die Analyse und Bewertung von Gesten-Interaktionen durch den Interaktionsdesigner im Fokus. GestureNote unterstützt Vorgehensweisen und Methoden, die ohne direkten Kontakt zu potentiellen Nutzern von Gesten-Interaktionen auskommen. Geben Sie Studien-Ergebnisse für andere registrierte Interaktionsdesigner frei.",
                 "content": {
-                    "col01": "<ul><li><strong>Gesten-Recorder:</strong> Aufzeichnung von Gesten mit über Webcam und/oder Leap Motion Controller.</li><li><strong>Gesten-Katalog:</strong> Zugriff auf alle erstellten und von anderen Interaktions-Designern freigegebene Gesten.</li></ul>",
+                    "col01": "<ul><li><strong>Gesten-Recorder:</strong> Aufzeichnung von Gesten mit über Webcam und/oder Leap Motion Controller.</li><li><strong>Gesten-Katalog:</strong> Zugriff auf alle erstellten und von anderen Interaktionsdesignern freigegebene Gesten.</li></ul>",
                     "col02": "<ul><li><strong>Klassifizierung:</strong> Einfaches Klassifizieren von nutzerzentriert ermittelten Gesten.</li><li><strong>Potentielle Gesten:</strong> Bewertung klassifizierter Gesten auf Basis bereitgestellter Kennzahlen (Anzahl von Gesten, statische Übereinstimmung nach Wobbrock) und Bewertungsinstrumente (Checkliste, Sinnzusammenhänge).</li><li><strong>Gesten-Sets:</strong> Fassen Sie potentielle Gesten zu einem Gesten-Set zusammen, um diese für eine Evaluierung zu verwenden.</li></ul>",
-                    "col03": "<ul><li><strong>Rohdaten:</strong> Sichtung von Rohdaten (Videos, Gesten, Fragebögen, Beobachtungen, etc.).</li><li><strong>Umfangreicher Video-Player:</strong> Automatische Synchronisierung von Videodaten (Moderator, Proband, UI).</li><li><strong>Zeitleiste & Annotationen:</strong> Synchroniserte Darstellung automatische gespeicherter Annotationen. Hinzufügen/Löschen von Annotationen.</li><li><strong>Automatische Score-Berechnung:</strong> SUS-Scores, UEQ-Scales, sowie Scores für <em>Gesten erraten</em> und <em>Interaktionsaufgaben erraten</em> werden automatisch berechnet.</li><li><strong>Notizen:</strong> Fügen Sie wichtige Notizen zu jedem Leitfadenschritt hinzu.</li><li><strong>Freigeben von Ergebnissen:</strong> Geben Sie Studien-Ergebnisse für andere registrierte Interaktions-Designern frei.</li><li><strong>Gesten-Katalog:</strong> Geben Sie ermittelte Gesten für andere Interaktions-Designern frei. Diskutieren und bewerten Sie Gesten mit anderen Interaktions-Designern.</li></ul>" 
+                    "col03": "<ul><li><strong>Rohdaten:</strong> Sichtung von Rohdaten (Videos, Gesten, Fragebögen, Beobachtungen, etc.).</li><li><strong>Umfangreicher Video-Player:</strong> Automatische Synchronisierung von Videodaten (Moderator, Proband, UI).</li><li><strong>Zeitleiste & Annotationen:</strong> Synchroniserte Darstellung automatische gespeicherter Annotationen. Hinzufügen/Löschen von Annotationen.</li><li><strong>Automatische Score-Berechnung:</strong> SUS-Scores, UEQ-Scales, sowie Scores für <em>Gesten erraten</em> und <em>Interaktionsaufgaben erraten</em> werden automatisch berechnet.</li><li><strong>Notizen:</strong> Fügen Sie wichtige Notizen zu jedem Leitfadenschritt hinzu.</li><li><strong>Freigeben von Ergebnissen:</strong> Geben Sie Studien-Ergebnisse für andere registrierte Interaktionsdesigner frei.</li><li><strong>Gesten-Katalog:</strong> Geben Sie ermittelte Gesten für andere Interaktionsdesigner frei. Diskutieren und bewerten Sie Gesten mit anderen Interaktionsdesignern.</li></ul>" 
                 }
             }
         }
@@ -386,6 +386,8 @@
     "deleteCreateModal": "Die Erstellung dieser Studie wirklich beenden? Sollen die gemachten Änderungen gespeichert werden?",
     "deleteGestureModal": "Wollen Sie alle Daten dieser Geste wirklich löschen?",
     "deleteGestureSetModal": "Wollen Sie alle Daten dieses Geste-Sets wirklich löschen? Die zugeordneten Gesten verbleiben im Gesten-Katalog.",
+    "chooseVideoInput": "Video",
+    "chooseAudioInput": "Mikrofon",
     "executeStudy": "Befragung starten",
     "showIntroduction": "Zeige Einführung",
     "introduction": "Einführung",
@@ -512,6 +514,7 @@
     "resumeOwnWebRTC": "Übertragung fortsetzen",
     "pauseOtherWebRTC": "Gesprächspartner stummschalten",
     "resumeOtherWebRTC": "Gesprächspartner anschalten",
+    "configRTC": "Einstellungen",
     "recordingStream": "Video wird aufgezeichnet",
     "dragRTC": "Übertragungsfenster entkoppeln",
     "pinRTC": "Übertragungsfenster ankoppeln",
@@ -1698,6 +1701,8 @@
     "leaveExecution": "Befragung verlassen",
     "noTriggerPresent": "Keine Interaktionsaufgaben vorhanden",
     "noGestureSetPresent": "Kein Studien-Gesten-Set vorhanden",
+    "noVideoSourcesPresent": "Keine Webcam verfügbar",
+    "noAudioSourcesPresent": "Kein Mikrofon verfügbar",
     "noTasksPresent": "Keine Aufgaben vorhanden",
     "websiteUrl": "Webseiten-URL",
     "pidocoEditUrl": "Pidoco Bearbeitungs-URL",
@@ -1760,7 +1765,7 @@
         "evaluator": "Moderator",
         "wizard": "Wizard",
         "observer": "Beobachter",
-        "interactionDesigner": "Interaktions-Designer"
+        "interactionDesigner": "Interaktionsdesigner"
     },
     "userTypesRegister": {
         "tester": "Ich möchte an interessanten Studien als Proband teilnehmen.",
@@ -1949,21 +1954,21 @@
     "nextParticipant": "Nächster Teilnehmer",
     "previousParticipant": "Vorheriger Teilnehmer",
     "description": "Beschreibung",
-    "sharedStudies": "Studie für andere Interaktions-Designer freigeben",
+    "sharedStudies": "Studie für andere Interaktionsdesigner freigeben",
     "withdraw": "Freigabe zurückziehen",
     "sharedInfo": "Mal freigegeben",
     "sharedStudy": "Diese Studie wurde Ihnen freigegeben",
     "invite": "Freigeben",
     "inviteAllUsersForGesture": "Geste für alle freigegeben",
     "inviteAllUsersForGestureSet": "Gesten-Set für alle freigegeben",
-    "inviteUserViaMail": "Interaktions-Designer per E-Mail-Adresse einladen",
+    "inviteUserViaMail": "Interaktionsdesigner per E-Mail-Adresse einladen",
     "hello": "Hallo",
     "inviteSubject": "Freigabe einer Gesten-Design-Studie",
     "uninviteSubject": "Freigabe einer Gesten-Design-Studie zurückgezogen",
     "inviteTitle": "Eine Gesten-Design-Studie wurde Ihnen freigegeben",
-    "inviteText": "ein anderer Interaktions-Designer hat Ihnen eine Studie freigegeben. Diese Studie wird, solange diese freigegeben ist, in Ihrer Studien-Übersicht angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/studies.php'>Link</a> direkt zur Übersicht.",
+    "inviteText": "ein anderer Interaktionsdesigner hat Ihnen eine Studie freigegeben. Diese Studie wird, solange diese freigegeben ist, in Ihrer Studien-Übersicht angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/studies.php'>Link</a> direkt zur Übersicht.",
     "uninviteTitle": "Eine Gesten-Design-Studie ist nicht mehr für Sie freigegeben",
-    "uninviteText": "ein anderer Interaktions-Designer hat Ihre Freigabe zurückgezogen. Diese Studie wird nicht mehr in Ihrer Studien-Übersicht angezeigt und Sie haben keinen Zugriff mehr darauf.",
+    "uninviteText": "ein anderer Interaktionsdesigner hat Ihre Freigabe zurückgezogen. Diese Studie wird nicht mehr in Ihrer Studien-Übersicht angezeigt und Sie haben keinen Zugriff mehr darauf.",
     "mailGreetings": "Mit freundlichen Grüßen",
     "gestureNoteTeam": "Ihr GestureNote Team",
     "prepareExecutionSubject": "Ein Proband wartet auf Sie",
@@ -1973,16 +1978,16 @@
     "inviteGestureSetSubject": "Freigabe eines Gesten-Sets",
     "uninviteGestureSetSubject": "Freigabe eines Gesten-Sets zurückgezogen",
     "inviteGestureSetTitle": "Ein Gesten-Set wurde Ihnen freigegeben",
-    "inviteGestureSetText": "ein anderer Interaktions-Designer hat Ihnen ein Gesten-Set freigegeben. Dieses Gesten-Set wird, solange dieses freigegeben ist, in Ihrer Gesten-Set-Übersicht angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/gestures-catalog.php#sets'>Link</a> direkt zur Übersicht.",
+    "inviteGestureSetText": "ein anderer Interaktionsdesigner hat Ihnen ein Gesten-Set freigegeben. Dieses Gesten-Set wird, solange dieses freigegeben ist, in Ihrer Gesten-Set-Übersicht angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/gestures-catalog.php#sets'>Link</a> direkt zur Übersicht.",
     "uninviteGestureSetTitle": "Ein Gesten-Set ist nicht mehr für Sie freigegeben",
-    "uninviteGestureSetText": "ein anderer Interaktions-Designer hat Ihre Freigabe eines Gesten-Sets zurückgezogen. Dieses Gesten-Set wird nicht mehr in Ihrer Gesten-Set-Übersicht angezeigt und Sie haben keinen Zugriff mehr darauf.",
+    "uninviteGestureSetText": "ein anderer Interaktionsdesigner hat Ihre Freigabe eines Gesten-Sets zurückgezogen. Dieses Gesten-Set wird nicht mehr in Ihrer Gesten-Set-Übersicht angezeigt und Sie haben keinen Zugriff mehr darauf.",
     "inviteGestureSetGreetings": "Mit freundlichen Grüßen",
     "inviteGestureSubject": "Freigabe einer Geste",
     "uninviteGestureSubject": "Freigabe einer Geste zurückgezogen",
     "inviteGestureTitle": "Eine Geste wurde Ihnen freigegeben",
-    "inviteGestureText": "ein anderer Interaktions-Designer hat Ihnen eine Geste freigegeben. Diese Geste wird, solange diese freigegeben ist, in Ihrem Gesten-Katalog angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/gestures-catalog.php'>Link</a> direkt zur Übersicht.",
+    "inviteGestureText": "ein anderer Interaktionsdesigner hat Ihnen eine Geste freigegeben. Diese Geste wird, solange diese freigegeben ist, in Ihrem Gesten-Katalog angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/gestures-catalog.php'>Link</a> direkt zur Übersicht.",
     "uninviteGestureTitle": "Eine Geste ist nicht mehr für Sie freigegeben",
-    "uninviteGestureText": "ein anderer Interaktions-Designer hat Ihre Freigabe für eine Geste zurückgezogen. Diese Geste wird nicht mehr in Ihrem Gesten-Katalog angezeigt und Sie haben keinen Zugriff mehr darauf.",
+    "uninviteGestureText": "ein anderer Interaktionsdesigner hat Ihre Freigabe für eine Geste zurückgezogen. Diese Geste wird nicht mehr in Ihrem Gesten-Katalog angezeigt und Sie haben keinen Zugriff mehr darauf.",
     "inviteGestureGreetings": "Mit freundlichen Grüßen",
     "scale": "Skala",
     "url": "URL",
@@ -2080,12 +2085,12 @@
     "unshareGestureSet": "Anderen nicht freigeben",
     "gestureNotShared": "Geste nicht für andere freigegeben",
     "gestureSharedWithYou": "Geste für Sie freigegeben",
-    "gestureSharedWithOthers": "Geste für <span style='color:black; font-weight:bold'>{x}</span> weitere Interaktions-Designer freigegeben",
+    "gestureSharedWithOthers": "Geste für <span style='color:black; font-weight:bold'>{x}</span> weitere Interaktionsdesigner freigegeben",
     "gestureShared": "Für alle freigegeben",
     "gestureSetNotShared": "Gesten-Set nicht freigegeben",
     "gestureSetShared": "Für alle freigegeben",
     "gestureSetSharedWithYou": "Gesten-Set für Sie freigegeben",
-    "gestureSetSharedWithOthers": "Gesten-Set für <span style='color:black; font-weight:bold'>{x}</span> weitere Interaktions-Designer freigegeben",
+    "gestureSetSharedWithOthers": "Gesten-Set für <span style='color:black; font-weight:bold'>{x}</span> weitere Interaktionsdesigner freigegeben",
     "gestureSharedInOwnProjects": "<span class='text font-bold'>{x}</span> Mal in eigenen Projekten genutzt.",
     "gestureSharedInOtherProjects": "<span class='text font-bold'>{x}</span> Mal in Projekten anderer genutzt.",
     "edit": "Bearbeiten",
@@ -2523,7 +2528,7 @@
     "gestureStyleguides": {
         "process": {
             "headline": "Gesten-Design-Prozess",
-            "info": "Die Leitfrage, die man sich für Gesten-Interaktionen in der Mensch-Computer-Interaktion immer wieder stellen muss, ist: Was sind gute Gesten und wie kann man sie designen?</p><div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px;' src='img/de/introduction/study-create/gesture-design-process.svg'><div class='image-caption'>Die drei Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluieurng</em> im Gesten-Design-Prozess. Blaue Boxen stellen mögliche Einstiegspunkte dar. Gelbe Boxen stellen die Ergebnisse der jeweiligen Phase dar.</div></div><p>Um an gute Gesten zu gelangen, durchläuft ein sog. Interaktions-Designer in der Regel drei Phasen im Gesten-Design-Prozess: Ermittlung, Extraktion und Evaluierung. Bei der <strong>Ermittlung</strong> werden Gesten für Interaktionsaufgaben wie z.B. <em>Musik lauter stellen</em> gesucht. Der Interaktions-Designer erfragt diese aktuell entweder in einem Usability-Lab oder vorort mit Hilfe szenariobasierter Aufgaben. Die Gesten werden aufgezeichnet und anschließend ausgewertet. Danach erfolgt meist eine Klassifizierung in der <strong>Extraktion</strong>, d.h. der Interaktions-Designer gruppiert die ermittelten Gesten und analysiert, welche Gesten für eine Evaluierung in Frage kämen (sog. potentielle Gesten). Die potentiellen Gesten werden dann in einem Gesten-Set zusammengefasst. Bei der <strong>Evaluierung</strong> werden dann die potentiellen Gesten auf ihre Gebrauchstauglichkeit und weitere Aspete (z.B. Erlernbarkeit, Ergonomie, etc.) hin überprüft.</p><p>Der nutzerzentrierte Anteil ist in der Regel sehr hoch. Dadurch können potentielle Endanwender früh in den Design-Prozess eingebunden werden. Nutzer werden im Anschluss jedes Benutzertests über die Gebrauchstauglichkeit von Gesten befragt (mit Hilfe von Fragebögen oder Interviews). In jeder Studie gibt es andere Anforderungen und Ziele, weshalb die Fragen stark varrieren können. Mit dem bereitgestellten Gesture Usability Scale (GUS) bietet GestureNote einen Fragebogenbaukasten an, der speziell für die subjektive Bewertung von Gesten-Interaktionen in der Evaluierungsphase genutzt werden kann. Es können unterschiedliche Aspekte wie z.B. <em>Aufgabenangemessenheit</em>, <em>Erlern- & Erinnerbarkeit</em> oder <em>Soziale Akzeptanz</em> abgefragt werden. Dabei können alle genutzten Gesten auf einmal oder einzelne Gesten nacheinander abgefragt werden. Zudem stellt GestureNote allgemeine Styleguides, die den Gesten-Design-Prozess betreffen, zur Verfügung.</p><p>Die bereitgestellten Items für den GUS und die allgemeinen Styleguides wurden auf Basis von Literaturrecherchen und eigenen Erfahrungen im Kontext der gestenbasierten Mensch-Computer-Interaktion entwickelt. Der GUS wird in Lehrveranstaltungen mit Schwerpunkt Usability Engineering eingesetzt und weiter entwickelt.</p>"
+            "info": "Die Leitfrage, die man sich für Gesten-Interaktionen in der Mensch-Computer-Interaktion immer wieder stellen muss, ist: Was sind gute Gesten und wie kann man sie designen?</p><div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px;' src='img/de/introduction/study-create/gesture-design-process.svg'><div class='image-caption'>Die drei Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluieurng</em> im Gesten-Design-Prozess. Blaue Boxen stellen mögliche Einstiegspunkte dar. Gelbe Boxen stellen die Ergebnisse der jeweiligen Phase dar.</div></div><p>Um an gute Gesten zu gelangen, durchläuft ein sog. Interaktionsdesigner in der Regel drei Phasen im Gesten-Design-Prozess: Ermittlung, Extraktion und Evaluierung. Bei der <strong>Ermittlung</strong> werden Gesten für Interaktionsaufgaben wie z.B. <em>Musik lauter stellen</em> gesucht. Der Interaktionsdesigner erfragt diese aktuell entweder in einem Usability-Lab oder vorort mit Hilfe szenariobasierter Aufgaben. Die Gesten werden aufgezeichnet und anschließend ausgewertet. Danach erfolgt meist eine Klassifizierung in der <strong>Extraktion</strong>, d.h. der Interaktionsdesigner gruppiert die ermittelten Gesten und analysiert, welche Gesten für eine Evaluierung in Frage kämen (sog. potentielle Gesten). Die potentiellen Gesten werden dann in einem Gesten-Set zusammengefasst. Bei der <strong>Evaluierung</strong> werden dann die potentiellen Gesten auf ihre Gebrauchstauglichkeit und weitere Aspete (z.B. Erlernbarkeit, Ergonomie, etc.) hin überprüft.</p><p>Der nutzerzentrierte Anteil ist in der Regel sehr hoch. Dadurch können potentielle Endanwender früh in den Design-Prozess eingebunden werden. Nutzer werden im Anschluss jedes Benutzertests über die Gebrauchstauglichkeit von Gesten befragt (mit Hilfe von Fragebögen oder Interviews). In jeder Studie gibt es andere Anforderungen und Ziele, weshalb die Fragen stark varrieren können. Mit dem bereitgestellten Gesture Usability Scale (GUS) bietet GestureNote einen Fragebogenbaukasten an, der speziell für die subjektive Bewertung von Gesten-Interaktionen in der Evaluierungsphase genutzt werden kann. Es können unterschiedliche Aspekte wie z.B. <em>Aufgabenangemessenheit</em>, <em>Erlern- & Erinnerbarkeit</em> oder <em>Soziale Akzeptanz</em> abgefragt werden. Dabei können alle genutzten Gesten auf einmal oder einzelne Gesten nacheinander abgefragt werden. Zudem stellt GestureNote allgemeine Styleguides, die den Gesten-Design-Prozess betreffen, zur Verfügung.</p><p>Die bereitgestellten Items für den GUS und die allgemeinen Styleguides wurden auf Basis von Literaturrecherchen und eigenen Erfahrungen im Kontext der gestenbasierten Mensch-Computer-Interaktion entwickelt. Der GUS wird in Lehrveranstaltungen mit Schwerpunkt Usability Engineering eingesetzt und weiter entwickelt.</p>"
         },
         "processStyleguides": {
             "headline": "Allgemeine Styleguides",
@@ -5372,12 +5377,12 @@
         "noUsersInvited": {
             "id": "no-users-invited",
             "type": "warning",
-            "text": "Diese Studie wurde noch nicht für andere Interaktions-Designer freigegeben."
+            "text": "Diese Studie wurde noch nicht für andere Interaktionsdesigner freigegeben."
         },
         "userAlreadyInvited": {
             "id": "user-already-invited",
             "type": "warning",
-            "text": "Interaktions-Designer mit dieser E-Mail-Adress wurde bereits eingeladen."
+            "text": "Interaktionsdesigner mit dieser E-Mail-Adress wurde bereits eingeladen."
         },
         "inviteYourself": {
             "id": "invite-yourself",
@@ -5431,7 +5436,7 @@
                     [
                         "<h4>Studien-Übersicht</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/studies.jpg' style='max-width:390px' /><div class='image-caption'>Übersicht über unterschiedliche Studien.</div></div>",
-                        "<p>Die Studien-Übersicht stellt Ihre gesamten Studien übersichtlich dar. Das Farbschema zeigt an, ob eine Studie nocht nicht gestartet (gelbe Linie <span style='margin-left: 2px'><i class='fa fa-minus' style='color: #EEAC57'></i></span>), gestartet (grüne Linie <span style='margin-left: 2px'><i class='fa fa-minus' style='color: #5cb85c'></i></span>) oder beendet ist (blaue Linie <span style='margin-left: 2px'><i class='fa fa-minus' style='color: #5bc0de'></i></span>). Zudem zeigt die grüne Linie einer gestarteten Studie den Fortschritt an, bzw. wieviel Zeit noch übrig ist. Des Weiteren zeigt jedes Element Informationen über die Design-Phase (Ermittlung, Extraktion, Evaluierung), die Anzahl der befragten Probanden (Sessions) und die Freigabe für andere Interaktions-Designer.</p>",
+                        "<p>Die Studien-Übersicht stellt Ihre gesamten Studien übersichtlich dar. Das Farbschema zeigt an, ob eine Studie nocht nicht gestartet (gelbe Linie <span style='margin-left: 2px'><i class='fa fa-minus' style='color: #EEAC57'></i></span>), gestartet (grüne Linie <span style='margin-left: 2px'><i class='fa fa-minus' style='color: #5cb85c'></i></span>) oder beendet ist (blaue Linie <span style='margin-left: 2px'><i class='fa fa-minus' style='color: #5bc0de'></i></span>). Zudem zeigt die grüne Linie einer gestarteten Studie den Fortschritt an, bzw. wieviel Zeit noch übrig ist. Des Weiteren zeigt jedes Element Informationen über die Design-Phase (Ermittlung, Extraktion, Evaluierung), die Anzahl der befragten Probanden (Sessions) und die Freigabe für andere Interaktionsdesigner.</p>",
                         "<p>Um eine neue Studie zu erstellen, klicken Sie auf den Button <button class='btn btn-default btn-xs btn-shadow'><i class='fa fa-plus'></i> Neue Studie erstellen</button>. Möchten Sie die Studie bearbeiten, sich die erhobenen Rohdaten der einzelnen Sessions ansehen oder eine Extraktion für ermittelte Gesten durchführen, klicken Sie auf das jeweilige Studien-Element.</p>",
                         "<h4>Bereiche</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-01-01.jpg' style='max-width:468px' /><div class='image-caption'>Themenbasierte Inhaltserstellung über einzelne Tabs.</div></div>",
@@ -5476,7 +5481,7 @@
                         "<p>Für einen besseren Überblick wurden in der Tabelle die möglichen Vorgehensweisen und den benötigten Interaktionsdaten zusammengefasst. Optionale Interaktionsdaten sind mit <em>opt.</em> gekennzeichnet.</p>",
                         "<h4>Studien-Gesten</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-03-01.jpg' style='max-width:1413px' /><div class='image-caption'>Zugriff auf gesamten Gesten-Katalog, um Gesten für eine Studie auszuwählen.</div></div>",
-                        "<p>Studien-Gesten sind Gesten, die in einer Studie verwendet werden (z.B. für einen GUS oder ein Gesten-Training). Diese werden in einem sog. Studien-Gesten-Set zusammengefasst. Es kann für jede Studie ein separates Studien-Gesten-Set zusammengestellt werden. Dafür bietet GestureNote Zugriff auf die von Ihnen ermittelten Gesten und freigegebene Gesten von anderen Interaktions-Designern. Zusätzlich können auch neue Gesten aufgezeichnet und dem Studien-Gesten-Set hinzugefügt werden.</p>",
+                        "<p>Studien-Gesten sind Gesten, die in einer Studie verwendet werden (z.B. für einen GUS oder ein Gesten-Training). Diese werden in einem sog. Studien-Gesten-Set zusammengefasst. Es kann für jede Studie ein separates Studien-Gesten-Set zusammengestellt werden. Dafür bietet GestureNote Zugriff auf die von Ihnen ermittelten Gesten und freigegebene Gesten von anderen Interaktionsdesignern. Zusätzlich können auch neue Gesten aufgezeichnet und dem Studien-Gesten-Set hinzugefügt werden.</p>",
                         "<h4>Interaktionsaufgaben</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-03-02.jpg' style='max-width:760px' /><div class='image-caption'>Auszug einer Auflistung von Interaktionsaufgaben.</div></div>",
                         "<p>Gesten werden in GestureNote an Interaktionsaufgaben gekoppelt. Soll z.B. nach Ausführung einer Geste die Musik lauter gestellt werden, sollte die Interaktionsaufgabe <em>Musik lauter stellen</em> im Interaktionsaufgaben hinterlegt werden. Die hinterlegten Interaktionsaufgaben können dann im Leitfaden verwendet werden. Es ist z.B. möglich bei einer Ermittlung für die hinterlegten Interaktionsaufgaben Gesten zu suchen. Oder in einer Extraktion nach bevorzugten Interaktionsaufgaben für eine Geste zu fragen.</p>",
@@ -5543,7 +5548,7 @@
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-04-07.jpg' style='max-width:943px' /><div class='image-caption'>Liste von Interaktionsaufgaben (links), für die Gesten gesucht werden und weitere Optionen (rechts).</div></div>",
                         "<p>Wählen Sie aus, ob Sie Gesten oder Interaktionsaufgaben ermitteln wollen. Je nachdem was ermittelt werden soll, müssen entsprechende Interaktionsdaten vorliegen.</p>",
                         "<p><strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Interaktionsaufgaben geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzerbasiert und zum anderen expertenbasiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren. Dieses Leitfadenformat betrifft nur die nutzerzentrierte Ermittlung.<br/>",
-                        "<strong>Interaktionsaufgaben <em>(Top-Down)</em></strong>: Bei Top-Down werden logische Verknüpfungen von Interaktionsaufgaben zu vorhandenen Gesten hergestellt. Wichtig ist dabei, dass eine Quelle für die Gesten angeboten wird. In GestureNote können Interaktionsaufgaben für bereits vorhandene Gesten (ermittelte oder freigegebene Gesten anderer Interaktions-Designer) oder für von ihnen ad-hoc aufgezeichnete Gesten gesucht werden.</p>",
+                        "<strong>Interaktionsaufgaben <em>(Top-Down)</em></strong>: Bei Top-Down werden logische Verknüpfungen von Interaktionsaufgaben zu vorhandenen Gesten hergestellt. Wichtig ist dabei, dass eine Quelle für die Gesten angeboten wird. In GestureNote können Interaktionsaufgaben für bereits vorhandene Gesten (ermittelte oder freigegebene Gesten anderer Interaktionsdesigner) oder für von ihnen ad-hoc aufgezeichnete Gesten gesucht werden.</p>",
                         "<h4>Exploration</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-04-08.jpg' style='max-width:989px' /><div class='image-caption'>Liste von Interaktionsaufgaben (links), für die passende Gesten gesucht werden und weitere Optionen (rechts)</div></div>",
                         "<p>Ziel dieser Methode ist es, den Probanden einen Überblick über die ermittelten Gesten oder Interaktionsaufgaben zu geben. In der Befragung können dann entweder die favorisierten Interaktionsaufgaben für eine Gesten oder die favorisierten Gesten für eine Interaktionsaufgabe identifiziert werden.</p>",
@@ -5585,7 +5590,7 @@
                         "<p>Die Durchführungsseite wird dabei hier von der Vorschau repräsentiert. Die Vorschau stellt also nicht den kompletten Workflow einer Durchführung dar, sondern nur den hinterlegten Leitfaden.</p>",
                         "<h4>Vorschau vs. Durchführung</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-preview/carousel-01-04.png' style='max-width:428px' /><div class='image-caption'>Rollenauswahl und Verbindungsaufbau einer echten Durchführung.</div></div>",
-                        "<p>Die Durchführungsseite ist das Äquivalent zur Studien-Vorschau, mit dem Unterschied, dass in der Vorschau zwischen den beiden Rollen (Moderator, Tester) gewechselt werden kann. Bei der richtigen Durchführung können noch weitere Rollen von anderen Interaktions-Designern eingenommen werden: Wizard oder Beobachter (siehe obere Abbildung). Jede Rolle (Moderator, Proband, Wizard oder Beobachter) darf nur einmal besetzt werden. Ein Moderator leitet jede Durchführung. Ein Beobachter kann bei jeder Session teilnehmen, ein Wizard jedoch nur, falls mindestens ein Benutzertest für eine Evaluierung angelegt wurde. Ein Wizard steuert demnach den Benutzertest. Ein Beobachter füllt Beobachtungsleitfäden aus und annotiert wichtige Ereignisse während einer Session.</p>",
+                        "<p>Die Durchführungsseite ist das Äquivalent zur Studien-Vorschau, mit dem Unterschied, dass in der Vorschau zwischen den beiden Rollen (Moderator, Tester) gewechselt werden kann. Bei der richtigen Durchführung können noch weitere Rollen von anderen Interaktionsdesignern eingenommen werden: Wizard oder Beobachter (siehe obere Abbildung). Jede Rolle (Moderator, Proband, Wizard oder Beobachter) darf nur einmal besetzt werden. Ein Moderator leitet jede Durchführung. Ein Beobachter kann bei jeder Session teilnehmen, ein Wizard jedoch nur, falls mindestens ein Benutzertest für eine Evaluierung angelegt wurde. Ein Wizard steuert demnach den Benutzertest. Ein Beobachter füllt Beobachtungsleitfäden aus und annotiert wichtige Ereignisse während einer Session.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-preview/carousel-01-02.png' style='max-width:992px' /><div class='image-caption'>Steuerleiste für Studien-Vorschau.</div></div>",
                         "<p>Ein weiterer Unterschied betrifft die oberere Navigationsleiste. Mit dieser kann in der Vorschau frei zwischen den einzelnen Leitfadenschritten gewählt werden. In der eigentlichen Durchführung ist diese Leiste nicht vorhanden. Der Abbrechen-Button und die Fortschrittsanzeige sind hingegen in der Vorschau wie auch in der Durchführung vorhanden.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-preview/carousel-01-03.jpg' style='max-width:791px'/><div class='image-caption'>Unteschiede Studien-Vorschau (links) - Studien-Durchführung (rechts). Links nur ein Platzhalter, rechts Livestreams von den Beteiligten.</div></div>",
@@ -5612,28 +5617,28 @@
                         "<div class='image-with-caption text-center'><img class='img-image' style='max-width:741px' src='img/de/introduction/study-preview/carousel-02-01.png' /><div class='image-caption'>Dialog für das Starten des Screen-Sharings. Auswahl des UI-Fensters über den Reiter <em>Anwendungsfenster</em>.</div></div>",
                         "<p>Klicken Sie als erstes auf den Button <button class='btn btn-success btn-xs'>UI öffnen</button>. Es öffnet sich ein seperates Browserfenster in dem das UI angezeigt wird. Dieses Fenster soll dem Probanden übertragen werden, weshalb dieses nicht geschlossen werden sollte. Klicken Sie anschließend in GestureNote auf <button class='btn btn-success btn-xs'>Screen-Sharing starten</button>. Es öffnet sich nun ein Dialog (siehe oben), in dem Sie das zu übertragende Browserfenster unter dem Reiter Anwendungsfenster auswählen können. Bestätigen Sie die Auswahl mit einem Klick auf Teilen. Das UI wird nun zum Probanden übertragen. Ändert sich das UI (z.B. während eines Benutzertests), sieht dies somit auch der Proband. Sie können das Browserfenster verschieben, ohne dass dies einen Einfluss auf die Darstellung beim Probanden hat. Ändern Sie die Größe des Fensters, wird die Ansicht beim Probanden passend skaliert (scale-to-fit). Am Ende eines Leitfadenschritts (z.B. eines Benutzertests) können Sie das Screen-Sharing mit einem Klick auf <button class='btn btn-success btn-xs'>Screen-Sharing beenden</button> beenden. Das seperate Fenster in dem das UI angezeigt und zum Probanden übertragen wurde, schließt sich daraufhin.</p>",
                         "<h4>Fragebögen</h4><hr>",
-                        "<p>Alle Fragebögen, sei es ein benutzerdefinierte Fragebogen, ein GUS, SUS oder UEQ, basieren auf den selben Funktionalitäten. Der Proband beantwortet die Fragen auf seinem Gerät. Die Antworten werden in Echtzeit zum Moderator übertragen, d.h. Sie sehen immer an welcher Stelle im Fragebogen sich ein Proband befindet und welche Antworten er gewählt hat. So können Sie nochmal nachhaken, falls es bei einer Frage Schwierigkeiten gibt. Bei einem Interview liest der Moderator die Fragen vor und gibt die Antworten des Probanden in das Formular ein.</p>",
+                        "<p>Alle Fragebögen, sei es ein benutzerdefinierter oder (teil-)standardisierter (GUS, SUS, UEQ), basieren auf denselben Funktionalitäten. Der Proband beantwortet die Fragen auf seinem Gerät. Die Antworten werden in Echtzeit zum Moderator übertragen, d.h. Sie sehen immer an welcher Stelle im Fragebogen sich ein Proband befindet und welche Antworten er gewählt hat. So können Sie nochmal nachhaken, falls es bei einer Frage Schwierigkeiten gibt. Bei einem Interview liest der Moderator die Fragen vor und gibt die Antworten des Probanden in das Formular ein.</p>",
                         "<p>Sie können für eigene Fragebögen Filterfragen anlegen. Wurden Filterfragen angelegt, werden diese Infos entweder neben den einzelnen Auswahloptionen oder für die ganze Frage eingeblendet (wenn z.B. die Antwort/Auswahl egal ist, oder bei einer Summenfrage alle Antwortmöglichkeiten >= 2 sind). Scrollen Sie mit der Maus über das Symbol <b><i class='fa fa-info-circle'></i> Filter</b>, um die Informationen abzurufen. Sind Filterfragen vorhanden, werden die einzelnen Fragen beim Probanden sequentiell eingeblendet. Ohne Filterfragen werden alle Fragen eines Fragebogens gezeigt.</p>",
                         "<h4>Ermittlung</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px' src='img/de/introduction/study-preview/elicitation.svg' /><div class='image-caption'>Bildbeschreibung.</div></div>",
-                        "<p></p>",
+                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px' src='img/de/introduction/study-preview/elicitation.svg' /><div class='image-caption'>Flussdiagramm einer Ermittlung.</div></div>",
+                        "<p>Bei einer Ermittlung kommt es darauf an, den Probanden dazu zu bringen, Gesten vorzuführen. Dabei können die während der Planung hinterlegten UIs abgerufen werden, damit die Probanden eine bessere Vorstellung bekommen um was es geht. Des Weiteren können Interaktionsaufgaben für bestimmte Gesten abgefragt werden. Dies geschieht über einen Fragebogen, der auf Grundlage der hinterlegten Daten automatisch generiert wird. Der Vorgang wiederholt sich dann für jede weitere Geste oder Interaktionsaufgabe bis keine mehr vorhanden sind.</p>",
                         "<h4>Exploration</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:620px' src='img/de/introduction/study-preview/exploration.svg' /><div class='image-caption'>Bildbeschreibung.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:520px' src='img/de/introduction/study-preview/exploration.svg' /><div class='image-caption'>Flussdiagramm einer Exploration.</div></div>",
                         "<p></p>",
                         "<h4>Gesten-Training</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:480px' src='img/de/introduction/study-preview/gesture-training.svg' /><div class='image-caption'>Bildbeschreibung.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:500px' src='img/de/introduction/study-preview/gesture-training.svg' /><div class='image-caption'>Flussdiagramm eines Gesten-Trainings.</div></div>",
                         "<p></p>",
                         "<h4>Benutzertest</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:800px' src='img/de/introduction/study-preview/usertest.svg' /><div class='image-caption'>Bildbeschreibung.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:800px' src='img/de/introduction/study-preview/usertest.svg' /><div class='image-caption'>Flussdiagramm eines Benutzertests.</div></div>",
                         "<p></p>",
                         "<h4>Gesten erraten</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:280px' src='img/de/introduction/study-preview/gesture-slideshow.svg' /><div class='image-caption'>Bildbeschreibung.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:280px' src='img/de/introduction/study-preview/gesture-slideshow.svg' /><div class='image-caption'>Flussdiagramm <em>Gesten erraten</em>.</div></div>",
                         "<p></p>",
                         "<h4>Interaktionsaufgaben erraten</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:130px' src='img/de/introduction/study-preview/trigger-slideshow.svg' /><div class='image-caption'>Bildbeschreibung.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:130px' src='img/de/introduction/study-preview/trigger-slideshow.svg' /><div class='image-caption'>Flussdiagramm <em>Interaktionsaufgaben erraten</em>.</div></div>",
                         "<p></p>",
                         "<h4>Physischer Belastungstest</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:630px' src='img/de/introduction/study-preview/physical-stress-test.svg' /><div class='image-caption'>Bildbeschreibung.</div></div>",
+                        "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:630px' src='img/de/introduction/study-preview/physical-stress-test.svg' /><div class='image-caption'>Flussdiagramm eines Physischen Belastungstests.</div></div>",
                         "<p></p>"
                     ]
         }
@@ -5652,7 +5657,7 @@
                 "<p>Um diese Daten zu bearbeiten, klicken Sie auf <button class='btn btn-xs btn-default'><i class='fa fa-pencil'></i> Studie bearbeiten</button>.</p>",
                 "<h4>Studie freigeben</h4><hr>",
                 "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study/carousel-01-02.jpg' style='max-width:605px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
-                "<p>Geben Sie eine Studie für andere Interaktions-Designer frei. Freigaben können mit einem Klick auf <span class='btn-uninvite-user'><i class='fa fa-trash'></i> Freigabe zurückziehen</span> rückgängig gemacht werden.</p>"
+                "<p>Geben Sie eine Studie für andere Interaktionsdesigner frei. Freigaben können mit einem Klick auf <span class='btn-uninvite-user'><i class='fa fa-trash'></i> Freigabe zurückziehen</span> rückgängig gemacht werden.</p>"
             ]
         },
         {
@@ -5752,7 +5757,7 @@
             "popover": "Allgemeines",
             "description": [
                 "Hier können alle erhobenen Studien-Daten von einer Befragung für die einzelnen Leitfadenformate abgerufen werden. Klicken Sie auf den gewünschten Leitfadenabschnitt, um die erhobenen Daten zu sichten. Ein schneller Wechsel zu einem vorherigen oder nachfolgenden Teilnehmer ist ebenfalls möglich.",
-                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/participant/carousel-01-01.jpg' style='max-width:338px' /><div class='image-caption'>Die einzelnen Leitfadenschritte (rechts) und Navigationsleiste (links) am Fensterrand.</div></div>",
+                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/participant/carousel-01-01.jpg' style='max-width:338px' /><div class='image-caption'>Die einzelnen Leitfadenschritte (links) und Navigationsleiste am Fensterrand (rechts).</div></div>",
                 "<p>Neben der Information, ob eine Studie erfolgreich durchgeführt wurde, ist die Gesamtdauer der Befragung hinterlegt. Eine Dauer der einzelnen Leitfadenabschnitte wird ebenfalls angezeigt (rechts neben dem Leitfadentitel). Mit der Navigationsleiste kann schnell zwischen einzelnen Sessions gewechselt, eine Konversation gestartet oder eine Session mit all ihren erhobenen Daten gelöscht werden.</p>",
                 "<p>Zusätzlich kann eine Session als Pretest markiert werden. Falls z.B. erhobene Daten aus einer Gesten-Ermittlung nicht einer Extraktion angezeigt werden sollen. Dies sollte jedoch vor einer Extraktion geschehen, damit die Daten dort nicht korrumpiert werden.</p>",
                 "<h4>Videovorschau</h4><hr>",
@@ -5785,7 +5790,7 @@
                 "<p>Die Darstellung von Fragebögen und deren Antworten ist überall identisch. Für jede Frage werden die allgemeinen Informationen und die gegebenen Antworten angezeigt. Hinweise erleichtern eine schnelle Übersicht, ob z.B. eine Frage unbeantwortet blieb oder ob eine Rating gut oder schlecht ausfällt. Dies umfasst die Leitfadenformate <em>Fragebogen</em>, <em>Interview</em>, <em>Gesture Usability Scale</em>, <em>User Experience Questionnaire</em> und <em>System Usability Scale</em>.</p>",
                 "<p>Wurden Filterfragen angelegt, werden die Infos äquivalent zur Durchführung, entweder neben den einzelnen Auswahloptionen oder für die ganze Frage eingeblendet (wenn z.B. die Antwort/Auswahl egal ist, oder bei einer Summenfrage alle Antwortmöglichkeiten >= 2 sind). Scrollen Sie mit der Maus über das Symbol <b><i class='fa fa-info-circle'></i> Filter</b>, um die Informationen abzurufen.</p>",
                 "<h4>Systen Usabilty Scale</h4><hr>",
-                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/participant/carousel-02-02.jpg' style='max-width:724px' /><div class='image-caption'>Übersicht über den automatisch berechneten Scorewert. Darunter Die Antworten des Probanden.</div></div>",
+                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/participant/carousel-02-02.png' style='max-width:723px' /><div class='image-caption'>Übersicht über den automatisch berechneten Scorewert. Darunter Die Antworten des Probanden.</div></div>",
                 "<p>Eine Besonderheit beim System Usability Scale ist die Punkteskala, die erscheint, wenn dieser Leitfadenschritt ausgewählt wurde. Die Skala visualiert, wie das System vom Probanden insgesamt bewertet wurde. Dazu müssen alle Fragen des SUS beantwortet werden.</p>",
                 "<h4>User Experience Questionnaire</h4><hr>",
                 "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/participant/carousel-02-03.jpg' style='max-width:711px' /><div class='image-caption'>Übersicht über die automatisch berechneten Scorewerte. Darunter die Antworten des Probanden.</div></div>",
@@ -5823,13 +5828,13 @@
             "popover": "Allgemeines über Gesten",
             "description": 
                     [
-                        "<p>Das Arbeiten mit Gesten stellt sich in aktuellen Design-Studien immer wieder als aufwendig und zeitraubend heraus. GestureNote wurde entwickelt, um das Design von Gesten-Interaktionen zu vereinfachen und eine breitere Zielgruppe zu befragen. Die einzelnen Gesten, egal ob nutzerzentriert ermittelt oder vom Interaktions-Designer aufgezeichnet, stehen dabei im Fokus. Der Zugriff auf alle Gesten kann über den Gesten-Katalog erfolgen. Hier stehen nicht nur eigene aufgezeichnete und ermittelte Gesten, sondern auch von anderen Interaktions-Designern freigegebene Gesten zentral zur Verfügung.</p>",
+                        "<p>Das Arbeiten mit Gesten stellt sich in aktuellen Design-Studien immer wieder als aufwendig und zeitraubend heraus. GestureNote wurde entwickelt, um das Design von Gesten-Interaktionen zu vereinfachen und eine breitere Zielgruppe zu befragen. Die einzelnen Gesten, egal ob nutzerzentriert ermittelt oder vom Interaktionsdesigner aufgezeichnet, stehen dabei im Fokus. Der Zugriff auf alle Gesten kann über den Gesten-Katalog erfolgen. Hier stehen nicht nur eigene aufgezeichnete und ermittelte Gesten, sondern auch von anderen Interaktionsdesignern freigegebene Gesten zentral zur Verfügung.</p>",
                         "<h4>Gesten in GestureNote</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-01.jpg' style='max-width:280px' /><div class='image-caption'>Standard-Thumbnail einer Geste in GestureNote.</div></div>",
                         "<p>Die obere Abbildung zeigt das typische Thumbnail, das in GestureNote eine Geste repräsentiert. Wird die Maus über das Thumbnail bewegt, wird die Vorschau der Geste als Loop abgespielt. Unterhalb der Vorschau wird der Titel der Geste und Symbole eingeblendet, die weitere Informationen über die Geste anzeigen. Diese Vorschau wird gespiegelt angezeigt, d.h. sie ist wie ein Spiegelbild zu behandeln.</p>",
-                        "<p><strong>Bewertungen</strong><br/>Das Sternsymbol <i class='fa fa-star-o'></i> zeigt an, ob und wie die Geste von anderen Interaktions-Designer bewertet ist. Ein leerer Stern gibt an, dass die Geste noch nicht bewertet wurde. Ein gefüllter gelber Stern <span class='btn-rate gesture-rated'><i class='fa fa-star' style='color:#f0ad4e'></i> <span class='amount' style='font-size: 9pt;position: relative;top: -1px; left:-2px'>45</span></span> zeigt an, dass die Geste bewertet ist und die Zahl daneben, von wie vielen Interaktions-Designern sie bewertet wurde. Eigene Gesten, d.h. selbst aufgezeichnete oder in Studien ermittelte Gesten können nicht bewertet werden. Mit einem Klick auf das Symbol gelangt man zu den Bewertungen</p>",
-                        "<p><strong>Favoriten</strong><br/>Analog zum Sternsymbol verhält sich das Herzsymbol <i class='fa fa-heart-o'></i>, welches anzeigt, ob und von wie vielen Interaktions-Designer diese Geste favorisiert wird. Ein leeres Herz gibt an, dass die Geste noch nicht favorisiert wurde. Ein gefülltes rotes Herz <span class='btn-like gesture-liked'><i class='fa fa-heart' style='color:#D42C29'></i> <span class='amount' style='font-size: 9pt;position: relative;top: -1px; left:-2px'>15</span></span> zeigt an, dass die Geste favorisiert wird und die Zahl daneben, von wie vielen Interaktions-Designern sie favorisiert wird. Es können auch eigene Gesten favorisiert werden.</p>",
-                        "<p><strong>Freigaben</strong><br/>Das Sharingsymbol <i class='fa fa-share-alt'></i> ist grau, wenn diese Geste nicht von Ihnen freigegeben wurde. Ist es hingegen blau <i class='fa fa-share-alt' style='color:#0480be'></i>, ist die Geste für andere Interaktions-Designer freigegeben. Es können nur eigene, d.h. selbst aufgezeichnete Gesten und in Studien ermittelte Gesten für andere Interaktions-Designer freigegeben werden. Sie können Gesten für alle anderen oder für bestimmte Interaktions-Designer freigeben. Wurden Gesten für alle freigegeben, erscheint zusätzlich eine liegende Acht &infin;. Wurde die Geste hingegen nur für bestimmte Interaktions-Designer per E-Mail freigegeben, erscheint die Anzahl. Wurde die Geste per E-Mail und für alle anderen freigegeben, wird die liegende Acht priorisiert angezeigt.</p>",
+                        "<p><strong>Bewertungen</strong><br/>Das Sternsymbol <i class='fa fa-star-o'></i> zeigt an, ob und wie die Geste von anderen Interaktionsdesigner bewertet ist. Ein leerer Stern gibt an, dass die Geste noch nicht bewertet wurde. Ein gefüllter gelber Stern <span class='btn-rate gesture-rated'><i class='fa fa-star' style='color:#f0ad4e'></i> <span class='amount' style='font-size: 9pt;position: relative;top: -1px; left:-2px'>45</span></span> zeigt an, dass die Geste bewertet ist und die Zahl daneben, von wie vielen Interaktionsdesignern sie bewertet wurde. Eigene Gesten, d.h. selbst aufgezeichnete oder in Studien ermittelte Gesten können nicht bewertet werden. Mit einem Klick auf das Symbol gelangt man zu den Bewertungen</p>",
+                        "<p><strong>Favoriten</strong><br/>Analog zum Sternsymbol verhält sich das Herzsymbol <i class='fa fa-heart-o'></i>, welches anzeigt, ob und von wie vielen Interaktionsdesigner diese Geste favorisiert wird. Ein leeres Herz gibt an, dass die Geste noch nicht favorisiert wurde. Ein gefülltes rotes Herz <span class='btn-like gesture-liked'><i class='fa fa-heart' style='color:#D42C29'></i> <span class='amount' style='font-size: 9pt;position: relative;top: -1px; left:-2px'>15</span></span> zeigt an, dass die Geste favorisiert wird und die Zahl daneben, von wie vielen Interaktionsdesignern sie favorisiert ist. Es können auch eigene Gesten favorisiert werden.</p>",
+                        "<p><strong>Freigaben</strong><br/>Das Sharingsymbol <i class='fa fa-share-alt'></i> ist grau, wenn diese Geste nicht von Ihnen freigegeben wurde. Ist es hingegen blau <i class='fa fa-share-alt' style='color:#0480be'></i>, ist die Geste für andere Interaktionsdesigner freigegeben. Es können nur eigene, d.h. selbst aufgezeichnete Gesten und in Studien ermittelte Gesten für andere Interaktionsdesigner freigegeben werden. Sie können Gesten für alle anderen oder für bestimmte Interaktionsdesigner freigeben. Wurden Gesten für alle freigegeben, erscheint zusätzlich eine liegende Acht &infin;. Wurde die Geste hingegen nur für bestimmte Interaktionsdesigner per E-Mail freigegeben, erscheint die Anzahl. Wurde die Geste per E-Mail und für alle anderen freigegeben, wird die liegende Acht priorisiert angezeigt.</p>",
                         "<p><strong>Gesten-Set-Zuweisung</strong><br/>Eine Geste kann einem oder mehreren Gesten-Sets zugewiesen werden. Das Symbol <i class='fa fa-paperclip'></i> ist grau, wenn diese Geste keinem Gesten-Set zugewiesen ist. Ist es hingegen blau <i class='fa fa-paperclip' style='color:#0480be'></i>, ist die Geste mindestens einem Gesten-Set zugewiesen. Eine Zahl zeigt an, zu wie vielen Gesten-Sets eine Geste zugewiesen ist. Bewegen Sie mit die Maus über das Symbol, erscheint eine Liste der Gesten-Sets.</p>",
                         "<p><strong>Kommentare</strong><br/>Das Symbol <i class='fa fa-comments'></i> zeigt an, ob und wie viele Kommentare es für eine Geste gibt. Man gelangt zu den Kommentaren, in dem man auf das Symbol klickt. Sind noch keine Kommtanre zu dieser Geste vorhanden, wird eine leere Sprechblase <i class='fa fa-comment-o'></i> angezeigt.</p>",
                         "<p><strong>Alle Informationen abrufen</strong><br/>Über einem Klick auf das Symbol <i class='fa fa-ellipsis-h'></i>, können alle Informationen über eine Geste abgerufen werden. Ist man „Besitzer“ dieser Geste, kann diese zusätzlich bearbeitet und gelöscht werden.</p><br/>",
@@ -5852,7 +5857,7 @@
                         "<p>Wurde eine Geste mit dem unterstützten Leap Motion Controller aufgezeichnet werden die Daten als 3D-Modell in der Vorschau dargestellt. Liegen mehrere Quellen vor, können diese über die Button-Leiste unter der Vorschau umgeschaltet werden. Diese Vorschau wird aus Sicht des Menschen dargestellt, welcher die Geste aufgezeichnet hat. D.h. sie ist nicht wie die Bildvorschau (gespiegelt), sondern aus Nutzerperspektive zu behandeln.</p>",
                         "<p>Sie können die Rohdaten der Geste über einen Klick auf <i class='fa fa-file-code-o'></i> (unkomprimiert) oder <i class='fa fa-file-zip-o'></i> (komprimiert) herunterladen.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-01-07.jpg' style='max-width:700px' /><div class='image-caption'>Kommentarfunktion im Infofenster einer Geste.</div></div>",
-                        "<p>Alle registrierten Interaktions-Designer können Kommentare bei ihren eigenen und bei Gesten anderer Hinterlassen. Ist Ihnen etwas bei einer freigegebenen Geste unklar? Zögern Sie nicht und hinterlassen Sie dem Besitzer der Geste einen Kommentar. Sie können ihre Kommentare nachträglich wieder löschen.</p>"
+                        "<p>Alle registrierten Interaktionsdesigner können Kommentare bei ihren eigenen und bei Gesten anderer Hinterlassen. Ist Ihnen etwas bei einer freigegebenen Geste unklar? Zögern Sie nicht und hinterlassen Sie dem Besitzer der Geste einen Kommentar. Sie können ihre Kommentare nachträglich wieder löschen.</p>"
                     ]
         },
         {
@@ -5883,8 +5888,8 @@
             "description": 
                     [
                         "<h4>Expertenbasierte Aufzeichnung</h4><hr>",
-                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-03-01.jpg' style='max-width:700px' /><div class='image-caption'>Beispiel für eine expertenbasierte Gestenaufzeichnung. Interaktions-Designer befindet sich im Speichern-Dialog.</div></div>",
-                        "<p>Im Gesten-Katalog oder bei der Studien-Erstellung im Bereich des Studien-Gesten-Katalogs können Interaktions-Designer eigene Gesten aufzeichnen. Alle aufgezeichneten Gesten werden im Gesten-Katalog hinterlegt. Beim Aufzeichnen steht dem Interaktions-Designer für jeden Schritt im Gesten-Recorder eine ausführliche Beschreibung der Funktionen zur Verfügung. Standardmäßig werden Gesten mit Hilfe einer angeschlossenen oder integrierten Webcam aufgezeichnet. Webcams sind weit verbreitet und bieten deshalb als ersten Schritt eine gute Unterstützung für den Gesten-Design-Prozess.</p>",
+                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-03-01.jpg' style='max-width:700px' /><div class='image-caption'>Beispiel für eine expertenbasierte Gestenaufzeichnung. Interaktionsdesigner befindet sich im Speichern-Dialog.</div></div>",
+                        "<p>Im Gesten-Katalog oder bei der Studien-Erstellung im Bereich des Studien-Gesten-Katalogs können Interaktionsdesigner eigene Gesten aufzeichnen. Alle aufgezeichneten Gesten werden im Gesten-Katalog hinterlegt. Beim Aufzeichnen steht dem Interaktionsdesigner für jeden Schritt im Gesten-Recorder eine ausführliche Beschreibung der Funktionen zur Verfügung. Standardmäßig werden Gesten mit Hilfe einer angeschlossenen oder integrierten Webcam aufgezeichnet. Webcams sind weit verbreitet und bieten deshalb als ersten Schritt eine gute Unterstützung für den Gesten-Design-Prozess.</p>",
                         "<p>Während einer Aufzeichnung kann die Geste mehrmals wiederholt werden. Der Gesten-Recorder bietet dann die Möglichkeit die Aufzeichnung zu kürzen, sodass nur der gewünschte Abschnitt gespeichert wird. Legen Sie im Anschluss ein Schlüsselbild für die Geste fest und hinterlegen Sie Titel, Kontext, Gestenbeschreibung und weitere Merkmale.</p>",
                         "<h4>Nutzerzentrierte Aufzeichnung</h4><hr>",
                         "<p>Eine nutzerzentrierte Aufzeichnung von Gesten findet in GestureNote während der Durchführung einer Gesten-Ermittlung statt. Die Geste wird beim Probanden aufgezeichnet und anschließend an den Moderator der Durchführung gesendet, sodass dieser dann die einzelnen Schritte zur Speicherung durchläuft wie bei der expertenbasierten Aufzeichnung. Weitere Informationen stehen unter <a class='smooth-goto' href='#createStudy-phases-2-4-8'>Planung</a> und <a class='smooth-goto' href='#studyPreview-usage-3-2-3'>Durchführung</a> zur Verfügung.</p>",
@@ -5899,24 +5904,38 @@
             "tabId": "gesturesAndGestureSets",
             "imgSrc": "img/de/introduction/collaboration/carousel-01.jpg",
             "title": "Gesten & Gesten-Sets",
-            "text": "Gesten & Gesten-Sets freigeben, kommentieren oder bewerten. Nutzen Sie von anderen Interaktions-Designer freigegebene Gesten & Gesten-Sets.",
+            "text": "Gesten & Gesten-Sets freigeben, kommentieren oder bewerten. Nutzen Sie von anderen Interaktionsdesigner freigegebene Gesten & Gesten-Sets.",
             "popover": "Gesten & Gesten-Sets",
             "description": 
                     [
-                        "<p>Für jede Geste und jedes Gesten-Set gibt es die Möglichkeit, im Infofester eine Konversation zu starten, bzw. einer bereits gestarteten Konversation beizutreten. Klicken Sie dazu auf den Button <button class='btn btn-default btn-xs btn-shadow'>Konversation beitreten <i class='fa fa-group'></i></button>. Es öffnet sich ein neues Fenster für die Übertragung der Webcam-Streams. Dieses Fenster kann in seiner Größe verändert und verschoben werden.</p>",
-                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/collaboration/carousel-01-01.jpg' style='max-width:1018px' /><div class='image-caption'>Konversationsfenster für eine Geste (rechts).</div></div>"
+                        "<p>Für jede Geste und jedes Gesten-Set gibt es die Möglichkeit diese für andere Intarktionsdesigner freizugeben, zu bewerten, zu favorisieren oder sich darüber in den Kommentaren auszutauschen. Mit den Kollaborationsfunktionen sollen Diskussionen über einzelne Gesten und Gesten-Sets geführt werden können. Geteilte Geste oder Gesten-Sets können von eingeladenen Interaktionsdesigner für eigene Studien verwendet werden. Das Ziel dieser Möglichkeiten ist eine bessere Zusammenarbeit und Austausch zwischen einzelnen Interaktionsdesignern.</p>",
+                        "<p>Für mehr Informationen über die einzelnen Funktionen siehe <a class='smooth-goto' href='#gesturesGestureSets'>Gesten & Gesten-Sets</a>.</p>"
                     ]
         },
         {
             "tabId": "conversations",
             "imgSrc": "img/de/introduction/collaboration/carousel-02.jpg",
             "title": "Konversationen",
-            "text": "Führen Sie z.B. mit anderen Interaktions-Designer eine Konversation über eine freigegebene Studie, Geste oder ein Gesten-Set.",
+            "text": "Führen Sie z.B. mit anderen Interaktionsdesigner eine Konversation über eine freigegebene Studie, Geste oder ein Gesten-Set.",
             "popover": "Konversationen",
             "description": 
                     [
-                        "<p>Das Arbeiten mit Gesten stellt sich in aktuellen Design-Studien immer wieder als aufwendig und zeitraubend heraus. GestureNote wurde entwickelt, um das Design von Gesten-Interaktionen zu vereinfachen und eine breitere Zielgruppe zu befragen. Die einzelnen Gesten, egal ob nutzerzentriert ermittelt oder vom Interaktions-Designer aufgezeichnet, stehen dabei im Fokus. Der Zugriff auf alle Gesten kann über den Gesten-Katalog erfolgen. Hier stehen nicht nur eigene aufgezeichnete und ermittelte Gesten, sondern auch von anderen Interaktions-Designern freigegebene Gesten zentral zur Verfügung.</p>",
-                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/collaboration/carousel-01-01.jpg' style='max-width:280px' /><div class='image-caption'>Standard-Thumbnail einer Geste in GestureNote.</div></div>"
+                        "<p>Für jede Geste und jedes Gesten-Set gibt es die Möglichkeit, im Infofester eine Konversation zu starten, bzw. einer bereits gestarteten Konversation beizutreten. Klicken Sie dazu auf den Button <button class='btn btn-default btn-xs btn-shadow'>Konversation beitreten <i class='fa fa-group'></i></button>. Es öffnet sich ein Videochatfenster für die Übertragung der Webcam (Video und Audio). Dieses Fenster kann in seiner Größe verändert und Position angepasst werden.</p>",
+                        "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/collaboration/carousel-02-01.jpg' style='max-width:1018px' /><div class='image-caption'>Konversationsfenster für eine Geste (rechts).</div></div>",
+                        "<p>In angelegten Studien können ebenfalls Konversationen gestartet werden. Die Teilnehmer eines Videochats können sich in der Studie, einzelnen Sessions, in der Bearbeitung oder der Vorschau für eine befinden. Es kann sich z.B. ein Konversations-Teilnehmer in der Vorschau einer Studie befinden und ein anderer die Studie bearbeiten. Bei Gesten und Gesten-Sets können sich mehrere Teilnehmer über eine Geste oder ein Gesten-Set unterhalten, und der Eigentümer bearbeitet währenddessen die Geste oder das Gesten-Set.</p>",
+                        "<p>Ein weiterer Anwendungsfall könnte die Auswertung von erhobenen Daten betreffen. Ein Interaktionsdesigner kümmert sich um die Gesten-Extraktion und ein weiterer sichtet die erhobenen Daten. Dabei sind beide über den Videochat miteinander verbunden und können sich austauschen.</p>",
+                        "<p>Es sind maximal 4 Teilnehmer pro Konversation möglich.</p>"
+                    ]
+        },
+        {
+            "tabId": "roles",
+            "imgSrc": "img/de/introduction/collaboration/carousel-03.jpg",
+            "title": "Rollen bei der Durchführung",
+            "text": "Arbeiten Sie mit anderen Intearktionsdesigner während einer Durchführung zusammen.",
+            "popover": "Rollen bei der Durchführung",
+            "description": 
+                    [
+                        "<p>Bei ortsgebundenen Usability Tests im Labor ist es üblich, dass mehrere Teilnehmer an einer Studie mitwirken. Eine Person moderiert den Test (Moderator), eine weitere beobachtet diesen (Beobachter) und eine andere steuert heimlich den Prototypen (Wizard). Der Fokus von GestureNote. Dies ist auch mit GestureNote möglich. Vor der eigentlichen Durchführung einer Studie können mehrere Teilnehmer beitreten. Der Moderator begrüßt dabei den Probanden und stellt die anderen Teammitglieder vor.</p>"
                     ]
         }
     ],
@@ -5924,10 +5943,18 @@
     "moreNews": "Alle News abrufen",
     "allNews": [
         {
+            "title": "Evaluierungsphase gestartet",
+            "date": "8/28/2018",
+            "content": [
+                "<p>Während zweier Workshops konnten einige Probleme bei der Nutzung von GestureNote identifiziert werden. Diese sind bereits für die aktuelle Version von GestureNote behoben. Es wurden ebenfalls grundlegende Konzepte von den Teilnehmern hinterfragt und anschließend im Detail überarbeitet. Z.B. wurde die Methode für den physischen Belastungstest dahingehend erweitert, sodass jetzt nicht nur eine einzelne Geste, sondern eine Sequenz von Gesten vom Probanden abgefragt werden kann. Dies ist besonders für zusammenhängende Gesten-Interaktionen wichtig, die aus mehr als einer Gesten-Ausführung bestehen.</p>",
+                "<p>In einem nächsten Schritt sollen Studierende im Modul Usability Engineering GestureNote nutzen, um eine Gesten-Ermittlung für Interaktionsaufgaben (Selektion, Transformation, Texteingabe und Eingabe numerischer Werte) durchzuführen. Dabei entwickeln die Studierenden Prototypen für das Szenario <em>Smarter Campus</em>. Diese Prototypen sollen mit berührungslosen Gesten gesteuert werden. D.h. die Studierenden müssen für jede Interaktionsaufgabe (z.B. Platz in Mensa reservieren) passende Interaktionselemente entwickeln und dafür den Gesten-Design-Prozess durchlaufen.</p>"
+            ]
+        },
+        {
             "title": "Unterstützung für Leap Motion Controller",
             "date": "4/6/2018",
             "content": [
-                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-03-03.jpg' style='max-width:345px; border-radius:8px' /><div class='image-caption'>Aufzeichnen einer Handgeste mit Leap Motion Controller.</div></div><p>GestureNote unterstützt den Leap Motion Controller. Dies beinhaltet das Aufzeichnen und Anzeigen von Gesten. Eine Erkennung z.B. während einer Gesten-Evaluierung wird derzeit nicht unterstützt.</p>"
+                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-03-03.jpg' style='max-width:345px; border-radius:8px' /><div class='image-caption'>Aufzeichnen einer Handgeste mit Leap Motion Controller.</div></div><p>GestureNote unterstützt den Leap Motion Controller. Dies beinhaltet das Aufzeichnen und Anzeigen von Gesten. Eine Erkennung z.B. von benutzerdefinierten Gesten während einer Evaluierung wird derzeit nicht unterstützt. Jedoch werden die 8 Standardgesten des Leap Motion Controllers in einer Evaluierung unterstützt. Fügen Sie die gewünschten Gesten aus dem Leap Motion Controller Gesten-Set zu ihrer Studie hinzu. Das Gesten-Set ist für alle Interaktionsdesigner freigegeben.</p>"
             ]
         },
         {

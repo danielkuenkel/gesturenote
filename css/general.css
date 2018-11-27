@@ -1047,7 +1047,7 @@ li.disabledTab > a[data-toggle="tab"] {
     bottom: 0px;
 }
 
-#help-description img {
+#help-description img, #news-list img {
     width: 100%;
     display: block;
     margin-left: auto;
@@ -1055,7 +1055,7 @@ li.disabledTab > a[data-toggle="tab"] {
     margin-bottom: 10px;
 }
 
-#help-description .img-image {
+.img-image {
     /*border: 1px solid #e7e7e7;*/
     margin-top: 20px;
 }
@@ -1516,6 +1516,6 @@ canvas {
     background-color: #eee;
 }
 
-#btn-leave-room:hover {
+#btn-leave-room:hover, #btn-close-config:hover {
     color: #d9534f !important;
 }

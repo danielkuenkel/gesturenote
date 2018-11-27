@@ -341,6 +341,8 @@ var Observer = {
             ignoreRole: 'no',
             selectedRole: 'observer',
             visibleRoles: ['moderator', 'tester', 'observer', 'wizard'],
+            videoSource: query.vSource ? query.vSource : null,
+            audioSource: query.aSource ? query.aSource : null,
             localStream: {audio: options.observer.audio, video: options.observer.video, visualize: options.observer.visualizeStream, record: options.observer.recordStream},
             remoteStream: {audio: options.tester.audio, video: options.tester.video}
         };

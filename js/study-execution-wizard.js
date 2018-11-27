@@ -359,6 +359,8 @@ var Wizard = {
             ignoreRole: 'no',
             selectedRole: 'wizard',
             visibleRoles: ['moderator', 'tester', 'observer', 'wizard'],
+            videoSource: query.vSource ? query.vSource : null,
+            audioSource: query.aSource ? query.aSource : null,
             localStream: {audio: options.wizard.audio, video: options.wizard.video, visualize: options.wizard.visualizeStream, record: options.wizard.recordStream},
             remoteStream: {audio: options.tester.audio, video: options.tester.video}
         };

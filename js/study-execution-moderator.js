@@ -386,6 +386,8 @@ var Moderator = {
             ignoreRole: 'no',
             selectedRole: 'moderator',
             visibleRoles: ['moderator', 'tester', 'observer', 'wizard'],
+            videoSource: query.vSource ? query.vSource : null,
+            audioSource: query.aSource ? query.aSource : null,
             localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream, record: options.moderator.recordStream},
             remoteStream: {audio: options.tester.audio, video: options.tester.video}
         };

@@ -317,7 +317,7 @@ include '../includes/language.php';
                     <div class="form-group" id="forGesture">
                         <div class="input-group">
                             <span class="input-group-addon"><?php echo $lang->gesture ?></span>
-                            <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value=""/>
+                            <input class="form-control item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value=""/>
                             <div class="input-group-btn select gestureSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -327,7 +327,7 @@ include '../includes/language.php';
 
                         <div class="input-group" id="gesture-trigger" style="margin-top: 10px">
                             <span class="input-group-addon"><?php echo $lang->trigger ?></span>
-                            <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <input class="form-control item-input-text option-trigger show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select triggerSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -336,7 +336,7 @@ include '../includes/language.php';
 
                         <div class="input-group" id="gesture-feedback" style="margin-top: 10px">
                             <span class="input-group-addon"><?php echo $lang->feedback ?></span>
-                            <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <input class="form-control item-input-text option-feedback show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select feedbackSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -2582,7 +2582,7 @@ include '../includes/language.php';
                                 <div class="form-group form-group-no-margin">
                                     <div class="input-group">
                                         <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
+                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
                                         <div class="input-group-btn select filter" id="filter" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2595,7 +2595,7 @@ include '../includes/language.php';
                                             </ul>
                                         </div>
                                         <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
+                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                         <div class="input-group-btn select sort" id="sort" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2615,7 +2615,7 @@ include '../includes/language.php';
                                         <span class="input-group-addon"><?php echo $lang->search->name ?></span>
                                         <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
                                         <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="16"/>
+                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="16"/>
                                         <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_16"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2665,7 +2665,7 @@ include '../includes/language.php';
                                 <div class="form-group form-group-no-margin">
                                     <div class="input-group">
                                         <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
+                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
                                         <div class="input-group-btn select filter" id="filter" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2682,7 +2682,7 @@ include '../includes/language.php';
                                             </ul>
                                         </div>
                                         <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
+                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                         <div class="input-group-btn select sort" id="sort" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2702,7 +2702,7 @@ include '../includes/language.php';
                                         <span class="input-group-addon"><?php echo $lang->search->name ?></span>
                                         <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
                                         <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="16"/>
+                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="16"/>
                                         <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_16"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2768,7 +2768,7 @@ include '../includes/language.php';
                                 <div class="form-group form-group-no-margin">
                                     <div class="input-group">
                                         <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
+                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
                                         <div class="input-group-btn select filter" id="filter" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2783,7 +2783,7 @@ include '../includes/language.php';
                                             </ul>
                                         </div>
                                         <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
+                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                         <div class="input-group-btn select sort" id="sort" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2803,7 +2803,7 @@ include '../includes/language.php';
                                         <span class="input-group-addon"><?php echo $lang->search->name ?></span>
                                         <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
                                         <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="4"/>
+                                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="4"/>
                                         <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_4"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">

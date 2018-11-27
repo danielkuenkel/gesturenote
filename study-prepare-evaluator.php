@@ -261,6 +261,7 @@ if ($h && $token && $studyId) {
                                     <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
                                     <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
                                     <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                                    <button type="button" class="btn stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
                                 </div>
                                 <div id="stream-control-indicator">
                                     <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
@@ -270,6 +271,36 @@ if ($h && $token && $studyId) {
                                     <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
                                         <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
                                         <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                                    </div>
+                                </div>
+
+                                <div id="rtc-config-panel" class="embed-responsive-item hidden" style="border-radius: 4px; background-color: rgba(0,0,0,.7); padding: 0px 15px 0px 15px">
+                                    <div id="btn-close-config" class="" style="font-size: 14pt; position: absolute; right: 8px; cursor: pointer; color: white; text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.0);"><i class="fa fa-close"></i></div>
+                                    <div style="margin-top: 40px">
+                                        <div class="form-group" id="video-input-select">
+                                            <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+
+                                            <div class="input-group">
+                                                <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                <div class="input-group-btn select select-video-input" role="group">
+                                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="audio-input-select">
+                                            <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
+
+                                            <div class="input-group">
+                                                <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                <div class="input-group-btn select select-audio-input" role="group">
+                                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -374,17 +405,22 @@ if ($h && $token && $studyId) {
                                 var rtcToken = $('#call-screen').attr('data-rtc-token');
                                 var testerId = $('#call-screen').attr('data-tester-id');
                                 var iceTransports = $('.iceTransportsSelect').find('.btn-option-checked').attr('id') === 'yes' ? 'relay' : 'all';
-                                peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken, iceTransports: iceTransports, testerId: testerId});
+                                var mediaSources = peerConnection.mediaSources();
+                                if (mediaSources && mediaSources.video && mediaSources.audio) {
+                                    $(peerConnection).unbind(MESSAGE_PARTICIPANT_ENTERED_STUDY).bind(MESSAGE_PARTICIPANT_ENTERED_STUDY, function (event) {
+                                        event.preventDefault();
+//                                        setTimeout(function () {
+                                        var query = getQueryParams(document.location.search);
+                                        if (iceTransports !== '') {
+                                            goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio + '&iceTransports=' + iceTransports);
+                                        } else {
+                                            goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio);
+                                        }
+//                                        }, 1000);
+                                    });
 
-                                setTimeout(function () {
-                                    var query = getQueryParams(document.location.search);
-                                    if (iceTransports !== '') {
-                                        goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId + '&iceTransports=' + iceTransports);
-                                    } else {
-                                        goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId);
-                                    }
-                                }, 1000);
-
+                                    peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken, iceTransports: iceTransports, testerId: testerId});
+                                }
                             }
                         });
                     } else if (now > dateFrom) {
@@ -508,7 +544,7 @@ if ($h && $token && $studyId) {
                                     $('#call-screen').attr('data-request-id', event.data.requestId);
                                     $('#call-screen').attr('data-rtc-token', result.data.rtcToken);
                                     $('#call-screen').attr('data-tester-id', result.data.testerId);
-                                    initPeerConnection(result.data.rtcToken + '.prepare');
+                                    initPeerConnection(result.data.rtcToken + '.prepare', selectedVideoSource, selectedAudioSource);
                                     $('.iceTransportsSelect').addClass('hidden');
                                 }
                             });
@@ -559,30 +595,24 @@ if ($h && $token && $studyId) {
                 function gotDevices(deviceInfos) {
                     console.log('got devices for webcam recorder', deviceInfos);
                     var videoSource = null;
-                    var micSource = null;
+                    var audioSource = null;
 
                     for (var i = 0; i < deviceInfos.length; i++) {
-                        if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap')) {
-                            console.log('standard device is', deviceInfos[i], deviceInfos[i].label.toLowerCase().includes('leap'));
+                        if (!videoSource && deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
+                            console.log('rtc check: standard video input device´', deviceInfos[i]);
                             videoSource = deviceInfos[i].deviceId;
-                        } else if (deviceInfos[i].kind === 'audioinput' && deviceInfos[i].deviceId === 'default') {
-                            micSource = deviceInfos[i].deviceId;
+                        } else if (!audioSource && deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
+                            console.log('rtc check: standard audio input device:', deviceInfos[i]);
+                            audioSource = deviceInfos[i].deviceId;
+                        }
+
+                        if (audioSource && videoSource) {
+                            selectedVideoSource = videoSource;
+                            selectedAudioSource = audioSource;
+                            break;
                         }
                     }
 
-                    if (getBrowser() === "Chrome") {
-                        var constraints = {audio: false,
-                            video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}
-                            }};
-                    } else if (getBrowser() === "Firefox") {
-                        var constraints = {audio: false,
-                            video: {deviceId: {exact: videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
-                            }};
-                    }
-
-                    sources.video = videoSource;
-                    sources.mic = micSource;
-                    sources.constraints = constraints;
                     loadDevice();
                 }
 
@@ -594,8 +624,8 @@ if ($h && $token && $studyId) {
 
                     DetectRTC.load(function () {
                         navigator.mediaDevices.getUserMedia({
-                            audio: sources.mic && sources.mic !== null ? {deviceId: sources.mic} : true, // { deviceId: 'mic-id' }
-                            video: sources.video && sources.video !== null ? {deviceId: sources.video} : true // { deviceId: 'camera-id' }
+                            audio: selectedAudioSource ? {deviceId: selectedAudioSource} : true, // { deviceId: 'mic-id' }
+                            video: selectedVideoSource ? {deviceId: selectedVideoSource} : true // { deviceId: 'camera-id' }
                         }).then(function (stream) {
                             var indicator = null;
                             var errors = 0;
@@ -665,7 +695,9 @@ if ($h && $token && $studyId) {
             }
 
             var peerConnection = null;
-            function initPeerConnection(rtcToken) {
+            var selectedVideoSource = null;
+            var selectedAudioSource = null;
+            function initPeerConnection(rtcToken, videoSource, audioSource) {
                 console.log('initializeRTCPeerConnection', rtcToken);
 //                if (peerConnection !== null) {
 //                    peerConnection.joinRoom(rtcToken);
@@ -683,6 +715,7 @@ if ($h && $token && $studyId) {
                     localMuteElement: $(mainElement).find('#btn-stream-local-mute'),
                     pauseStreamElement: $(mainElement).find('#btn-pause-stream'),
                     remoteMuteElement: $(mainElement).find('#btn-stream-remote-mute'),
+                    configElement: $(mainElement).find('#btn-config-rtc'),
                     indicator: $(mainElement).find('#stream-control-indicator'),
                     enableWebcamStream: true,
                     enableDataChannels: true,
@@ -693,13 +726,15 @@ if ($h && $token && $studyId) {
                     ignoreRole: 'no',
                     selectedRole: selectedRole,
                     visibleRoles: ['moderator', 'tester', 'observer', 'wizard'],
-                    sources: sources,
+                    videoSource: videoSource,
+                    audioSource: audioSource,
                     localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
                     remoteStream: {audio: 'yes', video: 'yes'}
                 };
 
                 peerConnection = new PeerConnection();
                 peerConnection.initialize(callerOptions);
+                peerConnection.showLocalStream();
 
                 // joined the a specific room
                 $(peerConnection).on('joinedRoom', function (event, roomName) {
@@ -806,13 +841,32 @@ if ($h && $token && $studyId) {
 
                             peerConnection.sendMessage(MESSAGE_REQUEST_SENSOR_STATUS);
                         } else {
-                            $('#btn-enter-study').removeClass('disabled');
-                            checkExecutionRole();
+//                            $('#btn-enter-study').removeClass('disabled');
+//                            checkExecutionRole();
                         }
                     } else {
-                        $('#btn-enter-study').removeClass('disabled');
-                        checkExecutionRole();
+//                        $('#btn-enter-study').removeClass('disabled');
+//                        checkExecutionRole();
                     }
+                });
+
+                // a peer video has been added
+                $(peerConnection).on('videoAdded', function (event, video, peer) {
+                    event.preventDefault();
+                    if (peer.nick === USER_ROLE_TESTER) {
+                        $('#btn-enter-study').removeClass('disabled');
+                    }
+                    checkExecutionRole();
+                    console.log('VIDEO ADED', video, peer);
+                });
+
+                // a peer video has been removed
+                $(peerConnection).on('videoRemoved', function (event, video, peer) {
+                    event.preventDefault();
+                    if (peer.nick === USER_ROLE_TESTER) {
+                        $('#btn-enter-study').addClass('disabled');
+                    }
+                    console.log('VIDEO REMOVED', video, peer);
                 });
 
                 $(peerConnection).on('leaveRoomDuplicatedRoles', function (event) {
@@ -829,7 +883,17 @@ if ($h && $token && $studyId) {
                     $('#participation-queue, #role-selection-container').removeClass('hidden');
                     $('#call-screen').addClass('hidden');
                     $('#btn-enter-study').addClass('disabled');
-                    $('#btn-start-screen-sharing').addClass('disabled');
+                });
+
+
+                $(peerConnection).on('renegotiate', function (event, videoSource, audioSource) {
+                    event.preventDefault();
+                    console.log('RENEGOTIATE');
+                    peerConnection.leaveRoom();
+
+                    selectedVideoSource = videoSource;
+                    selectedAudioSource = audioSource;
+                    initPeerConnection(rtcToken, videoSource, audioSource);
                 });
 
                 if (selectedRole !== VIEW_MODERATOR) {
@@ -920,15 +984,16 @@ if ($h && $token && $studyId) {
                 var selectedRole = $('.roleSelect').find('.btn-option-checked').attr('id');
 
                 if (selectedRole !== VIEW_MODERATOR) {
-                    $(peerConnection).on(MESSAGE_ENTER_SURVEY, function (event, payload) {
+                    $(peerConnection).unbind(MESSAGE_ENTER_SURVEY).bind(MESSAGE_ENTER_SURVEY, function (event, payload) {
                         event.preventDefault();
                         console.log('message enter survey');
                         var query = getQueryParams(document.location.search);
+                        var mediaSources = peerConnection.mediaSources();
 
                         if (payload.iceTransports !== '') {
-                            goto('study-execution-' + selectedRole + '.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&testerId=' + payload.testerId + '&iceTransports=' + payload.iceTransports);
+                            goto('study-execution-' + selectedRole + '.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&testerId=' + payload.testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio + '&iceTransports=' + payload.iceTransports);
                         } else {
-                            goto('study-execution-' + selectedRole + '.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&testerId=' + payload.testerId);
+                            goto('study-execution-' + selectedRole + '.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&testerId=' + payload.testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio);
                         }
                     });
                 }
