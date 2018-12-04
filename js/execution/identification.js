@@ -152,7 +152,7 @@ Identification.prototype.renderModeratorView = function () {
                 lockButton(button, true);
                 peerConnection.shareScreen(function (error) {
                     unlockButton(button, true);
-                    console.warn(error);
+                    console.warn('Maybe no chrome extension choosed', error);
                 }, function () {
                     console.log('shared screen');
 
@@ -590,7 +590,7 @@ Identification.prototype.renderModeratorView = function () {
         if (!previewModeEnabled && peerConnection) {
             $(container).find('#btn-start-gesture-recording').addClass('disabled');
             $(container).find('#waiting-for-sensor').removeClass('hidden');
-            
+
             $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event) {
                 event.preventDefault();
                 console.log('ALL RECORDER READY');
@@ -962,6 +962,7 @@ Identification.prototype.renderTesterView = function () {
         // identification live events
         testerGestureRecorder = null;
         if (!previewModeEnabled && peerConnection) {
+            var query = getQueryParams(document.location.search);
 
             var gestureRecorderContent = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
             container.find('#gesture-recorder-container').empty().append(gestureRecorderContent);
@@ -970,7 +971,7 @@ Identification.prototype.renderTesterView = function () {
                 startState: GR_STATE_INITIALIZE,
                 usedStates: [GR_STATE_INITIALIZE, GR_STATE_RECORD],
                 record: [
-                    {type: 'webcam'}
+                    {type: 'webcam', videoSource: query.vSource ? query.vSource : null}
                 ],
                 initRecorders: [
                     {type: 'webcam'}

@@ -29,6 +29,7 @@ function GestureRecorder(options) {
         recorder = null;
     }
 
+    console.log('RECORDER OPTIONS:', options);
     recorder = this;
     recorder.options = options;
     initRecorderEvents();
@@ -37,10 +38,6 @@ function GestureRecorder(options) {
         if (options.initRecorders && options.initRecorders.length > 0 && options.startState !== GR_STATE_INITIALIZE) {
             initializeRecorders();
         }
-//        if(recorder.options.updateGesture && recorder.options.updateGesture === true) {
-//            
-//            
-//        }
         setState(options.startState);
     } else {
         setState(GR_STATE_PRE_INITIALIZE);
@@ -315,7 +312,7 @@ function initializeRecorders() {
         var recordType = recorder.options.initRecorders[i].type;
         switch (recordType) {
             case TYPE_RECORD_WEBCAM:
-                initWebcamRecorder(recorder.options.initRecorders[i]);
+                initWebcamRecorder(recorder.options.initRecorders[i], recorder.options.record[i]);
                 break;
             case TYPE_RECORD_LEAP:
                 initLeapRecorder(recorder.options.initRecorders[i]);
@@ -394,7 +391,7 @@ function onRecorderInstanceUpdated(event, type, newInstance) {
     }
 }
 
-function initWebcamRecorder(recorderOptions) {
+function initWebcamRecorder(recorderOptions, generalOptions) {
     var recorderObject = {type: TYPE_RECORD_WEBCAM, state: 'uninitialized'};
     var options = {
         parent: recorder.options.recorderTarget,
@@ -404,16 +401,31 @@ function initWebcamRecorder(recorderOptions) {
         rawData: recorderOptions.data || null,
         startRecordingTime: recorderOptions.startRecordingTime || null,
         endRecordingTime: recorderOptions.endRecordingTime || null,
+        videoSource: generalOptions.videoSource || null,
+        allowConfig: generalOptions.allowConfig || null,
         recordedData: {images: recorderOptions.images, previewImage: recorderOptions.previewImage, gif: recorderOptions.gif}
     };
+
     var instance = new WebcamRecorder(options);
     recorderObject.instance = instance;
     recorders.push(recorderObject);
+
+    $(instance).unbind('renegotiate').bind('renegotiate', function (event, updatedOptions) {
+        event.preventDefault();
+
+        // update webcam options 
+        for (var i = 0; i < recorder.options.record.length; i++) {
+            if (recorder.options.record[i].type === TYPE_RECORD_WEBCAM) {
+                recorder.options.record[i].videoSource = updatedOptions.videoSource;
+            }
+        }
+
+        renderStateInitialize();
+    });
 }
 
 function initLeapRecorder(recorderOptions) {
     var recorderObject = {type: TYPE_RECORD_LEAP, state: 'uninitialized'};
-//    console.log(recorderOptions, recorderOptions.renderTarget);
     var options = {
         parent: recorder.options.recorderTarget,
         offset: {x: 0, y: 200, z: 0},
@@ -427,6 +439,7 @@ function initLeapRecorder(recorderOptions) {
         compressedData: recorderOptions.compressedData || null,
         renderTarget: recorderOptions.renderTarget || null
     };
+
     var instance = new LeapRecorder(options);
     recorderObject.instance = instance;
     recorders.push(recorderObject);
@@ -815,9 +828,12 @@ function renderStateSave() {
         }
 
         if (gestureInputsValid(true) && !$(this).hasClass('disabled')) {
+            resetProgress();
+            $(recorder.currentRecorderContent).find('#gesture-save-progress').removeClass('hidden');
+
             lockButton(saveButton, true, 'fa-floppy-o');
             $(saveForm).addClass('hidden');
-            
+
             if (recorder.options.updateGesture && recorder.options.updateGesture === true) {
                 initInstancesEvents();
             }
@@ -963,10 +979,10 @@ function renderStateSave() {
 
 function resetInputs(resetInputs) {
     clearAlerts($(recorder.options.recorderTarget));
-    
+
     var saveForm = $(recorder.currentRecorderContent).find('#gesture-save-form');
     $(saveForm).removeClass('hidden');
-    
+
     var repeatRecordingButton = $(recorder.options.recorderTarget).find('.btn-repeat-recording');
     unlockButton(repeatRecordingButton);
 
@@ -1051,6 +1067,7 @@ function saveGesture() {
             resetInputs();
             appendAlert($(recorder.currentRecorderContent).find('.gr-save'), ALERT_GENERAL_ERROR);
         }
+        resetProgress();
     });
 }
 
@@ -1065,6 +1082,7 @@ function updateGestureData() {
             if (result.status === RESULT_SUCCESS) {
                 updateGestureDataInDB();
             }
+            resetProgress();
         });
     } else {
         console.log(recorder.options);
@@ -1083,6 +1101,7 @@ function updateGestureData() {
                 resetInputs();
                 appendAlert($(recorder.currentRecorderContent).find('.gr-save'), ALERT_GENERAL_ERROR);
             }
+            resetProgress();
         });
     }
 }
@@ -1100,6 +1119,7 @@ function updateGestureData() {
 function renderStateSaveSuccess() {
     instanceCount = 0;
     resetInputs();
+    resetProgress();
     appendAlert($(recorder.currentRecorderContent), ALERT_GESTURE_SAVE_SUCCESS);
 
     $(recorder.currentRecorderContent).find('.sensor-source-save-success').addClass('hidden');
@@ -1148,6 +1168,27 @@ function renderStateSaveSuccess() {
         $(repeatRecordingButton).remove();
     }
 }
+
+/*
+ * reset progress bars for upload status
+ */
+function resetProgress() {
+    $(recorder.currentRecorderContent).find('#gesture-save-progress').addClass('hidden');
+
+    $(recorder.currentRecorderContent).find('#progress-images').addClass('hidden');
+    $(recorder.currentRecorderContent).find('#progress-images .progress-bar').attr('aria-valuenow', '0').css({width: '0%'});
+
+    $(recorder.currentRecorderContent).find('#progress-gif').addClass('hidden');
+    $(recorder.currentRecorderContent).find('#progress-gif .progress-bar').attr('aria-valuenow', '0').css({width: '0%'});
+
+    $(recorder.currentRecorderContent).find('#progress-sensor-data').addClass('hidden');
+    $(recorder.currentRecorderContent).find('#progress-sensor-data .progress-bar').attr('aria-valuenow', '0').css({width: '0%'});
+
+    $(recorder.currentRecorderContent).find('#progress-gesture-data').addClass('hidden');
+    $(recorder.currentRecorderContent).find('#progress-gesture-data .progress-bar').attr('aria-valuenow', '0').css({width: '0%'});
+}
+
+
 
 function renderStateDeleteSuccess() {
     resetInputs();

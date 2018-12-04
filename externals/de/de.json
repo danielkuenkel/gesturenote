@@ -1856,36 +1856,83 @@
     "expand": "Ausklappen",
     "collapse": "Einklappen",
     "task": "Aufgabe",
+    "tasks": "Aufgaben",
     "insertTask": "Aufgabe einfügen",
-    "tasks": "Szenariobasierte Aufgaben",
     "taskTitle": "Aufgaben-Titel",
     "insertTaskTitle": "Aufgaben-Titel einfügen",
     "annotation": "Annotation",
     "annotations": "Annotationen",
+    "annotationSources": "Annotationsherkunft",
     "taskAssessment": "Aufgaben-Beurteilung",
+    "duringExecution": "Während Durchführung",
+    "afterExecution": "Nach Durchführung",
+    "fromModerator": "Moderator",
+    "fromWizard": "Wizard",
+    "fromObserver": "Beobachter",
     "assessment": "Beurteilung",
     "taskAssessments": {
-        "success": {
+        "9345099230942029": {
             "title": "Erfolg",
             "trigger": "nextTask",
-            "annotationColor": "green"
+            "annotationColor": "green",
+            "assessmentType": "success"
         },
-        "failure": {
+        "5930909238240203": {
+            "title": "Mit Hilfe",
+            "trigger": "nextTask",
+            "annotationColor": "yellow",
+            "assessmentType": "help"
+        },
+        "4569395490823993": {
             "title": "Misserfolg",
             "trigger": "nextTask",
-            "annotationColor": "red"
+            "annotationColor": "red",
+            "assessmentType": "failure"
         },
-        "cancelTask": {
+        "3459239234989023": {
             "title": "Aufgabe abbrechen",
             "trigger": "nextTask",
-            "annotationColor": "red"
+            "annotationColor": "red",
+            "assessmentType": "cancelTask"
         },
-        "cancelScenario": {
+        "3459909208340982": {
             "title": "Benutzertest abbrechen",
             "trigger": "nextStep",
-            "annotationColor": "red"
+            "annotationColor": "red",
+            "assessmentType": "cancelScenario"
         }
     },
+    "taskAssessmentType": {
+        "success": {
+            "id": "success",
+            "title": "Aufgabe erfolgreich gelöst",
+            "titlePlural": "Aufgabe(n) erfolgreich gelöst"
+        },
+        "help": {
+            "id": "help",
+            "title": "Aufgabe mit Hilfe gelöst",
+            "titlePlural": "Aufgabe(n) mit Hilfe gelöst"
+        },
+        "failure": {
+            "id": "failure",
+            "title": "Aufgabe garnicht gelöst",
+            "titlePlural": "Aufgabe(n) garnicht gelöst"
+        },
+        "cancelTask": {
+            "id": "cancelTask",
+            "title": "Aufgabe abgebrochen",
+            "titlePlural": "Aufgabe(n) abgebrochen"
+        },
+        "cancelScenario": {
+            "id": "cancelScenario",
+            "title": "Benutzertest abgebrochen"
+        }
+    },
+    "totalTasks": "Anzahl Aufgaben",
+    "taskSuccessRate": "Erfolgsrate",
+    "taskFailureRate": "Misserfolgsrate",
+    "taskProblems": "Bei welchen Aufgaben gab es vermutlich Probleme?",
+    "noTaskProblems": "Bei keinen Aufgaben",
     "addAnnotation": "Hinzufügen",
     "updateAnnotation": "Annotation bearbeiten",
     "searchAnnotation": "Durchsuchen",
@@ -2474,6 +2521,7 @@
             "scenarioFeedback": "Soll dem Benutzer eine Systemrückmeldung angezeigt werden? Oder genügt ein UI-Übergang als Rückmeldung? Dann wählen Sie <em>Keine</em>.",
             "scenarioFeedbackTime": "Wie lange soll diese Systemrückmeldung angezeigt werden, bevor das nächste UI aufgerufen wird?",
             "scenarioScenes": "Hinterlegen Sie User Interfaces, die für diese Interaktionsaufgabe und Geste benötigt werden, um dem Benutzer ein funktionierendes System vorzutäuschen.",
+            "scenarioTaskAssessmentTitle": "Vergeben Sie einen Titel",
             "scenarioTaskAssessment": "Wie hat der Proband eine Aufgabe gelöst? Hat er z.B. Hilfe benötigt?",
             "scenarioTaskAssessmentColor": "Wählen Sie eine Wunsch-Farbe für die Annotation aus. Diese Farbe wird dann auch in den Studien-Ergebnissen angezeigt.",
             "scenarioHelpTask": "Wählen Sie aus, für welche Aufgabe Hilfe angeboten werden soll.",

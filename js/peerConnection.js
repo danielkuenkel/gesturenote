@@ -83,7 +83,6 @@ PeerConnection.prototype.initialize = function (options) {
     if (options) {
         this.options = options;
 
-
         navigator.getUserMedia = navigator.getUserMedia ||
                 navigator.webkitGetUserMedia ||
                 navigator.mozGetUserMedia;
@@ -127,19 +126,20 @@ PeerConnection.prototype.initialize = function (options) {
                 }
             }
 
-            if (options.videoSource) {
+            if (options.videoSource && options.videoSource !== null) {
                 videoSource = options.videoSource;
             }
 
-            if (options.audioSource) {
+            if (options.audioSource && options.audioSource !== null) {
                 audioSource = options.audioSource;
             }
 
             options.sources = {video: videoSource, audio: audioSource};
 
-            if (options.configElement) {
-                renderAssembledVideoSources($(options.callerElement).find('#video-input-select'), videoSources, videoSource);
-                renderAssembledAudioSources($(options.callerElement).find('#audio-input-select'), audioSources, audioSource);
+            console.log('selected source:', options.sources);
+            if (options.configElement && options.configPanel) {
+                renderAssembledVideoSources($(options.configPanel).find('#video-input-select'), videoSources, videoSource);
+                renderAssembledAudioSources($(options.configPanel).find('#audio-input-select'), audioSources, audioSource);
             }
 
             initWebRTC();
@@ -154,12 +154,12 @@ PeerConnection.prototype.initialize = function (options) {
             // set constraints
             var constraints = null;
             if (getBrowser() === "Chrome") {
-                constraints = {audio: {deviceId: {exact: options.audioSource}},
-                    video: {deviceId: {exact: options.videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, frameRate: {ideal: 20, min: 10}, "optional": []}
+                constraints = {audio: {deviceId: {exact: options.sources.audio}},
+                    video: {deviceId: {exact: options.sources.video, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, frameRate: {ideal: 20, min: 10}, "optional": []}
                     }};
             } else if (getBrowser() === "Firefox") {
-                constraints = {audio: {deviceId: {exact: options.audioSource}},
-                    video: {deviceId: {exact: options.videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
+                constraints = {audio: {deviceId: {exact: options.sources.audio}},
+                    video: {deviceId: {exact: options.sources.video, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
                     }};
             }
 
@@ -190,9 +190,7 @@ PeerConnection.prototype.initialize = function (options) {
 
 
             var controlsTween = new TweenMax(options.streamControls, .3, {opacity: 1.0, paused: true});
-            console.log('CONFIG ELEMENT:', options.configElement);
             if (options.localMuteElement && options.callerElement) {
-                initPopover();
 
                 $(options.callerElement).unbind('click').bind('mouseenter', function (event) {
                     event.preventDefault();
@@ -301,54 +299,54 @@ PeerConnection.prototype.initialize = function (options) {
                 }
             }
 
-            if (options.configElement && options.callerElement) {
-//                var configTween = new TimelineMax({paused: true});
-//                configTween.add("parallel")
-//                        .to($(options.callerElement).find('#' + options.localVideoElement), 0, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel')
-//                        .to($(options.callerElement).find('#' + options.remoteVideoElement), 0, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel');
-
+            if (options.configElement && options.callerElement && options.configPanel) {
                 $(options.configElement).unbind('click').bind('click', function (event) {
                     event.preventDefault();
 
                     if (!$(this).hasClass('disabled')) {
                         $(this).popover('hide');
-                        if (!$(this).hasClass('opened')) {
-                            $(options.callerElement).find('#' + options.localVideoElement).css({filter: 'blur(5px)'});
-                            $(options.callerElement).find('#' + options.remoteVideoElement).css({filter: 'blur(5px)'});
+                        if ($(options.configPanel).hasClass('hidden')) {
+                            $(options.callerElement).find('#' + options.localVideoElement).css({filter: 'blur(2px)'});
+                            $(options.callerElement).find('#' + options.remoteVideoElement).css({filter: 'blur(2px)'});
+                            $(options.callerElement).parent().parent().find('#btn-leave-room').addClass('hidden'); // for conversation window
                             controlsTween.reverse();
-
-                            $(this).addClass('opened');
-                            $(options.callerElement).find('#rtc-config-panel').removeClass('hidden');
+                            $(options.configPanel).removeClass('hidden');
                         }
                     }
                     $(this).blur();
                 });
 
-                $(options.callerElement).find('#btn-close-config').unbind('click').bind('click', function (event) {
+                $(options.configPanel).find('#btn-close-config').unbind('click').bind('click', function (event) {
                     event.preventDefault();
 
                     $(options.callerElement).find('#' + options.localVideoElement).css({filter: ''});
                     $(options.callerElement).find('#' + options.remoteVideoElement).css({filter: ''});
                     controlsTween.play();
 
-                    $(options.configElement).removeClass('opened');
-                    $(options.callerElement).find('#rtc-config-panel').addClass('hidden');
+                    $(options.configPanel).addClass('hidden');
+                    $(options.callerElement).parent().parent().find('#btn-leave-room').removeClass('hidden'); // for conversation window
                 });
 
-                $(options.callerElement).find('#video-input-select').unbind('change').bind('change', function (event, activeId) {
+                $(options.configPanel).find('#video-input-select').unbind('change').bind('change', function (event, activeId) {
                     event.preventDefault();
 
-                    renegotiation = true;
+                    if (window.history.replaceState) {
+                        setParam(window.location.href, 'vSource', activeId);
+                    }
 
+                    renegotiation = true;
                     options.videoSource = activeId;
                     $(connection).trigger('renegotiate', [options.videoSource, options.audioSource]);
                 });
 
-                $(options.callerElement).find('#audio-input-select').unbind('change').bind('change', function (event, activeId) {
+                $(options.configPanel).find('#audio-input-select').unbind('change').bind('change', function (event, activeId) {
                     event.preventDefault();
 
-                    renegotiation = true;
+                    if (window.history.replaceState) {
+                        setParam(window.location.href, 'aSource', activeId);
+                    }
 
+                    renegotiation = true;
                     options.audioSource = activeId;
                     $(connection).trigger('renegotiate', [options.videoSource, options.audioSource]);
                 });
@@ -502,7 +500,7 @@ PeerConnection.prototype.initialize = function (options) {
                         connection.stopRecording(null, false);
                     }
 
-                    if (options.remoteMuteElement) {
+                    if (options.remoteMuteElement && webrtc.getPeers().length === 0) {
                         $(options.remoteMuteElement).addClass('disabled');
                     }
                 }
@@ -611,6 +609,8 @@ PeerConnection.prototype.initialize = function (options) {
         console.log('no options for webrtc');
     }
 
+    initPopover();
+
     function arrangePeerStreams() {
         var peers = webrtc.getPeers();
         var localVideoElement = $('#' + options.localVideoElement);
@@ -620,7 +620,6 @@ PeerConnection.prototype.initialize = function (options) {
                 $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
                 $(localVideoElement).addClass('rtc-shadow');
 
-//                var lastVideoElement = null;
                 for (var i = 0; i < peers.length; i++) {
                     var remoteVideoElement = $(peers[i].videoEl);
                     if (peers[i].type === TYPE_PEER_VIDEO) {
@@ -644,35 +643,10 @@ PeerConnection.prototype.initialize = function (options) {
                             $(remoteVideoElement).addClass('hidden');
                         }
                     }
-
-
-//                    console.log(peers[i], peerVisible, options.visibleRoles);
-                    //options.selectedRole === 'tester' && $(remoteVideoElement).attr('data-role') !== 'moderator' && options.prepareStudy === true
-//                    if (peerVisible) {
-//                        
-//                    } else {
-//                        
-//                    }
                 }
 
                 connection.checkRemoteStreamsPositions();
-            }
-//            else if (peers.length === 1) {
-//                console.log('peers length === 1');
-//                $(localVideoElement).addClass('rtc-shadow');
-//                $(localVideoElement).css({width: '30%', top: '5px', left: '5px'});
-//
-//                var remoteVideoElement = $(peers[0].videoEl);
-//                $(remoteVideoElement).removeClass('rtc-shadow').addClass('main-remote');
-//                $(remoteVideoElement).css({position: '', float: '', zIndex: '', width: '', height: 'auto', top: '', left: ''});
-//
-//                if (options.selectedRole === 'tester' && $(remoteVideoElement).attr('data-role') !== 'moderator') {
-//                    $(remoteVideoElement).addClass('hidden');
-//                } else {
-//                    $(remoteVideoElement).removeClass('hidden');
-//                }
-//            }
-            else {
+            } else {
                 console.log('only local stream', localVideoElement);
                 $(localVideoElement).removeClass('rtc-shadow');
                 $(localVideoElement).css({width: '', top: '', left: ''});
@@ -744,7 +718,7 @@ PeerConnection.prototype.checkRemoteStreamsPositions = function () {
         } else {
 
         }
-    }, 200);
+    }, 300);
 };
 
 PeerConnection.prototype.getPeers = function () {

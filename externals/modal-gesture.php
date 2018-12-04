@@ -291,12 +291,13 @@ include '../includes/language.php';
     var gestureUpdateRecorder = null;
 
     $(document).ready(function () {
-        renderSensorData();
+        
         initGestureRating($('#gesture-rating'), 5);
 
         $('#gesture-info-nav-tab').unbind('shown.bs.tab').bind('shown.bs.tab', function (event) {
             switch ($(event.target).attr('href')) {
                 case '#tab-gesture-general':
+                    renderSensorData();
                     renderGeneralGestureInfo();
                     renderInvitedGestureUsers();
                     break;
@@ -638,12 +639,8 @@ include '../includes/language.php';
                         sensorData.type = sensorData.sensor;
                         sensorData.compressedData = sensorData.url;
                         sensorData.previewOnly = true;
-//                        sensorData.autoplayPlayback = true;
-//                        sensorData.autoplaySave = true;
-//                        sensorData.autoplaySaveSuccess = true;
                         break;
                 }
-//                initRecorders.push(sensorData);
             }
 
             var options = {
@@ -796,7 +793,7 @@ include '../includes/language.php';
             leapMotionPreview = null;
         }
 
-        renderSensorData();
+//        renderSensorData();
     }
 
     function updateSharingInfos() {

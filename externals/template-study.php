@@ -768,7 +768,7 @@ include '../includes/language.php';
         </div>
         <div id="video-timeline" class="hidden">
             <div id="results-video-container" class="row">
-                <div class="col-xs-12 hidden" id="screen-share-video-container" >
+                <div class="col-xs-9 hidden" id="screen-share-video-container" >
                     <video id="screen-share-video-holder" preload="auto" autoplay="false" style="width: 100%; height: auto;  border-top-left-radius: 8px; border-top-right-radius: 8px; position: relative"></video>
                     <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                         <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
@@ -788,10 +788,10 @@ include '../includes/language.php';
                         <div class="btn-shadow btn-video-adjustment" id="toggle-overlap-videos" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->overlapVideos ?>" style="border-top-left-radius: 4px;">
                             <i class="fa fa-window-restore" style="color: white"></i>
                         </div>
-                        <div class="btn-shadow btn-video-adjustment" id="toggle-side-by-side" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->sideBySide ?>" style="">
+                        <div class="btn-shadow btn-video-adjustment selected" id="toggle-side-by-side" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->sideBySide ?>" style="">
                             <i class="fa fa-align-justify fa-rotate-90" style="color: white"></i>
                         </div>
-                        <div class="btn-shadow btn-video-adjustment selected" id="toggle-big-screen" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->bigScreen ?>" style="">
+                        <div class="btn-shadow btn-video-adjustment" id="toggle-big-screen" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->bigScreen ?>" style="">
                             <i class="fa fa-align-justify" style="color: white"></i>
                         </div>
                     </div>
@@ -802,9 +802,9 @@ include '../includes/language.php';
                                     </div>-->
 
 
-                <div id="webcam-video-container" class="col-xs-12">
+                <div id="webcam-video-container" class="col-xs-3">
                     <div class="row">
-                        <div class="col-xs-6 hidden" id="tester-video-container">
+                        <div class="col-xs-12 hidden" id="tester-video-container">
                             <video id="tester-video-holder" class="mirroredHorizontally" preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative"></video>
                             <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                                 <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
@@ -824,7 +824,7 @@ include '../includes/language.php';
                                 <span class="video-time-code-duration">00:00:00</span>
                             </div>
                         </div>
-                        <div class="col-xs-6 hidden" id="moderator-video-container">
+                        <div class="col-xs-12 hidden" id="moderator-video-container" style="margin-top: 10px">
                             <video id="moderator-video-holder" class="mirroredHorizontally" preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative"></video>
                             <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                                 <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
@@ -915,7 +915,6 @@ include '../includes/language.php';
                                             <label><?php echo $lang->annotationColor ?></label>
                                             <div class="search-color-selector text-center">
                                                 <div class="btn-color-selector none selected" data-id='none'>
-                                                    <!--<i class="fa fa-close" style="position: absolute"></i>-->
                                                     <div style="transform: rotate(45deg); position: relative; top: 8px; left: 1px;">
                                                         <div style="width: 17px; height: 2px; position: absolute; background-color: #d9534f;"></div>
                                                         <div style="width: 17px; height: 2px; position: absolute; background-color: #d9534f; transform: rotate(90deg)"></div>
@@ -937,6 +936,18 @@ include '../includes/language.php';
                                             <label><?php echo $lang->annotationLabel ?></label>
                                             <input type="text" class="form-control annotation-title-input" maxlength="40" placeholder="<?php echo $lang->addAnnotationLabelInput ?>" />
                                         </div>
+
+                                        <div class="form-group">
+                                            <label><?php echo $lang->taskAssessment ?></label>
+                                            <div class="input-group" id="add-assessment-type-select">
+                                                <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->none ?>" />
+                                                <div class="input-group-btn select assessmentAddSelect" role="group">
+                                                    <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="none"></span><span class="caret"></span></button>
+                                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="form-group">
                                             <label><?php echo $lang->annotationColor ?></label>
                                             <div class="color-selector text-center">
@@ -956,33 +967,35 @@ include '../includes/language.php';
                             </div>
                         </div>
 
-                        <!--<div style="margin-top: 10px">-->
-                        <!--                            <div class="bs-example" id="create-annotation-container">
-                        
-                                                    </div>-->
-
                         <div class="bs-example hidden" id="update-annotation-container">
                             <div class="bs-example-headline"><?php echo $lang->updateAnnotation ?></div>
                             <div class="bs-example-body">
-                                <div class="row">
-                                    <div class="col-xs-12 ">
-                                        <div class="form-group">
-                                            <label><?php echo $lang->annotationLabel ?></label>
-                                            <input type="text" class="form-control update-annotation-title-input" maxlength="40" placeholder="<?php echo $lang->addAnnotationLabelInput ?>" />
+
+                                <div class="form-group">
+                                    <label><?php echo $lang->annotationLabel ?></label>
+                                    <input type="text" class="form-control update-annotation-title-input" maxlength="40" placeholder="<?php echo $lang->addAnnotationLabelInput ?>" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label><?php echo $lang->taskAssessment ?></label>
+                                    <div class="input-group" id="update-assessment-type-select">
+                                        <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                        <div class="input-group-btn select assessmentUpdateSelect" role="group">
+                                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                                         </div>
                                     </div>
-                                    <div class="col-xs-12">
-                                        <div class="form-group">
-                                            <label><?php echo $lang->annotationColor ?></label>
-                                            <div class="update-color-selector text-center">
-                                                <div class="btn-color-selector grey" data-id='item-advanced-primary-full'></div>
-                                                <div class="btn-color-selector darkblue" data-id='item-primary-full'></div>
-                                                <div class="btn-color-selector green" data-id='item-success-full' data-color="green"></div>
-                                                <div class="btn-color-selector blue" data-id='item-info-full' data-color="blue"></div>
-                                                <div class="btn-color-selector yellow" data-id='item-warning-full' data-color="yellow"></div>
-                                                <div class="btn-color-selector red" data-id='item-danger-full' data-color="red"></div>
-                                            </div>
-                                        </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label><?php echo $lang->annotationColor ?></label>
+                                    <div class="update-color-selector text-center">
+                                        <div class="btn-color-selector grey" data-id='item-advanced-primary-full'></div>
+                                        <div class="btn-color-selector darkblue" data-id='item-primary-full'></div>
+                                        <div class="btn-color-selector green" data-id='item-success-full' data-color="green"></div>
+                                        <div class="btn-color-selector blue" data-id='item-info-full' data-color="blue"></div>
+                                        <div class="btn-color-selector yellow" data-id='item-warning-full' data-color="yellow"></div>
+                                        <div class="btn-color-selector red" data-id='item-danger-full' data-color="red"></div>
                                     </div>
                                 </div>
 
@@ -997,7 +1010,6 @@ include '../includes/language.php';
 
                             </div>
                         </div>
-                        <!--</div>-->
 
                     </div>
                 </div>
@@ -1236,10 +1248,43 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
-        <!--<div class="list-container" style="margin-top: 30px;"></div>-->
+
+        <div id="summary">
+            <div class="alert-space alert-no-phase-data"></div>
+
+            <h3><?php echo $lang->summary ?></h3>
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label><?php echo $lang->tasks ?></label>
+                    <div><span><?php echo $lang->taskSuccessRate ?>:</span> <span class="text" id="task-success-rate"></span></div>
+                    <div><span><?php echo $lang->taskFailureRate ?>:</span> <span class="text" id="task-failure-rate"></span></div>
+                    <div style="margin-top: 10px"><span><?php echo $lang->totalTasks ?>:</span> <span class="text" id="total-tasks"></span></div>
+                    <div><span><?php echo $lang->taskAssessmentType->success->titlePlural ?>:</span> <span class="text" id="task-success"></span></div>
+                    <div><span><?php echo $lang->taskAssessmentType->help->titlePlural ?>:</span> <span class="text" id="task-help"></span></div>
+                    <div><span><?php echo $lang->taskAssessmentType->failure->titlePlural ?>:</span> <span class="text" id="task-failure"></span></div>
+                    <div><span><?php echo $lang->taskAssessmentType->cancelTask->titlePlural ?>:</span> <span class="text" id="task-canceled"></span></div>
+                    <div><span><?php echo $lang->taskAssessmentType->cancelScenario->title ?>:</span> <span class="text" id="scenario-canceled"></span></div>
+                    <div style="margin-top: 20px">
+                        <label><?php echo $lang->taskProblems ?></label>
+                        <div class="text" id="task-problems"></div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label><?php echo $lang->annotationSources ?></label>
+                    <div><span><?php echo $lang->duringExecution ?>:</span> <span class="text" id="annotations-during-execution"></span></div>
+                    <div><span><?php echo $lang->afterExecution ?>:</span> <span class="text" id="annotations-after-execution"></span></div>
+                    <div style="margin-top: 10px"><span><?php echo $lang->fromModerator ?>:</span> <span class="text" id="from-evaluator"></span></div>
+                    <div><span><?php echo $lang->fromObserver ?>:</span> <span class="text" id="from-observer"></span></div>
+                    <div><span><?php echo $lang->fromWizard ?>:</span> <span class="text" id="from-wizard"></span></div>
+                </div>
+            </div>
+
+        </div>
+
         <div id="observations">
-            <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
+            <h3 id="headline-observations" style="margin-top: 30px"><?php echo $lang->observations ?></h3>
             <hr>
             <div class="question-container"  id="observations-container"></div>
         </div>

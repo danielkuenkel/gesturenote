@@ -122,7 +122,7 @@ body {
 
 
 .popover {
-    z-index: 10001; /* A value higher than 1010 that solves the problem */
+    z-index: 10003; /* A value higher than 1010 that solves the problem */
 }
 
 textarea:hover, 
@@ -1516,6 +1516,6 @@ canvas {
     background-color: #eee;
 }
 
-#btn-leave-room:hover, #btn-close-config:hover {
+#btn-leave-room:hover {
     color: #d9534f !important;
 }

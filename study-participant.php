@@ -245,18 +245,24 @@ if (login_check($mysqli) == true) {
     <div id="draggableCollaborativeRTC" class="hidden" style="position: fixed; z-index: 10002; top: 150px; left:100px; display: block; opacity: .7">
         <div style="width: 300px; border-radius: 5px" id="video-caller-container" class="shadow">
             <div class="embed-responsive embed-responsive-4by3" id="video-caller">
+
                 <div class="embed-responsive-item" style="border-radius: 4px; background-color: #eee; display: flex; justify-content: center; align-items: center;">
                     <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
                 </div>
+
                 <div id="remoteVideo" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 4px;"></div>
+
                 <div class="rtc-local-container embed-responsive-item">
                     <video autoplay id="localVideo" class="rtc-stream" style="position: relative; height: auto"></video>
                 </div>
+
                 <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
                     <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
                     <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                    <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control disabled" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                    <button type="button" class="btn btn-sm stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
                 </div>
+
                 <div id="stream-control-indicator">
                     <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
                         <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
@@ -267,6 +273,36 @@ if (login_check($mysqli) == true) {
                         <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
                     </div>
                 </div>
+
+            </div>
+
+            <div id="rtc-config-panel" class="hidden" style="border-radius: 4px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+                <div class="form-group" id="video-input-select">
+                    <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+
+                    <div class="input-group">
+                        <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                        <div class="input-group-btn select select-video-input" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="audio-input-select">
+                    <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
+
+                    <div class="input-group">
+                        <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                        <div class="input-group-btn select select-audio-input" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
             </div>
 
         </div>
@@ -309,13 +345,13 @@ if (login_check($mysqli) == true) {
             if (query.studyId && query.participantId && query.h === hash) {
                 $('.breadcrumb #btn-study').on('click', function (event) {
                     event.preventDefault();
-                    goto('study.php?studyId=' + query.studyId + '&h=' + hash + '&joinedConv=' + joinedRoom + '#participants');
+                    goto('study.php?studyId=' + query.studyId + '&h=' + hash + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#participants');
                 });
 
                 $('body').find('.main-burger-menu .btn-study').removeClass('hidden');
                 $('body').find('.main-burger-menu .btn-study').unbind('click').bind('click', function (event) {
                     event.preventDefault();
-                    goto('study.php?studyId=' + query.studyId + '&h=' + hash + '&joinedConv=' + joinedRoom + '#participants');
+                    goto('study.php?studyId=' + query.studyId + '&h=' + hash + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#participants');
                 });
 
                 getStudyParticipant({studyId: query.studyId, participantId: query.participantId}, function (result) {
@@ -423,7 +459,7 @@ if (login_check($mysqli) == true) {
                                 event.preventDefault();
                                 var status = getParticipantStatusHash();
                                 clearLocalItems();
-                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + '#' + status);
+                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
                         } else if (disableNextButton) {
                             $('#pageBody').find('.btn-next-participant').addClass('disabled');
@@ -431,21 +467,21 @@ if (login_check($mysqli) == true) {
                                 event.preventDefault();
                                 var status = getParticipantStatusHash();
                                 clearLocalItems();
-                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + '#' + status);
+                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
                         } else {
                             $('#pageBody').find('.btn-next-participant').bind('click', function (event) {
                                 event.preventDefault();
                                 var status = getParticipantStatusHash();
                                 clearLocalItems();
-                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + '#' + status);
+                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
 
                             $('#pageBody').find('.btn-prev-participant').bind('click', function (event) {
                                 event.preventDefault();
                                 var status = getParticipantStatusHash();
                                 clearLocalItems();
-                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + '#' + status);
+                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
                         }
                     } else {
@@ -748,7 +784,7 @@ if (login_check($mysqli) == true) {
             var wizardResults = getLocalItem(phaseId + '.wizard');
             var observerResults = getLocalItem(phaseId + '.observer');
             var study = getLocalItem(STUDY);
-            
+
             console.log('STUDY DATA: ', study);
             console.log('PHASE DATA: ', phaseData);
             console.log('TESTER DATA: ', testerResults);
@@ -764,7 +800,7 @@ if (login_check($mysqli) == true) {
                 $('#phase-result').empty().append(content);
 
                 var executionTime = study.surveyType === TYPE_SURVEY_MODERATED && evaluatorResults !== null ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
-                console.log(executionTime);
+//                console.log(executionTime);
                 if (!isEmpty(executionTime)) {
                     var badge = document.createElement('span');
                     $(badge).addClass('badge pull-right');
@@ -800,8 +836,9 @@ if (login_check($mysqli) == true) {
                             $(resultsPlayer.player).unbind('initialized');
 //                                console.log('results player initialized');
                             initPopover();
+                            switchDataRendering();
                         });
-                        switchDataRendering();
+
 
 
                         if (getBrowser() !== 'Safari') {
@@ -946,7 +983,7 @@ if (login_check($mysqli) == true) {
             var susResultsValid = true;
             var count = 0;
             for (var i = 0; i < resultsData.answers.length; i++) {
-                console.log(resultsData.answers[i], resultsData.answers[i].answer.scales);
+//                console.log(resultsData.answers[i], resultsData.answers[i].answer.scales);
                 if (parseInt(resultsData.answers[i].answer.scales) !== -1) {
                     var negative = studyData[i].parameters.negative === 'yes';
                     if (negative) {
@@ -1068,7 +1105,7 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-            console.log('scales', scales);
+//            console.log('scales', scales);
 
             var qualities = {
                 attractiveness: {sum: 0.0, max: 0, presentMax: 1},
@@ -1102,7 +1139,7 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-            console.log('qualities', qualities);
+//            console.log('qualities', qualities);
 
             var timeline = null;
             var firstOffsetY = -4;
@@ -1358,7 +1395,7 @@ if (login_check($mysqli) == true) {
         }
 
         function renderTriggerSlideshow(container, studyData, resultsData) {
-            console.log(studyData, resultsData);
+//            console.log(studyData, resultsData);
             var globalFaults = 0;
             for (var i = 0; i < studyData.slideshow.length; i++) {
                 var gesture = getGestureById(studyData.slideshow[i].gestureId);
@@ -1410,12 +1447,12 @@ if (login_check($mysqli) == true) {
             }
 
             if (globalFaults === -1) {
-                console.log('selection fault');
+//                console.log('selection fault');
                 $(container).find('#score #no-fault-score').removeClass('hidden');
             } else {
                 $(container).find('#score #fault-score').removeClass('hidden');
                 var faultScore = globalFaults / studyData.slideshow.length;
-                console.log('globalFaults: ' + globalFaults + ' fault: ' + fault + ', score: ' + faultScore);
+//                console.log('globalFaults: ' + globalFaults + ' fault: ' + fault + ', score: ' + faultScore);
                 var faultPercentage = (1 - faultScore) * 100;
                 $(container).find('#score .text').text(faultPercentage + '%');
             }
@@ -1525,6 +1562,116 @@ if (login_check($mysqli) == true) {
 
         function renderScenario(container, studyData, resultsData) {
             renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
+            if (resultsPlayer) {
+                var annotations = resultsPlayer.player.annotations();
+
+                // task section
+                var success = 0;
+                var help = 0;
+                var failure = 0;
+                var taskCanceled = 0;
+                var scenarioCanceled = 0;
+                var problemTaskIds = [];
+
+                // annotation section
+                var duringExecution = 0;
+                var afterExecution = 0;
+                var fromModerator = 0;
+                var fromObserver = 0;
+                var fromWizard = 0;
+
+                for (var i = 0; i < annotations.length; i++) {
+                    if (annotations[i].action === ACTION_CUSTOM) {
+                        afterExecution++;
+                    } else {
+                        duringExecution++;
+                    }
+
+//                    console.log(annotations);
+                    if (annotations[i].source === 'evaluator' && annotations[i].action !== ACTION_CUSTOM) {
+                        fromModerator++;
+                    } else if (annotations[i].source === 'observer') {
+                        fromObserver++;
+                    } else if (annotations[i].source === 'wizard') {
+                        fromWizard++;
+                    }
+
+                    if (annotations[i].action === ACTION_ASSESSMENT) {
+                        switch (annotations[i].assessmentType) {
+                            case 'success':
+                                success++;
+                                break;
+                            case 'help':
+                                help++;
+                                problemTaskIds.push(annotations[i]);
+                                break;
+                            case 'failure':
+                                failure++;
+                                problemTaskIds.push(annotations[i]);
+                                break;
+                            case 'cancelTask':
+                                taskCanceled++;
+                                problemTaskIds.push(annotations[i]);
+                                break;
+                            case 'cancelScenario':
+                                scenarioCanceled++;
+                                break;
+                        }
+                    }
+                }
+
+                // task section
+                var taskSuccessRate = Math.min(100, parseInt(Math.round(success / studyData.tasks.length * 100)));
+                var taskFailureRate = 100 - taskSuccessRate;
+
+                $(container).find('#task-success-rate').text(taskSuccessRate + '%');
+                $(container).find('#task-failure-rate').text(taskFailureRate + '%');
+                $(container).find('#total-tasks').text(studyData.tasks.length);
+                $(container).find('#task-success').text(success > 0 ? success : '-');
+                $(container).find('#task-help').text(help > 0 ? help : '-');
+                $(container).find('#task-failure').text(failure > 0 ? failure : '-');
+                $(container).find('#task-canceled').text(taskCanceled > 0 ? taskCanceled : '-');
+                $(container).find('#scenario-canceled').text(scenarioCanceled > 0 ? scenarioCanceled : '-');
+
+                $(container).find('#task-problems').empty();
+                if (problemTaskIds.length > 0) {
+                    problemTaskIds = sortByKey(problemTaskIds, 'timestamp');
+
+                    for (var i = 0; i < problemTaskIds.length; i++) {
+                        var taskStart = resultsPlayer.player.getAssessmentTaskStart(problemTaskIds[i].time);
+//                        var task = resultsPlayer.player.getTaskById(problemTaskIds[i].taskId);
+                        console.log('task start = ', taskStart);
+                        var seconds = getSeconds(getTimeBetweenTimestamps(resultsData.startRecordingTime || resultsData.startTime, taskStart.time), true);
+                        var linkListItem = $('#template-study-container').find('#link-list-item').clone().removeAttr('id');
+                        $(linkListItem).find('.link-list-item-url').attr('data-jumpto', seconds);
+                        $(linkListItem).find('.btn-delete-annotation').remove();
+                        $(linkListItem).find('.btn-edit-annotation').remove();
+                        $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)));
+                        $(linkListItem).find('.link-list-item-title').text(taskStart.task.title);
+                        $(container).find('#task-problems').append(linkListItem);
+
+                        $(linkListItem).find('.link-list-item-url').on('click', function (event) {
+                            event.preventDefault();
+                            var jumpTo = parseFloat($(this).attr('data-jumpto'));
+                            resultsPlayer.player.jumpTo(jumpTo);
+                        });
+                    }
+                } else {
+                    $(container).find('#task-problems').text(translation.noTaskProblems);
+                }
+
+                $(resultsPlayer.player).unbind('dataUpdated').bind('dataUpdated', function (event) {
+                    event.preventDefault();
+                    renderScenario(container, studyData, resultsData);
+                });
+
+                // annotation section
+                $(container).find('#annotations-during-execution').text(duringExecution > 0 ? duringExecution : '-');
+                $(container).find('#annotations-after-execution').text(afterExecution > 0 ? afterExecution : '-');
+                $(container).find('#from-evaluator').text(fromModerator > 0 ? fromModerator : '-');
+                $(container).find('#from-observer').text(fromObserver > 0 ? fromObserver : '-');
+                $(container).find('#from-wizard').text(fromWizard > 0 ? fromWizard : '-');
+            }
         }
 
         function renderIdentification(container, studyData, phaseResults) {
@@ -1605,7 +1752,7 @@ if (login_check($mysqli) == true) {
                         }
                     }
                 } else {
-                    console.log('no triggers there');
+//                    console.log('no triggers there');
                 }
             }
 
@@ -1719,7 +1866,7 @@ if (login_check($mysqli) == true) {
                 var evaluatorId = $(this).attr('data-evaluator-id') || null;
                 var executionPhase = $(this).find('.btn-option-checked').attr('id');
 
-                console.log('pretest selection changed', participantId, evaluatorId, executionPhase);
+//                console.log('pretest selection changed', participantId, evaluatorId, executionPhase);
                 updateExecutionPhase(evaluatorId ? {participantId: participantId, evaluatorId: evaluatorId, executionPhase: executionPhase} : {participantId: participantId, executionPhase: executionPhase}, function (result) {
 
                 });

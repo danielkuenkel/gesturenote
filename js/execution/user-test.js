@@ -300,6 +300,8 @@ UserTest.prototype.renderModeratorView = function () {
                 var assessmentButton = document.createElement('button');
                 $(assessmentButton).attr('data-trigger', data.taskAssessments[assessment].trigger);
                 $(assessmentButton).attr('data-assessment-id', assessment);
+                $(assessmentButton).attr('data-assessment-type', data.taskAssessments[assessment].assessmentType);
+                $(assessmentButton).attr('data-color', data.taskAssessments[assessment].annotationColor);
                 $(assessmentButton).html("<span style='color: " + translation.annotationColors[data.taskAssessments[assessment].annotationColor].hex + "'>&#9679;</span> " + data.taskAssessments[assessment].title);
                 $(assessmentButton).addClass('btn btn-default btn-shadow btn-assessment');
                 $(assessmentButton).css({marginRight: '6px', marginBottom: '6px'});
@@ -359,11 +361,12 @@ UserTest.prototype.renderModeratorView = function () {
                 event.preventDefault();
                 var trigger = $(this).attr('data-trigger');
                 var assessmentId = $(this).attr('data-assessment-id');
+                var annotationColor = $(this).attr('data-color');
 
                 if (!previewModeEnabled) {
                     getGMT(function (timestamp) {
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ASSESSMENT, assessmentId: assessmentId, taskId: currentScenarioTask.id, time: timestamp});
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ASSESSMENT, assessmentId: assessmentId, taskId: currentScenarioTask.id, annotationColor: annotationColor, time: timestamp});
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                         checkAssessment(trigger);
                     });

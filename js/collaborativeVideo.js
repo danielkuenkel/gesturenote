@@ -7,13 +7,14 @@
 var peerConnection = null;
 var syncPhaseStep = false;
 var joinedRoom = false;
+var selectedVideoSource = null;
+var selectedAudioSource = null;
 
 function checkCollaborativeConversation() {
     var query = getQueryParams(document.location.search);
 
     if (query && query.joinedConv && query.joinedConv === 'true') {
-        console.log('joined room =', query.joinedConv, $('.btn-join-conversation'));
-        $('.btn-join-conversation').click();
+        $($('.btn-join-conversation')[0]).click();
     } else {
         $('.btn-join-conversation').removeClass('hidden');
     }
@@ -21,8 +22,8 @@ function checkCollaborativeConversation() {
 
 function initCollaborativeVideoCaller(roomId) {
     var mainElement = $('#video-caller');
-    console.log('stram controls', $(mainElement).find('#stream-controls'));
     var selectedRole = chance.natural();
+    var query = getQueryParams(document.location.search);
 
     var callerOptions = {
         callerElement: mainElement,
@@ -33,15 +34,18 @@ function initCollaborativeVideoCaller(roomId) {
         pauseStreamElement: $(mainElement).find('#btn-pause-stream'),
         remoteMuteElement: $(mainElement).find('#btn-stream-remote-mute'),
         indicator: $(mainElement).find('#stream-control-indicator'),
+        configPanel: $('#video-caller-container').find('#rtc-config-panel'),
+        configElement: $(mainElement).find('#btn-config-rtc'),
         enableWebcamStream: true,
         enableDataChannels: true,
         autoRequestMedia: true,
         roomId: roomId,
-//                    iceTransports: iceTransports !== '' ? iceTransports : null,
         nick: selectedRole,
         ignoreRole: 'yes',
         selectedRole: selectedRole,
-        maxParticipants: 4,
+        maxParticipants: 3,
+        videoSource: query.vSource ? query.vSource : null,
+        audioSource: query.aSource ? query.aSource : null,
         localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
         remoteStream: {audio: 'yes', video: 'yes'}
     };
@@ -75,6 +79,12 @@ function initCollaborativeVideoCaller(roomId) {
         $('#draggableCollaborativeRTC').addClass('hidden');
     });
 
+    $(peerConnection).on('renegotiate', function (event, videoSource, audioSource) {
+        event.preventDefault();
+        peerConnection.leaveRoom();
+        initCollaborativeVideoCaller(roomId);
+    });
+
     var draggableRTC = $('#draggableCollaborativeRTC');
     var resizing = false;
     var resizable = false;
@@ -100,7 +110,7 @@ function initCollaborativeVideoCaller(roomId) {
         if (draggable) {
             $('body').addClass('readonly-without-mouse');
             if (resizable) {
-                var newWidth = Math.min(Math.max(event.pageX - $(draggableRTC).offset().left, DRAGGABLE_MIN_WIDTH), DRAGGABLE_MAX_WIDTH);
+                var newWidth = Math.min(Math.max(event.pageX - $(draggableRTC).offset().left, DRAGGABLE_CONVERSATION_MIN_WIDTH), DRAGGABLE_MAX_WIDTH);
                 $(draggableRTC).find('#video-caller-container').css({width: newWidth + 'px', height: 'auto'});
             } else {
                 var x = event.pageX - draggable.offsetLeft;
@@ -117,17 +127,16 @@ function initCollaborativeVideoCaller(roomId) {
         draggable = {offsetLeft: event.pageX - $(draggableRTC).offset().left, offsetTop: event.pageY - $(draggableRTC).offset().top};
         if (resizable) {
             resizing = true;
-            $(draggableRTC).unbind('mouseleave');
         }
     });
 
     $(window).unbind('mouseup').bind('mouseup', function (event) {
         draggable = null;
         $('body').removeClass('readonly-without-mouse');
-
-        if (resizable) {
+        if (resizable && resizable === true) {
             resizable = false;
             resizing = false;
+            $(draggableRTC).css({opacity: .7});
         }
     });
 

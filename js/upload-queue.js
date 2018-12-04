@@ -10,6 +10,7 @@ var STATUS_STOPPED = 1;
 var STATUS_STARTED = 2;
 var EVENT_FILE_SAVED = 'fileSaved';
 var EVENT_ALL_FILES_UPLOADED = 'allFilesUploaded';
+var EVENT_UPLOAD_PROGRESS_ALL = 'uploadProgressAll';
 
 UploadQueue.prototype.status = STATUS_UNINITIALIZED;
 UploadQueue.prototype.hasPendingUploads = false;
@@ -30,6 +31,13 @@ function UploadQueue() {
             uploadObject.upload();
         }
     });
+
+    this.uploader.on('progress', function () {
+        var progress = uploadObject.progress() * 100;
+        console.log('upload progress', progress);
+        $(uploadQueue).trigger(EVENT_UPLOAD_PROGRESS_ALL, [progress]);
+    });
+
     this.uploader.on('fileSuccess', function (file, message) {
         console.log('file success: ', file, message);
         var returnFile = uploadQueue.setUploadStatus(file.fileName);
@@ -43,9 +51,11 @@ function UploadQueue() {
             }, 1000);
         }
     });
+
     this.uploader.on('fileError', function (file, message) {
         console.log('file error: ', file, message);
     });
+
     this.uploader.on('error', function (file, message) {
         console.log('error: ', file, message);
     });

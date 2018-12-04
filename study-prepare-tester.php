@@ -183,10 +183,10 @@ if ($h && $token && $studyId) {
                                                 <video autoplay id="local-stream" class="rtc-stream" style="display:block;"></video>
                                             </div>
                                             <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                                                <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-                                                <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                                                <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
-                                                <button type="button" class="btn stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
+                                                <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                                                <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                                                <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                                                <button type="button" class="btn btn-sm stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
                                             </div>
                                             <div id="stream-control-indicator">
                                                 <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
@@ -199,34 +199,33 @@ if ($h && $token && $studyId) {
                                                 </div>
                                             </div>
 
-                                            <div id="rtc-config-panel" class="embed-responsive-item hidden" style="border-radius: 4px; background-color: rgba(0,0,0,.7); padding: 0px 15px 0px 15px">
-                                                <div id="btn-close-config" class="" style="font-size: 14pt; position: absolute; right: 8px; cursor: pointer; color: white; text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.0);"><i class="fa fa-close"></i></div>
-                                                <div style="margin-top: 40px">
-                                                    <div class="form-group" id="video-input-select">
-                                                        <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+                                            <div id="rtc-config-panel" class="hidden" style="border-radius: 4px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+                                                <div class="form-group" id="video-input-select">
+                                                    <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
 
-                                                        <div class="input-group">
-                                                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
-                                                            <div class="input-group-btn select select-video-input" role="group">
-                                                                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group" id="audio-input-select">
-                                                        <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
-
-                                                        <div class="input-group">
-                                                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
-                                                            <div class="input-group-btn select select-audio-input" role="group">
-                                                                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                                                </ul>
-                                                            </div>
+                                                    <div class="input-group">
+                                                        <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                        <div class="input-group-btn select select-video-input" role="group">
+                                                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="form-group" id="audio-input-select">
+                                                    <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
+
+                                                    <div class="input-group">
+                                                        <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                        <div class="input-group-btn select select-audio-input" role="group">
+                                                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
                                             </div>
                                         </div>
 
@@ -491,6 +490,7 @@ if ($h && $token && $studyId) {
                 remoteMuteElement: $(mainElement).find('#btn-stream-remote-mute'),
                 indicator: $(mainElement).find('#stream-control-indicator'),
                 configElement: $(mainElement).find('#btn-config-rtc'),
+                configPanel: $('#video-caller-container').find('#rtc-config-panel'),
                 enableWebcamStream: true,
                 enableDataChannels: true,
                 autoRequestMedia: true,

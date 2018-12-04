@@ -25,15 +25,15 @@ function LeapRecorder(options) {
         pauseOnHand: options.pauseOnHand || false,
         overlay: false
     });
-    
-    console.log('renderTarget',options.renderTarget);
+
+    console.log('renderTarget', options.renderTarget);
 
     controller.use('riggedHand', {
         checkWebGL: false,
         offset: options.offset || null,
         renderTarget: options.renderTarget || null
     });
-    
+
 
     controller.connect();
     this.options.controller = controller;
@@ -214,7 +214,7 @@ function LeapRecorder(options) {
         });
     }
 
-    console.log(options);
+//    console.log(options);
     if (options.rawData) {
         leapRecorder.importRawSensorData(options.rawData, 'json', function (frames) {
             leapRecorder.initializePlaybackControls(leapRecorder.options.controller, leapRecorder.options);
@@ -278,12 +278,14 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
         });
     }
 
+
     if (options.playbackSliderElement) {
         $(options.playbackSliderElement).parent().removeClass('hidden disabled');
         initPlaybackSlider();
 
         $(options.playbackElement).unbind('click').bind('click', function (event) {
             event.preventDefault();
+
             if ($(options.cropRecordElement).hasClass('cropping')) {
                 $(options.cropRecordElement).click();
             }
@@ -387,8 +389,11 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
         }
     }
 
-    if (leapRecorder.options.autoplay && leapRecorder.options.autoplay === true) {
+    if (leapRecorder.options.autoplay === true) {
         leapRecorder.play();
+    } else {
+        leapRecorder.stop();
+        controller.plugins.playback.player.pause();
     }
 };
 
@@ -425,6 +430,7 @@ LeapRecorder.prototype.stopRecord = function () {
 
 
 LeapRecorder.prototype.play = function (container) {
+//    console.log('play');
     var options = leapRecorder.options;
     if (options.playbackElement && $(options.playbackElement).attr('data-state') === 'paused') {
         $(options.playbackElement).click();
@@ -434,9 +440,14 @@ LeapRecorder.prototype.play = function (container) {
 };
 
 LeapRecorder.prototype.stop = function (container) {
-    if ($(container).find('.btn-toggle-playback').hasClass('playing')) {
-        $(container).find('.btn-toggle-playback').click();
+    var options = leapRecorder.options;
+    if (options.playbackElement && $(options.playbackElement).attr('data-state') === 'playing') {
+        $(options.playbackElement).click();
     }
+
+//    if ($(container).find('.btn-toggle-playback').hasClass('playing')) {
+//        $(container).find('.btn-toggle-playback').click();
+//    }
 };
 
 var recordedFrameData = null;
@@ -542,12 +553,23 @@ LeapRecorder.prototype.attachSaveData = function (uploadFiles) {
             $(leapRecorder).trigger('saveDataAttached', ['leap', saveData]);
         });
 
+        $(uploadQueue).bind(EVENT_UPLOAD_PROGRESS_ALL, function (event, progress) {
+            event.preventDefault();
+            updateProgressSensorData(progress);
+        });
+
         // upload leap motion data as compressed lz file
         var filename = hex_sha512(new Date().getTime().toString()) + ".lz";
         uploadQueue.upload([leapSaveGestureData.sensorData], filename);
     } else {
         saveData.sensorData = {sensor: 'leap', url: leapSaveGestureData.sensorData};
         $(leapRecorder).trigger('saveDataAttached', ['leap', saveData]);
+    }
+
+    function updateProgressSensorData(progress) {
+//        console.log('update progress sensor data', progress);
+        $(leapRecorder.options.parent).find('#progress-sensor-data').removeClass('hidden');
+        $(leapRecorder.options.parent).find('#progress-sensor-data .progress-bar').attr('aria-valuenow', progress).css({width: progress + '%'}).text(parseInt(progress) + '%');
     }
 
 };
@@ -596,7 +618,7 @@ LeapRecorder.prototype.updateRenderTarget = function (target) {
 
 LeapRecorder.prototype.destroy = function (destroyRecord) {
     var options = this.options;
-    
+
     console.log('destroy leap recorder');
 
     if (destroyRecord && destroyRecord === true) {

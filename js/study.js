@@ -142,14 +142,14 @@ function renderData(data, hash) {
     $('.btn-edit-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-            goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom);
+            goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
         }
     });
 
     $('.btn-preview-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-            goto("study-preview.php?studyId=" + event.data.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom);
+            goto("study-preview.php?studyId=" + event.data.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
         }
     });
 
@@ -593,7 +593,7 @@ function renderStudyParticipants(data, hash) {
         $(item).find('.panel').on('click', {studyId: data[i].studyId, participantId: data[i].userId}, function (event) {
             event.preventDefault();
             clearLocalItems();
-            goto('study-participant.php?studyId=' + event.data.studyId + '&participantId=' + event.data.participantId + '&h=' + hash + "&joinedConv=" + joinedRoom);
+            goto('study-participant.php?studyId=' + event.data.studyId + '&participantId=' + event.data.participantId + '&h=' + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
         });
     }
 

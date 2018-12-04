@@ -1818,13 +1818,13 @@ include '../includes/language.php';
         <div class="panel-body panel-body-expandable hidden">
 
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                     <div class="form-group">
-                        <label><?php echo $lang->assessment ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioTaskAssessment ?>"></i></label>
-                        <input class="form-control input-title" type="text" value="" placeholder="<?php echo $lang->insertAssessment ?>"/>
+                        <label><?php echo $lang->title ?></label>
+                        <input class="form-control input-title" type="text" value="" placeholder="<?php echo $lang->insertTitle ?>"/>
                     </div>
                 </div>
-                <div class="col-sm-7">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label><?php echo $lang->afterAssessment ?></label>
                         <div class="input-group">
@@ -1839,17 +1839,40 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group form-group-no-margin">
-                <label><?php echo $lang->annotationColor ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioTaskAssessmentColor ?>"></i></label>
-                <div class="color-selector">
-                    <div class="btn-color-selector darkblue" data-id='darkblue'></div>
-                    <div class="btn-color-selector green" data-id='green'></div>
-                    <div class="btn-color-selector blue" data-id='blue'></div>
-                    <div class="btn-color-selector yellow" data-id='yellow'></div>
-                    <div class="btn-color-selector red" data-id='red'></div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label><?php echo $lang->assessment ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioTaskAssessment ?>"></i></label>
+                        <div class="input-group">
+                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <div class="input-group-btn select assessmentSelect" role="group">
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    <li id="success"><a href="#"><?php echo $lang->taskAssessmentType->success->title ?></a></li>
+                                    <li id="help"><a href="#"><?php echo $lang->taskAssessmentType->help->title ?></a></li>
+                                    <li id="failure"><a href="#"><?php echo $lang->taskAssessmentType->failure->title ?></a></li>
+                                    <li id="cancelTask"><a href="#"><?php echo $lang->taskAssessmentType->cancelTask->title ?></a></li>
+                                    <li id="cancelScenario"><a href="#"><?php echo $lang->taskAssessmentType->cancelScenario->title ?></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group form-group-no-margin">
+                        <label><?php echo $lang->annotationColor ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioTaskAssessmentColor ?>"></i></label>
+                        <div class="color-selector">
+                            <div class="btn-color-selector grey" data-id='item-advanced-primary-full'></div>
+                            <div class="btn-color-selector darkblue" data-id='item-primary-full'></div>
+                            <div class="btn-color-selector green" data-id='item-success-full'></div>
+                            <div class="btn-color-selector blue" data-id='item-info-full'></div>
+                            <div class="btn-color-selector yellow" data-id='item-warning-full'></div>
+                            <div class="btn-color-selector red" data-id='item-danger-full'></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -2496,11 +2519,12 @@ include '../includes/language.php';
                     <div class="form-group form-group-no-margin">
                         <label><?php echo $lang->annotationColor ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioTaskAssessmentColor ?>"></i></label>
                         <div class="color-selector">
-                            <div class="btn-color-selector darkblue" data-id='darkblue'></div>
-                            <div class="btn-color-selector green" data-id='green'></div>
-                            <div class="btn-color-selector blue" data-id='blue'></div>
-                            <div class="btn-color-selector yellow" data-id='yellow'></div>
-                            <div class="btn-color-selector red" data-id='red'></div>
+                            <div class="btn-color-selector grey" data-id='item-advanced-primary-full'></div>
+                            <div class="btn-color-selector darkblue" data-id='item-primary-full'></div>
+                            <div class="btn-color-selector green" data-id='item-success-full'></div>
+                            <div class="btn-color-selector blue" data-id='item-info-full'></div>
+                            <div class="btn-color-selector yellow" data-id='item-warning-full'></div>
+                            <div class="btn-color-selector red" data-id='item-danger-full'></div>
                         </div>
                     </div>
 

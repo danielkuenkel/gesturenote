@@ -817,18 +817,24 @@ if (login_check($mysqli) == true) {
         <div id="draggableCollaborativeRTC" class="hidden" style="position: fixed; z-index: 10002; top: 150px; left:100px; display: block; opacity: .7">
             <div style="width: 300px; border-radius: 5px" id="video-caller-container" class="shadow">
                 <div class="embed-responsive embed-responsive-4by3" id="video-caller">
+
                     <div class="embed-responsive-item" style="border-radius: 4px; background-color: #eee; display: flex; justify-content: center; align-items: center;">
                         <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
                     </div>
+
                     <div id="remoteVideo" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 4px;"></div>
+
                     <div class="rtc-local-container embed-responsive-item">
                         <video autoplay id="localVideo" class="rtc-stream" style="position: relative; height: auto"></video>
                     </div>
+
                     <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
                         <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
                         <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                        <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                        <button type="button" class="btn btn-sm stream-control disabled" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                        <button type="button" class="btn btn-sm stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
                     </div>
+
                     <div id="stream-control-indicator">
                         <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
                             <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
@@ -839,6 +845,36 @@ if (login_check($mysqli) == true) {
                             <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
                         </div>
                     </div>
+
+                </div>
+
+                <div id="rtc-config-panel" class="hidden" style="border-radius: 4px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+                    <div class="form-group" id="video-input-select">
+                        <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+
+                        <div class="input-group">
+                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                            <div class="input-group-btn select select-video-input" role="group">
+                                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="audio-input-select">
+                        <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
+
+                        <div class="input-group">
+                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                            <div class="input-group-btn select select-audio-input" role="group">
+                                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
                 </div>
 
             </div>
@@ -1058,7 +1094,7 @@ if (login_check($mysqli) == true) {
                             showExtractionTutorial = parseInt(<?php echo $_SESSION['tutorialExtraction'] ?>);
 
                             getGestureSets(function (setResults) {
-                                console.log(setResults);
+//                                console.log(setResults);
                                 setLocalItem(GESTURE_SETS, setResults.gestureSets);
 
                                 renderData(result, hash);

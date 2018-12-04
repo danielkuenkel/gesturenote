@@ -13,6 +13,7 @@ var USER = 'user';
 
 var DRAGGABLE_MAX_WIDTH = 1250;
 var DRAGGABLE_MIN_WIDTH = 180;//296;
+var DRAGGABLE_CONVERSATION_MIN_WIDTH = 300;//296;
 
 // ajax result constants
 var RESULT_SUCCESS = 'success';

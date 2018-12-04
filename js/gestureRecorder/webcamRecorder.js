@@ -30,31 +30,51 @@ function WebcamRecorder(options) {
     function gotDevices(deviceInfos) {
         console.log('got devices for webcam recorder', deviceInfos);
         var videoSource = null;
+        var audioSource = null;
+
+        var videoSources = [];
+        var audioSources = [];
         for (var i = 0; i < deviceInfos.length; i++) {
-            if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap')) {
-                console.log('standard device is', deviceInfos[i], deviceInfos[i].label.toLowerCase().includes('leap'));
+            if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
+                videoSources.push(deviceInfos[i]);
+            } else if (deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
+                audioSources.push(deviceInfos[i]);
+            }
+        }
+
+        for (var i = 0; i < deviceInfos.length; i++) {
+            if (!videoSource && deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
+                console.log('standard video input device:', deviceInfos[i]);
                 videoSource = deviceInfos[i].deviceId;
+            }
+
+            if (videoSource) {
                 break;
             }
         }
 
-//        console.log('got devices', deviceInfos, videoSource);
-
-        if (getBrowser() === "Chrome") {
-            var constraints = {audio: false,
-                video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}
-                }};
-        } else if (getBrowser() === "Firefox") {
-            var constraints = {audio: false,
-                video: {deviceId: {exact: videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
-                }};
+        if (options.videoSource && options.videoSource !== null) {
+            videoSource = options.videoSource;
         }
 
-//        if (getBrowser() === "Chrome") {
-//            var constraints = {deviceId: videoSource, "audio": false, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
-//        } else if (getBrowser() === "Firefox") {
-//            var constraints = {deviceId: videoSource, audio: false, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
-//        }
+        if (webcamRecorder.options && webcamRecorder.options.allowConfig && webcamRecorder.options.allowConfig === true) {
+            var configPanel = $(webcamRecorder.options.parent).find('#rtc-config-panel');
+            renderAssembledVideoSources($(configPanel).find('#video-input-select'), videoSources, videoSource);
+        }
+
+        options.sources = {video: videoSource, audio: audioSource};
+
+        // set constraints
+        var constraints = null;
+        if (getBrowser() === "Chrome") {
+            constraints = {audio: false,
+                video: {deviceId: {exact: options.sources.video, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, frameRate: {ideal: 20, min: 10}, "optional": []}
+                }};
+        } else if (getBrowser() === "Firefox") {
+            constraints = {audio: false,
+                video: {deviceId: {exact: options.sources.video, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
+                }};
+        }
 
         navigator.mediaDevices.getUserMedia(constraints).then(onSuccess).catch(onError);
     }
@@ -129,6 +149,45 @@ function onSuccess(stream) {
         webcamRecorder.mediaRecorder.onwarning = function (e) {
             console.log('Warning: ' + e);
         };
+    }
+
+    if (webcamRecorder.options && webcamRecorder.options.allowConfig && webcamRecorder.options.allowConfig === true) {
+        var configPanel = $(webcamRecorder.options.parent).find('#rtc-config-panel');
+        console.log('ALLOW CONFIG for WEBCAM', configPanel);
+
+        $(webcamRecorder.options.parent).find('#btn-config-rtc').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+
+            if (!$(this).hasClass('disabled')) {
+                $(this).popover('hide');
+                $(this).css({filter: 'blur(2px)'});
+
+                if ($(configPanel).hasClass('hidden')) {
+                    $(video).css({filter: 'blur(2px)'});
+                    $(configPanel).removeClass('hidden');
+                }
+            }
+            $(this).blur();
+        });
+
+        $(configPanel).find('#btn-close-config').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            $(video).css({filter: ''});
+            $(webcamRecorder.options.parent).find('#btn-config-rtc').css({filter: ''});
+            $(configPanel).addClass('hidden');
+        });
+
+        $(configPanel).find('#video-input-select').unbind('change').bind('change', function (event, activeId) {
+            event.preventDefault();
+
+            if (window.history.replaceState) {
+                setParam(window.location.href, 'vSource', activeId);
+            }
+
+            webcamRecorder.options.videoSource = activeId;
+            var options = webcamRecorder.options;
+            $(webcamRecorder).trigger('renegotiate', [options]);
+        });
     }
 }
 
@@ -485,11 +544,21 @@ WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
                 $(webcamRecorder).trigger('saveDataAttached', [TYPE_RECORD_WEBCAM, saveData]);
             });
 
+            $(gifUploadQueue).bind(EVENT_UPLOAD_PROGRESS_ALL, function (event, progress) {
+                event.preventDefault();
+                updateProgressGIF(progress);
+            });
+
             // create gif from gesture images and upload it
             var filename = hex_sha512(new Date().getTime() + "" + i) + ".gif";
             createGIF(webcamSaveGestureData.images, filename, false, function (blob) {
                 gifUploadQueue.upload([blob], filename);
             });
+        });
+
+        $(uploadQueue).bind(EVENT_UPLOAD_PROGRESS_ALL, function (event, progress) {
+            event.preventDefault();
+            updateProgressImages(progress);
         });
 
         // upload gesture images
@@ -531,6 +600,18 @@ WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
                 $(webcamRecorder).trigger('saveDataAttached', [TYPE_RECORD_WEBCAM, saveData]);
             });
         }
+    }
+
+    function updateProgressImages(progress) {
+//        console.log('update progress images', progress);
+        $(webcamRecorder.options.parent).find('#progress-images').removeClass('hidden');
+        $(webcamRecorder.options.parent).find('#progress-images .progress-bar').attr('aria-valuenow', progress).css({width: progress + '%'}).text(parseInt(progress) + '%');
+    }
+
+    function updateProgressGIF(progress) {
+//        console.log('update progress GIF', progress);
+        $(webcamRecorder.options.parent).find('#progress-gif').removeClass('hidden');
+        $(webcamRecorder.options.parent).find('#progress-gif .progress-bar').attr('aria-valuenow', progress).css({width: progress + '%'}).text(parseInt(progress) + '%');
     }
 };
 

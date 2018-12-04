@@ -50,6 +50,21 @@ function isLocalStorageSupported() {
     }
 }
 
+// return video and audio sources
+function getWebRTCSources() {
+    var query = getQueryParams(document.location.search);
+    var vSource = query.vSource || null;
+    var aSource = query.aSource || null;
+    var sources = '';
+    if (vSource !== null) {
+        sources += "&vSource=" + vSource;
+    }
+    if (aSource !== null) {
+        sources += "&aSource=" + aSource;
+    }
+    return sources;
+}
+
 function getDomain(url, subdomain) {
     subdomain = subdomain || false;
 
@@ -1471,6 +1486,55 @@ function renderAssembledAudioSources(dropdown, sources, selectedSourceId) {
     }
 }
 
+/*
+ * dropdown rendering for task assessment selection
+ */
+function renderAssembledTaskAssessments(dropdown, data, selectedId) {
+    var listItem, link;
+//    console.log(data);
+
+    $(dropdown).find('.option').empty();
+    $(dropdown).find('.dropdown-toggle').removeClass('disabled');
+    $(dropdown).find('.item-input-text').attr('placeholder', translation.pleaseSelect);
+
+    listItem = document.createElement('li');
+    listItem.setAttribute('id', 'none');
+    link = document.createElement('a');
+    link.setAttribute('href', '#');
+    link.appendChild(document.createTextNode(translation.none));
+    listItem.appendChild(link);
+    $(dropdown).find('.option').append(listItem);
+
+    if (data === undefined) {
+        selectedId === 'none';
+        $(dropdown).closest('.form-group').addClass('hidden');
+    }
+
+    if (selectedId === 'none') {
+        $(listItem).addClass('selected');
+        $(dropdown).find('.item-input-text').val(translation.none);
+        $(dropdown).find('.chosen').attr('id', 'none');
+    }
+
+    if (data !== undefined) {
+        for (var assessmentId in data) {
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', assessmentId);
+            link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(data[assessmentId].title));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
+
+            if (assessmentId === selectedId) {
+                $(listItem).addClass('selected');
+                $(dropdown).find('.chosen').attr('id', assessmentId);
+                $(dropdown).find('.item-input-text').val(data[assessmentId].title);
+            }
+        }
+    }
+}
+
 function resetDropdown(target) {
     $(target).find('.item-input-text').val(translation.pleaseSelect);
     $(target).find('.dropdown-menu .selected').removeClass('selected');
@@ -2266,7 +2330,7 @@ function filter(filterId) {
             if (originalFilterData[i].setOnly === false || !originalFilterData[i].setOnly) {
                 if (filterId === SOURCE_GESTURE_RECORDED && originalFilterData[i].isOwner === true && originalFilterData[i].source === SOURCE_GESTURE_EVALUATOR) {
 //                    if () {
-                        array.push(originalFilterData[i]);
+                    array.push(originalFilterData[i]);
 //                    }
                 } else if (filterId === SCOPE_GESTURE_LIKED && originalFilterData[i].hasLiked === true) {
                     array.push(originalFilterData[i]);

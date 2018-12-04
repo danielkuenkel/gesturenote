@@ -1289,7 +1289,7 @@ function initScenarioOverlay(id, formatClone) {
                         var clone = $('#form-item-container').find('#wozExperimentItem').clone().removeAttr('id');
                         $(clone).removeAttr('id');
                         container.append(clone);
-                        
+
                         var gesture = getGestureById(wozItems[j].gestureId);
                         if (gesture && isGestureAssembled(gesture.id)) {
                             $(clone).find('.gestureSelect #' + gesture.id).click();
@@ -1437,7 +1437,8 @@ function initScenarioOverlay(id, formatClone) {
                 $(clone).find('.input-title').val(taskAssessments[assessment].title);
                 $(clone).find('.assessmentTriggerSelect #' + taskAssessments[assessment].trigger).click();
                 $(clone).attr('data-assessment-id', assessment);
-                $(clone).find('.color-selector .' + taskAssessments[assessment].annotationColor).click();
+                $(clone).find('.color-selector [data-id=' + taskAssessments[assessment].annotationColor + ']').click();
+                $(clone).find('.assessmentSelect #' + taskAssessments[assessment].assessmentType).click();
             }
 
             updateBadges(container, 'task-assessment-item');
@@ -1538,8 +1539,9 @@ function initScenarioOverlay(id, formatClone) {
             var item = $(assessmentItems[i]);
             var title = $(item).find('.input-title').val().trim();
             var selected = $(item).find('.assessmentTriggerSelect .chosen').attr('id');
-            if (title !== '' && selected !== 'unselected') {
-                assessments[$(item).attr('data-assessment-id')] = {title: title, trigger: selected, annotationColor: $(item).find('.color-selector .selected').attr('data-id')};
+            var type = $(item).find('.assessmentSelect .chosen').attr('id');
+            if (title !== '' && selected !== 'unselected' && type !== 'unselected') {
+                assessments[$(item).attr('data-assessment-id')] = {title: title, trigger: selected, assessmentType: type, annotationColor: $(item).find('.color-selector .selected').attr('data-id')};
             }
         }
 

@@ -163,11 +163,12 @@ FocusGroupInterview.prototype.renderModeratorView = function () {
             $(container).find('#annotations-container .btn-annotation').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 var assessmentId = $(this).attr('data-assessment-id');
+                var annotationColor = $(this).attr('data-color');
 
                 if (!previewModeEnabled) {
                     getGMT(function (timestamp) {
                         var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ASSESSMENT, assessmentId: assessmentId, taskId: currentScenarioTask.id, time: timestamp});
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ASSESSMENT, assessmentId: assessmentId, taskId: currentScenarioTask.id, annotationColor: annotationColor, time: timestamp});
                         setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                     });
                 }

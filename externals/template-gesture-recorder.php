@@ -184,6 +184,27 @@ include '../includes/language.php';
                             <div class="embed-responsive-item">
                                 <video class="recorder-webcam-video mirroredHorizontally" autoplay style=" border-top-left-radius: 5px; border-top-right-radius: 5px"></video>
                             </div>
+
+                            <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0);">
+                                <button type="button" class="btn btn-sm stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
+                            </div>
+
+                            <div id="rtc-config-panel" class="hidden" style="border-top-left-radius: 4px; border-top-left-radius: 4px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+                                <div class="form-group" id="video-input-select">
+                                    <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+
+                                    <div class="input-group">
+                                        <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                        <div class="input-group-btn select select-video-input" role="group">
+                                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
+                            </div>
                         </div>
                     </div>
 
@@ -484,6 +505,41 @@ include '../includes/language.php';
 
                 <button class="btn btn-block btn-success btn-shadow disabled" id="btn-save-gesture"><i class="fa fa-floppy-o" aria-hidden="true"></i> <?php echo $lang->saveGesture ?></button>
 
+                <div class="hidden" id="gesture-save-progress" style="margin-top: 20px">
+                    <div id="progress-images" class="hidden">
+                        <label>Übermittlung Bilder:</label>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                0%
+                            </div>
+                        </div>
+                    </div>
+                    <div id="progress-gif" class="hidden">
+                        <label>Übermittlung GIF:</label>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                0%
+                            </div>
+                        </div>
+                    </div>
+                    <div id="progress-sensor-data" class="hidden">
+                        <label>Übermittlung Sensordaten:</label>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                0%
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div id="progress-gesture-data" class="hidden">
+                        <label>Übermittlung sonstiger Daten:</label>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                0%
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+
             </div>
 
             <!-- success screen with gesture preview -->
@@ -668,6 +724,10 @@ include '../includes/language.php';
                         <div class="root embed-responsive embed-responsive-4by3" style="background-color: #eeeeee; border-top-left-radius: 5px; border-top-right-radius: 5px">
                             <div class="embed-responsive-item">
                                 <video class="recorder-webcam-video mirroredHorizontally" autoplay style=" border-top-left-radius: 5px; border-top-right-radius: 5px"></video>
+                            </div>
+
+                            <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0);">
+                                <button type="button" class="btn btn-sm stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
                             </div>
                         </div>
                     </div>
@@ -968,8 +1028,43 @@ include '../includes/language.php';
 
                     <div class="alert-space alert-general-error"></div>
                 </div>
-                
+
                 <button class="btn btn-block btn-success btn-shadow disabled" id="btn-save-gesture"><i class="fa fa-floppy-o" aria-hidden="true"></i> <?php echo $lang->saveGesture ?></button>
+
+                <div class="hidden" id="gesture-save-progress" style="margin-top: 20px">
+                    <div id="progress-images" class="hidden">
+                        <label>Übermittlung Bilder:</label>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                0%
+                            </div>
+                        </div>
+                    </div>
+                    <div id="progress-gif" class="hidden">
+                        <label>Übermittlung GIF:</label>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                0%
+                            </div>
+                        </div>
+                    </div>
+                    <div id="progress-sensor-data" class="hidden">
+                        <label>Übermittlung Sensordaten:</label>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                0%
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div id="progress-gesture-data" class="hidden">
+                        <label>Übermittlung sonstiger Daten:</label>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                0%
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
             </div>
 
             <!-- success screen with gesture preview -->
