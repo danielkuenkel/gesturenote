@@ -102,6 +102,11 @@ and open the template in the editor.
     z-index: 2;
     opacity: .5;
     transform: translateX(-3px);
+    pointer-events: none;
+}
+
+.vis-item {
+    cursor: pointer;
 }
 
 .vis-item.vis-box {

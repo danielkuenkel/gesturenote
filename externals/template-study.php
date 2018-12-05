@@ -84,6 +84,28 @@ include '../includes/language.php';
     <div class="root" id="no-phase-results">
         <div class="alert alert-warning" role="alert"><i class="fa fa-info-circle"></i> <?php echo $lang->alerts->noDataAvailable->text ?></div>
     </div>
+    
+    
+    
+    <div id="popover-scene-preview" style="position: absolute; opacity: 0; width: 400px;"></div>
+    
+    <div id="popover-web">
+        <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 400px; height: 300px; pointer-events: none;"></iframe>
+    </div>
+
+    <div id="popover-pidoco">
+        <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 400px; height: 300px; pointer-events: none;"></iframe>
+    </div>
+
+    <div id="popover-image">
+        <img class="imageAreaContent" src="" alt="..." style="width: 400px; height: auto; border-radius: 4px;" />
+    </div>
+
+    <div id="popover-videoEmbed">
+        <div class="videoContainer embed-responsive"></div>
+    </div>
+    
+    
 
     <div id="elicitation-statistics">
         <div id="headline" class="text-center"><?php echo $lang->whatGesturesWhereElicited ?></div>
@@ -147,22 +169,22 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="letterOfAcceptance">
-        <h3 id="headline" style="margin-top: 0"></h3>
-        <hr>
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <!--<hr>-->
         <span class="label label-success hidden" id="letter-accepted"><i class="fa fa-check"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceAccepted ?></span></span>
         <span class="label label-danger hidden" id="letter-not-accepted"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceNotAccepted ?></span></span>
         <p id="letter-text" class="text" style="margin-top: 15px"></p>
     </div>
 
     <div class="root" id="thanks">
-        <h3 id="headline" style="margin-top: 0"></h3>
-        <hr>
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <!--<hr>-->
         <p id="thanks-text" class="text"></p>
     </div>
 
     <div class="root" id="identification">
-        <h3 id="headline" style="margin-top: 0"></h3>
-        <hr id="horizontalLine">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
         <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
@@ -199,8 +221,8 @@ include '../includes/language.php';
 
 
     <div class="root" id="interview">
-        <h3 id="headline" style="margin-top: 0"></h3>
-        <hr id="horizontalLine">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
         <h3 id="headline-observations"><?php echo $lang->questions ?></h3>
@@ -796,11 +818,6 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>
-                <!--                <div class="row hidden">
-                                    <div class="col-xs-12">
-                                        
-                                    </div>-->
-
 
                 <div id="webcam-video-container" class="col-xs-3">
                     <div class="row">
@@ -894,7 +911,7 @@ include '../includes/language.php';
                             <div class="hidden" id="link-list-container"></div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4" id="add-annotation-container" style="">
+                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4" id="" style="">
 
                         <div class="bs-example" id="create-annotation-container">
                             <div class="bs-example-headline"><?php echo $lang->annotations ?></div>
@@ -933,11 +950,26 @@ include '../includes/language.php';
 
                                     <div role="tabpanel" class="tab-pane" id="add-annotation-container">
                                         <div class="form-group">
+                                            <label><?php echo $lang->annotationType ?></label>
+                                            <div class="input-group" id="add-annotation-type-select">
+                                                <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->rudAnnotation ?>" />
+                                                <div class="input-group-btn select" role="group">
+                                                    <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="annotation"></span><span class="caret"></span></button>
+                                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                        <li id="annotation" class="selected"><a href="#"><?php echo $lang->rudAnnotation ?></a></li>
+                                                        <li id="taskAssessment" class="hidden"><a href="#"><?php echo $lang->taskAssessment ?></a></li>
+                                                        <li id="note"><a href="#"><?php echo $lang->note ?></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" id="add-annotation-title">
                                             <label><?php echo $lang->annotationLabel ?></label>
                                             <input type="text" class="form-control annotation-title-input" maxlength="40" placeholder="<?php echo $lang->addAnnotationLabelInput ?>" />
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group hidden" id="add-assessment-type">
                                             <label><?php echo $lang->taskAssessment ?></label>
                                             <div class="input-group" id="add-assessment-type-select">
                                                 <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->none ?>" />
@@ -947,6 +979,12 @@ include '../includes/language.php';
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="form-group hidden" id="add-note">
+                                            <label><?php echo $lang->note ?></label>
+                                            <textarea class="form-control annotation-note-input" rows="7" maxlength="700" placeholder="<?php echo $lang->insertNote ?>" style="resize: none"></textarea>
+                                        </div>
+
 
                                         <div class="form-group">
                                             <label><?php echo $lang->annotationColor ?></label>
@@ -971,12 +1009,12 @@ include '../includes/language.php';
                             <div class="bs-example-headline"><?php echo $lang->updateAnnotation ?></div>
                             <div class="bs-example-body">
 
-                                <div class="form-group">
+                                <div class="form-group hidden" id="update-annotation-title">
                                     <label><?php echo $lang->annotationLabel ?></label>
                                     <input type="text" class="form-control update-annotation-title-input" maxlength="40" placeholder="<?php echo $lang->addAnnotationLabelInput ?>" />
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group hidden" id="update-assessment-type">
                                     <label><?php echo $lang->taskAssessment ?></label>
                                     <div class="input-group" id="update-assessment-type-select">
                                         <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
@@ -985,6 +1023,11 @@ include '../includes/language.php';
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="form-group hidden" id="update-note">
+                                    <label><?php echo $lang->note ?></label>
+                                    <textarea class="form-control update-annotation-note-input" rows="7" maxlength="700" placeholder="<?php echo $lang->insertNote ?>" style="resize: none"></textarea>
                                 </div>
 
                                 <div class="form-group">
@@ -1026,8 +1069,8 @@ include '../includes/language.php';
     <div id="shared-list-item" class="shared-list-item"><span class="shared-study-item-email text"></span> <span class="btn-uninvite-user"><i class="fa fa-trash"></i> <?php echo $lang->withdraw ?></span></div>
 
     <div class="root" id="gestureTraining">
-        <h3 id="headline" style="margin-top: 0"></h3>
-        <hr id="horizontalLine">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
 
@@ -1066,8 +1109,8 @@ include '../includes/language.php';
 
 
     <div class="root" id="gestureSlideshow">
-        <h3 id="headline" style="margin-top: 0"></h3>
-        <hr id="horizontalLine">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
         <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
@@ -1122,8 +1165,8 @@ include '../includes/language.php';
 
 
     <div class="root" id="triggerSlideshow">
-        <h3 id="headline" style="margin-top: 0"></h3>
-        <hr id="horizontalLine">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-webm-unsupported"></div>
         <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
         <div id="summary-container">
@@ -1178,8 +1221,8 @@ include '../includes/language.php';
 
 
     <div class="root" id="physicalStressTest">
-        <h3 id="headline" style="margin-top: 0"></h3>
-        <hr id="horizontalLine">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
         <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
@@ -1244,8 +1287,8 @@ include '../includes/language.php';
 
 
     <div class="root" id="scenario">
-        <h3 id="headline" style="margin-top: 0"></h3>
-        <hr id="horizontalLine">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
 
@@ -1291,8 +1334,8 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="exploration">
-        <h3 id="headline" style="margin-top: 0"></h3>
-        <hr id="horizontalLine">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
         <!--<div id="link-list-container" style="margin-top: 20px"></div>-->

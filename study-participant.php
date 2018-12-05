@@ -801,7 +801,7 @@ if (login_check($mysqli) == true) {
 
                 var executionTime = study.surveyType === TYPE_SURVEY_MODERATED && evaluatorResults !== null ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
 //                console.log(executionTime);
-                if (!isEmpty(executionTime)) {
+                if (!isEmpty(executionTime) && testerResults.format !== THANKS) {
                     var badge = document.createElement('span');
                     $(badge).addClass('badge pull-right');
                     $(badge).text(translation.lapse + ': ' + getTimeString(executionTime, true));
@@ -1587,7 +1587,6 @@ if (login_check($mysqli) == true) {
                         duringExecution++;
                     }
 
-//                    console.log(annotations);
                     if (annotations[i].source === 'evaluator' && annotations[i].action !== ACTION_CUSTOM) {
                         fromModerator++;
                     } else if (annotations[i].source === 'observer') {
@@ -1639,8 +1638,6 @@ if (login_check($mysqli) == true) {
 
                     for (var i = 0; i < problemTaskIds.length; i++) {
                         var taskStart = resultsPlayer.player.getAssessmentTaskStart(problemTaskIds[i].time);
-//                        var task = resultsPlayer.player.getTaskById(problemTaskIds[i].taskId);
-                        console.log('task start = ', taskStart);
                         var seconds = getSeconds(getTimeBetweenTimestamps(resultsData.startRecordingTime || resultsData.startTime, taskStart.time), true);
                         var linkListItem = $('#template-study-container').find('#link-list-item').clone().removeAttr('id');
                         $(linkListItem).find('.link-list-item-url').attr('data-jumpto', seconds);
@@ -1654,6 +1651,7 @@ if (login_check($mysqli) == true) {
                             event.preventDefault();
                             var jumpTo = parseFloat($(this).attr('data-jumpto'));
                             resultsPlayer.player.jumpTo(jumpTo);
+                            $("html, body").animate({scrollTop: 0}, 300);
                         });
                     }
                 } else {

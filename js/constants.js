@@ -176,6 +176,7 @@ var ALTERNATIVE_FOR_FEEDBACK = 'feedback';
 
 // scenario actions
 var ACTION_CUSTOM = 'custom';
+var ACTION_NOTE = 'note';
 var ACTION_START_GESTURE_TRAINING = 'startGestureTraning';
 var ACTION_SHOW_INFO = 'showInfo';
 var ACTION_SHOW_GESTURE_INFO = 'showGestureInfo';

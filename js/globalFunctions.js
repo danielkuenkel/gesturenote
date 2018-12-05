@@ -473,7 +473,6 @@ $(document).on('mouseleave', '.select .option li', function (event) {
 });
 
 
-
 function renderScenePopoverPreview(scene, callback) {
     var popover = $('#popover-scene-preview').clone();
     popover.attr('id', 'popover-scene');
@@ -512,10 +511,7 @@ function renderScenePopoverPreview(scene, callback) {
                 sceneItem.find('.web-frame').attr('src', scene.parameters.url);
                 break;
         }
-//        renderGestureImages($(popover).find('.previewGesture'), gesture.images, gesture.previewImage, function () {
-//            popover.find('.panel-heading').text(gesture.title);
-//            callback();
-//        });
+
         $('body').append(popover);
 
         if (callback) {
@@ -1491,30 +1487,9 @@ function renderAssembledAudioSources(dropdown, sources, selectedSourceId) {
  */
 function renderAssembledTaskAssessments(dropdown, data, selectedId) {
     var listItem, link;
-//    console.log(data);
-
     $(dropdown).find('.option').empty();
     $(dropdown).find('.dropdown-toggle').removeClass('disabled');
     $(dropdown).find('.item-input-text').attr('placeholder', translation.pleaseSelect);
-
-    listItem = document.createElement('li');
-    listItem.setAttribute('id', 'none');
-    link = document.createElement('a');
-    link.setAttribute('href', '#');
-    link.appendChild(document.createTextNode(translation.none));
-    listItem.appendChild(link);
-    $(dropdown).find('.option').append(listItem);
-
-    if (data === undefined) {
-        selectedId === 'none';
-        $(dropdown).closest('.form-group').addClass('hidden');
-    }
-
-    if (selectedId === 'none') {
-        $(listItem).addClass('selected');
-        $(dropdown).find('.item-input-text').val(translation.none);
-        $(dropdown).find('.chosen').attr('id', 'none');
-    }
 
     if (data !== undefined) {
         for (var assessmentId in data) {
@@ -1531,6 +1506,10 @@ function renderAssembledTaskAssessments(dropdown, data, selectedId) {
                 $(dropdown).find('.chosen').attr('id', assessmentId);
                 $(dropdown).find('.item-input-text').val(data[assessmentId].title);
             }
+        }
+
+        if (selectedId === undefined) {
+            $($(dropdown).find('.dropdown-menu li')[0]).click();
         }
     }
 }

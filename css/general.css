@@ -123,6 +123,7 @@ body {
 
 .popover {
     z-index: 10003; /* A value higher than 1010 that solves the problem */
+    position: fixed;
 }
 
 textarea:hover, 
@@ -1414,6 +1415,16 @@ canvas {
     justify-content: center;
     padding-bottom: 12px;
     background-image: none !important;
+}
+
+.carousel-control .fa-chevron-left {
+    position: relative;
+    right: 40px;
+}
+
+.carousel-control .fa-chevron-right {
+    position: relative;
+    left: 40px;
 }
 
 .carousel-caption p {

@@ -1523,7 +1523,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
 }
 
 function getAnswerForId(id, data, sequentialAnswerSearch, index) {
-    console.log(id, data, sequentialAnswerSearch);
+//    console.log(id, data, sequentialAnswerSearch);
     if (sequentialAnswerSearch && sequentialAnswerSearch === true) {
         var answer = data.answers[index].answer;
         if (answer) {

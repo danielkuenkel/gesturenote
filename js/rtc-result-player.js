@@ -20,7 +20,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
     player = this;
 
     var screenSharingStartGap = 0;
-    var screenSharingEndGap = 0;
+//    var screenSharingEndGap = 0;
     var videoCount = 0;
     var videosLoadedSuccessfully = 0;
 
@@ -198,7 +198,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
 
         function showScreenPlayer() {
             $(resultsPlayer.domElement).find('#screen-share-video-container').removeClass('hidden');
-            $(resultsPlayer.domElement).find('#webcam-video-container').css({marginTop: '10px'});
+//            $(resultsPlayer.domElement).find('#webcam-video-container').css({marginTop: '10px'});
             $(resultsPlayer.domElement).find('#screen-share-video-container .video-time-code-duration').text(secondsToHms(screenShareVideoHolder[0].duration));
 
             $(screenShareVideoHolder).unbind('click').bind('click', function (event) {
@@ -753,6 +753,52 @@ function initializeTimeline(content) {
             if (!$(content).find('#btn-toggle-timeline').hasClass('present')) {
                 $(content).find('#btn-toggle-timeline').click();
             }
+
+            timeline.on('itemover', function (event) {
+                var annotation = getAnnotationById(event.item);
+                if (annotation) {
+                    var item = $(event.event.srcElement);
+                    if (!$(event.event.srcElement).hasClass('vis-item')) {
+                        item = $(item).closest('.vis-item');
+                    }
+
+                    if (annotation.action === ACTION_NOTE) {
+                        var content = getAnnotationPopoverContent(annotation);
+                        $(item).attr('data-html', 'true');
+                        $(item).attr('data-toggle', 'popover');
+                        $(item).attr('data-placement', 'auto');
+                        $(item).attr('data-content', content.content);
+                        $(item).attr('title', content.title);
+                        $(item).popover('show');
+                        $(item).attr('aria-hidden', 'true');
+                        $(item).attr('aria-describedby', '');
+                    } else if (annotation.action === ACTION_RENDER_SCENE) {
+                        var scene = getSceneById(annotation.scene);
+                        renderScenePopoverPreview(scene, function () {
+                            var popover = $('#popover-scene');
+                            var top = $(item).offset().top - popover.height() - 2;
+                            var left = $(item).offset().left + parseInt(((item.width() - popover.width()) / 2));
+                            popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                            TweenMax.to(popover, .3, {autoAlpha: 1});
+                        });
+                    }
+                }
+            });
+
+            timeline.on('itemout', function (event) {
+                var item = $(event.event.srcElement);
+                if (!$(event.event.srcElement).hasClass('vis-item')) {
+                    item = $(item).closest('.vis-item');
+                }
+
+                $(item).popover('hide');
+                $(item).attr('data-html', '');
+                $(item).attr('data-toggle', '');
+                $(item).attr('data-placement', '');
+                $(item).attr('data-content', '');
+                $(item).attr('title', '');
+                resetScenePopover();
+            });
         } else {
             console.warn('no timeline data extracted');
             $(content).find('#btn-toggle-timeline').click();
@@ -845,99 +891,62 @@ function getVisDataSet() {
         }
     }
 
-//    var className = 'item-primary-full';
-//    var annotations = timelineData.phaseResults.annotations;
-//    
-//    if (wizardData && wizardData.annotations) {
-//        var evaluatorAnnotations = evaluatorData.annotations;
-//        
-//        for (var i = 0; i < evaluatorAnnotations.length; i++) {
-//            evaluatorAnnotations[i].id = chance.natural();
-//        }
-//        
-//        annotations = annotations.concat(evaluatorAnnotations);
-//        console.log('ANNOTATIONS EVAULTOR:', annotations);
-//    }
-
-//    var tempData = getLocalItem(timelineData.phaseResults.id + (timelineData.checkedVideos.secondVideo ? '.evaluator' : '.results'));
     if (annotations) {
         currentAnnotations = annotations;
         for (var i = 0; i < annotations.length; i++) {
             var className = 'item-advanced-primary-full';
             var contentText = translation.annotationsList[annotations[i].action];
+            var originalContent = translation.annotationsList[annotations[i].action];
+
             switch (annotations[i].action) {
                 case ACTION_CUSTOM:
                     contentText = annotations[i].content;
+                    originalContent = contentText;
+                    className = annotations[i].annotationColor;
+                    break;
+                case ACTION_NOTE:
+                    contentText = '<i class="fa fa-ellipsis-v"></i> ' + translation.note + ': ' + (annotations[i].content.length > 20 ? annotations[i].content.substring(0, 20) + '…' : annotations[i].content);
+                    originalContent = annotations[i].content;
                     className = annotations[i].annotationColor;
                     break;
                 case ACTION_RENDER_SCENE:
                     var scene = getSceneById(annotations[i].scene);
-                    contentText = translation.scene + ': ' + scene.title;
+                    contentText = '<i class="fa fa-ellipsis-v"></i> ' + scene.title;
+                    originalContent = contentText;
                     break;
                 case ACTION_START_GESTURE_TRAINING:
                 case ACTION_START_PERFORM_GESTURE:
                 case ACTION_START_PERFORM_TRIGGER_IDENTIFICATION:
                 case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
-
                     var gesture = getGestureById(annotations[i].gestureId);
-//                    console.log(annotations[i].gestureId, gesture);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
+                    originalContent = contentText;
                     break;
-//                case ACTION_START_PERFORM_GESTURE:
-//                    var gesture = getGestureById(annotations[i].gestureId);
-//                    contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
-//                    break;
                 case ACTION_START_PERFORM_GESTURE_IDENTIFICATION:
-//                    console.log(annotations[i].triggerId);
                     var trigger = getTriggerById(annotations[i].triggerId);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + trigger.title;
+                    originalContent = contentText;
                     break;
-//                case ACTION_START_PERFORM_TRIGGER_IDENTIFICATION:
-//                    var gesture = getGestureById(annotations[i].gestureId);
-//                    contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
-//                    break;
                 case ACTION_SELECT_GESTURE:
                     var gesture = getGestureById(annotations[i].selectedGestureId);
                     className = 'item-success-full';
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
+                    originalContent = contentText;
                     break;
                 case ACTION_NO_GESTURE_DEMONSTRATED:
                 case ACTION_NO_GESTURE_FIT_FOUND:
                     className = 'item-warning-full';
                     break;
-//                case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
-//                    var gesture = getGestureById(annotations[i].gestureId);
-//                    contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
-//                    break;
                 case ACTION_START_TASK:
                     var task = getTaskById(annotations[i].taskId);
                     contentText = translation.task + ': ' + task.title;
+                    originalContent = contentText;
                     break;
                 case ACTION_ASSESSMENT:
-                    console.log('task assessment:', annotations[i].assessmentId);
+//                    console.log('task assessment:', annotations[i].assessmentId);
                     contentText = timelineData.phaseData.taskAssessments[annotations[i].assessmentId].title + ': ' + getTaskById(annotations[i].taskId).title;
+                    originalContent = contentText;
                     className = annotations[i].annotationColor;
-
-//                    switch (color) {
-//                        case ASSESSMENT_COLOR_GREEN:
-//                            className = 'item-success-full';
-//                            break;
-//                        case ASSESSMENT_COLOR_BLUE:
-//                            className = 'item-info-full';
-//                            break;
-//                        case ASSESSMENT_COLOR_RED:
-//                            className = 'item-danger-full';
-//                            break;
-//                        case ASSESSMENT_COLOR_YELLOW:
-//                            className = 'item-warning-full';
-//                            break;
-//                        case ASSESSMENT_COLOR_DARKBLUE:
-//                            className = 'item-primary-full';
-//                            break;
-//                        default:
-//                            className = 'item-advanced-primary-full';
-//                            break;
-//                    }
                     break;
                 case ACTION_SHOW_FEEDBACK:
                     if (annotations[i].feedback.parameters.negative === 'yes') {
@@ -948,50 +957,34 @@ function getVisDataSet() {
                     break;
                 case ACTION_ALL_RECORDER_READY:
                     contentText = translation.annotationsList[annotations[i].action];
+                    originalContent = contentText;
                     className = 'item-success-full';
                     break;
                 case ACTION_RECORDER_LOST:
                     contentText = translation.annotationsList[annotations[i].action];
+                    originalContent = contentText;
                     className = 'item-danger-full';
                     break;
                 case ACTION_SHOW_GESTURE_INFO:
                 case ACTION_HIDE_GESTURE_INFO:
                     var gesture = getGestureById(annotations[i].gestureId);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
+                    originalContent = gesture.title;
                     break;
                 case ACTION_SHOW_TRIGGER_INFO:
                 case ACTION_HIDE_TRIGGER_INFO:
                     var trigger = getTriggerById(annotations[i].triggerId);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + trigger.title;
+                    originalContent = contentText;
                     break;
                 case ACTION_OBSERVER_ANNOTATION:
                     contentText = translation.observatorHint;
-//                    var color = annotations[i].annotationColor;
+                    originalContent = contentText;
                     className = annotations[i].annotationColor;
-//                    switch (color) {
-//                        case ASSESSMENT_COLOR_GREEN:
-//                            className = 'item-success-full';
-//                            break;
-//                        case ASSESSMENT_COLOR_BLUE:
-//                            className = 'item-info-full';
-//                            break;
-//                        case ASSESSMENT_COLOR_RED:
-//                            className = 'item-danger-full';
-//                            break;
-//                        case ASSESSMENT_COLOR_YELLOW:
-//                            className = 'item-warning-full';
-//                            break;
-//                        case ASSESSMENT_COLOR_DARKBLUE:
-//                            className = 'item-primary-full';
-//                            break;
-//                        default:
-//                            className = 'item-advanced-primary-full';
-//                            break;
-//                    }
                     break;
             }
 
-            array.push({id: annotations[i].id, action: annotations[i].action, content: contentText, start: new Date(parseInt(annotations[i].time)), className: className, timestamp: parseInt(annotations[i].time), source: annotations[i].source});
+            array.push({id: annotations[i].id, action: annotations[i].action, content: contentText, originalContent: originalContent, start: new Date(parseInt(annotations[i].time)), className: className, timestamp: parseInt(annotations[i].time), source: annotations[i].source});
         }
     }
 
@@ -1020,15 +1013,19 @@ RTCResultsPlayer.prototype.getTaskById = function (id) {
 
 function getTaskById(id) {
     return resultsPlayer.player.getTaskById(id);
-//    console.log(resultsPlayer);
-//    if (timelineData && timelineData.phaseData && timelineData.phaseData.tasks && timelineData.phaseData.tasks.length > 0) {
-//        for (var i = 0; i < timelineData.phaseData.tasks.length; i++) {
-//            if (parseInt(timelineData.phaseData.tasks[i].id) === parseInt(id)) {
-//                return timelineData.phaseData.tasks[i];
-//            }
-//        }
-//    }
-//    return null;
+}
+
+function  getAnnotationById(id) {
+    var annotations = currentAnnotations;
+    if (annotations && annotations.length > 0) {
+        for (var i = 0; i < annotations.length; i++) {
+            if (annotations[i].id === id) {
+                return annotations[i];
+            }
+        }
+    }
+
+    return null;
 }
 
 function renderSeekbarData(visData, content) {
@@ -1067,7 +1064,6 @@ function renderSeekbarData(visData, content) {
 }
 
 function renderListData(visData, content) {
-
     $(content).find('#btn-toggle-link-list').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if ($(this).hasClass('present')) {
@@ -1092,7 +1088,6 @@ function renderListData(visData, content) {
     });
 
     if (timelineData) {
-        console.log(visData);
         visData = sortByKey(visData, 'start');
         var container = $(content).find('#link-list-container');
         $(container).empty();
@@ -1113,11 +1108,48 @@ function renderListData(visData, content) {
                     $(linkListItem).find('.btn-edit-annotation').attr('data-source', visData[i].source);
                     $(linkListItem).find('.btn-edit-annotation').attr('data-action', visData[i].action);
                     $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)));
-                    $(linkListItem).find('.link-list-item-title').text(visData[i].content);
+                    $(linkListItem).find('.link-list-item-title').html(visData[i].content);
                     $(linkListItem).find('.link-list-item-title').addClass(visData[i].className);
-                    $(linkListItem).attr('data-content', visData[i].content);
+                    $(linkListItem).attr('data-content', visData[i].originalContent);
                     $(linkListItem).attr('data-source', visData[i].source);
                     $(linkListItem).attr('data-color', visData[i].className);
+                    $(linkListItem).attr('data-action', visData[i].action);
+
+                    $(linkListItem).find('.link-list-item-title').unbind('mouseenter').bind('mouseenter', function (event) {
+                        var item = $(this).closest('.link-list-item');
+                        var action = $(item).attr('data-action');
+                        if (action === ACTION_NOTE) {
+                            $(this).attr('data-html', 'true');
+                            $(this).attr('data-toggle', 'popover');
+                            $(this).attr('data-placement', 'auto');
+                            $(this).attr('data-content', $(item).attr('data-content'));
+                            $(this).attr('title', translation.note);
+                            $(this).popover('show');
+                            $(this).attr('aria-hidden', 'true');
+                            $(this).attr('aria-describedby', '');
+                        } else if (action === ACTION_RENDER_SCENE) {
+                            var annotation = getAnnotationById($(item).find('.btn-edit-annotation').attr('data-id'));
+                            var scene = getSceneById(annotation.scene);
+                            var popoverAnker = $(this);
+                            renderScenePopoverPreview(scene, function () {
+                                var popover = $('#popover-scene');
+                                var top = $(popoverAnker).offset().top - popover.height() - 2;
+                                var left = $(popoverAnker).offset().left + parseInt(((popoverAnker.width() - popover.width()) / 2));
+                                popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                                TweenMax.to(popover, .3, {autoAlpha: 1});
+                            });
+                        }
+                    });
+
+                    $(linkListItem).find('.link-list-item-title').unbind('mouseleave').bind('mouseleave', function (event) {
+                        $(this).popover('hide');
+                        $(this).attr('data-html', '');
+                        $(this).attr('data-toggle', '');
+                        $(this).attr('data-placement', '');
+                        $(this).attr('data-content', '');
+                        $(this).attr('title', '');
+                        resetScenePopover();
+                    });
 
                     $(container).append(linkListItem);
                     $(linkListItem).find('.link-list-item-url').on('click', function (event) {
@@ -1146,8 +1178,6 @@ function renderListData(visData, content) {
                     });
                 }
             }
-
-
         }
     }
 }
@@ -1164,14 +1194,6 @@ function updateLinkList(currentTime, content) {
             }
         }
     }
-//
-//    var summaryContent = $(content).find('#summary');
-//    if (summaryContent) {
-//        var linkItems = $(content).find('#link-list-container .link-list-item');
-//        for (var i = 0; i < linkItems.length; i++) {
-//            
-//        }
-//    }
 }
 
 function deleteAnnotation(annotationId, content, source) {
@@ -1222,15 +1244,16 @@ function editAnnotation(annotationId, content, source, linkListItem) {
         }
     }
 
-//    if()
-    renderAssembledTaskAssessments($(content).find('#update-annotation-container #update-assessment-type-select'), timelineData.phaseData.taskAssessments, 'none');
-
     if (annotation) {
         var selectedColor = 'item-advanced-primary-full';
         var contentText = translation.annotationsList[annotation.action];
 
         switch (annotation.action) {
             case ACTION_CUSTOM:
+                contentText = annotation.content;
+                selectedColor = annotation.annotationColor;
+                break;
+            case ACTION_NOTE:
                 contentText = annotation.content;
                 selectedColor = annotation.annotationColor;
                 break;
@@ -1263,31 +1286,7 @@ function editAnnotation(annotationId, content, source, linkListItem) {
                 contentText = translation.task + ': ' + task.title;
                 break;
             case ACTION_ASSESSMENT:
-//                contentText = timelineData.phaseData.taskAssessments[annotation.assessmentId].title + ': ' + getTaskById(timelineData, annotation.taskId).title;
-                renderAssembledTaskAssessments($(content).find('#update-annotation-container #update-assessment-type-select'), timelineData.phaseData.taskAssessments, annotation.assessmentId);
                 selectedColor = annotation.annotationColor;
-//                switch (annotation.annotationColor) {
-//                    case ASSESSMENT_COLOR_GREEN:
-//                        selectedColor = 'item-success-full';
-//                        break;
-//                    case ASSESSMENT_COLOR_BLUE:
-//                        selectedColor = 'item-info-full';
-//                        break;
-//                    case ASSESSMENT_COLOR_RED:
-//                        selectedColor = 'item-danger-full';
-//                        break;
-//                    case ASSESSMENT_COLOR_YELLOW:
-//                        selectedColor = 'item-warning-full';
-//                        break;
-//                    case ASSESSMENT_COLOR_DARKBLUE:
-//                        selectedColor = 'item-primary-full';
-//                        break;
-//                    default:
-//                        selectedColor = 'item-advanced-primary-full';
-//                        break;
-//                }
-
-                console.log('selected color', selectedColor);
                 break;
             case ACTION_SHOW_FEEDBACK:
                 if (annotation.feedback.parameters.negative === 'yes') {
@@ -1317,70 +1316,65 @@ function editAnnotation(annotationId, content, source, linkListItem) {
             case ACTION_OBSERVER_ANNOTATION:
                 contentText = translation.observatorHint;
                 selectedColor = annotation.annotationColor;
-//                switch (annotation.annotationColor) {
-//                    case ASSESSMENT_COLOR_GREEN:
-//                        selectedColor = 'item-success-full';
-//                        break;
-//                    case ASSESSMENT_COLOR_BLUE:
-//                        selectedColor = 'item-info-full';
-//                        break;
-//                    case ASSESSMENT_COLOR_RED:
-//                        selectedColor = 'item-danger-full';
-//                        break;
-//                    case ASSESSMENT_COLOR_YELLOW:
-//                        selectedColor = 'item-warning-full';
-//                        break;
-//                    case ASSESSMENT_COLOR_DARKBLUE:
-//                        selectedColor = 'item-primary-full';
-//                        break;
-//                }
-
                 break;
         }
 
-        $(content).find('#update-annotation-container .update-annotation-title-input').val(contentText);
+
+        switch (annotation.action) {
+            case ACTION_ASSESSMENT:
+                renderAssembledTaskAssessments($(content).find('#update-annotation-container #update-assessment-type-select'), timelineData.phaseData.taskAssessments, annotation.assessmentId);
+                $(content).find('#update-annotation-container #update-assessment-type').removeClass('hidden');
+                $(content).find('#update-annotation-container #update-annotation-title').addClass('hidden');
+                $(content).find('#update-annotation-container #update-note').addClass('hidden');
+                break;
+            case ACTION_NOTE:
+                $(content).find('#update-annotation-container .update-annotation-note-input').val(contentText);
+                $(content).find('#update-annotation-container #update-note').removeClass('hidden');
+                $(content).find('#update-annotation-container #update-annotation-title').addClass('hidden');
+                $(content).find('#update-annotation-container #update-assessment-type').addClass('hidden');
+                break;
+            default:
+                $(content).find('#update-annotation-container .update-annotation-title-input').val(contentText);
+                $(content).find('#update-annotation-container #update-annotation-title').removeClass('hidden');
+                $(content).find('#update-annotation-container #update-assessment-type').addClass('hidden');
+                $(content).find('#update-annotation-container #update-note').addClass('hidden');
+                break;
+        }
+
         $(content).find('#update-annotation-container [data-id=' + selectedColor + ']').click();
 
         var submitButton = $(content).find('#update-annotation-container #btn-update-annotation-input');
         $(submitButton).unbind('click').bind('click', function (event) {
             event.preventDefault();
+            var button = $(this);
             if (!$(this).hasClass('disabled')) {
-                var assessmentId = $(content).find('#update-annotation-container #update-assessment-type-select .chosen').attr('id');
-                if (assessmentId !== 'none') {
-                    var assessmentType = timelineData.phaseData.taskAssessments[assessmentId].assessmentType;
-                    annotation.assessmentId = assessmentId;
-                    annotation.assessmentType = assessmentType;
-                    annotation.annotationColor = (content).find('.update-color-selector .selected').attr('data-id');
-//                    var color = 'grey';
-//                    switch ($) {
-//                        case 'item-primary-full':
-//                            color = ASSESSMENT_COLOR_DARKBLUE;
-//                            break;
-//                        case 'item-success-full':
-//                            color = ASSESSMENT_COLOR_GREEN;
-//                            break;
-//                        case 'item-info-full':
-//                            color = ASSESSMENT_COLOR_BLUE;
-//                            break;
-//                        case 'item-warning-full':
-//                            color = ASSESSMENT_COLOR_YELLOW;
-//                            break;
-//                        case 'item-danger-full':
-//                            color = ASSESSMENT_COLOR_RED;
-//                            break;
-//                    }
-//                    annotation.annotationColor = color;
-                } else {
-                    var annotationLabel = $(content).find('.update-annotation-title-input').val().trim();
-                    if (annotationLabel !== '') {
-                        annotation.content = $(content).find('#update-annotation-container .update-annotation-title-input').val();
-                        annotation.annotationColor = $(content).find('.update-color-selector .selected').attr('data-id');
-                    } else {
-                        $(content).find('.update-annotation-title-input').parent().addClass('has-error');
-                        return false;
-                    }
+                lockButton(button, true, 'fa');
+                switch (annotation.action) {
+                    case ACTION_ASSESSMENT:
+                        var assessmentId = $(content).find('#update-annotation-container #update-assessment-type-select .chosen').attr('id');
+                        var assessmentType = timelineData.phaseData.taskAssessments[assessmentId].assessmentType;
+                        annotation.assessmentId = assessmentId;
+                        annotation.assessmentType = assessmentType;
+                        break;
+                    case ACTION_NOTE:
+                        var noteInput = $(content).find('.update-annotation-note-input').val().trim();
+                        if (noteInput === '') {
+                            $(content).find('.update-annotation-note-input').parent().addClass('has-error');
+                            return false;
+                        }
+                        annotation.content = noteInput;
+                        break;
+                    default:
+                        var annotationLabel = $(content).find('.update-annotation-title-input').val().trim();
+                        if (annotationLabel === '') {
+                            $(content).find('.update-annotation-title-input').parent().addClass('has-error');
+                            return false;
+                        }
+                        annotation.content = annotationLabel;
+                        break;
                 }
 
+                annotation.annotationColor = $(content).find('.update-color-selector .selected').attr('data-id');
                 updateAnnotation(annotation);
             }
         });
@@ -1420,7 +1414,6 @@ function editAnnotation(annotationId, content, source, linkListItem) {
     }
 
     function updateAnnotation(updatedAnnotation) {
-        console.log('update annotation', updatedAnnotation);
         if (phaseData.annotations && phaseData.annotations.length > 0) {
 
             for (var i = 0; i < phaseData.annotations.length; i++) {
@@ -1434,14 +1427,6 @@ function editAnnotation(annotationId, content, source, linkListItem) {
                 $(content).find('#btn-play-pause').click();
             }
 
-            var annotationLabel = $(content).find('.update-annotation-title-input').val().trim();
-
-            if (updatedAnnotation.action !== ACTION_ASSESSMENT && annotationLabel === '') {
-                $(content).find('.update-annotation-title-input').parent().addClass('has-error');
-                return false;
-            }
-
-//            if (annotationLabel !== '') {
             if (!$(content).find('#btn-toggle-timeline').hasClass('present')) {
                 $(content).find('#btn-toggle-timeline').click();
             }
@@ -1459,9 +1444,6 @@ function editAnnotation(annotationId, content, source, linkListItem) {
                 searchThroughAnnotations(content);
                 $(resultsPlayer.player).trigger('dataUpdated');
             });
-//            } else {
-//                $(content).find('.update-annotation-title-input').parent().addClass('has-error');
-//            }
         }
 
         setInputChangeEvent($(content).find('.update-annotation-title-input'));
@@ -1473,7 +1455,32 @@ function editAnnotation(annotationId, content, source, linkListItem) {
 }
 
 function initializeAnnotationHandling(content) {
-    renderAssembledTaskAssessments($(content).find('#add-assessment-type-select'), timelineData.phaseData.taskAssessments, 'none');
+    renderAssembledTaskAssessments($(content).find('#add-annotation-container #add-assessment-type-select'), timelineData.phaseData.taskAssessments);
+
+    // check if phase data is from a usertest
+    if (timelineData.phaseResults.format === SCENARIO) {
+        $(content).find('#add-annotation-container #taskAssessment').removeClass('hidden');
+
+        $(content).find('#add-annotation-container #add-annotation-type-select').unbind('change').bind('change', function (event, id) {
+            switch (id) {
+                case 'annotation':
+                    $(content).find('#add-annotation-container #add-annotation-title').removeClass('hidden');
+                    $(content).find('#add-annotation-container #add-assessment-type').addClass('hidden');
+                    $(content).find('#add-annotation-container #add-note').addClass('hidden');
+                    break;
+                case 'taskAssessment':
+                    $(content).find('#add-annotation-container #add-assessment-type').removeClass('hidden');
+                    $(content).find('#add-annotation-container #add-annotation-title').addClass('hidden');
+                    $(content).find('#add-annotation-container #add-note').addClass('hidden');
+                    break;
+                case 'note':
+                    $(content).find('#add-annotation-container #add-note').removeClass('hidden');
+                    $(content).find('#add-annotation-container #add-annotation-title').addClass('hidden');
+                    $(content).find('#add-annotation-container #add-assessment-type').addClass('hidden');
+                    break;
+            }
+        });
+    }
 
     $(content).find('#btn-add-annotation-input').unbind('click').bind('click', function (event) {
         event.preventDefault();
@@ -1491,26 +1498,37 @@ function initializeAnnotationHandling(content) {
             var currentTime = parseFloat(mainVideo.currentTime).toFixed(3) * 1000;
             var annotationTime = (parseFloat(startTime) + parseFloat(currentTime));
 
-            var assessmentId = $(content).find('.assessmentAddSelect .chosen').attr('id');
-            if (assessmentId !== 'none') {
-                var task = resultsPlayer.player.getAssessmentTaskStart(annotationTime);
-                var assessmentType = timelineData.phaseData.taskAssessments[assessmentId].assessmentType;
 
-                if (task === null) {
-                    return false;
-                }
-
-                annotation = {id: chance.natural(), action: ACTION_ASSESSMENT, assessmentId: assessmentId, assessmentType: assessmentType, taskId: task.task.id, annotationColor: $(content).find('.color-selector .selected').attr('data-id'), time: annotationTime};
-            } else {
-                var annotationLabel = $(content).find('.annotation-title-input').val().trim();
-                if (annotationLabel !== '') {
+            switch ($(content).find('#add-annotation-container #add-annotation-type-select .chosen').attr('id')) {
+                case 'annotation':
+                    var annotationLabel = $(content).find('.annotation-title-input').val().trim();
+                    if (annotationLabel === '') {
+                        $(content).find('.annotation-title-input').parent().addClass('has-error');
+                        return false;
+                    }
                     annotation = {id: chance.natural(), action: ACTION_CUSTOM, content: annotationLabel, annotationColor: $(content).find('.color-selector .selected').attr('data-id'), time: annotationTime};
-                } else {
-                    $(content).find('.annotation-title-input').parent().addClass('has-error');
-                }
+                    break;
+                case 'taskAssessment':
+                    var assessmentId = $(content).find('#add-annotation-container .assessmentAddSelect .chosen').attr('id');
+                    var task = resultsPlayer.player.getAssessmentTaskStart(annotationTime);
+                    var assessmentType = timelineData.phaseData.taskAssessments[assessmentId].assessmentType;
+
+                    if (task === null) {
+                        return false;
+                    }
+
+                    annotation = {id: chance.natural(), action: ACTION_ASSESSMENT, assessmentId: assessmentId, assessmentType: assessmentType, taskId: task.task.id, annotationColor: $(content).find('.color-selector .selected').attr('data-id'), time: annotationTime};
+                    break;
+                case 'note':
+                    var noteInput = $(content).find('.annotation-note-input').val().trim();
+                    if (noteInput === '') {
+                        $(content).find('.annotation-note-input').parent().addClass('has-error');
+                        return false;
+                    }
+                    annotation = {id: chance.natural(), action: ACTION_NOTE, content: noteInput, annotationColor: $(content).find('.color-selector .selected').attr('data-id'), time: annotationTime};
+                    break;
             }
 
-            console.log('add annotation', annotation);
             if (annotation) {
                 var firstInitializeTimeline = false;
 
@@ -1605,9 +1623,9 @@ function searchThroughAnnotations(contentDom, resetList) {
 
     if (resetList && resetList === true) {
         $(items).removeClass('hidden');
-        removeAlert(contentDom, ALERT_NO_SEARCH_RESULTS)
+        removeAlert(contentDom, ALERT_NO_SEARCH_RESULTS);
     } else {
-        var coloreredItems = [];
+        var coloredItems = [];
         var visibleItems = [];
 
         var selectedColor = $(searchColorSelector).find('.selected').attr('data-id');
@@ -1615,24 +1633,24 @@ function searchThroughAnnotations(contentDom, resetList) {
             // search only through items with this color
             for (var i = 0; i < items.length; i++) {
                 if ($(items[i]).attr('data-color') === selectedColor) {
-                    coloreredItems.push(items[i]);
+                    coloredItems.push(items[i]);
                 }
             }
         } else {
-            coloreredItems = items;
+            coloredItems = items;
         }
 
         var searchInputVal = $(searchInput).val();
-        if (searchInputVal.trim() !== '' && coloreredItems.length > 0) {
+        if (searchInputVal.trim() !== '' && coloredItems.length > 0) {
             // search only through items with this content
-            for (var i = 0; i < coloreredItems.length; i++) {
-                var content = $(coloreredItems[i]).attr('data-content');
+            for (var i = 0; i < coloredItems.length; i++) {
+                var content = $(coloredItems[i]).attr('data-content');
                 if (content.search(new RegExp(searchInputVal.trim(), "i")) > -1) {
-                    visibleItems.push(coloreredItems[i]);
+                    visibleItems.push(coloredItems[i]);
                 }
             }
         } else {
-            visibleItems = coloreredItems;
+            visibleItems = coloredItems;
         }
 
         $(items).addClass('hidden');
@@ -1690,4 +1708,18 @@ function saveUpdatedPhaseResults(source, callback) {
             });
             break;
     }
+}
+
+function getAnnotationPopoverContent(annotation) {
+    var content = '';
+    var title = '';
+
+    switch (annotation.action) {
+        case ACTION_NOTE:
+            title = translation.note;
+            content = annotation.content;
+            break;
+    }
+
+    return {title: title, content: content};
 }
