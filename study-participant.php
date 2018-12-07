@@ -208,6 +208,8 @@ if (login_check($mysqli) == true) {
 
                     </div>
 
+                    <img id="participant-image" class="hidden" style="width:100%; max-width: 300px; border-radius: 4px; margin-top: 10px" />
+
                     <div class="btn-group-vertical btn-block hidden-lg hidden-md" id="phase-results-control-nav" style="margin-top: 20px">
                         <button class="btn btn-default btn-shadow btn-prev-participant disabled" type="button"><i class="fa fa-arrow-left"></i> <span class="btn-text"><?php echo $lang->previousParticipant ?></span></button>
                         <button class="btn btn-default btn-shadow btn-next-participant disabled" type="button"><i class="fa fa-arrow-right"></i> <span class="btn-text"><?php echo $lang->nextParticipant ?></span></button>
@@ -426,6 +428,12 @@ if (login_check($mysqli) == true) {
 
                         for (var i = 0; i < result.studyResults.length; i++) {
                             if (query.participantId === result.studyResults[i].userId) {
+
+                                if (result.studyResults[i].data && result.studyResults[i].data.snapshot) {
+                                    $('#participant-image').removeClass('hidden').attr('src', result.studyResults[i].data.snapshot);
+//                                    console.log('snapshot', );
+                                }
+
                                 if (i === 0) {
                                     disablePrevButton = true;
                                     nextParticipantId = result.studyResults[i + 1].userId;

@@ -40,7 +40,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
         resultsPlayer.find('#loader').removeClass('hidden');
 
         if (evaluatorResults) {
-            if (evaluatorResults.screenRecordUrl || wizardResults.screenRecordUrl) {
+            if ((evaluatorResults && evaluatorResults.screenRecordUrl) || (wizardResults && wizardResults.screenRecordUrl)) {
                 videoCount++;
                 initScreenSharingVideoPlayer();
             }
