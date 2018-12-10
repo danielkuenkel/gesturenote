@@ -186,7 +186,8 @@ PeerConnection.prototype.initialize = function (options) {
                 media: constraints ? constraints : {audio: true, video: true}
             });
 
-            webrtc.webrtc.config.peerConnectionConfig.iceTransports = options.iceTransports || "all";
+            console.log('ice transports:', options.iceTransports || "all", constraints);
+            webrtc.webrtc.config.peerConnectionConfig.iceTransports = options.iceTransports || (getBrowser() === BROWSER_FIREFOX ? 'relay' : 'all');
 
 
             var controlsTween = new TweenMax(options.streamControls, .3, {opacity: 1.0, paused: true});

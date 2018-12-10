@@ -312,7 +312,7 @@ function initializeRecorders() {
         var recordType = recorder.options.initRecorders[i].type;
         switch (recordType) {
             case TYPE_RECORD_WEBCAM:
-                initWebcamRecorder(recorder.options.initRecorders[i], recorder.options.record[i]);
+                initWebcamRecorder(recorder.options.initRecorders[i], (recorder.options.record && recorder.options.record[i]) || null);
                 break;
             case TYPE_RECORD_LEAP:
                 initLeapRecorder(recorder.options.initRecorders[i]);
@@ -401,8 +401,8 @@ function initWebcamRecorder(recorderOptions, generalOptions) {
         rawData: recorderOptions.data || null,
         startRecordingTime: recorderOptions.startRecordingTime || null,
         endRecordingTime: recorderOptions.endRecordingTime || null,
-        videoSource: generalOptions.videoSource || null,
-        allowConfig: generalOptions.allowConfig || null,
+        videoSource: (generalOptions && generalOptions.videoSource) || null,
+        allowConfig: (generalOptions && generalOptions.allowConfig) || null,
         recordedData: {images: recorderOptions.images, previewImage: recorderOptions.previewImage, gif: recorderOptions.gif}
     };
 

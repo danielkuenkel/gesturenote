@@ -862,7 +862,7 @@ if ($h && $token && $studyId) {
                         $('#btn-enter-study').removeClass('disabled');
                     }
                     checkExecutionRole();
-                    console.log('VIDEO ADED', video, peer);
+                    console.log('VIDEO ADDED', video, peer);
                 });
 
                 // a peer video has been removed

@@ -5,7 +5,7 @@
  */
 
 function getQueryParams(qs) {
-    qs = qs.split('+').join(' ');
+//    qs = qs.split('+').join('%252b');
 
     var params = {},
             tokens,

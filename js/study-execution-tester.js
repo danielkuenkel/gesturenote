@@ -350,6 +350,7 @@ var Tester = {
         var options = getPhaseStepOptions(currentPhase.format);
         console.log(options, currentPhase.format);
         var query = getQueryParams(document.location.search);
+        console.log('video source', query.vSource);
         var mainElement = $('#video-caller');
         var callerOptions = {
             target: target,
