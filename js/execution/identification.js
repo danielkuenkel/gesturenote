@@ -203,7 +203,6 @@ Identification.prototype.renderModeratorView = function () {
         $(container).find('#slides').removeClass('hidden');
         $(container).find('#identified-gesture').addClass('hidden');
         $(container).find('#slides .headline').text(translation.formats.identification.text + " " + (currentIdentificationIndex + 1) + " " + translation.of + " " + data.identification.length);
-//        console.log(container.find('#gesture-recorder-container'));
         $(container).find('#gesture-recorder-container').addClass('hidden').empty();
 
         var item = $(source).find('#identificationItem-gestures').clone().removeAttr('id');
@@ -279,27 +278,28 @@ Identification.prototype.renderModeratorView = function () {
 
                 if (metadata.size > 0) {
                     receivedWebcamRecording = file;
-                    if (receivedWebcamRecording && receivedGestureData) {
-                        currentPhaseState = 'gestureTransmitted';
-                        renderCurrentPhaseState();
-                    }
+                    checkReceivedData();
                 } else {
                     // error handling
                 }
-
-                currentPhaseState = 'gestureTransmitted';
-                renderCurrentPhaseState();
             });
 
             $(peerConnection).unbind(MESSAGE_GESTURE_DATA).bind(MESSAGE_GESTURE_DATA, function (event, payload) {
                 event.preventDefault();
                 console.log('gesture data received: ', receivedWebcamRecording, payload);
+                $(peerConnection).unbind(MESSAGE_GESTURE_DATA);
+
                 receivedGestureData = payload;
+                checkReceivedData();
+            });
+
+            function checkReceivedData() {
+                console.log('check received data', receivedWebcamRecording, receivedGestureData);
                 if (receivedWebcamRecording && receivedGestureData) {
                     currentPhaseState = 'gestureTransmitted';
                     renderCurrentPhaseState();
                 }
-            });
+            }
 
             peerConnection.sendMessage(MESSAGE_STOP_RECORDING_GESTURE);
         } else {
@@ -322,8 +322,6 @@ Identification.prototype.renderModeratorView = function () {
 
         renderGestureRecorder(getGestureRecodingData());
 
-//        initRerecordingButton(null);
-
         if (currentIdentificationIndex < data.identification.length - 1) {
             if (previewModeEnabled) {
                 $(container).find('#btn-next-trigger').removeClass('hidden disabled');
@@ -337,17 +335,16 @@ Identification.prototype.renderModeratorView = function () {
                 $(container).find('#identified-gesture').addClass('hidden');
                 $(container).find('#btn-start-gesture-rerecording').addClass('hidden');
 
-//                identificationRecordingStopTriggered = false;
                 currentIdentificationIndex++;
                 currentIdentificationScene = 0;
                 resetRecorder();
 
-//                if (peerConnection) {
-//                    peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION, {currentIdentificationIndex: currentIdentificationIndex});
-//                }
-
                 currentPhaseState = 'identifyGestures';
                 renderCurrentPhaseState();
+
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_REQUEST_SENSOR_STATUS);
+                }
             });
         } else {
             if (previewModeEnabled) {
@@ -556,14 +553,12 @@ Identification.prototype.renderModeratorView = function () {
     function renderIdentificationForGesturesItem(item) {
         renderSceneTriggerItems(item);
 
-//        $(container).find('#btn-start-gesture-recording').removeClass('hidden');
         var searchedData = getTriggerById(data.identification[currentIdentificationIndex].triggerId);
         $(item).find('#search-for .address').text(translation.GestureForTrigger + ':');
         $(item).find('#search-for .text').text(searchedData.title);
         $(item).find('.btn-popover-gesture-preview').remove();
 
         if (currentIdentificationIndex > 0) {
-//            $(item).find('#btn-start-gesture-recording').removeClass('disabled');
             if (areThereScenes(data.identification)) {
                 var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
                 openPrototypeScene(scene, data.identification.length === 1 && data.identification[currentIdentificationIndex].transitionScenes.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
@@ -697,24 +692,20 @@ Identification.prototype.renderModeratorView = function () {
         $(container).find('#btn-start-gesture-rerecording').unbind('click').bind('click', function (event) {
 
             $(this).addClass('hidden');
-//            $(container).find('#slides').removeClass('hidden');
-//            $(container).find('#btn-start-gesture-recording').removeClass('hidden');
-
+            $(container).find('#btn-next-trigger').addClass('hidden');
+            removeAlert(container, ALERT_PREVIEW_DUMMY);
+            
             if (gestureRecorder) {
                 gestureRecorder.destroy();
                 gestureRecorder = null;
             }
 
-//            clearAlerts($(container).find('#column-right'));
-//
-//            $(container).find('#btn-done, #btn-next-trigger').addClass('hidden');
-//            $(container).find('#file-transfer-loader').addClass('hidden');
-//            $(container).find('#identified-gesture').addClass('hidden');
-//            $(container).find('#gesture-recorder-container').addClass('hidden');
-//            $(container).find('#btn-next-trigger, #btn-done').addClass('hidden');
-
             currentPhaseState = 'identifyGestures';
             renderCurrentPhaseState();
+
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_REQUEST_SENSOR_STATUS);
+            }
         });
     }
 
@@ -957,8 +948,6 @@ Identification.prototype.renderTesterView = function () {
         clearAlerts(container);
         checkScenes();
 
-//        $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
-
         // identification live events
         testerGestureRecorder = null;
         if (!previewModeEnabled && peerConnection) {
@@ -1003,6 +992,11 @@ Identification.prototype.renderTesterView = function () {
                 currentPhaseState = 'identificationDone';
                 renderCurrentPhaseState();
             });
+
+            $(peerConnection).unbind(MESSAGE_REQUEST_SENSOR_STATUS).bind(MESSAGE_REQUEST_SENSOR_STATUS, function (event) {
+                currentPhaseState = 'identifyGestures';
+                renderCurrentPhaseState();
+            });
         }
     }
 
@@ -1012,7 +1006,10 @@ Identification.prototype.renderTesterView = function () {
         clearAlerts(container);
         showStream();
 
-        testerGestureRecorder.record();
+        if (!previewModeEnabled && peerConnection) {
+            testerGestureRecorder.record();
+        }
+
         animateLiveStream(true, VIEW_TESTER, function () {
             if (!previewModeEnabled && peerConnection) {
 

@@ -958,7 +958,7 @@ function getVisDataSet() {
                 case ACTION_ALL_RECORDER_READY:
                     contentText = translation.annotationsList[annotations[i].action];
                     originalContent = contentText;
-                    className = 'item-success-full';
+                    className = annotations[i].annotationColor || 'item-success-full';
                     break;
                 case ACTION_RECORDER_LOST:
                     contentText = translation.annotationsList[annotations[i].action];
@@ -1297,7 +1297,7 @@ function editAnnotation(annotationId, content, source, linkListItem) {
                 break;
             case ACTION_ALL_RECORDER_READY:
                 contentText = translation.annotationsList[annotation.action];
-                selectedColor = 'item-success-full';
+                selectedColor = annotation.annotationColor || 'item-success-full';
                 break;
             case ACTION_RECORDER_LOST:
                 contentText = translation.annotationsList[annotation.action];
@@ -1346,9 +1346,8 @@ function editAnnotation(annotationId, content, source, linkListItem) {
         var submitButton = $(content).find('#update-annotation-container #btn-update-annotation-input');
         $(submitButton).unbind('click').bind('click', function (event) {
             event.preventDefault();
-            var button = $(this);
             if (!$(this).hasClass('disabled')) {
-                lockButton(button, true, 'fa');
+                lockButton(submitButton, true, 'fa-save');
                 switch (annotation.action) {
                     case ACTION_ASSESSMENT:
                         var assessmentId = $(content).find('#update-annotation-container #update-assessment-type-select .chosen').attr('id');
@@ -1434,6 +1433,7 @@ function editAnnotation(annotationId, content, source, linkListItem) {
             setLocalItem(phaseData.id + '.' + source, phaseData);
             saveUpdatedPhaseResults(source, function () {
                 $(cancelButton).click();
+                unlockButton(submitButton, true, 'fa-save');
 
                 // render timeline and other elements
                 var visData = getVisDataSet();

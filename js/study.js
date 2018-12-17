@@ -340,7 +340,6 @@ function renderData(data, hash) {
     }
 
     function renderExtraction(type) {
-        console.log('render gesture extraction');
         classificationType = type;
 
         getExtractionData({studyId: data.id, surveyType: studyData.generalData.surveyType}, function (result) {
@@ -541,7 +540,7 @@ function renderStudyFeedback(feedback) {
 
 
 function renderStudyParticipants(data, hash) {
-    console.log('render study participants');
+//    console.log('render study participants');
     $('#study-participants .list-container').empty();
     $('#tab-pane').find('#participants .badge').text(data.length);
     var aborted = 0;
@@ -552,7 +551,7 @@ function renderStudyParticipants(data, hash) {
         var item = $('#template-study-container').find('#participant-thumbnail').clone().removeAttr('id');
         $(item).find('#heading-text').text(convertSQLTimestampToDate(data[i].created).toLocaleString());
         $('#study-participants .list-container').append(item);
-        console.log(data[i].executionPhase);
+//        console.log(data[i].executionPhase);
         $(item).find('#execution-phase-' + data[i].executionPhase).removeClass('hidden');
         initPopover();
 
@@ -602,7 +601,7 @@ function renderStudyParticipants(data, hash) {
         cutoutPercentage: 30,
         circumference: Math.PI
     };
-    console.log(success, aborted);
+//    console.log(success, aborted);
 
     var target = $('#study-participants');
     var ctx = $(target).find('#chart-participant-statistics');
@@ -717,6 +716,8 @@ function checkTriggerClassificationType() {
 }
 
 function renderExtractionContent(id) {
+    $('#custom-modal').unbind('gestureUpdated');
+
     switch (id) {
         case 'btn-all-gestures':
             renderAllGestures();
@@ -820,16 +821,20 @@ function renderAllGestures() {
         var statistics = {};
         statistics.staticGestures = 0;
         statistics.dynamicGestures = 0;
+        statistics.executionMixed = 0;
         statistics.discreteInteractions = 0;
         statistics.continuousInteractions = 0;
+        statistics.interactionMixed = 0;
         statistics.totalAmount = 0;
 
         for (var i = 0; i < trigger.length; i++) {
             var singleStatistics = {};
             singleStatistics.staticGestures = 0;
             singleStatistics.dynamicGestures = 0;
+            singleStatistics.executionMixed = 0;
             singleStatistics.discreteInteractions = 0;
             singleStatistics.continuousInteractions = 0;
+            singleStatistics.interactionMixed = 0;
             singleStatistics.totalAmount = 0;
 
             var panel = document.createElement('div');
@@ -850,7 +855,6 @@ function renderAllGestures() {
 
             var listContainer = document.createElement('div');
             $(listContainer).addClass('container-root row root');
-//            $(listContainer).css({marginTop: '20px', marginBottom: '30px'});
 
             var gestureCount = 0;
             for (var j = 0; j < gestures.length; j++) {
@@ -861,26 +865,40 @@ function renderAllGestures() {
                     TweenMax.from(clone, .2, {delay: j * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                     gestureCount++;
 
-                    if (gesture.type === TYPE_GESTURE_POSE) {
-                        statistics.staticGestures++;
-                        singleStatistics.staticGestures++;
-                    } else if (gesture.type === TYPE_GESTURE_DYNAMIC) {
-                        statistics.dynamicGestures++;
-                        singleStatistics.dynamicGestures++;
+                    switch (gesture.type) {
+                        case TYPE_GESTURE_POSE:
+                            statistics.staticGestures++;
+                            singleStatistics.staticGestures++;
+                            break;
+                        case TYPE_GESTURE_DYNAMIC:
+                            statistics.dynamicGestures++;
+                            singleStatistics.dynamicGestures++;
+                            break;
+                        case TYPE_GESTURE_MIXED:
+                            statistics.executionMixed++;
+                            singleStatistics.executionMixed++;
+                            break;
                     }
 
-                    if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
-                        statistics.discreteInteractions++;
-                        singleStatistics.discreteInteractions++;
-                    } else if (gesture.interactionType === TYPE_GESTURE_CONTINUOUS) {
-                        statistics.continuousInteractions++;
-                        singleStatistics.continuousInteractions++;
+                    switch (gesture.interactionType) {
+                        case TYPE_GESTURE_DISCRETE:
+                            statistics.discreteInteractions++;
+                            singleStatistics.discreteInteractions++;
+                            break;
+                        case TYPE_GESTURE_CONTINUOUS:
+                            statistics.continuousInteractions++;
+                            singleStatistics.continuousInteractions++;
+                            break;
+                        case TYPE_GESTURE_MIXED:
+                            statistics.interactionMixed++;
+                            singleStatistics.interactionMixed++;
+                            break;
                     }
                 }
             }
 
             if (gestureCount > 0) {
-                console.log('append list container');
+//                console.log('append list container');
                 $(panelHeading).append(triggerTitle);
                 $(panelBody).append(listContainer);
                 $(gesturesListContainer).append(panel);
@@ -897,6 +915,11 @@ function renderAllGestures() {
             $(countText).text(gestureCount === 1 ? gestureCount + " " + translation.gesture : gestureCount + " " + translation.gestures);
             $(triggerTitle).append(countText);
         }
+
+        $('#custom-modal').unbind('gestureUpdated').bind('gestureUpdated', function (event) {
+            event.preventDefault();
+            renderAllGestures();
+        });
 
         renderElicitationStatistics($('#content-btn-all-gestures'), statistics);
         initPopover();
@@ -918,13 +941,14 @@ function renderElicitationStatistics(container, statistics, prependContainer, he
     new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: [translation.gestureTypes.pose, translation.gestureTypes.dynamic],
+            labels: [translation.gestureTypes.pose, translation.gestureTypes.dynamic, translation.gestureTypes.mixed],
             datasets: [{
                     label: '# of Votes',
-                    data: [statistics.staticGestures, statistics.dynamicGestures],
+                    data: [statistics.staticGestures, statistics.dynamicGestures, statistics.executionMixed],
                     backgroundColor: [
                         '#97CB00',
-                        '#4BACC6'
+                        '#4BACC6',
+                        '#343C68'
                     ]
                 }]
         },
@@ -935,36 +959,29 @@ function renderElicitationStatistics(container, statistics, prependContainer, he
     new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: [translation.gestureInteractionTypes.discrete, translation.gestureInteractionTypes.continuous],
+            labels: [translation.gestureInteractionTypes.discrete, translation.gestureInteractionTypes.continuous, translation.gestureInteractionTypes.mixed],
             datasets: [{
                     label: '# of Votes',
-                    data: [statistics.discreteInteractions, statistics.continuousInteractions],
+                    data: [statistics.discreteInteractions, statistics.continuousInteractions, statistics.interactionMixed],
                     backgroundColor: [
                         '#7030A0',
-                        '#FFCB00'
+                        '#FFCB00',
+                        '#C90F5A'
                     ]
                 }]
         },
         options: chartOptions
     });
 
-
-//    $(statisticsContainer).find('#progress-type-static').text(statistics.staticGestures);
-//    $(statisticsContainer).find('#progress-type-static').css({width: (statistics.staticGestures / statistics.totalAmount * 100) + '%'});
-//    $(statisticsContainer).find('#progress-type-dynamic').text(statistics.dynamicGestures);
-//    $(statisticsContainer).find('#progress-type-dynamic').css({width: (statistics.dynamicGestures / statistics.totalAmount * 100) + '%'});
-//    $(statisticsContainer).find('#progress-type-discrete').text(statistics.discreteInteractions);
-//    $(statisticsContainer).find('#progress-type-discrete').css({width: (statistics.discreteInteractions / statistics.totalAmount * 100) + '%'});
-//    $(statisticsContainer).find('#progress-type-continuous').text(statistics.continuousInteractions);
-//    $(statisticsContainer).find('#progress-type-continuous').css({width: (statistics.continuousInteractions / statistics.totalAmount * 100) + '%'});
-
     $(statisticsContainer).find('.amount-static-gestures').text(translation.gestureTypes.pose + ': ' + statistics.staticGestures);
     $(statisticsContainer).find('.amount-dynamic-gestures').text(translation.gestureTypes.dynamic + ': ' + statistics.dynamicGestures);
-    $(statisticsContainer).find('.amount-total-gesture-executions').text(translation.gestureTypes.total + ': ' + (statistics.staticGestures + statistics.dynamicGestures));
+    $(statisticsContainer).find('.amount-execution-mixed-gestures').text(translation.gestureTypes.mixed + ': ' + statistics.executionMixed);
+    $(statisticsContainer).find('.amount-total-gesture-executions').text(translation.gestureTypes.total + ': ' + (statistics.staticGestures + statistics.dynamicGestures + statistics.executionMixed));
 
     $(statisticsContainer).find('.amount-discrete-gestures').text(translation.gestureInteractionTypes.discrete + ': ' + statistics.discreteInteractions);
     $(statisticsContainer).find('.amount-continuous-gestures').text(translation.gestureInteractionTypes.continuous + ': ' + statistics.continuousInteractions);
-    $(statisticsContainer).find('.amount-total-gesture-interactions').text(translation.gestureTypes.total + ': ' + (statistics.discreteInteractions + statistics.continuousInteractions));
+    $(statisticsContainer).find('.amount-interaction-mixed-gestures').text(translation.gestureInteractionTypes.mixed + ': ' + statistics.interactionMixed);
+    $(statisticsContainer).find('.amount-total-gesture-interactions').text(translation.gestureTypes.total + ': ' + (statistics.discreteInteractions + statistics.continuousInteractions + statistics.interactionMixed));
 
     $(statisticsContainer).css({marginBottom: '40px'});
 
@@ -1047,6 +1064,12 @@ function renderGestureClassification() {
         appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
     }
 
+//    $('#custom-modal').unbind('gestureUpdated').bind('gestureUpdated', function (event) {
+//        event.preventDefault();
+//        console.log('render gesture Classification on Update');
+//        renderGestureClassification();
+//    });
+
     $('#btn-reclassify-gestures').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
@@ -1054,7 +1077,6 @@ function renderGestureClassification() {
             removeAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
             setLocalItem(CLASSIFICATION_GESTURES, null);
             saveClassification();
-//            clearGestureSets();
             renderClassifiedGestures($('#classified-gestures'));
             renderGestureClassification();
         }
@@ -1086,7 +1108,7 @@ function updateMatchingView(updateLeft, updateRight) {
 
     var leftGesture = gesturesLeft[gesturesLeftIndex];
     var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
-    console.log('update matching view', rightGesture, gesturesRight, gesturesRightIndex);
+//    console.log('update matching view', rightGesture, gesturesRight, gesturesRightIndex);
 
     var leftItem = getGestureCatalogListThumbnail(leftGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
     $(leftItem).removeClass('deleteable');
@@ -1188,7 +1210,7 @@ function renderClassifiedGestures(target, type) {
             if (classification.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER) {
                 if (type === POTENTIAL_GESTURES) {
                     renderGestureGuessabilityTable(target, classification.assignments);
-                    renderPotentialGesturesTotalStatistics(target, classification.assignments);
+//                    renderPotentialGesturesTotalStatistics(target, classification.assignments);
                 }
 
                 var trigger = getUniqueTrigger();
@@ -1198,7 +1220,9 @@ function renderClassifiedGestures(target, type) {
                     TweenMax.from(container, .2, {delay: .2 + (i * .1), opacity: 0, y: -20});
 
                     container.find('#headline .text').text(translation.gesturesForTrigger + ': ' + trigger[i].title);
-                    renderPotentialGestureSpecificStatistics(container, classification.assignments, classification.type, trigger[i].id);
+//                    if (type === POTENTIAL_GESTURES) {
+//                        renderPotentialGestureSpecificStatistics(container, classification.assignments, classification.type, trigger[i].id);
+//                    }
 
                     for (var j = 0; j < classification.assignments.length; j++) {
                         var assignment = classification.assignments[j];
@@ -1235,8 +1259,8 @@ function renderClassifiedGestures(target, type) {
                     $(target).append(container);
 
                     var assignment = classification.assignments[j];
-                    console.log(TYPE_CLASSIFICATION_APPEARANCE, assignment);
-                    renderPotentialGestureSpecificStatistics(container, assignment, classification.type);
+//                    console.log(TYPE_CLASSIFICATION_APPEARANCE, assignment);
+//                    renderPotentialGestureSpecificStatistics(container, assignment, classification.type);
                     var appearanceTriggerGesture = $('#template-study-container').find('#appearance-trigger-gesture').clone().removeAttr('id');
                     if (type === POTENTIAL_GESTURES) {
                         appearanceTriggerGesture = $('#template-study-container').find('#appearance-trigger-gesture-potential').clone();
@@ -1252,6 +1276,13 @@ function renderClassifiedGestures(target, type) {
                 }
 
             }
+
+
+            $('#custom-modal').unbind('gestureUpdated').bind('gestureUpdated', function (event) {
+                event.preventDefault();
+                renderClassifiedGestures(target, type);
+            });
+
             initPopover(300);
         } else {
             appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
@@ -1452,9 +1483,9 @@ function saveClassification() {
 
     saveExtractionData({studyId: studyId, classification: {gestures: classificationGestures, trigger: classificationTrigger}}, function (result) {
         if (result.status === RESULT_SUCCESS) {
-            console.log('classification saved');
+//            console.log('classification saved');
         } else {
-            console.log('save classification error');
+//            console.log('save classification error');
         }
 
         if (classificationType === ELICITED_GESTURES) {
@@ -1510,7 +1541,7 @@ function renderChecklist() {
     $(useChecklistSwitch).unbind('change').bind('change', function (event) {
         event.preventDefault();
         var activeId = $(this).find('.btn-option-checked').attr('id');
-        console.log('active id', activeId, $(this).find('.btn-option-checked').attr('id'))
+//        console.log('active id', activeId, $(this).find('.btn-option-checked').attr('id'))
         var classification = getLocalItem(updateId);
         classification.checklist.used = activeId;
         setLocalItem(updateId, classification);
@@ -1710,8 +1741,8 @@ function renderGestureSets() {
         }
     });
 //
-    $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble, rerender) {
-        console.log('current  filter list changed');
+//    $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble, rerender) {
+//        console.log('current  filter list changed');
 //        event.preventDefault();
 //        var tweenParams = initAddGestureToStudyGestures($(event.target), formatClone);
 //        if (assemble) {
@@ -1731,6 +1762,16 @@ function renderGestureSets() {
 //            updateCatalogButtons();
 //            updateNavBadges();
 //        }
+//    });
+
+    $(currentFilterList).unbind('gestureSetDeleted').bind('gestureSetDeleted', function (event) {
+        getGestureSets(function (result) {
+            if (result.status === RESULT_SUCCESS) {
+                originalFilterData = result.gestureSets;
+                setLocalItem(GESTURE_SETS, result.gestureSets);
+                renderGestureSetList(originalFilterData);
+            }
+        });
     });
 
     $(formatClone).find('.filter').unbind('change').bind('change', function (event) {
@@ -1829,7 +1870,7 @@ function renderGestureSets() {
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestureSets;
                                     setLocalItem(GESTURE_SETS, result.gestureSets);
-                                    renderGestureSetList();
+                                    renderGestureSetList(originalFilterData);
                                 }
                             });
                         }
@@ -2087,11 +2128,15 @@ function renderGestureGuessabilityTable(target, assignments) {
 }
 
 function renderPotentialGesturesTotalStatistics(target, assignments) {
+    console.log('renderPotentialGesturesTotalStatistics');
+
     var staticGestures = 0;
     var dynamicGestures = 0;
+    var executionMixed = 0;
     var unclassifiedExecutions = 0;
     var discreteInteractions = 0;
     var continuousInteractions = 0;
+    var interactionMixed = 0;
     var unclassifiedInteractions = 0;
 
     if (assignments && assignments.length > 0) {
@@ -2108,6 +2153,9 @@ function renderPotentialGesturesTotalStatistics(target, assignments) {
                     case TYPE_GESTURE_DYNAMIC:
                         dynamicGestures++;
                         break;
+                    case TYPE_GESTURE_MIXED:
+                        executionMixed++;
+                        break;
                 }
             } else {
                 unclassifiedExecutions++;
@@ -2120,6 +2168,9 @@ function renderPotentialGesturesTotalStatistics(target, assignments) {
                         break;
                     case TYPE_GESTURE_CONTINUOUS:
                         continuousInteractions++;
+                        break;
+                    case TYPE_GESTURE_MIXED:
+                        interactionMixed++;
                         break;
                 }
             } else {
@@ -2137,13 +2188,14 @@ function renderPotentialGesturesTotalStatistics(target, assignments) {
         new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: [translation.gestureTypes.pose, translation.gestureTypes.dynamic],
+                labels: [translation.gestureTypes.pose, translation.gestureTypes.dynamic, translation.gestureTypes.mixed],
                 datasets: [{
                         label: '# of Votes',
-                        data: [staticGestures, dynamicGestures],
+                        data: [staticGestures, dynamicGestures, executionMixed],
                         backgroundColor: [
                             '#97CB00',
-                            '#4BACC6'
+                            '#4BACC6',
+                            '#00FF00'
                         ]
                     }]
             },
@@ -2154,13 +2206,14 @@ function renderPotentialGesturesTotalStatistics(target, assignments) {
         new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: [translation.gestureInteractionTypes.discrete, translation.gestureInteractionTypes.continuous],
+                labels: [translation.gestureInteractionTypes.discrete, translation.gestureInteractionTypes.continuous, translation.gestureInteractionTypes.mixed],
                 datasets: [{
                         label: '# of Votes',
-                        data: [discreteInteractions, continuousInteractions],
+                        data: [discreteInteractions, continuousInteractions, interactionMixed],
                         backgroundColor: [
                             '#7030A0',
-                            '#FFCB00'
+                            '#FFCB00',
+                            '#FF00FF'
                         ]
                     }]
             },
@@ -2179,24 +2232,21 @@ function renderPotentialGesturesTotalStatistics(target, assignments) {
 }
 
 function renderPotentialGestureSpecificStatistics(target, assignments, classificationType, triggerId) {
-
+    console.log('renderPotentialGestureSpecificStatistics');
     var staticGestures = 0;
     var dynamicGestures = 0;
+    var executionMixed = 0;
     var unclassifiedExecutions = 0;
     var discreteInteractions = 0;
     var continuousInteractions = 0;
+    var interactionMixed = 0;
     var unclassifiedInteractions = 0;
-
-    console.log('classificationType', classificationType);
 
     if (assignments || assignments.length > 0) {
         var statistics = $(target).find('.specific-gesture-statistics');
-//        console.log(statistics);
-//        $(target).append(statistics);
 
         if (classificationType === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER) {
             for (var i = 0; i < assignments.length; i++) {
-//            console.log(assignments[i], triggerId);
                 if (parseInt(assignments[i].triggerId) === parseInt(triggerId)) {
                     var gesture = getGestureById(assignments[i].mainGestureId);
                     if (gesture.type !== null) {
@@ -2206,6 +2256,9 @@ function renderPotentialGestureSpecificStatistics(target, assignments, classific
                                 break;
                             case TYPE_GESTURE_DYNAMIC:
                                 dynamicGestures++;
+                                break;
+                            case TYPE_GESTURE_MIXED:
+                                executionMixed++;
                                 break;
                         }
                     } else {
@@ -2219,6 +2272,9 @@ function renderPotentialGestureSpecificStatistics(target, assignments, classific
                                 break;
                             case TYPE_GESTURE_CONTINUOUS:
                                 continuousInteractions++;
+                                break;
+                            case TYPE_GESTURE_MIXED:
+                                interactionMixed++;
                                 break;
                         }
                     } else {
@@ -2232,7 +2288,6 @@ function renderPotentialGestureSpecificStatistics(target, assignments, classific
 
 
                     var gesture = getGestureById(assignments.gestures[i]);
-                    console.log(gesture);
                     if (gesture.type !== null) {
                         switch (gesture.type) {
                             case TYPE_GESTURE_POSE:
@@ -2240,6 +2295,9 @@ function renderPotentialGestureSpecificStatistics(target, assignments, classific
                                 break;
                             case TYPE_GESTURE_DYNAMIC:
                                 dynamicGestures++;
+                                break;
+                            case TYPE_GESTURE_MIXED:
+                                executionMixed++;
                                 break;
                         }
                     } else {
@@ -2253,6 +2311,9 @@ function renderPotentialGestureSpecificStatistics(target, assignments, classific
                                 break;
                             case TYPE_GESTURE_CONTINUOUS:
                                 continuousInteractions++;
+                                break;
+                            case TYPE_GESTURE_MIXED:
+                                interactionMixed++;
                                 break;
                         }
                     } else {
@@ -2275,13 +2336,14 @@ function renderPotentialGestureSpecificStatistics(target, assignments, classific
         new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: [translation.gestureTypes.pose, translation.gestureTypes.dynamic],
+                labels: [translation.gestureTypes.pose, translation.gestureTypes.dynamic, translation.gestureTypes.continuous],
                 datasets: [{
                         label: '# of Votes',
-                        data: [staticGestures, dynamicGestures],
+                        data: [staticGestures, dynamicGestures, executionMixed],
                         backgroundColor: [
                             '#97CB00',
-                            '#4BACC6'
+                            '#4BACC6',
+                            '#00FF00'
                         ]
                     }]
             },
@@ -2292,13 +2354,14 @@ function renderPotentialGestureSpecificStatistics(target, assignments, classific
         new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: [translation.gestureInteractionTypes.discrete, translation.gestureInteractionTypes.continuous],
+                labels: [translation.gestureInteractionTypes.discrete, translation.gestureInteractionTypes.continuous, translation.gestureInteractionTypes.mixed],
                 datasets: [{
                         label: '# of Votes',
-                        data: [discreteInteractions, continuousInteractions],
+                        data: [discreteInteractions, continuousInteractions, interactionMixed],
                         backgroundColor: [
                             '#7030A0',
-                            '#FFCB00'
+                            '#FFCB00',
+                            '#FF00FF'
                         ]
                     }]
             },

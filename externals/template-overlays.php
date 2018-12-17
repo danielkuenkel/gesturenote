@@ -18,8 +18,6 @@ include '../includes/language.php';
                     <div class="overlay-header-container">
                         <h3><span id="phase-step-title"><?php echo $lang->formats->letterOfAcceptance->text ?></span></h3>
                     </div>
-
-                    <!--<div class="btn btn-default btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
             </div>
@@ -29,7 +27,10 @@ include '../includes/language.php';
         <div class="row" style="margin-bottom: 30px;">
 
             <div class="col-md-7">
-                <textarea class="form-control" id="declaration" rows="10" placeholder="<?php echo $lang->insertDeclaration ?>" style="margin-top: 6px"></textarea>
+                <div class="form-group">
+                    <div class="alert-space alert-script-input-error"></div>
+                    <textarea class="form-control" id="declaration" rows="20" placeholder="<?php echo $lang->insertDeclaration ?>" style="margin-top: 6px"></textarea>
+                </div>
             </div>
 
             <div class="col-md-4">
@@ -57,8 +58,6 @@ include '../includes/language.php';
                     <div class="overlay-header-container">
                         <h3><span id="phase-step-title"><?php echo $lang->formats->thanks->text ?></span></h3>
                     </div>
-
-                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
             </div>
@@ -102,8 +101,6 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
-
-                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 20px">
@@ -204,7 +201,6 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 20px">
@@ -307,7 +303,6 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div id="general" style="margin-top: 24px">
@@ -395,7 +390,6 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 24px">
@@ -448,7 +442,6 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 20px">
@@ -473,17 +466,11 @@ include '../includes/language.php';
     </div>
 
     <div id="ueq">
-        <!--<div class="row">-->
-        <!--<div class="col-xs-12">-->
         <div class="btn-group pull-right">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
         <br/>
-        <!--</div>-->
-
-        <!--</div>-->
-
 
         <div class="row">
             <div class="col-md-7">
@@ -500,7 +487,6 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <!--<div class="btn btn-default btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
 
                 <div style="margin-top: 24px">
@@ -563,7 +549,6 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
             </div>
             <div class="col-md-5"></div>
@@ -573,10 +558,6 @@ include '../includes/language.php';
             <div class="col-md-7">
 
                 <div id="general">
-                    <!--                    <div class="form-group">
-                                            <label for="trainingTitle"><?php echo $lang->title ?></label>
-                                            <input type="text" class="form-control" id="trainingTitle" placeholder="<?php echo $lang->insertTitle ?>">
-                                        </div>-->
                     <div class="form-group">
                         <label for="trainingDescription"><?php echo $lang->trainingDescription ?></label>
                         <textarea class="form-control" id="trainingDescription" rows="7" placeholder="<?php echo $lang->insertTrainingDescription ?>" style="resize: none"></textarea>
@@ -592,15 +573,12 @@ include '../includes/language.php';
 
 
         <h3 style="margin-top: 20px;"><?php echo $lang->trainingElements ?></h3>
-        <!--<div class="row">-->
-        <!--<div class="col-md-11">-->
+
         <hr style="margin-top: 10px">
-        <!--</div>-->
-        <!--</div>-->
+
         <div class="row" id="training" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div id="trainingContainer">
-                    <!--<div class="alert-space alert-no-gestures-assembled"></div>-->
                     <div class="alert-space alert-no-trigger-assembled-link"></div>
                     <div class="alert-space alert-no-feedback-assembled-link"></div>
                     <div class="alert-space alert-no-study-gestures-assembled-link"></div>
@@ -618,16 +596,9 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>-->
         </div>
-        <!--<div class="row">-->
-        <!--<div class="col-md-12">-->
+        
         <hr style="margin-top: 10px">
-        <!--</div>-->
-        <!--</div>-->
 
         <div class="row" id="observations">
             <div class="col-md-7">
@@ -643,18 +614,6 @@ include '../includes/language.php';
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-                        <!--                        <div class="dimension-container" id="container-efficiency">
-                                                    <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                                                    <div class="dimension-btn-group">
-                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                                    </div>
-                                                </div>
-                                                <div class="dimension-container" id="container-satisfaction">
-                                                    <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                                                    <div class="dimension-btn-group">
-                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                                    </div>
-                                                </div>-->
                     </div>
 
                     <h4><?php echo $lang->userDefined ?></h4>
@@ -750,7 +709,6 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
             </div>
             <div class="col-md-6"></div>
@@ -788,16 +746,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->tasks ?></h3>
-            <!--            <div class="btn-group" id="useWOZSwitch" style="margin-top: -9px; margin-left: 10px">
-                            <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                            <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-                        </div>-->
         </div>
-        <!--<div class="row">-->
-        <!--<div class="col-md-11">-->
+        
         <hr style="margin-top: 10px">
-        <!--</div>-->
-        <!--</div>-->
+
         <div class="row" id="tasks-container" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-phase-data"></div>
@@ -813,11 +765,9 @@ include '../includes/language.php';
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->taskAssessment ?></h3>
         </div>
-        <!--<div class="row">-->
-        <!--<div class="col-md-11">-->
+
         <hr style="margin-top: 10px">
-        <!--</div>-->
-        <!--</div>-->
+
         <div class="row" id="task-assessment-container" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-phase-data"></div>
@@ -832,16 +782,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->help ?></h3>
-<!--            <div class="btn-group" id="useHelpSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>-->
         </div>
-        <!--<div class="row">-->
-        <!--<div class="col-md-11">-->
+
         <hr style="margin-top: 10px">
-        <!--</div>-->
-        <!--</div>-->
+
         <div class="row" id="help" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-phase-data"></div>
@@ -859,16 +803,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>-->
         </div>
-        <!--<div class="row">-->
-        <!--<div class="col-md-11">-->
+
         <hr style="margin-top: 10px">
-        <!--</div>-->
-        <!--</div>-->
+
         <div class="row" id="observations">
             <div class="col-md-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
@@ -883,18 +821,7 @@ include '../includes/language.php';
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-                        <!--                        <div class="dimension-container" id="container-efficiency">
-                                                    <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                                                    <div class="dimension-btn-group">
-                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                                    </div>
-                                                </div>
-                                                <div class="dimension-container" id="container-satisfaction">
-                                                    <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                                                    <div class="dimension-btn-group">
-                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                                    </div>
-                                                </div>-->
+
                     </div>
 
                     <h4><?php echo $lang->userDefined ?></h4>
@@ -991,7 +918,6 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
             </div>
             <div class="col-md-5"></div>
@@ -1001,10 +927,6 @@ include '../includes/language.php';
             <div class="col-md-7">
 
                 <div id="general" style="">
-                    <!--                    <div class="form-group">
-                                            <label for="slideshowTitle"><?php echo $lang->title ?></label>
-                                            <input type="text" class="form-control" id="slideshowTitle" placeholder="<?php echo $lang->insertTitle ?>">
-                                        </div>-->
                     <div class="form-group">
                         <label for="slideshowDescription"><?php echo $lang->description ?></label>
                         <textarea class="form-control" id="slideshowDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
@@ -1019,11 +941,8 @@ include '../includes/language.php';
 
 
         <h3 style="margin-top: 20px;"><?php echo $lang->elements ?></h3>
-        <!--        <div class="row">
-                    <div class="col-md-11">-->
+
         <hr style="margin-top: 10px">
-        <!--            </div>
-                </div>-->
 
         <div class="row" id="slideshow" style="margin-bottom: 30px;">
             <div class="col-md-7">
@@ -1046,16 +965,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>-->
         </div>
-        <!--        <div class="row">
-                    <div class="col-md-11">-->
+
         <hr style="margin-top: 10px">
-        <!--            </div>
-                </div>-->
+
         <div class="row" id="observations">
             <div class="col-md-7">
                 <div class="alert-space alert-no-data-questionnaire"></div>
@@ -1070,18 +983,6 @@ include '../includes/language.php';
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-                        <!--                        <div class="dimension-container" id="container-efficiency">
-                                                    <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                                                    <div class="dimension-btn-group">
-                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                                    </div>
-                                                </div>
-                                                <div class="dimension-container" id="container-satisfaction">
-                                                    <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                                                    <div class="dimension-btn-group">
-                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                                    </div>
-                                                </div>-->
                     </div>
 
                     <h4 style=""><?php echo $lang->userDefined ?></h4>
@@ -1178,7 +1079,6 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <!--<div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>-->
                 </div>
             </div>
             <div class="col-md-5"></div>
@@ -1188,10 +1088,6 @@ include '../includes/language.php';
             <div class="col-md-7">
 
                 <div id="general" style="">
-                    <!--                    <div class="form-group">
-                                            <label for="slideshowTitle"><?php echo $lang->title ?></label>
-                                            <input type="text" class="form-control" id="slideshowTitle" placeholder="<?php echo $lang->insertTitle ?>">
-                                        </div>-->
                     <div class="form-group">
                         <label for="slideshowDescription"><?php echo $lang->description ?></label>
                         <textarea class="form-control" id="slideshowDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
@@ -1208,11 +1104,9 @@ include '../includes/language.php';
 
 
         <h3 style="margin-top: 20px;"><?php echo $lang->elements ?></h3>
-        <!--        <div class="row">
-                    <div class="col-md-11">-->
+
         <hr style="margin-top: 10px">
-        <!--            </div>
-                </div>-->
+        
         <div class="row" id="slideshow" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-gestures-assembled"></div>

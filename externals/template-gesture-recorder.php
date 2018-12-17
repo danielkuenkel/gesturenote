@@ -414,6 +414,16 @@ include '../includes/language.php';
                                 <span class="option-text"><?php echo $lang->gestureTypes->dynamic ?></span>
                             </button>
                         </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="mixed">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->gestureTypes->mixed ?></span>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="form-group root" id="gestureInteractionTypeSelect">
@@ -440,6 +450,16 @@ include '../includes/language.php';
                                     <i class="fa fa-check-circle hidden" id="checked"></i>
                                 </span>
                                 <span class="option-text"><?php echo $lang->gestureInteractionTypes->continuous ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="mixed">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->gestureTypes->mixed ?></span>
                             </button>
                         </div>
                     </div>
@@ -507,7 +527,7 @@ include '../includes/language.php';
 
                 <div class="hidden" id="gesture-save-progress" style="margin-top: 20px">
                     <div id="progress-images" class="hidden">
-                        <label>Übermittlung Bilder:</label>
+                        <label><?php echo $lang->transferImages ?>:</label>
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
                                 0%
@@ -515,7 +535,7 @@ include '../includes/language.php';
                         </div>
                     </div>
                     <div id="progress-gif" class="hidden">
-                        <label>Übermittlung GIF:</label>
+                        <label><?php echo $lang->transferGIF ?>:</label>
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
                                 0%
@@ -523,21 +543,13 @@ include '../includes/language.php';
                         </div>
                     </div>
                     <div id="progress-sensor-data" class="hidden">
-                        <label>Übermittlung Sensordaten:</label>
+                        <label><?php echo $lang->transferSensorData ?>:</label>
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
                                 0%
                             </div>
                         </div>
                     </div>
-<!--                    <div id="progress-gesture-data" class="hidden">
-                        <label>Übermittlung sonstiger Daten:</label>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
-                                0%
-                            </div>
-                        </div>
-                    </div>-->
                 </div>
 
             </div>
@@ -940,6 +952,16 @@ include '../includes/language.php';
                                 <span class="option-text"><?php echo $lang->gestureTypes->dynamic ?></span>
                             </button>
                         </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="mixed">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->gestureTypes->mixed ?></span>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="form-group root" id="gestureInteractionTypeSelect">
@@ -966,6 +988,16 @@ include '../includes/language.php';
                                     <i class="fa fa-check-circle hidden" id="checked"></i>
                                 </span>
                                 <span class="option-text"><?php echo $lang->gestureInteractionTypes->continuous ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="mixed">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->gestureTypes->mixed ?></span>
                             </button>
                         </div>
                     </div>
@@ -1033,7 +1065,7 @@ include '../includes/language.php';
 
                 <div class="hidden" id="gesture-save-progress" style="margin-top: 20px">
                     <div id="progress-images" class="hidden">
-                        <label>Übermittlung Bilder:</label>
+                        <label><?php echo $lang->transferImages ?>:</label>
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
                                 0%
@@ -1041,7 +1073,7 @@ include '../includes/language.php';
                         </div>
                     </div>
                     <div id="progress-gif" class="hidden">
-                        <label>Übermittlung GIF:</label>
+                        <label><?php echo $lang->transferGIF ?>:</label>
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
                                 0%
@@ -1049,21 +1081,13 @@ include '../includes/language.php';
                         </div>
                     </div>
                     <div id="progress-sensor-data" class="hidden">
-                        <label>Übermittlung Sensordaten:</label>
+                        <label><?php echo $lang->transferSensorData ?>:</label>
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
                                 0%
                             </div>
                         </div>
                     </div>
-<!--                    <div id="progress-gesture-data" class="hidden">
-                        <label>Übermittlung sonstiger Daten:</label>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
-                                0%
-                            </div>
-                        </div>
-                    </div>-->
                 </div>
             </div>
 

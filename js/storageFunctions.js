@@ -126,7 +126,6 @@ function checkAssembledGestures(gestures, gestureCatalog) {
 }
 
 function updateGestureById(catalog, id, parameters) {
-    console.log(catalog, id, parameters);
     var gestureCatalog = getLocalItem(catalog);
 
     var gesture;
@@ -360,7 +359,7 @@ function setStudyData(data) {
         setData.generalData.studyOwner = data.userId;
 
 //        if (data.isOwner) {
-        console.log('is owner?', data.isOwner);
+//        console.log('is owner?', data.isOwner);
         setData.generalData.isOwner = data.isOwner || false;
 //        }
 

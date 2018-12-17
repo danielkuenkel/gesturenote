@@ -356,6 +356,7 @@
     "ClassifiedTriggers": "Klassifizierte Interaktionsaufgaben",
     "Class": "Klasse",
     "Classes": "Klassen",
+    "collaboration": "Kollaboration",
     "forThisClass": "in dieser Klasse",
     "perClass": "pro Klasse",
     "classesForTrigger": "Weitere Informationen über Klassfizierung",
@@ -720,6 +721,10 @@
     "questionnaireSystem": "Fragebogen zum System",
     "miscellaneous": "Sonstiges",
     "gender": "Geschlecht",
+    "transferData": "Übermittlung von Daten",
+    "transferImages": "Übermittlung von Bildern",
+    "transferGIF": "Übermittlung des GIF",
+    "transferSensorData": "Übermittlung von Sensordaten",
     "genderTypes": {
         "identical": "Alle Personen",
         "female": "Frauen",
@@ -1736,6 +1741,9 @@
         "dynamic": "Dynamisch",
         "dynamics": "Dynamische",
         "dynamicShort": "DYN",
+        "mixed": "Gemischt",
+        "mixedShort": "GEM",
+        "mixeds": "Gemischte",
         "total": "Gesamt"
     },
     "gestureInteractionTypes": {
@@ -1744,7 +1752,10 @@
         "discreteShort": "DIS",
         "continuous": "Kontinuierlich",
         "continuouss": "Kontinuierliche",
-        "continuousShort": "KON"
+        "continuousShort": "KON",
+        "mixed": "Gemischt",
+        "mixeds": "Gemischte",
+        "mixedShort": "GEM"
     },
     "bodyTypes": {
         "full": "Ganzkörper",
@@ -1946,25 +1957,29 @@
     "annotationSearchLabel": "Suchbegriff",
     "addAnnotationLabelInput": "Annotations-Label einfügen (max. 40 Zeichen)",
     "annotationColors": {
-        "green": {
+        "item-success-full": {
             "title": "grün",
             "hex": "#5cb85c"
         },
-        "yellow": {
+        "item-warning-full": {
             "title": "gelb",
             "hex": "#f0ad4e"
         },
-        "red": {
+        "item-danger-full": {
             "title": "rot",
             "hex": "#d9534f"
         },
-        "blue": {
+        "item-info-full": {
             "title": "blau",
             "hex": "#5bc0de"
         },
-        "darkblue": {
+        "item-primary-full": {
             "title": "dunkelblau",
             "hex": "#337ab7"
+        },
+        "item-advanced-primary-full": {
+            "title": "grau",
+            "hex": "#5a5a5a"
         }
     },
     "predefinedAnnotations": {
@@ -2079,7 +2094,7 @@
     "askPreferredTriggerForGesture": "Welche Funktion passt am Besten zur Geste? Bitte begründen!",
     "askPreferredGesturesForTrigger": "Welche Geste(n) passen am Besten zur Funktion: {trigger}? Bitte die Auswahl begründen.",
     "saveRecordedGesture": "Aufgezeichnete Geste speichern",
-    "transmitGesture": "Gesture wird übertragen …",
+    "transmitGesture": "Geste wird übertragen …",
     "favoriteTrigger": "Favorisierte Interaktionsaufgaben",
     "favoriteGestures": "Favorisierte Gesten",
     "gestureInquired": "Erfragt wird Geste",
@@ -2561,8 +2576,8 @@
         },
         "gestures": {
             "gestureNameQuality": "<em>Funktional</em> bedeutet, dass der gewählte Name an eine bestimmte Interaktionsaufgabe gekoppelt ist (z.B. <em>Musik lauter stellen</em>). <em>Generisch</em> bedeutet, dass der Name unabhängig von der Interaktionsaufgabe ist (z.B. <em>Swipe-Geste</em>).",
-            "executionType": "Eine Pose ist eine bestimmte Position von Körperteilen ohne Bewegung (z.B. Daumen-Hoch-Geste). Eine dynamische Geste beinaltet immer eine Bewegung (z.B. Push-Geste).",
-            "interactionType": "Kommt die Systemrückmeldung erst nach der Gesten-Ausführung (z.B. Seitenwechsel nach Daumen-Hoch-Geste)? Dann spricht man von einer diskreten Gesten-Interaktion. Wird die Systemrückmeldung bereits während der Gesten-Ausführung aktiviert (z.B. bei einer Sliderbedienung), spricht man von kontinuierlicher Gesten-Interaktion.",
+            "executionType": "Eine statische Geste ist eine bestimmte Position von Körperteilen ohne Bewegung (z.B. Daumen-Hoch-Geste). Eine dynamische Geste beinaltet immer eine Bewegung (z.B. Push-Geste). Bei einer gemischten Ausführung liegt eine Sequenz von Gesten mit unterschiedlichen Ausführungen (statische und dynamische Geste) vor.",
+            "interactionType": "Kommt die Systemrückmeldung erst nach der Gesten-Ausführung (z.B. Seitenwechsel nach Daumen-Hoch-Geste)? Dann spricht man von einer diskreten Gesten-Interaktion. Wird die Systemrückmeldung bereits während der Gesten-Ausführung aktiviert (z.B. bei einer Sliderbedienung), spricht man von kontinuierlicher Gesten-Interaktion. Liegt eine Sequenz von Gesten vor und haben die Gesten unterschiedliche Gesten-Ausführungen (diskret und kontinuierlich), spricht man von gemischter Gesten-Interaktion.",
             "context": "Wo soll die Geste eingesetzt werden?",
             "association": "Warum wurde diese Geste gewählt? Welche Zusammenhänge gibt es mit der Anwendungsdomäne?",
             "description": "Beschreiben Sie die Geste genau. Teilt sich die Geste in Abschnitte auf? Sind die Hände geöffnet? Sind die Arme angewinkelt? Sind Bewegungen schnell oder langsam?",
@@ -5475,6 +5490,11 @@
             "id": "no-gesture-set-mappings",
             "type": "warning",
             "text": "Für dieses Gesten-Set sind keine Mappings vorhanden. Eine Simulation ist deshalb nicht möglich."
+        },
+        "scriptInputError": {
+            "id": "script-input-error",
+            "type": "danger",
+            "text": "Ausführbare Scripts sind für diese Eingabe nicht erlaubt."
         }
     },
     "introductionCreateStudy": [
@@ -5528,12 +5548,12 @@
             "description": 
                     [
                         "<p>Interaktionsdaten dienen als Grundlage für die Erstellung eines Leitfadens. Hierbei kommt es auch darauf an, in welcher Gesten-Design-Phase man sich befindet (Ermittlung, Extraktion, Evaluierung) und welche Methoden/Vorgehensweisen (Fragebogen, GUS, Benutzertest, Physischer Belastungstest, etc.) genutzt werden sollen. Sollen z.B. Gesten für vorhandene Interaktionsaufgaben ermittelt werden (Bottom-Up), genügt es für die Durchführung einen Interaktionsaufgaben-Katalog anzulegen. Ein Studien-Gesten-Set wird in diesem Fall nicht benötigt.<p/><p> Sollen dagegen in einer Ermittlung Interaktionsaufgaben für vorhandene Gesten ermittelt werden (Top-Down), reicht das Anlegen eines Studien-Gesten-Sets.<p/>",
-                        "<table class='table table-bordered' style='max-width:100%; font-size:10pt; margin-bottom:10px'><thead><tr><th>Methode</th><th class='text-center'>Studien-Gesten</th><th class='text-center'>Interaktionsaufgaben</th><th class='text-center'>Systemrückmeldung</th><th class='text-center'>UIs</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>GUS</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Ermittlung</td><td class='text-center'><i class='fa fa-check'></i> Top-Down (Funktions-Ermittlung)</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (Gesten-Ermittlung)</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> opt.</td></tr><tr><td>Exploration</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> opt.</td></tr><tr><td>Gesten-Training</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Benutzertest</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Gesten erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Interaktionsaufgabe erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr></tbody></table>",
+                        "<table class='table table-bordered' style='max-width:100%; font-size:10pt; margin-bottom:10px'><thead><tr><th>Methode</th><th class='text-center'>Studien-Gesten</th><th class='text-center'>Interaktionsaufgaben</th><th class='text-center'>Systemrückmeldung</th><th class='text-center'>UIs</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>GUS</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Ermittlung</td><td class='text-center'>bei Top-Down (Ermittlung von Interaktionsaufgaben)</td><td class='text-center'>bei Bottom-Up (Ermittlung von Gesten)</td><td class='text-center'>-</td><td class='text-center'>optional</td></tr><tr><td>Exploration</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>optional</td></tr><tr><td>Gesten-Training</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Benutzertest</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Gesten erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Interaktionsaufgabe erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr></tbody></table>",
                         "<div class='text-center' style='font-size:10pt; color:#888; margin-bottom:25px'>Übersicht über unterstützte Methoden und benötigte Interaktionsdaten.</div>",
-                        "<p>Für einen besseren Überblick wurden in der Tabelle die möglichen Vorgehensweisen und den benötigten Interaktionsdaten zusammengefasst. Optionale Interaktionsdaten sind mit <em>opt.</em> gekennzeichnet.</p>",
+                        "<p>Für einen besseren Überblick wurden in der Tabelle die möglichen Vorgehensweisen und den benötigten Interaktionsdaten zusammengefasst.</p>",
                         "<h4>Studien-Gesten</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-03-01.jpg' style='max-width:1413px' /><div class='image-caption'>Zugriff auf gesamten Gesten-Katalog, um Gesten für eine Studie auszuwählen.</div></div>",
-                        "<p>Studien-Gesten sind Gesten, die in einer Studie verwendet werden (z.B. für einen GUS oder ein Gesten-Training). Diese werden in einem sog. Studien-Gesten-Set zusammengefasst. Es kann für jede Studie ein separates Studien-Gesten-Set zusammengestellt werden. Dafür bietet GestureNote Zugriff auf die von Ihnen ermittelten Gesten und freigegebene Gesten von anderen Interaktionsdesignern. Zusätzlich können auch neue Gesten aufgezeichnet und dem Studien-Gesten-Set hinzugefügt werden.</p>",
+                        "<p>Studien-Gesten sind Gesten, die in einer Studie verwendet werden (z.B. für einen GUS oder ein Gesten-Training). Diese werden z.B. für einen Benutzertest oder eine Ermittlung für Interaktionsaufgaben benötigt. Sie werden in einem sog. Studien-Gesten-Set zusammengefasst. Es kann für jede Studie ein separates Studien-Gesten-Set zusammengestellt werden. Dafür bietet GestureNote Zugriff auf die von Ihnen ermittelten Gesten und freigegebene Gesten von anderen Interaktionsdesignern. Zusätzlich können auch neue Gesten aufgezeichnet und dem Studien-Gesten-Set hinzugefügt werden.</p>",
                         "<h4>Interaktionsaufgaben</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-03-02.jpg' style='max-width:760px' /><div class='image-caption'>Auszug einer Auflistung von Interaktionsaufgaben.</div></div>",
                         "<p>Gesten werden in GestureNote an Interaktionsaufgaben gekoppelt. Soll z.B. nach Ausführung einer Geste die Musik lauter gestellt werden, sollte die Interaktionsaufgabe <em>Musik lauter stellen</em> im Interaktionsaufgaben hinterlegt werden. Die hinterlegten Interaktionsaufgaben können dann im Leitfaden verwendet werden. Es ist z.B. möglich bei einer Ermittlung für die hinterlegten Interaktionsaufgaben Gesten zu suchen. Oder in einer Extraktion nach bevorzugten Interaktionsaufgaben für eine Geste zu fragen.</p>",
@@ -5554,7 +5574,7 @@
             "tabId": "phases",
             "imgSrc": "img/de/introduction/study-create/carousel-04.jpg",
             "title": "Leitfaden",
-            "text": "Der Leitfaden ist das Kernstück einer nutzerzentrierten Befragung.",
+            "text": "Der Leitfaden ist das Kernstück einer nutzerzentrierten Befragung. Erfahren Sie hier, welche Methoden von GestureNote unterstützt werden.",
             "popover": "Leitfaden",
             "description": 
                     [
@@ -5668,30 +5688,36 @@
                         "<span>Abgesehen von den Methoden und deren unterschiedlichem Workflow, ist das Initiieren und Beenden eines Screen-Sharings immer gleich.</span>",
                         "<div class='image-with-caption text-center'><img class='img-image' style='max-width:741px' src='img/de/introduction/study-preview/carousel-02-01.png' /><div class='image-caption'>Dialog für das Starten des Screen-Sharings. Auswahl des UI-Fensters über den Reiter <em>Anwendungsfenster</em>.</div></div>",
                         "<p>Klicken Sie als erstes auf den Button <button class='btn btn-success btn-xs'>UI öffnen</button>. Es öffnet sich ein seperates Browserfenster in dem das UI angezeigt wird. Dieses Fenster soll dem Probanden übertragen werden, weshalb dieses nicht geschlossen werden sollte. Klicken Sie anschließend in GestureNote auf <button class='btn btn-success btn-xs'>Screen-Sharing starten</button>. Es öffnet sich nun ein Dialog (siehe oben), in dem Sie das zu übertragende Browserfenster unter dem Reiter Anwendungsfenster auswählen können. Bestätigen Sie die Auswahl mit einem Klick auf Teilen. Das UI wird nun zum Probanden übertragen. Ändert sich das UI (z.B. während eines Benutzertests), sieht dies somit auch der Proband. Sie können das Browserfenster verschieben, ohne dass dies einen Einfluss auf die Darstellung beim Probanden hat. Ändern Sie die Größe des Fensters, wird die Ansicht beim Probanden passend skaliert (scale-to-fit). Am Ende eines Leitfadenschritts (z.B. eines Benutzertests) können Sie das Screen-Sharing mit einem Klick auf <button class='btn btn-success btn-xs'>Screen-Sharing beenden</button> beenden. Das seperate Fenster in dem das UI angezeigt und zum Probanden übertragen wurde, schließt sich daraufhin.</p>",
-                        "<h4>Fragebögen</h4><hr>",
-                        "<p>Alle Fragebögen, sei es ein benutzerdefinierter oder (teil-)standardisierter (GUS, SUS, UEQ), basieren auf denselben Funktionalitäten. Der Proband beantwortet die Fragen auf seinem Gerät. Die Antworten werden in Echtzeit zum Moderator übertragen, d.h. Sie sehen immer an welcher Stelle im Fragebogen sich ein Proband befindet und welche Antworten er gewählt hat. So können Sie nochmal nachhaken, falls es bei einer Frage Schwierigkeiten gibt. Bei einem Interview liest der Moderator die Fragen vor und gibt die Antworten des Probanden in das Formular ein.</p>",
+                        "<h4>Fragebögen & Interviews</h4><hr>",
+                        "<p>Alle Fragebögen, sei es ein benutzerdefinierter oder (teil-)standardisierter (GUS, SUS, UEQ), basieren auf denselben Funktionalitäten. Der Proband beantwortet die Fragen auf seinem Gerät. Die Antworten werden in Echtzeit zum Moderator übertragen, d.h. Sie sehen immer an welcher Stelle im Fragebogen sich ein Proband befindet und welche Antworten er gewählt hat, bzw. gerade einträgt. So können so nochmal nachhaken, falls es bei einer Frage Schwierigkeiten gibt. Bei einem Interview liest der Moderator die Fragen vor und gibt die Antworten des Probanden in das Formular ein.</p>",
                         "<p>Sie können für eigene Fragebögen Filterfragen anlegen. Wurden Filterfragen angelegt, werden diese Infos entweder neben den einzelnen Auswahloptionen oder für die ganze Frage eingeblendet (wenn z.B. die Antwort/Auswahl egal ist, oder bei einer Summenfrage alle Antwortmöglichkeiten >= 2 sind). Scrollen Sie mit der Maus über das Symbol <b><i class='fa fa-info-circle'></i> Filter</b>, um die Informationen abzurufen. Sind Filterfragen vorhanden, werden die einzelnen Fragen beim Probanden sequentiell eingeblendet. Ohne Filterfragen werden alle Fragen eines Fragebogens gezeigt.</p>",
                         "<h4>Ermittlung</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:600px' src='img/de/introduction/study-preview/elicitation.svg' /><div class='image-caption'>Flussdiagramm einer Ermittlung.</div></div>",
-                        "<p>Bei einer Ermittlung kommt es darauf an, den Probanden dazu zu bringen, Gesten vorzuführen. Dabei können die während der Planung hinterlegten UIs abgerufen werden, damit die Probanden eine bessere Vorstellung bekommen um was es geht. Des Weiteren können Interaktionsaufgaben für bestimmte Gesten abgefragt werden. Dies geschieht über einen Fragebogen, der auf Grundlage der hinterlegten Daten automatisch generiert wird. Der Vorgang wiederholt sich dann für jede weitere Geste oder Interaktionsaufgabe bis keine mehr vorhanden sind.</p>",
+                        "<p>Bei einer Ermittlung kommt es darauf an, den Probanden dazu zu bringen, Gesten vorzuführen. Dabei können die während der Planung hinterlegten UIs abgerufen werden, damit die Probanden eine bessere Vorstellung bekommen um was es geht. </p>",
+                        "<p>Des Weiteren können auch umgekehrt Interaktionsaufgaben für bestimmte Gesten abgefragt werden. Dies geschieht über einen Fragebogen, der auf Grundlage der hinterlegten Daten automatisch generiert wird. Der Vorgang wiederholt sich dann für jede weitere Geste oder Interaktionsaufgabe bis keine mehr vorhanden sind.</p>",
+                        "<p>Falls Gesten ermittelt werden, sollte während der Aufzeichnung auch darauf geachtet werden, welche Gesten überhaupt gesucht werden. Sollen Probanden die Gesten im Stehen demonstrieren, oder im Sitzen? Es macht einen Unterschied, ob Gesten im Sitzen oder im Stehen demonstriert werden.</p>",
+                        "<div class='image-with-caption text-center'><img class='img-image' style='max-width:1223px' src='img/de/introduction/study-preview/carousel-02-03.png' /><div class='image-caption'>Durchführung einer Gesten-Ermittlung aus Sicht eines Moderators. Hinterlegte User Interfaces können vom Moderator einzeln gezeigt werden und werden dann per Screen-Sharing zum Probanden übertragen. Die Aufzeichnung und das Speichern einer Geste erfolgt in Bezug zur hinterlegten Interaktionsaufgabe <em>Aussage zustimmen</em>. Stelle im Flussdiagramm: <em>UIs zeigen und erläutern</em>.</div></div>",
                         "<h4>Exploration</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:520px' src='img/de/introduction/study-preview/exploration.svg' /><div class='image-caption'>Flussdiagramm einer Exploration.</div></div>",
+                        "<p>Bei einer Exploration sollen dem Probanden Informationen bereitgestellt werden, mit dessen Hilfe er dann entweder Gesten für bestimmte Interaktionsaufgaben oder Interaktionsaufgaben für bestimmte Gesten auswählt. Wird z.B. eine Geste für eine Interaktionsaufgabe gesucht, stellt der Moderator dem Probanden UIs vor und erläutert diese. Anschließend kann der Moderator dem Probanden einen Fragebogen beantworten lassen, in dem alle möglichen Gesten für eine Interaktionsaufgabe aufgelistet sind. Der Proband entscheidet sich dann für eine/mehrere Gesten, für die er denkt, dass er mit dieser/diesen die Interaktionsaufgabe lösen kann.</p>",
                         "<p></p>",
                         "<h4>Gesten-Training</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:500px' src='img/de/introduction/study-preview/gesture-training.svg' /><div class='image-caption'>Flussdiagramm eines Gesten-Trainings.</div></div>",
-                        "<p></p>",
+                        "<p>Ein Gesten-Training sollte durchgeführt werden, wenn Sie Gesten-Interaktionen verwenden, die sich der Benutzer schwer merken kann. Ist es jedoch das Ziel, eine intuitive Gesten-Interaktion zu evaluieren, sollten Sie auf ein Gesten-Training verzichten.</p>",
+                        "<p>Während eines Trainings kann ein Moderator einem Probanden das UI zeigen und erläutern. Der Proband bekommt dann eine Gesten-Vorschau übermittelt. Diese Geste soll der Proband nachmachen. Der Moderator reagiert dann auf die Geste, indem er das UI verändert oder Folge-UIs aufruft. So lernt der Proband, welche Interaktionsaufgaben er mit welchen Gesten steuern kann, bevor dieser die Gesten in einem Benutzertest nutzt.</p>",
+                        "<p>Ein Gesten-Training kann so aufbaut sein, dass es entweder schon die UIs zeigt, wie sie später im Benutzertest vorkommen, oder ein eigenständiges Tutorial bereitstellt, was dem Probanden noch nichts über das Aussehen des System verrät.</p>",
                         "<h4>Benutzertest</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:800px' src='img/de/introduction/study-preview/usertest.svg' /><div class='image-caption'>Flussdiagramm eines Benutzertests.</div></div>",
-                        "<p></p>",
+                        "<p>Ein Benutzertest ist in GestureNote so aufgebaut, dass das System wie bei einem stationären Benutzertest in einem Usability Lab mit WOZ-Experiment evaluiert werden kann. Dabei wird das User Interface via Screen-Sharing zum Probanden übertragen. Dieser bekommt vom Moderator szenariobasierte Aufgaben vorgelesen, welche er lösen soll. Der Moderator muss während des Benutzertests darauf achten, welche Geste wie vom Probanden vorgeführt wurde, um die entsprechenden UIs einzublenden. GestureNote unterstützt dabei den Moderator mit der Anzeige von einzelnen Steuerelementen und dazu passenden Gesten. Der Moderator muss - vereinfacht gesagt - entweder die passende Geste auswählen, die der Proband vorgeführt hat, oder die einzelnen UIs anwählen. Des Weiteren gibt es die Möglichkeit im externen UI-Fenster per Maus das UI zu steuern (für Webseiten oder Pidoco-Prototypen).</p>",
                         "<h4>Gesten erraten</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:280px' src='img/de/introduction/study-preview/gesture-slideshow.svg' /><div class='image-caption'>Flussdiagramm <em>Gesten erraten</em>.</div></div>",
-                        "<p></p>",
+                        "<p>Mit dieser Methode zeigt ein Moderator dem Probanden einzelne Interaktionsaufgaben. Diese werden in Textform beim Probanden eingeblendet. Der Proband muss dann innerhalb der vorgegebenen Zeit die passende Geste demonstrieren. Der Moderator sollte darauf achten, dass der Proband die gewünschte Geste richtig und innerhalb der vorgegebenen Zeit ausgeführt hat. Nach Ablauf der vorgegebenen Zeit entscheidet der Moderator, ob die richtige Geste ausgeführt wurde. Wurde eine falsche Geste ausgeführt, beginnt das <em>Gesten erraten</em> erneut.</p>",
                         "<h4>Interaktionsaufgaben erraten</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:130px' src='img/de/introduction/study-preview/trigger-slideshow.svg' /><div class='image-caption'>Flussdiagramm <em>Interaktionsaufgaben erraten</em>.</div></div>",
-                        "<p></p>",
+                        "<p>Mit dieser Methode zeigt ein Moderator dem Probanden zu Beginn eine Liste der von ihm genutztzen Gesten. Der Proband kann sich die Gesten nochmals in Erinnerung rufen. Anschließend bekommt der Proband einen Fragebogen für jede Geste eingeblendet, in dem er die richtige Interaktionsaufgabe auswählen soll.",
                         "<h4>Physischer Belastungstest</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:630px' src='img/de/introduction/study-preview/physical-stress-test.svg' /><div class='image-caption'>Flussdiagramm eines Physischen Belastungstests.</div></div>",
-                        "<p></p>"
+                        "<p>Oft werden Gesten-Interaktionen während eines Benutzertests nur kurz evaluiert. Dies kann bei längerer Nutzung von Gesten zu unvorhergesehenen ergonomischen Probleme führen, wie z.B. Ermüdung, Schmerzen, Krämpfen, etc. Mit dieser Methode kann der Moderator den Probanden Gesten oder Gesten-Sequenzen mehrmals hintereinander über einen längeren Zeitraum demonstrieren lassen. Es ist sozusagen ein Stresstest für den Probanden. Falls Fragebögen angelegt wurden, kann der Proband nach der Ausführung darüber befragt werden, ob ihm die Geste oder die Gesten-Sequenz am meisten beansprucht hat. Der Proband gibt dann z.B. an, dass er während der Ausführung im Oberarm Schmerzen verspürte. In der Literatur wird vorgeschlagen, dass ein Belastungstest in Summe 200 Gesten-Ausführungen beinhalten sollte. Besteht das Gesten-Set aus 5 Gesten. Dann sollte jede Geste also 20 Mal ausgeführt werden. Es können damit nicht nur einzelne Gesten auf ihre Belastung überprüft werden, sondern auch das Gesten-Set insgesamt.</p>"
                     ]
         }
     ],

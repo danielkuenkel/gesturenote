@@ -704,6 +704,8 @@ include '../includes/language.php';
                 gestureUpdateRecorder.destroy();
                 gestureUpdateRecorder = null;
                 renderSensorData();
+                
+                $(modal).trigger('gestureUpdated');
             });
         });
 

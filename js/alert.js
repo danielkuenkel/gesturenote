@@ -112,6 +112,7 @@ var ALERT_NOT_ASSIGNED_TO_GESTURE_SET = 'not-assigned-to-gesture-set';
 var ALERT_SET_MISSING_GESTURES = 'set-missing-gestures';
 
 var ALERT_PREVIEW_DUMMY = 'preview-dummy';
+var ALERT_SCRIPT_INPUT_ERROR = 'script-input-error';
 
 // create study alert modal hints
 var ALERT_NO_DATA_QUESTIONNAIRE = 'no-data-questionnaire';

@@ -23,7 +23,7 @@ LetterOfAcceptance.prototype.renderModeratorView = function () {
     var source = currentClass.options.source;
     var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
 
-    $(container).find('.letter-text').text(data);
+    $(container).find('.letter-text').html(data);
     appendAlert(container, ALERT_PLEASE_WAIT);
     return container;
 };
@@ -44,7 +44,7 @@ LetterOfAcceptance.prototype.renderTesterView = function () {
 
     var content = $(source).find('#letterOfAcceptance-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
     $(container).append(content);
-    $(container).find('.letter-text').text(data);
+    $(container).find('.letter-text').html(data);
     $(container).find('#letter-agreed').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!previewModeEnabled) {
@@ -90,7 +90,7 @@ LetterOfAcceptance.prototype.renderObserverView = function () {
     var source = currentClass.options.source;
     var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
 
-    $(container).find('.letter-text').text(data);
+    $(container).find('.letter-text').html(data);
     appendAlert(container, ALERT_PLEASE_WAIT);
     return container;
 };
@@ -113,7 +113,7 @@ LetterOfAcceptance.prototype.renderWizardView = function () {
     var source = currentClass.options.source;
     var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
 
-    $(container).find('.letter-text').text(data);
+    $(container).find('.letter-text').html(data);
     appendAlert(container, ALERT_PLEASE_WAIT);
     return container;
 };

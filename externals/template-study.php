@@ -113,16 +113,16 @@ include '../includes/language.php';
         <div class="row">
             <div class="col-md-6">
                 <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
-                <canvas class="chart-gesture-execution-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                <canvas class="chart-gesture-execution-type" style="max-width: 350px; margin: 0 auto"></canvas>
                 <div class="text text-center" style="font-size: 10pt">
-                    <span class="amount-static-gestures"></span>, <span class="amount-dynamic-gestures"></span>, <span class="amount-total-gesture-executions"></span>
+                    <span class="amount-static-gestures"></span>, <span class="amount-dynamic-gestures"></span>, <span class="amount-execution-mixed-gestures"></span>, <span class="amount-total-gesture-executions"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
-                <canvas class="chart-gesture-interaction-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                <canvas class="chart-gesture-interaction-type" style="max-width: 350px; margin: 0 auto"></canvas>
                 <div class="text text-center" style="font-size: 10pt">
-                    <span class="amount-discrete-gestures"></span>, <span class="amount-continuous-gestures"></span>, <span class="amount-total-gesture-interactions"></span>
+                    <span class="amount-discrete-gestures"></span>, <span class="amount-continuous-gestures"></span>, <span class="amount-interaction-mixed-gestures"></span>, <span class="amount-total-gesture-interactions"></span>
                 </div>
             </div>
         </div>
@@ -1430,8 +1430,8 @@ include '../includes/language.php';
 
         <!--<hr>-->
         <div class="panel-body">
-            <div class="text-center"><?php echo $lang->whatGesturesWhereElicitedForClassificationTrigger ?></div>
-            <div class="row specific-gesture-statistics">
+            <!--<div class="text-center"><?php echo $lang->whatGesturesWhereElicitedForClassificationTrigger ?></div>-->
+<!--            <div class="row specific-gesture-statistics">
                 <div class="col-md-6">
                     <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
                     <canvas class="chart-gesture-execution-type" style="max-width: 300px; margin: 0 auto"></canvas>
@@ -1447,7 +1447,7 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            <hr>
+            <hr>-->
             <div id="item-view"></div>
         </div>
 

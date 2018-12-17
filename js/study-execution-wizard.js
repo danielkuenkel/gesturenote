@@ -388,7 +388,7 @@ function initScreenSharing() {
         $(container).empty().append(currentSharedScreen);
 //        var newHeight = $(window).height() - 70 - 15;
 //        $(container).css({height: newHeight + "px"});
-        $(currentSharedScreen).css({height: '100%', width: '100%', objectFit: 'contain', opacity:1});
+        $(currentSharedScreen).css({height: '100%', width: '100%', objectFit: 'contain', opacity: 1});
         $(currentSharedScreen).removeAttr('controls');
         $(currentSharedScreen).removeAttr('id');
 
@@ -417,6 +417,7 @@ function submitFinalData(container, areAllRTCsUploaded) {
     $(container).find('#upload-done, #upload-retry, #btn-leave-survey').addClass('hidden');
     if (!areAllRTCsUploaded) {
         $(container).find('#rtc-uploads').addClass('hidden');
+        $(container).find('#rtc-uploads-status').removeClass('hidden');
     } else {
         $(container).find('#rtc-uploads').removeClass('hidden');
     }

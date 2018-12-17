@@ -450,12 +450,20 @@ and open the template in the editor.
     background-color: #4BACC6;
 }
 
+.symbol-gesture-execution.mixed {
+    background-color: #343C68;
+}
+
 .symbol-gesture-interaction.discrete {
     background-color: #7030A0;
 }
 
 .symbol-gesture-interaction.continuous {
     background-color: #FFCB00;
+}
+
+.symbol-gesture-interaction.mixed {
+    background-color: #C90F5A;
 }
 
 .gesture-info-symbol-text {

@@ -492,6 +492,7 @@ function submitFinalData(container, areAllRTCsUploaded) {
     $(container).find('#upload-done, #upload-retry, #btn-leave-survey').addClass('hidden');
     if (!areAllRTCsUploaded) {
         $(container).find('#rtc-uploads').addClass('hidden');
+        $(container).find('#rtc-uploads-status').removeClass('hidden');
     } else {
         $(container).find('#rtc-uploads').removeClass('hidden');
     }

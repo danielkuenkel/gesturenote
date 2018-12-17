@@ -170,16 +170,29 @@ include_once 'includes/functions.php';
                         }
                     }
                 }
+
+//                var query = getQueryParams(document.location.search);
+//                if (query && query.section) {
+//                    $('html').addClass('hidden');
+////                    
+////                    var scrollTop = $('#help-description').find('#' + query.section).offset().top;
+//                    console.log('scroll to', query.section);
+//                    setTimeout(function () {
+//                        $('html').removeClass('hidden').animate({scrollTop: query.section}, 0);
+//                    }, 1000);
+//                }
             }
 
             $(document).on('click', '.smooth-goto', function () {
-//                console.log($('#help-description').find($(this).attr('id')), $(this).attr('href'));
                 $('html, body').animate({scrollTop: $('#help-description').find($(this).attr('href')).offset().top - 30}, 300);
                 return false;
             });
 
+            var scrollTimeout = null;
             $(document).scroll(function (event) {
                 event.preventDefault();
+                clearTimeout(scrollTimeout);
+
                 var linkListHeight = $('#link-list').height() + $('#link-list').offset().top;
                 var scrollTop = $(document).scrollTop();
                 if (scrollTop > linkListHeight) {
@@ -208,7 +221,7 @@ include_once 'includes/functions.php';
 
                             // set active link list item
                             activeItems = [{item: $(dynamicScrollItems[i - 1]), active: true}];
-                            
+
                             // set next link list items
                             if (i < dynamicScrollItems.length - 3) {
                                 nextItems = [{item: $(dynamicScrollItems[i])}, {item: $(dynamicScrollItems[i + 1])}, {item: $(dynamicScrollItems[i + 2])}, {item: $(dynamicScrollItems[i + 3])}];
@@ -233,6 +246,13 @@ include_once 'includes/functions.php';
                         $(link).html($(renderItems[i].item).html());
                         if (renderItems[i].active && renderItems[i].active === true) {
                             $(link).css({fontWeight: 'bold', color: 'black'});
+                            var sectionId = $(renderItems[i].item).attr('id');
+//                            scrollTimeout = setTimeout(function () {
+//                                setParam(window.location.href, 'section', $('html, body').scrollTop());
+//                            }, 300);
+//                            if (window.history.replaceState) {
+
+//                            }
                         } else {
                             $(link).attr('href', '#' + $(renderItems[i].item).attr('id')).addClass('smooth-goto ellipsis');
                         }
@@ -240,12 +260,17 @@ include_once 'includes/functions.php';
                     }
                 } else {
                     $('#btn-scroll-to-top').addClass('hidden');
+
                     if ($('#dynamic-link-list').hasClass('active')) {
                         $('#dynamic-link-list').removeClass('active');
-                        TweenMax.to($('#dynamic-link-list'), .1, {opacity: 0, onComplete:function() {
+                        TweenMax.to($('#dynamic-link-list'), .1, {opacity: 0, onComplete: function () {
                                 $('#dynamic-link-list').addClass('hidden');
-                        }});
+                            }});
                     }
+
+//                    scrollTimeout = setTimeout(function () {
+//                        setParam(window.location.href, 'section', $('html, body').scrollTop());
+//                    }, 300);
                 }
             });
 

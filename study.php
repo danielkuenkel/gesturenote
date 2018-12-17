@@ -517,10 +517,9 @@ if (login_check($mysqli) == true) {
                                                 <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                                     <li id="all" class="selected"><a href="#"><?php echo $lang->filter->all ?></a></li>
-                                                    <!--<li id="recorded"><a href="#"><?php echo $lang->filter->ownRecorded ?></a></li>-->
-                                                    <!--<li id="tester"><a href="#"><?php echo $lang->filter->tester ?></a></li>-->
                                                     <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
-                                                    <!--<li id="rated"><a href="#"><?php echo $lang->filter->rated ?></a></li>-->
+                                                    <li id="sharedWithYou"><a href="#"><?php echo $lang->filter->sharedWithYou ?></a></li>
+                                                    <li id="private"><a href="#"><?php echo $lang->filter->private ?></a></li>
                                                     <li id="liked"><a href="#"><?php echo $lang->filter->liked ?></a></li>
                                                 </ul>
                                             </div>

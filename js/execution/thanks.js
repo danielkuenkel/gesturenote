@@ -27,6 +27,14 @@ Thanks.prototype.renderModeratorView = function () {
     $('#viewModerator').find('#phase-content').removeClass('hidden');
     $('#viewModerator').find('#pinnedRTC').css({opacity: 1});
 
+    if (!previewModeEnabled && uploadQueue) {
+        $(uploadQueue).unbind(EVENT_UPLOAD_PROGRESS_ALL).bind(EVENT_UPLOAD_PROGRESS_ALL, function (event, progress) {
+            event.preventDefault();
+            $(container).find('#progress-thanks').removeClass('hidden');
+            $(container).find('#progress-thanks .progress-bar').attr('aria-valuenow', progress).css({width: progress + '%'}).text(parseInt(progress) + '%');
+        });
+    }
+
     TweenMax.to(container.find('.fa-upload'), .5, {yoyo: true, repeat: -1, opacity: .4});
     $(container).find('#thanks-text').text(data);
     $(container).find('.thanks-text').text(data);
@@ -67,6 +75,14 @@ Thanks.prototype.renderTesterView = function () {
     var source = currentClass.options.source;
     var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
 
+    if (!previewModeEnabled && uploadQueue) {
+        $(uploadQueue).unbind(EVENT_UPLOAD_PROGRESS_ALL).bind(EVENT_UPLOAD_PROGRESS_ALL, function (event, progress) {
+            event.preventDefault();
+            $(container).find('#progress-thanks').removeClass('hidden');
+            $(container).find('#progress-thanks .progress-bar').attr('aria-valuenow', progress).css({width: progress + '%'}).text(parseInt(progress) + '%');
+        });
+    }
+
     var content = $(getSourceContainer(VIEW_TESTER)).find('#thanks-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
     $(container).append(content);
     TweenMax.to(container.find('.fa-upload'), .5, {yoyo: true, repeat: -1, opacity: .4});
@@ -74,7 +90,7 @@ Thanks.prototype.renderTesterView = function () {
     var study = getLocalItem(STUDY);
     var absoluteStaticStudyUrl = 'https://gesturenote.de/study-prepare.php?studyId=' + study.id + '&h=' + study.urlToken;
     $(container).find('#static-study-url').text(absoluteStaticStudyUrl);
-    
+
     $(container).find('#btn-execution-done').unbind('click').bind('click', function (event) {
         event.preventDefault();
         gotoIndex();
@@ -139,7 +155,7 @@ Thanks.prototype.renderObserverView = function () {
     var content = $(getSourceContainer(VIEW_OBSERVER)).find('#thanks-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
     $(container).append(content);
     $(container).find('#thanks-text').text(data);
-    
+
     $(container).find('#btn-leave-survey').unbind('click').bind('click', function (event) {
         event.preventDefault();
         var query = getQueryParams(document.location.search);
@@ -188,6 +204,14 @@ Thanks.prototype.renderWizardView = function () {
     removeAlert($('#viewWizard'), ALERT_PLEASE_WAIT);
     $('#viewWizard').find('#phase-content').removeClass('hidden');
     $('#viewWizard').find('#pinnedRTC').css({opacity: 1});
+
+    if (!previewModeEnabled && uploadQueue) {
+        $(uploadQueue).unbind(EVENT_UPLOAD_PROGRESS_ALL).bind(EVENT_UPLOAD_PROGRESS_ALL, function (event, progress) {
+            event.preventDefault();
+            $(container).find('#progress-thanks').removeClass('hidden');
+            $(container).find('#progress-thanks .progress-bar').attr('aria-valuenow', progress).css({width: progress + '%'}).text(parseInt(progress) + '%');
+        });
+    }
 
     TweenMax.to(container.find('.fa-upload'), .5, {yoyo: true, repeat: -1, opacity: .4});
     $(container).find('#thanks-text').text(data);

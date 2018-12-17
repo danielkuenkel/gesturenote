@@ -5,7 +5,7 @@ include '../includes/language.php';
 <div id="modal-body" class="modal-body">
     <div class="text-center text">
         <p>
-            <?php echo $lang->deleteStudyResultModal ?>
+            <?php echo $lang->deleteGestureSetModal ?>
         </p>
     </div>
 

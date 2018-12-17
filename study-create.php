@@ -1214,15 +1214,16 @@ if (login_check($mysqli) == true) {
                         saveStudy(getStudyData(), function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('.tn-save-study, .btn-preview-study').removeClass('disabled');
+                            $('.btn-save-study, .btn-preview-study').removeClass('disabled');
                             unlockButton(button, true, 'fa-save');
-//                            if (result.status === RESULT_SUCCESS) {
-////                                clearLocalItems();
-////                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-////                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
-//                            } else {
-//                                //                            appendAlert()
-//                            }
+                            if (result.status === RESULT_SUCCESS) {
+                                clearLocalItems();
+                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                goto("study-create.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+//                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+                            } else {
+                                //                            appendAlert()
+                            }
                         });
                     }
                 } else {
@@ -1346,7 +1347,7 @@ if (login_check($mysqli) == true) {
                 $(button).popover('hide');
                 var deleteButton = $(button).parent().find('.btn-delete');
                 lockButton(deleteButton);
-                
+
 
                 setTimeout(function () {
                     var format = $(button).attr('id');

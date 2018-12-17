@@ -45,8 +45,15 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['email'])) {
                             } else {
                                 $select_invited_users_stmt->store_result();
                                 $select_invited_users_stmt->bind_result($sharedStudyRowId, $sharedStudyId, $sharedStudyOwner, $invitedUserMail, $sharedStudyEditable, $userInvited, $forename, $surname);
-
+                                $invitedForename = '';
+                                $invitedSurname = '';
+                                
                                 while ($select_invited_users_stmt->fetch()) {
+                                    if ($invitedUserMail === $inviteMail) {
+                                        $invitedForename = $forename;
+                                        $invitedSurname = $surname;
+                                    }
+                                    
                                     $invitedUsers[] = array('id' => $sharedStudyRowId,
                                         'ownerId' => $sharedStudyId,
                                         'email' => $invitedUserMail,
@@ -62,7 +69,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['email'])) {
                                     <title>' . $lang->inviteTitle . '</title>
                                     </head>
                                     <body>
-                                        <p>' . $lang->hello . ' ' . $forename . ' ' . $surname . ',</p>
+                                        <p>' . $lang->hello . ' ' . $invitedForename . ' ' . $invitedSurname . ',</p>
                                         <p>' . $lang->inviteText . '</p>
                                         <p>' . $lang->mailGreetings . ',</p>
                                         <p>' . $lang->gestureNoteTeam . '</p>

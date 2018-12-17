@@ -337,7 +337,7 @@ include '../includes/language.php';
                     <h3 style="margin-top: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
                 </div>
                 <div class="">
-                    <p class="text letter-text"></p>
+                    <p class="text letter-text" style="white-space:pre-wrap;"></p>
                     <div class="alert-space alert-please-wait"></div>
                 </div>
             </div>
@@ -356,8 +356,15 @@ include '../includes/language.php';
                     <div class="text">
                         <?php echo $lang->thanksWait ?>
                     </div>
-                    <div id="rtc-uploads-status" class="hidden text">
-                        <?php echo $lang->thanksWaitForVideoUpload ?>
+                    <div id="rtc-uploads-status" class="hidden text" style="margin-top: 20px">
+                        <div id="progress-thanks" class="">
+                            <label><?php echo $lang->transferData ?>:</label>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                    0%
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-12 hidden" id="upload-retry" style="margin-bottom: 20px;">
@@ -708,7 +715,7 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            
+
             <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius:8px" allowtransparency></div>
 
             <div class="alert-space alert-quit-screen-sharing"></div>
@@ -907,9 +914,9 @@ include '../includes/language.php';
             <div class="alert-space alert-quit-screen-sharing"></div>
             <div class="alert-space alert-phase-step-done"></div>
 
-            <div id="identification-controls" style="margin-top: 20px; margin-bottom: 15px">
-                <button class="btn btn-block btn-success btn-shadow hidden" id="btn-start-gesture-recording" name="btn-success"><i class="fa fa-dot-circle-o"></i> <?php echo $lang->recordGesture ?></button>
-                <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success"><i class="fa fa-dot-circle-o"></i> <?php echo $lang->rerecordGesture ?></button>
+            <div id="identification-controls" style="margin-bottom: 15px">
+                <button class="btn btn-block btn-success btn-shadow hidden" id="btn-start-gesture-recording" name="btn-success" style="margin-top: 20px;"><i class="fa fa-dot-circle-o"></i> <?php echo $lang->recordGesture ?></button>
+                <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success" style="margin-top: 20px;"><i class="fa fa-dot-circle-o"></i> <?php echo $lang->rerecordGesture ?></button>
                 <button class="btn btn-block btn-danger btn-shadow hidden" id="btn-stop-gesture-recording" name="btn-success"><i class="fa fa-stop"></i> <?php echo $lang->stopRecordGesture ?></span></button>
                 <div style="margin-top: 10px">
                     <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
@@ -1365,7 +1372,7 @@ include '../includes/language.php';
                     <h3 style="margin-top: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
                 </div>
                 <div class="">
-                    <p class="text letter-text"></p>
+                    <p class="text letter-text" style="white-space:pre-wrap;"></p>
                     <div class="alert-space alert-please-wait"></div>
                 </div>
             </div>
@@ -1794,7 +1801,7 @@ include '../includes/language.php';
                     <h3 style="margin-top: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
                 </div>
                 <div class="">
-                    <p class="text letter-text"></p>
+                    <p class="text letter-text" style="white-space:pre-wrap;"></p>
                     <div class="alert-space alert-please-wait"></div>
                 </div>
             </div>
@@ -1806,9 +1813,33 @@ include '../includes/language.php';
         <div class="col-sm-5 col-md-4 rtc-scalable" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 15px;">
             <h3 class="headline" style="margin-top: 0"><?php echo $lang->thanksHeadline ?></h3>
-            <div class="row " style="margin-top: 20px">
+            <div class="row" style="margin-top: 20px">
 
-                <div class="col-sm-12" style="margin-bottom: 20px;" id="upload-done">
+                <div class="col-sm-12" id="upload-instructions" style="margin-bottom: 20px;">
+                    <i class="fa fa-upload" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
+                    <div class="text">
+                        <?php echo $lang->thanksWait ?>
+                    </div>
+                    <div id="rtc-uploads-status" class="hidden text" style="margin-top: 20px">
+
+                        <div id="progress-thanks" class="">
+                            <label><?php echo $lang->transferData ?>:</label>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                    0%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 hidden" id="upload-retry" style="margin-bottom: 20px;">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size: 70pt; color: #d9534f"></i>
+                    <div class="text">
+                        <p><?php echo $lang->thanksSaveError ?></p>
+                        <button type="button" class="btn btn-danger btn-shadow" id="btn-retry-upload"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->thanksResave ?></span></button>
+                    </div>
+                </div>
+                <div class="col-sm-12 hidden" style="margin-bottom: 20px;" id="upload-done">
                     <i class="fa fa-check" aria-hidden="true" style="font-size: 70pt; color: #5cb85c"></i>
                     <div class="text">
                         <?php echo $lang->thanksSaveSuccess ?>
@@ -1819,19 +1850,19 @@ include '../includes/language.php';
             <button class="btn btn-success btn-block btn-shadow" id="btn-leave-survey"><?php echo $lang->leaveExecution ?></button>
         </div>
     </div>
-    
-    
-    
-    
+
+
+
+
     <!-- scenario container -->
 
     <div  class="row root" id="scenario">
         <div class="col-sm-6 col-md-5 rtc-scalable" id="column-left">
-<!--            <div class="" id="observations">
-                <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
-                <div class="alert-space alert-no-phase-data"></div>
-                <div class="question-container"></div>
-            </div>-->
+            <!--            <div class="" id="observations">
+                            <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
+                            <div class="alert-space alert-no-phase-data"></div>
+                            <div class="question-container"></div>
+                        </div>-->
         </div>
 
         <div class="col-sm-6 col-md-7" id="column-right">
@@ -1872,13 +1903,13 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>
-<!--                <div class="" id="help-controls">
-                    <h3><?php echo $lang->help ?></h3>
-                    <div class="" style="padding-bottom: 0">
-                        <div class="alert-space alert-no-phase-data"></div>
-                        <div class="help-container"></div>
-                    </div>
-                </div>-->
+                <!--                <div class="" id="help-controls">
+                                    <h3><?php echo $lang->help ?></h3>
+                                    <div class="" style="padding-bottom: 0">
+                                        <div class="alert-space alert-no-phase-data"></div>
+                                        <div class="help-container"></div>
+                                    </div>
+                                </div>-->
             </div>
 
             <div class="alert-space alert-quit-screen-sharing"></div>
@@ -1890,9 +1921,9 @@ include '../includes/language.php';
 
         </div>
     </div>
-    
-    
-    
+
+
+
 </div>
 
 
@@ -1951,7 +1982,7 @@ include '../includes/language.php';
         <div class="col-md-7 col-lg-8" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-8 col-lg-9">
             <h3 class="headline" style="margin-top: 0" ><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
             <!--<hr>-->
-            <div class="letter-text text"></div>
+            <div class="letter-text text" style="white-space:pre-wrap;"></div>
             <!--<hr>-->
             <div style="margin-top: 20px">
                 <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><?php echo $lang->letterOfAcceptanceAccept ?></button>
@@ -1964,7 +1995,7 @@ include '../includes/language.php';
     <div class="" id="letterOfAcceptance-unmoderated">
         <h3 class="headline" style="margin-top: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
         <!--<hr>-->
-        <div class="letter-text"></div>
+        <div class="letter-text" style="white-space:pre-wrap;"></div>
         <!--<hr>-->
         <div style="margin-top: 20px">
             <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><?php echo $lang->letterOfAcceptanceAccept ?></button>
@@ -2809,17 +2840,25 @@ include '../includes/language.php';
             <h3 class="headline" style="margin-top: 0"><?php echo $lang->thanksHeadline ?></h3>
             <!--<hr>-->
             <div class="row">
-                <div class="col-sm-6" style="margin-bottom: 20px;">
+                <div class="col-sm-12" style="margin-bottom: 20px;">
                     <i class="fa fa-heart" id="heart-icon" style="font-size: 70pt; color: #ca3667"></i>
                     <div class="text" id="thanks-text"></div>
                 </div>
-                <div class="col-sm-6" id="upload-instructions" style="margin-bottom: 20px;">
+                <div class="col-sm-12" id="upload-instructions" style="margin-bottom: 20px;">
                     <i class="fa fa-upload" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
                     <div class="text">
                         <?php echo $lang->thanksWait ?>
                     </div>
-                    <div id="rtc-uploads-status" class="hidden text">
-                        <?php echo $lang->thanksWaitForVideoUpload ?>
+                    <div id="rtc-uploads-status" class="hidden text" style="margin-top: 20px">
+
+                        <div id="progress-thanks" class="">
+                            <label><?php echo $lang->transferData ?>:</label>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                    0%
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6 hidden" id="upload-retry" style="margin-bottom: 20px;">
@@ -2851,7 +2890,7 @@ include '../includes/language.php';
 
     <div class="container" id="thanks-unmoderated">
         <h3 class="headline" style="margin-top: 0"><?php echo $lang->thanksHeadline ?></h3>
-        <!--<hr>-->
+
         <div class="row">
             <div class="col-sm-6" style="margin-bottom: 20px;">
                 <i class="fa fa-heart" id="heart-icon" style="font-size: 70pt; color: #ca3667"></i>
@@ -2862,8 +2901,15 @@ include '../includes/language.php';
                 <div class="text">
                     <?php echo $lang->thanksWait ?>
                 </div>
-                <div id="rtc-uploads-status" class="hidden text">
-                    <?php echo $lang->thanksWaitForVideoUpload ?>
+                <div id="rtc-uploads-status" class="hidden text" style="margin-top: 20px">
+                    <div id="progress-thanks" class="">
+                        <label><?php echo $lang->transferData ?>:</label>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">
+                                0%
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-6 hidden" id="upload-retry" style="margin-bottom: 20px;">

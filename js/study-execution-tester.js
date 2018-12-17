@@ -206,10 +206,7 @@ var Tester = {
 
                 $(peerConnection).unbind('joinedRoom').bind('joinedRoom', function () {
                     peerConnection.sendMessage(MESSAGE_SYNC_REQUEST, {nick: VIEW_TESTER});
-
-                    setTimeout(function () {
-                        peerConnection.takeSnapshot(true);
-                    }, 5000);
+                    peerConnection.takeSnapshot(true);
                 });
 
                 $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function (event, video, peer) {
@@ -425,11 +422,6 @@ function checkRTCUploadStatus(container) {
     if (isUploadRecordingNeeded() && uploadQueue && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
         console.log('sumbmit final data with upload queue, some files where not uploaded yet!');
         submitFinalData(container, false);
-//        $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED).bind(EVENT_ALL_FILES_UPLOADED, function () {
-//            console.log('Tester: all videos uploaded -> submit final data');
-//            $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED);
-//            submitFinalData(container, true);
-//        });
     } else {
         console.log('sumbmit final data without upload queue, or all files where uploaded.');
         submitFinalData(container, true);
@@ -441,6 +433,7 @@ function submitFinalData(container, areAllRTCsUploaded) {
     $(container).find('#upload-done, #study-share, #upload-retry, #btn-execution-done').addClass('hidden');
     if (!areAllRTCsUploaded) {
         $(container).find('#rtc-uploads').addClass('hidden');
+        $(container).find('#rtc-uploads-status').removeClass('hidden');
     } else {
         $(container).find('#rtc-uploads').removeClass('hidden');
     }

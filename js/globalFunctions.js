@@ -2300,7 +2300,7 @@ function filter(filterId) {
         filterId = $(currentPaginationData.filter.filter).find('.chosen').attr('id');
     }
 
-    console.log('filter', filterId, originalFilterData);
+
 
     if (filterId === 'all') {
         return originalFilterData;
@@ -2327,16 +2327,28 @@ function filter(filterId) {
                     if (originalFilterData[i].isOwner === false) {
                         array.push(originalFilterData[i]);
                     }
-                } else if (filterId === 'private') {
-                    if (originalFilterData[i].isOwner === true && (originalFilterData[i].scope === filterId || !originalFilterData[i].invitedUsers || (originalFilterData[i].shared && parseInt(originalFilterData[i].shared) > 0))) {
+                } else if (filterId === 'private' && originalFilterData[i].isOwner === true) {
+//                    if() {
+                    if (originalFilterData[i].scope === filterId && !originalFilterData[i].invitedUsers) {
+                        array.push(originalFilterData[i]);
+                    } else if (!originalFilterData[i].scope && !originalFilterData[i].invitedUsers) {
                         array.push(originalFilterData[i]);
                     }
+//                        else if(!originalFilterData[i].invitedUsers || (originalFilterData[i].invitedUsers && originalFilterData[i].invitedUsers.length === 0)) {
+//                            array.push(originalFilterData[i]);
+//                        }
+//                    }
+//                    if (originalFilterData[i].isOwner === true && (originalFilterData[i].scope === filterId || !originalFilterData[i].invitedUsers || (originalFilterData[i].shared && parseInt(originalFilterData[i].shared) > 0))) {
+//                        array.push(originalFilterData[i]);
+//                    }
                 } else if (filterId === 'tester' && originalFilterData[i].source === 'tester') {
                     array.push(originalFilterData[i]);
                 }
             }
         }
     }
+
+    console.log('filter', filterId, originalFilterData, array);
     return array;
 }
 
@@ -3408,19 +3420,34 @@ function getGestureCatalogGestureSetPanel(data, type, layout) {
         $(panel).find('#btn-delete-gesture-set').unbind('click').bind('click', {setId: data.id}, function (event) {
             event.preventDefault();
             var button = $(this);
+            var setId = event.data.setId;
 
             if (!$(button).hasClass('disabled')) {
                 lockButton(button, true, 'fa-trash');
                 $(button).popover('hide');
 
-                deleteGestureSet({setId: event.data.setId}, function (result) {
-                    unlockButton(button, true, 'fa-trash');
-                    if (result.status === RESULT_SUCCESS) {
-                        $(button).trigger('gestureSetDeleted');
-                    } else {
-                        // append alert
-                    }
+                $('#custom-modal').unbind('deleteData').bind('deleteData', function (event) {
+                    event.preventDefault();
+
+                    deleteGestureSet({setId: setId}, function (result) {
+                        unlockButton(button, true, 'fa-trash');
+                        if (result.status === RESULT_SUCCESS) {
+                            $('#custom-modal').unbind('deleteData');
+                            $(button).trigger('gestureSetDeleted');
+                        } else {
+                            // append alert
+                        }
+                    });
                 });
+
+                $('#custom-modal').unbind('cancel').bind('cancel', function (event) {
+                    event.preventDefault();
+                    unlockButton(button, true, 'fa-trash');
+                });
+
+                loadHTMLintoModal('custom-modal', 'externals/modal-delete-gesture-set.php', 'modal-sm');
+
+
             }
         });
     } else {

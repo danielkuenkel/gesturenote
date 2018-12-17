@@ -186,8 +186,12 @@ PeerConnection.prototype.initialize = function (options) {
                 media: constraints ? constraints : {audio: true, video: true}
             });
 
-            console.log('ice transports:', options.iceTransports || "all", constraints);
-            webrtc.webrtc.config.peerConnectionConfig.iceTransports = options.iceTransports || (getBrowser() === BROWSER_FIREFOX ? 'relay' : 'all');
+
+            if (getBrowser() === BROWSER_FIREFOX) {
+                options.iceTransports = 'relay';
+            }
+            webrtc.webrtc.config.peerConnectionConfig.iceTransports = options.iceTransports || 'all';
+            console.log('ice transports:', webrtc.webrtc.config.peerConnectionConfig.iceTransports);
 
 
             var controlsTween = new TweenMax(options.streamControls, .3, {opacity: 1.0, paused: true});
@@ -1208,7 +1212,7 @@ PeerConnection.prototype.takeSnapshot = function (upload) {
                     console.log('black frame of snapshot detected');
                 }
             }, 'image/jpeg', 0.8);
-        }, 3000);
+        }, 10000);
     }
 };
 

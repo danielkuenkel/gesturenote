@@ -125,6 +125,7 @@ var TYPE_GESTURE_POSE = 'pose';
 var TYPE_GESTURE_DYNAMIC = 'dynamic';
 var TYPE_GESTURE_DISCRETE = 'discrete';
 var TYPE_GESTURE_CONTINUOUS = 'continuous';
+var TYPE_GESTURE_MIXED = 'mixed';
 
 // gesture body types
 var TYPE_BODY_FULL = 'full';

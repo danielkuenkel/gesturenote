@@ -118,8 +118,6 @@ if (login_check($mysqli) == true) {
                     <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                     <ul class="dropdown-menu option" role="menu">
                     </ul>
-                    <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
-                    <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
                     <button type="button" class="btn btn-default btn-join-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->joinConversation ?></span> <i class="fa fa-group"></i></button>
                     <button type="button" class="btn btn-default btn-leave-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->leaveConversation ?></span> 
                         <span>
@@ -131,6 +129,8 @@ if (login_check($mysqli) == true) {
                                top: 4px;"></i>
                         </span>
                     </button>
+                    <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
+                    <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
                     <button role="button" class="btn btn-default" id="btn-introduction"><i class="fa fa-support"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->help ?></span></button>
                     <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="fa fa-close"></i><span class="hidden-sm hidden-xs"> <?php echo $lang->close ?></span></button>
                 </div>

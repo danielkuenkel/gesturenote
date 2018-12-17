@@ -92,7 +92,21 @@ function initLetterOfAcceptance(id, formatClone) {
     }
 
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
-        setLocalItem(id + ".data", $(formatClone).find('#declaration').val());
+        var letter = $(formatClone).find('#declaration').val();
+        if (letter.search('<script>') > -1) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            appendAlert(formatClone, ALERT_SCRIPT_INPUT_ERROR);
+            $(formatClone).find('#declaration').parent().addClass('has-error');
+
+            $(formatClone).find('#declaration').unbind('input').bind('input', function (event) {
+                event.preventDefault();
+                $(formatClone).find('#declaration').parent().removeClass('has-error');
+                removeAlert(formatClone, ALERT_SCRIPT_INPUT_ERROR);
+            });
+        } else {
+            setLocalItem(id + ".data", letter);
+        }
     });
 }
 
