@@ -1055,7 +1055,7 @@ if (login_check($mysqli) == true) {
                 });
 
                 $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
-                    $('.btn-save-study').click();
+                    $('#fixed-study-edit-controls').find('.btn-save-study').click();
                 });
             });
 
