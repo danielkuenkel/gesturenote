@@ -1067,7 +1067,7 @@ if (login_check($mysqli) == true) {
                 loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
 
                 $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
-                    $('.btn-save-study').click();
+                    $('#fixed-study-edit-controls').find('.btn-save-study').click();
                 });
 
                 $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
