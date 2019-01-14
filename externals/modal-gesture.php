@@ -153,13 +153,13 @@ include '../includes/language.php';
                             <div style="margin-top: 10px">
                                 <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
                                 <div id="creator"><?php echo $lang->userTypes->interactionDesigner ?>: <span class="text"></span></div>
-                                <div id="title"><?php echo $lang->title ?>: <span class="label label-default" id="gesture-title-quality"></span> <span class="text"></span></div>
-                                <div id="type" style="display:flex"><?php echo $lang->gestureType ?>: <div class="gesture-info-symbol symbol-gesture-execution" style="margin-top: 9px; margin-left: 6px; margin-right: 2px;"></div> <span class="address"></span> <span class="text"></span></div>
-                                <div id="interactionType" style="display:flex"><?php echo $lang->gestureInteractionType ?>: <div class="gesture-info-symbol symbol-gesture-interaction" style="margin-top: 9px; margin-left: 6px;margin-right: 2px"></div> <span class="address"></span> <span class="text"></span></div>
-                                <div id="context"><?php echo $lang->gestureContext ?>:<span class="address"></span> <span class="text"></span></div>
-                                <div id="association"><?php echo $lang->gestureAssociation ?>:<span class="address"></span> <span class="text"></span></div>
+                                <div id="title"><span><?php echo $lang->title ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->gestureNameQuality ?>"></i>:</span> <span class="label label-default" id="gesture-title-quality"></span> <span class="text"></span></div>
+                                <div id="type" style="display:flex"><span><?php echo $lang->gestureType ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->executionType ?>"></i>:</span> <div class="gesture-info-symbol symbol-gesture-execution" style="margin-top: 9px; margin-left: 6px; margin-right: 2px;"></div> <span class="address"></span> <span class="text"></span></div>
+                                <div id="interactionType" style="display:flex"><span><?php echo $lang->gestureInteractionType ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->interactionType ?>"></i>:</span> <div class="gesture-info-symbol symbol-gesture-interaction" style="margin-top: 9px; margin-left: 6px;margin-right: 2px"></div> <span class="address"></span> <span class="text"></span></div>
+                                <div id="context"><span><?php echo $lang->gestureContext ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context ?>"></i>:</span><span class="address"></span> <span class="text"></span></div>
+                                <div id="association"><span><?php echo $lang->gestureAssociation ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->association ?>"></i>:</span><span class="address"></span> <span class="text"></span></div>
                                 <div id="description"><?php echo $lang->gestureDescription ?>:<span class="address"></span> <span class="text"></span></div>
-                                <div id="doubleSidedUse"><?php echo $lang->doubleSidedUse ?>:<span class="address"></span> <span class="text"></span></div>
+                                <div id="doubleSidedUse"><span><?php echo $lang->doubleSidedUse ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->doubleSidedUse ?>"></i>:</span><span class="address"></span> <span class="text"></span></div>
 
                                 <div class="preview-joints-humand-body" id="human-body-preview" style="width: 350px; margin: auto; margin-top: 10px">
                                     <div id="joint-container" style="position: absolute"></div>
@@ -291,7 +291,7 @@ include '../includes/language.php';
     var gestureUpdateRecorder = null;
 
     $(document).ready(function () {
-        
+
         initGestureRating($('#gesture-rating'), 5);
 
         $('#gesture-info-nav-tab').unbind('shown.bs.tab').bind('shown.bs.tab', function (event) {
@@ -704,7 +704,7 @@ include '../includes/language.php';
                 gestureUpdateRecorder.destroy();
                 gestureUpdateRecorder = null;
                 renderSensorData();
-                
+
                 $(modal).trigger('gestureUpdated');
             });
         });
@@ -1292,30 +1292,31 @@ include '../includes/language.php';
                     });
                 }
             });
+
+            $(modal).find('#gesture-sharing .btn-uninvite-user').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                var button = $(this);
+                if (!$(button).hasClass('disabled')) {
+                    lockButton(button, true, 'fa-trash');
+                    unshareGestureForUser({gestureId: currentPreviewGesture.gesture.id, id: $(this).attr('data-invite-id'), email: $(this).attr('data-invite-mail')}, function (result) {
+                        unlockButton(button, true, 'fa-trash');
+                        if (result.status === RESULT_SUCCESS) {
+                            updateGestureById(GESTURE_CATALOG, currentPreviewGesture.gesture.id, {invitedUsers: result.invitedUsers});
+                            currentPreviewGesture.gesture = getGestureById(currentPreviewGesture.gesture.id);
+                            originalFilterData = getLocalItem(GESTURE_CATALOG);
+                            renderInvitedGestureUsers();
+                            updateGestureThumbnailSharing(currentPreviewGesture.thumbnail, currentPreviewGesture.gesture);
+                            renderGeneralGestureInfo();
+                            updateSharingInfos();
+                        }
+                    });
+                }
+            });
         } else {
             $(modal).find('.share-with-all').remove();
             $(modal).find('#invited-users').remove();
         }
     }
 
-    $(modal).on('click', '.btn-uninvite-user', function (event) {
-        event.preventDefault();
-        var button = $(this);
-        if (!$(button).hasClass('disabled')) {
-            lockButton(button, true, 'fa-trash');
-            unshareGestureForUser({gestureId: currentPreviewGesture.gesture.id, id: $(this).attr('data-invite-id'), email: $(this).attr('data-invite-mail')}, function (result) {
-                unlockButton(button, true, 'fa-trash');
-                if (result.status === RESULT_SUCCESS) {
-//                    var inviteAmount = result.invitedUsers && result.invitedUsers.length > 0 ? result.invitedUsers.length : 0;
-                    updateGestureById(GESTURE_CATALOG, currentPreviewGesture.gesture.id, {invitedUsers: result.invitedUsers});
-                    currentPreviewGesture.gesture = getGestureById(currentPreviewGesture.gesture.id);
-                    originalFilterData = getLocalItem(GESTURE_CATALOG);
-                    renderInvitedGestureUsers();
-                    updateGestureThumbnailSharing(currentPreviewGesture.thumbnail, currentPreviewGesture.gesture);
-                    renderGeneralGestureInfo();
-                    updateSharingInfos();
-                }
-            });
-        }
-    });
+
 </script>

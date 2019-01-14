@@ -826,28 +826,73 @@ if (login_check($mysqli) == true) {
                         notes.find('#notes-input').val(notesData);
                     }
 
-                    notes.find('#notes-input').on('input', function (event) {
+                    notes.find('#notes-input').on('change', function (event) {
                         event.preventDefault();
                         cacheNotes();
                     });
+
+                    // test notes input via start/pause speech recognition
+                    if (!('webkitSpeechRecognition' in window)) {
+                        $(notes).find('#transcription-controls').remove();
+                    } else {
+                        setLocalItem('transcription', []);
+                        $(notes).find('#transcription-controls').removeClass('hidden');
+
+                        var recognition = new webkitSpeechRecognition();
+                        recognition.continuous = false;
+                        recognition.interimResults = false;
+
+                        recognition.onstart = function () {
+                            console.log('on start');
+                        };
+
+                        recognition.onend = function () {
+                            console.log('on end');
+                            if (!$(notes).find('#btn-stop-speech-recognition').hasClass('hidden')) {
+                                $(notes).find('#btn-start-speech-recognition').click();
+                            }
+                        };
+
+                        recognition.onresult = function (event) {
+                            console.log('on result', event.results);
+                            var note = notes.find('#notes-input').val();
+                            notes.find('#notes-input').val(note + (note.trim() === '' ? event.results[0][0].transcript : ' ' + event.results[0][0].transcript));
+                            getGMT(function (timestamp) {
+                                var tempData = getLocalItem('transcription');
+                                tempData.push({timestamp: timestamp, transcription: event.results[0][0].transcript});
+                                setLocalItem('transcription', tempData);
+                            });
+                            cacheNotes();
+                        };
+
+                        $(notes).find('#btn-start-speech-recognition').unbind('click').bind('click', function (event) {
+                            event.preventDefault();
+                            if (!$(this).hasClass('disabled')) {
+                                recognition.start();
+                                $(notes).find('#btn-start-speech-recognition').addClass('hidden');
+                                $(notes).find('#btn-stop-speech-recognition').removeClass('hidden');
+                            }
+                        });
+
+                        $(notes).find('#btn-stop-speech-recognition').unbind('click').bind('click', function (event) {
+                            event.preventDefault();
+                            recognition.stop();
+                            $(notes).find('#btn-start-speech-recognition').removeClass('hidden');
+                            $(notes).find('#btn-stop-speech-recognition').addClass('hidden');
+                        });
+                    }
                 }
 
-//                    console.log('content', content);
                 // check and add recorded stream data
                 if (isWebRTCPlaybackNeededForPhaseStep(testerResults)) {
-//                        console.log('web rtc is needed for phase step');
-
                     if (testerResults && testerResults.recordUrl && testerResults.recordUrl !== '') {
                         resultsPlayer = new RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseData, executionTime, content);
                         $(resultsPlayer.player).unbind('initialized').bind('initialized', function (event) {
                             event.preventDefault();
                             $(resultsPlayer.player).unbind('initialized');
-//                                console.log('results player initialized');
                             initPopover();
                             switchDataRendering();
                         });
-
-
 
                         if (getBrowser() !== 'Safari') {
                             $(content).find('#horizontalLine').after(resultsPlayer.domElement);
@@ -858,7 +903,6 @@ if (login_check($mysqli) == true) {
                         appendAlert(content, ALERT_NO_RECORD);
                     }
                 } else {
-//                        console.log('switch data rendering else');
                     switchDataRendering();
                 }
 
@@ -866,7 +910,6 @@ if (login_check($mysqli) == true) {
                 TweenMax.from(content, .2, {opacity: 0, y: -60});
 
                 function switchDataRendering() {
-//                        console.log('switch data rendering');
                     switch (testerResults.format) {
                         case LETTER_OF_ACCEPTANCE:
                             renderLetterOfAcceptance(content, phaseData, testerResults);
@@ -976,7 +1019,7 @@ if (login_check($mysqli) == true) {
             } else {
                 $(content).find('#letter-not-accepted').removeClass('hidden');
             }
-            $(content).find('#letter-text').text(studyData);
+            $(content).find('#letter-text').html(studyData);
         }
 
         function renderThanks(content, studyData) {

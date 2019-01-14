@@ -8,8 +8,11 @@ include_once 'psl-config.php';
 include_once 'functions.php';
 
 session_start();
-if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['evaluatorId'], $_POST['testerId'], $_POST['notes'])) {
-    $notes = mysqli_real_escape_string($mysqli, json_encode($_POST['notes']));
+if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['evaluatorId'], $_POST['testerId'])) {
+    $notes = NULL;
+    if (isset($_POST['notes'])) {
+        $notes = mysqli_real_escape_string($mysqli, json_encode($_POST['notes']));
+    }
     $studyId = $_POST['studyId'];
     $testerId = $_POST['testerId'];
     $userSessionId = $_POST['evaluatorId'];

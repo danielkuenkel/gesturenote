@@ -84,11 +84,11 @@ include '../includes/language.php';
     <div class="root" id="no-phase-results">
         <div class="alert alert-warning" role="alert"><i class="fa fa-info-circle"></i> <?php echo $lang->alerts->noDataAvailable->text ?></div>
     </div>
-    
-    
-    
+
+
+
     <div id="popover-scene-preview" style="position: absolute; opacity: 0; width: 400px;"></div>
-    
+
     <div id="popover-web">
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 400px; height: 300px; pointer-events: none;"></iframe>
     </div>
@@ -104,8 +104,8 @@ include '../includes/language.php';
     <div id="popover-videoEmbed">
         <div class="videoContainer embed-responsive"></div>
     </div>
-    
-    
+
+
 
     <div id="elicitation-statistics">
         <div id="headline" class="text-center"><?php echo $lang->whatGesturesWhereElicited ?></div>
@@ -166,6 +166,12 @@ include '../includes/language.php';
         <h3 id="headline"><?php echo $lang->notes ?></h3>
         <hr>
         <textarea class="form-control" id="notes-input" rows="5"></textarea>
+
+        <div class="hidden" id="transcription-controls" style="margin-top: 10px">
+            <label style="margin-right: 4px">Notiz ins Mikrofon sprechen:</label>
+            <button class="btn btn-default btn-shadow" id="btn-start-speech-recognition"><i class="fa fa-microphone"></i></button>
+            <button class="btn btn-default btn-shadow hidden" id="btn-stop-speech-recognition"><i class="fa fa-microphone-slash"></i></button>
+        </div>
     </div>
 
     <div class="root" id="letterOfAcceptance">
@@ -173,7 +179,7 @@ include '../includes/language.php';
         <!--<hr>-->
         <span class="label label-success hidden" id="letter-accepted"><i class="fa fa-check"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceAccepted ?></span></span>
         <span class="label label-danger hidden" id="letter-not-accepted"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceNotAccepted ?></span></span>
-        <p id="letter-text" class="text" style="margin-top: 15px"></p>
+        <p id="letter-text" class="text" style="margin-top: 15px; white-space:pre-wrap;"></p>
     </div>
 
     <div class="root" id="thanks">
@@ -1431,23 +1437,23 @@ include '../includes/language.php';
         <!--<hr>-->
         <div class="panel-body">
             <!--<div class="text-center"><?php echo $lang->whatGesturesWhereElicitedForClassificationTrigger ?></div>-->
-<!--            <div class="row specific-gesture-statistics">
-                <div class="col-md-6">
-                    <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
-                    <canvas class="chart-gesture-execution-type" style="max-width: 300px; margin: 0 auto"></canvas>
-                    <div class="text text-center" style="font-size: 10pt">
-                        <span class="amount-static-gestures"></span>, <span class="amount-dynamic-gestures"></span>, <span class="amount-total-gesture-executions"></span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
-                    <canvas class="chart-gesture-interaction-type" style="max-width: 300px; margin: 0 auto"></canvas>
-                    <div class="text text-center" style="font-size: 10pt">
-                        <span class="amount-discrete-gestures"></span>, <span class="amount-continuous-gestures"></span>, <span class="amount-total-gesture-interactions"></span>
-                    </div>
-                </div>
-            </div>
-            <hr>-->
+            <!--            <div class="row specific-gesture-statistics">
+                            <div class="col-md-6">
+                                <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
+                                <canvas class="chart-gesture-execution-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                                <div class="text text-center" style="font-size: 10pt">
+                                    <span class="amount-static-gestures"></span>, <span class="amount-dynamic-gestures"></span>, <span class="amount-total-gesture-executions"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text text-center" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
+                                <canvas class="chart-gesture-interaction-type" style="max-width: 300px; margin: 0 auto"></canvas>
+                                <div class="text text-center" style="font-size: 10pt">
+                                    <span class="amount-discrete-gestures"></span>, <span class="amount-continuous-gestures"></span>, <span class="amount-total-gesture-interactions"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>-->
             <div id="item-view"></div>
         </div>
 

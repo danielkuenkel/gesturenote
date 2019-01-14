@@ -2966,10 +2966,13 @@ function initShareGestureSetModalButton(button, clone, source, data, callback) {
 
 function updateGestureThumbnailSharing(thumbnail, gesture) {
     var button = $(thumbnail).find('.btn-share');
+    
+    
 
     if (gesture.scope === SCOPE_GESTURE_PRIVATE) {
         var shareAmount = gesture.invitedUsers ? gesture.invitedUsers.length : 0;
         $(button).find('.amount').text(shareAmount > 0 ? shareAmount : '');
+//console.log('update gesture thumbnail sharing', gesture, shareAmount);
 
         if (shareAmount > 0) {
             if (gesture.isOwner === true) {
@@ -2998,8 +3001,9 @@ function updateGestureThumbnailSharing(thumbnail, gesture) {
                 $(button).removeClass('gesture-shared');
                 $(button).attr('data-content', translation.shareGesture);
             } else {
-                $(button).addClass('gesture-shared');
-                $(button).attr('data-content', translation.gestureSharedWithYou);
+                // not for study gestures, because there were rendered als shared gestures
+//                $(button).addClass('gesture-shared');
+//                $(button).attr('data-content', translation.gestureSharedWithYou);
             }
         }
     } else {

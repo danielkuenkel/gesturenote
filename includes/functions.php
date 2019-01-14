@@ -206,11 +206,12 @@ function deleteFiles($targetUrl, $files) {
     }
 }
 
-function json_decode_nice($json, $assoc = TRUE) {
-    $json = str_replace(array("\n", "\r"), "\\n", $json);
+function json_decode_nice($origJson, $assoc = TRUE) {
+    $json = str_replace(array("\n", "\r"), "\\n", $origJson);
     $json = preg_replace('/([{,]+)(\s*)([^"]+?)\s*:/', '$1"$3":', $json);
     $json = preg_replace('/(,)\s*}$/', '}', $json);
-    return json_decode($json, $assoc);
+    $niceDecodedData = json_decode($json, $assoc);
+    return $niceDecodedData === null ? json_decode($origJson) : $niceDecodedData;
 }
 
 function getv($key, $default = '', $data_type = '') {
@@ -260,7 +261,6 @@ function checkCookiesAccepted() {
         echo '0';
     }
 }
-
 
 function isLocalhost() {
     $whitelist = ['localhost', '::1'];

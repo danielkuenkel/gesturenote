@@ -1460,27 +1460,27 @@ function initializeAnnotationHandling(content) {
     // check if phase data is from a usertest
     if (timelineData.phaseResults.format === SCENARIO) {
         $(content).find('#add-annotation-container #taskAssessment').removeClass('hidden');
-
-        $(content).find('#add-annotation-container #add-annotation-type-select').unbind('change').bind('change', function (event, id) {
-            switch (id) {
-                case 'annotation':
-                    $(content).find('#add-annotation-container #add-annotation-title').removeClass('hidden');
-                    $(content).find('#add-annotation-container #add-assessment-type').addClass('hidden');
-                    $(content).find('#add-annotation-container #add-note').addClass('hidden');
-                    break;
-                case 'taskAssessment':
-                    $(content).find('#add-annotation-container #add-assessment-type').removeClass('hidden');
-                    $(content).find('#add-annotation-container #add-annotation-title').addClass('hidden');
-                    $(content).find('#add-annotation-container #add-note').addClass('hidden');
-                    break;
-                case 'note':
-                    $(content).find('#add-annotation-container #add-note').removeClass('hidden');
-                    $(content).find('#add-annotation-container #add-annotation-title').addClass('hidden');
-                    $(content).find('#add-annotation-container #add-assessment-type').addClass('hidden');
-                    break;
-            }
-        });
     }
+
+    $(content).find('#add-annotation-container #add-annotation-type-select').unbind('change').bind('change', function (event, id) {
+        switch (id) {
+            case 'annotation':
+                $(content).find('#add-annotation-container #add-annotation-title').removeClass('hidden');
+                $(content).find('#add-annotation-container #add-assessment-type').addClass('hidden');
+                $(content).find('#add-annotation-container #add-note').addClass('hidden');
+                break;
+            case 'taskAssessment':
+                $(content).find('#add-annotation-container #add-assessment-type').removeClass('hidden');
+                $(content).find('#add-annotation-container #add-annotation-title').addClass('hidden');
+                $(content).find('#add-annotation-container #add-note').addClass('hidden');
+                break;
+            case 'note':
+                $(content).find('#add-annotation-container #add-note').removeClass('hidden');
+                $(content).find('#add-annotation-container #add-annotation-title').addClass('hidden');
+                $(content).find('#add-annotation-container #add-assessment-type').addClass('hidden');
+                break;
+        }
+    });
 
     $(content).find('#btn-add-annotation-input').unbind('click').bind('click', function (event) {
         event.preventDefault();
@@ -1499,6 +1499,7 @@ function initializeAnnotationHandling(content) {
             var annotationTime = (parseFloat(startTime) + parseFloat(currentTime));
 
 
+            console.log($(content).find('#add-annotation-container #add-annotation-type-select .chosen').attr('id'));
             switch ($(content).find('#add-annotation-container #add-annotation-type-select .chosen').attr('id')) {
                 case 'annotation':
                     var annotationLabel = $(content).find('.annotation-title-input').val().trim();

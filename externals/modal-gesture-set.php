@@ -281,7 +281,7 @@ include '../includes/language.php';
                 $(container).find('#gesture-set-sharing .shared-self').text(translation.gestureSetShared);
             }
         } else {
-           
+
             var shareAmount = 0;
             if (set.invitedUsers) {
                 shareAmount = set.invitedUsers.length;
@@ -809,24 +809,24 @@ include '../includes/language.php';
                 });
             }
         });
-    }
 
-    $(modal).on('click', '.btn-uninvite-user', function (event) {
-        event.preventDefault();
-        var button = $(this);
-        if (!$(button).hasClass('disabled')) {
-            lockButton(button, true, 'fa-trash');
-            unshareGestureSetForUser({setId: currentPreviewGestureSet.set.id, id: $(this).attr('data-invite-id'), email: $(this).attr('data-invite-mail')}, function (result) {
-                unlockButton(button, true, 'fa-trash');
-                if (result.status === RESULT_SUCCESS) {
-                    updateGestureSetById(GESTURE_SETS, currentPreviewGestureSet.set.id, {invitedUsers: result.invitedUsers});
-                    currentPreviewGestureSet.set = getGestureSetById(currentPreviewGestureSet.set.id);
-                    originalFilterData = getLocalItem(GESTURE_SETS);
-                    renderInvitedGestureSetUsers();
-                    updateGestureSetThumbnailSharing(currentPreviewGestureSet.thumbnail, currentPreviewGestureSet.set);
-                    updateGestureSetSharingInfos();
-                }
-            });
-        }
-    });
+        $(modal).find('#gesture-set-sharing .btn-uninvite-user').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            var button = $(this);
+            if (!$(button).hasClass('disabled')) {
+                lockButton(button, true, 'fa-trash');
+                unshareGestureSetForUser({setId: currentPreviewGestureSet.set.id, id: $(this).attr('data-invite-id'), email: $(this).attr('data-invite-mail')}, function (result) {
+                    unlockButton(button, true, 'fa-trash');
+                    if (result.status === RESULT_SUCCESS) {
+                        updateGestureSetById(GESTURE_SETS, currentPreviewGestureSet.set.id, {invitedUsers: result.invitedUsers});
+                        currentPreviewGestureSet.set = getGestureSetById(currentPreviewGestureSet.set.id);
+                        originalFilterData = getLocalItem(GESTURE_SETS);
+                        renderInvitedGestureSetUsers();
+                        updateGestureSetThumbnailSharing(currentPreviewGestureSet.thumbnail, currentPreviewGestureSet.set);
+                        updateGestureSetSharingInfos();
+                    }
+                });
+            }
+        });
+    }
 </script>

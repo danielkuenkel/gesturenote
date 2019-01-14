@@ -48,6 +48,7 @@ if (isset($_SESSION['user_id'])) {
                     'userId' => $userId,
                     'isOwner' => intval($userId) === intval($sessionUserId),
                     'data' => json_decode_nice($data),
+//                    'originalData' => $data,
                     'urlToken' => $urlToken,
                     'created' => $created,
                     'participants' => $participants,
@@ -72,6 +73,7 @@ if (isset($_SESSION['user_id'])) {
                     'userId' => $userId,
                     'isOwner' => intval($userId) === intval($sessionUserId),
                     'data' => json_decode_nice($data),
+//                    'originalData' => $data,
                     'urlToken' => $urlToken,
                     'created' => $created,
                     'participants' => $participants);

@@ -1061,6 +1061,10 @@ li.disabledTab > a[data-toggle="tab"] {
     margin-top: 20px;
 }
 
+.svg-image {
+    margin-top: 20px;
+}
+
 #help-description {
     color: #000;
 }
