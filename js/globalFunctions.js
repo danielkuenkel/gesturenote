@@ -467,7 +467,7 @@ $(document).on('mouseleave', '.select .option li', function (event) {
     event.preventDefault();
     var parent = $(this).closest('.select');
     if ($(parent).hasClass('gestureSelect') || $(parent).hasClass('sceneSelect')) {
-        resetPopover();
+        resetGesturePopover();
         resetScenePopover();
     }
 });
@@ -1510,6 +1510,78 @@ function renderAssembledTaskAssessments(dropdown, data, selectedId) {
 
         if (selectedId === undefined) {
             $($(dropdown).find('.dropdown-menu li')[0]).click();
+        }
+    }
+}
+
+/* 
+ * Actions for the start perform gesture annotations
+ */
+
+function renderAssembledGesturePerforms(targetContainer, annotations, timelineData) {
+    var performedGestures = [];
+    for (var i = 0; i < annotations.length; i++) {
+        if (annotations[i].action === ACTION_START_PERFORM_GESTURE_IDENTIFICATION) {
+            performedGestures.push(annotations[i]);
+        }
+    }
+    var triggers = getLocalItem(ASSEMBLED_TRIGGER);
+    var target = $('#form-item-container');
+    if (targetContainer !== undefined && targetContainer !== null) {
+        target = targetContainer;
+    }
+
+    var listItem, link;
+    var dropdown = target === null ? $('#form-item-container').find('.performedSelect') : $(target).find('.performedSelect');
+    $(dropdown).find('.option').empty();
+
+//    console.log(performedGestures);
+//    if (performedGestures && performedGestures.length > 0) {
+//        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
+//        $(target).find('.triggerSelect .dropdown-toggle').removeClass('disabled');
+//        $(target).find('.option-trigger').attr('placeholder', translation.pleaseSelect);
+//
+//        var header = document.createElement('li');
+//        $(header).addClass('dropdown-header').text('Zuweisung zur Annotation:');
+//        $(dropdown).find('.option').append(header);
+//
+//        for (var i = 0; i < performedGestures.length; i++) {
+//            var seconds = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime || timelineData.phaseResults.startTime, performedGestures[i].time), true);
+//            var trigger = getTriggerById(performedGestures[i].triggerId);
+//
+//            listItem = document.createElement('li');
+//            listItem.setAttribute('id', performedGestures[i].id);
+//            link = document.createElement('a');
+//            link.setAttribute('href', '#');
+//            link.appendChild(document.createTextNode(secondsToHms(seconds) + ': ' + translation.annotationsList.startPerformGestureIdentification + ' ' + trigger.title));
+//            listItem.appendChild(link);
+//            $(dropdown).find('.option').append(listItem);
+//        }
+//    }
+
+    if (triggers && triggers.length > 0) {
+        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
+        $(target).find('.triggerSelect .dropdown-toggle').removeClass('disabled');
+        $(target).find('.option-trigger').attr('placeholder', translation.pleaseSelect);
+
+//        if (performedGestures && performedGestures.length > 0) {
+//            var divider = document.createElement('li');
+//            $(divider).addClass('divider');
+//            $(dropdown).find('.option').append(divider);
+//        }
+
+//        var header = document.createElement('li');
+//        $(header).addClass('dropdown-header').text('Weitere Geste für:');
+//        $(dropdown).find('.option').append(header);
+
+        for (var i = 0; i < triggers.length; i++) {
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', triggers[i].id);
+            link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(triggers[i].title));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
         }
     }
 }
@@ -2717,6 +2789,7 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
 
 function initMoreInfoGesture(button, clone, data, source, modalId) {
     $(button).click(function (event) {
+        console.log('init more info gesture', button, clone, data, source, modalId);
         event.preventDefault();
         $(button).popover('hide');
         clearTimer();
@@ -2726,8 +2799,11 @@ function initMoreInfoGesture(button, clone, data, source, modalId) {
         $(clone).find('.btn-pause-gesture').click();
 
         $('#custom-modal').on('gesture-deleted', function () {
-            checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-            renderData(currentFilterData);
+            console.log($('#custom-page'), $('#custom-page').length, $('#custom-page .pagination'), $('#custom-page .pagination').length, );
+            if ($('#custom-page .pagination') && $('#custom-page .pagination').length > 0) {
+                checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+                renderData(currentFilterData);
+            }
         });
 
         if (modalId) {
@@ -2966,8 +3042,8 @@ function initShareGestureSetModalButton(button, clone, source, data, callback) {
 
 function updateGestureThumbnailSharing(thumbnail, gesture) {
     var button = $(thumbnail).find('.btn-share');
-    
-    
+
+
 
     if (gesture.scope === SCOPE_GESTURE_PRIVATE) {
         var shareAmount = gesture.invitedUsers ? gesture.invitedUsers.length : 0;
@@ -3660,15 +3736,12 @@ function initMoreInfoGestureSet(button, panel, data) {
             renderData(currentFilterData);
         });
 
-//        if (modalId) {
-//            loadHTMLintoModal('custom-modal', 'externals/' + modalId + '.php', 'modal-lg');
-//        } else {
         loadHTMLintoModal('custom-modal', 'externals/modal-gesture-set.php', 'modal-lg');
-//        }
     });
 }
 
 function initStandardGestureSetList(panel, data, type, layout) {
+    console.log('initStandardGestureSetList', data);
     if (data.gestures !== null && data.gestures.length > 0) {
         clearAlerts(panel);
         var missingGestures = 0;

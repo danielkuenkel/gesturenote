@@ -352,7 +352,7 @@ if (isset($_SESSION['user_id'])) {
                                     }
 
                                     $invitedUsers = null;
-                                    if ($select_invited_users_stmt = $mysqli3->prepare("SELECT gestures_shared.*, users.forename, users.surname FROM gestures_shared LEFT JOIN users ON gestures_shared.owner_id = users.id WHERE gestures_shared.gesture_id = '$id' AND gestures_shared.owner_id = '$sessionUserId'")) {
+                                    if ($select_invited_users_stmt = $mysqli3->prepare("SELECT gestures_shared.*, users.forename, users.surname FROM gestures_shared LEFT JOIN users ON gestures_shared.owner_id = users.id WHERE gestures_shared.gesture_id = '$id'")) {
                                         if (!$select_invited_users_stmt->execute()) {
                                             echo json_encode(array('status' => 'selectSharedStudiesError'));
                                             exit();

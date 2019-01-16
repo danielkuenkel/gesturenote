@@ -748,17 +748,17 @@ include '../includes/language.php';
 
                         deleteGesture({gestureId: currentPreviewGesture.gesture.id}, function (result) {
                             if (result.status === RESULT_SUCCESS) {
-                                getGestureCatalog(function (result) {
+                                getGestureCatalog(function (catalogResult) {
                                     showCursor($('body'), CURSOR_DEFAULT);
 
                                     unlockButton(button, true, 'fa-check');
                                     $(modal).find('#modal-body-delete-gesture #btn-no').removeClass('disabled');
 
                                     if (result.status === RESULT_SUCCESS) {
-                                        originalFilterData = result.gestures;
+                                        $('#custom-modal').trigger('gesture-deleted', [result.gestureId]);
+                                        originalFilterData = catalogResult.gestures;
                                         currentFilterData = sort();
                                         $('#custom-modal').modal('hide');
-                                        $('#custom-modal').trigger('gesture-deleted');
                                     }
                                 });
                             }

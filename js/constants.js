@@ -188,6 +188,7 @@ var ACTION_HIDE_TRIGGER_INFO = 'hideTriggerInfo';
 var ACTION_START_TASK = 'startTask';
 var ACTION_REQUEST_HELP = 'requestHelp';
 var ACTION_START_PERFORM_GESTURE = 'startPerformGesture';
+//var ACTION_GESTURE_IDENTIFIED = 'startPerformGestureIdentificationWithoutRecord';
 var ACTION_START_PERFORM_GESTURE_IDENTIFICATION = 'startPerformGestureIdentification';
 var ACTION_START_PERFORM_TRIGGER_IDENTIFICATION = 'startPerformTriggerIdentification';
 var ACTION_START_PERFORM_GESTURE_STRESS_TEST = 'startPerformGestureStressTest';

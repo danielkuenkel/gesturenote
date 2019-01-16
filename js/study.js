@@ -2386,7 +2386,7 @@ function getUniqueTrigger() {
             
             var phaseStepData = getLocalItem(phaseSteps[i].id + '.data');
             if (phaseStepData.identificationFor === 'gestures') {
-                console.log(phaseStepData)
+//                console.log(phaseStepData)
                 for (var j = 0; j < phaseStepData.identification.length; j++) {
                     var pushTrigger = getTriggerById(phaseStepData.identification[j].triggerId);
                     if (!triggerExists(trigger, pushTrigger)) {
@@ -2399,7 +2399,7 @@ function getUniqueTrigger() {
 
     function triggerExists(trigger, pushTrigger) {
         for (var i = 0; i < trigger.length; i++) {
-            console.log(trigger,  pushTrigger);
+//            console.log(trigger,  pushTrigger);
             if (parseInt(trigger[i].id) === parseInt(pushTrigger.id)) {
                 return true;
             }

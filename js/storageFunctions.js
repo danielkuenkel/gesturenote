@@ -129,7 +129,7 @@ function updateGestureById(catalog, id, parameters) {
     var gestureCatalog = getLocalItem(catalog);
 
     var gesture;
-    var tempGestures = new Array();
+    var tempGestures = [];
 
     if (gestureCatalog && gestureCatalog.length > 0) {
         for (var i = 0; i < gestureCatalog.length; i++) {
@@ -145,6 +145,37 @@ function updateGestureById(catalog, id, parameters) {
         }
         setLocalItem(catalog, tempGestures);
     }
+}
+
+function addGestureToCatalog(gesture, catalog) {
+    if (!catalog) {
+        catalog = GESTURE_CATALOG;
+    }
+    var gestureCatalog = getLocalItem(catalog);
+
+    var tempGestures = [];
+    var gestureMatchFound = false;
+
+    if (gestureCatalog && gestureCatalog.length > 0) {
+        for (var i = 0; i < gestureCatalog.length; i++) {
+            var catalogGesture = gestureCatalog[i];
+
+            if (parseInt(gesture.id) === parseInt(catalogGesture.id)) {
+                gestureMatchFound = true;
+                updateGestureById(gesture.id);
+            }
+
+            tempGestures.push(catalogGesture);
+        }
+
+        if (gestureMatchFound === false) {
+            tempGestures.push(gesture);
+        }
+    } else {
+        tempGestures.push(gesture);
+    }
+
+    setLocalItem(catalog, tempGestures);
 }
 
 function updateGestureSetById(catalog, id, parameters) {
@@ -478,7 +509,7 @@ function setStudyData(data) {
             }
         }
     }
-    
+
     if (data.wizardData) {
         if (data.wizardData.results && data.wizardData.results.phases) {
             var phases = data.wizardData.results.phases;

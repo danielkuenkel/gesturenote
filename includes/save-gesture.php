@@ -37,6 +37,7 @@ if (isset($_POST['title'], $_POST['titleQuality'], $_POST['context'], $_POST['as
     $sensorData = $encodedSensorData === '' ? NULL : $encodedSensorData;
     $imageURLs = isset($_POST['images']) ? $_POST['images'] : NULL;
     $dbImageURLs = $imageURLs ? json_encode($imageURLs) : NULL;
+    $created = date('Y-m-d G:i:s');
 
     if (isset($_POST['joints'])) {
         $joints = json_encode($_POST['joints']);
@@ -64,7 +65,7 @@ if (isset($_POST['title'], $_POST['titleQuality'], $_POST['context'], $_POST['as
                 exit();
             } else {
                 $insertId = $mysqli->insert_id;
-                echo json_encode(array('status' => 'success', 'gestureId' => $insertId, 'images' => $imageURLs, 'previewImage' => $previewImage, 'gif' => $gif));
+                echo json_encode(array('status' => 'success', 'gestureId' => $insertId, 'images' => $imageURLs, 'previewImage' => $previewImage, 'gif' => $gif, 'userId' => $userId, 'ownerId' => $ownerId, 'source' => $source, 'scope' => $scope, 'created' => $created));
                 exit();
             }
         } else {
@@ -79,7 +80,7 @@ if (isset($_POST['title'], $_POST['titleQuality'], $_POST['context'], $_POST['as
                 exit();
             } else {
                 $insertId = $mysqli->insert_id;
-                echo json_encode(array('status' => 'success', 'gestureId' => $insertId, 'previewImage' => $previewImage));
+                echo json_encode(array('status' => 'success', 'gestureId' => $insertId, 'previewImage' => $previewImage, 'userId' => $userId, 'ownerId' => $ownerId, 'source' => $source, 'scope' => $scope, 'created' => $created));
                 exit();
             }
         } else {

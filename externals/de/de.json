@@ -699,6 +699,7 @@
     "overlapVideos": "Videos überlappen",
     "bigScreen": "Videos untereinander",
     "sideBySide": "Videos nebeneinander",
+    "startEndGesture": "Start und Ende der Geste",
     "restart": "Neustart",
     "restarts": "Neustarts",
     "fitsFalse": "Falsche Übereinstimmungen",
@@ -2434,8 +2435,9 @@
         "startTask": "Aufgabe starten",
         "requestHelp": "Hilfe anfordern",
         "startPerformGesture": "Geste",
-        "startPerformGestureIdentification": "Geste für Interaktionsaufgabe",
-        "startPerformTriggerIdentification": "Interaktionsaufgabe für Geste",
+        "startPerformGestureIdentificationWithoutRecord": "Geste für",
+        "startPerformGestureIdentification": "Ermittlung für",
+        "startPerformTriggerIdentification": "Ermittlung für",
         "startPerformGestureStressTest": "Geste",
         "endPerformGesture": "Ende Geste",
         "refreshScene": "Szene neu laden",
@@ -2583,8 +2585,10 @@
             "description": "Beschreiben Sie die Geste genau. Teilt sich die Geste in Abschnitte auf? Sind die Hände geöffnet? Sind die Arme angewinkelt? Sind Bewegungen schnell oder langsam?",
             "bodyParts": "Welche Körperteile werden für die Gesten-Ausführung benötigt?",
             "fragmentation": "Bei der Fragmentierung werden die aufgezeichneten Videodaten als Einzelbilder gespeichert. Dafür ist es notwendig ein Bildexport alle x Millisekunden vom Videomaterial zu machen. Geben Sie hier an, in welchem Abstand (in Millisekunden) ein Bildexport erfolgen soll. Die exportierten Bilder dienen dann als Vorschau für eine Geste.",
-            "doubleSidedUse": "Es handelt sich um eine Geste, deren genutzte Körperteile einseitig festgelegt sind? Die Geste kann jedoch von Links- als auch Rechtshändern genutzt werden? Z.B. bei einer Zeige- oder Wisch-Geste."
-        },
+            "doubleSidedUse": "Es handelt sich um eine Geste, deren genutzte Körperteile einseitig festgelegt sind? Die Geste kann jedoch von Links- als auch Rechtshändern genutzt werden? Z.B. bei einer Zeige- oder Wisch-Geste.",
+            "markGestureArea": "Navigiere zum Start- oder Endpunkt der Geste und markiere diesen.",
+            "trigger": "Zu welcher Interaktionsaufgabe soll die Geste zugewiesen werden?"
+        }, 
         "execution": {
             "valuesNotInverted": "Geste nicht invertiert",
             "valuesInverted": "Geste invertiert",

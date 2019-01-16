@@ -178,7 +178,7 @@ include '../includes/language.php';
                                         <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="kinect" id="btn-kinect"><i class="fa fa-code"></i> <?php echo $lang->sensors->kinect->title ?></button>
                                     </div>
                                 </div>-->
-                <div class="sensor-content">
+                <div class="sensor-content" style="">
                     <div data-sensor-source="webcam" id="webcam-stream" class="sensor-source-record hidden">
                         <div class="root embed-responsive embed-responsive-4by3" style="background-color: #eeeeee; border-top-left-radius: 5px; border-top-right-radius: 5px">
                             <div class="embed-responsive-item">
@@ -229,7 +229,7 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <div class="sensor-content" style="margin-top: 10px">
+                <div class="sensor-content" style="margin-top: 10px;">
                     <div data-sensor-source="webcam" id="webcam-preview" class="sensor-source-preview hidden">
                         <div class="root embed-responsive embed-responsive-4by3">
                             <video class="playback-webcam-video mirroredHorizontally" preload="metadata" style="border-top-left-radius: 5px; border-top-right-radius: 5px"></video>
@@ -313,7 +313,7 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <div class="sensor-content" style="margin-top: 10px">
+                <div class="sensor-content" style="margin-top: 10px; max-width: 400px; margin: 0 auto;">
                     <div data-sensor-source="webcam" id="webcam-save-preview" class="sensor-source-save hidden">
                         <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>
@@ -566,7 +566,7 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <div class="sensor-content" style="margin-top: 10px">
+                <div class="sensor-content" style="margin-top: 10px; max-width: 400px; margin: 0 auto;">
                     <div data-sensor-source="webcam" id="webcam-save-success-preview" class="sensor-source-save-success hidden">
                         <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>
@@ -849,7 +849,7 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <div class="sensor-content" style="margin-top: 10px">
+                <div class="sensor-content" style="margin-top: 10px; max-width: 400px; margin: 0 auto;">
                     <div data-sensor-source="webcam" id="webcam-save-preview" class="sensor-source-save hidden">
                         <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>
@@ -1103,7 +1103,7 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <div class="sensor-content" style="margin-top: 10px">
+                <div class="sensor-content" style="margin-top: 10px; max-width: 400px; margin: 0 auto;">
                     <div data-sensor-source="webcam" id="webcam-save-success-preview" class="sensor-source-save-success hidden">
                         <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>

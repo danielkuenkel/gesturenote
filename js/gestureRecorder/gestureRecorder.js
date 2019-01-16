@@ -15,6 +15,7 @@ var GR_STATE_SAVE = 'gr-save';
 var GR_STATE_SAVE_SUCCESS = 'gr-save-success';
 var GR_STATE_DELETE_SUCCESS = 'gr-delete-success';
 
+var GR_EVENT_SAVE_PROGRESS = 'gr-save-progress';
 var GR_EVENT_SAVE_SUCCESS = 'gr-save-success';
 var GR_EVENT_UPDATE_SUCCESS = 'gr-update-success';
 var GR_EVENT_DELETE_SUCCESS = 'gr-delete-success';
@@ -403,7 +404,7 @@ function initWebcamRecorder(recorderOptions, generalOptions) {
         endRecordingTime: recorderOptions.endRecordingTime || null,
         videoSource: (generalOptions && generalOptions.videoSource) || null,
         allowConfig: (generalOptions && generalOptions.allowConfig) || null,
-        recordedData: {images: recorderOptions.images, previewImage: recorderOptions.previewImage, gif: recorderOptions.gif}
+        recordedData: {images: recorderOptions.images, blobs: recorderOptions.blobs, previewImage: recorderOptions.previewImage, gif: recorderOptions.gif}
     };
 
     var instance = new WebcamRecorder(options);
@@ -828,6 +829,7 @@ function renderStateSave() {
         }
 
         if (gestureInputsValid(true) && !$(this).hasClass('disabled')) {
+            $(recorder).trigger(GR_EVENT_SAVE_PROGRESS);
             resetProgress();
             $(recorder.currentRecorderContent).find('#gesture-save-progress').removeClass('hidden');
 
@@ -1044,7 +1046,11 @@ function onRecorderInstanceSaveDataAttached(event, type, updateSaveData) {
         console.log('all recorders has data attached successfully');
         if (recorder.options.saveGesture && recorder.options.saveGesture === true) {
             if (recorder.options.updateGesture && recorder.options.updateGesture === true) {
-                updateGestureData(saveGestureData);
+                if (recorder.options.updateGestureId) {
+                    updateGestureData(saveGestureData);
+                } else {
+                    saveGesture(saveGestureData);
+                }
             } else {
                 saveGesture(saveGestureData);
             }
@@ -1061,6 +1067,12 @@ function saveGesture() {
         if (result.status === RESULT_SUCCESS) {
             resetInputs(true);
             gestureSaveData.id = result.gestureId;
+            gestureSaveData.userId = result.userId;
+            gestureSaveData.ownerId = result.ownerId;
+            gestureSaveData.source = result.source;
+            gestureSaveData.scope = result.scope;
+            gestureSaveData.created = result.created;
+            gestureSaveData.isOwner = true;
             $(recorder).trigger(GR_EVENT_SAVE_SUCCESS, [gestureSaveData]);
             setState(GR_STATE_SAVE_SUCCESS);
         } else {

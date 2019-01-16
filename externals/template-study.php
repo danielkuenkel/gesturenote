@@ -199,7 +199,7 @@ include '../includes/language.php';
         <hr>
         <div id="item-view" style="margin-top: 30px;">
             <div class="alert-space alert-no-phase-data"></div>
-            <div class="list-container row" id="gestures-list-container"></div>
+            <div class="list-container" id="gestures-list-container"></div>
         </div>
         <div id="observations">
             <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
@@ -804,10 +804,10 @@ include '../includes/language.php';
                     <div class="rtc-results-controls-container" style="">
                         <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused" style="border-radius: 50%; background-color: rgba(0,0,0,0.8); color:white; padding: 10px 13px; display: flex; margin: 0 auto; top: 50%; left: 50%; position: absolute; transform: translate(-50%,-48%);"><i class="fa fa-play fa-2x"></i></div>
                     </div>
-                    <div class="video-user-type-info" style="position: absolute; top: 0px; border-top-left-radius: 8px; border-bottom-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 8px; padding-right: 5px; font-size: 8pt; color: white;">
+                    <div class="video-user-type-info" style="pointer-events: none; position: absolute; top: 0px; border-top-left-radius: 8px; border-bottom-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 8px; padding-right: 5px; font-size: 8pt; color: white;">
                         <i class="fa fa-tv"></i> <?php echo $lang->screensharing ?>
                     </div>
-                    <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
+                    <div class="video-time-code" style="pointer-events: none; position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
                         <span class="video-time-code-current-time">00:00:00</span>
                         <span> / </span>
                         <span class="video-time-code-duration">00:00:00</span>
@@ -838,15 +838,19 @@ include '../includes/language.php';
                             <div class="btn-shadow btn-toggle-mute" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->turnOffAudio ?>" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
                                 <i class="fa fa-volume-up" style="color: white"></i>
                             </div>
-                            <div class="video-user-type-info" style="position: absolute; top: 0px; border-top-left-radius: 4px; border-bottom-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 7px; padding-right: 5px; font-size: 8pt; color: white;">
+                            <div class="video-user-type-info" style="pointer-events: none; position: absolute; top: 0px; border-top-left-radius: 4px; border-bottom-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 7px; padding-right: 5px; font-size: 8pt; color: white;">
                                 <i class="fa fa-user"></i> <?php echo $lang->userTypes->tester ?>
                             </div>
-                            <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
+                            <div class="video-time-code" style="pointer-events: none; position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
                                 <span class="video-time-code-current-time">00:00:00</span>
                                 <span> / </span>
                                 <span class="video-time-code-duration">00:00:00</span>
                             </div>
+                            <div class="video-trim btn-shadow" id="btn-toggle-trim-video" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->cutGesture ?>" style="position: absolute; bottom: 6px; right: 15px; border-top-left-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
+                                <span class=""><i class="fa fa-scissors"></i></span>
+                            </div>
                         </div>
+
                         <div class="col-xs-12 hidden" id="moderator-video-container" style="margin-top: 10px">
                             <video id="moderator-video-holder" class="mirroredHorizontally" preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative"></video>
                             <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
@@ -858,15 +862,98 @@ include '../includes/language.php';
                             <div class="btn-shadow btn-toggle-mute" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->turnOffAudio ?>" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
                                 <i class="fa fa-volume-up" style="color: white"></i>
                             </div>
-                            <div class="video-user-type-info" style="position: absolute; top: 0px; border-top-left-radius: 4px; border-bottom-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 7px; padding-right: 5px; font-size: 8pt; color: white;">
+                            <div class="video-user-type-info" style="pointer-events: none; position: absolute; top: 0px; border-top-left-radius: 4px; border-bottom-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 7px; padding-right: 5px; font-size: 8pt; color: white;">
                                 <i class="fa fa-user"></i> <?php echo $lang->userTypes->evaluator ?>
                             </div>
-                            <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
+                            <div class="video-time-code" style="pointer-events: none; position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
                                 <span class="video-time-code-current-time">00:00:00</span>
                                 <span> / </span>
                                 <span class="video-time-code-duration">00:00:00</span>
                             </div>
                         </div>
+
+                        <div class="hidden col-xs-12" id="trim-controls" style="margin-top: 20px; color: black">
+                            <div class="form-group">
+                                <label style="">
+                                    <?php echo $lang->startEndGesture ?> 
+                                    <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->markGestureArea ?>"></i>
+                                </label>
+                                <div class="btn-group btn-group-justified">
+                                    <div class="btn-group">
+                                        <div class="btn btn-shadow btn-default" id="btn-mark-gesture-start"><i class="fa fa-hashtag"></i> Start</div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <div class="btn btn-shadow btn-default" id="btn-mark-gesture-end"><i class="fa fa-hashtag"></i> Ende</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="btn-group btn-group-justified">
+                                    <div class="btn-group">
+                                        <div class="btn btn-shadow btn-default" id="btn-reset-marker"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <div class="btn btn-shadow btn-default btn-block disabled" id="btn-play-marked-area" style=""><i class="fa fa-play"></i> <span class="btn-text">Ausschnitt abspielen</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group" id="keyframeSelect" style="">
+                                        <label style="">
+                                            <?php echo $lang->imageExportEvery ?> 
+                                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->fragmentation ?>"></i>
+                                        </label><br>
+                                        <div class="input-group simple-stepper" id="counter-from" style="">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="80">
+                                                    <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                                                </button>
+                                            </div>
+                                            <input type="text" class="form-control readonly text-center stepper-text" value="100">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="500">
+                                                    <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label>
+                                            <?php echo $lang->trigger ?>
+                                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->trigger ?>"></i>
+                                        </label>
+                                        <div class="input-group" id="select-annotation-for-gesture">
+                                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->pleaseSelect ?>" />
+                                            <div class="input-group-btn select performedSelect" role="group">
+                                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden"></span><span class="caret"></span></button>
+                                                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="btn-group btn-group-justified" style="margin-bottom: 20px">
+                                <div class="btn-group">
+                                    <div class="btn btn-shadow btn-default" id="btn-cancel-gesture-trimming"><i class="fa fa-close"></i> <?php echo $lang->cancel ?></div>
+                                </div>
+                                <div class="btn-group">
+                                    <div class="btn btn-shadow btn-default disabled" id="btn-extract-images"><i class="fa fa-check"></i> <?php echo $lang->next ?></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 hidden text-center" id="extract-indicator" style="margin-top: 10px">
+                            <i class="fa fa-circle-o-notch fa-2x fa-spin"></i>
+                            <div>Einen Moment Bitte … Einzelbilder werden erzeugt.</div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -881,7 +968,7 @@ include '../includes/language.php';
                             </span>
                         </div>
                     </div>
-                    <div class="col-xs-2 col-lg-2" id="play-pause-container">
+                    <div class="col-xs-2 col-sm-3 col-lg-3" id="play-pause-container">
                         <div class="btn-group btn-group-justified">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-default btn-shadow" id="btn-step-backward" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->stepBackward ?>"><i class="fa fa-backward"></i></button>
@@ -894,7 +981,11 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-7 col-sm-7 col-lg-8" id="seek-bar-container">
+                    <div class="col-xs-7 col-sm-7 col-lg-7" id="seek-bar-container">
+                        <div class="hidden" id="video-trim-marker">
+                            <div class="video-trim-marker-start hidden"></div>
+                            <div class="video-trim-marker-end hidden"></div>
+                        </div>
                         <div class="progress" id="main-seek-bar" style="border-radius: 4px; height:30px; margin: 0; cursor: pointer">
                             <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                         </div>

@@ -1727,37 +1727,45 @@ if (login_check($mysqli) == true) {
             if (studyData.identificationFor === 'gestures') {
                 $(container).find('#search-gestures').removeClass('hidden');
                 var elicitedGestures = getLocalItem(GESTURE_CATALOG);
+                var trigger = getLocalItem(ASSEMBLED_TRIGGER);
                 var gestureTriggerPairs, triggerGesturePairs;
                 if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
                     gestureTriggerPairs = getLocalItem(phaseResults.id + '.evaluator').gestures;
                 }
 
                 if (elicitedGestures && elicitedGestures.length > 0 && gestureTriggerPairs) {
-                    for (var i = 0; i < gestureTriggerPairs.length; i++) {
-                        var gesture = getGestureById(gestureTriggerPairs[i].id);
-                        var column = document.createElement('div');
-                        $(column).addClass('col-xs-12');
-                        $(container).find('.list-container').append(column);
+                    $(container).find('.list-container').empty();
 
-                        var row = document.createElement('div');
-                        $(row).addClass('row');
-                        $(column).append(row);
+                    for (var i = 0; i < trigger.length; i++) {
+                        var triggerElement = document.createElement('div');
+                        var headline = document.createElement('div');
+                        var headlineText = document.createElement('span');
+                        $(headlineText).text(trigger[i].title).css({marginRight: '5px'});
+                        $(headline).append(headlineText);
+                        $(triggerElement).append(headline);
+                        var badge = document.createElement('span');
+                        $(badge).addClass('badge');
+                        $(headline).append(badge);
+                        $(container).find('.list-container').append(triggerElement);
 
-                        var item = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-lg-4');
-                        $(item).removeClass('deleteable');
-                        $(row).append(item);
+                        var gestureList = document.createElement('div');
+                        $(gestureList).addClass('row').css({marginTop: "10px"});
+                        $(triggerElement).append(gestureList);
 
-                        var triggerText = document.createElement('div');
-                        $(triggerText).addClass('col-xs-6 col-lg-8');
-                        $(triggerText).html('<span>' + translation.trigger + ':</span> <span class=text>' + getTriggerById(gestureTriggerPairs[i].triggerId).title + '</span>');
-                        $(row).append(triggerText);
-
-                        if (i < gestureTriggerPairs.length - 1) {
-                            var line = document.createElement('hr');
-                            $(line).css({margin: 0, marginBottom: 20});
-                            $(column).append(line);
+                        var gestureCount = 0;
+                        for (var j = 0; j < gestureTriggerPairs.length; j++) {
+                            if (parseInt(gestureTriggerPairs[j].triggerId) === parseInt(trigger[i].id)) {
+                                gestureCount++;
+                                var gesture = getGestureById(gestureTriggerPairs[j].id);
+                                var item = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-4 col-md-4 col-lg-4');
+                                $(gestureList).append(item);
+                                $(badge).text(gestureCount > 1 ? gestureCount + ' ' + translation.gestures : gestureCount + ' ' + translation.gesture);
+                            }
                         }
-                        TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
+
+                        if (i > 0) {
+                            $(triggerElement).css({marginTop: "20px"});
+                        }
                     }
                 } else {
                     appendAlert(container, ALERT_NO_PHASE_DATA);
@@ -1804,6 +1812,11 @@ if (login_check($mysqli) == true) {
 //                    console.log('no triggers there');
                 }
             }
+
+            $(resultsPlayer.player).unbind('dataUpdated').bind('dataUpdated', function (event) {
+                event.preventDefault();
+                renderIdentification(container, studyData, phaseResults);
+            });
 
             renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
         }

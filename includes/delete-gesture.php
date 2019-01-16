@@ -91,7 +91,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
                             exit();
                         }
 
-                        echo json_encode(array('status' => 'success'));
+                        echo json_encode(array('status' => 'success', 'gestureId' => $gestureId));
                         exit();
                     }
                 } else {

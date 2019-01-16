@@ -85,7 +85,8 @@ function WebcamRecorder(options) {
 
     console.log('webcam options', options);
     if (options.recordedData) {
-        webcamSaveGestureData = {images: options.recordedData.images, previewImage: options.recordedData.previewImage, gif: options.recordedData.gif};
+        console.log('recorded data')
+        webcamSaveGestureData = {images: options.recordedData.images, blobs: options.recordedData.blobs || null, previewImage: options.recordedData.previewImage, gif: options.recordedData.gif};
     }
 }
 
@@ -521,8 +522,11 @@ WebcamRecorder.prototype.showSave = function () {
 
     var savePreview = $(webcamRecorder.options.parent).find('.gr-save #webcam-save-preview');
     var togglePlaybackButton = $(savePreview).find('.btn-toggle-playback');
+//    console.log('show save', webcamRecorder.options.autoplaySave && webcamRecorder.options.autoplaySave === true, $(togglePlaybackButton).attr('data-state') === 'paused');
     if (webcamRecorder.options.autoplaySave && webcamRecorder.options.autoplaySave === true && $(togglePlaybackButton).attr('data-state') === 'paused') {
-        $(togglePlaybackButton).click();
+        setTimeout(function () {
+            $(togglePlaybackButton).click();
+        }, 250);
     }
 
     if (webcamSaveGestureData && webcamSaveGestureData.previewImage) {
@@ -562,6 +566,7 @@ WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
         });
 
         // upload gesture images
+        console.log('attach saved data', webcamSaveGestureData)
         if (webcamSaveGestureData.blobs && webcamSaveGestureData.blobs.length > 0) {
             for (var i = 0; i < webcamSaveGestureData.blobs.length; i++) {
                 var filename = hex_sha512(new Date().getTime() + "" + i) + ".jpg";
