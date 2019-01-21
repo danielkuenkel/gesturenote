@@ -1408,6 +1408,7 @@ function classifyGesture(gesture, foundMatch) {
             if (classification.type === TYPE_CLASSIFICATION_APPEARANCE) {
                 classification.assignments[gesturesRightIndex].gestures.push(gesture.id);
             } else {
+                console.log('trigger id matched', parseInt(matchedSourceGesture.triggerId) === parseInt(gesture.triggerId));
                 if (parseInt(matchedSourceGesture.triggerId) === parseInt(gesture.triggerId)) {
                     for (var i = 0; i < classification.assignments.length; i++) {
                         if (parseInt(classification.assignments[i].mainGestureId) === parseInt(matchedSourceGesture.mainGestureId)) {
@@ -1416,10 +1417,12 @@ function classifyGesture(gesture, foundMatch) {
                     }
                 } else {
                     var matchedSameAsAssignment = false;
+                    console.log('assignments', classification.assignments);
                     for (var i = 0; i < classification.assignments.length; i++) {
                         if (parseInt(classification.assignments[i].sameAs) === parseInt(matchedSourceGesture.mainGestureId)) {
                             classification.assignments[i].gestures.push(gesture.id);
                             matchedSameAsAssignment = true;
+                            console.log('found match for gesture', matchedSourceGesture.mainGestureId, classification.assignments[i].gestures);
                             break;
                         }
                     }
@@ -2055,57 +2058,58 @@ function renderGestureGuessabilityTable(target, assignments) {
             var assignment = assignments[j];
             if (parseInt(assignment.triggerId) === parseInt(trigger[i].id)) {
                 var gesture = getGestureById(assignment.mainGestureId);
+                if (gesture) {
+                    var row = document.createElement('tr');
+                    $(table).find('.table-body').append(row);
 
-                var row = document.createElement('tr');
-                $(table).find('.table-body').append(row);
+                    var mainRow = $(table).find('[data-trigger-id=' + trigger[i].id + ']');
+                    var mainRowExists = $(mainRow).length > 0;
+                    if (mainRowExists) {
+                        var currentRowSpan = parseInt($($(mainRow).find('td')[0]).attr('rowspan'));
+                        $($(mainRow).find('td')[0]).attr('rowspan', currentRowSpan + 1);
+                    } else {
+                        $(row).attr('data-trigger-id', trigger[i].id);
 
-                var mainRow = $(table).find('[data-trigger-id=' + trigger[i].id + ']');
-                var mainRowExists = $(mainRow).length > 0;
-                if (mainRowExists) {
-                    var currentRowSpan = parseInt($($(mainRow).find('td')[0]).attr('rowspan'));
-                    $($(mainRow).find('td')[0]).attr('rowspan', currentRowSpan + 1);
-                } else {
-                    $(row).attr('data-trigger-id', trigger[i].id);
+                        var col = document.createElement('td');
+                        $(col).attr('rowspan', 1);
+                        $(col).text(trigger[i].title);
+                        $(row).append(col);
+                    }
 
                     var col = document.createElement('td');
-                    $(col).attr('rowspan', 1);
-                    $(col).text(trigger[i].title);
+                    $(col).text(assignment.gestures.length + 'x ' + gesture.title);
+                    $(col).addClass('hover-cell');
+                    $(col).attr('scroll-to-gesture', gesture.id);
                     $(row).append(col);
-                }
+                    $(col).unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        var linkId = parseInt($(this).attr('scroll-to-gesture'));
+                        var scrollToGesture = $('#content-btn-potential-gestures').find('#item-view #' + linkId);
+                        $('html, body').animate({
+                            scrollTop: ($(scrollToGesture).offset().top - 100) + 'px'
+                        }, 'fast');
+                    });
 
-                var col = document.createElement('td');
-                $(col).text(assignment.gestures.length + 'x ' + gesture.title);
-                $(col).addClass('hover-cell');
-                $(col).attr('scroll-to-gesture', gesture.id);
-                $(row).append(col);
-                $(col).unbind('click').bind('click', function (event) {
-                    event.preventDefault();
-                    var linkId = parseInt($(this).attr('scroll-to-gesture'));
-                    var scrollToGesture = $('#content-btn-potential-gestures').find('#item-view #' + linkId);
-                    $('html, body').animate({
-                        scrollTop: ($(scrollToGesture).offset().top - 100) + 'px'
-                    }, 'fast');
-                });
-
-                // agreement score
+                    // agreement score
 //                var agreementScore = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
 
 //                var col = document.createElement('td');
 //                $(col).text(agreementScore + '%');
 //                $(row).append(col);
 
-                if (mainRowExists) {
-                    var currentRowSpan = parseInt($($(mainRow).find('td')[0]).attr('rowspan'));
-                    $($(mainRow).find('td').last()).attr('rowspan', currentRowSpan);
-                } else {
-                    // guessability / accordance
-                    var accordance = getAccordance(trigger[i].id).toFixed(2);
-                    amountAccordance += parseFloat(accordance);
+                    if (mainRowExists) {
+                        var currentRowSpan = parseInt($($(mainRow).find('td')[0]).attr('rowspan'));
+                        $($(mainRow).find('td').last()).attr('rowspan', currentRowSpan);
+                    } else {
+                        // guessability / accordance
+                        var accordance = getAccordance(trigger[i].id).toFixed(2);
+                        amountAccordance += parseFloat(accordance);
 
-                    var col = document.createElement('td');
-                    $(col).attr('rowspan', 1);
-                    $(col).text(accordance);
-                    $(row).append(col);
+                        var col = document.createElement('td');
+                        $(col).attr('rowspan', 1);
+                        $(col).text(accordance);
+                        $(row).append(col);
+                    }
                 }
             }
         }
@@ -2383,7 +2387,7 @@ function getUniqueTrigger() {
     var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     for (var i = 0; i < phaseSteps.length; i++) {
         if (phaseSteps[i].format === IDENTIFICATION) {
-            
+
             var phaseStepData = getLocalItem(phaseSteps[i].id + '.data');
             if (phaseStepData.identificationFor === 'gestures') {
 //                console.log(phaseStepData)

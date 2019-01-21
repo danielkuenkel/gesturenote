@@ -71,7 +71,7 @@ include_once 'includes/functions.php';
 
         </div>
 
-        <div id="btn-scroll-to-top" class="hidden" style="cursor:pointer; display: block; position: fixed; bottom: 15px; right: 15px; padding: 8px 10px; color:white; border-radius: 5px; background-color: rgba(0,0,0,.6)"><i class="fa fa-arrow-up fa-2x"></i></div>
+        <div id="btn-scroll-to-top" class="hidden" style="cursor:pointer; display: block; position: fixed; bottom: 15px; right: 15px; padding: 8px 10px; color:white; border-radius: 8px; background-color: rgba(0,0,0,.6)"><i class="fa fa-arrow-up fa-2x"></i></div>
 
         <script>
             $(document).ready(function () {

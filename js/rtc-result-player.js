@@ -623,7 +623,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                         });
 
                         loadHTMLintoModal('custom-modal', 'externals/modal-gesture-recorder.php', 'modal-lg');
-                        currentSaveGesture = {source: GESTURE_CATALOG, gesture: {images: shotsArray, blobs: blobsArray, previewImage: 0}};
+                        var query = getQueryParams(document.location.search);
+                        currentSaveGesture = {source: GESTURE_CATALOG, gesture: {images: shotsArray, blobs: blobsArray, previewImage: 0}, userId: query.participantId, gestureSource: 'tester'};
                     }
                 }, 'image/jpeg', 0.8);
             }

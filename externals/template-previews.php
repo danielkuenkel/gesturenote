@@ -32,7 +32,9 @@ include '../includes/language.php';
         <div class="col-md-8" id="column-right">
             <h3 style="margin-top: 0"><?php echo $lang->questionnaire ?></h3>
             <div class="question-container"></div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <div class="clearfix" style="margin-top: 10px; margin-bottom: 15px">
+                <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px; "><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            </div>
         </div>
     </div>
 
@@ -43,7 +45,7 @@ include '../includes/language.php';
         <div class="col-md-8" id="column-right">
             <h3 style="margin-top: 0"><?php echo $lang->formats->interview->text ?></h3>
             <div class="question-container"></div>
-            <div class="clearfix" style="margin-top: 10px">
+            <div class="clearfix" style="margin-top: 10px;  margin-bottom: 15px">
                 <button class="btn btn-success btn-shadow hidden btn-next-question pull-right"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></button>
                 <button class="btn btn-success btn-shadow hidden btn-questionnaire-done pull-right" id="btn-next-step"><i class="fa fa-check"></i> <?php echo $lang->done ?></button>
             </div>
@@ -245,7 +247,9 @@ include '../includes/language.php';
         <div class="col-md-8" id="column-right">
             <h3 class="headline" style="margin-top: 0"></h3>
             <div class="question-container"></div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <div class="clearfix" style="margin-top: 10px; margin-bottom: 15px">
+                <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            </div>
         </div>
     </div>
 
@@ -261,7 +265,9 @@ include '../includes/language.php';
         <div class="col-md-8" id="column-right">
             <h3 class="headline" style="margin-top: 0"></h3>
             <div class="question-container" ></div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <div class="clearfix" style="margin-top: 10px; margin-bottom: 15px">
+                <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            </div>
         </div>
     </div>
 
@@ -297,7 +303,9 @@ include '../includes/language.php';
 
                 <div class="col-sm-12 question-container" style="margin-top: 10px"></div>
             </div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <div class="clearfix" style="margin-top: 10px; margin-bottom: 15px">
+                <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            </div>
         </div>
     </div>
 
@@ -323,7 +331,9 @@ include '../includes/language.php';
 
             <div class="question-container"></div>
 
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <div class="clearfix" style="margin-top: 10px; margin-bottom: 15px">
+                <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            </div>
         </div>
     </div>
 
@@ -915,9 +925,11 @@ include '../includes/language.php';
             <div class="alert-space alert-phase-step-done"></div>
 
             <div id="identification-controls" style="margin-bottom: 15px">
-                <button class="btn btn-block btn-success btn-shadow hidden" id="btn-start-gesture-recording" name="btn-success" style="margin-top: 20px;"><i class="fa fa-dot-circle-o"></i> <?php echo $lang->recordGesture ?></button>
-                <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success" style="margin-top: 20px;"><i class="fa fa-dot-circle-o"></i> <?php echo $lang->rerecordGesture ?></button>
-                <button class="btn btn-block btn-danger btn-shadow hidden" id="btn-stop-gesture-recording" name="btn-success"><i class="fa fa-stop"></i> <?php echo $lang->stopRecordGesture ?></span></button>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-block btn-success btn-shadow hidden" id="btn-start-gesture-recording" name="btn-success" style=""><i class="fa fa-dot-circle-o"></i> <?php echo $lang->recordGesture ?></button>
+                    <!--<button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success" style="margin-top: 20px;"><i class="fa fa-dot-circle-o"></i> <?php echo $lang->rerecordGesture ?></button>-->
+                    <button class="btn btn-block btn-danger btn-shadow hidden" id="btn-stop-gesture-recording" name="btn-success"><i class="fa fa-stop"></i> <?php echo $lang->stopRecordGesture ?></span></button>
+                </div>
                 <div style="margin-top: 10px">
                     <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><?php echo $lang->nextGesture ?> &rarr;</button>
                     <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-trigger" name="btn-success"><?php echo $lang->nextTrigger ?> &rarr;</button>
@@ -2015,7 +2027,7 @@ include '../includes/language.php';
             <div class="alert-space alert-waiting-for-moderator"></div>
             <div class="question-container"></div>
             <!--<hr>-->
-            <div class="clearfix" style="margin-top: 10px">
+            <div class="clearfix" style="margin-top: 10px;">
                 <button class="btn btn-success btn-shadow hidden btn-next-question pull-right"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></button>
                 <button class="btn btn-success btn-shadow hidden btn-questionnaire-done pull-right" id="btn-next-step"><i class="fa fa-check"></i> <?php echo $lang->done ?></button>
             </div>

@@ -16,7 +16,7 @@ if (isset($_SESSION['user_id'], $_POST['testerId'], $_POST['studyId'], $_POST['e
     $evaluatorId = $_POST['evaluatorId'];
     $executionData = mysqli_real_escape_string($mysqli, json_encode($_POST['data']));
 
-    if ($select_stmt = $mysqli->prepare("SELECT id FROM study_results_observer WHERE evaluator_id = '$evaluatorId' && tester_id = '$testerId' && study_id = $studyId LIMIT 1")) {
+    if ($select_stmt = $mysqli->prepare("SELECT id FROM study_results_observer WHERE && tester_id = '$testerId' && study_id = $studyId LIMIT 1")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();

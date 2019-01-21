@@ -88,7 +88,7 @@ include '../includes/language.php';
                             <div id="rated-by-myself" class="hidden"><?php echo $lang->gestureRated ?></div>
                             <div class="alert-space alert-rating-submitted" style="margin-top: 10px;"></div>
                         </div>
-                        <button type="button" class="btn btn-block btn-default" id="btn-rate-gesture" style="margin-top: 10px;"><i class="fa fa-star"></i> <?php echo $lang->rateGesture ?></button>
+                        <button type="button" class="btn btn-block btn-shadow btn-default" id="btn-rate-gesture" style="margin-top: 10px;"><i class="fa fa-star"></i> <?php echo $lang->rateGesture ?></button>
                         <div class="btn-group  btn-group-justified hidden" id="rating-submit-buttons" style="margin-top: 0px;">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success" id="btn-submit-gesture-rating"><i class="fa fa-check"></i> <span class="btn-text"><?php echo $lang->submitGestureRating ?></span></button>

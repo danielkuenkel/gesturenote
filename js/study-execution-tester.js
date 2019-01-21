@@ -14,7 +14,7 @@ var Tester = {
             Tester.initializePeerConnection();
             Tester.initializeRTC();
         } else {
-            console.log('render view');
+//            console.log('render view');
             var item = null;
             var currentPhase = getCurrentPhase();
             var currentPhaseData = getCurrentPhaseData();
@@ -211,7 +211,7 @@ var Tester = {
 
                 $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function (event, video, peer) {
                     event.preventDefault();
-                    console.log('videoRemoved', peer);
+//                    console.log('videoRemoved', peer);
 
                     removeAlert($('#viewTester'), ALERT_GENERAL_PLEASE_WAIT);
                     var currentPhase = getCurrentPhase();
@@ -345,9 +345,9 @@ var Tester = {
 
         console.log('append rtc live stream', target, iceTransports);
         var options = getPhaseStepOptions(currentPhase.format);
-        console.log(options, currentPhase.format);
+//        console.log(options, currentPhase.format);
         var query = getQueryParams(document.location.search);
-        console.log('video source', query.vSource);
+//        console.log('video source', query.vSource);
         var mainElement = $('#video-caller');
         var callerOptions = {
             target: target,
@@ -396,7 +396,7 @@ var Tester = {
     initScreenSharing: function initScreenSharing(container) {
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_SHARED_SCREEN_ADDED).bind(MESSAGE_SHARED_SCREEN_ADDED, function (event, video) {
-                console.log('on add shared screen', video);
+//                console.log('on add shared screen', video);
 
                 $(container).empty().append(video);
                 var newHeight = $(window).height() - 70 - 15;
@@ -406,7 +406,7 @@ var Tester = {
                 $(video).removeAttr('id');
                 $(window).on('resize', function () {
                     var newHeight = $(window).height() - 70 - 15;
-                    console.log('resize:', newHeight);
+//                    console.log('resize:', newHeight);
                     $(container).css({height: newHeight + "px"});
                 }).resize();
 
@@ -455,7 +455,7 @@ function submitFinalData(container, areAllRTCsUploaded) {
 
 function renderSceneItem(source, container, sceneId) {
     container.find('#scene-container').empty();
-    console.log('render scene Item for id', sceneId);
+//    console.log('render scene Item for id', sceneId);
 
     if (!isNaN(sceneId) && (sceneId !== 'none' || sceneId !== null)) {
         $(container).find('#btn-refresh-scene').removeClass('hidden');
@@ -496,7 +496,7 @@ function renderSceneItem(source, container, sceneId) {
         $(window).resize(function () {
 //            if (!event.handled) {
 //                event.handled = true;
-            console.log($(container).find('#scene-container').offset());
+//            console.log($(container).find('#scene-container').offset());
             var height = $(window).height() - 124 - 15;
 
             if (scene.type === SCENE_VIDEO_EMBED) {

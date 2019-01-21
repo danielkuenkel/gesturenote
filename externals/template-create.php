@@ -3283,7 +3283,7 @@ include '../includes/language.php';
     </div>
 
     <div id="popover-image">
-        <img class="imageAreaContent" src="" alt="..." style="width: 400px; height: auto; border-radius: 4px;" />
+        <img class="imageAreaContent" src="" alt="..." style="width: 400px; height: auto; border-radius: 8px;" />
     </div>
 
     <div id="popover-videoEmbed">

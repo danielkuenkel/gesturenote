@@ -302,9 +302,9 @@ include '../includes/language.php';
 //                joints: gesture.joints,
 //                doubleSidedUse: gesture.doubleSidedUse
             },
-//            userId: gesture.userId,
+            userId: currentSaveGesture.userId || null,
 //            ownerId: gesture.ownerId,
-//            source: gesture.source,
+            source: currentSaveGesture.gestureSource || null,
             originSensorData: gesture.sensorData || null
         };
 

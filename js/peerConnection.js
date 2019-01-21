@@ -860,10 +860,7 @@ var mediaRecorder = null;
 PeerConnection.prototype.initRecording = function (startRecording) {
     if (!mediaRecorder) {
         console.log('init local stream recording');
-
-//        console.log(recordingStream);
         mediaRecorder = new MediaRecorder(localMediaStream);
-//        console.log(webrtc, mediaRecorder);
 
         mediaRecorder.ondataavailable = function (event) {
             console.log('on data available');
@@ -933,137 +930,8 @@ PeerConnection.prototype.initRecording = function (startRecording) {
             mediaRecorder.start(1000);
         }
     } else if (mediaRecorder.state !== 'recording' && startRecording) {
-//        if (mediaRecorder && mediaRecorder.state !== 'recording' && startRecording) {
         mediaRecorder.start(1000);
-//        }
     }
-
-
-
-//        navigator.getUserMedia = navigator.getUserMedia ||
-//                navigator.webkitGetUserMedia ||
-//                navigator.mozGetUserMedia;
-//
-//        if (navigator.getUserMedia) {
-//            navigator.mediaDevices.enumerateDevices()
-//                    .then(gotDevices)
-//                    .catch(errorCallback);
-//        } else {
-//            console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
-//        }
-//
-//        function gotDevices(deviceInfos) {
-//            var videoSource = null;
-//            var audioSource = null;
-//            for (var i = 0; i < deviceInfos.length; i++) {
-//                if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap')) {
-//                    console.log('standard recording video input device:', deviceInfos[i]);
-//                    videoSource = deviceInfos[i].deviceId;
-//                } else if (deviceInfos[i].kind === 'audioinput' && deviceInfos[i].deviceId === 'default') {
-//                    console.log('standard recording audio input device:', deviceInfos[i]);
-//                    audioSource = deviceInfos[i].deviceId;
-//                }
-//            }
-//
-//            if (getBrowser() === "Chrome") {
-//                var constraints = {audio: true,
-//                    video: {deviceId: {exact: videoSource, "mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}}
-//                    }};
-//            } else if (getBrowser() === "Firefox") {
-//                var constraints = {audio: true,
-//                    video: {deviceId: {exact: videoSource, width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}
-//                    }};
-//            }
-//
-//            navigator.mediaDevices.getUserMedia(constraints).then(onSuccess).catch(onError);
-//        }
-//
-//        function errorCallback(deviceInfos) {
-//            console.error('error', deviceInfos);
-//        }
-//
-//        // media recorder functions
-//        function onError(error) {
-//            console.log(error);
-//        }
-//
-//        function onSuccess(stream) {
-//            console.log('init recorder', mediaRecorder, stream);
-//            recordingStream = stream;
-//            if (!mediaRecorder || mediaRecorder === undefined) {
-//                mediaRecorder = new MediaRecorder(stream);
-//
-//                mediaRecorder.ondataavailable = function (event) {
-//                    console.log('on data available');
-//
-//                    if (event.data && event.data.size > 0) {
-//                        var currentPhase = getCurrentPhase();
-//                        chunks[currentPhase.id].push(event.data);
-//                    }
-//                };
-//
-//                mediaRecorder.onstart = function () {
-//                    console.log('Start recording ...');
-//
-//                    // save start recording time
-//                    if (previewModeEnabled === false) {
-//                        getGMT(function (timestamp) {
-//                            var currentPhase = getCurrentPhase();
-//                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-//                            tempData.startRecordingTime = timestamp;
-//                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-//                            chunks[currentPhase.id] = [];
-//                        });
-//                    }
-//                };
-//
-//                mediaRecorder.onstop = function () {
-//                    console.log('Stopped recording, state = ' + mediaRecorder.state);
-//                    if (saveRecording) {
-//                        console.log('Save recording');
-//                        uploadQueue.uploadIsPending();
-//
-//                        var currentPhase = getCurrentPhase();
-//                        getGMT(function (timestamp) {
-//                            var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
-//                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-//                            tempData.endRecordingTime = timestamp;
-//                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-//
-//                            uploadQueue.upload(chunks[currentPhase.id], filename, currentPhase.id, 'recordUrl');
-//                            chunks[currentPhase.id] = [];
-//
-//                            if (stopRecordingCallback) {
-//                                stopRecordingCallback();
-//                            }
-//                        });
-//                    } else {
-//                        if (stopRecordingCallback) {
-//                            stopRecordingCallback();
-//                        }
-//                    }
-//                };
-//
-//                mediaRecorder.onerror = function (e) {
-//                    console.log('Error: ', e);
-//                };
-//
-//                mediaRecorder.onwarning = function (e) {
-//                    console.log('Warning: ' + e);
-//                };
-//
-//                console.log('startRecording', startRecording);
-//                if (startRecording === true) {
-//                    mediaRecorder.start(1000);
-//                }
-//            }
-//        }
-//    } else {
-//        console.log('startRecording init', startRecording);
-//        if (mediaRecorder && mediaRecorder.state !== 'recording' && startRecording) {
-//            mediaRecorder.start(1000);
-//        }
-//    }
 };
 
 PeerConnection.prototype.startRecording = function () {
@@ -1075,8 +943,8 @@ PeerConnection.prototype.startRecording = function () {
 var stopRecordingCallback = null;
 var saveRecording = false;
 PeerConnection.prototype.stopRecording = function (callback, save) {
-    saveRecording = save;
     console.log('stop recording');
+    saveRecording = save;
 
     if (mediaRecorder && mediaRecorder.state !== 'inactive') {
         stopRecordingCallback = null;

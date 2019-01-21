@@ -339,7 +339,7 @@ var Moderator = {
 
         var currentPhase = getCurrentPhase();
         var options = getPhaseStepOptions(currentPhase.format);
-        console.log('options: ', options);
+//        console.log('options: ', options);
         if (options.moderator.recordStream === 'yes') {
             showRecordIndicator();
         } else {
