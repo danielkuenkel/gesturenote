@@ -17,6 +17,10 @@ var Moderator = {
         } else {
             var currentPhase = getCurrentPhase();
             var currentPhaseData = getCurrentPhaseData();
+            console.log('currentPhase', currentPhase);
+            console.log('currentPhase data', currentPhaseData);
+
+
             if (previewModeEnabled === false) {
                 setLocalItem(currentPhase.id + '.tempSaveData', {});
                 getGMT(function (timestamp) {
@@ -31,6 +35,9 @@ var Moderator = {
 
                 var item = null;
                 switch (currentPhase.format) {
+                    case STUDY_EXECUTION_PREPARATION:
+                        currentClass = new ExecutionPreparation();
+                        break;
                     case LETTER_OF_ACCEPTANCE:
                         currentClass = new LetterOfAcceptance();
                         break;
@@ -319,14 +326,16 @@ var Moderator = {
         // check preview or live mode, and check if webRTC is needed
         $('#animatableRTC').addClass('hidden');
         initPopover();
-        if (isWebRTCNeededInFuture()) {
+//        console.log(isWebRTCNeededForPhaseStep(getCurrentPhase()));
+        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
             if (previewModeEnabled === true) {
                 Moderator.appendRTCPreviewStream();
             } else {
                 Moderator.appendRTCLiveStream();
             }
         } else {
-            resetLiveStream();
+            // hide rtc
+            $('html, body').find('#web-rtc-placeholder').addClass('hidden');
         }
     },
     appendRTCPreviewStream: function appendRTCPreviewStream() {

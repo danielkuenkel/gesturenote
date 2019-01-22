@@ -626,9 +626,9 @@ function onTweenDeleteComplete(element, parent, button) {
     $(element).remove();
     checkCurrentListState(parent);
 
-    if ($(button).hasClass('saveGeneralData')) {
-        savePhases();
-    }
+//    if ($(button).hasClass('saveGeneralData')) {
+//        savePhases();
+//    }
 
     var deleteId = $(button).closest('.root').attr('id');
     updateBadges(parent, deleteId);
@@ -702,9 +702,9 @@ function moveElement(direction, which, save) {
 
 function onMoveUpComplete(element, brother, save) {
     $(element).insertBefore(brother);
-    if (save === true) {
-        savePhases();
-    }
+//    if (save === true) {
+//        savePhases();
+//    }
 
     $(element).find('.btn-delete').removeClass('disabled');
     $(brother).find('.btn-delete').removeClass('disabled');
@@ -724,9 +724,9 @@ function onMoveUpComplete(element, brother, save) {
 
 function onMoveDownComplete(element, brother, save) {
     $(element).insertAfter(brother);
-    if (save === true) {
-        savePhases();
-    }
+//    if (save === true) {
+//        savePhases();
+//    }
 
     $(element).find('.btn-delete').removeClass('disabled');
     $(brother).find('.btn-delete').removeClass('disabled');
@@ -1014,6 +1014,8 @@ function renderAssembledGestures(targetContainer, optionalSelections) {
     if (targetContainer !== undefined && targetContainer !== null) {
         target = targetContainer;
     }
+    
+    console.log(target, gestures);
 
     var dropdown = target === null ? $('#form-item-container').find('.gestureSelect') : $(target).find('.gestureSelect');
     $(dropdown).find('.option').empty();
@@ -3778,6 +3780,8 @@ function initGestureSetSimulation(panel, data) {
 }
 
 function initAssembledGestureSetList(panel, data, type, layout) {
+    console.log(data);
+    
     if (data.gestures !== null) {
         clearAlerts(panel);
         for (var j = 0; j < data.gestures.length; j++) {
@@ -4220,7 +4224,8 @@ function isWebRTCNeeded() {
 function isWebRTCNeededForPhaseStep(phaseStep) {
     if (phaseStep) {
         var options = getPhaseStepOptions(phaseStep.format);
-        if (options.tester.stream === 'yes' || options.tester.visualizeStream === 'yes' || options.tester.recordStream === 'yes') {
+//        console.log(options)
+        if (options && options.tester && (options.tester.stream === 'yes' || options.tester.visualizeStream === 'yes' || options.tester.recordStream === 'yes')) {
             return true;
         }
     }

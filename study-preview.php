@@ -58,6 +58,7 @@ if (login_check($mysqli) == true) {
         <script src="js/study-execution-moderator.js"></script>
 
         <!-- phase step formats -->
+        <script src="js/execution/executionPreparation.js"></script>
         <script src="js/execution/exploration.js"></script>
         <script src="js/execution/focus-group-interview.js"></script>
         <script src="js/execution/gesture-slideshow.js"></script>
@@ -335,6 +336,7 @@ if (login_check($mysqli) == true) {
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 var status = window.location.hash.substr(1);
                 var statusAddressMatch = statusAddressMatchIndex(status);
+                currentView = query.view && query.view === 'moderator' ? VIEW_MODERATOR : VIEW_TESTER;
 
                 if (status !== '' && statusAddressMatch !== null) {
                     currentPhaseStepIndex = statusAddressMatch.index;
@@ -346,29 +348,37 @@ if (login_check($mysqli) == true) {
 
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
-                        console.log(getWebRTCSources());
-//                        return;
                         goto("study-create.php?edit=true&studyId=" + query.studyId + "&joinedConv=" + joinedRoom + getWebRTCSources());
                     });
                 } else if (query.studyId && query.h === hash) {
-                    if (currentPhaseStepIndex === 0) {
-                        getStudyById({studyId: query.studyId}, function (result) {
-                            if (result.status === RESULT_SUCCESS) {
-                                setStudyData(result);
-                                checkStorage();
+//                    if (currentPhaseStepIndex === 0) {
+                    getStudyById({studyId: query.studyId}, function (result) {
+                        if (result.status === RESULT_SUCCESS) {
+                            setStudyData(result);
+
+                            var preparationData = {id: STUDY_EXECUTION_PREPARATION, format: STUDY_EXECUTION_PREPARATION, title: translation.studyExecutionPreparation};
+                            var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+                            if (phaseSteps && phaseSteps.length > 0) {
+                                phaseSteps.unshift(preparationData);
+                            } else {
+                                phaseSteps = [preparationData];
                             }
-                        });
-                    } else {
-                        checkStorage();
-                    }
+                            setLocalItem(STUDY_PHASE_STEPS, phaseSteps);
+
+                            var study = getLocalItem(STUDY);
+                            setLocalItem(STUDY_EXECUTION_PREPARATION + '.data', {title: study.title, description: study.description, dateFrom: study.dateFrom, dateTo: study.dateTo, phase: study.phase, surveyType: study.surveyType});
+                            checkStorage();
+                        }
+                    });
+//                    } else {
+//                        checkStorage();
+//                    }
 
                     checkCollaborativeConversation();
 
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
                         var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                        console.log(getWebRTCSources());
-//                        return;
                         goto("study.php?studyId=" + query.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
                     });
                 } else {
@@ -381,17 +391,6 @@ if (login_check($mysqli) == true) {
                     $('.btn-join-conversation').remove();
                     $('.btn-leave-conversation').remove();
                 }
-
-//                var tween = new TweenMax($('#web-rtc-placeholder').find('#stream-controls'), .3, {opacity: 1.0, paused: true});
-//                $(document).find('#viewModerator #web-rtc-placeholder').on('mouseenter', function (event) {
-//                    event.preventDefault();
-//                    tween.play();
-//                });
-//
-//                $('#viewModerator #web-rtc-placeholder').on('mouseleave', function (event) {
-//                    event.preventDefault();
-//                    tween.reverse();
-//                });
             }
 
             $('.previous').on('click', function (event) {
@@ -413,7 +412,7 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (!$(this).hasClass('active') && !$(this).hasClass('disabled')) {
                     showModeratorView();
-                    renderPhaseStepForModerator();
+                    renderPhaseStep();
                 }
             });
 
@@ -421,11 +420,12 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (!$(this).hasClass('active')) {
                     showTesterView();
-                    renderPhaseStepForTester();
+                    renderPhaseStep();
                 }
             });
 
             function showModeratorView() {
+                console.log('show moderator view');
                 currentView = VIEW_MODERATOR;
                 $('#viewTester').find('#web-rtc-placeholder').remove();
                 $('#btnViewModerator').addClass('active font-bold');
@@ -435,6 +435,7 @@ if (login_check($mysqli) == true) {
             }
 
             function showTesterView() {
+                console.log('show tester view');
                 currentView = VIEW_TESTER;
                 $('#viewModerator').find('#web-rtc-placeholder').remove();
                 $('#btnViewTester').addClass('active font-bold');
@@ -444,8 +445,20 @@ if (login_check($mysqli) == true) {
             }
 
             function renderPhaseStep() {
+                console.log('render phase step', currentView);
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
+
+//                console.log(currentPhaseStepIndex);
+//                if (currentPhaseStepIndex === undefined) {
+//                    window.location.hash = 'preparation';
+//                } else {
                 window.location.hash = getCurrentPhase().id;
+//                }
+
+                if (window.history.replaceState) {
+                    setParam(window.location.href, 'view', currentView);
+                }
+
                 if (currentView === VIEW_TESTER) {
                     renderPhaseStepForTester();
                 } else {

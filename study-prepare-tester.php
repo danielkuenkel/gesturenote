@@ -164,7 +164,7 @@ if ($h && $token && $studyId) {
                                         </div>
 
                                         <div id="init-timer-progress" class="hidden">
-                                            <div class="progress" style="height: 10px; border-radius: 5px; margin-top: 10px">
+                                            <div class="progress" style="height: 10px; border-radius: 8px; margin-top: 10px">
                                                 <div class="progress-bar progress-bar-primary" id="init-timer-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%; width: 100%; background-color: #5cb85c"></div>
                                             </div>
                                             <div class="text-center" style="margin-top: -20px; margin-bottom: 20px">initialisieren …</div>
@@ -175,10 +175,10 @@ if ($h && $token && $studyId) {
                                     <div class="hidden" id="video-caller-container">
                                         <div class="embed-responsive embed-responsive-4by3" id="video-caller">
 
-                                            <div class="embed-responsive-item" style="border-radius: 4px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
+                                            <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
                                                 <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
                                             </div>
-                                            <div id="remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 4px;"></div>
+                                            <div id="remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 8px;"></div>
                                             <div class="rtc-local-container embed-responsive-item">
                                                 <video autoplay id="local-stream" class="rtc-stream" style="display:block;"></video>
                                             </div>
@@ -199,7 +199,7 @@ if ($h && $token && $studyId) {
                                                 </div>
                                             </div>
 
-                                            <div id="rtc-config-panel" class="hidden" style="border-radius: 4px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+                                            <div id="rtc-config-panel" class="hidden" style="border-radius: 8px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
                                                 <div class="form-group" id="video-input-select">
                                                     <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
 
@@ -305,6 +305,7 @@ if ($h && $token && $studyId) {
 
                     $('#participant-name #name-input').keypress(function (event) {
                         if (event.keyCode === 13) {
+                            $(this).blur();
                             $('#btn-request-participation').click();
                         }
                     });

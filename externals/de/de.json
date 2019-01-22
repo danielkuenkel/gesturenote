@@ -10,6 +10,7 @@
     "gestureNoteStyleguides": "GestureNote - Styleguides",
     "gestureNotePublications": "GestureNote - Veröffentlichungen",
     "gestureNoteCreateStudy": "GestureNote - Studie erstellen",
+    "gestureNoteExtractionStudy": "GestureNote - Gesten-Extraktion erstellen",
     "gestureNoteGestureCatalog": "GestureNote - Gesten-Katalog",
     "gestureNoteNews": "GestureNote - Neuigkeiten",
     "gestureNoteHelpCatalog": "GestureNote - Hilfekatalog",
@@ -308,6 +309,7 @@
         "stopped": "Studie beendet",
         "noSchedule": "Studie ohne Zeitplan"
     },
+    "pickStudyQuestion": "Was für eine Art Studie soll durchgeführt werden?",
     "lapse": "Zeitspanne",
     "day": "Tag",
     "days": "Tage",
@@ -366,11 +368,13 @@
     "deleteParticipantResults": "Resultate löschen",
     "deleteAllData": "Alle Eingaben löschen",
     "studyPreview": "Vorschau der Studien-Durchführung",
+    "studyExecutionPreparation": "Starten der Durchführung",
     "saveStudy": "Studie speichern",
     "studyCreateNav": {
         "general": "Allgemeine Daten",
         "catalogs": "Interaktionsdaten",
         "phases": "Leitfaden",
+        "mapping": "Mapping",
         "panel": "Wen, Was & Wann?"
     },
     "participants": "Probanden",
@@ -762,6 +766,13 @@
     "demandRequest": "Frage/Aufforderung",
     "demandOrRequest": "Frage oder Aufforderung",
     "formats": {
+        "mapping": {
+            "text": "Mapping"
+        },
+        "executionPreparation": {
+            "text": "Starten der Durchführung",
+            "class": "both"
+        },
         "letterOfAcceptance": {
             "text": "Einverständniserklärung",
             "class": "both",
@@ -2575,6 +2586,9 @@
             "text": "Erstellen Sie eine Text-Rückmeldung, der beim Probanden angezeigt werden kann, z.B. während eines Benutzertests.",
             "sound": "Laden Sie eine MP3-Datei hoch, um dem Probanden Rückmeldung über Töne zu geben. Dies ist z.B. wichtig, wenn es kein grafisches User Interface gibt. Die Datei darf bis zu 8 MB groß sein.",
             "copyScale": "Diese Skala auf alle anderen Zeilen dieser Matrix übertragen"
+        },
+        "studyExtractionCreate": {
+            "mapping": "Mappings werden benötigt, um Gesten-Interaktionsaufgaben-Paare zu erzeugen. Dies ist wichtig, um die anschließende Gesten-Extraktion durchzuführen."
         },
         "gestures": {
             "gestureNameQuality": "<em>Funktional</em> bedeutet, dass der gewählte Name an eine bestimmte Interaktionsaufgabe gekoppelt ist (z.B. <em>Musik lauter stellen</em>). <em>Generisch</em> bedeutet, dass der Name unabhängig von der Interaktionsaufgabe ist (z.B. <em>Swipe-Geste</em>).",
@@ -5741,9 +5755,9 @@
             "popover": "Allgemeines",
             "description": [
 
-                "<p>Die Studien-Seite teilt sich in die Bereiche <em>Allgemeine Daten</em>, <em>Interaktionsdaten</em>, <em>Leitfaden</em> und <em>Teilnahmen</em> auf. Falls eine Extraktion durchgeführt wurde, erscheint zusätzlich der Bereich <em>Exktraktion</em> in der Navigation.</p>",
-                "<p>Es kann die Studie bearbeitet, gelöscht oder deren Durchführungs-Vorschau aufgerufen werden. Beim Löschen einer Studie gehen alle Daten verloren, insbesondere die Durchführungsdaten. D.h. Videoaufzeichnungen, beantwortete Fragebogen, etc. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die ermittelten Gesten erhalten und können über den Gesten-Katalog abgerufen werden.</p>",
-                "<p>Um diese Daten zu bearbeiten, klicken Sie auf <button class='btn btn-xs btn-default'><i class='fa fa-pencil'></i> Studie bearbeiten</button>.</p>",
+                "<p>Die Studien-Seite teilt sich in die Bereiche <em>Allgemeine Daten</em>, <em>Interaktionsdaten</em>, <em>Leitfaden</em> und <em>Teilnahmen</em> auf. Falls es sich bei der Studie um eine Ermittlung handelt, erscheint zusätzlich der Bereich <em>Exktraktion</em> in der Navigation.</p>",
+                "<p>Es kann die Studie bearbeitet, gelöscht oder deren Durchführungs-Vorschau aufgerufen werden. Beim Löschen einer Studie gehen alle Daten verloren, insbesondere die Durchführungsdaten. D.h. Videoaufzeichnungen, beantwortete Fragebögen, etc. bleiben nicht erhalten. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die ermittelten Gesten erhalten und können über den Gesten-Katalog abgerufen werden.</p>",
+                "<p>Um die hinterlegten Daten einer Studie zu bearbeiten (z.B. das Start- und Enddatum), klicken Sie auf <button class='btn btn-xs btn-default'><i class='fa fa-pencil'></i> Studie bearbeiten</button>.</p>",
                 "<h4>Studie freigeben</h4><hr>",
                 "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study/carousel-01-02.jpg' style='max-width:605px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
                 "<p>Geben Sie eine Studie für andere Interaktionsdesigner frei. Freigaben können mit einem Klick auf <span class='btn-uninvite-user'><i class='fa fa-trash'></i> Freigabe zurückziehen</span> rückgängig gemacht werden.</p>"
@@ -5794,9 +5808,9 @@
             "text": "Sichtung aller ermittelten Gesten oder Interaktionsaufgaben und Klassifzierung.",
             "popover": "Klassifizierung",
             "description": [
-                "Wurde eine Ermittlung von Gesten oder Interaktionsaufgaben durchgeführt, können die erhobenen Daten unter diesem Bereich gesichtet, klassifiziert und analysiert werden.",
+                "Wurde eine Ermittlung von Gesten oder Interaktionsaufgaben durchgeführt, können die erhobenen Daten unter diesem Bereich gesichtet, klassifiziert und analysiert werden. Stellen Sie jedoch vor dem Durchführen einer Gesten-Extraktion sicher, dass alle Gesten aus den Videodaten herausgeschnitten und somit erstellt wurden.",
                 "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/extraction/carousel-01-01.jpg' style='max-width:868px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
-                "<p>Je nachdem was ermittelt wurde (Gesten oder Interaktionsaufgaben), werden unter diesem Punkt alle Daten dargestellt, inkl. Zuordnung. Wurden z.B. Gesten für Interaktionsaufgaben ermittelt, sind hier für jede Interaktionsaufgabe die aufgezeichneten Gesten aufgelistet. Darüber hinaus wird die Verteilung von Gesten-Typen und Gesten-Interaktions-Typen als Balken dargestellt (siehe obere Abbildung).</p>",
+                "<p>Je nachdem was ermittelt wurde (Gesten oder Interaktionsaufgaben), werden unter diesem Punkt alle Daten dargestellt, inkl. Zuordnung. Wurden z.B. Gesten für Interaktionsaufgaben ermittelt, sind hier für jede Interaktionsaufgabe die aufgezeichneten Gesten aufgelistet. Darüber hinaus wird die Verteilung von Gesten-Typen und Gesten-Interaktions-Typen als Diagramm dargestellt (siehe obere Abbildung).</p>",
                 "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/extraction/carousel-01-02.jpg' style='max-width:765px' /><div class='image-caption'>Bildbeschreibung.</div></div>",
                 "<p>Bei der Klassifzierung werden gleiche Gesten oder Interaktionsaufgaben zusammengefasst. Dies ist wichtig, um statistische Aussagen über die Verteilung zu treffen. Eine Klassifzierung kann bereits nach dem Erhalt der ersten erhobenen Studien-Daten durchgeführt und zu einem späteren Zeitpunkt (z.B. bei Erhalt weiterer Daten) fortgesetzt werden. Um einen Effekt bei der Kodierung (d.h. Coder Bias) zu vermindern, versuchen Sie die Klassifizierung mit mehreren Experten durchzuführen.</p>",
                 "<h4>Klassifizierung von Gesten</h4><hr>",

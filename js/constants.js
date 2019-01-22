@@ -31,6 +31,7 @@ var STUDY_ORIGIN_GUS = 'study.originGUS';
 var STUDY_ORIGIN_SUS = 'study.originSUS';
 var STUDY_ORIGIN_FAVORITE_GESTURES = 'study.originFavoriteGestures';
 var STUDY_PHASE_STEPS = 'study.phaseSteps';
+var STUDY_EXECUTION_PREPARATION = 'executionPreparation';
 //var PREDEFINED_GESTURE_SET = 'predefinedGestureSet';
 var INVITED_USERS = 'invitedUsers';
 var GESTURE_CATALOG = 'gestureCatalog';

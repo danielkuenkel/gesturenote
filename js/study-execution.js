@@ -82,7 +82,7 @@ function checkStorage() {
             initialize();
 
             if (previewModeEnabled) {
-                renderPhases();
+                renderPhasesDropdown();
             }
         } else {
             console.warn('There are no phase steps');
@@ -97,10 +97,15 @@ function initialize() {
     var study = getLocalItem(STUDY);
     if (previewModeEnabled === true) {
         if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
+            currentView = VIEW_TESTER;
             showTesterView();
             $('#btnViewModerator').addClass('disabled');
         } else {
-            showModeratorView();
+            if (currentView === VIEW_TESTER) {
+                showTesterView();
+            } else {
+                showModeratorView();
+            }
         }
     } else {
         uploadQueue = new UploadQueue();
@@ -164,7 +169,7 @@ function initialize() {
     }
 }
 
-function renderPhases() {
+function renderPhasesDropdown() {
     var phaseSteps = getContextualPhaseSteps();
 
     var dropdown = $('body').find('.phaseStepsSelect');
@@ -173,6 +178,19 @@ function renderPhases() {
     if (phaseSteps && phaseSteps.length > 0) {
         $(dropdown).find('.dropdown-toggle').removeClass('disabled');
         var listItem;
+
+//        listItem = document.createElement('li');
+//        listItem.setAttribute('id', STUDY_EXECUTION_PREPARATION);
+//
+//        var link = document.createElement('a');
+//        link.setAttribute('href', '#');
+//        link.appendChild(document.createTextNode('Starten der Durchführung'));
+//        $(listItem).append(link);
+//        $(dropdown).find('.option').append(listItem);
+//
+//        if (i === currentPhaseStepIndex) {
+//            link.click();
+//        }
 
         for (var i = 0; i < phaseSteps.length; i++) {
             listItem = document.createElement('li');

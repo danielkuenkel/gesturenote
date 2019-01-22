@@ -91,10 +91,10 @@ include_once 'includes/functions.php';
                 var allHelp = [];
                 allHelp.push({id: 'gesturesGestureSets', content: translation.introductionGestureCatalog});
                 allHelp.push({id: 'createStudy', content: translation.introductionCreateStudy});
-                allHelp.push({id: 'studyPreview', content: translation.introductionPreviewStudy});
                 allHelp.push({id: 'study', content: translation.introductionStudy});
-                allHelp.push({id: 'extraction', content: translation.introductionExtraction});
+                allHelp.push({id: 'studyPreview', content: translation.introductionPreviewStudy});
                 allHelp.push({id: 'participant', content: translation.introductionParticipant});
+                allHelp.push({id: 'extraction', content: translation.introductionExtraction});
                 allHelp.push({id: 'collaboration', content: translation.introductionCollaboration});
 
                 for (var i = 0; i < allHelp.length; i++) {

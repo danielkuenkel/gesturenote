@@ -2902,7 +2902,7 @@ function initCatalogGesturesOverlay(formatClone) {
             setLocalItem(GESTURE_SETS, result.gestureSets);
             getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {
-                    setLocalItem(GESTURE_CATALOG, result.gestures);
+//                    setLocalItem(GESTURE_CATALOG, result.gestures);
                     $(formatClone).find('#gesture-catalogs-nav-tab a[href="#study-gesture-set"]').tab('show');
                     getWholeStudyGestures();
                     updateNavBadges();

@@ -25,6 +25,249 @@ include '../includes/language.php';
         </div>
     </div>
 
+    <!-- execution preparation -->
+    <div class="container root" id="executionPreparation">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 id="preparation-study-headline" style="margin-top: 0; margin-bottom: 0px"></h2>
+                <div class="label label-default" id="preparation-type-phase"></div>
+                <div class="label label-default" id="preparation-type-survey"></div>
+            </div>
+        </div>
+
+        <div class="row" id="preparation-study-details" style="margin-bottom: 15px">
+            <div class="col-sm-5 col-md-6 col-lg-5" style="margin-bottom: 40px">
+                <div id="preparation-study-description">
+                    <h3 class="address"></h3>
+                    <p class="text"></p>
+                </div>
+
+                <div class="hidden preparation-study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+            </div>
+
+            <div class="col-sm-7 col-md-6 col-lg-7">
+
+                <div id="preparation-alert-hints" class="">
+                    <div class="alert-space alert-study-over-range"></div>
+                    <div class="alert-space alert-study-under-range"></div>
+                    <div class="alert-space alert-study-unmoderated"></div>
+                    <div class="alert-space alert-web-rtc-not-supported"></div>
+                    <div class="alert-space alert-another-browser-needed-for-web-rtc"></div>
+                    <div class="alert-space alert-contact-support"></div>
+                </div>
+
+                <div id="preparation-role-selection-container" class="">
+                    <h3><?php echo $lang->roleSelection ?></h3>
+                    <div class="alert-space alert-duplicated-role-detected"></div>
+                    <div class="form-group root preparation-roleSelect">
+                        <!--                            <label style="margin: 0">
+                                                        <span><?php echo $lang->roleSelection ?></span> 
+                                                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->physicalStressTestSingleGraphic ?>"></i>
+                                                    </label><br>-->
+
+                        <div class="btn-group" id="radio" style="">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="moderator">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->userTypes->evaluator ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="">
+                            <button class="btn btn-default btn-radio" name="primary" id="observer">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->userTypes->observer ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="">
+                            <button class="btn btn-default btn-radio" name="primary" id="wizard">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->userTypes->wizard ?></span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-block btn-default btn-shadow" id="btn-preparation-check-rtc"><?php echo $lang->applySelection ?></button>
+                </div>
+
+                <div id="preparation-check-rtc-status" class="hidden">
+                    <h3><?php echo $lang->technicalTest ?></h3>
+                    <div class="check-web-rtc">
+                        <span class="status-check-indicator">
+                            <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                            <i class="status-warn fa fa-warning warning hidden"></i>
+                            <i class="status-supported fa fa-check success hidden"></i>
+                        </span>
+                        <span class="status-check-text text"><?php echo $lang->webrtc ?></span>
+                    </div>
+                    <div class="check-webcam">
+                        <span class="status-check-indicator">
+                            <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                            <i class="status-warn fa fa-warning warning hidden"></i>
+                            <i class="status-supported fa fa-check success hidden"></i>
+                        </span>
+                        <span class="status-check-text text"><?php echo $lang->webcam ?></span>
+                    </div>
+                    <div class="check-microphone">
+                        <span class="status-check-indicator">
+                            <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                            <i class="status-warn fa fa-warning warning hidden"></i>
+                            <i class="status-supported fa fa-check success hidden"></i>
+                        </span>
+                        <span class="status-check-text text"><?php echo $lang->audioInput ?></span>
+                    </div>
+                    <div class="check-speakers">
+                        <span class="status-check-indicator">
+                            <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                            <i class="status-warn fa fa-warning warning hidden"></i>
+                            <i class="status-supported fa fa-check success hidden"></i>
+                        </span>
+                        <span class="status-check-text text"><?php echo $lang->audioOutput ?></span>
+                    </div>
+                    <div class="check-screen-capturing">
+                        <span class="status-check-indicator">
+                            <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                            <i class="status-warn fa fa-warning warning hidden"></i>
+                            <i class="status-supported fa fa-check success hidden"></i>
+                        </span>
+                        <span class="status-check-text text"><?php echo $lang->screensharing ?></span>
+                    </div>
+                </div>
+
+                <div id="preparation-participation-queue" class="hidden" style="margin-top: 40px">
+                    <h3><?php echo $lang->waitingParticipants ?></h3>
+
+                    <div class="form-group hidden root preparation-iceTransportsSelect">
+                        <label style="margin: 0">
+                            <span><?php echo $lang->bypassFirewall ?></span> 
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->bypassFirewall ?>"></i>
+                        </label><br>
+
+                        <div class="btn-group" id="radio" style="">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->no ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="">
+                            <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->yes ?></span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="alert-space alert-search-participation-requests"></div>
+                    <div id="preparation-list-container" class="row">
+                        <div class="root col-xs-12" id="dummy-participant">
+                            <div class="panel panel-shadow panel-sm btn-shadow">
+                                <div class="panel-body">
+                                    <span id="" style="font-size: 9pt;"><span class="" style="font-weight: bold; color: black;">Max Mustermann</span> <span class=""><?php echo $lang->waiting ?>:</span> <span class="text">5M 12s</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="preparation-call-screen" class="row hidden">
+                    <div class="col-xs-12">
+                        <div class="embed-responsive embed-responsive-4by3" id="preparation-video-caller">
+                            <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto" style="border-radius:8px; border: 1px solid #eeeeee;"/>
+                            <!--                            <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
+                                                            <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+                                                        </div>
+                                                        <div id="preparation-remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 8px;"></div>
+                                                        <div class="rtc-local-container embed-responsive-item">
+                                                            <video autoplay id="preparation-local-stream" class="preparation-rtc-stream" style="display:block;"></video>
+                                                        </div>
+                                                        <div class="btn-group" id="preparation-stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
+                                                        </div>
+                            
+                                                        <div id="preparation-stream-control-indicator">
+                                                            <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
+                                                                <i id="preparation-mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                                                                <i id="preparation-pause-local-stream" class="hidden fa fa-pause"></i>
+                                                            </div>
+                                                            <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
+                                                                <i id="preparation-mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                                                                <i id="preparation-pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                                                            </div>
+                                                        </div>
+                            
+                                                        <div id="preparation-rtc-config-panel" class="hidden" style="border-radius: 8px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+                                                            <div class="form-group" id="video-input-select">
+                                                                <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+                            
+                                                                <div class="input-group">
+                                                                    <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                                    <div class="input-group-btn select select-video-input" role="group">
+                                                                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group" id="audio-input-select">
+                                                                <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
+                            
+                                                                <div class="input-group">
+                                                                    <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                                    <div class="input-group-btn select select-audio-input" role="group">
+                                                                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                            
+                                                            <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
+                                                        </div>-->
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="col-xs-12 hidden" id="preparation-technical-check" style="margin-top: 10px">
+                        <div id="preparation-initialize-recorders-list" class="text-center"></div>
+                    </div>
+                    <div class="col-xs-12 text-center" style="margin-top: 10px;">
+                        <div class="btn-group">
+                            <button class="btn btn-danger btn-shadow" id="btn-preparation-close-call"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
+                            <button class="btn btn-success btn-shadow" id="btn-preparation-enter-study"><i class="fa fa-chevron-right"></i> <?php echo $lang->enterStudyAsModerator ?></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 
     <!-- questionnaire container -->
     <div class="row root" id="questionnaire">
@@ -1985,7 +2228,170 @@ include '../includes/language.php';
         <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
     </div>
 
+
+
+
+
+
+
+
     <!-- main formats -->
+
+    <!-- execution preparation -->
+    <div class="root container" id="executionPreparation" style="">
+        <div class="row" id="preparation-study-details">
+            <div class="col-xs-12">
+                <h2 id="preparation-study-headline" style="margin-top: 0"></h2>
+                <hr style="">
+
+                <div class="row">
+                    <div class="col-sm-5 col-md-6" id="preparation-study-details-container">
+                        <div class="alert-space alert-study-over-range"></div>
+                        <div class="alert-space alert-study-under-range"></div>
+
+                        <div id="preparation-study-description">
+                            <p class="text"></p>
+                        </div>
+
+                        <div class="hidden preparation-study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                        <button class="btn btn-block btn-info btn-shadow" id="btn-preparation-enter-study"><?php echo $lang->enterStudyAsTester ?></button>
+                    </div>
+                    <div class="col-sm-7 col-md-6" id="preparation-study-participation">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div id="preparation-participant-name">
+                                    <div class="alert-space alert-insert-name" style=""></div>
+                                    <div class="form-group">
+                                        <label><?php echo $lang->name ?></label>
+                                        <div class="alert-space alert-missing-name" style=""></div>
+                                        <input type="text"class="form-control" id="preparation-name-input" maxlength="100">
+                                    </div>
+
+                                    <button type="button" class="btn btn-block btn-default btn-shadow" id="btn-preparation-request-participation">Teilnahme anfragen</button>
+                                </div>
+
+                                <div id="preparation-check-rtc-status" class="hidden">
+                                    <h3>Technische Überprüfung</h3>
+                                    <div class="preparation-check-web-rtc">
+                                        <span class="status-check-indicator">
+                                            <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                            <i class="status-warn fa fa-warning warning hidden"></i>
+                                            <i class="status-supported fa fa-check success hidden"></i>
+                                        </span>
+                                        <span class="status-check-text text">WebRTC</span>
+                                    </div>
+                                    <div class="check-webcam">
+                                        <span class="status-check-indicator">
+                                            <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                            <i class="status-warn fa fa-warning warning hidden"></i>
+                                            <i class="status-supported fa fa-check success hidden"></i>
+                                        </span>
+                                        <span class="status-check-text text">Webcam</span>
+                                    </div>
+                                    <div class="check-microphone">
+                                        <span class="status-check-indicator">
+                                            <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                            <i class="status-warn fa fa-warning warning hidden"></i>
+                                            <i class="status-supported fa fa-check success hidden"></i>
+                                        </span>
+                                        <span class="status-check-text text">Mikrofon</span>
+                                    </div>
+                                    <div class="check-speakers">
+                                        <span class="status-check-indicator">
+                                            <i class="status-wait fa fa-circle-o-notch fa-spin"></i>
+                                            <i class="status-warn fa fa-warning warning hidden"></i>
+                                            <i class="status-supported fa fa-check success hidden"></i>
+                                        </span>
+                                        <span class="status-check-text text">Audioausgabe</span>
+                                    </div>
+
+                                    <div id="preparation-init-timer-progress" class="hidden">
+                                        <div class="progress" style="height: 10px; border-radius: 8px; margin-top: 10px">
+                                            <div class="progress-bar progress-bar-primary" id="preparation-init-timer-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%; width: 100%; background-color: #5cb85c"></div>
+                                        </div>
+                                        <div class="text-center" style="margin-top: -20px; margin-bottom: 20px">initialisieren …</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="hidden" id="preparation-video-caller-container">
+                                    <div class="embed-responsive embed-responsive-4by3" id="preparation-video-caller">
+                                        <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto" style="border-radius:8px; border: 1px solid #eeeeee;"/>
+
+<!--                                        <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
+                                            <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+                                        </div>
+                                        <div id="preparation-remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 8px;"></div>
+                                        <div class="rtc-local-container embed-responsive-item">
+                                            <video autoplay id="preparation-local-stream" class="preparation-rtc-stream" style="display:block;"></video>
+                                        </div>
+                                        <div class="btn-group" id="preparation-stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
+                                        </div>
+                                        <div id="preparation-stream-control-indicator">
+                                            <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
+                                                <i id="preparation-mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                                                <i id="preparation-pause-local-stream" class="hidden fa fa-pause"></i>
+                                            </div>
+                                            <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
+                                                <i id="preparation-mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                                                <i id="preparation-pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                                            </div>
+                                        </div>
+
+                                        <div id="preparation-rtc-config-panel" class="hidden" style="border-radius: 8px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+                                            <div class="form-group" id="video-input-select">
+                                                <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+
+                                                <div class="input-group">
+                                                    <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                    <div class="input-group-btn select select-video-input" role="group">
+                                                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="audio-input-select">
+                                                <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
+
+                                                <div class="input-group">
+                                                    <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                    <div class="input-group-btn select select-audio-input" role="group">
+                                                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
+                                        </div>-->
+                                    </div>
+
+                                    <div class="alert-space alert-waiting-for-moderator" style="margin-top: 10px"></div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12" style="margin-top: 10px">
+                                <div id="preparation-alert-hints">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     <div class="root" id="letterOfAcceptance" style=""></div>
 
     <div id="letterOfAcceptance-moderated" class="row">

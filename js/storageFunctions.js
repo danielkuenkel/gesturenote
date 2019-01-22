@@ -323,6 +323,7 @@ function getPhaseById(id) {
 function getStudyData() {
     var data = new Object();
     data.generalData = getLocalItem(STUDY);
+    data.generalData.method = 'userCentered';
 
     var phases = getContextualPhaseSteps();
     if (phases && phases.length > 0) {
@@ -346,6 +347,25 @@ function getStudyData() {
 
     if (getLocalItem(ASSEMBLED_FEEDBACK) && data.generalData.phase === TYPE_PHASE_EVALUATION) {
         data.assembledFeedback = getLocalItem(ASSEMBLED_FEEDBACK);
+    }
+
+    return {data: data};
+}
+
+function getExtractionStudyData() {
+    var data = new Object();
+    data.generalData = getLocalItem(STUDY);
+    data.generalData.method = 'expertBased';
+
+    var mapping = getLocalItem('extractionMapping');
+    data.mapping = mapping;
+
+    if (getLocalItem(ASSEMBLED_GESTURE_SET)) {
+        data.assembledGestureSet = getLocalItem(ASSEMBLED_GESTURE_SET);
+    }
+
+    if (getLocalItem(ASSEMBLED_TRIGGER)) {
+        data.assembledTrigger = getLocalItem(ASSEMBLED_TRIGGER);
     }
 
     return {data: data};
@@ -403,10 +423,13 @@ function setStudyData(data) {
             setLocalItem(STUDY_PHASE_STEPS, setData.phases);
             setLocalItem(STUDY_PHASE_STEPS, getContextualPhaseSteps());
             for (var i = 0; i < setData.phases.length; i++) {
-
                 var phaseStepId = setData.phases[i].id;
                 setLocalItem(phaseStepId + '.data', setData[phaseStepId]);
             }
+        }
+        
+        if(setData.mapping && setData.mapping.length > 0) {
+            setLocalItem('extractionMapping', setData.mapping);
         }
 
         if (setData.assembledScenes) {

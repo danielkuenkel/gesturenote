@@ -253,11 +253,11 @@ Identification.prototype.renderModeratorView = function () {
             event.preventDefault();
             $(this).addClass('hidden');
             $(container).find('#btn-start-gesture-recording').removeClass('hidden disabled');
-            
-            if(peerConnection) {
+
+            if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_STOP_RECORDING_GESTURE);
             }
-            
+
             currentPhaseState = 'gestureRecorded';
             renderCurrentPhaseState();
         });
@@ -497,7 +497,7 @@ Identification.prototype.renderModeratorView = function () {
 
 //            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
 //            $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
-            event.preventDefault();
+//            event.preventDefault();
 //                $(this).addClass('hidden');
 
             if (peerConnection) {
@@ -518,8 +518,6 @@ Identification.prototype.renderModeratorView = function () {
         currentPhaseState = 'identificationDone';
         renderCurrentPhaseState();
 //        }
-
-        $('html,body').animate({scrollTop: 0}, 300);
     }
 
     function renderStateIdentificationDone() {
@@ -535,6 +533,7 @@ Identification.prototype.renderModeratorView = function () {
         }
         nextStep();
 //        });
+        $('html,body').animate({scrollTop: 0}, 300);
     }
 
     return container;
@@ -584,7 +583,7 @@ Identification.prototype.renderModeratorView = function () {
         console.log('SENSOR DATA:', data.sensor, sensorTypeBanned(data.sensor));
         if (!previewModeEnabled && peerConnection) {
 //            $(container).find('#btn-start-gesture-recording').addClass('disabled');
-            
+
 
             $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event) {
                 event.preventDefault();

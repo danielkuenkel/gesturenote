@@ -33,6 +33,9 @@ var Tester = {
             if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
 
                 switch (currentPhase.format) {
+                    case STUDY_EXECUTION_PREPARATION:
+                        currentClass = new ExecutionPreparation();
+                        break;
                     case LETTER_OF_ACCEPTANCE:
                         currentClass = new LetterOfAcceptance();
                         break;
@@ -261,14 +264,14 @@ var Tester = {
         // check preview or live mode, and check if webRTC is needed
         initPopover();
         $('#animatableRTC').addClass('hidden');
-        if (isWebRTCNeededInFuture()) {
+        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
             if (previewModeEnabled === true) {
                 Tester.appendRTCPreviewStream();
             } else {
                 Tester.appendRTCLiveStream();
             }
         } else {
-//            resetLiveStream();
+            $('html, body').find('#web-rtc-placeholder').addClass('hidden');
         }
 
 //        updateRTCHeight($('#viewTester #column-left').width(), true);

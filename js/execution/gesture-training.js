@@ -323,12 +323,12 @@ GestureTraining.prototype.renderModeratorView = function () {
         $(container).find('#training').addClass('hidden');
 
         if (areThereScenes(data.training)) {
-            appendAlert(container, ALERT_QUIT_SCREENSHARING);
+//            appendAlert(container, ALERT_QUIT_SCREENSHARING);
 
-            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                $(this).addClass('hidden');
+//            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+//            $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
+//                event.preventDefault();
+//                $(this).addClass('hidden');
 
                 if (peerConnection) {
                     peerConnection.stopShareScreen(true);
@@ -340,36 +340,37 @@ GestureTraining.prototype.renderModeratorView = function () {
                     prototypeWindow = null;
                 }
 
-                currentPhaseState = 'trainingDone';
-                renderCurrentPhaseState();
-            });
-        } else {
-            $(container).find('#btn-no-more-training-items').removeClass('hidden');
-            $(container).find('#btn-no-more-training-items').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                currentTrainingIndex = 0;
+//                currentPhaseState = 'trainingDone';
+//                renderCurrentPhaseState();
+//            });
+        } 
+//        else {
+//            $(container).find('#btn-no-more-training-items').removeClass('hidden');
+//            $(container).find('#btn-no-more-training-items').unbind('click').bind('click', function (event) {
+//                event.preventDefault();
+//                currentTrainingIndex = 0;
 
                 currentPhaseState = 'trainingDone';
                 renderCurrentPhaseState();
-            });
-        }
+//            });
+//        }
 
-        $('html,body').animate({scrollTop: 0}, 300);
+//        $('html,body').animate({scrollTop: 0}, 300);
     }
 
     function renderStateGestureTraningDone() {
         console.log('render moderator state: ', currentPhaseState);
 
         clearAlerts($(container).find('#column-right'));
-        appendAlert(container, ALERT_PHASE_STEP_DONE);
+//        appendAlert(container, ALERT_PHASE_STEP_DONE);
 
-        $(container).find('#btn-done-training').removeClass('hidden');
-        $(container).find('#btn-done-training').unbind('click').bind('click', function (event) {
+//        $(container).find('#btn-done-training').removeClass('hidden');
+//        $(container).find('#btn-done-training').unbind('click').bind('click', function (event) {
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_NEXT_STEP);
             }
             nextStep();
-        });
+//        });
 
         $('html,body').animate({scrollTop: 0}, 300);
     }

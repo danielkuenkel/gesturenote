@@ -335,12 +335,12 @@ Exploration.prototype.renderModeratorView = function () {
         $(container).find('#identified-gestures, #identified-trigger').addClass('hidden');
 
         if (areThereScenes(data.exploration)) {
-            appendAlert(container, ALERT_QUIT_SCREENSHARING);
+//            appendAlert(container, ALERT_QUIT_SCREENSHARING);
 
-            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                $(this).addClass('hidden');
+//            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+//            $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
+//                event.preventDefault();
+//                $(this).addClass('hidden');
 
                 if (peerConnection) {
                     peerConnection.stopShareScreen(true);
@@ -352,30 +352,32 @@ Exploration.prototype.renderModeratorView = function () {
                     prototypeWindow = null;
                 }
 
-                currentPhaseState = 'explorationDone';
-                renderCurrentPhaseState();
-            });
-        } else {
+//                currentPhaseState = 'explorationDone';
+//                renderCurrentPhaseState();
+//            });
+        }
+//        else {
             currentPhaseState = 'explorationDone';
             renderCurrentPhaseState();
-        }
+//        }
 
-        $('html,body').animate({scrollTop: 0}, 300);
+        
     }
 
     function renderStateExplorationDone() {
         console.log('render moderator state: ', currentPhaseState);
         clearAlerts(container.find('#column-right'));
-        appendAlert(container, ALERT_PHASE_STEP_DONE);
+//        appendAlert(container, ALERT_PHASE_STEP_DONE);
 
-        $(container).find('#btn-done-exploration').removeClass('hidden');
-        $(container).find('#btn-done-exploration').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-            }
-            nextStep();
-        });
+//        $(container).find('#btn-done-exploration').removeClass('hidden');
+//        $(container).find('#btn-done-exploration').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+        if (peerConnection) {
+            peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+        }
+        $('html,body').animate({scrollTop: 0}, 300);
+        nextStep();
+//        });
     }
 
     // live events
@@ -1122,7 +1124,7 @@ Exploration.prototype.renderObserverView = function () {
     if (!data.exploration || (data.exploration && data.exploration.length === 0)) {
         return false;
     }
-    
+
     if (!previewModeEnabled) {
         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
         tempData.annotations = new Array();
