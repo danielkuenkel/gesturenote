@@ -340,7 +340,7 @@ if (login_check($mysqli) == true) {
                     </div>
 
                     <div class="" id="scenes-catalog" style="margin-top: 40px">
-                        <div style="display: inline">
+                        <div style="">
                             <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->scenes ?> 
                                 <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogScenes ?>"></i>
                             </h4>
@@ -349,7 +349,7 @@ if (login_check($mysqli) == true) {
                             </button>
                         </div>
 
-                        <div class="list-container"></div>
+                        <div class="list-container" style="display: inline-grid"></div>
                         <div class="alert-space alert-no-phase-data" style="margin-top: 10px"></div>
                     </div>
 

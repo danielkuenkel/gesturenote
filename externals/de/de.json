@@ -10,7 +10,7 @@
     "gestureNoteStyleguides": "GestureNote - Styleguides",
     "gestureNotePublications": "GestureNote - Veröffentlichungen",
     "gestureNoteCreateStudy": "GestureNote - Studie erstellen",
-    "gestureNoteExtractionStudy": "GestureNote - Gesten-Extraktion erstellen",
+    "gestureNoteExtractionStudy": "GestureNote - Extraktion erstellen",
     "gestureNoteGestureCatalog": "GestureNote - Gesten-Katalog",
     "gestureNoteNews": "GestureNote - Neuigkeiten",
     "gestureNoteHelpCatalog": "GestureNote - Hilfekatalog",
@@ -766,8 +766,11 @@
     "demandRequest": "Frage/Aufforderung",
     "demandOrRequest": "Frage oder Aufforderung",
     "formats": {
-        "mapping": {
-            "text": "Mapping"
+        "triggerMapping": {
+            "text": "Mapping für Interaktionsaufgabe"
+        },
+        "gestureMapping": {
+            "text": "Mapping für Geste"
         },
         "executionPreparation": {
             "text": "Starten der Durchführung",
@@ -1695,6 +1698,10 @@
         "moderated": "Moderiert",
         "unmoderated": "Unmoderiert"
     },
+    "methodType": {
+        "expertBased": "Expertenbasiert",
+        "userCentered": "Nutzerzentriert"
+    },
     "scene": "User Interface",
     "scenes": "User Interfaces",
     "noScenesPresent": "Keine UIs vorhanden",
@@ -2206,6 +2213,9 @@
     "tagAsMainGesture": "Als Stellvertreter markieren",
     "deleteFromClassification": "Von Klassifizierung entfernen",
     "addToStudyGestureSet": "Zum Studien-Gesten-Set hinzufügen",
+    "addToMapping": "Zur Interaktionsaufgabe hinzufügen",
+    "mappingsForTriggers":"Mappings für Interaktionsaufgaben",
+    "mappingsForGestures":"Mappings für Gesten",
     "removeFromStudyGestureSet": "Vom Studien-Gesten-Set entfernen",
     "deleteGestureSet": "Gesten-Set löschen",
     "addAllGesturesToStudyGestureSet": "Alle Gesten zum Studien-Gesten-Set hinzufügen",
@@ -2588,7 +2598,8 @@
             "copyScale": "Diese Skala auf alle anderen Zeilen dieser Matrix übertragen"
         },
         "studyExtractionCreate": {
-            "mapping": "Mappings werden benötigt, um Gesten-Interaktionsaufgaben-Paare zu erzeugen. Dies ist wichtig, um die anschließende Gesten-Extraktion durchzuführen."
+            "triggerMapping": "Mappings werden benötigt, um Gesten-Interaktionsaufgaben-Paare zu erzeugen. Dies ist wichtig, um die anschließende Gesten-Extraktion durchzuführen.",
+            "gestureapping": "Mappings werden benötigt, um Gesten-Interaktionsaufgaben-Paare zu erzeugen. Dies ist wichtig, um die anschließende Gesten-Extraktion durchzuführen."
         },
         "gestures": {
             "gestureNameQuality": "<em>Funktional</em> bedeutet, dass der gewählte Name an eine bestimmte Interaktionsaufgabe gekoppelt ist (z.B. <em>Musik lauter stellen</em>). <em>Generisch</em> bedeutet, dass der Name unabhängig von der Interaktionsaufgabe ist (z.B. <em>Swipe-Geste</em>).",

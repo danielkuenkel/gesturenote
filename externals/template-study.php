@@ -4,28 +4,28 @@ include '../includes/language.php';
 
 <div id="template-study-container" class="hidden">
 
-    <div id="scenes-catalog-thumbnail">
+    <div id="scenes-catalog-thumbnail" style="display: inline-block;">
 
-        <div id="pidoco" class="hidden" style="float: left;">
-            <span class="label label-default"><i class="fa fa-link"></i> <span class="label-text"></span></span>
+        <div id="pidoco" class="hidden" style="float: left;cursor: pointer">
+            <span class="label label-default" style="pointer-events: none"><i class="fa fa-link"></i> <span class="label-text"></span></span>
             <span class="text"></span>
         </div>
-        <div id="web" class="hidden" style="float: left;">
-            <span class="label label-default"><i class="fa fa-link"></i> <span class="label-text"></span></span>
+        <div id="web" class="hidden" style="float: left;cursor: pointer">
+            <span class="label label-default" style="pointer-events: none"><i class="fa fa-link"></i> <span class="label-text"></span></span>
             <span class="text"></span>
         </div>
-        <div id="image" class="hidden" style="float: left;">
-            <span class="label label-default"><i class="fa fa-image"></i> <span class="label-text"></span></span>
+        <div id="image" class="hidden" style="float: left;cursor: pointer">
+            <span class="label label-default" style="pointer-events: none"><i class="fa fa-image"></i> <span class="label-text"></span></span>
             <span class="text"></span>
         </div>
-        <div id="videoEmbed" class="hidden" style="float: left;">
-            <span class="label label-default"><i class="fa fa-film"></i> <span class="label-text"></span></span>
+        <div id="videoEmbed" class="hidden" style="float: left;cursor: pointer">
+            <span class="label label-default" style="pointer-events: none"><i class="fa fa-film"></i> <span class="label-text"></span></span>
             <span class="text"></span>
         </div>
         <div style="float: left; margin-left: 10px;">
             <button type="button" class="btn btn-default btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->statePreview ?></span></button>
         </div>
-        <div style="clear: both;"></div>
+        <!--<div style="clear: both;"></div>-->
     </div>
 
     <div id="trigger-catalog-thumbnail" class="text"></div>
@@ -1827,6 +1827,50 @@ include '../includes/language.php';
             </div>
         </div>
 
+    </div>
+
+
+
+    <div id="trigger-extraction-mapping-item" class="panel panel-default panel-shadow">
+        <div class="panel-heading">
+            <div id="headline" style="margin: 0"><span class="text" style="margin-right: 5px"></span> <span class="badge"></span></div> 
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 col-md-4 col-lg-3">
+                    <label><?php echo $lang->trigger ?></label>
+                    <div id="trigger-title" class="ellipsis"></div>
+                </div>
+                <div class="col-xs-12 col-sm-9 col-md-8 col-lg-9" id="gestures">
+                    <label><?php echo $lang->gestures ?></label>
+                    <div class="row list-container"></div>
+                </div>
+                <div class="col-xs-12" id="scenes">
+                    <label><?php echo $lang->scenes ?></label>
+                    <div class="list-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gesture-extraction-mapping-item" class="panel panel-default panel-shadow">
+        <div class="panel-heading">
+            <div id="headline" style="margin: 0"><span class="text" style="margin-right: 5px"></span> <span class="badge"></span></div> 
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" id="gestures">
+                    <label><?php echo $lang->gesture ?></label>
+                    <div class="row list-container"></div>
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9" id="trigger">
+                    <label><?php echo $lang->triggers ?></label>
+                    <div class="list-container"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
 

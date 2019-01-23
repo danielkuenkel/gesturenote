@@ -392,53 +392,6 @@ function initFocusGroupInterviewOverlay(id, formatClone) {
         }
     }
 
-    function renderAssembledTriggerItems(container, triggerIds, preselect) {
-        var assemTrigger = getLocalItem(ASSEMBLED_TRIGGER);
-        if (assemTrigger && assemTrigger.length > 0) {
-            for (var i = 0; i < assemTrigger.length; i++) {
-                var item = $('#form-item-container').find('#assembled-trigger-option').clone().removeAttr('id');
-                $(item).attr('id', assemTrigger[i].id);
-                $(item).find('.trigger-title').text(assemTrigger[i].title);
-                $(container).append(item);
-
-                $(item).find('.btn-add-trigger-to-gesture').on('click', function (event) {
-                    event.preventDefault();
-                    if ($(this).hasClass('selected')) {
-                        $(this).removeClass('selected');
-                        $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
-                        $(this).parent().find('.trigger-title').removeClass('text').css({fontWeight: ''});
-                    } else {
-                        $(this).addClass('selected');
-                        $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
-                        $(this).parent().find('.trigger-title').addClass('text').css({fontWeight: 'bold'});
-                        ;
-                    }
-                });
-            }
-
-            if (triggerIds) {
-                if (triggerIds.length > 0) {
-                    for (var i = 0; i < triggerIds.length; i++) {
-                        $(container).find('#' + triggerIds[i] + ' .btn-add-trigger-to-gesture').click();
-                    }
-                }
-            } else {
-                if (preselect && preselect === true) {
-                    setTimeout(function () {
-                        $(container).find('.btn-add-trigger-to-gesture').click();
-                    }, 500);
-                }
-            }
-        } else {
-            appendAlert($(formatClone).find('#catalogs-trigger'), ALERT_NO_TRIGGER_ASSEMBLED_LINK_WARNING);
-            $(formatClone).find('#btn-assemble-trigger').on('click', function (event) {
-                event.preventDefault();
-                $(formatClone).find('.btn-close-overlay').click();
-                $('.mainContent').find('#catalogs #trigger-catalog .btn-open-overlay').click();
-            });
-        }
-    }
-
     function renderAssembledSceneItems(container, sceneIds, preselect) {
         var assembledData = getLocalItem(ASSEMBLED_SCENES);
         if (assembledData && assembledData.length > 0) {
@@ -623,6 +576,54 @@ function initFocusGroupInterviewOverlay(id, formatClone) {
 
     initQuestionnairePreview($(formatClone).find('#key-questions .btn-preview-questionnaire'), $(formatClone).find('#list-container'));
     initPopover();
+}
+
+function renderAssembledTriggerItems(container, triggerIds, preselect) {
+    var assemTrigger = getLocalItem(ASSEMBLED_TRIGGER);
+    if (assemTrigger && assemTrigger.length > 0) {
+        for (var i = 0; i < assemTrigger.length; i++) {
+            var item = $('#form-item-container').find('#assembled-trigger-option').clone().removeAttr('id');
+            $(item).attr('id', assemTrigger[i].id);
+            $(item).find('.trigger-title').text(assemTrigger[i].title);
+            $(container).append(item);
+
+            $(item).find('.btn-add-trigger-to-gesture').on('click', function (event) {
+                event.preventDefault();
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
+                    $(this).parent().find('.trigger-title').removeClass('text').css({fontWeight: ''});
+                } else {
+                    $(this).addClass('selected');
+                    $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
+                    $(this).parent().find('.trigger-title').addClass('text').css({fontWeight: 'bold'});
+                }
+                
+                $(item).parent().trigger('change');
+            });
+        }
+
+        if (triggerIds) {
+            if (triggerIds.length > 0) {
+                for (var i = 0; i < triggerIds.length; i++) {
+                    $(container).find('#' + triggerIds[i] + ' .btn-add-trigger-to-gesture').click();
+                }
+            }
+        } else {
+            if (preselect && preselect === true) {
+                setTimeout(function () {
+                    $(container).find('.btn-add-trigger-to-gesture').click();
+                }, 500);
+            }
+        }
+    } else {
+        appendAlert($(container).find('#catalogs-trigger'), ALERT_NO_TRIGGER_ASSEMBLED_LINK_WARNING);
+        $(container).find('#btn-assemble-trigger').on('click', function (event) {
+            event.preventDefault();
+            $(container).find('.btn-close-overlay').click();
+            $('.mainContent').find('#catalogs #trigger-catalog .btn-open-overlay').click();
+        });
+    }
 }
 
 function initGUSSingleGesturesOverlay(id, formatClone) {

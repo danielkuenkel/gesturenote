@@ -368,6 +368,10 @@ function getExtractionStudyData() {
         data.assembledTrigger = getLocalItem(ASSEMBLED_TRIGGER);
     }
 
+    if (getLocalItem(ASSEMBLED_SCENES)) {
+        data.assembledScenes = getLocalItem(ASSEMBLED_SCENES);
+    }
+
     return {data: data};
 }
 

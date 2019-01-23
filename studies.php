@@ -67,14 +67,19 @@ if (login_check($mysqli) == true) {
 
                 <div class="panel-body panel-content">
                     <div>
+                        <div class="label label-default" id="type-method"></div>
                         <div class="label label-default" id="type-phase"></div>
                         <!--<div class="label label-default" id="type-survey"></div>-->
                         <div class="label label-default hidden" id="participant-count" data-toggle="popover" data-trigger="hover" data-placement="auto"><i class="fa fa-users"></i> <span class="label-text"></span></div>
                         <div class="label label-default hidden" id="shared-study" data-toggle="popover" data-trigger="hover" title="<?php echo $lang->studySharedWith ?>" data-placement="auto"><i class="fa fa-share-alt"></i> <span class="label-text"></span></div>
                     </div>
-
-                    <div>
-                        <div id="study-range-days"><span class="address"></span> <span class="text"></span></div>
+                    
+                    <div id="study-description" style="line-height: 14pt; font-size: 11pt; margin-top: 10px">
+                        
+                    </div>
+                    
+                    <div id="study-plan" class="hidden" style="margin-top: 3px">
+                        <div id="study-range-days" style="margin-bottom: -6px"><span class="address"></span> <span class="text"></span></div>
                         <div class="hidden study-no-plan text"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="status-text"></span></div>
                         <div class="hidden study-not-started text"><i class="fa fa-hourglass-start" aria-hidden="true"></i> <span class="status-text"></span></div>
                         <div class="hidden study-started text"><i class="fa fa-hourglass-half" aria-hidden="true"></i> <span class="status-text"></span></div>
@@ -329,7 +334,8 @@ if (login_check($mysqli) == true) {
                         } else if (currentFilterData[i].data.generalData.method === 'expertBased') {
                             $(clone).find('.panel').click({studyId: currentFilterData[i].id}, function (event) {
                                 event.preventDefault();
-                                console.log('open expert based study');
+                                var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                goto("extraction-study.php?studyId=" + event.data.studyId + "&h=" + hash + '&joinedConv=false');
                             });
                         }
                     }

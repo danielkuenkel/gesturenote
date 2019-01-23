@@ -48,6 +48,15 @@ function renderCatalogOverview() {
         appendAlert($('#trigger-catalog'), ALERT_NO_PHASE_DATA);
     }
 
+    var studyScenes = getLocalItem(ASSEMBLED_SCENES);
+    $('#scenes-catalog').find('.list-container').empty();
+    if (studyScenes && studyScenes.length > 0) {
+        clearAlerts($('#scenes-catalog'));
+        renderStudyScenes(studyScenes);
+    } else {
+        appendAlert($('#scenes-catalog'), ALERT_NO_PHASE_DATA);
+    }
+
     if (studyGestures && studyGestures.length > 0 && studyTrigger && studyTrigger.length > 0) {
         $('#create-tab-navigation').find('#tab-mapping').removeClass('disabledTab');
     } else {
@@ -99,23 +108,48 @@ function renderStudyTrigger(trigger) {
     }
 }
 
+function renderStudyScenes(scenes) {
+    for (var i = 0; i < scenes.length; i++) {
+        var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
+        item.find('.text').text(scenes[i].title);
+        item.find('.label-text').text(translation.sceneTypes[scenes[i].type]);
+        item.find('#' + scenes[i].type).removeClass('hidden');
+        $('#scenes-catalog').find('.list-container').append(item);
+        TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+        
+        $(item).find('.text').unbind('mouseenter').bind('mouseenter', {sceneId: scenes[i].id}, function (event) {
+            console.log('mouse enter');
+            var button = $(this);
+            var scene = getSceneById(event.data.sceneId);
+            renderScenePopoverPreview(scene, function (popover) {
+                var top = $(button).offset().top - popover.height() - 2;
+                var left = $(button).offset().left + parseInt(((button.width() - popover.width()) / 2));
+                popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                TweenMax.to(popover, .3, {autoAlpha: 1});
+            });
+        });
+
+        $(item).find('.text').unbind('mouseleave').bind('mouseleave', {sceneId: scenes[i].id}, function (event) {
+            event.preventDefault();
+            resetScenePopover();
+        });
+        
+        $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
+            event.preventDefault();
+            currentSceneId = event.data.sceneId;
+            loadHTMLintoModal('custom-modal', 'externals/modal-scene.php', 'modal-lg');
+        });
+    }
+}
+
+
 
 function renderMapping() {
     $('#mappingList').empty();
     var mappings = getLocalItem('extractionMapping');
     if (mappings && mappings.length > 0) {
         for (var i = 0; i < mappings.length; i++) {
-            addMapping(mappings[i].id, false, function (item) {
-                renderAssembledGestures($(item));
-                renderAssembledTriggers($(item));
-                if (!isNaN(mappings[i].triggerId)) {
-                    $(item).find('.triggerSelect #' + mappings[i].triggerId).click();
-                }
-
-                if (!isNaN(mappings[i].gestureId)) {
-                    $(item).find('.gestureSelect #' + mappings[i].gestureId).click();
-                }
-            });
+            addMapping(mappings[i].id, mappings[i].format, mappings[i]);
         }
     }
 }
@@ -131,9 +165,38 @@ function saveMapping() {
     for (var i = 0; i < items.length; i++) {
         var item = items[i];
         var id = $(item).attr('data-id');
-        var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
-        var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
-        mapping.push({id: id, triggerId: triggerId, gestureId: gestureId});
+        var format = $(item).attr('id');
+
+
+        if (format === 'trigger-mapping') {
+            var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
+            var gestureIds = [];
+            var assembledGestures = $(item).find('#assembled-study-gestures .gesture-thumbnail.assembled');
+            for (var j = 0; j < assembledGestures.length; j++) {
+                gestureIds.push($(assembledGestures[j]).closest('.root').attr('id'));
+            }
+            
+            var sceneIds = [];
+
+            var selectedScenes = $(item).find('#scenes .sceneSelect');
+                        console.log(selectedScenes)
+            for (var j = 0; j < selectedScenes.length; j++) {
+                var sceneId = $(selectedScenes[j]).find('.chosen').attr('id');
+                if(sceneId !== 'unselected') {
+                    sceneIds.push(sceneId);
+                }
+            }
+            mapping.push({id: id, format: format, triggerId: triggerId, gestureIds: gestureIds, sceneIds: sceneIds});
+        } else if (format === 'gesture-mapping') {
+            var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
+            var triggerIds = [];
+            var assembledTrigger = $(item).find('#assembled-trigger-container .btn-add-trigger-to-gesture.selected');
+            for (var j = 0; j < assembledTrigger.length; j++) {
+                triggerIds.push($(assembledTrigger[j]).closest('.root').attr('id'));
+            }
+            mapping.push({id: id, format: format, gestureId: gestureId, triggerIds: triggerIds});
+
+        }
     }
     console.log('save mapping', mapping);
     setLocalItem('extractionMapping', mapping);
@@ -175,6 +238,13 @@ function updateCatalogButtons() {
         $('#trigger-catalog .btn-open-overlay .btn-text').text(translation.editCatalog);
     } else {
         $('#trigger-catalog .btn-open-overlay .btn-text').text(translation.arrangeSet);
+    }
+
+    var scenes = getLocalItem(ASSEMBLED_SCENES);
+    if (scenes && scenes.length > 0) {
+        $('#scenes-catalog .btn-open-overlay .btn-text').text(translation.editCatalog);
+    } else {
+        $('#scenes-catalog .btn-open-overlay .btn-text').text(translation.arrangeSet);
     }
 }
 

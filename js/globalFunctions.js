@@ -515,7 +515,7 @@ function renderScenePopoverPreview(scene, callback) {
         $('body').append(popover);
 
         if (callback) {
-            callback();
+            callback(popover);
         }
     }
 }
@@ -1014,7 +1014,7 @@ function renderAssembledGestures(targetContainer, optionalSelections) {
     if (targetContainer !== undefined && targetContainer !== null) {
         target = targetContainer;
     }
-    
+
     console.log(target, gestures);
 
     var dropdown = target === null ? $('#form-item-container').find('.gestureSelect') : $(target).find('.gestureSelect');
@@ -2299,6 +2299,37 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
     }
 });
 
+$(document).on('click', '.btn-tag-as-mapping-gesture', function (event) {
+    event.preventDefault();
+
+    if (!event.handled) {
+        event.handled = true;
+
+        var rerender = !$(this).attr('data-rerender');
+
+        var assemble = false;
+        var gestureId = $(this).closest('.root').attr('id');
+        $(this).popover('hide');
+
+        if (!$(this).hasClass('assembled')) {
+            $(this).attr('data-content', translation.removeFromStudyGestureSet).data('bs.popover').setContent();
+            $(this).addClass('assembled');
+            $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
+            $(this).closest('.gesture-thumbnail').addClass('assembled');
+            $(this).closest('.gesture-thumbnail').find('.tagged-symbol').removeClass('hidden');
+            assemble = true;
+        } else {
+            $(this).attr('data-content', translation.addToStudyGestureSet).data('bs.popover').setContent();
+            $(this).removeClass('assembled');
+            $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
+            $(this).closest('.gesture-thumbnail').removeClass('assembled');
+            $(this).closest('.gesture-thumbnail').find('.tagged-symbol').addClass('hidden');
+        }
+
+        $(this).trigger('change', [gestureId, assemble, rerender]);
+    }
+});
+
 $(document).on('click', '.btn-add-gesture-to-scene', function (event) {
     event.preventDefault();
     if (!event.handled) {
@@ -3302,6 +3333,33 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
     return clone;
 }
 
+function getCreateExtractionMappingGestureListThumbnail(data, assembledGestures, typeId, layout, source, panelStyle, modalId) {
+    if (!source || source === null || source === undefined) {
+        source = GESTURE_CATALOG;
+    }
+
+    var clone = initGestureThumbnail(data, typeId, layout, panelStyle);
+    initMoreInfoGesture($(clone).find('.btn-show-gesture-info'), clone, data, source, modalId);
+    initGestureSet($(clone).find('.btn-edit-gesture-set'), clone, source, data);
+
+    console.log(assembledGestures, data.id)
+    if (assembledGestures && assembledGestures.length > 0) {
+        for (var i = 0; i < assembledGestures.length; i++) {
+            if (parseInt(assembledGestures[i]) === parseInt(data.id)) {
+                clone.find('.btn-tag-as-mapping-gesture').attr('data-content', 'Zuweisung entfernen');
+                clone.find('.gesture-thumbnail').addClass('assembled');
+                clone.find('.btn-tag-as-mapping-gesture').addClass('assembled');
+                clone.find('.btn-tag-as-mapping-gesture .fa').removeClass('fa-plus-square').addClass('fa-minus-square');
+                clone.find('.tagged-symbol').removeClass('hidden');
+                clone.find('.tagged-symbol').attr('data-content', 'Dem Studien-Gesten-Set zugewiesen');
+                initPopover();
+            }
+        }
+    }
+
+    return clone;
+}
+
 function getGestureSceneListThumbnail(data, typeId, layout, source, panelStyle) {
     if (!source || source === null || source === undefined) {
         source = GESTURE_CATALOG;
@@ -3333,95 +3391,107 @@ function getStudiesCatalogListThumbnail(target, data) {
 
         initPopover();
 
-        if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
-                (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
+        if (data.data.generalData.method === 'userCentered') {
 
-            var dateFrom = data.data.generalData.dateFrom * 1000;
-            var dateTo = addDays(data.data.generalData.dateTo * 1000, 1);
-            var totalDays = rangeDays(dateFrom, dateTo);
+            $(clone).find('#study-plan').removeClass('hidden');
 
-            var now = new Date().getTime();
-            var progress = 0;
-            $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
+            if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
+                    (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
 
-            if (now > dateFrom && now < dateTo) {
+                var dateFrom = data.data.generalData.dateFrom * 1000;
+                var dateTo = addDays(data.data.generalData.dateTo * 1000, 1);
+                var totalDays = rangeDays(dateFrom, dateTo);
+
+                var now = new Date().getTime();
+                var progress = 0;
+                $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
+
+                if (now > dateFrom && now < dateTo) {
 //                console.log(dateFrom, dateTo.getTime(), now);
-                var left = getTimeLeftForTimestamp(dateTo, 1);
+                    var left = getTimeLeftForTimestamp(dateTo, 1);
 //                var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
-                var statusText = $(clone).find('.study-started').removeClass('hidden').find('.status-text');
-                progress = (now - dateFrom) / (dateTo.getTime() - dateFrom) * 100;//daysExpired / totalDays * 100;
-                $(statusText).text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
-                $(clone).find('.progress-bar').addClass('progress-bar-success');
-                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
-                var hourglass = $(clone).find('.study-started .fa');
+                    var statusText = $(clone).find('.study-started').removeClass('hidden').find('.status-text');
+                    progress = (now - dateFrom) / (dateTo.getTime() - dateFrom) * 100;//daysExpired / totalDays * 100;
+                    $(statusText).text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
+                    $(clone).find('.progress-bar').addClass('progress-bar-success');
+                    $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
+                    var hourglass = $(clone).find('.study-started .fa');
 //                console.log(statusText);
-                TweenMax.to(hourglass, 2, {rotation: '360', repeat: -1, ease: Quad.easeInOut});
-                TweenMax.to($(statusText), 1, {delay: 0, css: {marginLeft: '8'}, yoyo: true, repeat: -1, ease: Quad.easeIn});
-            } else if (now < dateFrom) {
-                progress = 100;
-                var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
-                $(clone).find('.study-not-started').removeClass('hidden').find('.status-text').text(translation.startsAt + ' ' + daysToStart + ' ' + (daysToStart === 1 ? translation.day : translation.daysn));
-                $(clone).find('.progress-bar').addClass('progress-bar-warning');
-            } else if (now > dateTo) {
-                progress = 100;
-                $(clone).find('#study-range-days .address').text(translation.studyRuns + ": ");
-                $(clone).find('.study-ended').removeClass('hidden').find('.status-text').text(translation.studyEnded);
-                $(clone).find('.progress-bar').addClass('progress-bar-info');
-                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.none);
-            }
-
-            if (parseInt(data.participants) > 0) {
-                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(data.participants);
-                $(clone).find('#participant-count').attr('data-content', data.participants + ' ' + (parseInt(data.participants) === 1 ? translation.participation : translation.participations)).data('bs.popover').setContent();
-
-                $(clone).find('#participant-count').unbind('click').bind('click', {studyId: data.id}, function (event) {
-                    event.stopImmediatePropagation();
-                    event.preventDefault();
-                    $(clone).trigger('gotoStudyParticipants', [{studyId: event.data.studyId}]);
-                    console.log('goto trigger');
-                });
-            }
-
-            if (data.isOwner === false) {
-                $(clone).find('#shared-study').removeClass('hidden');
-                $(clone).find('#shared-study').attr('data-content', translation.sharedStudy);
-            } else if (data.isOwner === true) {
-                var shareAmount = data.invitedUsers && data.invitedUsers.length > 0 ? data.invitedUsers && data.invitedUsers.length : 0;
-                if (shareAmount > 7) {
-                    $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.invitedUsers.length);
-                    $(clone).find('#shared-study').attr('data-content', data.invitedUsers.length + ' ' + translation.sharedInfo);
-                } else if (shareAmount > 0) {
-                    $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.invitedUsers.length);
-                    var titles = '';
-                    var setCount = 0;
-                    for (var i = 0; i < data.invitedUsers.length; i++) {
-                        var email = data.invitedUsers[i].email;
-                        if (email) {
-                            titles += '<div class="ellipsis">' + email + '</div>';
-                            setCount++;
-                        }
-                    }
-
-                    $(clone).find('#shared-study').attr('data-content', titles);
-                } else {
-                    $(clone).find('#shared-study').addClass('hidden');
+                    TweenMax.to(hourglass, 2, {rotation: '360', repeat: -1, ease: Quad.easeInOut});
+                    TweenMax.to($(statusText), 1, {delay: 0, css: {marginLeft: '8'}, yoyo: true, repeat: -1, ease: Quad.easeIn});
+                } else if (now < dateFrom) {
+                    progress = 100;
+                    var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
+                    $(clone).find('.study-not-started').removeClass('hidden').find('.status-text').text(translation.startsAt + ' ' + daysToStart + ' ' + (daysToStart === 1 ? translation.day : translation.daysn));
+                    $(clone).find('.progress-bar').addClass('progress-bar-warning');
+                } else if (now > dateTo) {
+                    progress = 100;
+                    $(clone).find('#study-range-days .address').text(translation.studyRuns + ": ");
+                    $(clone).find('.study-ended').removeClass('hidden').find('.status-text').text(translation.studyEnded);
+                    $(clone).find('.progress-bar').addClass('progress-bar-info');
+                    $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.none);
                 }
+
+                if (parseInt(data.participants) > 0) {
+                    $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(data.participants);
+                    $(clone).find('#participant-count').attr('data-content', data.participants + ' ' + (parseInt(data.participants) === 1 ? translation.participation : translation.participations)).data('bs.popover').setContent();
+
+                    $(clone).find('#participant-count').unbind('click').bind('click', {studyId: data.id}, function (event) {
+                        event.stopImmediatePropagation();
+                        event.preventDefault();
+                        $(clone).trigger('gotoStudyParticipants', [{studyId: event.data.studyId}]);
+                        console.log('goto trigger');
+                    });
+                }
+
+                if (data.isOwner === false) {
+                    $(clone).find('#shared-study').removeClass('hidden');
+                    $(clone).find('#shared-study').attr('data-content', translation.sharedStudy);
+                } else if (data.isOwner === true) {
+                    var shareAmount = data.invitedUsers && data.invitedUsers.length > 0 ? data.invitedUsers && data.invitedUsers.length : 0;
+                    if (shareAmount > 7) {
+                        $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.invitedUsers.length);
+                        $(clone).find('#shared-study').attr('data-content', data.invitedUsers.length + ' ' + translation.sharedInfo);
+                    } else if (shareAmount > 0) {
+                        $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.invitedUsers.length);
+                        var titles = '';
+                        var setCount = 0;
+                        for (var i = 0; i < data.invitedUsers.length; i++) {
+                            var email = data.invitedUsers[i].email;
+                            if (email) {
+                                titles += '<div class="ellipsis">' + email + '</div>';
+                                setCount++;
+                            }
+                        }
+
+                        $(clone).find('#shared-study').attr('data-content', titles);
+                    } else {
+                        $(clone).find('#shared-study').addClass('hidden');
+                    }
+                }
+
+
+                $(clone).find('.progress-bar').css({width: progress + "%"});
+                $(clone).find('#study-range-days .text').text(totalDays + ' ' + (parseInt(totalDays) === 1 ? translation.day : translation.days));
+
+                if (now > dateFrom && now < dateTo) {
+                    TweenMax.from($(clone).find('.progress-bar'), 1, {delay: .3, width: "0%", opacity: 0});
+                }
+            } else {
+                $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
+                $(clone).find('#study-range-days .status-text').text('0 ' + translation.days);
+                $(clone).find('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
+                $(clone).find('.progress-bar').addClass('progress-bar-danger');
             }
-
-
-            $(clone).find('.progress-bar').css({width: progress + "%"});
-            $(clone).find('#study-range-days .text').text(totalDays + ' ' + (parseInt(totalDays) === 1 ? translation.day : translation.days));
-
-            if (now > dateFrom && now < dateTo) {
-                TweenMax.from($(clone).find('.progress-bar'), 1, {delay: .3, width: "0%", opacity: 0});
-            }
-        } else {
-            $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
-            $(clone).find('#study-range-days .status-text').text('0 ' + translation.days);
-            $(clone).find('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
-            $(clone).find('.progress-bar').addClass('progress-bar-danger');
+        } else if (data.data.generalData.method === 'expertBased') {
+            $(clone).find('#study-plan').remove();
+            $(clone).find('.panel-body-progress').remove();
         }
 
+        var descriptionText = data.data.generalData.description.length < 100 ? data.data.generalData.description : data.data.generalData.description.substring(0, 200) + ' …';
+        $(clone).find('#study-description').text(descriptionText);
+
+        $(clone).find('#type-method').text(translation.methodType[data.data.generalData.method])
         $(clone).find('#type-survey').text(translation.surveyType[data.data.generalData.surveyType]);
         $(clone).find('#type-phase').text(translation.phaseType[data.data.generalData.phase]);
     }
@@ -3781,7 +3851,7 @@ function initGestureSetSimulation(panel, data) {
 
 function initAssembledGestureSetList(panel, data, type, layout) {
     console.log(data);
-    
+
     if (data.gestures !== null) {
         clearAlerts(panel);
         for (var j = 0; j < data.gestures.length; j++) {
