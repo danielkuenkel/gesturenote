@@ -105,6 +105,25 @@ include '../includes/language.php';
         <div class="videoContainer embed-responsive"></div>
     </div>
 
+    <div id="popover-leap-preview" style="position: absolute; opacity: 0; width: 400px; height: 300px">
+        <div data-sensor-source="leap" id="leap-recording-container" class="">
+            <div class="embed-responsive embed-responsive-4by3">
+                <div id="renderArea" class="embed-responsive-item sensor-canvas" style="border-radius: 8px"></div>
+                <div class="controls-container embed-responsive-item hidden">
+                    <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+<!--                                                <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
+                    <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>-->
+                </div>
+            </div>
+
+            <!--                                        <div id="playback-controls" style="margin-top: -10px">
+                                                        <div id="leap-playback-slider-container" class="leap-playback-slider-container hidden" style="width: 100%;">
+                                                            <input id="leap-playback-slider" data-slider-id="sliderLeap" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                                                        </div>
+                                                    </div>-->
+        </div>
+    </div>
+
 
 
     <div id="elicitation-statistics">
@@ -938,6 +957,23 @@ include '../includes/language.php';
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-12 hidden" id="recorded-data-selection">
+                                    <div class="form-group">
+                                        <label>
+                                            <?php echo $lang->trigger ?>
+                                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->trigger ?>"></i>
+                                        </label>
+                                        <div class="input-group" id="">
+                                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->pleaseSelect ?>" />
+                                            <div class="input-group-btn select gestureDataSelect" role="group">
+                                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden"></span><span class="caret"></span></button>
+                                                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
 
                             <div class="btn-group btn-group-justified" style="margin-bottom: 20px">
@@ -1409,7 +1445,7 @@ include '../includes/language.php';
                     <div><span><?php echo $lang->taskAssessmentType->cancelScenario->title ?>:</span> <span class="text" id="scenario-canceled"></span></div>
                     <div style="margin-top: 20px">
                         <label><?php echo $lang->taskProblems ?></label>
-                        <div class="text" id="task-problems"></div>
+                        <div class="" id="task-problems"></div>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -1421,7 +1457,11 @@ include '../includes/language.php';
                     <div><span><?php echo $lang->fromWizard ?>:</span> <span class="text" id="from-wizard"></span></div>
                 </div>
             </div>
-
+            
+            <div style="margin-top: 20px">
+                <div class="btn btn-default btn-block btn-shadow disabled" id="btn-start-simulation"><?php echo $lang->simulatorGestureSet ?></div>
+            </div>
+            
         </div>
 
         <div id="observations">

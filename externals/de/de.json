@@ -3832,17 +3832,6 @@
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "learnabilityMemorability",
-            "question": "Ich denke, dass die Geste zu einfach ist, um sie sich zu merken.",
-            "parameters": {
-                "used": "used",
-                "justification": "yes",
-                "justificationFor": "yes"
-            },
-            "styleguide": "Gesten sollten nicht zu einfach sein. (Microsoft, 2013)"
-        },
-        {
-            "format": "dichotomousQuestionGUS",
-            "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass die Geste zu den anderen Gesten passt.",
             "parameters": {
                 "used": "used",
@@ -4217,20 +4206,6 @@
                 "optionalAnswer": "no"
             },
             "styleguide": "Gesten sollten nicht zu komplex sein. (Microsoft, 2013)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "learnabilityMemorability",
-            "question": "Ich denke, dass eine oder mehrere Gesten zu einfach sind, um sie sich zu merken.",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "no",
-                "justificationFor": "unselected",
-                "optionSource": "gestures",
-                "optionalAnswer": "no"
-            },
-            "styleguide": "Gesten sollten nicht zu einfach sein. (Microsoft, 2013)"
         },
         {
             "format": "groupingQuestionGUS",

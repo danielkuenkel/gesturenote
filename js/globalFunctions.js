@@ -433,6 +433,8 @@ $(document).on('mouseenter', '.select .option li', function (event) {
             selectType = 'gestures';
         } else if ($(parent).hasClass('sceneSelect')) {
             selectType = 'scenes';
+        } else if ($(parent).hasClass('gestureDataSelect')) {
+            selectType = 'gestureData';
         }
         var button = $(this);
 
@@ -458,6 +460,16 @@ $(document).on('mouseenter', '.select .option li', function (event) {
                     TweenMax.to(popover, .3, {autoAlpha: 1});
                 });
                 break;
+            case 'gestureData':
+                var dataUrl = $(this).attr('id');
+                renderLeapPopoverPreview(dataUrl, function () {
+                    var popover = $('#popover-leap');
+                    var top = button.offset().top - popover.height() - 2;
+                    var left = button.offset().left + parseInt(((button.width() - popover.width()) / 2));
+                    popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                    TweenMax.to(popover, .3, {autoAlpha: 1});
+                });
+                break;
         }
 //        console.log('mouse entered', selectType);
     }
@@ -466,9 +478,13 @@ $(document).on('mouseenter', '.select .option li', function (event) {
 $(document).on('mouseleave', '.select .option li', function (event) {
     event.preventDefault();
     var parent = $(this).closest('.select');
-    if ($(parent).hasClass('gestureSelect') || $(parent).hasClass('sceneSelect')) {
+
+    if ($(parent).hasClass('gestureSelect')) {
         resetGesturePopover();
+    } else if ($(parent).hasClass('sceneSelect')) {
         resetScenePopover();
+    } else if ($(parent).hasClass('gestureDataSelect')) {
+        resetLeapPopover();
     }
 });
 
@@ -522,6 +538,40 @@ function renderScenePopoverPreview(scene, callback) {
 
 function resetScenePopover() {
     var popover = $('#popover-scene');
+    $(popover).remove();
+}
+
+function renderLeapPopoverPreview(dataUrl, callback) {
+    var popover = $('#popover-leap-preview').clone();
+    popover.attr('id', 'popover-leap');
+    $('body').append(popover);
+
+    var container = $(popover).find('#leap-recording-container');
+    var options = {
+        offset: {x: 0, y: 200, z: 0},
+        previewOnly: true,
+        pauseOnHands: false,
+        autoplay: true,
+        recording: dataUrl,
+        renderTarget: $(container).find('#renderArea')
+//        playbackElement: $(container).find('.btn-toggle-playback')
+//        downloadJsonElement: $(popover).find('.btn-download-as-json'),
+//        downloadCompressedElement: $(popover).find('.btn-download-as-compressed'),
+//        playbackSliderElement: $(popover).find('#leap-playback-slider')
+    };
+    leapMotionPreview = new LeapRecorder(options);
+
+    if (callback) {
+        callback(popover);
+    }
+}
+
+var leapMotionPreview = null;
+function resetLeapPopover() {
+    leapMotionPreview.destroy(true);
+    leapMotionPreview = null;
+
+    var popover = $('#popover-leap');
     $(popover).remove();
 }
 
@@ -1520,13 +1570,7 @@ function renderAssembledTaskAssessments(dropdown, data, selectedId) {
  * Actions for the start perform gesture annotations
  */
 
-function renderAssembledGesturePerforms(targetContainer, annotations, timelineData) {
-    var performedGestures = [];
-    for (var i = 0; i < annotations.length; i++) {
-        if (annotations[i].action === ACTION_START_PERFORM_GESTURE_IDENTIFICATION) {
-            performedGestures.push(annotations[i]);
-        }
-    }
+function renderAssembledGesturePerforms(targetContainer) {
     var triggers = getLocalItem(ASSEMBLED_TRIGGER);
     var target = $('#form-item-container');
     if (targetContainer !== undefined && targetContainer !== null) {
@@ -1537,44 +1581,10 @@ function renderAssembledGesturePerforms(targetContainer, annotations, timelineDa
     var dropdown = target === null ? $('#form-item-container').find('.performedSelect') : $(target).find('.performedSelect');
     $(dropdown).find('.option').empty();
 
-//    console.log(performedGestures);
-//    if (performedGestures && performedGestures.length > 0) {
-//        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
-//        $(target).find('.triggerSelect .dropdown-toggle').removeClass('disabled');
-//        $(target).find('.option-trigger').attr('placeholder', translation.pleaseSelect);
-//
-//        var header = document.createElement('li');
-//        $(header).addClass('dropdown-header').text('Zuweisung zur Annotation:');
-//        $(dropdown).find('.option').append(header);
-//
-//        for (var i = 0; i < performedGestures.length; i++) {
-//            var seconds = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime || timelineData.phaseResults.startTime, performedGestures[i].time), true);
-//            var trigger = getTriggerById(performedGestures[i].triggerId);
-//
-//            listItem = document.createElement('li');
-//            listItem.setAttribute('id', performedGestures[i].id);
-//            link = document.createElement('a');
-//            link.setAttribute('href', '#');
-//            link.appendChild(document.createTextNode(secondsToHms(seconds) + ': ' + translation.annotationsList.startPerformGestureIdentification + ' ' + trigger.title));
-//            listItem.appendChild(link);
-//            $(dropdown).find('.option').append(listItem);
-//        }
-//    }
-
     if (triggers && triggers.length > 0) {
         $(dropdown).find('.dropdown-toggle').removeClass('disabled');
         $(target).find('.triggerSelect .dropdown-toggle').removeClass('disabled');
         $(target).find('.option-trigger').attr('placeholder', translation.pleaseSelect);
-
-//        if (performedGestures && performedGestures.length > 0) {
-//            var divider = document.createElement('li');
-//            $(divider).addClass('divider');
-//            $(dropdown).find('.option').append(divider);
-//        }
-
-//        var header = document.createElement('li');
-//        $(header).addClass('dropdown-header').text('Weitere Geste für:');
-//        $(dropdown).find('.option').append(header);
 
         for (var i = 0; i < triggers.length; i++) {
             listItem = document.createElement('li');
@@ -1585,6 +1595,58 @@ function renderAssembledGesturePerforms(targetContainer, annotations, timelineDa
             listItem.appendChild(link);
             $(dropdown).find('.option').append(listItem);
         }
+    }
+}
+
+/* 
+ * Actions for the start perform gesture annotations
+ */
+
+function renderAssembledSensorData(targetContainer, triggerId, data) {
+    var gesturesData = [];
+    for (var i = 0; i < data.length; i++) {
+        if (parseInt(triggerId) === parseInt(data[i].triggerId)) {
+            data[i].index = i + 1;
+            gesturesData.push(data[i]);
+        }
+    }
+
+    console.log(data, gesturesData, triggerId);
+
+    var target = $('#form-item-container');
+    if (targetContainer !== undefined && targetContainer !== null) {
+        target = targetContainer;
+    }
+
+    var listItem, link;
+    var dropdown = target === null ? $('#form-item-container').find('.gestureDataSelect') : $(target).find('.gestureDataSelect');
+    $(dropdown).find('.option').empty();
+
+    if (gesturesData && gesturesData.length > 0) {
+        $(targetContainer).removeClass('hidden');
+        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
+        $(target).find('.option-trigger').attr('placeholder', translation.pleaseSelect);
+
+        console.log(target, dropdown, targetContainer);
+
+        for (var i = 0; i < gesturesData.length; i++) {
+            console.log('render item', gesturesData[i]);
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', gesturesData[i].dataUrl);
+            link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode('LEAP ' + gesturesData[i].index));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
+        }
+
+        if (gesturesData.length === 1) {
+            $(dropdown).find('.option').children().first().click();
+            // select first item
+        }
+    } else {
+        // append alert
+        $(targetContainer).addClass('hidden');
     }
 }
 

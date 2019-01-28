@@ -869,7 +869,7 @@ function renderStateSave() {
                 images: null,
                 previewImage: null,
                 gif: null,
-                sensorData: null
+                sensorData: recorder.options.originSensorData ? recorder.options.originSensorData : null
             };
 
             for (var i = 0; i < recorders.length; i++) {
@@ -1073,6 +1073,7 @@ function saveGesture() {
             gestureSaveData.scope = result.scope;
             gestureSaveData.created = result.created;
             gestureSaveData.isOwner = true;
+
             $(recorder).trigger(GR_EVENT_SAVE_SUCCESS, [gestureSaveData]);
             setState(GR_STATE_SAVE_SUCCESS);
         } else {
