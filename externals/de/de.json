@@ -2205,6 +2205,7 @@
     "downloadAsExchangeable": "Als ProGesture-Datei herunterladen",
     "downloadAsCompressed": "Als komprimierte Datei herunterladen",
     "simulatorGestureSet": "Simulation starten",
+    "showHideGestureVideo": "Vorschau anzeigen / verbergen",
     "previewImage": "Vorschaubild",
     "tagAsPreviewImage": "Aktuellen Frame als Vorschaubild festlegen",
     "runsPerGesture": "Durchläufe pro Geste",

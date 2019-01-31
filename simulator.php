@@ -30,6 +30,7 @@ if (login_check($mysqli) == true) {
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
+        <link rel="stylesheet" href="css/gesture.css">
 
         <script src="js/refreshSession.js"></script>
         <script src="js/storage.js"></script>
@@ -44,6 +45,7 @@ if (login_check($mysqli) == true) {
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/checkForms.js"></script>
+        <script src="js/gesture.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -91,7 +93,6 @@ if (login_check($mysqli) == true) {
 
         <!-- Container (Landing Section) -->
         <div class="container mainContent hidden" id="simulator-content" style="margin-top: 0px">
-
         </div>
 
         <script>
@@ -111,21 +112,24 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
                 animateBreadcrump();
-
-                getGestureSets(function (result) {
+                getGestureCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
-                        setLocalItem(GESTURE_SETS, result.gestureSets);
-                        renderAssembledGestureSets(result.gestureSets, $('#gesture-sets-select'));
-                    }
+                        getGestureSets(function (result) {
+                            if (result.status === RESULT_SUCCESS) {
+                                setLocalItem(GESTURE_SETS, result.gestureSets);
+                                renderAssembledGestureSets(result.gestureSets, $('#gesture-sets-select'));
+                            }
 
-                    var query = getQueryParams(document.location.search);
-                    if (query.gestureSetId) {
-                        var gestureSetId = parseInt(query.gestureSetId);
-                        console.log('select prefered mappings for gesture set id:', gestureSetId);
-                        $('#gesture-sets-select').find('#' + gestureSetId).click();
-                    }
+                            var query = getQueryParams(document.location.search);
+                            if (query.gestureSetId) {
+                                var gestureSetId = parseInt(query.gestureSetId);
+                                console.log('select prefered mappings for gesture set id:', gestureSetId);
+                                $('#gesture-sets-select').find('#' + gestureSetId).click();
+                            }
 
-                    showPageContent();
+                            showPageContent();
+                        });
+                    }
                 });
             }
 
@@ -136,21 +140,43 @@ if (login_check($mysqli) == true) {
                     }});
             }
 
+
+            var isVideoShown = true;
+
             $('#gesture-sets-select').unbind('change').bind('change', function (event) {
                 event.preventDefault();
                 currentPreviewGestureSet = {set: getGestureSetById($(event.target).attr('id'))};
+                console.log(currentPreviewGestureSet);
 
-                $('#custom-modal').unbind('mappingsApplied').bind('mappingsApplied', function (event, mappings) {
-                    $('#custom-modal').unbind('mappingsApplied');
-                    // read out selected mappings and render gesture set
-                    console.log('mappings applied', mappings);
-                    if(mappings) {
-                        
+                currentGestureSet = $('#pageBody').find('#simulator-content');
+                currentGestureSet.empty();
+                var clone = getGestureCatalogGestureSetPanel(currentPreviewGestureSet.set);
+                currentGestureSet.append(clone);
+                initPopover();
+
+                $(clone).find('#btn-show-hide-video').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    if(isVideoShown){
+                        $(clone).find("#gestures-list-container .embed-responsive").hide();
+                        $(clone).find('#btn-show-hide-video').find('i').removeClass("fa-compress").addClass("fa-expand");
+                        isVideoShown = false;
                     } else {
-                        resetDropdown($('#gesture-sets-select'));
+                        $(clone).find("#gestures-list-container").find(".embed-responsive").show();
+                        $(clone).find('#btn-show-hide-video').find('i').removeClass("fa-expand").addClass("fa-compress");
+                        isVideoShown = true;
                     }
-                });
-                loadHTMLintoModal('custom-modal', 'externals/modal-select-mappings.php', 'modal-md');
+
+                })
+                // $('#custom-modal').unbind('mappingsApplied').bind('mappingsApplied', function (event, mappings) {
+                //     $('#custom-modal').unbind('mappingsApplied');
+                //     // read out selected mappings and render gesture set
+                //     console.log('mappings applied', mappings);
+                //     if(mappings) {
+                //     } else {
+                //         resetDropdown($('#gesture-sets-select'));
+                //     }
+                // });
+                // loadHTMLintoModal('custom-modal', 'externals/modal-select-mappings.php', 'modal-md');
             });
         </script>
 
