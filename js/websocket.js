@@ -99,3 +99,38 @@ function destroyWebsocket() {
         client = null;
     }
 }
+
+function sendPGGesture(gestureId) {
+    // if (parseInt(lastSentItem) === parseInt(gestureId)) {
+    //     return false;
+    // }
+    if (client) {
+        client.send(APOLLO_DESTINATION, {}, JSON.stringify({
+            messageId: gestureId
+        }));
+
+        client.debug("send gesture: " + gestureId);
+    } else {
+        console.warn('no stomp client');
+    }
+    // var mappingArray = findMappingForGesture(gestureId);
+    // var jsonString = "";
+    // if (yakindu) {
+    //     for (var i = mappingArray.length - 1; i >= 0; i--) {
+    //         jsonString = '{"type":"event","name":"' + mappingArray[i] + '"}';
+
+    //         client.send('/topic/model.simulation.in', {
+    //             "content-type": "text/plain"
+    //         }, jsonString);
+    //         client.debug("send mapping: " + jsonString);
+    //     }
+    // }
+    // triggerGestureVideo(gestureId);
+    // lastSentItem = parseInt(gestureId);
+    // clearInterval(sentItemIntervall);
+    // sentItemIntervall = setInterval(function() {
+    //     lastSentItem = null;
+    //     clearInterval(sentItemIntervall);
+    // }, intervall);
+    // return true;
+}

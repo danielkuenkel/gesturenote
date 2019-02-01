@@ -31,6 +31,7 @@ if (login_check($mysqli) == true) {
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/gesture.css">
+        <link rel="stylesheet" href="css/simulator.css">
 
         <script src="js/refreshSession.js"></script>
         <script src="js/storage.js"></script>
@@ -46,6 +47,9 @@ if (login_check($mysqli) == true) {
         <script src="js/sha512.js"></script>
         <script src="js/checkForms.js"></script>
         <script src="js/gesture.js"></script>
+        <script src="js/websocket.js"></script>
+        <script src="js/stomp/stomp.js"></script>
+        <script src="js/filesaver/FileSaver.min.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -69,7 +73,6 @@ if (login_check($mysqli) == true) {
         <div class="container" id="breadcrumb"style="">
             <div class="row">
                 <ol class="breadcrumb">
-                    <!--<li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li class="active" data-id="btn-simulator"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->breadcrump->simulator ?></li>
                 </ol>
@@ -128,6 +131,7 @@ if (login_check($mysqli) == true) {
                             }
 
                             showPageContent();
+                            initWebSocket();
                         });
                     }
                 });
@@ -165,8 +169,13 @@ if (login_check($mysqli) == true) {
                         $(clone).find('#btn-show-hide-video').find('i').removeClass("fa-expand").addClass("fa-compress");
                         isVideoShown = true;
                     }
+                });
 
-                })
+                $(clone).find('#btn-trigger-gesture').unbind('click').bind('click', function(event){
+                    event.preventDefault();
+                    var gestureId = $(this).closest('.root').attr('id');
+                    sendPGGesture(gestureId);
+                });
                 // $('#custom-modal').unbind('mappingsApplied').bind('mappingsApplied', function (event, mappings) {
                 //     $('#custom-modal').unbind('mappingsApplied');
                 //     // read out selected mappings and render gesture set
