@@ -124,6 +124,11 @@ function gotoCreateStudy() {
     goto('study-create.php');
 }
 
+function gotoCreateExtractionStudy() {
+    clearLocalItems();
+    goto('extraction-create.php');
+}
+
 function gotoCreateStudyPreview() {
     goto('study-preview.php');
 }

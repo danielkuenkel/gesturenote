@@ -15,7 +15,7 @@ if (login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title><?php echo $lang->gestureNoteCreateStudy ?></title>
+        <title><?php echo $lang->gestureNoteExtractionStudy ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -32,8 +32,8 @@ if (login_check($mysqli) == true) {
         <script src="js/chance.min.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
-        <script src="js/color-thief/color-thief.js"></script> 
-        <script src="js/randomColor/randomColor.js"></script>
+        <!--<script src="js/color-thief/color-thief.js"></script>--> 
+        <!--<script src="js/randomColor/randomColor.js"></script>-->
         <script src="js/jszip/jszip.min.js"></script>
         <script src="js/jszip/jszip-utils.min.js"></script>
 
@@ -67,7 +67,7 @@ if (login_check($mysqli) == true) {
         <script src="js/forms.js"></script>
         <script src="js/joint-selection.js"></script>
         <script src="js/overlays.js"></script>
-        <script src="js/study-create.js"></script>
+        <script src="js/extraction-create.js"></script>
         <script src="js/upload-queue.js"></script>
         <script src="js/gesture-importer.js"></script>
 
@@ -107,13 +107,10 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
 
-        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-306px">
+        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-205px">
             <div class="btn-group-vertical">
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
-                </div>
-                <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->cache ?> <i class="fa fa-folder-open-o" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->cache ?> <i class="fa fa-folder-open-o" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
@@ -143,7 +140,7 @@ if (login_check($mysqli) == true) {
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-studies"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></a></li>
                     <li class="hidden"><a class="breadcrump-btn" id="btn-study"><i class="fa fa-clipboard"></i> <?php echo $lang->breadcrump->study ?></a></li>
-                    <li class="active" id="btn-new-study"><i class="fa fa-pencil"></i> <span class="btn-text"><?php echo $lang->breadcrump->createStudy ?></span></li>
+                    <li class="active" id="btn-new-extraction-study"><i class="fa fa-pencil"></i> <span class="btn-text"><?php echo $lang->breadcrump->createStudy ?></span></li>
                 </ol>
             </div>
         </div>
@@ -173,8 +170,8 @@ if (login_check($mysqli) == true) {
 
             <ul class="nav nav-tabs" id="create-tab-navigation" style="margin-bottom: 20px">
                 <li role="presentation"><a href="#generalData" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->general ?></a></li>
-                <li role="presentation" class="disabledTab" id="tab-catalogs"><a href="#catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
-                <li role="presentation" class="disabledTab" id="tab-phases"><a href="#phases" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->phases ?></a></li>
+                <li role="presentation" class="" id="tab-catalogs"><a href="#catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
+                <li role="presentation" class="disabledTab" id="tab-mapping"><a href="#mapping" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->mapping ?></a></li>
                 <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>
             </ul>
 
@@ -186,79 +183,7 @@ if (login_check($mysqli) == true) {
 
                 <div role="tabpanel" class="tab-pane" id="generalData">
 
-                    <!-- manner selections -->
-                    <form class="row" style="">
-                        <div class="col-sm-7 col-md-6 col-lg-5">
-                            <div class="form-group root" id="phaseSelect">
 
-                                <label style="margin: 0">
-                                    <?php echo $lang->studyPhase ?> 
-                                    <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->phase ?>"></i>
-                                </label><br>
-
-                                <div class="btn-group" id="radio" style="margin: 0">
-                                    <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="elicitation">
-                                        <span id="icons" style="margin-right: 6px">
-                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                            <i class="fa fa-circle hidden" id="over"></i>
-                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                        </span>
-                                        <span class="option-text"><?php echo $lang->phaseType->elicitation ?></span>
-                                    </button>
-                                </div>
-                                <div class="btn-group" id="radio" style="margin: 0">
-                                    <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="extraction">
-                                        <span id="icons" style="margin-right: 6px">
-                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                            <i class="fa fa-circle hidden" id="over"></i>
-                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                        </span>
-                                        <span class="option-text"><?php echo $lang->phaseType->extraction ?></span>
-                                    </button>
-                                </div>
-                                <div class="btn-group" id="radio" style="margin: 0">
-                                    <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="evaluation">
-                                        <span id="icons" style="margin-right: 6px">
-                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                            <i class="fa fa-circle hidden" id="over"></i>
-                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                        </span>
-                                        <span class="option-text"><?php echo $lang->phaseType->evaluation ?></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-5 col-md-6 col-lg-7">
-                            <div class="form-group root" id="surveyTypeSelect">
-                                <label style="margin: 0">
-                                    <?php echo $lang->studySurveyType ?>
-                                    <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->surveyType ?>"></i>
-                                </label><br>
-
-                                <div class="btn-group" id="radio" style="margin: 0">
-                                    <button class="btn btn-default btn-radio saveGeneralData btn-option-checked" name="primary" id="moderated">
-                                        <span id="icons" style="margin-right: 6px">
-                                            <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                            <i class="fa fa-circle hidden" id="over"></i>
-                                            <i class="fa fa-check-circle" id="checked"></i>
-                                        </span>
-                                        <span class="option-text"><?php echo $lang->surveyType->moderated ?></span>
-                                    </button>
-                                </div>
-                                <div class="btn-group" id="radio" style="margin: 0">
-                                    <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="unmoderated">
-                                        <span id="icons" style="margin-right: 6px">
-                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                            <i class="fa fa-circle hidden" id="over"></i>
-                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                        </span>
-                                        <span class="option-text"><?php echo $lang->surveyType->unmoderated ?></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
 
                     <!-- study title -->
                     <div class="form-group">
@@ -279,25 +204,25 @@ if (login_check($mysqli) == true) {
                         <textarea class="form-control" id="studyDescription" rows="5" placeholder="<?php echo $lang->insertDescription ?>"></textarea>
                     </div>
 
-                    <div id="from-To-datepicker" style="margin-top: 15px">
-                        <div class="row">
-                            <div class='col-sm-6'>
-                                <div class="form-group">
-                                    <label><?php echo $lang->studyRunsFrom ?></label>
-                                    <div class='input-group date' id='from-date-picker' style="width: 100%; background-color: #F8F8F8; padding: 10px; border-radius: 8px">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class='col-sm-6'>
-                                <div class="form-group">
-                                    <label><?php echo $lang->studyRunsTo ?></label>
-                                    <div class='input-group date' id='to-date-picker' style="width: 100%; background-color: #F8F8F8; padding: 10px; border-radius: 8px">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
-                    </div>
+                    <!--                    <div id="from-To-datepicker" style="margin-top: 15px">
+                                            <div class="row">
+                                                <div class='col-sm-6'>
+                                                    <div class="form-group">
+                                                        <label><?php echo $lang->studyRunsFrom ?></label>
+                                                        <div class='input-group date' id='from-date-picker' style="width: 100%; background-color: #F8F8F8; padding: 10px; border-radius: 8px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class='col-sm-6'>
+                                                    <div class="form-group">
+                                                        <label><?php echo $lang->studyRunsTo ?></label>
+                                                        <div class='input-group date' id='to-date-picker' style="width: 100%; background-color: #F8F8F8; padding: 10px; border-radius: 8px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                                        </div>-->
 
                 </div>
 
@@ -349,24 +274,10 @@ if (login_check($mysqli) == true) {
                             </button>
                         </div>
 
-                        <div class="list-container" style="display: inline-grid"></div>
+                        <div class="list-container" style="display:inline-grid"></div>
                         <div class="alert-space alert-no-phase-data" style="margin-top: 10px"></div>
                     </div>
 
-                    <div class="" id="feedback-catalog" style="margin-top: 40px">
-                        <div style="display: inline">
-                            <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->feedbacks ?> 
-                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogFeedback ?>"></i>
-                            </h4>
-                            <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-feedback">
-                                <i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editCatalog ?></span>
-                            </button>
-                        </div>
-
-                        <div class="list-container"></div>
-                        <div class="alert-space alert-no-phase-data" style="margin-top: 10px"></div>
-                    </div>
-                    <!--</div>-->
                 </div>
 
 
@@ -374,129 +285,33 @@ if (login_check($mysqli) == true) {
 
 
 
-                <div role="tabpanel" class="tab-pane" id="phases">
+                <div role="tabpanel" class="tab-pane" id="mapping">
                     <div class="row">
-                        <div class="col-sm-7 col-md-6">
-                            <div class="" id="phaseStepList"></div>
-                            <hr class="hidden-sm hidden-md hidden-lg" id="seperatorPhaseStepList" style="margin-bottom: 10px">
+                        <div class="col-sm-8" style="margin-bottom: 20px">
+                            <div class="" id="mappingList"></div>
                         </div>
 
-
-
-                        <div class="col-sm-5 col-md-6">
-                            <div id="phaseStepSelect">
-                                <h4><?php echo $lang->questionnaires ?></h4>
-
-                                <div class="add-button-group" id="add-phase-step-format-group-questionnaires">
-                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="all">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="questionnaire">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->questionnaire->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->questionnaire ?>"></i>
+                        <div class="col-sm-4">
+                            <div id="mappingSelect" style="">
+                                <div class="add-button-group" id="">
+                                    <div class="btn-group" >
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="trigger-mapping">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->triggerMapping->text ?>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyExtractionCreate->triggerMapping ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="gus">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->gus->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gus ?>"></i>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="questionnaireGestures">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->questionnaireGestures->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->questionnaireGestures ?>"></i>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sus">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->sus->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sus ?>"></i>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ueq">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->ueq->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ueq ?>"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <h4 style="margin-top: 20px"><?php echo $lang->miscellaneous ?></h4>
-                                <div class="add-button-group" id="add-phase-step-format-group-miscellaneous">
-                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="moderated">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="interview">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->interview->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->interview ?>"></i>
-                                        </div>
-                                    </div>
-                                    <!--                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="moderated">
-                                                                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="focusGroupInterview">
-                                                                                <i class="fa fa-plus"></i> <?php echo $lang->formats->focusGroupInterview->text ?>
-                                                                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->focusGroupInterview ?>"></i>
-                                                                            </div>
-                                                                        </div>-->
-                                    <div class="btn-group" data-study-phase="elicitation" data-study-survey-type="moderated">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="identification">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->identification->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identification ?>"></i>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="gestureTraining">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->gestureTraining->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTraining ?>"></i>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="scenario">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->scenario->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenario ?>"></i>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="gestureSlideshow">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->gestureSlideshow->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureSlideshow ?>"></i>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="triggerSlideshow">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->triggerSlideshow->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->triggerSlideshow ?>"></i>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="physicalStressTest">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->physicalStressTest->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->physicalStressTest ?>"></i>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group" data-study-phase="extraction" data-study-survey-type="moderated">
-                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="exploration">
-                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->exploration->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->exploration ?>"></i>
+                                    <div class="btn-group" >
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="gesture-mapping">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->gestureMapping->text ?>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyExtractionCreate->gestureMapping ?>"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
-                    <div class="form-group-margin-top hidden root" id="phaseStepItem" style="">
-                        <div class="btn-group">
-                            <button class="btn btn-default btn-shadow btn-up saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>">
-                                <i class="fa fa-arrow-up"></i>
-                            </button>
-                            <button class="btn btn-default btn-shadow btn-down saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>">
-                                <i class="fa fa-arrow-down"></i>
-                            </button>
-                            <button class="btn btn-default btn-shadow btn-delete saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                            <button class="btn btn-default btn-shadow btn-text-button btn-open-overlay" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->editPhasestep ?>">
-                                <i class="fa"></i> <span class="phase-step-format"></span>
-                            </button>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -505,8 +320,7 @@ if (login_check($mysqli) == true) {
                 <hr>
 
                 <!-- submit form button group -->
-                <div class="btn-group-vertical btn-block" role="group">
-                    <button type="button" class="btn btn-default btn-shadow disabled btn-preview-study"><i class="fa fa-eye"></i> <?php echo $lang->studyPreview ?></button>
+                <div class="btn-group-vertical btn-block" role="group">´
                     <button type="button" class="btn btn-default btn-shadow btn-cache-study"><i class="fa fa-folder-open-o"></i> <?php echo $lang->cache ?></button>
 
                 </div>
@@ -514,11 +328,7 @@ if (login_check($mysqli) == true) {
                     <button type="button" class="btn btn-default btn-shadow btn-save-study"><i class="fa fa-save"></i> <?php echo $lang->saveAndClose ?></button>
                 </div>
             </div>
-
         </div>
-
-
-
 
 
 
@@ -592,6 +402,97 @@ if (login_check($mysqli) == true) {
 
         </div>
 
+        <div id="trigger-mapping-item" class="root hidden panel panel-default panel-shadow">
+            <div class="panel-heading">
+                <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
+                    <button class="btn btn-default btn-shadow btn-up saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+                    <button class="btn btn-default btn-shadow btn-down saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
+                    <button class="btn btn-default btn-shadow btn-delete saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                </div>
+                <span><?php echo $lang->formats->triggerMapping->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            </div>
+            <div class="panel-body">
+                <!--<div class="row">-->
+                <!--<div class="col-xs-12 col-md-6">-->
+                <div class="form-group">
+                    <label><?php echo $lang->trigger ?></label>
+                    <div class="input-group" id="gesture-trigger">
+                        <input class="form-control item-input-text option-trigger show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                        <div class="input-group-btn select triggerSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                        </div>
+                    </div>
+                </div>
+                <!--</div>-->
+                <!--<div class="col-xs-12 col-md-6">-->
+                <div class="form-group">
+                    <label><?php echo $lang->gestures ?></label>
+                    <div id="assembled-study-gestures" class="row"></div>
+                    <!--                    <div class="input-group">
+                                            <span class="input-group-addon"></span>
+                                            <input class="form-control item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value=""/>
+                                            <div class="input-group-btn select gestureSelect" role="group">
+                                                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                </ul>
+                                            </div>
+                                        </div>-->
+                </div>
+
+                <!--<div class="form-group">-->
+                <!--<label><?php echo $lang->scenes ?></label>-->
+
+                <div class="row">
+                    <div class="col-sm-11">
+                        <div class="form-group form-group-no-margin" id="scenes">
+                            <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationScenesForTrigger ?>"></i></label>
+                            <div class="alert-space alert-no-phase-data"></div>
+                            <div class="alert-space alert-no-scenes-assembled-link"></div>
+                            <div class="">
+                                <div class="transition-scenes-option-container">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+        </div>
+
+        <div id="gesture-mapping-item" class="root hidden panel panel-default panel-shadow">
+            <div class="panel-heading">
+                <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
+                    <button class="btn btn-default btn-shadow btn-up saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
+                    <button class="btn btn-default btn-shadow btn-down saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
+                    <button class="btn btn-default btn-shadow btn-delete saveGeneralData" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
+                </div>
+                <span><?php echo $lang->formats->gestureMapping->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label><?php echo $lang->gesture ?></label>
+                    <div class="input-group">
+                        <!--<span class="input-group-addon"></span>-->
+                        <input class="form-control item-input-text option-gesture show-dropdown" tabindex="-1" type="text" value=""/>
+                        <div class="input-group-btn select gestureSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-no-margin">
+                    <label><?php echo $lang->triggers ?></label>
+                    <div id="assembled-trigger-container"></div>
+                </div>
+            </div>
+        </div>
 
         <script>
             var firstInit = false;
@@ -603,8 +504,6 @@ if (login_check($mysqli) == true) {
                 keepSessionAlive();
 
                 checkLanguage(function () {
-                    createRandomColors();
-
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
@@ -618,37 +517,15 @@ if (login_check($mysqli) == true) {
                 });
             });
 
+
             // fixed buttons tweening
-
-            var previewStudyButton = $('#fixed-study-edit-controls .btn-preview-study');
-            var previewButtonTimeline = new TimelineMax({paused: true, onStart: function () {
-                    $(previewStudyButton).css({borderBottomRightRadius: '8px'});
-                    $(previewStudyButton).addClass('btn-primary');
-                }, onReverseComplete: function () {
-                    $(previewStudyButton).css({borderBottomRightRadius: '0px'});
-                    $(previewStudyButton).removeClass('btn-primary');
-                }});
-
-            previewButtonTimeline.add("previewStudy", 0)
-                    .to(previewStudyButton, .3, {left: +305, ease: Quad.easeInOut}, "previewStudy");
-
-            $(previewStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
-                event.preventDefault();
-                previewButtonTimeline.play();
-            });
-
-            $(previewStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
-                event.preventDefault();
-                previewButtonTimeline.reverse();
-            });
-
 
             var cacheButton = $('#fixed-study-edit-controls .btn-cache-study');
             var cacheButtonTimeline = new TimelineMax({paused: true, onStart: function () {
-                    $(cacheButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+                    $(cacheButton).css({borderBottomRightRadius: '8px'});
                     $(cacheButton).addClass('btn-primary');
                 }, onReverseComplete: function () {
-                    $(cacheButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
+                    $(cacheButton).css({borderBottomRightRadius: '0px'});
                     $(cacheButton).removeClass('btn-primary');
                 }});
 
@@ -759,7 +636,6 @@ if (login_check($mysqli) == true) {
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 if (query.studyId && query.h === hash) {
-//                    $('#btn-clear-data').remove();
                     studyEditable = true;
                     editableStudyId = query.studyId;
                     $('#btn-study').parent().removeClass('hidden');
@@ -777,7 +653,6 @@ if (login_check($mysqli) == true) {
                         });
                     }
                 } else if (query.edit && (query.edit === true || query.edit === "true") && query.studyId) {
-//                    $('#btn-clear-data').remove();
                     studyEditable = true;
                     editableStudyId = query.studyId;
                     $('#btn-study').parent().removeClass('hidden');
@@ -794,72 +669,6 @@ if (login_check($mysqli) == true) {
             }
 
             function init() {
-                var study = getLocalItem(STUDY);
-                var minDate = false;
-                var now = new Date();
-                now.setHours(0, 0, 0);
-                now.setMilliseconds(0);
-
-                if (studyEditable === false || !study) {
-                    // set min date to current date
-                    minDate = now;
-
-                    $('.btn-join-conversation').remove();
-                    $('.btn-leave-conversation').remove();
-                } else {
-                    // set min date to saved beginning date
-                    if (parseInt(study.dateFrom) * 1000 > now.getTime()) {
-                        minDate = now;
-                    } else {
-                        minDate = new Date(parseInt(study.dateFrom) * 1000);
-                    }
-
-                    checkCollaborativeConversation();
-                }
-
-                $('#from-date-picker').datetimepicker({
-                    format: 'DD/MM/YYYY',
-                    inline: true,
-                    useCurrent: !study,
-                    defaultDate: study && study.dateFrom ? new Date(parseInt(study.dateFrom) * 1000) : false,
-                    minDate: minDate,
-                    locale: translation.languages[currentLanguage].locale
-                });
-
-                $('#to-date-picker').datetimepicker({
-                    format: 'DD/MM/YYYY',
-                    inline: true,
-                    useCurrent: !study, //Important! See issue #1075
-                    defaultDate: study && study.dateTo ? new Date(parseInt(study.dateTo) * 1000) : false,
-                    minDate: minDate,
-                    locale: translation.languages[currentLanguage].locale
-                });
-
-                $("#from-date-picker").on("dp.change", function (e) {
-                    var selectedDate = e.date;
-                    $('#to-date-picker').data("DateTimePicker").minDate(selectedDate);
-                    selectedDate = new Date(selectedDate);
-                    var selectedDateTo = $("#to-date-picker").data("DateTimePicker").viewDate();
-                    selectedDateTo = new Date(selectedDateTo._d);
-                    selectedDateTo.setHours(0);
-                    selectedDateTo.setMinutes(0);
-                    selectedDateTo.setSeconds(0);
-                    selectedDateTo.setMilliseconds(0);
-
-                    if (selectedDate.getTime() >= selectedDateTo.getTime()) {
-                        $('#to-date-picker').data('DateTimePicker').defaultDate(selectedDate);
-                    }
-                    updateScheduleInfo();
-                    saveGeneralData();
-                });
-
-                $("#to-date-picker").on("dp.change", function (e) {
-//                    $('#from-date-picker').data("DateTimePicker").maxDate(e.date);
-                    updateScheduleInfo();
-                    saveGeneralData();
-                });
-
-                updateScheduleInfo();
                 checkSessionStorage();
 
                 var status = window.location.hash.substr(1);
@@ -869,7 +678,6 @@ if (login_check($mysqli) == true) {
                 } else {
                     $('#create-tab-navigation').children().first().find('a').click();
                 }
-//                $('#loading-indicator').remove();
 
                 var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>);
                 if (showTutorial === 1) {
@@ -893,19 +701,6 @@ if (login_check($mysqli) == true) {
                 TweenMax.from($('#fixed-study-edit-controls'), .3, {x: -20, ease: Quad.easeInOut});
             }
 
-            function updateScheduleInfo() {
-                var dateFromInput = $('#from-date-picker').data("DateTimePicker").viewDate();
-                var dateFrom = new Date(new Date(dateFromInput._d).toDateString());
-                var dateToInput = $('#to-date-picker').data("DateTimePicker").viewDate();
-                var dateTo = addDays(new Date(new Date(dateToInput._d).toDateString()), 1);
-                var totalDays = rangeDays(dateFrom.getTime(), dateTo.getTime());
-                var renderDateTo = addSeconds(dateTo, -1);
-
-                $('.study-plan').find('.address').text(translation.studyRun + ": ");
-                $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + translation.from + ' ' + dateFrom.toLocaleDateString() + ' (' + translation.zeroOClick + ') ' + translation.to + " " + renderDateTo.toLocaleDateString() + ' (' + renderDateTo.getHours() + ':' + renderDateTo.getMinutes() + ')');
-                $('.study-plan').removeClass('hidden');
-            }
-
             function getStatusNavMatch(status) {
                 var tabs = $('#create-tab-navigation').children();
                 for (var i = 0; i < tabs.length; i++) {
@@ -918,123 +713,119 @@ if (login_check($mysqli) == true) {
 
             $('#custom-modal').on('hidden.bs.modal', function () {
                 $(this).find('.modal-content').empty();
+                updateAssembledData();
             });
 
-            function checkPreviewAvailability() {
-                var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
-                if (phaseSteps && phaseSteps.length > 0) {
-                    $('.btn-preview-study').removeClass('disabled');
-                } else {
-                    $('.btn-preview-study').addClass('disabled');
-                }
+
+
+            // add mapping items
+
+            $('#mappingSelect').on('change', function (event) {
+                var format = $(event.target).attr('id');
+                addMapping(chance.natural(), format, null, true, function () {
+                    saveMapping();
+                    updateAssembledData();
+                });
+
+                var tweenTargetOffset = $('#mappingList').children().last().offset();
+                var tweenElementOffset = $(event.target).offset();
+                var tweenOffset = {offsetY: tweenTargetOffset.top - tweenElementOffset.top, offsetX: tweenTargetOffset.left - tweenElementOffset.left};
+                var alphaY = tweenOffset.offsetY < 0 ? '' + tweenOffset.offsetY : '+' + tweenOffset.offsetY;
+                var alphaX = tweenOffset.offsetX < 0 ? '' + tweenOffset.offsetX : '+' + tweenOffset.offsetX;
+                TweenMax.to($(event.target), .3, {x: alphaX, y: alphaY, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: onMovePhaseStepComplete});
+            });
+
+            function onMovePhaseStepComplete() {
+                $('#mappingList').trigger('listItemAdded');
             }
 
-            function addPhaseStep(id, format, title, animate, prependItem, callback) {
+            $('#mappingList').unbind('listItemAdded').bind('listItemAdded', function (event) {
+                event.preventDefault();
+                var scrollTarget = $(event.target).children().last();
+                var newScrollTop = Math.max(0, $(scrollTarget).offset().top);
+                $('html, body').animate({
+                    scrollTop: newScrollTop
+                }, 400);
+            });
 
-                if (title === null || title === undefined) {
-                    title = translation.formats[format].text;
-                }
+            $('#mappingList').unbind('change').bind('change', function (event) {
+                saveMapping();
+            });
 
-                var clone = $('#phaseStepItem').clone().removeAttr('id');
-                clone.removeClass('hidden').addClass(translation.formats[format].class);
-                clone.attr('id', id);
-                clone.find('.btn-open-overlay').attr('id', format);
-                clone.find('.phase-step-format').text(title);
+            function addMapping(id, format, data, animate, callback) {
+                var clone = $('#' + format + '-item').clone().removeAttr('id');
+                clone.removeClass('hidden').attr('id', format);
+                clone.removeClass('hidden').attr('data-id', id);
 
-                if (format === THANKS || format === LETTER_OF_ACCEPTANCE) {
-                    clone.find('.btn-delete, .btn-up, .btn-down').remove();
-                } else {
-                    clone.find('.btn-delete').bind("click", {format: format, id: id}, function (event) {
-                        event.preventDefault();
-                        removeLocalItem(event.data.id + ".data");
-                        checkPreviewAvailability();
-                    });
+                clone.find('.btn-delete').bind("click", {id: id}, function (event) {
+                    event.preventDefault();
+                });
 
-                    switch (format) {
-                        case SUS:
-                            setLocalItem(id + ".data", translation.sus);
-                            break;
-                        case FAVORITE_GESTURES:
-                            setLocalItem(id + ".data", translation.favoriteGesturesQuestionnaire);
-                            break;
-                    }
-                }
-
-//                console.log('add phase step', prependItem, clone, $('#phaseStepList').find('.form-group').last());
-                if (prependItem && prependItem === true) {
-                    setTimeout(function () {
-                        $(clone).insertBefore($('#phaseStepList').children().last());
-                        initPopover();
-                        checkCurrentListState($('#phaseStepList'));
-                        if (callback) {
-                            callback();
-                        }
-                    }, 300);
-                } else {
-                    $('#phaseStepList').append(clone);
-                    initPopover();
-                    checkCurrentListState($('#phaseStepList'));
-                    if (callback) {
-                        callback();
-                    }
+                $('#mappingList').append(clone);
+                checkCurrentListState($('#mappingList'));
+                updateBadges($('#mappingList'), format);
+                if (callback) {
+                    callback(clone);
                 }
 
                 if (animate === true) {
                     TweenMax.from(clone, 1.2, {y: -50, opacity: 0, delay: .3, ease: Elastic.easeOut});
                 }
-            }
 
-            $('#phaseSelect').on('change', function (event) {
-                event.preventDefault();
+                if (format === 'trigger-mapping') {
+                    // render mapping data for trigger mapping
+                    renderAssembledTriggers($(clone));
 
-                var catalogsNav = $('#create-tab-navigation #tab-catalogs');
-                var phasesNav = $('#create-tab-navigation #tab-phases');
-                if ($(phasesNav).hasClass('disabledTab') && $(catalogsNav).hasClass('disabledTab')) {
-                    $(phasesNav).removeClass('disabledTab');
-                    $(catalogsNav).removeClass('disabledTab');
-                    if (firstInit) {
-                        firstInit = false;
-                        TweenMax.to(catalogsNav, .1, {y: -20});
-                        TweenMax.to(catalogsNav, .5, {delay: .1, y: 0, ease: Bounce.easeOut});
-                        TweenMax.to(phasesNav, .1, {delay: .1, y: -20});
-                        TweenMax.to(phasesNav, .5, {delay: .2, y: 0, ease: Bounce.easeOut});
-                    }
-                }
+                    var assembledScenes = getLocalItem(ASSEMBLED_SCENES);
+                    if (assembledScenes && assembledScenes.length > 0) {
+                        renderAssembledScenes();
+                        initAddTransitionSceneButton(clone);
 
-                checkSelectedGeneralStudyProperties();
-                saveGeneralData();
-                renderPhaseSteps();
-            });
-
-            $('#surveyTypeSelect').on('change', function (event) {
-                event.preventDefault();
-                checkSelectedGeneralStudyProperties();
-                saveGeneralData();
-                renderPhaseSteps();
-            });
-
-            function checkSelectedGeneralStudyProperties() {
-                var phaseId = $('#phaseSelect').find('.btn-option-checked').attr('id');
-                if (phaseId === TYPE_PHASE_ELICITATION || phaseId === TYPE_PHASE_EXTRACTION) {
-                    $('#surveyTypeSelect').find('#unmoderated').addClass('disabled');
-                    if ($('#surveyTypeSelect').find('.btn-option-checked').attr('id') === 'unmoderated') {
-                        $('#surveyTypeSelect').find('#moderated').click();
-                    }
-                } else {
-                    $('#surveyTypeSelect').find('#unmoderated').removeClass('disabled');
-                }
-
-                var surveyTypeId = $('#surveyTypeSelect').find('.btn-option-checked').attr('id');
-
-                var addPhaseButtons = $('#phaseStepSelect').find('.btn-group');
-                for (var i = 0; i < addPhaseButtons.length; i++) {
-                    var button = addPhaseButtons[i];
-                    if (($(button).attr('data-study-phase') === phaseId || $(button).attr('data-study-phase') === 'all') && ($(button).attr('data-study-survey-type') === surveyTypeId || $(button).attr('data-study-survey-type') === 'all')) {
-                        $(button).removeClass('hidden');
+                        $(clone).find('.transition-scenes-option-container').unbind('listItemAdded change');
                     } else {
-                        $(button).addClass('hidden');
+                        // append alert
+                    }
+
+                    var assembledGestureSet = getLocalItem(ASSEMBLED_GESTURE_SET);
+                    if (assembledGestureSet && assembledGestureSet.length > 0) {
+                        $(clone).find('#assembled-study-gestures').empty();
+                        for (var i = 0; i < assembledGestureSet.length; i++) {
+                            var gesture = getGestureById(assembledGestureSet[i]);
+                            var thumbnail = getCreateExtractionMappingGestureListThumbnail(gesture, data && data.gestureIds ? data.gestureIds : null, 'mapping-gesture-catalog-thumbnail', 'col-xs-6 col-md-4 col-lg-3');
+                            $(clone).find('#assembled-study-gestures').append(thumbnail);
+                        }
+                    } else {
+                        // append alert
+                    }
+
+                    if (data) {
+                        $(clone).find('.triggerSelect #' + data.triggerId).click();
+
+                        if (data.sceneIds && data.sceneIds.length > 0) {
+                            for (var i = 0; i < data.sceneIds.length; i++) {
+                                var scene = getSceneById(data.sceneIds[i]);
+                                var item = $('#form-item-container').find('#woz-transition-scene-option').clone().removeAttr('id');
+                                $(clone).find('.transition-scenes-option-container').append(item);
+                                if (scene) {
+                                    $(item).find('.sceneSelect #' + data.sceneIds[i]).click();
+                                } else {
+                                    appendAlert(item, ALERT_ASSEMBLED_SCENE_REMOVED);
+                                }
+                            }
+                            checkCurrentListState($(clone).find('.transition-scenes-option-container'));
+                        }
+                    }
+                } else if (format === 'gesture-mapping') {
+                    // render mapping data for gesture mapping
+                    renderAssembledGestures($(clone));
+
+                    if (data) {
+                        $(clone).find('.gestureSelect #' + data.gestureId).click();
+                        renderAssembledTriggerItems(clone.find('#assembled-trigger-container'), data.triggerIds, true);
                     }
                 }
+                
+                initPopover();
             }
 
             $('.breadcrumb li a').click(function (event) {
@@ -1085,7 +876,7 @@ if (login_check($mysqli) == true) {
                 if (jumpToId !== null) {
                     if (jumpToId === 'btn-study') {
                         var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                        goto("study.php?studyId=" + editableStudyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+                        goto("extraction-study.php?studyId=" + editableStudyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
                     } else {
                         switch (jumpToId) {
                             case 'btn-dashboard':
@@ -1125,34 +916,19 @@ if (login_check($mysqli) == true) {
                 jumpToId = null;
             }
 
-            $('.btn-preview-study').click(function (event) {
-                event.preventDefault();
-                if (checkInputs() === true && !$(this).hasClass('disabled')) {
-                    saveGeneralData();
-                    if (studyEditable === true) {
-                        goto("study-preview.php?edit=true&studyId=" + editableStudyId + "&joinedConv=" + joinedRoom + "&view=moderator" + getWebRTCSources());
-                    } else {
-                        gotoCreateStudyPreview();
-                    }
-                } else {
-                    $('#create-tab-navigation').children().first().find('a').click();
-                }
-            });
-
             $('.btn-save-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
                     var button = $(this);
-                    $('.btn-preview-study').addClass('disabled');
                     saveGeneralData();
                     showCursor($('body'), CURSOR_POINTER);
                     if (studyEditable === true) {
-                        var updateData = getStudyData();
+                        var updateData = getExtractionStudyData();
                         updateData.studyId = editableStudyId;
                         updateStudy(updateData, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
+                            $('.btn-cache-study').removeClass('disabled');
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
 
@@ -1160,15 +936,15 @@ if (login_check($mysqli) == true) {
                                     checkJumpId();
                                 } else {
                                     var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                                    goto("study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+                                    goto("extraction-study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
                                 }
                             }
                         });
                     } else {
-                        saveStudy(getStudyData(), function (result) {
+                        saveStudy(getExtractionStudyData(), function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
+                            $('.btn-cache-study').removeClass('disabled');
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
 
@@ -1176,7 +952,7 @@ if (login_check($mysqli) == true) {
                                     checkJumpId();
                                 } else {
                                     var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                                    goto("study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+                                    goto("extraction-study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
                                 }
                             }
                         });
@@ -1190,39 +966,30 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (checkInputs() === true) {
                     var button = $(this);
-                    $('.btn-save-study, .btn-preview-study').addClass('disabled');
+                    $('.btn-save-study').addClass('disabled');
                     saveGeneralData();
                     showCursor($('body'), CURSOR_POINTER);
                     lockButton(button, true, 'fa-save');
                     if (studyEditable === true) {
-                        var updateData = getStudyData();
+                        var updateData = getExtractionStudyData();
                         updateData.studyId = editableStudyId;
                         updateStudy(updateData, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('.btn-save-study, .btn-preview-study').removeClass('disabled');
+                            $('.btn-save-study').removeClass('disabled');
                             unlockButton(button, true, 'fa-save');
-//                            if (result.status === RESULT_SUCCESS) {
-////                                clearLocalItems();
-////                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-////                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
-//                            } else {
-//                                //                            appendAlert()
-//                            }
                         });
                     } else {
-                        saveStudy(getStudyData(), function (result) {
+                        saveStudy(getExtractionStudyData(), function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('.btn-save-study, .btn-preview-study').removeClass('disabled');
+                            $('.btn-save-study').removeClass('disabled');
                             unlockButton(button, true, 'fa-save');
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
                                 var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                                goto("study-create.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
-//                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+                                goto("extraction-create.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
                             } else {
-                                //                            appendAlert()
                             }
                         });
                     }
@@ -1245,32 +1012,18 @@ if (login_check($mysqli) == true) {
                     errors++;
                 }
 
-                if ($('#phaseSelect').find('.chosen').attr('id') === 'unselected') {
-                    $('#phaseSelect').closest('.form-group').addClass('has-error');
-                    errors++;
-                }
-
-                if ($('#surveyMethodSelect').find('.chosen').attr('id') === 'unselected') {
-                    $('#surveyMethodSelect').closest('.form-group').addClass('has-error');
-                    errors++;
-                }
-
-                if ($('#surveyTypeSelect').find('.chosen').attr('id') === 'unselected') {
-                    $('#surveyTypeSelect').closest('.form-group').addClass('has-error');
-                    errors++;
-                }
-
                 return errors === 0;
             }
 
             function resetErrors() {
                 $('#studyTitle').closest('.form-group').removeClass('has-error');
                 $('#studyDescription').closest('.form-group').removeClass('has-error');
-                $('#phaseSelect').closest('.form-group').removeClass('has-error');
-                $('#surveyTypeSelect').closest('.form-group').removeClass('has-error');
             }
 
             $('#create-tab-navigation').on('show.bs.tab', function (event) {
+                if ($(event.target).attr('href') === '#mapping') {
+                    renderMapping();
+                }
                 var activeTabContent = $('#create-study-tab-content').find($(event.target).attr('href'));
                 TweenMax.from(activeTabContent, .2, {opacity: 0, y: -20, clearProps: 'all'});
                 TweenMax.from($('#btn-group-submit'), .3, {y: -20});
@@ -1291,58 +1044,21 @@ if (login_check($mysqli) == true) {
                             break;
                     }
                 }
-//                console.log(activeTab);
 
-                $('#custom-modal').attr('data-help-items-key', 'introductionCreateStudy');
-                $('#custom-modal').attr('data-help-context', 'studyCreation');
-                $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>));
+                $('#custom-modal').attr('data-help-items-key', 'introductionCreateExtractionStudy');
+                $('#custom-modal').attr('data-help-context', 'studyExtractionCreation');
+                $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialStudyExtractionCreation'] ?>));
                 loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
             });
 
-            $('#phaseStepSelect').on('change', function (event) {
-                var itemType = $(event.target).attr('id');
-                addPhaseStep(chance.natural(), itemType, null, true, true, function () {
-                    savePhases();
-                });
-
-                checkPreviewAvailability();
-
-                var tweenTargetOffset = $('#phaseStepList').find('.btn-group').last().offset();
-                var tweenElementOffset = $(event.target).offset();
-                var tweenOffset = {offsetY: tweenTargetOffset.top - tweenElementOffset.top, offsetX: tweenTargetOffset.left - tweenElementOffset.left};
-                var alphaY = tweenOffset.offsetY < 0 ? '' + tweenOffset.offsetY : '+' + tweenOffset.offsetY;
-                var alphaX = tweenOffset.offsetX < 0 ? '' + tweenOffset.offsetX : '+' + tweenOffset.offsetX;
-                TweenMax.to($(event.target), .3, {x: alphaX, y: alphaY, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: onMovePhaseStepComplete});
-            });
-
-            function onMovePhaseStepComplete() {
-                $('#phaseStepList').trigger('listItemAdded');
-            }
-
-            $('#phaseStepList').unbind('listItemAdded').bind('listItemAdded', function (event) {
-                event.preventDefault();
-                var scrollTarget = $(event.target).children().last();
-                var newScrollTop = Math.max(0, $(scrollTarget).offset().top);
-                console.log($(scrollTarget).offset(), newScrollTop);
-                $('html, body').animate({
-                    scrollTop: newScrollTop
-                }, 400);
-            });
-            
-            $('#phaseStepList').unbind('change').bind('change', function (event) {
-                savePhases();
-            });
 
             var overlayTween = new TimelineMax({paused: true, onReverseComplete: onReverseComplete});
             overlayTween.add("parallel")
                     .to($('.sub-page-header'), .3, {autoAlpha: 0}, 'parallel')
                     .to($('.mainContent'), .3, {autoAlpha: 0}, 'parallel')
                     .to($('#breadcrumb'), .3, {autoAlpha: 0}, 'parallel')
-//                    .to($('.mainContent'), .3, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel')
-//                    .to($('#breadcrumb'), .3, {webkitFilter: "blur(5px)", filter: "blur(5px)"}, 'parallel')
                     .to($('#creation-content'), .3, {autoAlpha: 1}, 'parallel')
                     .to($('#fixed-study-edit-controls'), .2, {autoAlpha: 0, x: -20}, 'parallel');
-//                    .to($('#creation-content-background'), .3, {autoAlpha: 1}, 'parallel');
 
             $(document).on('click', '.btn-open-overlay', function (event) {
                 event.preventDefault();
@@ -1399,39 +1115,6 @@ if (login_check($mysqli) == true) {
                     $(this).popover('hide');
                     downloadGestureSetAsExchangeable($('#gestures-catalog').find('#gestures-list-container .gesture-thumbnail'), translation.exchangeableGestureSet);
                 }
-            });
-
-            var datePickerFromOpened = false;
-            $('#btn-show-datepicker-from').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                if (!event.handled) {
-                    event.handled = true;
-                    $('#from-To-datepicker #start').datepicker('show');
-                }
-            });
-
-            $('#from-To-datepicker #start').on('show', function (event) {
-                $('#btn-show-datepicker-from').addClass('active');
-            });
-
-            $('#from-To-datepicker #start').on('hide', function (event) {
-                $('#btn-show-datepicker-from').removeClass('active');
-            });
-
-            $('#btn-show-datepicker-to').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                if (!event.handled) {
-                    event.handled = true;
-                    $('#from-To-datepicker #end').datepicker('show');
-                }
-            });
-
-            $('#from-To-datepicker #end').on('show', function (event) {
-                $('#btn-show-datepicker-to').addClass('active');
-            });
-
-            $('#from-To-datepicker #end').on('hide', function (event) {
-                $('#btn-show-datepicker-to').removeClass('active');
             });
         </script>
 

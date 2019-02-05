@@ -239,45 +239,45 @@ UserTest.prototype.renderModeratorView = function () {
         console.log('render moderator state: ', currentPhaseState);
 
         $(container).find('#scenario-controls').addClass('hidden');
-        appendAlert(container, ALERT_QUIT_SCREENSHARING);
+//        appendAlert(container, ALERT_QUIT_SCREENSHARING);
 
-        $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
-        $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                if (peerConnection) {
-                    peerConnection.stopShareScreen(true);
-                    peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
-                }
-                $(this).addClass('hidden');
+//        $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+//        $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//            if (!$(this).hasClass('disabled')) {
+        if (peerConnection) {
+            peerConnection.stopShareScreen(true);
+            peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
+        }
+//        $(this).addClass('hidden');
 
-                if (prototypeWindow) {
-                    prototypeWindow.close();
-                    prototypeWindow = null;
-                }
-            }
+        if (prototypeWindow) {
+            prototypeWindow.close();
+            prototypeWindow = null;
+        }
+//            }
+//        });
 
-            currentPhaseState = 'usertestDone';
-            renderCurrentPhaseState();
-        });
+        currentPhaseState = 'usertestDone';
+        renderCurrentPhaseState();
     }
 
     function renderStateUsertestDone() {
         console.log('render moderator state: ', currentPhaseState);
 
-        clearAlerts($(container).find('#column-right'));
-        appendAlert(container, ALERT_PHASE_STEP_DONE);
+//        clearAlerts($(container).find('#column-right'));
+//        appendAlert(container, ALERT_PHASE_STEP_DONE);
 
         $(container).find('#scene-container').addClass('hidden');
         $(container).find('#btn-stop-screen-sharing').addClass('hidden');
-        $(container).find('#btn-done-scenario').removeClass('hidden');
-        $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-            }
-            nextStep();
-        });
+//        $(container).find('#btn-done-scenario').removeClass('hidden');
+//        $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+        if (peerConnection) {
+            peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+        }
+        nextStep();
+//        });
     }
 
     return container;

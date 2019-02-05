@@ -484,6 +484,78 @@ function uninviteUser(data, callback) {
     });
 }
 
+
+///*
+// * extraction study
+// */
+//
+///*
+// * studies handling
+// * save, delete, get, update
+// */
+//
+//function saveExtractionStudy(data, callback) {
+//    $.ajax({
+//        ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+//        dataType: 'json',
+//        url: 'includes/save-extraction-study.php',
+//        data: data,
+//        type: 'post',
+//        async: true,
+//        success: function (result) {
+//            if (callback) {
+//                callback(result);
+//            }
+//        },
+//        error: function (xhr, desc, err) {
+//            ajaxError(xhr, desc, err);
+//        }
+//    });
+//}
+//
+//function updateExtractionStudy(data, callback) {
+//    $.ajax({
+//        ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+//        dataType: 'json',
+//        url: 'includes/update-extraction-study.php',
+//        data: data,
+//        type: 'post',
+//        async: true,
+//        success: function (result) {
+//            if (callback) {
+//                callback(result);
+//            }
+//        },
+//        error: function (xhr, desc, err) {
+//            ajaxError(xhr, desc, err);
+//        }
+//    });
+//}
+//
+//function deleteExtractionStudy(data, callback) {
+//    $.ajax({
+//        ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+//        dataType: 'json',
+//        url: 'includes/delete-extraction-study.php',
+//        data: data,
+//        type: 'post',
+//        async: true,
+//        success: function (result) {
+//            if (callback) {
+//                callback(result);
+//            }
+//        },
+//        error: function (xhr, desc, err) {
+//            ajaxError(xhr, desc, err);
+//        }
+//    });
+//}
+
+
+/*
+ * study execution
+ */
+
 function prepareStudyExecution(data, callback) {
     $.ajax({
         ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -759,6 +831,23 @@ function getStudyById(data, callback) {
 function getStudyParticipant(data, callback) {
     $.ajax({
         url: 'includes/get-study-participant.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function getAllStudyParticipants(data, callback) {
+    $.ajax({
+        url: 'includes/get-all-study-results.php',
         data: data,
         type: 'post',
         async: true,

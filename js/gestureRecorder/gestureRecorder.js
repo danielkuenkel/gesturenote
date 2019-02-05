@@ -713,6 +713,7 @@ function renderStateSave() {
     var titleQualityInput = $(recorder.currentRecorderContent).find('#gestureNameQualitySelect');
     var typeInput = $(recorder.currentRecorderContent).find('#gestureTypeSelect');
     var interactionTypeInput = $(recorder.currentRecorderContent).find('#gestureInteractionTypeSelect');
+    var continuousValueTypeInput = $(recorder.currentRecorderContent).find('#continuousValueTypeSelect');
     var contextInput = $(recorder.currentRecorderContent).find('#gestureContext');
     var associationInput = $(recorder.currentRecorderContent).find('#gestureAssociation');
     var descriptionInput = $(recorder.currentRecorderContent).find('#gestureDescription');
@@ -787,6 +788,10 @@ function renderStateSave() {
             $(interactionTypeInput).find('#' + recorder.options.updateData.interaction).click();
         }
 
+        if (recorder.options.updateData.continuousValueType) {
+            $(continuousValueTypeInput).find('#' + recorder.options.updateData.continuousValueType).click();
+        }
+
         if (recorder.options.updateData.titleQuality) {
             $(titleQualityInput).find('#' + recorder.options.updateData.titleQuality).click();
         }
@@ -815,7 +820,24 @@ function renderStateSave() {
 
         renderBodyJoints($(recorder.currentRecorderContent).find('#human-body'));
     }
+    
+    checkContinuousValueTypeInput();
+    $(typeInput).unbind('change').bind('change', function (event) {
+        checkContinuousValueTypeInput();
+    });
 
+    $(interactionTypeInput).unbind('change').bind('change', function (event) {
+        checkContinuousValueTypeInput();
+    });
+
+    function checkContinuousValueTypeInput() {
+        if ($(typeInput).find('.btn-option-checked').attr('id') === 'dynamic' && $(interactionTypeInput).find('.btn-option-checked').attr('id') === 'continuous') {
+            $(continuousValueTypeInput).removeClass('hidden');
+        } else {
+            $(continuousValueTypeInput).addClass('hidden');
+            $(continuousValueTypeInput).find('#none').click();
+        }
+    }
 
     $(saveButton).unbind('click').bind('click', function (event) {
         event.preventDefault();
@@ -844,6 +866,7 @@ function renderStateSave() {
             var titleQuality = $(titleQualityInput).find('.btn-option-checked').attr('id');
             var type = $(typeInput).find('.btn-option-checked').attr('id');
             var interactionType = $(interactionTypeInput).find('.btn-option-checked').attr('id');
+            var continuousValueType = $(continuousValueTypeInput).find('.btn-option-checked').attr('id');
             var context = $(contextInput).val().trim();
             var association = $(associationInput).val().trim();
             var description = $(descriptionInput).val().trim();
@@ -858,6 +881,7 @@ function renderStateSave() {
                 titleQuality: titleQuality,
                 type: type,
                 interactionType: interactionType,
+                continuousValueType: continuousValueType,
                 context: context,
                 association: association,
                 description: description,
@@ -869,7 +893,7 @@ function renderStateSave() {
                 images: null,
                 previewImage: null,
                 gif: null,
-                sensorData: null
+                sensorData: recorder.options.originSensorData ? recorder.options.originSensorData : null
             };
 
             for (var i = 0; i < recorders.length; i++) {
@@ -916,6 +940,18 @@ function renderStateSave() {
         if (recorder.options.checkInteractionType && recorder.options.checkInteractionType === true) {
             var interactionType = $(interactionTypeInput).find('.btn-option-checked').attr('id');
             if (interactionType === undefined) {
+                if (showErrors) {
+                    appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                } else {
+                    removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                }
+                return false;
+            }
+        }
+
+        if (recorder.options.checkContinuousValueType && recorder.options.checkContinuousValueType === true) {
+            var continuousValueType = $(continuousValueTypeInput).find('.btn-option-checked').attr('id');
+            if (continuousValueType === undefined) {
                 if (showErrors) {
                     appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
                 } else {
@@ -1012,6 +1048,8 @@ function resetInputs(resetInputs) {
         var associationInput = $(recorder.options.recorderTarget).find('.gr-save #gestureAssociation');
         var descriptionInput = $(recorder.options.recorderTarget).find('.gr-save #gestureDescription');
         var jointsInput = $(recorder.options.recorderTarget).find('.gr-save #gesture-save-form #human-body #joint-container');
+        var continuousValueTypeInput = $(recorder.currentRecorderContent).find('#continuousValueTypeSelect');
+        $(continuousValueTypeInput).find('#none').click();
 
         $(titleInput).val('');
         $(contextInput).val('');
@@ -1064,6 +1102,7 @@ function onRecorderInstanceSaveDataAttached(event, type, updateSaveData) {
 function saveGesture() {
     console.log('save gesture', gestureSaveData);
     saveRecordedGesture(gestureSaveData, function (result) {
+        resetProgress();
         if (result.status === RESULT_SUCCESS) {
             resetInputs(true);
             gestureSaveData.id = result.gestureId;
@@ -1073,13 +1112,13 @@ function saveGesture() {
             gestureSaveData.scope = result.scope;
             gestureSaveData.created = result.created;
             gestureSaveData.isOwner = true;
+
             $(recorder).trigger(GR_EVENT_SAVE_SUCCESS, [gestureSaveData]);
             setState(GR_STATE_SAVE_SUCCESS);
         } else {
             resetInputs();
             appendAlert($(recorder.currentRecorderContent).find('.gr-save'), ALERT_GENERAL_ERROR);
         }
-        resetProgress();
     });
 }
 

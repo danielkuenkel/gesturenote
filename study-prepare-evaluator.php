@@ -250,10 +250,10 @@ if ($h && $token && $studyId) {
                     <div id="call-screen" class="row hidden">
                         <div class="col-xs-12">
                             <div class="embed-responsive embed-responsive-4by3" id="video-caller">
-                                <div class="embed-responsive-item" style="border-radius: 4px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
+                                <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
                                     <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
                                 </div>
-                                <div id="remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 4px;"></div>
+                                <div id="remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 8px;"></div>
                                 <div class="rtc-local-container embed-responsive-item">
                                     <video autoplay id="local-stream" class="rtc-stream" style="display:block;"></video>
                                 </div>
@@ -275,7 +275,7 @@ if ($h && $token && $studyId) {
                                     </div>
                                 </div>
 
-                                <div id="rtc-config-panel" class="hidden" style="border-radius: 4px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+                                <div id="rtc-config-panel" class="hidden" style="border-radius: 8px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
                                     <div class="form-group" id="video-input-select">
                                         <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
 
@@ -328,7 +328,6 @@ if ($h && $token && $studyId) {
         <div class="root col-xs-12 hidden" id="queue-thumbnail">
             <div class="panel panel-shadow panel-sm btn-shadow">
                 <div class="panel-body">
-                    <!--<span class="label label-default" id="user"><i class="fa fa-user"></i> <span class="label-text"></span></span>-->
                     <span id="waiting" style="font-size: 9pt;"><span class="participant-name" style="font-weight: bold; color: black;"></span> <span class="address"><?php echo $lang->waiting ?>:</span> <span class="text"></span></span>
                 </div>
             </div>
@@ -389,7 +388,6 @@ if ($h && $token && $studyId) {
                     if (now > dateFrom && now < dateTo) {
 
                         checkRoles();
-//                        checkRTC($('#check-rtc-status'));
 
                         appendAlert($('#participation-queue'), ALERT_SEARCH_PARTICIPATION_REQUESTS);
 
@@ -541,7 +539,7 @@ if ($h && $token && $studyId) {
                         $(item).find('.panel').on('click', {requestId: request.id}, function (event) {
                             clearInterval(requestInterval);
                             approveParticipation({requestId: event.data.requestId}, function (result) {
-                                console.log(result);
+//                                console.log(result);
                                 if (result.status === RESULT_SUCCESS) {
                                     $('#participation-queue, #check-rtc-status, #role-selection-container').addClass('hidden');
                                     $('#call-screen').removeClass('hidden');

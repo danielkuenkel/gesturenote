@@ -54,7 +54,7 @@ if (isset($_POST['studyId'])) {
                     } else {
 
                         $select_gesture_stmt->store_result();
-                        $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated, $forename, $surname);
+                        $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContinuousValueType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated, $forename, $surname);
 
                         while ($select_gesture_stmt->fetch()) {
                             $commentCount = 0;
@@ -117,6 +117,7 @@ if (isset($_POST['studyId'])) {
                                 'titleQuality' => $gestureTitleQuality,
                                 'type' => $gestureType,
                                 'interactionType' => $gestureInteractionType,
+                                'continuousValueType' => $gestureContinuousValueType,
                                 'context' => $gestureContext,
                                 'association' => $gestureAssociation,
                                 'description' => $gestureDescription,

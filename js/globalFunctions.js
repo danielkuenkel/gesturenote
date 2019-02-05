@@ -433,6 +433,8 @@ $(document).on('mouseenter', '.select .option li', function (event) {
             selectType = 'gestures';
         } else if ($(parent).hasClass('sceneSelect')) {
             selectType = 'scenes';
+        } else if ($(parent).hasClass('gestureDataSelect')) {
+            selectType = 'gestureData';
         }
         var button = $(this);
 
@@ -458,6 +460,16 @@ $(document).on('mouseenter', '.select .option li', function (event) {
                     TweenMax.to(popover, .3, {autoAlpha: 1});
                 });
                 break;
+            case 'gestureData':
+                var dataUrl = $(this).attr('id');
+                renderLeapPopoverPreview(dataUrl, function () {
+                    var popover = $('#popover-leap');
+                    var top = button.offset().top - popover.height() - 2;
+                    var left = button.offset().left + parseInt(((button.width() - popover.width()) / 2));
+                    popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                    TweenMax.to(popover, .3, {autoAlpha: 1});
+                });
+                break;
         }
 //        console.log('mouse entered', selectType);
     }
@@ -466,9 +478,13 @@ $(document).on('mouseenter', '.select .option li', function (event) {
 $(document).on('mouseleave', '.select .option li', function (event) {
     event.preventDefault();
     var parent = $(this).closest('.select');
-    if ($(parent).hasClass('gestureSelect') || $(parent).hasClass('sceneSelect')) {
+
+    if ($(parent).hasClass('gestureSelect')) {
         resetGesturePopover();
+    } else if ($(parent).hasClass('sceneSelect')) {
         resetScenePopover();
+    } else if ($(parent).hasClass('gestureDataSelect')) {
+        resetLeapPopover();
     }
 });
 
@@ -515,13 +531,47 @@ function renderScenePopoverPreview(scene, callback) {
         $('body').append(popover);
 
         if (callback) {
-            callback();
+            callback(popover);
         }
     }
 }
 
 function resetScenePopover() {
     var popover = $('#popover-scene');
+    $(popover).remove();
+}
+
+function renderLeapPopoverPreview(dataUrl, callback) {
+    var popover = $('#popover-leap-preview').clone();
+    popover.attr('id', 'popover-leap');
+    $('body').append(popover);
+
+    var container = $(popover).find('#leap-recording-container');
+    var options = {
+        offset: {x: 0, y: 200, z: 0},
+        previewOnly: true,
+        pauseOnHands: false,
+        autoplay: true,
+        recording: dataUrl,
+        renderTarget: $(container).find('#renderArea')
+//        playbackElement: $(container).find('.btn-toggle-playback')
+//        downloadJsonElement: $(popover).find('.btn-download-as-json'),
+//        downloadCompressedElement: $(popover).find('.btn-download-as-compressed'),
+//        playbackSliderElement: $(popover).find('#leap-playback-slider')
+    };
+    leapMotionPreview = new LeapRecorder(options);
+
+    if (callback) {
+        callback(popover);
+    }
+}
+
+var leapMotionPreview = null;
+function resetLeapPopover() {
+    leapMotionPreview.destroy(true);
+    leapMotionPreview = null;
+
+    var popover = $('#popover-leap');
     $(popover).remove();
 }
 
@@ -626,9 +676,9 @@ function onTweenDeleteComplete(element, parent, button) {
     $(element).remove();
     checkCurrentListState(parent);
 
-    if ($(button).hasClass('saveGeneralData')) {
-        savePhases();
-    }
+//    if ($(button).hasClass('saveGeneralData')) {
+//        savePhases();
+//    }
 
     var deleteId = $(button).closest('.root').attr('id');
     updateBadges(parent, deleteId);
@@ -702,9 +752,9 @@ function moveElement(direction, which, save) {
 
 function onMoveUpComplete(element, brother, save) {
     $(element).insertBefore(brother);
-    if (save === true) {
-        savePhases();
-    }
+//    if (save === true) {
+//        savePhases();
+//    }
 
     $(element).find('.btn-delete').removeClass('disabled');
     $(brother).find('.btn-delete').removeClass('disabled');
@@ -724,9 +774,9 @@ function onMoveUpComplete(element, brother, save) {
 
 function onMoveDownComplete(element, brother, save) {
     $(element).insertAfter(brother);
-    if (save === true) {
-        savePhases();
-    }
+//    if (save === true) {
+//        savePhases();
+//    }
 
     $(element).find('.btn-delete').removeClass('disabled');
     $(brother).find('.btn-delete').removeClass('disabled');
@@ -1014,6 +1064,8 @@ function renderAssembledGestures(targetContainer, optionalSelections) {
     if (targetContainer !== undefined && targetContainer !== null) {
         target = targetContainer;
     }
+
+    console.log(target, gestures);
 
     var dropdown = target === null ? $('#form-item-container').find('.gestureSelect') : $(target).find('.gestureSelect');
     $(dropdown).find('.option').empty();
@@ -1518,13 +1570,7 @@ function renderAssembledTaskAssessments(dropdown, data, selectedId) {
  * Actions for the start perform gesture annotations
  */
 
-function renderAssembledGesturePerforms(targetContainer, annotations, timelineData) {
-    var performedGestures = [];
-    for (var i = 0; i < annotations.length; i++) {
-        if (annotations[i].action === ACTION_START_PERFORM_GESTURE_IDENTIFICATION) {
-            performedGestures.push(annotations[i]);
-        }
-    }
+function renderAssembledGesturePerforms(targetContainer) {
     var triggers = getLocalItem(ASSEMBLED_TRIGGER);
     var target = $('#form-item-container');
     if (targetContainer !== undefined && targetContainer !== null) {
@@ -1535,44 +1581,10 @@ function renderAssembledGesturePerforms(targetContainer, annotations, timelineDa
     var dropdown = target === null ? $('#form-item-container').find('.performedSelect') : $(target).find('.performedSelect');
     $(dropdown).find('.option').empty();
 
-//    console.log(performedGestures);
-//    if (performedGestures && performedGestures.length > 0) {
-//        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
-//        $(target).find('.triggerSelect .dropdown-toggle').removeClass('disabled');
-//        $(target).find('.option-trigger').attr('placeholder', translation.pleaseSelect);
-//
-//        var header = document.createElement('li');
-//        $(header).addClass('dropdown-header').text('Zuweisung zur Annotation:');
-//        $(dropdown).find('.option').append(header);
-//
-//        for (var i = 0; i < performedGestures.length; i++) {
-//            var seconds = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime || timelineData.phaseResults.startTime, performedGestures[i].time), true);
-//            var trigger = getTriggerById(performedGestures[i].triggerId);
-//
-//            listItem = document.createElement('li');
-//            listItem.setAttribute('id', performedGestures[i].id);
-//            link = document.createElement('a');
-//            link.setAttribute('href', '#');
-//            link.appendChild(document.createTextNode(secondsToHms(seconds) + ': ' + translation.annotationsList.startPerformGestureIdentification + ' ' + trigger.title));
-//            listItem.appendChild(link);
-//            $(dropdown).find('.option').append(listItem);
-//        }
-//    }
-
     if (triggers && triggers.length > 0) {
         $(dropdown).find('.dropdown-toggle').removeClass('disabled');
         $(target).find('.triggerSelect .dropdown-toggle').removeClass('disabled');
         $(target).find('.option-trigger').attr('placeholder', translation.pleaseSelect);
-
-//        if (performedGestures && performedGestures.length > 0) {
-//            var divider = document.createElement('li');
-//            $(divider).addClass('divider');
-//            $(dropdown).find('.option').append(divider);
-//        }
-
-//        var header = document.createElement('li');
-//        $(header).addClass('dropdown-header').text('Weitere Geste für:');
-//        $(dropdown).find('.option').append(header);
 
         for (var i = 0; i < triggers.length; i++) {
             listItem = document.createElement('li');
@@ -1583,6 +1595,60 @@ function renderAssembledGesturePerforms(targetContainer, annotations, timelineDa
             listItem.appendChild(link);
             $(dropdown).find('.option').append(listItem);
         }
+    }
+}
+
+/* 
+ * Actions for the start perform gesture annotations
+ */
+
+function renderAssembledSensorData(targetContainer, triggerId, data) {
+    var gesturesData = [];
+    if (data && data.length > 0) {
+        for (var i = 0; i < data.length; i++) {
+            if (parseInt(triggerId) === parseInt(data[i].triggerId)) {
+                data[i].index = i + 1;
+                gesturesData.push(data[i]);
+            }
+        }
+    }
+
+    console.log(data, gesturesData, triggerId);
+
+    var target = $('#form-item-container');
+    if (targetContainer !== undefined && targetContainer !== null) {
+        target = targetContainer;
+    }
+
+    var listItem, link;
+    var dropdown = target === null ? $('#form-item-container').find('.gestureDataSelect') : $(target).find('.gestureDataSelect');
+    $(dropdown).find('.option').empty();
+
+    if (gesturesData && gesturesData.length > 0) {
+        $(targetContainer).removeClass('hidden');
+        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
+        $(target).find('.option-trigger').attr('placeholder', translation.pleaseSelect);
+
+        console.log(target, dropdown, targetContainer);
+
+        for (var i = 0; i < gesturesData.length; i++) {
+            console.log('render item', gesturesData[i]);
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', gesturesData[i].dataUrl);
+            link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode('LEAP ' + gesturesData[i].index));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
+        }
+
+        if (gesturesData.length === 1) {
+            $(dropdown).find('.option').children().first().click();
+            // select first item
+        }
+    } else {
+        // append alert
+        $(targetContainer).addClass('hidden');
     }
 }
 
@@ -2297,6 +2363,37 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
     }
 });
 
+$(document).on('click', '.btn-tag-as-mapping-gesture', function (event) {
+    event.preventDefault();
+
+    if (!event.handled) {
+        event.handled = true;
+
+        var rerender = !$(this).attr('data-rerender');
+
+        var assemble = false;
+        var gestureId = $(this).closest('.root').attr('id');
+        $(this).popover('hide');
+
+        if (!$(this).hasClass('assembled')) {
+            $(this).attr('data-content', translation.removeFromStudyGestureSet).data('bs.popover').setContent();
+            $(this).addClass('assembled');
+            $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
+            $(this).closest('.gesture-thumbnail').addClass('assembled');
+            $(this).closest('.gesture-thumbnail').find('.tagged-symbol').removeClass('hidden');
+            assemble = true;
+        } else {
+            $(this).attr('data-content', translation.addToStudyGestureSet).data('bs.popover').setContent();
+            $(this).removeClass('assembled');
+            $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
+            $(this).closest('.gesture-thumbnail').removeClass('assembled');
+            $(this).closest('.gesture-thumbnail').find('.tagged-symbol').addClass('hidden');
+        }
+
+        $(this).trigger('change', [gestureId, assemble, rerender]);
+    }
+});
+
 $(document).on('click', '.btn-add-gesture-to-scene', function (event) {
     event.preventDefault();
     if (!event.handled) {
@@ -2798,14 +2895,6 @@ function initMoreInfoGesture(button, clone, data, source, modalId) {
         gesturePreviewOpened = true;
         $(clone).find('.btn-pause-gesture').click();
 
-        $('#custom-modal').on('gesture-deleted', function () {
-            console.log($('#custom-page'), $('#custom-page').length, $('#custom-page .pagination'), $('#custom-page .pagination').length, );
-            if ($('#custom-page .pagination') && $('#custom-page .pagination').length > 0) {
-                checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-                renderData(currentFilterData);
-            }
-        });
-
         if (modalId) {
             loadHTMLintoModal('custom-modal', 'externals/' + modalId + '.php', 'modal-lg');
         } else {
@@ -3300,6 +3389,33 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
     return clone;
 }
 
+function getCreateExtractionMappingGestureListThumbnail(data, assembledGestures, typeId, layout, source, panelStyle, modalId) {
+    if (!source || source === null || source === undefined) {
+        source = GESTURE_CATALOG;
+    }
+
+    var clone = initGestureThumbnail(data, typeId, layout, panelStyle);
+    initMoreInfoGesture($(clone).find('.btn-show-gesture-info'), clone, data, source, modalId);
+    initGestureSet($(clone).find('.btn-edit-gesture-set'), clone, source, data);
+
+    console.log(assembledGestures, data.id)
+    if (assembledGestures && assembledGestures.length > 0) {
+        for (var i = 0; i < assembledGestures.length; i++) {
+            if (parseInt(assembledGestures[i]) === parseInt(data.id)) {
+                clone.find('.btn-tag-as-mapping-gesture').attr('data-content', 'Zuweisung entfernen');
+                clone.find('.gesture-thumbnail').addClass('assembled');
+                clone.find('.btn-tag-as-mapping-gesture').addClass('assembled');
+                clone.find('.btn-tag-as-mapping-gesture .fa').removeClass('fa-plus-square').addClass('fa-minus-square');
+                clone.find('.tagged-symbol').removeClass('hidden');
+                clone.find('.tagged-symbol').attr('data-content', 'Dem Studien-Gesten-Set zugewiesen');
+                initPopover();
+            }
+        }
+    }
+
+    return clone;
+}
+
 function getGestureSceneListThumbnail(data, typeId, layout, source, panelStyle) {
     if (!source || source === null || source === undefined) {
         source = GESTURE_CATALOG;
@@ -3331,95 +3447,107 @@ function getStudiesCatalogListThumbnail(target, data) {
 
         initPopover();
 
-        if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
-                (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
+        if (data.data.generalData.method === 'userCentered') {
 
-            var dateFrom = data.data.generalData.dateFrom * 1000;
-            var dateTo = addDays(data.data.generalData.dateTo * 1000, 1);
-            var totalDays = rangeDays(dateFrom, dateTo);
+            $(clone).find('#study-plan').removeClass('hidden');
 
-            var now = new Date().getTime();
-            var progress = 0;
-            $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
+            if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
+                    (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
 
-            if (now > dateFrom && now < dateTo) {
+                var dateFrom = data.data.generalData.dateFrom * 1000;
+                var dateTo = addDays(data.data.generalData.dateTo * 1000, 1);
+                var totalDays = rangeDays(dateFrom, dateTo);
+
+                var now = new Date().getTime();
+                var progress = 0;
+                $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
+
+                if (now > dateFrom && now < dateTo) {
 //                console.log(dateFrom, dateTo.getTime(), now);
-                var left = getTimeLeftForTimestamp(dateTo, 1);
+                    var left = getTimeLeftForTimestamp(dateTo, 1);
 //                var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
-                var statusText = $(clone).find('.study-started').removeClass('hidden').find('.status-text');
-                progress = (now - dateFrom) / (dateTo.getTime() - dateFrom) * 100;//daysExpired / totalDays * 100;
-                $(statusText).text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
-                $(clone).find('.progress-bar').addClass('progress-bar-success');
-                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
-                var hourglass = $(clone).find('.study-started .fa');
+                    var statusText = $(clone).find('.study-started').removeClass('hidden').find('.status-text');
+                    progress = (now - dateFrom) / (dateTo.getTime() - dateFrom) * 100;//daysExpired / totalDays * 100;
+                    $(statusText).text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
+                    $(clone).find('.progress-bar').addClass('progress-bar-success');
+                    $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
+                    var hourglass = $(clone).find('.study-started .fa');
 //                console.log(statusText);
-                TweenMax.to(hourglass, 2, {rotation: '360', repeat: -1, ease: Quad.easeInOut});
-                TweenMax.to($(statusText), 1, {delay: 0, css: {marginLeft: '8'}, yoyo: true, repeat: -1, ease: Quad.easeIn});
-            } else if (now < dateFrom) {
-                progress = 100;
-                var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
-                $(clone).find('.study-not-started').removeClass('hidden').find('.status-text').text(translation.startsAt + ' ' + daysToStart + ' ' + (daysToStart === 1 ? translation.day : translation.daysn));
-                $(clone).find('.progress-bar').addClass('progress-bar-warning');
-            } else if (now > dateTo) {
-                progress = 100;
-                $(clone).find('#study-range-days .address').text(translation.studyRuns + ": ");
-                $(clone).find('.study-ended').removeClass('hidden').find('.status-text').text(translation.studyEnded);
-                $(clone).find('.progress-bar').addClass('progress-bar-info');
-                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.none);
-            }
-
-            if (parseInt(data.participants) > 0) {
-                $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(data.participants);
-                $(clone).find('#participant-count').attr('data-content', data.participants + ' ' + (parseInt(data.participants) === 1 ? translation.participation : translation.participations)).data('bs.popover').setContent();
-
-                $(clone).find('#participant-count').unbind('click').bind('click', {studyId: data.id}, function (event) {
-                    event.stopImmediatePropagation();
-                    event.preventDefault();
-                    $(clone).trigger('gotoStudyParticipants', [{studyId: event.data.studyId}]);
-                    console.log('goto trigger');
-                });
-            }
-
-            if (data.isOwner === false) {
-                $(clone).find('#shared-study').removeClass('hidden');
-                $(clone).find('#shared-study').attr('data-content', translation.sharedStudy);
-            } else if (data.isOwner === true) {
-                var shareAmount = data.invitedUsers && data.invitedUsers.length > 0 ? data.invitedUsers && data.invitedUsers.length : 0;
-                if (shareAmount > 7) {
-                    $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.invitedUsers.length);
-                    $(clone).find('#shared-study').attr('data-content', data.invitedUsers.length + ' ' + translation.sharedInfo);
-                } else if (shareAmount > 0) {
-                    $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.invitedUsers.length);
-                    var titles = '';
-                    var setCount = 0;
-                    for (var i = 0; i < data.invitedUsers.length; i++) {
-                        var email = data.invitedUsers[i].email;
-                        if (email) {
-                            titles += '<div class="ellipsis">' + email + '</div>';
-                            setCount++;
-                        }
-                    }
-
-                    $(clone).find('#shared-study').attr('data-content', titles);
-                } else {
-                    $(clone).find('#shared-study').addClass('hidden');
+                    TweenMax.to(hourglass, 2, {rotation: '360', repeat: -1, ease: Quad.easeInOut});
+                    TweenMax.to($(statusText), 1, {delay: 0, css: {marginLeft: '8'}, yoyo: true, repeat: -1, ease: Quad.easeIn});
+                } else if (now < dateFrom) {
+                    progress = 100;
+                    var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
+                    $(clone).find('.study-not-started').removeClass('hidden').find('.status-text').text(translation.startsAt + ' ' + daysToStart + ' ' + (daysToStart === 1 ? translation.day : translation.daysn));
+                    $(clone).find('.progress-bar').addClass('progress-bar-warning');
+                } else if (now > dateTo) {
+                    progress = 100;
+                    $(clone).find('#study-range-days .address').text(translation.studyRuns + ": ");
+                    $(clone).find('.study-ended').removeClass('hidden').find('.status-text').text(translation.studyEnded);
+                    $(clone).find('.progress-bar').addClass('progress-bar-info');
+                    $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.none);
                 }
+
+                if (parseInt(data.participants) > 0) {
+                    $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(data.participants);
+                    $(clone).find('#participant-count').attr('data-content', data.participants + ' ' + (parseInt(data.participants) === 1 ? translation.participation : translation.participations)).data('bs.popover').setContent();
+
+                    $(clone).find('#participant-count').unbind('click').bind('click', {studyId: data.id}, function (event) {
+                        event.stopImmediatePropagation();
+                        event.preventDefault();
+                        $(clone).trigger('gotoStudyParticipants', [{studyId: event.data.studyId}]);
+                        console.log('goto trigger');
+                    });
+                }
+
+                if (data.isOwner === false) {
+                    $(clone).find('#shared-study').removeClass('hidden');
+                    $(clone).find('#shared-study').attr('data-content', translation.sharedStudy);
+                } else if (data.isOwner === true) {
+                    var shareAmount = data.invitedUsers && data.invitedUsers.length > 0 ? data.invitedUsers && data.invitedUsers.length : 0;
+                    if (shareAmount > 7) {
+                        $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.invitedUsers.length);
+                        $(clone).find('#shared-study').attr('data-content', data.invitedUsers.length + ' ' + translation.sharedInfo);
+                    } else if (shareAmount > 0) {
+                        $(clone).find('#shared-study').removeClass('hidden').find('.label-text').text(data.invitedUsers.length);
+                        var titles = '';
+                        var setCount = 0;
+                        for (var i = 0; i < data.invitedUsers.length; i++) {
+                            var email = data.invitedUsers[i].email;
+                            if (email) {
+                                titles += '<div class="ellipsis">' + email + '</div>';
+                                setCount++;
+                            }
+                        }
+
+                        $(clone).find('#shared-study').attr('data-content', titles);
+                    } else {
+                        $(clone).find('#shared-study').addClass('hidden');
+                    }
+                }
+
+
+                $(clone).find('.progress-bar').css({width: progress + "%"});
+                $(clone).find('#study-range-days .text').text(totalDays + ' ' + (parseInt(totalDays) === 1 ? translation.day : translation.days));
+
+                if (now > dateFrom && now < dateTo) {
+                    TweenMax.from($(clone).find('.progress-bar'), 1, {delay: .3, width: "0%", opacity: 0});
+                }
+            } else {
+                $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
+                $(clone).find('#study-range-days .status-text').text('0 ' + translation.days);
+                $(clone).find('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
+                $(clone).find('.progress-bar').addClass('progress-bar-danger');
             }
-
-
-            $(clone).find('.progress-bar').css({width: progress + "%"});
-            $(clone).find('#study-range-days .text').text(totalDays + ' ' + (parseInt(totalDays) === 1 ? translation.day : translation.days));
-
-            if (now > dateFrom && now < dateTo) {
-                TweenMax.from($(clone).find('.progress-bar'), 1, {delay: .3, width: "0%", opacity: 0});
-            }
-        } else {
-            $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
-            $(clone).find('#study-range-days .status-text').text('0 ' + translation.days);
-            $(clone).find('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
-            $(clone).find('.progress-bar').addClass('progress-bar-danger');
+        } else if (data.data.generalData.method === 'expertBased') {
+            $(clone).find('#study-plan').remove();
+            $(clone).find('.panel-body-progress').remove();
         }
 
+        var descriptionText = data.data.generalData.description.length < 100 ? data.data.generalData.description : data.data.generalData.description.substring(0, 200) + ' …';
+        $(clone).find('#study-description').text(descriptionText);
+
+        $(clone).find('#type-method').text(translation.methodType[data.data.generalData.method])
         $(clone).find('#type-survey').text(translation.surveyType[data.data.generalData.surveyType]);
         $(clone).find('#type-phase').text(translation.phaseType[data.data.generalData.phase]);
     }
@@ -3778,6 +3906,8 @@ function initGestureSetSimulation(panel, data) {
 }
 
 function initAssembledGestureSetList(panel, data, type, layout) {
+    console.log(data);
+
     if (data.gestures !== null) {
         clearAlerts(panel);
         for (var j = 0; j < data.gestures.length; j++) {
@@ -4220,7 +4350,8 @@ function isWebRTCNeeded() {
 function isWebRTCNeededForPhaseStep(phaseStep) {
     if (phaseStep) {
         var options = getPhaseStepOptions(phaseStep.format);
-        if (options.tester.stream === 'yes' || options.tester.visualizeStream === 'yes' || options.tester.recordStream === 'yes') {
+//        console.log(options)
+        if (options && options.tester && (options.tester.stream === 'yes' || options.tester.visualizeStream === 'yes' || options.tester.recordStream === 'yes')) {
             return true;
         }
     }

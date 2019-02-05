@@ -358,8 +358,24 @@ function renderStudyScenes(scenes) {
         item.find('.label-text').text(translation.sceneTypes[scenes[i].type]);
         item.find('#' + scenes[i].type).removeClass('hidden');
         $('#scenes-catalog').find('.list-container').append(item);
-//        console.log(scenes[i]);
         TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+        
+        $(item).find('.text').unbind('mouseenter').bind('mouseenter', {sceneId: scenes[i].id}, function (event) {
+            var button = $(this);
+            var scene = getSceneById(event.data.sceneId);
+            renderScenePopoverPreview(scene, function (popover) {
+                var top = $(button).offset().top - popover.height() - 2;
+                var left = $(button).offset().left + parseInt(((button.width() - popover.width()) / 2));
+                popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                TweenMax.to(popover, .3, {autoAlpha: 1});
+            });
+        });
+
+        $(item).find('.text').unbind('mouseleave').bind('mouseleave', function (event) {
+            event.preventDefault();
+            resetScenePopover();
+        });
+        
         $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
             event.preventDefault();
             currentSceneId = event.data.sceneId;

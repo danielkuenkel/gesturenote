@@ -67,14 +67,19 @@ if (login_check($mysqli) == true) {
 
                 <div class="panel-body panel-content">
                     <div>
+                        <div class="label label-default" id="type-method"></div>
                         <div class="label label-default" id="type-phase"></div>
                         <!--<div class="label label-default" id="type-survey"></div>-->
                         <div class="label label-default hidden" id="participant-count" data-toggle="popover" data-trigger="hover" data-placement="auto"><i class="fa fa-users"></i> <span class="label-text"></span></div>
                         <div class="label label-default hidden" id="shared-study" data-toggle="popover" data-trigger="hover" title="<?php echo $lang->studySharedWith ?>" data-placement="auto"><i class="fa fa-share-alt"></i> <span class="label-text"></span></div>
                     </div>
-
-                    <div>
-                        <div id="study-range-days"><span class="address"></span> <span class="text"></span></div>
+                    
+                    <div id="study-description" style="line-height: 14pt; font-size: 11pt; margin-top: 10px">
+                        
+                    </div>
+                    
+                    <div id="study-plan" class="hidden" style="margin-top: 3px">
+                        <div id="study-range-days" style="margin-bottom: -6px"><span class="address"></span> <span class="text"></span></div>
                         <div class="hidden study-no-plan text"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="status-text"></span></div>
                         <div class="hidden study-not-started text"><i class="fa fa-hourglass-start" aria-hidden="true"></i> <span class="status-text"></span></div>
                         <div class="hidden study-started text"><i class="fa fa-hourglass-half" aria-hidden="true"></i> <span class="status-text"></span></div>
@@ -95,10 +100,20 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
+        <!-- Modal -->
+        <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog" data-conv-allowed="false">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content root">
+                </div>
+            </div>
+        </div>
+
         <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-studies-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left: -186px">
             <div class="btn-group-vertical">
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow" id="btn-create-study" onclick="gotoCreateStudy()" style="float: right; position: relative; border-bottom-left-radius: 0px; border-top-left-radius: 0px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;"><?php echo $lang->createNewStudy ?> <i class="fa fa-plus" style="margin-left: 10px"></i> </button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-create-study" id="btn-create-study" style="float: right; position: relative; border-bottom-left-radius: 0px; border-top-left-radius: 0px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;"><?php echo $lang->createNewStudy ?> <i class="fa fa-plus" style="margin-left: 10px"></i> </button>
                 </div>
             </div>
         </div>
@@ -107,7 +122,7 @@ if (login_check($mysqli) == true) {
         <!-- Container (Panel Section) -->
         <div class="container mainContent" style="margin-top: 0px; padding-top: 0px" id="item-view">
 
-            <button type="button" class="btn btn-success hidden-md hidden-lg btn-block btn-shadow" onclick="gotoCreateStudy()" style="margin-top: 20px"><i class="fa fa-plus"></i> <?php echo $lang->createNewStudy ?></button>
+            <button type="button" class="btn btn-success hidden-md hidden-lg btn-block btn-shadow btn-create-study" style="margin-top: 20px"><i class="fa fa-plus"></i> <?php echo $lang->createNewStudy ?></button>
 
             <div style="margin-top: 30px">
                 <h3><?php echo $lang->breadcrump->studies ?></h3>
@@ -304,18 +319,25 @@ if (login_check($mysqli) == true) {
                             TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                         }
 
-                        $(clone).unbind('gotoStudyParticipants').bind('gotoStudyParticipants', function (event, payload) {
-                            event.preventDefault();
-                            console.log('catch gotoStudyParticipants', payload.studyId);
-                            var hash = hex_sha512(parseInt(payload.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                            goto("study.php?studyId=" + payload.studyId + "&h=" + hash + '&joinedConv=false#participants');
-                        });
+                        if (currentFilterData[i].data.generalData.method === 'userCentered') {
+                            $(clone).unbind('gotoStudyParticipants').bind('gotoStudyParticipants', function (event, payload) {
+                                event.preventDefault();
+                                var hash = hex_sha512(parseInt(payload.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                goto("study.php?studyId=" + payload.studyId + "&h=" + hash + '&joinedConv=false#participants');
+                            });
 
-                        $(clone).find('.panel').click({studyId: currentFilterData[i].id}, function (event) {
-                            event.preventDefault();
-                            var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                            goto("study.php?studyId=" + event.data.studyId + "&h=" + hash + '&joinedConv=false');
-                        });
+                            $(clone).find('.panel').click({studyId: currentFilterData[i].id}, function (event) {
+                                event.preventDefault();
+                                var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                goto("study.php?studyId=" + event.data.studyId + "&h=" + hash + '&joinedConv=false');
+                            });
+                        } else if (currentFilterData[i].data.generalData.method === 'expertBased') {
+                            $(clone).find('.panel').click({studyId: currentFilterData[i].id}, function (event) {
+                                event.preventDefault();
+                                var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                goto("extraction-study.php?studyId=" + event.data.studyId + "&h=" + hash + '&joinedConv=false');
+                            });
+                        }
                     }
                 } else {
                     appendAlert($('#item-view'), ALERT_NO_STUDIES);
@@ -415,6 +437,11 @@ if (login_check($mysqli) == true) {
                     itemSelector: '.grid-item'
                 });
             }
+
+            $('.btn-create-study').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'externals/modal-create-study-picker.php', 'modal-md');
+            });
         </script>
     </body>
 </html>

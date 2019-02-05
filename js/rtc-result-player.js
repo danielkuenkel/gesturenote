@@ -353,8 +353,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
             $(resultsPlayer.domElement).find('#btn-toggle-trim-video').unbind('click').bind('click', function (event) {
                 event.preventDefault();
 
-                var annotations = player.annotations();
-                renderAssembledGesturePerforms($(resultsPlayer.domElement).find('#select-annotation-for-gesture'), annotations, timelineData);
+//                var annotations = player.annotations();
+                renderAssembledGesturePerforms($(resultsPlayer.domElement).find('#select-annotation-for-gesture'));
 //                renderAssembledTriggers($(resultsPlayer.domElement).find('#select-annotation-for-gesture'));
 
                 $(this).popover('hide');
@@ -379,6 +379,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                 $(resultsPlayer.domElement).find('#select-annotation-for-gesture').unbind('change').bind('change', function (event) {
                     event.preventDefault();
                     checkExtraktionInputs();
+                    checkRecordedDataSelection();
                 });
             });
 
@@ -457,6 +458,15 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                 } else {
                     $(resultsPlayer.domElement).find('#btn-extract-images').addClass('disabled');
                     $(resultsPlayer.domElement).find('#btn-play-marked-area').addClass('disabled');
+                }
+            }
+
+            function checkRecordedDataSelection() {
+                var selectedTriggerId = $(resultsPlayer.domElement).find('#select-annotation-for-gesture .chosen').attr('id');
+                $(resultsPlayer.domElement).find('#recorded-data-selection');
+                if (selectedTriggerId !== 'unselected') {
+                    var tempData = getLocalItem(timelineData.phaseResults.id + '.results');
+                    renderAssembledSensorData($(resultsPlayer.domElement).find('#recorded-data-selection'), selectedTriggerId, tempData.recordedData);
                 }
             }
 
@@ -622,9 +632,19 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                             });
                         });
 
+                        var sensorDataUrl = $(resultsPlayer.domElement).find('#recorded-data-selection .gestureDataSelect .chosen').attr('id');
+                        var sensorData = null;
+                        if (sensorDataUrl === 'unselected') {
+                            sensorDataUrl = null;
+                        } else {
+                            sensorData = {
+                                compressedData: sensorDataUrl, previewOnly: true, sensor: 'leap', type: 'leap', url: sensorDataUrl
+                            };
+                        }
+
                         loadHTMLintoModal('custom-modal', 'externals/modal-gesture-recorder.php', 'modal-lg');
                         var query = getQueryParams(document.location.search);
-                        currentSaveGesture = {source: GESTURE_CATALOG, gesture: {images: shotsArray, blobs: blobsArray, previewImage: 0}, userId: query.participantId, gestureSource: 'tester'};
+                        currentSaveGesture = {source: GESTURE_CATALOG, gesture: {images: shotsArray, blobs: blobsArray, previewImage: 0, sensorData: sensorData}, userId: query.participantId, gestureSource: 'tester'};
                     }
                 }, 'image/jpeg', 0.8);
             }

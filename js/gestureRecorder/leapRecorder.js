@@ -26,7 +26,7 @@ function LeapRecorder(options) {
         overlay: false
     });
 
-    console.log('renderTarget', options.renderTarget);
+//    console.log('renderTarget', options.renderTarget);
 
     controller.use('riggedHand', {
         checkWebGL: false,
@@ -177,7 +177,7 @@ function LeapRecorder(options) {
 
     if (options.loadInputElement || options.recording) {
         controller.on('playback.ajax:complete', function (frames) {
-//            console.log('load complete', frames);
+            console.log('playback.ajax:complete');
             leapRecorder.initializePlaybackControls(controller, options);
         });
     }
@@ -273,19 +273,18 @@ LeapRecorder.prototype.initializePlaybackControls = function (controller, option
 
         leapRecorder.options.controller.removeAllListeners('playback.beforeSendFrame');
         leapRecorder.options.controller.on('playback.beforeSendFrame', function () {
-//            console.log(options.playbackSliderElement);
             $(options.playbackSliderElement).slider('setValue', leapRecorder.options.controller.plugins.playback.player.recording.frameIndex);
         });
     }
 
-
-    if (options.playbackSliderElement) {
-        $(options.playbackSliderElement).parent().removeClass('hidden disabled');
-        initPlaybackSlider();
+    if (options.playbackElement) {
+        if (options.playbackSliderElement) {
+            $(options.playbackSliderElement).parent().removeClass('hidden disabled');
+            initPlaybackSlider();
+        }
 
         $(options.playbackElement).unbind('click').bind('click', function (event) {
             event.preventDefault();
-
             if ($(options.cropRecordElement).hasClass('cropping')) {
                 $(options.cropRecordElement).click();
             }
@@ -430,7 +429,6 @@ LeapRecorder.prototype.stopRecord = function () {
 
 
 LeapRecorder.prototype.play = function (container) {
-//    console.log('play');
     var options = leapRecorder.options;
     if (options.playbackElement && $(options.playbackElement).attr('data-state') === 'paused') {
         $(options.playbackElement).click();
@@ -618,8 +616,6 @@ LeapRecorder.prototype.updateRenderTarget = function (target) {
 
 LeapRecorder.prototype.destroy = function (destroyRecord) {
     var options = this.options;
-
-    console.log('destroy leap recorder');
 
     if (destroyRecord && destroyRecord === true) {
         leapSaveGestureData = null;

@@ -462,7 +462,6 @@ if (login_check($mysqli) == true) {
 
         var currentFilterList;
         function renderData(data, animate) {
-            console.log('renderData');
             var currentActiveTab = getCurrentActiveTab();
             currentFilterData = data;
             $(currentFilterList).empty();
@@ -474,25 +473,25 @@ if (login_check($mysqli) == true) {
             var count = 0;
             var clone;
 
+//            console.log('renderData', index, listCount, viewFromIndex, viewToIndex);
+
             if (currentFilterData.length > 0) {
                 clearAlerts($(currentActiveTab).find('#item-view'));
                 for (var i = viewFromIndex; i < viewToIndex; i++) {
 
                     switch ($(currentActiveTab).attr('id')) {
                         case 'gesture-sets':
-                            console.log('render gesture set:', currentFilterData);
+//                            console.log('render gesture set:', currentFilterData);
                             clone = getGestureCatalogGestureSetPanel(currentFilterData[i]);
                             $(currentFilterList).append(clone);
-                            if (animate && animate === true) {
-//                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, y: -10});
-                            }
                             break;
                         case 'gesture-catalog':
-                            if (currentFilterData[i].setOnly === false)
+//                            console.log(i, currentFilterData[i]);
+                            if (currentFilterData[i].setOnly === false) {
                                 clone = getGestureCatalogListThumbnail(currentFilterData[i]);
-                            $(currentFilterList).append(clone);
-                            if (animate && animate === true) {
-//                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                                $(currentFilterList).append(clone);
+                            } else {
+                                viewToIndex++;
                             }
                             break;
                     }
@@ -505,12 +504,22 @@ if (login_check($mysqli) == true) {
             }
 
             $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
+//                console.log('catched render data');
                 event.preventDefault();
                 renderData(data);
             });
 
             initPopover(300);
             firstInit = false;
+
+            $('#custom-modal').unbind('gesture-deleted').bind('gesture-deleted', function () {
+                var currentContent = $('#gesture-catalog-content').find('.tab-pane.active');
+//                console.log($(currentContent).find('#pager-top'), $(currentContent).find('#pager-top').length, $(currentContent).find('#pager-top .pagination'), $(currentContent).find('#pager-top .pagination').length);
+                if ($(currentContent).find('#pager-top .pagination') && $(currentContent).find('#pager-top .pagination').length > 0) {
+                    checkPagination($(currentContent).find('#pager-top .pagination'), currentFilterData.length, parseInt($(currentContent).find('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+                    renderData(currentFilterData);
+                }
+            });
         }
 
         $('.filter').unbind('change').bind('change', function (event) {
@@ -569,7 +578,7 @@ if (login_check($mysqli) == true) {
                 gestureRecorder = null;
             }
 
-            console.log('show tab', $(event.target).attr('href'));
+//            console.log('show tab', $(event.target).attr('href'));
 
             switch ($(event.target).attr('href')) {
                 case '#gesture-catalog':
@@ -598,7 +607,7 @@ if (login_check($mysqli) == true) {
             currentFilterList = $('#gesture-catalog').find('#gesture-list-container');
             currentFilterList.empty();
 
-            console.log('get whole gesture catalog');
+//            console.log('get whole gesture catalog');
 
             getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {
@@ -721,13 +730,6 @@ if (login_check($mysqli) == true) {
                 renderGestureInfoData();
                 showGestureInfo($('#gesture-sets'));
             });
-//
-//            $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
-//                event.preventDefault();
-//                if (firstInit !== true) {
-//                    renderData(data);
-//                }
-//            });
 
             $('#gesture-sets .create-gesture-set-input').unbind('gestureSetCreated').bind('gestureSetCreated', function (event) {
                 getWholeGestureSets();

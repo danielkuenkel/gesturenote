@@ -102,17 +102,17 @@ if (login_check($mysqli) == true) {
                                 <div>
                                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->cache ?> <i class="fa fa-folder-open-o" style="margin-left: 15px"></i></button>
                                 </div>-->
+                <!--                <div>
+                                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-prev-participant disabled" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->previousParticipant ?> <i class="fa fa-arrow-left" style="margin-left: 15px"></i></button>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-next-participant disabled" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->nextParticipant ?> <i class="fa fa-arrow-right" style="margin-left: 15px"></i></button>
+                                </div>-->
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-prev-participant disabled" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->previousParticipant ?> <i class="fa fa-arrow-left" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px; border-bottom-right-radius: 8px; border-top-right-radius: 8px"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-next-participant disabled" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->nextParticipant ?> <i class="fa fa-arrow-right" style="margin-left: 15px"></i></button>
-                </div>
-                <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
-                </div>
-                <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-leave-conversation hidden" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->leaveConversation ?> 
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-leave-conversation hidden" style="position: relative;  float: right; border-radius: 0px; border-bottom-right-radius: 8px; border-top-right-radius: 8px"><?php echo $lang->leaveConversation ?> 
                         <span style="margin-left: 15px">
                             <i class="fa fa-group"></i>
                             <i class="fa fa-ban" style="
@@ -122,9 +122,9 @@ if (login_check($mysqli) == true) {
                                top: 9px;"></i>
                         </span></button>
                 </div>
-                <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-delete-result" style="position: relative;  float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->deleteParticipantResult ?> <i class="fa fa-trash" style="margin-left: 16px"></i></button>
-                </div>
+                <!--                <div>
+                                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-delete-result" style="position: relative;  float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->deleteParticipantResult ?> <i class="fa fa-trash" style="margin-left: 16px"></i></button>
+                                </div>-->
             </div>
         </div>
     </div>
@@ -182,44 +182,44 @@ if (login_check($mysqli) == true) {
                         <span class="label label-default hidden" id="execution-duration"><i class="fa fa-clock-o"></i> <span class="label-text"></span></span>
                     </div>
 
-                    <div class="form-group form-group-margin-top root pretest-select" style="opacity:0">
-                        <label style="margin: 0"><?php echo $lang->isPretest ?></label><br>
+                    <!--                    <div class="form-group form-group-margin-top root pretest-select" style="opacity:0">
+                                            <label style="margin: 0"><?php echo $lang->isPretest ?></label><br>
+                    
+                                            <div class="btn-group" id="radio" style="margin: 0">
+                                                <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="real">
+                                                    <span id="icons" style="margin-right: 6px">
+                                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                        <i class="fa fa-circle hidden" id="over"></i>
+                                                        <i class="fa fa-check-circle" id="checked"></i>
+                                                    </span>
+                                                    <span class="option-text"><?php echo $lang->no ?></span>
+                                                </button>
+                                            </div>
+                                            <div class="btn-group" id="radio" style="margin: 0">
+                                                <button class="btn btn-default btn-radio" name="primary" id="pretest">
+                                                    <span id="icons" style="margin-right: 6px">
+                                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                                        <i class="fa fa-circle hidden" id="over"></i>
+                                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                    </span>
+                                                    <span class="option-text"><?php echo $lang->yes ?></span>
+                                                </button>
+                                            </div>
+                    
+                                        </div>-->
 
-                        <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="real">
-                                <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                    <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle" id="checked"></i>
-                                </span>
-                                <span class="option-text"><?php echo $lang->no ?></span>
-                            </button>
-                        </div>
-                        <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="pretest">
-                                <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
-                                    <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
-                                </span>
-                                <span class="option-text"><?php echo $lang->yes ?></span>
-                            </button>
-                        </div>
-
-                    </div>
-
-                    <img id="participant-image" class="mirroredHorizontally hidden" style="width:100%; max-width: 300px; border-radius: 8px; margin-top: 10px" />
+                    <!--<img id="participant-image" class="hidden" style="width:100%; max-width: 300px; border-radius: 8px; margin-top: 10px" />-->
 
                     <div class="btn-group-vertical btn-block hidden-lg hidden-md" id="phase-results-control-nav" style="margin-top: 20px">
-                        <button class="btn btn-default btn-shadow btn-prev-participant disabled" type="button"><i class="fa fa-arrow-left"></i> <span class="btn-text"><?php echo $lang->previousParticipant ?></span></button>
-                        <button class="btn btn-default btn-shadow btn-next-participant disabled" type="button"><i class="fa fa-arrow-right"></i> <span class="btn-text"><?php echo $lang->nextParticipant ?></span></button>
+<!--                        <button class="btn btn-default btn-shadow btn-prev-participant disabled" type="button"><i class="fa fa-arrow-left"></i> <span class="btn-text"><?php echo $lang->previousParticipant ?></span></button>
+                        <button class="btn btn-default btn-shadow btn-next-participant disabled" type="button"><i class="fa fa-arrow-right"></i> <span class="btn-text"><?php echo $lang->nextParticipant ?></span></button>-->
                         <button class="btn btn-default btn-shadow btn-join-conversation" type="button"><i class="fa fa-group"></i> <span class="btn-text"><?php echo $lang->joinConversation ?></span></button>
                         <button class="btn btn-default btn-shadow btn-leave-conversation hidden" type="button"><i class="fa fa-group"></i><i class="fa fa-ban" style="font-size: 9pt; position: relative; right: 3px; top: -6px;"></i> <span class="btn-text"><?php echo $lang->leaveConversation ?></span></button>
                     </div>
-                    <div class="btn-group-vertical btn-block" id="phase-results-nav" style="margin-top: 20px"></div>
-                    <div class="btn-group-vertical btn-block" id="delete-results-nav" style="margin-top: 20px">
-                        <button class="btn btn-danger btn-shadow btn-delete-result hidden-lg hidden-md" id="btn-delete-result" style="opacity: 0"><i class="fa fa-trash"></i> <?php echo $lang->deleteParticipantResult ?></button>
-                    </div>
+                    <div class="btn-group-vertical btn-block" id="phase-results-nav" style=""></div>
+                    <!--                    <div class="btn-group-vertical btn-block" id="delete-results-nav" style="margin-top: 20px">
+                                            <button class="btn btn-danger btn-shadow btn-delete-result hidden-lg hidden-md" id="btn-delete-result" style="opacity: 0"><i class="fa fa-trash"></i> <?php echo $lang->deleteParticipantResult ?></button>
+                                        </div>-->
                 </div>
             </div>
             <div class="col-md-9">
@@ -344,7 +344,7 @@ if (login_check($mysqli) == true) {
                 $('#btn-introduction').click();
             }
 
-            if (query.studyId && query.participantId && query.h === hash) {
+            if (query.studyId && query.h === hash) {
                 $('.breadcrumb #btn-study').on('click', function (event) {
                     event.preventDefault();
                     goto('study.php?studyId=' + query.studyId + '&h=' + hash + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#participants');
@@ -356,15 +356,12 @@ if (login_check($mysqli) == true) {
                     goto('study.php?studyId=' + query.studyId + '&h=' + hash + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#participants');
                 });
 
-                getStudyParticipant({studyId: query.studyId, participantId: query.participantId}, function (result) {
+                getAllStudyParticipants({studyId: query.studyId}, function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         console.log(result);
+                        setStudyData(result);
                         setLocalItem(GESTURE_CATALOG, result.gestureCatalog);
-                        getGestureSets(function (setResult) {
-                            setStudyData(result);
-                            setLocalItem(GESTURE_SETS, setResult.gestureSets);
-                            renderData(result);
-                        });
+                        renderData();
                     }
                 });
             }
@@ -372,151 +369,29 @@ if (login_check($mysqli) == true) {
             animateBreadcrump();
         }
 
-        function renderData(data) {
-            var studyData = data.studyData;
-            var resultData = data.resultData;
-            var results = resultData.results;
-
-            $('.pretest-select').attr('data-participant-id', data.resultData.id);
-            $('.pretest-select').attr('data-evaluator-id', null);
-            if (data.evaluatorData) {
-                $('.pretest-select').attr('data-evaluator-id', data.evaluatorData.id);
-            }
-            $('.pretest-select').addClass('disabled');
-            $('.pretest-select').find('#' + data.resultData.executionPhase).click();
-            $('.pretest-select').removeClass('disabled');
+        function renderData() {
+            var studyData = getLocalItem(STUDY);
+            var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
 
             // general data view
-            $('#execution-date').text(convertSQLTimestampToDate(resultData.created).toLocaleString());
-            $('#main-headline').text(studyData.generalData.title);
-
-            if (results.aborted === 'no' && results.studySuccessfull === 'yes') {
-                $('#phase-results').find('#execution-success').removeClass('hidden');
-                $('#phase-results').find('#execution-success .label-text').text(translation.studySuccessful);
-
-                var start = null;
-                var end = null;
-                for (var j = 0; j < results.phases.length; j++) {
-                    if (results.phases[j].startTime) {
-                        if (results.phases[j].format === LETTER_OF_ACCEPTANCE) {
-                            start = parseInt(results.phases[j].startTime);
-                        } else if (results.phases[j].format === THANKS) {
-                            end = parseInt(results.phases[j - 1].endTime);
-                        }
-                    }
-                }
-
-                if (start && end) {
-                    var duration = getTimeBetweenTimestamps(start, end);
-                    $('#phase-results').find('#execution-duration').removeClass('hidden');
-                    $('#phase-results').find('#execution-duration .label-text').text(getTimeString(duration, true));
-                }
-            } else {
-                $('#phase-results').find('#execution-fault').removeClass('hidden');
-                $('#phase-results').find('#execution-fault .label-text').text(translation.studyFault);
-            }
-
-            // participants navigation view
-            getStudyResults({studyId: data.id}, function (result) {
-                if (result.status === RESULT_SUCCESS) {
-                    if (result.studyResults && result.studyResults.length > 1) { // check if there are study results
-                        var query = getQueryParams(document.location.search);
-                        var disablePrevButton = false;
-                        var disableNextButton = false;
-                        var nextParticipantId = null;
-                        var prevParticipantId = null;
-
-                        for (var i = 0; i < result.studyResults.length; i++) {
-                            if (query.participantId === result.studyResults[i].userId) {
-
-                                if (result.studyResults[i].data && result.studyResults[i].data.snapshot) {
-                                    $('#participant-image').removeClass('hidden').attr('src', result.studyResults[i].data.snapshot);
-//                                    console.log('snapshot', );
-                                }
-
-                                if (i === 0) {
-                                    disablePrevButton = true;
-                                    nextParticipantId = result.studyResults[i + 1].userId;
-                                } else if (i === result.studyResults.length - 1) {
-                                    disableNextButton = true;
-                                    prevParticipantId = result.studyResults[i - 1].userId;
-                                } else {
-                                    nextParticipantId = result.studyResults[i + 1].userId;
-                                    prevParticipantId = result.studyResults[i - 1].userId;
-                                }
-                                break;
-                            }
-
-                        }
-
-                        function getParticipantStatusHash() {
-                            var status = window.location.hash.substr(1);
-                            var statusAddressMatch = statusAddressMatchIndex(status);
-                            var statusHash = '';
-                            if (status !== '' && statusAddressMatch !== null) {
-                                statusHash = statusAddressMatch.id;
-                            }
-                            return statusHash;
-                        }
-
-                        $('#pageBody').find('.btn-prev-participant').removeClass('disabled').unbind('click');
-                        $('#pageBody').find('.btn-next-participant').removeClass('disabled').unbind('click');
-                        if (disablePrevButton) {
-                            $('#pageBody').find('.btn-prev-participant').addClass('disabled');
-                            $('#pageBody').find('.btn-next-participant').bind('click', function (event) {
-                                event.preventDefault();
-                                var status = getParticipantStatusHash();
-                                clearLocalItems();
-                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
-                            });
-                        } else if (disableNextButton) {
-                            $('#pageBody').find('.btn-next-participant').addClass('disabled');
-                            $('#pageBody').find('.btn-prev-participant').bind('click', function (event) {
-                                event.preventDefault();
-                                var status = getParticipantStatusHash();
-                                clearLocalItems();
-                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
-                            });
-                        } else {
-                            $('#pageBody').find('.btn-next-participant').bind('click', function (event) {
-                                event.preventDefault();
-                                var status = getParticipantStatusHash();
-                                clearLocalItems();
-                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
-                            });
-
-                            $('#pageBody').find('.btn-prev-participant').bind('click', function (event) {
-                                event.preventDefault();
-                                var status = getParticipantStatusHash();
-                                clearLocalItems();
-                                goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
-                            });
-                        }
-                    } else {
-                    }
-                }
-            });
+            $('#main-headline').text(studyData.title);
 
             // phase nav view
             TweenMax.to($('.pretest-select'), .3, {opacity: 1, clearProps: 'all'});
-            if (studyData.phases && studyData.phases.length > 0) {
-
-                for (var i = 0; i < studyData.phases.length; i++) {
+            if (phaseSteps && phaseSteps.length > 0) {
+                for (var i = 0; i < phaseSteps.length; i++) {
                     var navItem = document.createElement('button');
                     $(navItem).attr('role', 'presentation');
                     $(navItem).addClass('btn btn-default');
-                    $(navItem).attr('id', studyData.phases[i].id);
+                    $(navItem).attr('id', phaseSteps[i].id);
                     $('#phase-results-nav').append(navItem);
 
                     var text = document.createElement('span');
-                    $(text).text(studyData.phases[i].title);
+                    $(text).text(phaseSteps[i].title);
                     $(navItem).append(text);
 
                     TweenMax.from($(navItem), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0, clearProps: 'all'});
                 }
-
-                TweenMax.to($('#btn-delete-result'), {opacity: 0});
-                TweenMax.to($('#btn-delete-result'), .3, {delay: 0.4 + (studyData.phases.length * .05), opacity: 1, clearProps: 'all'});
 
                 var status = window.location.hash.substr(1);
                 var statusAddressMatch = statusAddressMatchIndex(status);
@@ -524,14 +399,6 @@ if (login_check($mysqli) == true) {
                     $('#phase-results-nav').find('#' + statusAddressMatch.id).click();
                 } else {
                     $('#phase-results-nav').children().first().click();
-                }
-
-                var study = getLocalItem(STUDY);
-
-                if (study.isOwner === 'false' || study.isOwner === false) {
-//                        console.log(study, study.isOwner);
-                    $('.btn-delete-result').remove();
-                    $('#fixed-study-participant-controls .btn-next-participant').css({borderRadius: '0px', borderBottomRightRadius: '8px'});
                 }
 
                 var navigationBarContent = $('#phase-results-navigation-bar');
@@ -562,114 +429,68 @@ if (login_check($mysqli) == true) {
 
                         var scrollOffset = 0;
                         if (barHeight > visibleHeight) {
-                            var scrollOffset = barHeight - visibleHeight;
+                            var scrollOffset = barHeight - visibleHeight + 30;
                         }
 
-                        if (scrollTop >= 180 + scrollOffset) {
+                        if (scrollTop >= 190 + scrollOffset) {
                             var top = 46 - scrollOffset - 35;
                             $(navigationBarContent).addClass('affix');
                             $(navigationBarContent).css({top: top + 'px'});
-//                            if (scrollOffset > 0) {
-//                                $('#pager-bottom').addClass('hidden');
-//                            }
                         } else {
                             $(navigationBarContent).removeClass('affix');
                             $(navigationBarContent).css({top: ''});
-//                            $('#pager-bottom').removeClass('hidden');
                         }
                     } else {
                         $(navigationBarContent).removeClass('affix');
                         $(navigationBarContent).css({top: ''});
-//                        $('#pager-bottom').removeClass('hidden');
-                    }
-                });
-
-                $('.btn-delete-result').unbind('click').bind('click', function (event) {
-                    event.preventDefault();
-                    var button = $(this);
-
-                    if (!$(this).hasClass('disabled')) {
-                        lockButton(button, true, 'fa-trash');
-                        loadHTMLintoModal('custom-modal', 'externals/modal-delete-study-result.php', 'modal-md');
-                        var study = getLocalItem(STUDY);
-                        var tester = getLocalItem(STUDY_RESULTS);
-//                            console.log(study, tester);
-
-                        $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
-                            deleteStudyResult({studyId: study.id, testerId: tester.userId}, function (result) {
-                                unlockButton(button, true, 'fa-trash');
-                                if (result.status === RESULT_SUCCESS) {
-                                    var prevParticipant = $('#pageBody').find('.btn-prev-participant');
-                                    var nextParticipant = $('#pageBody').find('.btn-next-participant');
-                                    if (!$(nextParticipant).hasClass('disabled')) {
-                                        $(nextParticipant).click();
-                                    } else if (!$(prevParticipant).hasClass('disabled')) {
-                                        $(prevParticipant).click();
-                                    } else {
-                                        $('.breadcrumb #btn-study').click();
-                                    }
-                                } else {
-                                    console.warn('ERROR: ', result.status);
-                                }
-                            });
-                        });
-
-                        $('#custom-modal').unbind('cancel').bind('cancel', function () {
-                            unlockButton(button, true, 'fa-trash');
-                        });
                     }
                 });
             }
 
 
-            var prevParticipantButton = $('#fixed-study-participant-controls .btn-prev-participant');
-            var prevParticipantButtonTimeline = new TimelineMax({paused: true, onStart: function () {
-                    $(prevParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(prevParticipantButton).addClass('btn-primary');
-                }, onReverseComplete: function () {
-                    $(prevParticipantButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '8px'});
-                    $(prevParticipantButton).removeClass('btn-primary');
-                }});
-
-            prevParticipantButtonTimeline.add("saveStudy", 0)
-                    .to(prevParticipantButton, .3, {left: +194, ease: Quad.easeInOut}, "saveStudy");
-
-            $(prevParticipantButton).unbind('mouseenter').bind('mouseenter', function (event) {
-                event.preventDefault();
-                prevParticipantButtonTimeline.play();
-            });
-
-            $(prevParticipantButton).unbind('mouseleave').bind('mouseleave', function (event) {
-                event.preventDefault();
-                prevParticipantButtonTimeline.reverse();
-            });
-
-            var nextParticipantButton = $('#fixed-study-participant-controls .btn-next-participant');
-            var nextParticipantButtonTimeline = new TimelineMax({paused: true, onStart: function () {
-                    $(nextParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(nextParticipantButton).addClass('btn-primary');
-                }, onReverseComplete: function () {
-//                    if (study.isOwner === 'false' || study.isOwner === false) {
-//                        $(nextParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
-//                        $(nextParticipantButton).removeClass('btn-primary');
-//                    } else {
-                    $(nextParticipantButton).css({borderRadius: '0px'});
-                    $(nextParticipantButton).removeClass('btn-primary');
-//                    }
-                }});
-
-            nextParticipantButtonTimeline.add("saveStudy", 0)
-                    .to(nextParticipantButton, .3, {left: +181, ease: Quad.easeInOut}, "saveStudy");
-
-            $(nextParticipantButton).unbind('mouseenter').bind('mouseenter', function (event) {
-                event.preventDefault();
-                nextParticipantButtonTimeline.play();
-            });
-
-            $(nextParticipantButton).unbind('mouseleave').bind('mouseleave', function (event) {
-                event.preventDefault();
-                nextParticipantButtonTimeline.reverse();
-            });
+//            var prevParticipantButton = $('#fixed-study-participant-controls .btn-prev-participant');
+//            var prevParticipantButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+//                    $(prevParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+//                    $(prevParticipantButton).addClass('btn-primary');
+//                }, onReverseComplete: function () {
+//                    $(prevParticipantButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '8px'});
+//                    $(prevParticipantButton).removeClass('btn-primary');
+//                }});
+//
+//            prevParticipantButtonTimeline.add("saveStudy", 0)
+//                    .to(prevParticipantButton, .3, {left: +194, ease: Quad.easeInOut}, "saveStudy");
+//
+//            $(prevParticipantButton).unbind('mouseenter').bind('mouseenter', function (event) {
+//                event.preventDefault();
+//                prevParticipantButtonTimeline.play();
+//            });
+//
+//            $(prevParticipantButton).unbind('mouseleave').bind('mouseleave', function (event) {
+//                event.preventDefault();
+//                prevParticipantButtonTimeline.reverse();
+//            });
+//
+//            var nextParticipantButton = $('#fixed-study-participant-controls .btn-next-participant');
+//            var nextParticipantButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+//                    $(nextParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+//                    $(nextParticipantButton).addClass('btn-primary');
+//                }, onReverseComplete: function () {
+//                    $(nextParticipantButton).css({borderRadius: '0px'});
+//                    $(nextParticipantButton).removeClass('btn-primary');
+//                }});
+//
+//            nextParticipantButtonTimeline.add("saveStudy", 0)
+//                    .to(nextParticipantButton, .3, {left: +181, ease: Quad.easeInOut}, "saveStudy");
+//
+//            $(nextParticipantButton).unbind('mouseenter').bind('mouseenter', function (event) {
+//                event.preventDefault();
+//                nextParticipantButtonTimeline.play();
+//            });
+//
+//            $(nextParticipantButton).unbind('mouseleave').bind('mouseleave', function (event) {
+//                event.preventDefault();
+//                nextParticipantButtonTimeline.reverse();
+//            });
 
 
             var joinConversationButton = $('#fixed-study-participant-controls .btn-join-conversation');
@@ -677,13 +498,13 @@ if (login_check($mysqli) == true) {
                     $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
                     $(joinConversationButton).addClass('btn-primary');
                 }, onReverseComplete: function () {
-                    if (study.isOwner === 'false' || study.isOwner === false) {
-                        $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
-                        $(joinConversationButton).removeClass('btn-primary');
-                    } else {
-                        $(joinConversationButton).css({borderRadius: '0px'});
-                        $(joinConversationButton).removeClass('btn-primary');
-                    }
+//                    if (study.isOwner === 'false' || study.isOwner === false) {
+//                        $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
+//                        $(joinConversationButton).removeClass('btn-primary');
+//                    } else {
+//                    $(joinConversationButton).css({borderRadius: '0px'});
+                    $(joinConversationButton).removeClass('btn-primary');
+//                    }
                 }});
 
             conversationButtonTimeline.add("saveStudy", 0)
@@ -705,11 +526,11 @@ if (login_check($mysqli) == true) {
                     $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
                     $(leaveConversationButton).addClass('btn-danger');
                 }, onReverseComplete: function () {
-                    if (study.isOwner === 'false' || study.isOwner === false) {
-                        $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
-                    } else {
-                        $(leaveConversationButton).css({borderRadius: '0px'});
-                    }
+//                    if (study.isOwner === 'false' || study.isOwner === false) {
+//                        $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
+//                    } else {
+//                    $(leaveConversationButton).css({borderRadius: '0px'});
+//                    }
                     $(leaveConversationButton).removeClass('btn-danger');
                 }});
 
@@ -726,11 +547,11 @@ if (login_check($mysqli) == true) {
                 leaveConversationButtonTimeline.reverse();
             });
 
-            if (study.isOwner === 'false' || study.isOwner === false) {
-                $(nextParticipantButton).css({borderRadius: '0px'});
-                $(joinConversationButton).css({borderBottomRightRadius: '8px'});
-                $(leaveConversationButton).css({borderBottomRightRadius: '8px'});
-            }
+//            if (study.isOwner === 'false' || study.isOwner === false) {
+//                $(nextParticipantButton).css({borderRadius: '0px'});
+//                $(joinConversationButton).css({borderBottomRightRadius: '8px'});
+//                $(leaveConversationButton).css({borderBottomRightRadius: '8px'});
+//            }
 
 
 
@@ -748,34 +569,12 @@ if (login_check($mysqli) == true) {
             TweenMax.to($('#fixed-study-participant-controls'), .3, {opacity: 1});
             TweenMax.from($('#fixed-study-participant-controls'), .3, {x: -20, ease: Quad.easeInOut});
             checkCollaborativeConversation();
-
-
-            var deleteResultButton = $('#fixed-study-participant-controls .btn-delete-result');
-            var deleteButtonTimeline = new TimelineMax({paused: true, onStart: function () {
-                    $(deleteResultButton).css({borderTopRightRadius: '8px'});
-                    $(deleteResultButton).addClass('btn-danger');
-                }, onReverseComplete: function () {
-                    $(deleteResultButton).css({borderTopRightRadius: '0px'});
-                    $(deleteResultButton).removeClass('btn-danger');
-                }});
-            deleteButtonTimeline.add("saveStudy", 0)
-                    .to(deleteResultButton, .3, {left: +146, ease: Quad.easeInOut}, "saveStudy");
-
-            $(deleteResultButton).unbind('mouseenter').bind('mouseenter', function (event) {
-                event.preventDefault();
-                deleteButtonTimeline.play();
-            });
-
-            $(deleteResultButton).unbind('mouseleave').bind('mouseleave', function (event) {
-                event.preventDefault();
-                deleteButtonTimeline.reverse();
-            });
         }
 
         $(document).on('click', '#phase-results-nav button', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('active')) {
-                cacheNotes(true);
+//                cacheNotes(true);
                 $(this).parent().children().removeClass('active');
                 $(this).addClass('active');
                 var selectedId = $(this).attr('id');
@@ -785,132 +584,220 @@ if (login_check($mysqli) == true) {
             }
         });
 
+        function getResultsForPhaseId(phaseStepId) {
+            var allResults = getLocalItem('allStudyResults');
+            var selectedResults = [];
+            if (allResults && allResults.length > 0) {
+                for (var i = 0; i < allResults.length; i++) {
+                    var tempTesterResults = null;
+                    var tempEvaluatorResults = {results: null, notes: null, observations: null};
+                    var tempObserverResults = null;
+                    var tempWizardResults = null;
+
+                    // searching tester result for phase step id
+                    if (allResults[i].testerResultData && allResults[i].testerResultData.phases && allResults[i].testerResultData.phases.length > 0) {
+                        for (var j = 0; j < allResults[i].testerResultData.phases.length; j++) {
+                            if (parseInt(allResults[i].testerResultData.phases[j].id) === parseInt(phaseStepId)) {
+                                tempTesterResults = allResults[i].testerResultData.phases[j];
+                                break;
+                            }
+                        }
+                    }
+
+                    // searching evaluator result for phase step id
+                    if (allResults[i].evaluatorResultData && allResults[i].evaluatorResultData.phases && allResults[i].evaluatorResultData.phases.length > 0) {
+                        for (var j = 0; j < allResults[i].evaluatorResultData.phases.length; j++) {
+                            if (parseInt(allResults[i].evaluatorResultData.phases[j].id) === parseInt(phaseStepId)) {
+                                tempEvaluatorResults.results = allResults[i].evaluatorResultData.phases[j];
+                                tempEvaluatorResults.notes = allResults[i].evaluatorResultData.notes;
+                                tempEvaluatorResults.observations = allResults[i].evaluatorResultData.observations;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (allResults[i].evaluatorResultData && allResults[i].evaluatorResultData.notes && allResults[i].evaluatorResultData.notes.length > 0) {
+                        for (var j = 0; j < allResults[i].evaluatorResultData.notes.length; j++) {
+                            if (parseInt(allResults[i].evaluatorResultData.notes[j].phaseId) === parseInt(phaseStepId)) {
+                                tempEvaluatorResults.notes = allResults[i].evaluatorResultData.notes[j];
+                                break;
+                            }
+                        }
+                    }
+
+                    if (allResults[i].evaluatorResultData && allResults[i].evaluatorResultData.observations && allResults[i].evaluatorResultData.observations.length > 0) {
+                        for (var j = 0; j < allResults[i].evaluatorResultData.observations.length; j++) {
+                            if (parseInt(allResults[i].evaluatorResultData.observations[j].phaseId) === parseInt(phaseStepId)) {
+                                tempEvaluatorResults.observations = allResults[i].evaluatorResultData.observations[j];
+                                break;
+                            }
+                        }
+                    }
+
+                    // searching observer result for phase step id
+                    if (allResults[i].observerResultData && allResults[i].observerResultData.phases && allResults[i].observerResultData.phases.length > 0) {
+                        for (var j = 0; j < allResults[i].observerResultData.phases.length; j++) {
+                            if (parseInt(allResults[i].observerResultData.phases[j].id) === parseInt(phaseStepId)) {
+                                tempObserverResults = allResults[i].observerResultData.phases[j];
+                                break;
+                            }
+                        }
+                    }
+
+                    // searching wizard result for phase step id
+                    if (allResults[i].wizardResultData && allResults[i].wizardResultData.phases && allResults[i].wizardResultData.phases.length > 0) {
+                        for (var j = 0; j < allResults[i].wizardResultData.phases.length; j++) {
+                            if (parseInt(allResults[i].wizardResultData.phases[j].id) === parseInt(phaseStepId)) {
+                                tempWizardResults = allResults[i].wizardResultData.phases[j];
+                                break;
+                            }
+                        }
+                    }
+
+                    selectedResults.push({tester: tempTesterResults, evaluator: tempEvaluatorResults, observer: tempObserverResults, wizard: tempWizardResults});
+                }
+            }
+
+            return selectedResults;
+        }
+
         function renderStudyPhaseResult(phaseId) {
-            var phaseData = getLocalItem(phaseId + '.data');
-            var testerResults = getLocalItem(phaseId + '.results');
-            var evaluatorResults = getLocalItem(phaseId + '.evaluator');
-            var wizardResults = getLocalItem(phaseId + '.wizard');
-            var observerResults = getLocalItem(phaseId + '.observer');
             var study = getLocalItem(STUDY);
+            var phaseData = getLocalItem(phaseId + '.data');
+            var phaseStep = getPhaseById(phaseId);
+            var results = getResultsForPhaseId(phaseId);
+//            var testerResults = results.tester;
+//            var evaluatorResults = results.evaluator;
+//            var wizardResults = results.wizard;
+//            var observerResults = results.observer;
 
             console.log('STUDY DATA: ', study);
+            console.log('PHASE STEP DATA: ', phaseStep);
             console.log('PHASE DATA: ', phaseData);
-            console.log('TESTER DATA: ', testerResults);
-            console.log('EVALUATOR DATA: ', evaluatorResults);
-            console.log('WIZARD DATA: ', wizardResults);
-            console.log('OBSERVER DATA: ', observerResults);
+            console.log('RESULTS DATA: ', results);
+//            console.log('TESTER DATA: ', testerResults);
+//            console.log('EVALUATOR DATA: ', evaluatorResults);
+//            console.log('WIZARD DATA: ', wizardResults);
+//            console.log('OBSERVER DATA: ', observerResults);
 //            console.log('OBSERVER LOG: ', (phaseData !== null && testerResults !== null));
 //            console.log('OBSERVER LOG: ', phaseData !== null && testerResults !== null && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults !== null && evaluatorResults.startTime !== undefined) || testerResults.startTime !== undefined)) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults.startTime)));
 
-            if (phaseData !== null && testerResults !== null && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults && evaluatorResults.startTime) || testerResults.startTime)) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults.startTime))) {
-                var content = $('#template-study-container').find('#' + testerResults.format).clone().removeAttr('id');
-                $(content).find('#headline').text(translation.formats[testerResults.format].text);
+//            return null;
+
+
+
+
+            if (results !== null && results.length > 0) {
+                var content = $('#template-study-all-container').find('#' + phaseStep.format).clone().removeAttr('id');
+                $(content).find('#headline').text(translation.formats[phaseStep.format].text);
                 $('#phase-result').empty().append(content);
 
-                var executionTime = study.surveyType === TYPE_SURVEY_MODERATED && evaluatorResults !== null ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
+//                var executionTime = study.surveyType === TYPE_SURVEY_MODERATED && evaluatorResults !== null ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
 //                console.log(executionTime);
-                if (!isEmpty(executionTime) && testerResults.format !== THANKS) {
-                    var badge = document.createElement('span');
-                    $(badge).addClass('badge pull-right');
-                    $(badge).text(translation.lapse + ': ' + getTimeString(executionTime, true));
-                    $(content).find('#headline').append(badge);
-                }
+//                if (!isEmpty(executionTime) && phaseStep.format !== THANKS) {
+//                    var badge = document.createElement('span');
+//                    $(badge).addClass('badge pull-right');
+//                    $(badge).text(translation.lapse + ': ' + getTimeString(executionTime, true));
+//                    $(content).find('#headline').append(badge);
+//                }
 
-                if (translation.formats[testerResults.format].notes === 'yes') {
-                    var notesData = getLocalItem(phaseId + '.notes');
-                    var notes = $('#template-study-container').find('#notes').clone();
-                    $('#phase-result').append(notes);
-                    TweenMax.from(notes, .2, {delay: .1, opacity: 0, y: -60});
-
-                    if (notesData) {
-                        notes.find('#notes-input').val(notesData);
-                    }
-
-                    notes.find('#notes-input').on('change', function (event) {
-                        event.preventDefault();
-                        cacheNotes();
-                    });
-
-                    // test notes input via start/pause speech recognition
-                    if (!('webkitSpeechRecognition' in window)) {
-                        $(notes).find('#transcription-controls').remove();
-                    } else {
-                        setLocalItem('transcription', []);
-                        $(notes).find('#transcription-controls').removeClass('hidden');
-
-                        var recognition = new webkitSpeechRecognition();
-                        recognition.continuous = false;
-                        recognition.interimResults = false;
-
-                        recognition.onstart = function () {
-                            console.log('on start');
-                        };
-
-                        recognition.onend = function () {
-                            console.log('on end');
-                            if (!$(notes).find('#btn-stop-speech-recognition').hasClass('hidden')) {
-                                $(notes).find('#btn-start-speech-recognition').click();
-                            }
-                        };
-
-                        recognition.onresult = function (event) {
-                            console.log('on result', event.results);
-                            var note = notes.find('#notes-input').val();
-                            notes.find('#notes-input').val(note + (note.trim() === '' ? event.results[0][0].transcript : ' ' + event.results[0][0].transcript));
-                            getGMT(function (timestamp) {
-                                var tempData = getLocalItem('transcription');
-                                tempData.push({timestamp: timestamp, transcription: event.results[0][0].transcript});
-                                setLocalItem('transcription', tempData);
-                            });
-                            cacheNotes();
-                        };
-
-                        $(notes).find('#btn-start-speech-recognition').unbind('click').bind('click', function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled')) {
-                                recognition.start();
-                                $(notes).find('#btn-start-speech-recognition').addClass('hidden');
-                                $(notes).find('#btn-stop-speech-recognition').removeClass('hidden');
-                            }
-                        });
-
-                        $(notes).find('#btn-stop-speech-recognition').unbind('click').bind('click', function (event) {
-                            event.preventDefault();
-                            recognition.stop();
-                            $(notes).find('#btn-start-speech-recognition').removeClass('hidden');
-                            $(notes).find('#btn-stop-speech-recognition').addClass('hidden');
-                        });
-                    }
-                }
+//                if (translation.formats[testerResults.format].notes === 'yes') {
+//                    var notesData = getLocalItem(phaseId + '.notes');
+//                    var notes = $('#template-study-container').find('#notes').clone();
+//                    $('#phase-result').append(notes);
+//                    TweenMax.from(notes, .2, {delay: .1, opacity: 0, y: -60});
+//
+//                    if (notesData) {
+//                        notes.find('#notes-input').val(notesData);
+//                    }
+//
+//                    notes.find('#notes-input').on('change', function (event) {
+//                        event.preventDefault();
+//                        cacheNotes();
+//                    });
+//
+//                    // test notes input via start/pause speech recognition
+//                    if (!('webkitSpeechRecognition' in window)) {
+//                        $(notes).find('#transcription-controls').remove();
+//                    } else {
+//                        setLocalItem('transcription', []);
+//                        $(notes).find('#transcription-controls').removeClass('hidden');
+//
+//                        var recognition = new webkitSpeechRecognition();
+//                        recognition.continuous = false;
+//                        recognition.interimResults = false;
+//
+//                        recognition.onstart = function () {
+//                            console.log('on start');
+//                        };
+//
+//                        recognition.onend = function () {
+//                            console.log('on end');
+//                            if (!$(notes).find('#btn-stop-speech-recognition').hasClass('hidden')) {
+//                                $(notes).find('#btn-start-speech-recognition').click();
+//                            }
+//                        };
+//
+//                        recognition.onresult = function (event) {
+//                            console.log('on result', event.results);
+//                            var note = notes.find('#notes-input').val();
+//                            notes.find('#notes-input').val(note + (note.trim() === '' ? event.results[0][0].transcript : ' ' + event.results[0][0].transcript));
+//                            getGMT(function (timestamp) {
+//                                var tempData = getLocalItem('transcription');
+//                                tempData.push({timestamp: timestamp, transcription: event.results[0][0].transcript});
+//                                setLocalItem('transcription', tempData);
+//                            });
+//                            cacheNotes();
+//                        };
+//
+//                        $(notes).find('#btn-start-speech-recognition').unbind('click').bind('click', function (event) {
+//                            event.preventDefault();
+//                            if (!$(this).hasClass('disabled')) {
+//                                recognition.start();
+//                                $(notes).find('#btn-start-speech-recognition').addClass('hidden');
+//                                $(notes).find('#btn-stop-speech-recognition').removeClass('hidden');
+//                            }
+//                        });
+//
+//                        $(notes).find('#btn-stop-speech-recognition').unbind('click').bind('click', function (event) {
+//                            event.preventDefault();
+//                            recognition.stop();
+//                            $(notes).find('#btn-start-speech-recognition').removeClass('hidden');
+//                            $(notes).find('#btn-stop-speech-recognition').addClass('hidden');
+//                        });
+//                    }
+//                }
 
                 // check and add recorded stream data
-                if (isWebRTCPlaybackNeededForPhaseStep(testerResults)) {
-                    if (testerResults && testerResults.recordUrl && testerResults.recordUrl !== '') {
-                        resultsPlayer = new RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseData, executionTime, content);
-                        $(resultsPlayer.player).unbind('initialized').bind('initialized', function (event) {
-                            event.preventDefault();
-                            $(resultsPlayer.player).unbind('initialized');
-                            initPopover();
-                            switchDataRendering();
-                        });
+//                if (isWebRTCPlaybackNeededForPhaseStep(testerResults)) {
+//                    if (testerResults && testerResults.recordUrl && testerResults.recordUrl !== '') {
+//                        resultsPlayer = new RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseData, executionTime, content);
+//                        $(resultsPlayer.player).unbind('initialized').bind('initialized', function (event) {
+//                            event.preventDefault();
+//                            $(resultsPlayer.player).unbind('initialized');
+//                            initPopover();
+//                            switchDataRendering();
+//                        });
+//
+//                        if (getBrowser() !== 'Safari') {
+//                            $(content).find('#horizontalLine').after(resultsPlayer.domElement);
+//                        } else {
+//                            appendAlert(content, ALERT_WEBM_UNSUPPORTED);
+//                        }
+//                    } else {
+//                        appendAlert(content, ALERT_NO_RECORD);
+//                    }
+//                } else {
+//                    switchDataRendering();
+//                }
 
-                        if (getBrowser() !== 'Safari') {
-                            $(content).find('#horizontalLine').after(resultsPlayer.domElement);
-                        } else {
-                            appendAlert(content, ALERT_WEBM_UNSUPPORTED);
-                        }
-                    } else {
-                        appendAlert(content, ALERT_NO_RECORD);
-                    }
-                } else {
-                    switchDataRendering();
-                }
+                switchDataRendering();
 
                 $(content).css({y: 0, opacity: 1});
                 TweenMax.from(content, .2, {opacity: 0, y: -60});
 
                 function switchDataRendering() {
-                    switch (testerResults.format) {
+                    switch (phaseStep.format) {
                         case LETTER_OF_ACCEPTANCE:
                             renderLetterOfAcceptance(content, phaseData, testerResults);
                             break;
@@ -918,23 +805,25 @@ if (login_check($mysqli) == true) {
                             renderThanks(content, phaseData);
                             break;
                         case QUESTIONNAIRE:
-                            renderQuestionnaireAnswers(content, phaseData, testerResults, true);
+                            renderQuestionnaire(content, phaseData, results);
+//                            renderQuestionnaireAnswers(content, phaseData, testerResults, true);
                             break;
                         case INTERVIEW:
-                            renderQuestionnaireAnswers(content, phaseData, evaluatorResults, true);
+                            renderInterview(content, phaseData, results);
+//                            renderQuestionnaireAnswers(content, phaseData, evaluatorResults, true);
                             break;
                         case SUS:
-                            renderSUS(content, phaseData, testerResults);
+                            renderSUS(content, phaseData, results);
                             break;
                         case UEQ:
-                            renderQuestionnaireAnswers(content, phaseData, testerResults, true);
-                            renderUEQ(content, phaseData, testerResults);
+                            renderUEQ(content, phaseData, results);
                             break;
                         case GUS_SINGLE_GESTURES:
-                            renderSingleGUS(content, phaseData, testerResults);
+                            renderSingleGUS(content, phaseData, results);
                             break;
                         case GUS_MULTIPLE_GESTURES:
-                            renderQuestionnaireAnswers(content, getAssembledItems(phaseData.gus), testerResults, true);
+                            renderQuestionnaire(content, getAssembledItems(phaseData.gus), results);
+//                            renderQuestionnaireAnswers(content, , testerResults, true);
                             break;
                         case GESTURE_TRAINING:
                             renderGestureTraining(content, phaseData, testerResults, evaluatorResults);
@@ -969,49 +858,49 @@ if (login_check($mysqli) == true) {
             }
         }
 
-        var saveTimer = null;
-        function cacheNotes(instantSave) {
-            var phaseId = $('#phase-results-nav').find('.active').attr('id');
+//        var saveTimer = null;
+//        function cacheNotes(instantSave) {
+//            var phaseId = $('#phase-results-nav').find('.active').attr('id');
+//
+//            if (phaseId) {
+//                var phaseResults = getLocalItem(phaseId + '.results');
+//                if (phaseResults && translation.formats[phaseResults.format].notes === 'yes') {
+//                    var note = $('#phase-result').find('#notes-input').val();
+//                    setLocalItem(phaseId + '.notes', note);
+//
+//                    var phases = getLocalItem(STUDY_PHASE_STEPS);
+//                    var notesArray = new Array();
+//                    for (var i = 0; i < phases.length; i++) {
+//                        var phaseNote = getLocalItem(phases[i].id + '.notes');
+//                        if (phaseNote) {
+//                            notesArray.push({phaseId: phases[i].id, note: phaseNote});
+//                        }
+//                    }
+//
+//                    var study = getLocalItem(STUDY);
+//                    var evaluatorData = getLocalItem(STUDY_DATA_EVALUATOR);
+//                    clearTimeout(saveTimer);
+//                    if (instantSave === true) {
+//                        saveNotes({studyId: study.id, testerId: getLocalItem(STUDY_RESULTS).userId, evaluatorId: evaluatorData.evaluatorId, notes: notesArray});
+//                    } else {
+//                        saveTimer = setTimeout(function () {
+//                            saveNotes({studyId: study.id, testerId: getLocalItem(STUDY_RESULTS).userId, evaluatorId: evaluatorData.evaluatorId, notes: notesArray});
+//                        }, 1000);
+//                    }
+//                }
+//            }
+//        }
 
-            if (phaseId) {
-                var phaseResults = getLocalItem(phaseId + '.results');
-                if (phaseResults && translation.formats[phaseResults.format].notes === 'yes') {
-                    var note = $('#phase-result').find('#notes-input').val();
-                    setLocalItem(phaseId + '.notes', note);
-
-                    var phases = getLocalItem(STUDY_PHASE_STEPS);
-                    var notesArray = new Array();
-                    for (var i = 0; i < phases.length; i++) {
-                        var phaseNote = getLocalItem(phases[i].id + '.notes');
-                        if (phaseNote) {
-                            notesArray.push({phaseId: phases[i].id, note: phaseNote});
-                        }
-                    }
-
-                    var study = getLocalItem(STUDY);
-                    var evaluatorData = getLocalItem(STUDY_DATA_EVALUATOR);
-                    clearTimeout(saveTimer);
-                    if (instantSave === true) {
-                        saveNotes({studyId: study.id, testerId: getLocalItem(STUDY_RESULTS).userId, evaluatorId: evaluatorData.evaluatorId, notes: notesArray});
-                    } else {
-                        saveTimer = setTimeout(function () {
-                            saveNotes({studyId: study.id, testerId: getLocalItem(STUDY_RESULTS).userId, evaluatorId: evaluatorData.evaluatorId, notes: notesArray});
-                        }, 1000);
-                    }
-                }
-            }
-        }
-
-        function renderStudyGestures(gestures) {
-            $('#study-gestures-catalog').removeClass('hidden');
-            $('#study-gestures-catalog .address').text(translation.studyCatalogs.gestures);
-
-            for (var i = 0; i < gestures.length; i++) {
-                var item = getGestureCatalogListThumbnail(gestures[i]);
-                $('#study-gestures-catalog .list-container').append(item);
-                TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-            }
-        }
+//        function renderStudyGestures(gestures) {
+//            $('#study-gestures-catalog').removeClass('hidden');
+//            $('#study-gestures-catalog .address').text(translation.studyCatalogs.gestures);
+//
+//            for (var i = 0; i < gestures.length; i++) {
+//                var item = getGestureCatalogListThumbnail(gestures[i]);
+//                $('#study-gestures-catalog .list-container').append(item);
+//                TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+//            }
+//        }
 
         function renderLetterOfAcceptance(content, studyData, resultsData) {
             if (resultsData.accepted === 'yes') {
@@ -1026,30 +915,331 @@ if (login_check($mysqli) == true) {
             $(content).find('#thanks-text').text(studyData);
         }
 
-        function renderSUS(content, studyData, resultsData) {
-//                console.log(studyData, resultsData);
-            renderQuestionnaireAnswers(content, studyData, resultsData, true);
+        function renderQuestionnaire(content, phaseData, results) {
+            console.log('render questionnaire', results);
+            renderQuestionnaireAnswers(content, phaseData);
+            renderQuestionnaireStatistics(content, phaseData, results);
+        }
 
-            // calculate the average sus score
-            var susResultsValid = true;
-            var count = 0;
-            for (var i = 0; i < resultsData.answers.length; i++) {
-//                console.log(resultsData.answers[i], resultsData.answers[i].answer.scales);
-                if (parseInt(resultsData.answers[i].answer.scales) !== -1) {
-                    var negative = studyData[i].parameters.negative === 'yes';
-                    if (negative) {
-                        count += translation.susOptions.length - (parseInt(resultsData.answers[i].answer.scales) + 1);
-                    } else {
-                        count += parseInt(parseInt(resultsData.answers[i].answer.scales));
+        function renderQuestionnaireStatistics(content, phaseData, results) {
+            var allAnswers = [];
+            for (var i = 0; i < phaseData.length; i++) {
+
+                allAnswers.push({id: phaseData[i].id, answers: []});
+
+                for (var j = 0; j < results.length; j++) {
+                    if (results[j].tester && results[j].tester.answers && results[j].tester.answers.length > 0) {
+                        var tempAnswers = getAnswerForQuestion(phaseData[i], results[j].tester.answers)
+                        allAnswers[i].answers = allAnswers[i].answers.concat(tempAnswers);
+                    }
+                }
+                var missedCount = Math.max(results.length - allAnswers[i].answers.length, 0);
+
+                // render statistics for current question
+                console.log(phaseData[i].format, allAnswers[i]);
+                var scalesMissing = [];
+                var questionPanel = $(content).find('[data-id=' + phaseData[i].id + ']');
+
+                if (allAnswers[i].answers && allAnswers[i].answers.length > 0) {
+                    for (var j = 0; j < allAnswers[i].answers.length; j++) {
+                        $(questionPanel).find('#no-answer').remove();
+                        $(questionPanel).find('.count-badge').css({marginRight: '5px'}).removeClass('hidden');
+
+                        switch (phaseData[i].format) {
+                            case OPEN_QUESTION:
+                            case OPEN_QUESTION_GUS:
+                                var openAnswer = document.createElement('div');
+                                $(openAnswer).text(allAnswers[i].answers[j].answer.openAnswer);
+                                if (j === 0) {
+                                    $(questionPanel).find('.answer').html(openAnswer);
+                                } else {
+                                    $(questionPanel).find('.answer').append(openAnswer);
+                                }
+                                break;
+                            case DICHOTOMOUS_QUESTION:
+                            case DICHOTOMOUS_QUESTION_GUS:
+                                var option = $(questionPanel).find('[data-id=' + allAnswers[i].answers[j].selectedSwitch + ']');
+                                var currentCount = parseInt($(option).find('.count-badge').text());
+                                $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                if (allAnswers[i].answers[j].justification !== '') {
+                                    $(option).find('#justification-content').removeClass('hidden').find('.text').text($(option).find('#justification-content').find('.text').text() + allAnswers[i].answers[j].justification + '; ');
+                                }
+                                break;
+                            case GROUPING_QUESTION:
+                            case GROUPING_QUESTION_OPTIONS:
+                            case GROUPING_QUESTION_GUS:
+                                if (allAnswers[i].answers[j] !== null) {
+                                    var option = $(questionPanel).find('[data-id=' + allAnswers[i].answers[j].id + ']');
+                                    var currentCount = parseInt($(option).find('.count-badge').text());
+                                    $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                    if (allAnswers[i].answers[j].id === 'optionalAnswer') {
+                                        $(option).find('#no-optional-answer').remove();
+                                        var currentTextContent = $(option).find('.text').text().trim();
+                                        $(option).find('.text').text(currentTextContent === '-' ? allAnswers[i].answers[j].content + '; ' : $(option).find('.text').text() + allAnswers[i].answers[j].content + '; ');
+                                    }
+
+                                    if (allAnswers[i].answers[j].justification !== '') {
+                                        $(option).find('#justification-content').removeClass('hidden').find('.text').text($(option).find('#justification-content').find('.text').text() + allAnswers[i].answers[j].justification + '; ');
+                                    }
+                                } else {
+                                    missedCount++;
+                                }
+                                break;
+                            case RATING:
+                                var option = $(questionPanel).find('[data-id=' + allAnswers[i].answers[j].id + ']');
+                                var currentCount = parseInt($(option).find('.count-badge').text());
+                                $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                break;
+                            case MATRIX:
+                                var matrixItems = $(questionPanel).find('#matrix-item');
+                                for (var k = 0; k < allAnswers[i].answers[j].scales.length; k++) {
+                                    var scaleKey = allAnswers[i].answers[j].scales[k].id;
+                                    var option = $(questionPanel).find('.option-container #' + scaleKey);
+                                    var currentCount = parseInt($(option).find('.count-badge').text());
+                                    $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                    scalesMissing[$(option).closest('#matrix-item').attr('data-id')] = isNaN(parseInt(scalesMissing[$(option).closest('#matrix-item').attr('data-id')])) ? 1 : parseInt(scalesMissing[$(option).closest('#matrix-item').attr('data-id')]) + 1;
+                                }
+
+                                for (var k = 0; k < matrixItems.length; k++) {
+                                    renderUnansweredParticipantCount($(matrixItems[k]), phaseData[i].format, results.length - scalesMissing[$(matrixItems[k]).attr('data-id')]);
+                                }
+                                break;
+                            case SUM_QUESTION:
+                                if (allAnswers[i].answers[j].sumCounts && allAnswers[i].answers[j].sumCounts.length > 0) {
+                                    for (var k = 0; k < allAnswers[i].answers[j].sumCounts.length; k++) {
+                                        var currentTextContent = $(questionPanel).find('[data-id=' + allAnswers[i].answers[j].sumCounts[k].id + '] .answer').text();
+                                        $(questionPanel).find('[data-id=' + allAnswers[i].answers[j].sumCounts[k].id + '] .answer').text(currentTextContent + allAnswers[i].answers[j].sumCounts[k].count + '; ');
+                                    }
+                                }
+                                $(questionPanel).find('#distributeNotAllPoints').remove();
+                                break;
+                            case RANKING:
+                                if (allAnswers[i].answers[j].arrangement && allAnswers[i].answers[j].arrangement.length > 0) {
+                                    if (j === 0) {
+                                        $(questionPanel).find('.option-container').empty();
+                                    }
+                                    var currentTextContent = document.createElement('div');
+                                    $(questionPanel).find('.option-container').append(currentTextContent);
+                                    var address = document.createElement('span');
+                                    $(address).text(translation.participant + ' ' + (j + 1) + ': ');
+                                    $(currentTextContent).append(address);
+                                    var answerContents = document.createElement('span');
+                                    $(answerContents).addClass('text');
+                                    $(currentTextContent).append(answerContents);
+
+                                    for (var k = 0; k < allAnswers[i].answers[j].arrangement.length; k++) {
+                                        for (var m = 0; m < phaseData[i].options.length; m++) {
+                                            if (parseInt(phaseData[i].options[m].id) === parseInt(allAnswers[i].answers[j].arrangement[k])) {
+                                                $(answerContents).text($(answerContents).text() + phaseData[i].options[m].text + '; ');
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case COUNTER:
+                                if (j === 0) {
+                                    $(questionPanel).find('.answer').text(allAnswers[i].answers[j].count + '; ');
+                                } else {
+                                    var currentTextContent = $(questionPanel).find('.answer').text();
+                                    $(questionPanel).find('.answer').text(currentTextContent + allAnswers[i].answers[j].count + '; ');
+                                }
+                                break;
+                            case UEQ_ITEM:
+                                $(questionPanel).find('#participant-answers').removeClass('hidden');
+                                var participantAnswer = document.createElement('div');
+                                $(questionPanel).find('#participant-answers').append(participantAnswer);
+                                var address = document.createElement('span');
+                                $(address).text(translation.participant + ' ' + (j + 1) + ': ');
+                                $(participantAnswer).append(address);
+                                var answer = document.createElement('span');
+                                $(participantAnswer).append(answer);
+
+                                var score = 0;
+                                if (phaseData[i].parameters.negative === 'yes') {
+                                    if (answer) {
+                                        score = 7 - (parseInt(allAnswers[i].answers[j].selectedOption) + 1) - 3;
+                                    }
+                                } else {
+                                    if (answer) {
+                                        score = parseInt(allAnswers[i].answers[j].selectedOption) - 3;
+                                    }
+                                }
+//                                score *= -1;
+
+                                $(answer).addClass('text score').text(score);
+                                break;
+                        }
+                    }
+
+                    if (missedCount > 0 && phaseData[i].format !== MATRIX) {
+                        renderUnansweredParticipantCount(questionPanel, phaseData[i].format, missedCount, true);
                     }
                 } else {
-                    susResultsValid = false;
+                    renderUnansweredParticipantCount(questionPanel, phaseData[i].format, missedCount);
                 }
             }
-            count *= 2.5;
+        }
 
-            if (susResultsValid) {
-                var fittedScore = getSUSAdjective(count);
+        function renderUnansweredParticipantCount(content, format, count, append) {
+            if (count > 0) {
+                switch (format) {
+                    case OPEN_QUESTION:
+                    case OPEN_QUESTION_GUS:
+                        var missedAnswers = document.createElement('div');
+                        $(missedAnswers).text('Frage von ' + count + ' ' + (count === 1 ? translation.participant : translation.participants) + ' ' + translation.questionNotAnswered);
+                        if (append === true) {
+                            $(content).find('.answer').append(missedAnswers);
+                        } else {
+                            $(content).find('.answer').html(missedAnswers);
+                        }
+                        break;
+                    case DICHOTOMOUS_QUESTION:
+                        var missedAnswers = document.createElement('div');
+                        $(missedAnswers).text('Frage von ' + count + ' ' + (count === 1 ? translation.participant : translation.participants) + ' ' + translation.questionNotAnswered);
+                        $(content).find('#missed-answers').removeClass('hidden').html(missedAnswers);
+                        break;
+                    case GROUPING_QUESTION:
+                    case GROUPING_QUESTION_OPTIONS:
+                    case GROUPING_QUESTION_GUS:
+                        var missedAnswers = document.createElement('div');
+                        $(missedAnswers).text('Frage von ' + count + ' ' + (count === 1 ? translation.participant : translation.participants) + ' ' + translation.questionNotAnswered);
+                        $(content).find('#missed-answers').removeClass('hidden').html(missedAnswers);
+                        break;
+                    case MATRIX:
+                        var missedAnswers = document.createElement('div');
+                        $(missedAnswers).text('Frage von ' + count + ' ' + (count === 1 ? translation.participant : translation.participants) + ' ' + translation.questionNotAnswered);
+                        $(content).find('#missed-answers').removeClass('hidden').html(missedAnswers);
+                        break;
+                    case SUM_QUESTION:
+                        var missedAnswers = document.createElement('div');
+                        $(missedAnswers).text('Frage von ' + count + ' ' + (count === 1 ? translation.participant : translation.participants) + ' ' + translation.questionNotAnswered);
+                        $(content).find('#missed-answers').removeClass('hidden').html(missedAnswers);
+                        break;
+                    case RANKING:
+                        var missedAnswers = document.createElement('div');
+                        $(missedAnswers).text('Frage von ' + count + ' ' + (count === 1 ? translation.participant : translation.participants) + ' ' + translation.questionNotAnswered);
+                        $(content).find('#missed-answers').removeClass('hidden').html(missedAnswers);
+                        break;
+                    case COUNTER:
+                        var missedAnswers = document.createElement('div');
+                        $(missedAnswers).text('Frage von ' + count + ' ' + (count === 1 ? translation.participant : translation.participants) + ' ' + translation.questionNotAnswered);
+                        $(content).find('#missed-answers').removeClass('hidden').html(missedAnswers);
+                        break;
+                    case UEQ_ITEM:
+                        break;
+                }
+            } else {
+                $(content).find('#missed-answers').addClass('hidden');
+            }
+        }
+
+        function getAnswerForQuestion(questionData, answers) {
+            var tempAnswers = [];
+            for (var i = 0; i < answers.length; i++) {
+                if (parseInt(answers[i].id) === parseInt(questionData.id)) {
+                    switch (questionData.format) {
+                        case OPEN_QUESTION:
+                        case OPEN_QUESTION_GUS:
+                            if (new String(answers[i].answer.openAnswer).trim() !== '') {
+                                tempAnswers.push(answers[i]);
+                            }
+                            break;
+                        case DICHOTOMOUS_QUESTION:
+                        case DICHOTOMOUS_QUESTION_GUS:
+                            if (answers[i].answer.selectedSwitch !== 'none') {
+                                tempAnswers.push(answers[i].answer);
+                            }
+                            break;
+                        case GROUPING_QUESTION:
+                        case GROUPING_QUESTION_OPTIONS:
+                        case GROUPING_QUESTION_GUS:
+                            for (var j = 0; j < answers[i].answer.selections.length; j++) {
+                                if (answers[i].answer.selections[j].selected === 'yes' || (questionData.parameters.optionalanswer === 'yes' && answers[i].answer.selections[j].id === 'optionalAnswer')) {
+                                    tempAnswers.push(answers[i].answer.selections[j]);
+                                } else if (answers[i].answer.selections[j].selected === 'no' && (questionData.parameters.optionalanswer === 'yes' && answers[i].answer.selections[j].content === '')) {
+                                    tempAnswers.push(null);
+                                }
+                            }
+                            break;
+                        case RATING:
+                            if (parseInt(answers[i].answer.scales) > -1) {
+                                tempAnswers.push(answers[i].answer);
+                            }
+                            break;
+                        case MATRIX:
+                            var tempScales = {scales: []};
+                            for (var j = 0; j < answers[i].answer.scales.length; j++) {
+                                if (parseInt(answers[i].answer.scales[j].scale) > -1) {
+                                    tempScales.scales.push(answers[i].answer.scales[j]);
+                                }
+
+                                if (j >= answers[i].answer.scales.length - 1 && tempScales.scales.length > 0) {
+                                    tempAnswers.push(tempScales);
+                                }
+                            }
+                            break;
+                        case SUM_QUESTION:
+                            tempAnswers.push(answers[i].answer);
+                            break;
+                        case RANKING:
+                            tempAnswers.push(answers[i].answer);
+                            break;
+                        case COUNTER:
+                            tempAnswers.push(answers[i].answer);
+                            break;
+                        case UEQ_ITEM:
+                            if (answers[i].answer.selectedOption !== -1) {
+                                tempAnswers.push(answers[i].answer);
+                            }
+                            break;
+                    }
+                }
+            }
+
+//            if (tempAnswers && tempAnswers.length > 0) {
+//                console.log('answers for ', questionData, tempAnswers);
+//            }
+            return tempAnswers;
+        }
+
+        function renderSUS(content, studyData, resultsData) {
+            renderQuestionnaire(content, studyData, resultsData);
+
+            // calculate the average sus score
+            var missingCount = 0;
+            var meanScore = 0;
+            for (var k = 0; k < resultsData.length; k++) {
+                var susResultsValid = true;
+                var count = 0;
+
+                for (var i = 0; i < resultsData[k].tester.answers.length; i++) {
+                    if (parseInt(resultsData[k].tester.answers[i].answer.scales) !== -1) {
+                        var negative = studyData[i].parameters.negative === 'yes';
+                        if (negative) {
+                            count += translation.susOptions.length - (parseInt(resultsData[k].tester.answers[i].answer.scales) + 1);
+                        } else {
+                            count += parseInt(parseInt(resultsData[k].tester.answers[i].answer.scales));
+                        }
+                    } else {
+                        susResultsValid = false;
+                    }
+                }
+
+                count *= 2.5;
+                if (susResultsValid) {
+                    if (k === 0) {
+                        meanScore = count;
+                    } else {
+                        meanScore = (meanScore + count) / (k + 1);
+                    }
+                } else {
+                    missingCount++;
+                }
+            }
+
+            if (resultsData.length - missingCount > 0) {
+                var fittedScore = getSUSAdjective(meanScore);
                 $(content).find('.alert-space').remove();
                 $(content).find('#average-score').css({color: fittedScore.adjective.color});
                 $(content).find('#score-adjective .address').text(translation.systemIs);
@@ -1058,10 +1248,8 @@ if (login_check($mysqli) == true) {
                 $(content).find('#sus-grade .address').text(translation.grade);
                 $(content).find('#sus-grade .text').text(fittedScore.susGrade);
                 $(content).find('#sus-grade .tail').text(translation.received);
-//                $(content).find('#sus-acceptability .address').text(translation.systemIs);
                 $(content).find('#sus-acceptability .text').text(fittedScore.susAcceptability);
-//                $(content).find('#sus-acceptability .tail').text(translation.rated);
-                renderSUSProgress($(content), translation.susScores, count);
+                renderSUSProgress($(content), translation.susScores, meanScore);
             } else {
                 $(content).find('#sus-score-results').remove();
                 appendAlert(content, ALERT_SUS_INVALID);
@@ -1069,7 +1257,6 @@ if (login_check($mysqli) == true) {
         }
 
         function renderSUSProgress(container, susQuartiles, score) {
-//                <div class="progress-bar progress-bar-danger" style="width: 35%; background-color: #003399 !important;">
             var currentWidth = 0.0;
             var oldWidth = 0.0;
             var targetWidth = $(container).find('#sus-score-progress').width();
@@ -1080,7 +1267,6 @@ if (login_check($mysqli) == true) {
 
                 var progressBar = document.createElement('div');
                 $(progressBar).addClass('progress-bar');
-//                $(progressBar).css('background-color', susQuartiles[i].color);
                 $(progressBar).css({width: currentWidth + '%', backgroundColor: susQuartiles[i].color, boxShadow: 'none'});
                 $(container).find('#sus-score-progress').append(progressBar);
 
@@ -1120,42 +1306,78 @@ if (login_check($mysqli) == true) {
         }
 
         function renderUEQ(content, studyData, resultsData) {
+            renderQuestionnaire(content, studyData, resultsData);
+
+//            return null;
+            // calculate the average sus score
+//            var missingCount = 0;
+//            var meanScores = [];
+//            for (var i = 0; i < studyData.length; i++) {
+//
+//                var scores = $(content).find('[data-id=' + studyData[i].id + '] .score');
+//                var mean = 0;
+//                for (var j = 0; j < scores.length; j++) {
+//                    var score = parseInt($(scores[j]).text());
+//                    mean = (mean + score) / (j + 1);
+//                }
+//
+//                meanScores.push({id: studyData[i].id, score: mean});
+////                console.log(scores);
+//            }
+
+//            console.log('answers mean', meanScores);
+//            return null;
+
             // calculate ueq scales
-            var scales = {
-                attractiveness: {sum: 0, max: 0, present: false},
-                efficiency: {sum: 0, max: 0, present: false},
-                perspicuity: {sum: 0, max: 0, present: false},
-                dependability: {sum: 0, max: 0, present: false},
-                stimulation: {sum: 0, max: 0, present: false},
-                novelty: {sum: 0, max: 0, present: false}
-            };
             var ueqDimensions = translation.ueqDimensions;
+            var ueqScores = [];
 
             // calculate sums for each dimension
-            for (var key in ueqDimensions) {
-                if (ueqDimensions.hasOwnProperty(key)) {
-                    for (var j = 0; j < studyData.length; j++) {
-                        if (key === studyData[j].dimension) {
-                            var ueqId = parseInt(studyData[j].id);
-                            for (var k = 0; k < resultsData.answers.length; k++) {
-                                var answerId = parseInt(resultsData.answers[k].id);
-                                var value = 0;
-                                if (ueqId === answerId) {
-                                    if (studyData[j].parameters.negative === 'yes') {
-                                        value = 6 - parseInt(resultsData.answers[k].answer.selectedOption) - 3;
-                                    } else {
-                                        value = parseInt(resultsData.answers[k].answer.selectedOption) - 3;
+            for (var r = 0; r < resultsData.length; r++) {
+                var ueqAnswers = resultsData[r].tester.answers;
+                console.log('calc ueq for', ueqAnswers);
+
+                var scales = {
+                    attractiveness: {sum: 0, max: 0, present: false},
+                    efficiency: {sum: 0, max: 0, present: false},
+                    perspicuity: {sum: 0, max: 0, present: false},
+                    dependability: {sum: 0, max: 0, present: false},
+                    stimulation: {sum: 0, max: 0, present: false},
+                    novelty: {sum: 0, max: 0, present: false}
+                };
+
+                for (var key in ueqDimensions) {
+                    if (ueqDimensions.hasOwnProperty(key)) {
+                        for (var j = 0; j < studyData.length; j++) {
+                            if (key === studyData[j].dimension) {
+                                var ueqId = parseInt(studyData[j].id);
+                                for (var k = 0; k < ueqAnswers.length; k++) {
+                                    var answerId = parseInt(ueqAnswers[k].id);
+                                    var value = 0;
+                                    if (ueqId === answerId) {
+//                                    value = meanScores[k].score;
+                                        if (studyData[j].parameters.negative === 'yes') {
+                                            value = 6 - parseInt(ueqAnswers[k].answer.selectedOption) - 3;
+                                        } else {
+                                            value = parseInt(ueqAnswers[k].answer.selectedOption) - 3;
+                                        }
+                                        console.log('value', key, value);
+//                                        value *= -1;
+                                        scales[key].sum = scales[key].sum + value;
+                                        scales[key].max++;
+                                        scales[key].present = true;
                                     }
-                                    scales[key].sum = scales[key].sum + value;
-                                    scales[key].max++;
-                                    scales[key].present = true;
                                 }
                             }
                         }
                     }
-                }
-            }
 
+                }
+                ueqScores.push(scales);
+            }
+            console.log('ueq scores', ueqScores);
+
+            return null;
 //            console.log('scales', scales);
 
             var qualities = {
@@ -1261,8 +1483,10 @@ if (login_check($mysqli) == true) {
 
         var currentGUSData = null;
         function renderSingleGUS(content, studyData, resultsData) {
+            console.log('render single gus', resultsData);
             currentGUSData = studyData;
-            renderQuestionnaireAnswers(content, getAssembledItems(studyData.gus), resultsData, true);
+            renderQuestionnaire(content, getAssembledItems(studyData.gus), resultsData);
+//            renderQuestionnaireAnswers(content, , resultsData, true);
 
             var gesture = getGestureById(studyData.gestureId);
             if (gesture && isGestureAssembled(studyData.gestureId)) {
@@ -1726,7 +1950,7 @@ if (login_check($mysqli) == true) {
         function renderIdentification(container, studyData, phaseResults) {
             if (studyData.identificationFor === 'gestures') {
                 removeAlert($(container).find('#item-view'), ALERT_NO_GESTURES_TRIMMED);
-                
+
                 $(container).find('#search-gestures').removeClass('hidden');
                 var elicitedGestures = getLocalItem(GESTURE_CATALOG);
                 var trigger = getLocalItem(ASSEMBLED_TRIGGER);
@@ -1927,19 +2151,19 @@ if (login_check($mysqli) == true) {
             loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
         });
 
-        $('.pretest-select').unbind('change').bind('change', function (event) {
-            event.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                var participantId = $(this).attr('data-participant-id');
-                var evaluatorId = $(this).attr('data-evaluator-id') || null;
-                var executionPhase = $(this).find('.btn-option-checked').attr('id');
-
-//                console.log('pretest selection changed', participantId, evaluatorId, executionPhase);
-                updateExecutionPhase(evaluatorId ? {participantId: participantId, evaluatorId: evaluatorId, executionPhase: executionPhase} : {participantId: participantId, executionPhase: executionPhase}, function (result) {
-
-                });
-            }
-        });
+//        $('.pretest-select').unbind('change').bind('change', function (event) {
+//            event.preventDefault();
+//            if (!$(this).hasClass('disabled')) {
+//                var participantId = $(this).attr('data-participant-id');
+//                var evaluatorId = $(this).attr('data-evaluator-id') || null;
+//                var executionPhase = $(this).find('.btn-option-checked').attr('id');
+//
+////                console.log('pretest selection changed', participantId, evaluatorId, executionPhase);
+//                updateExecutionPhase(evaluatorId ? {participantId: participantId, evaluatorId: evaluatorId, executionPhase: executionPhase} : {participantId: participantId, executionPhase: executionPhase}, function (result) {
+//
+//                });
+//            }
+//        });
 
     </script>
 </body>

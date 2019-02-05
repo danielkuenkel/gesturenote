@@ -374,6 +374,49 @@ include '../includes/language.php';
             </div>
         </div>
     </div>
+    
+    <div class="root" id="mapping-gesture-catalog-thumbnail">
+        <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="previewGesture"></div>
+                <div class="text-center hidden gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                        <button type="button" class="btn btn-default btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
+                        <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
+                    </div>
+                </div>
+                <div class="tagged-symbol hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                    <i class="fa fa-asterisk"></i>
+                </div>
+                <div class="gesture-info-symbols">
+                    <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
+                        <span class="gesture-info-symbol-text text-sensor">
+                            <span class="text-sensor-leap hidden"><?php echo $lang->sensors->leap->titleShort ?></span>
+                            <span class="text-sensor-kinect hidden"><?php echo $lang->sensors->kinect->titleShort ?></span>
+                        </span>
+                    </span>
+                    <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-execution"></span>
+                        <div class="gesture-info-symbol symbol-gesture-execution"></div>
+                    </span>
+                    <span class="symbol-container-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
+                        <span class="gesture-info-symbol-text text-gesture-interaction"></span>
+                        <div class="gesture-info-symbol symbol-gesture-interaction"></div>
+                    </span>
+                </div>
+            </div>
+            <div class="caption text-center">
+                <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></p>
+            </div>
+            <div class="thumbnail-footer text-center">
+                <div class="btn-tag-as-mapping-gesture" data-toggle="popover"  data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addToMapping ?>"><i class="fa fa-plus-square"></i></span></div>
+                <div class="btn-edit-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" title="<?php echo $lang->assignmentToGestureSets ?>" data-content=""><i class="fa fa-paperclip"></i> <span class="amount"></span></div>
+                <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
+            </div>
+        </div>
+    </div>
 
     <!--    <div class="root" id="study-gesture-catalog-thumbnail">
             <div class="panel panel-default btn-gesture-shadow">

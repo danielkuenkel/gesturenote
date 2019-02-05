@@ -71,7 +71,7 @@ if (login_check($mysqli) == true) {
         <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-quick-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-187px">
             <div class="btn-group-vertical">
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-create-study" onclick="gotoCreateStudy()" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->createNewStudy ?> <i class="fa fa-plus" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-create-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->createNewStudy ?> <i class="fa fa-plus" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-record-gesture" onclick="goto('gestures-catalog.php#recorder')" style="position: relative; float: right; border-radius: 0px; "><?php echo $lang->recordGesture ?> <i class="fa fa-video-camera" style="margin-left: 15px"></i></button>
@@ -304,6 +304,11 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 console.log('open simulator');
                 goto('simulator.php');
+            });
+
+            $('.btn-create-study').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'externals/modal-create-study-picker.php', 'modal-md');
             });
         </script>
 

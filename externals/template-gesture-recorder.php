@@ -465,6 +465,57 @@ include '../includes/language.php';
                     </div>
 
 
+                    <div class="form-group root hidden" id="continuousValueTypeSelect" style="">
+                        <label>
+                            <?php echo $lang->continuousValueTypeLabel ?> 
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i>
+                        </label><br>
+
+                        <!--<div class="root">-->
+                        <div class="btn-group" id="radio" style="margin: 0;">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="none">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->none ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0;">
+                            <button class="btn btn-default btn-radio" name="primary" id="percent">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->continuousValueType->percent ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0;">
+                            <button class="btn btn-default btn-radio" name="primary" id="position">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->continuousValueType->position ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0;">
+                            <button class="btn btn-default btn-radio" name="primary" id="mouseSimulation">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->continuousValueType->mouseSimulation ?></span>
+                            </button>
+                        </div>
+                        <!--</div>-->
+                    </div>
+
+
                     <div class="form-group">
                         <label><?php echo $lang->gestureContext ?></label> 
                         <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context ?>"></i>
@@ -1000,6 +1051,56 @@ include '../includes/language.php';
                                 <span class="option-text"><?php echo $lang->gestureTypes->mixed ?></span>
                             </button>
                         </div>
+                    </div>
+
+                    <div class="form-group root hidden" id="continuousValueTypeSelect" style="">
+                        <label>
+                            <?php echo $lang->continuousValueTypeLabel ?> 
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i>
+                        </label><br>
+
+                        <!--<div class="root">-->
+                        <div class="btn-group" id="radio" style="margin: 0;">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="none">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->none ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0;">
+                            <button class="btn btn-default btn-radio" name="primary" id="percent">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->continuousValueType->percent ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0;">
+                            <button class="btn btn-default btn-radio" name="primary" id="position">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->continuousValueType->position ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0;">
+                            <button class="btn btn-default btn-radio" name="primary" id="mouseSimulation">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->continuousValueType->mouseSimulation ?></span>
+                            </button>
+                        </div>
+                        <!--</div>-->
                     </div>
 
 

@@ -55,7 +55,7 @@ if (login_check($mysqli) == true) {
         <script src="js/dimensions.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/chance.min.js"></script>
-        <script src="js/study.js"></script>
+        <script src="js/extraction-study.js"></script>
         <script src="js/extraction.js"></script>
 
         <script src="js/upload-queue.js"></script>
@@ -97,17 +97,17 @@ if (login_check($mysqli) == true) {
         <div id="template-study"></div>
         <div id="template-gesture-recorder"></div>
 
-        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-306px">
+        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-205px">
             <div class="btn-group-vertical">
+                <!--                <div>
+                                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
+                                </div>-->
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-edit-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->editStudy ?> <i class="fa fa-pencil" style="margin-left: 15px"></i></button>
                 </div>
-                <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-edit-study" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->editStudy ?> <i class="fa fa-pencil" style="margin-left: 15px"></i></button>
-                </div>
-                <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-open-static-execution-url hidden" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->staticStudyURLExecute ?> <i class="fa fa-street-view" style="margin-left: 15px"></i></button>
-                </div>
+                <!--                <div>
+                                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-open-static-execution-url hidden" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->staticStudyURLExecute ?> <i class="fa fa-street-view" style="margin-left: 15px"></i></button>
+                                </div>-->
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
                 </div>
@@ -153,8 +153,8 @@ if (login_check($mysqli) == true) {
             <ul class="nav nav-tabs" role="tablist" id="tab-pane">
                 <li role="presentation" id="general"><a href="#general-infos" aria-controls="general-infos" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->general ?></a></li>
                 <li role="presentation" id="catalogs"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
-                <li role="presentation" id="phase-steps"><a href="#study-phase-steps" aria-controls="study-phase-steps" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->phases ?></a></li>
-                <li role="presentation" id="participants"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab"><?php echo $lang->participations ?> <span class="badge"></span></a></li>
+                <li role="presentation" id="mapping"><a href="#extraction-mapping" aria-controls="extraction-mapping" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->mapping ?></a></li>
+                <!--<li role="presentation" id="participants"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab"><?php echo $lang->participations ?> <span class="badge"></span></a></li>-->
                 <li role="presentation" class="dropdown hidden" id="extraction">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <?php echo $lang->phaseType->extraction ?> <span class="caret"></span>
@@ -166,7 +166,7 @@ if (login_check($mysqli) == true) {
                 </li>
                 <!--                <li role="presentation" id="gesture-extraction"><a href="#study-gesture-extraction" aria-controls="study-gesture-extraction" role="tab" data-toggle="tab">Gesten</a></li>
                                 <li role="presentation" id="trigger-extraction"><a href="#study-trigger-extraction" aria-controls="study-trigger-extraction" role="tab" data-toggle="tab">Interaktionsaufgaben</a></li>-->
-                <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>
+                <!--<li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>-->
             </ul>
         </div>
 
@@ -182,7 +182,7 @@ if (login_check($mysqli) == true) {
                 <h2 id="study-headline" style="margin-top: 0px; margin-bottom: 0px"></h2>
                 <div class="label label-default" id="type-method"></div>
                 <div class="label label-default" id="type-phase"></div>
-                <!--<div class="label label-default" id="type-survey"></div>-->
+                <div class="label label-default" id="type-survey"></div>
                 <div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>
 
                 <div class="" style="margin-top: 20px">
@@ -255,59 +255,72 @@ if (login_check($mysqli) == true) {
                     <div class="list-container"></div>
                 </div>
 
-                <div id="study-feedback-catalog" class="study-catalog hidden" style="margin-top: 50px">
-                    <h3 class="address" style="margin-top: 0"><?php echo $lang->studyCatalogs->feedback ?></h3>
-                    <div class="list-container"></div>
-                </div>
+                <!--                <div id="study-feedback-catalog" class="study-catalog hidden" style="margin-top: 50px">
+                                    <h3 class="address" style="margin-top: 0"><?php echo $lang->studyCatalogs->feedback ?></h3>
+                                    <div class="list-container"></div>
+                                </div>-->
 
             </div>
 
-            <div role="tabpanel" class="tab-pane" id="study-phase-steps">
-                <div id="study-phases">
+            <div role="tabpanel" class="tab-pane" id="extraction-mapping">
+                <!--<div id="study-phases">-->
                     <!--<h3 class="address"><?php echo $lang->phases ?></h3>-->
+                <div class="alert-space alert-no-phase-data"></div>
+                <div id="mapping-container" style=""></div>
+                <!--</div>-->
+
+                <!--<div role="tabpanel" class="tab-pane" id="extraction-mapping">-->
+                <div id="trigger-mappings">
+                    <h3 class="" style="margin-top: 0; margin-bottom: 20px"><?php echo $lang->mappingsForTriggers ?></h3>
                     <div class="alert-space alert-no-phase-data"></div>
-                    <div id="phase-steps-container" style=""></div>
+                    <div id="trigger-mapping-container" style=""></div>
                 </div>
+                <div id="gesture-mappings" style="margin-top: 40px">
+                    <h3 style="margin-bottom: 20px"><?php echo $lang->mappingsForGestures ?></h3>
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div id="gesture-mapping-container" style=""></div>
+                </div>
+                <!--</div>-->
             </div>
 
-            <div role="tabpanel" class="tab-pane" id="study-participants">
-
-                <h3 class="address" style="margin-top: 0"><?php echo $lang->executionTester ?></h3>
-                <div class="alert-space alert-plan-expired"></div>
-                <div class="alert-space alert-plan-not-started"></div>
-                <div class="alert-space alert-no-plan"></div>
-
-                <div class="hidden" id="copy-to-clipboard">
-
-                    <p class="text"><?php echo $lang->studyURLDescriptionTester ?></p>
-
-                    <input type="text" class="form-control readonly" id="static-study-url">
-
-                    <div style="margin-top: 50px">
-                        <h3 class="address" style="margin-top: 0px"><?php echo $lang->executionEvaluator ?></h3>
-                        <p class="text"><?php echo $lang->studyURLDescriptionEvaluator ?></p>
-                        <button class="btn btn-default btn-shadow btn-open-static-execution-url" type="button"><i class="fa fa-street-view" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
-                    </div>
-
-                </div>
-
-                <div style="margin-top: 50px"><h3><?php echo $lang->participations ?></h3></div>
-                <div class="alert-space alert-no-participant-data"></div>
-
-                <div class="row" id="statistic-participants">
-                    <div class="col-xs-12 text-center">
-                        <div style="border: 1px solid #eee; border-radius: 8px; padding: 15px">
-                            <!--<div class="text text-center"><?php echo $lang->studyExecutionStatistic ?></div>-->
-                            <canvas id="chart-participant-statistics" style="max-width:400px; margin: 0 auto"></canvas>
-                            <div class="text text-center" style="font-size: 10pt">
-                                <span id="amount-participants-success"></span>, <span id="amount-participants-aborted"></span>, <span id="amount-participants-total"></span>
+            <!--            <div role="tabpanel" class="tab-pane" id="study-participants">
+            
+                            <h3 class="address" style="margin-top: 0"><?php echo $lang->executionTester ?></h3>
+                            <div class="alert-space alert-plan-expired"></div>
+                            <div class="alert-space alert-plan-not-started"></div>
+                            <div class="alert-space alert-no-plan"></div>
+            
+                            <div class="hidden" id="copy-to-clipboard">
+            
+                                <p class="text"><?php echo $lang->studyURLDescriptionTester ?></p>
+            
+                                <input type="text" class="form-control readonly" id="static-study-url">
+            
+                                <div style="margin-top: 50px">
+                                    <h3 class="address" style="margin-top: 0px"><?php echo $lang->executionEvaluator ?></h3>
+                                    <p class="text"><?php echo $lang->studyURLDescriptionEvaluator ?></p>
+                                    <button class="btn btn-default btn-shadow btn-open-static-execution-url" type="button"><i class="fa fa-street-view" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
+                                </div>
+            
                             </div>
-                            <div class="btn btn-block btn-default btn-shadow" id="btn-show-all-participant-results" style="margin-top: 20px">Resultate über alle Probanden anzeigen</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="list-container row" style="margin-top: 20px"></div>
-            </div>
+            
+                            <div style="margin-top: 50px"><h3><?php echo $lang->participations ?></h3></div>
+                            <div class="alert-space alert-no-participant-data"></div>
+            
+                            <div class="row" id="statistic-participants">
+                                <div class="col-xs-12 text-center">
+                                    <div style="border: 1px solid #eee; border-radius: 8px; padding: 15px">
+                                        <div class="text text-center"><?php echo $lang->studyExecutionStatistic ?></div>
+                                        <canvas id="chart-participant-statistics" style="max-width:400px; margin: 0 auto"></canvas>
+                                        <div class="text text-center" style="font-size: 10pt">
+                                            <span id="amount-participants-success"></span>, <span id="amount-participants-aborted"></span>, <span id="amount-participants-total"></span>
+                                        </div>
+                                    </div>
+            
+                                </div>
+                            </div>
+                            <div class="list-container row" style="margin-top: 20px"></div>
+                        </div>-->
 
 
             <div role="tabpanel" class="tab-pane" id="study-gesture-extraction">
@@ -806,7 +819,7 @@ if (login_check($mysqli) == true) {
         <div class="container hidden hidden-md hidden-lg study-owner-controls">
             <hr style="margin-top: 0">
             <div class="btn-group-vertical btn-block" style="margin-top: 20px">
-                <button class="btn btn-default btn-shadow btn-preview-study" type="button"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->studyPreview ?></span></button>
+                <!--<button class="btn btn-default btn-shadow btn-preview-study" type="button"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->studyPreview ?></span></button>-->
                 <button class="btn btn-default btn-shadow btn-edit-study" type="button"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editStudy ?></span></button>
                 <button class="btn btn-default btn-shadow btn-open-static-execution-url hidden" type="button"><i class="fa fa-street-view"></i> <span class="btn-text"><?php echo $lang->staticStudyURLExecute ?></span></button>
                 <button class="btn btn-default btn-shadow btn-join-conversation" type="button"><i class="fa fa-group"></i> <span class="btn-text"><?php echo $lang->joinConversation ?></span></button>
@@ -910,35 +923,35 @@ if (login_check($mysqli) == true) {
 
             // fixed buttons tweening
 
-            var previewStudyButton = $('#fixed-study-owner-controls .btn-preview-study');
-            var previewButtonTimeline = new TimelineMax({paused: true, onStart: function () {
-                    $(previewStudyButton).css({borderBottomRightRadius: '8px'});
-                    $(previewStudyButton).addClass('btn-primary');
-                }, onReverseComplete: function () {
-                    $(previewStudyButton).css({borderBottomRightRadius: '0px'});
-                    $(previewStudyButton).removeClass('btn-primary');
-                }});
-
-            previewButtonTimeline.add("previewStudy", 0)
-                    .to(previewStudyButton, .3, {left: 305, ease: Quad.easeInOut}, "previewStudy");
-
-            $(previewStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
-                event.preventDefault();
-                previewButtonTimeline.play();
-            });
-
-            $(previewStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
-                event.preventDefault();
-                previewButtonTimeline.reverse();
-            });
+//            var previewStudyButton = $('#fixed-study-owner-controls .btn-preview-study');
+//            var previewButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+//                    $(previewStudyButton).css({borderBottomRightRadius: '8px'});
+//                    $(previewStudyButton).addClass('btn-primary');
+//                }, onReverseComplete: function () {
+//                    $(previewStudyButton).css({borderBottomRightRadius: '0px'});
+//                    $(previewStudyButton).removeClass('btn-primary');
+//                }});
+//
+//            previewButtonTimeline.add("previewStudy", 0)
+//                    .to(previewStudyButton, .3, {left: 305, ease: Quad.easeInOut}, "previewStudy");
+//
+//            $(previewStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
+//                event.preventDefault();
+//                previewButtonTimeline.play();
+//            });
+//
+//            $(previewStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
+//                event.preventDefault();
+//                previewButtonTimeline.reverse();
+//            });
 
 
             var editStudyButton = $('#fixed-study-owner-controls .btn-edit-study');
             var editButtonTimeline = new TimelineMax({paused: true, onStart: function () {
-                    $(editStudyButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+                    $(editStudyButton).css({borderBottomRightRadius: '8px'});
                     $(editStudyButton).addClass('btn-primary');
                 }, onReverseComplete: function () {
-                    $(editStudyButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
+                    $(editStudyButton).css({borderBottomRightRadius: '0px'});
                     $(editStudyButton).removeClass('btn-primary');
                 }});
 
@@ -1094,6 +1107,12 @@ if (login_check($mysqli) == true) {
                             showStudyTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
                             showExtractionTutorial = parseInt(<?php echo $_SESSION['tutorialExtraction'] ?>);
 
+                            // set elicited gestures or elicited trigger and assembled trigger or assembled gestures
+
+
+
+
+
                             getGestureSets(function (setResults) {
 //                                console.log(setResults);
                                 setLocalItem(GESTURE_SETS, setResults.gestureSets);
@@ -1144,14 +1163,18 @@ if (login_check($mysqli) == true) {
                                 $('#custom-modal').attr('data-start-tab-id', 'study-catalogs');
                                 showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
                                 break;
-                            case '#study-phase-steps':
-                                $('#custom-modal').attr('data-start-tab-id', 'study-phase-steps');
+                            case '#extraction-mapping':
+                                $('#custom-modal').attr('data-start-tab-id', 'extraction-mapping');
                                 showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
                                 break;
-                            case '#study-participants':
-                                $('#custom-modal').attr('data-start-tab-id', 'study-participants');
-                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
-                                break;
+//                            case '#study-phase-steps':
+//                                $('#custom-modal').attr('data-start-tab-id', 'study-phase-steps');
+//                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
+//                                break;
+//                            case '#study-participants':
+//                                $('#custom-modal').attr('data-start-tab-id', 'study-participants');
+//                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
+//                                break;
                             case '#gesture-extraction':
                                 var activeExtractionTab = $('#gesture-extraction-navigation').find('.active').attr('id');
 
