@@ -319,7 +319,7 @@ var TYPE_CLASSIFICATION_GESTURE_TYPE_TRIGGER = 'gestureTypeTrigger';
 var POTENTIAL_GESTURES = 'potentialGestures';
 var POTENTIAL_TRIGGER = 'potentialTrigger';
 
-var APOLLO_URL = 'ws://progesture.org:61623';
+var APOLLO_URL = 'wss://progesture.org:61624';
 var APOLLO_LOGIN = 'admin';
 var APOLLO_PASSWORD = 'password';
 var APOLLO_DESTINATION = '/topic/gestures';
