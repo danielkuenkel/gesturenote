@@ -156,6 +156,7 @@ include '../includes/language.php';
                                 <div id="title"><span><?php echo $lang->title ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->gestureNameQuality ?>"></i>:</span> <span class="label label-default" id="gesture-title-quality"></span> <span class="text"></span></div>
                                 <div id="type" style="display:flex"><span><?php echo $lang->gestureType ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->executionType ?>"></i>:</span> <div class="gesture-info-symbol symbol-gesture-execution" style="margin-top: 9px; margin-left: 6px; margin-right: 2px;"></div> <span class="address"></span> <span class="text"></span></div>
                                 <div id="interactionType" style="display:flex"><span><?php echo $lang->gestureInteractionType ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->interactionType ?>"></i>:</span> <div class="gesture-info-symbol symbol-gesture-interaction" style="margin-top: 9px; margin-left: 6px;margin-right: 2px"></div> <span class="address"></span> <span class="text"></span></div>
+                                <div id="continuousValueType" style="display:flex"><span><?php echo $lang->continuousValueTypeLabel ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i>:</span> <span class="address"></span> <span class="text"></span></div>
                                 <div id="context"><span><?php echo $lang->gestureContext ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->context ?>"></i>:</span><span class="address"></span> <span class="text"></span></div>
                                 <div id="association"><span><?php echo $lang->gestureAssociation ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->association ?>"></i>:</span><span class="address"></span> <span class="text"></span></div>
                                 <div id="description"><?php echo $lang->gestureDescription ?>:<span class="address"></span> <span class="text"></span></div>
@@ -578,12 +579,14 @@ include '../includes/language.php';
         container.find('#type .symbol-gesture-execution').removeClass('dynamic pose').addClass(gesture.type);
         container.find('#interactionType .text').text(gesture.interactionType === null ? '-' : translation.gestureInteractionTypes[gesture.interactionType]);
         container.find('#interactionType .symbol-gesture-interaction').removeClass('discrete continuous').addClass(gesture.interactionType);
+        container.find('#continuousValueType .text').text(gesture.continuousValueType === null ? '-' : translation.continuousValueType[gesture.continuousValueType]);
         container.find('#context .text').text(gesture.context);
         container.find('#association .text').text(gesture.association === null ? '-' : gesture.association);
         container.find('#description .text').text(gesture.description);
         container.find('#doubleSidedUse .text').text(translation[gesture.doubleSidedUse]);
         container.find('#btn-edit-gesture .btn-text').text(translation.edit);
         container.find('#tab-gesture-general .btn-download-as-gif').attr('data-gesture-id', gesture.id);
+
 
 
 
@@ -664,6 +667,7 @@ include '../includes/language.php';
                     titleQuality: gesture.titleQuality,
                     execution: gesture.type,
                     interaction: gesture.interactionType,
+                    continuousValueType: gesture.continuousValueType,
                     context: gesture.context,
                     association: gesture.association,
                     description: gesture.description,
@@ -680,7 +684,7 @@ include '../includes/language.php';
             $(gestureUpdateRecorder).on('gr-update-success', function (event, data) {
                 event.preventDefault();
 
-                updateGestureById(currentPreviewGesture.source, data.id, {title: data.title, titleQuality: data.titleQuality, type: data.type, interactionType: data.interactionType, context: data.context, association: data.association, description: data.description, joints: data.joints, doubleSidedUse: data.doubleSidedUse, images: data.images, previewImage: data.previewImage, gif: data.gif, sensorData: data.sensorData});
+                updateGestureById(currentPreviewGesture.source, data.id, {title: data.title, titleQuality: data.titleQuality, type: data.type, interactionType: data.interactionType, continuousValueType: data.continuousValueType, context: data.context, association: data.association, description: data.description, joints: data.joints, doubleSidedUse: data.doubleSidedUse, images: data.images, previewImage: data.previewImage, gif: data.gif, sensorData: data.sensorData});
                 $(thumbnail).find('.gesture-name').text(data.title);
                 $(thumbnail).find('.gesture-name').attr('data-content', translation.gestureNameQualities[data.titleQuality].title);
                 $(thumbnail).find('.symbol-gesture-execution').removeClass('pose dynamic').addClass(data.type);
@@ -755,9 +759,10 @@ include '../includes/language.php';
                                     $(modal).find('#modal-body-delete-gesture #btn-no').removeClass('disabled');
 
                                     if (result.status === RESULT_SUCCESS) {
-                                        $('#custom-modal').trigger('gesture-deleted', [result.gestureId]);
                                         originalFilterData = catalogResult.gestures;
                                         currentFilterData = sort();
+
+                                        $('#custom-modal').trigger('gesture-deleted', [result.gestureId]);
                                         $('#custom-modal').modal('hide');
                                     }
                                 });

@@ -547,4 +547,8 @@ function setStudyData(data) {
             }
         }
     }
+    
+    if(data.allStudyResults) {
+        setLocalItem('allStudyResults', data.allStudyResults);
+    }
 }

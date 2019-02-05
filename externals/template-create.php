@@ -2275,23 +2275,23 @@ include '../includes/language.php';
                                 </button>
                             </div>
                             <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                <button class="btn btn-default btn-radio" name="primary" id="manipulationPercent">
+                                <button class="btn btn-default btn-radio" name="primary" id="percent">
                                     <span id="icons" style="margin-right: 6px">
                                         <i class="fa fa-circle-thin" id="normal"></i>
                                         <i class="fa fa-circle hidden" id="over"></i>
                                         <i class="fa fa-check-circle hidden" id="checked"></i>
                                     </span>
-                                    <span class="option-text"><?php echo $lang->continuousValueType->manipulationPercent ?></span>
+                                    <span class="option-text"><?php echo $lang->continuousValueType->percent ?></span>
                                 </button>
                             </div>
                             <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                <button class="btn btn-default btn-radio" name="primary" id="manipulationMouse">
+                                <button class="btn btn-default btn-radio" name="primary" id="position">
                                     <span id="icons" style="margin-right: 6px">
                                         <i class="fa fa-circle-thin" id="normal"></i>
                                         <i class="fa fa-circle hidden" id="over"></i>
                                         <i class="fa fa-check-circle hidden" id="checked"></i>
                                     </span>
-                                    <span class="option-text"><?php echo $lang->continuousValueType->manipulationMouse ?></span>
+                                    <span class="option-text"><?php echo $lang->continuousValueType->position ?></span>
                                 </button>
                             </div>
                             <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">

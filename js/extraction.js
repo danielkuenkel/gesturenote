@@ -237,7 +237,7 @@ function renderAllGestures() {
             var gestureCount = 0;
             for (var j = 0; j < gestures.length; j++) {
                 var gesture = gestures[j];
-                if (parseInt(trigger[i].id) === parseInt(gesture.triggerId)) {
+                if (gesture && parseInt(trigger[i].id) === parseInt(gesture.triggerId)) {
                     var clone = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-lg-4', ELICITED_GESTURES);
                     $(listContainer).append(clone);
                     TweenMax.from(clone, .2, {delay: j * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});

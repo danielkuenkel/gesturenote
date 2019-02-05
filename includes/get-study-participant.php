@@ -32,7 +32,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                         if (!$select_stmt->execute()) {
                             echo json_encode(array('status' => 'selectGesturesError'));
                         } else {
-                            $select_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated, $forename, $surname);
+                            $select_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContinuousValueType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated, $forename, $surname);
                             while ($select_stmt->fetch()) {
                                 foreach ($assembledGestures as $assembledGestureId) {
                                     if (strcmp($gestureId, $assembledGestureId) == 0) {
@@ -45,6 +45,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                             'titleQuality' => $gestureTitleQuality,
                                             'type' => $gestureType,
                                             'interactionType' => $gestureInteractionType,
+                                            'continuousValueType' => $gestureContinuousValueType,
                                             'context' => $gestureContext,
                                             'association' => $gestureAssociation,
                                             'description' => $gestureDescription,
@@ -99,7 +100,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                                         echo json_encode(array('status' => 'selectGesturesError'));
                                                     } else {
                                                         $select_gesture_stmt->store_result();
-                                                        $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated, $forename, $surname);
+                                                        $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContinuousValueType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated, $forename, $surname);
                                                         $select_gesture_stmt->fetch();
                                                         $gestureCatalog[] = array('id' => $gestureId,
                                                             'userId' => $gestureUserId,
@@ -110,6 +111,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                                             'titleQuality' => $gestureTitleQuality,
                                                             'type' => $gestureType,
                                                             'interactionType' => $gestureInteractionType,
+                                                            'continuousValueType' => $gestureContinuousValueType,
                                                             'context' => $gestureContext,
                                                             'association' => $gestureAssociation,
                                                             'description' => $gestureDescription,
@@ -189,7 +191,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                                         echo json_encode(array('status' => 'selectGesturesError'));
                                                     } else {
                                                         $select_gesture_stmt->store_result();
-                                                        $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated, $forename, $surname);
+                                                        $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContinuousValueType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated, $forename, $surname);
                                                         $select_gesture_stmt->fetch();
                                                         $gestureCatalog[] = array('id' => $gestureId,
                                                             'userId' => $gestureUserId,
@@ -200,6 +202,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'], $_PO
                                                             'titleQuality' => $gestureTitleQuality,
                                                             'type' => $gestureType,
                                                             'interactionType' => $gestureInteractionType,
+                                                            'continuousValueType' => $gestureContinuousValueType,
                                                             'context' => $gestureContext,
                                                             'association' => $gestureAssociation,
                                                             'description' => $gestureDescription,

@@ -1441,7 +1441,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
 
     $(content).find('.question-container').empty();
     for (var i = 0; i < studyData.length; i++) {
-        var listItem = $('#template-study-container').find('#' + studyData[i].format).clone();
+        var listItem = $('#template-study-container').find('#' + studyData[i].format).clone().attr('data-id', studyData[i].id);
         listItem.find('#format .format-text').text(translation.questionFormats[studyData[i].format].text);
         $(listItem).find('.question').text(studyData.length > 1 ? (i + 1) + '. ' + studyData[i].question : studyData[i].question);
 
@@ -2147,7 +2147,7 @@ function renderRating(item, studyData, answer) {
     for (var i = 0; i < studyData.options.length; i++) {
         var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
         $(optionItem).find('#scale-container').append(scaleItem);
-        $(scaleItem).find('.option-text').text((i + 1) + '. ' + studyData.options[i].title);
+        $(scaleItem).attr('data-id', studyData.options[i].id).find('.option-text').text((i + 1) + '. ' + studyData.options[i].title);
         if (answer && i === selectedScale) {
             $(scaleItem).find('.option-text').addClass('bordered-scale-item');
         } else {
@@ -2173,6 +2173,7 @@ function renderMatrix(item, studyData, answer) {
     for (var i = 0; i < studyData.options.length; i++) {
         var optionItem = $('#template-study-container').find('#matrix-item').clone();
         $(optionItem).find('#rating-option').text(studyData.options[i].option);
+        $(optionItem).attr('data-id', studyData.options[i].id);
         $(item).find('.option-container').append(optionItem);
 
         if (i < studyData.options.length - 1) {
@@ -2180,8 +2181,6 @@ function renderMatrix(item, studyData, answer) {
             $(hr).css({marginTop: "15px", marginBottom: "5px"});
             $(item).find('.option-container').append(hr);
         }
-
-//        renderFilterOptionsData(MATRIX, optionItem, studyData.options[i].filterOptions, true);
 
         if (answer) {
             var score = 0;
@@ -2216,11 +2215,6 @@ function renderMatrix(item, studyData, answer) {
                     $(scaleItem).find('.option-text').css({paddingLeft: "0px"});
                 }
                 renderFilterOptionsData(MATRIX, scaleItem, getFilterOptionsById(studyData.options[i].filterOptions, studyData.options[i].scales[j].id));
-
-//                if (j < studyData.options[i].scales.length - 1) {
-//                    var breakItem = document.createElement('br');
-//                    $(optionItem).find('#scale-container').append(breakItem);
-//                }
             }
         } else {
             $(optionItem).find('#score-container').remove();
@@ -2228,10 +2222,8 @@ function renderMatrix(item, studyData, answer) {
 
             if (studyData.options[i].negative === 'yes') {
                 $(optionItem).find('#negative').removeClass('hidden');
-//                score = studyData.options[i].scales.length - selectedScale;
             } else {
                 $(optionItem).find('#positive').removeClass('hidden');
-//                score = selectedScale + 1;
             }
 
             for (var j = 0; j < studyData.options[i].scales.length; j++) {
@@ -2241,11 +2233,6 @@ function renderMatrix(item, studyData, answer) {
                 $(scaleItem).find('.option-text').text((j + 1) + '. ' + studyData.options[i].scales[j].title);
                 $(scaleItem).find('.option-text').css({paddingLeft: "0px"});
                 renderFilterOptionsData(MATRIX, scaleItem, getFilterOptionsById(studyData.options[i].filterOptions, studyData.options[i].scales[j].id));
-
-//                if (j < studyData.options[i].scales.length - 1) {
-//                    var breakItem = document.createElement('br');
-//                    $(optionItem).find('#scale-container').append(breakItem);
-//                }
             }
         }
     }
@@ -2280,11 +2267,12 @@ function renderSumQuestion(item, studyData, answer) {
             var listItemAnswer = $('#template-study-container').find('#sum-question-item').clone();
             $(listItemAnswer).attr('data-id', studyData.options[i].id);
             $(item).find('.option-container').append(listItemAnswer);
+            $(listItemAnswer).find('.address').text(studyData.options[i].title + ': ');
             if (answer) {
                 count += parseInt(answer.sumCounts[i].count);
-                $(listItemAnswer).find('.option-text').text(studyData.options[i].title + ': ' + answer.sumCounts[i].count + ' ' + translation.scaleTypes[studyData.parameters.allocation]);
+                $(listItemAnswer).find('.answer').text(answer.sumCounts[i].count + ' ' + translation.scaleTypes[studyData.parameters.allocation]);
             } else {
-                $(listItemAnswer).find('.option-text').text(studyData.options[i].title + ': 0 ' + translation.scaleTypes[studyData.parameters.allocation]);
+//                $(listItemAnswer).find('.option-text').text(studyData.options[i].title + ': 0 ' + translation.scaleTypes[studyData.parameters.allocation]);
                 $(item).find('#no-answer').removeClass('hidden');
             }
 
@@ -2563,7 +2551,7 @@ function renderSUSItem(item, studyData, answer) {
 
 function renderUEQItem(item, studyData, answer) {
     var score = 0;
-    console.log(answer, studyData.showRatingInfo);
+//    console.log(answer, studyData.showRatingInfo);
 
     if (studyData.parameters.negative === 'yes') {
         $(item).find('#negative').removeClass('hidden');
@@ -2576,6 +2564,7 @@ function renderUEQItem(item, studyData, answer) {
             score = parseInt(answer.selectedOption) - 3;
         }
     }
+    score *= -1;
 
 //    console.log(score);
 
@@ -2587,7 +2576,7 @@ function renderUEQItem(item, studyData, answer) {
         } else if (studyData.parameters.showRatingInfo && studyData.parameters.showRatingInfo === 'yes') {
 //            renderRatingSigns($(item).find('#score-container'), score, 7, -4);
         }
-        
+
         renderRatingSigns($(item).find('#score-container'), score, 7, -4);
     } else {
         $(item).find('#no-answer').removeClass('hidden');

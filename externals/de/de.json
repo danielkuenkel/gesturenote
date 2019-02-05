@@ -377,6 +377,7 @@
         "mapping": "Mapping",
         "panel": "Wen, Was & Wann?"
     },
+    "participant": "Proband",
     "participants": "Probanden",
     "participation": "Session",
     "participations": "Sessions",
@@ -572,6 +573,7 @@
     "cognitiveRelationsForTrigger": "Sinnzusammenhänge für Interaktionsaufgabe",
     "fitnessOfTrigger": "Eignung der Interaktionsaufgabe",
     "noAnswer": "Keine Antwort",
+    "questionNotAnswered": "nicht beantwortet",
     "noJustification": "Keine Begründung",
     "notSpecified": "Keine Angaben",
     "Is": "Ist",
@@ -685,7 +687,6 @@
     "counterTo": "Zähler bis",
     "repeats": "Wiederholungen",
     "repeatsOfGestures": "Wiederholungen der Gesten",
-    "noAnswer": "Nicht beantwortet",
     "notChecked": "Nicht überprüft",
     "notAssignedToGestureSet": "Keinem Gesten-Set zugewiesen",
     "check": "Überprüfen",
@@ -1680,9 +1681,9 @@
         "points": "Punkte"
     },
     "continuousValueType": {
-        "manipulationPercent": "Prozent (1 Dimension)",
-        "manipulationMouse": "Mausposition (2 Dimensionen)",
-        "mouseSimulation": "Mauszeigersteuerung"
+        "percent": "Prozent",
+        "position": "Mausposition",
+        "mouseSimulation": "Maussimulation"
     },
     "phaseStep": "Phasenschritt",
     "phaseType": {
@@ -2214,8 +2215,8 @@
     "deleteFromClassification": "Von Klassifizierung entfernen",
     "addToStudyGestureSet": "Zum Studien-Gesten-Set hinzufügen",
     "addToMapping": "Zur Interaktionsaufgabe hinzufügen",
-    "mappingsForTriggers":"Mappings für Interaktionsaufgaben",
-    "mappingsForGestures":"Mappings für Gesten",
+    "mappingsForTriggers": "Mappings für Interaktionsaufgaben",
+    "mappingsForGestures": "Mappings für Gesten",
     "removeFromStudyGestureSet": "Vom Studien-Gesten-Set entfernen",
     "deleteGestureSet": "Gesten-Set löschen",
     "addAllGesturesToStudyGestureSet": "Alle Gesten zum Studien-Gesten-Set hinzufügen",

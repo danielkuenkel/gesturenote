@@ -1604,10 +1604,12 @@ function renderAssembledGesturePerforms(targetContainer) {
 
 function renderAssembledSensorData(targetContainer, triggerId, data) {
     var gesturesData = [];
-    for (var i = 0; i < data.length; i++) {
-        if (parseInt(triggerId) === parseInt(data[i].triggerId)) {
-            data[i].index = i + 1;
-            gesturesData.push(data[i]);
+    if (data && data.length > 0) {
+        for (var i = 0; i < data.length; i++) {
+            if (parseInt(triggerId) === parseInt(data[i].triggerId)) {
+                data[i].index = i + 1;
+                gesturesData.push(data[i]);
+            }
         }
     }
 
@@ -2892,14 +2894,6 @@ function initMoreInfoGesture(button, clone, data, source, modalId) {
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone};
         gesturePreviewOpened = true;
         $(clone).find('.btn-pause-gesture').click();
-
-        $('#custom-modal').on('gesture-deleted', function () {
-            console.log($('#custom-page'), $('#custom-page').length, $('#custom-page .pagination'), $('#custom-page .pagination').length, );
-            if ($('#custom-page .pagination') && $('#custom-page .pagination').length > 0) {
-                checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-                renderData(currentFilterData);
-            }
-        });
 
         if (modalId) {
             loadHTMLintoModal('custom-modal', 'externals/' + modalId + '.php', 'modal-lg');

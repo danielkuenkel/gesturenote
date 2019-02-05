@@ -49,7 +49,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['method'])) {
                                                 } else {
 
                                                     $select_gesture_stmt->store_result();
-                                                    $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated, $forename, $surname);
+                                                    $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureTitleQuality, $gestureType, $gestureInteractionType, $gestureContinuousValueType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $doubleSidedUse, $gesturePreviewImage, $gestureImages, $gestureGIF, $sensorData, $gestureCreated, $forename, $surname);
                                                     $select_gesture_stmt->fetch();
 
                                                     $elicitedGestures[] = array('id' => $originalGestureId,
@@ -61,6 +61,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['method'])) {
                                                         'titleQuality' => $gestureTitleQuality,
                                                         'type' => $gestureType,
                                                         'interactionType' => $gestureInteractionType,
+                                                        'continuousValueType' => $gestureContinuousValueType,
                                                         'context' => $gestureContext,
                                                         'association' => $gestureAssociation,
                                                         'description' => $gestureDescription,
@@ -182,7 +183,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['method'])) {
 
                             if ($select_stmt = $mysqli->prepare("SELECT gestures.*, users.forename, users.surname FROM gestures JOIN users ON users.id = gestures.user_id WHERE (owner_id = '$sessionUserId' && scope = 'private') OR scope = 'public' ORDER BY created DESC")) {
                                 // get variables from result.
-                                $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $context, $association, $description, $joints, $doubleSidedUse, $previewImage, $images, $gif, $sensorData, $created, $forename, $surname);
+                                $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $continuousValueType, $context, $association, $description, $joints, $doubleSidedUse, $previewImage, $images, $gif, $sensorData, $created, $forename, $surname);
 
                                 if (!$select_stmt->execute()) {
                                     echo json_encode(array('status' => 'selectError'));
@@ -252,6 +253,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['method'])) {
                                             'titleQuality' => $titleQuality,
                                             'type' => $type,
                                             'interactionType' => $interactionType,
+                                            'continuousValueType' => $continuousValueType,
                                             'context' => $context,
                                             'association' => $association,
                                             'description' => $description,
@@ -347,7 +349,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['method'])) {
 
                         if ($select_stmt = $mysqli->prepare("SELECT gestures.*, users.forename, users.surname FROM gestures JOIN users ON users.id = gestures.user_id WHERE (owner_id = '$sessionUserId' && scope = 'private') OR scope = 'public' ORDER BY created DESC")) {
                             // get variables from result.
-                            $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $context, $association, $description, $joints, $doubleSidedUse, $previewImage, $images, $gif, $sensorData, $created, $forename, $surname);
+                            $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $titleQuality, $type, $interactionType, $continuousValueType, $context, $association, $description, $joints, $doubleSidedUse, $previewImage, $images, $gif, $sensorData, $created, $forename, $surname);
 
                             if (!$select_stmt->execute()) {
                                 echo json_encode(array('status' => 'selectError'));
@@ -417,6 +419,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['method'])) {
                                         'titleQuality' => $titleQuality,
                                         'type' => $type,
                                         'interactionType' => $interactionType,
+                                        'continuousValueType' => $continuousValueType,
                                         'context' => $context,
                                         'association' => $association,
                                         'description' => $description,

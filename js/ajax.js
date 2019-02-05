@@ -845,6 +845,23 @@ function getStudyParticipant(data, callback) {
     });
 }
 
+function getAllStudyParticipants(data, callback) {
+    $.ajax({
+        url: 'includes/get-all-study-results.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function saveNotes(data, callback) {
     $.ajax({
         url: 'includes/save-notes.php',

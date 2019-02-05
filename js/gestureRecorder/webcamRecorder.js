@@ -19,13 +19,16 @@ function WebcamRecorder(options) {
             navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia;
 
-    if (navigator.getUserMedia) {
-        navigator.mediaDevices.enumerateDevices()
-                .then(gotDevices)
-                .catch(errorCallback);
-    } else {
-        console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
-    }
+    setTimeout(function () {
+        if (navigator.getUserMedia) {
+            navigator.mediaDevices.enumerateDevices()
+                    .then(gotDevices)
+                    .catch(errorCallback);
+        } else {
+            console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
+        }
+    }, 3000);
+
 
     function gotDevices(deviceInfos) {
         console.log('got devices for webcam recorder', deviceInfos);
@@ -33,14 +36,14 @@ function WebcamRecorder(options) {
         var audioSource = null;
 
         var videoSources = [];
-        var audioSources = [];
-        for (var i = 0; i < deviceInfos.length; i++) {
-            if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
-                videoSources.push(deviceInfos[i]);
-            } else if (deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
-                audioSources.push(deviceInfos[i]);
-            }
-        }
+//        var audioSources = [];
+//        for (var i = 0; i < deviceInfos.length; i++) {
+//            if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
+//                videoSources.push(deviceInfos[i]);
+//            } else if (deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
+//                audioSources.push(deviceInfos[i]);
+//            }
+//        }
 
         for (var i = 0; i < deviceInfos.length; i++) {
             if (!videoSource && deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
@@ -85,7 +88,7 @@ function WebcamRecorder(options) {
 
     console.log('webcam options', options);
     if (options.recordedData) {
-        console.log('recorded data')
+        console.log('recorded data', options.recordedData);
         webcamSaveGestureData = {images: options.recordedData.images, blobs: options.recordedData.blobs || null, previewImage: options.recordedData.previewImage, gif: options.recordedData.gif};
     }
 }
@@ -97,11 +100,11 @@ function onError(error) {
 function onSuccess(stream) {
 //    console.log(stream);
 //    var videoTracks = stream.getVideoTracks();
-//    console.log(videoTracks);
+    console.log(stream);
 
     webcamRecorder.mediaStream = stream;
     var video = $(webcamRecorder.options.parent).find('.recorder-webcam-video');
-    console.log(video, webcamRecorder.options);
+    console.log('on success', video, webcamRecorder.options);
     $(video)[0].onloadedmetadata = function () {
         console.log('webcam recorder is ready');
         $(webcamRecorder).trigger('ready', [TYPE_RECORD_WEBCAM]);

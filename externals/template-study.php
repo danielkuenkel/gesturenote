@@ -60,7 +60,7 @@ include '../includes/language.php';
                         <i class="fa fa-user fa-3x"></i>
                     </div>
                     <div class="embed-responsive-item participant-snapshot" style="position: absolute">
-                        <img src="" width="100%" height="auto" style="border-top-left-radius: 8px; border-top-right-radius: 8px;" />
+                        <img src="" class="mirroredHorizontally" width="100%" height="auto" style="border-top-left-radius: 8px; border-top-right-radius: 8px;" />
                     </div>
                 </div>
                 <div class="panel-content text-center">
@@ -357,20 +357,7 @@ include '../includes/language.php';
 
     <div class="root" id="ueq">
         <h3 id="headline" style="margin-top: 0"></h3>
-        <!--<hr>-->
-        <!--        <div class="range-container" style="margin-top: 20px">
-                    <div class="alert-space alert-sus-invalid"></div>
-                    <div id="sus-score-results">
-                        <div class="text-center">
-                            <div style="font-size: 100pt; line-height: 100pt; margin-top: 0" id="average-score"></div>
-                            <div id="score-adjective" style="margin-top: 0"><span class="address"></span> <span class="text"></span> <span class="tail"></span></div>
-                        </div>
-                        <i class="fa fa-chevron-down text" id="sus-score-pointer" aria-hidden="true" style="position: relative;"></i>
-                        <div class="progress" id="sus-score-progress" style="margin: 0; margin-top: -4px"></div>
-        
-                        <div id="sus-marker-container" style="margin-top: 3px; margin-bottom: 100px"></div>
-                    </div>
-                </div>-->
+
         <div class="row">
             <div class="col-sm-6">
                 <label><?php echo $lang->scales ?></label>
@@ -409,6 +396,7 @@ include '../includes/language.php';
         <hr style="margin: 0">
         <div class="panel-body">
             <div><span class="text answer"></span><span class="filter-option" style="margin-left: 10px"></span></div>
+            <div id="missed-answers" class="hidden"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
         </div>
     </div>
@@ -461,20 +449,21 @@ include '../includes/language.php';
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
+            <div id="missed-answers" class="hidden"></div>
             <!--            <div class="text">
                             <div class="option-text yes"><?php echo $lang->yes ?></div>
                             <div class="option-text no"><?php echo $lang->no ?></div>
                         </div>-->
                         <!--<div id="selection"><span id="address"><?php echo $lang->selection ?>:</span> <span class="text"></span></div>-->
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
-            <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
+            <!--<div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>-->
             <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
         </div>
     </div>
 
     <span id="dichotomous-question-item">
-        <div><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
-        <!--<div id="option-text" class="text" ></div>-->
+        <div><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+        <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
     </span>
 
     <div class="panel panel-default panel-shadow" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
@@ -497,48 +486,36 @@ include '../includes/language.php';
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
+            <div id="missed-answers" class="hidden"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
             <!--<div id="selection"><span id="address"><?php echo $lang->selection ?>:</span> <span class="text"></span></div>-->
-            <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
+            <!--<div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>-->
             <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
         </div>
     </div>
 
     <div class="panel panel-default panel-shadow" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <div>
-<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
-                <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
-                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>-->
-            </div>
             <label class="question"></label>
             <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
-            <div class="hidden" id="optionalanswer-content" style="margin-top: 15px">
+            <div class="hidden" id="optionalanswer-content" data-id="optionalAnswer" style="margin-top: 15px">
                 <hr style="margin-bottom: 5px">
                 <div><span class="label label-warning hidden" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span></div>
-                <span class="option-text address" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
+                <span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="option-text address" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
                 <span class="filter-option" style="margin-left: 5px"></span><br/>
                 <span class="text"></span>
             </div>
+            <div id="missed-answers" class="hidden"></div>
             <div class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></div>
         </div>
     </div>
 
     <span id="grouping-question-item">
-        <div>
-<!--            <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
-            <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
-            <span class="label label-default hidden" id="selectOne"><?php echo $lang->justificationForSelection ?></span>
-            <span class="label label-default hidden" id="selectNothing"><?php echo $lang->justificationForNoChoice ?></span>
-            <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>-->
-        </div>
-        <div><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
-        <!--<div class="option-text text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></div>-->
+        <div><span class="badge count-badge hidden" style="margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
         <div>
             <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
@@ -547,15 +524,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default panel-shadow" id="groupingQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <div>
-<!--                <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
-                <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
-                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>-->
-            </div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <!--                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
                 <div class="label label-primary" id="factor-primary"></div>
             </div>
             <label class="question"></label>
@@ -570,6 +539,7 @@ include '../includes/language.php';
                 <span class="filter-option" style="margin-left: 5px"></span><br/>
                 <span class="text"></span>
             </div>
+            <div id="missed-answers" class="hidden"></div>
             <div class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></div>
         </div>
     </div>
@@ -607,6 +577,7 @@ include '../includes/language.php';
                 <span class="filter-option" style="margin-left: 5px"></span><br/>
                 <span class="text"></span>
             </div>
+            <div id="missed-answers" class="hidden"></div>
             <div class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></div>
         </div>
     </div>
@@ -624,6 +595,7 @@ include '../includes/language.php';
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
+            <div id="missed-answers" class="hidden"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
         </div>
     </div>
@@ -633,7 +605,7 @@ include '../includes/language.php';
         <div id="scale-container"></div>
     </div>
 
-    <div id="rating-scale-item"><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+    <div id="rating-scale-item"><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
     <!--<span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>-->
 
     <div class="panel panel-default panel-shadow" id="matrix" style="margin-bottom: 5px;">
@@ -656,6 +628,7 @@ include '../includes/language.php';
         <span class="no-matter-filter-option hidden" style="margin-left: 10px" role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""><i class="fa fa-info-circle"></i> Filter</span>
         <div class="pull-right text" id="score-container" style="margin-top: 9px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
         <div id="scale-container" style="margin-top: 10px;"></div>
+        <div id="missed-answers" class="hidden"></div>
         <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
     </div>
 
@@ -672,6 +645,7 @@ include '../includes/language.php';
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
+            <div id="missed-answers" class="hidden"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
             <div class="label label-success hidden" id="distributeAllPoints"><i class="fa fa-check"></i> <span class="label-text"><?php echo $lang->allPointsDistributed ?></span></div>
             <div class="label label-danger hidden" id="distributeNotAllPoints"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->notAllPointsDistributed ?></span></div>
@@ -679,7 +653,7 @@ include '../includes/language.php';
     </div>
 
     <div id="sum-question-item">
-        <span class="text option-text"></span><span class="filter-option" style="margin-left: 10px"></span>
+        <span class=""><span class="address"></span><span class="text answer"></span><span class="filter-option" style="margin-left: 10px"></span>
     </div>
 
     <div class="panel panel-default panel-shadow" id="ranking" style="margin-bottom: 5px;">
@@ -693,6 +667,7 @@ include '../includes/language.php';
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
+            <div id="missed-answers" class="hidden"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
         </div>
     </div>
@@ -759,6 +734,7 @@ include '../includes/language.php';
         <div class="panel-body">
             <div class="pull-right text" id="score-container" style="margin-top: 9px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
             <div class="option-container"></div>
+            <div id="missed-answers" class="hidden"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
         </div>
     </div>
@@ -778,6 +754,7 @@ include '../includes/language.php';
         <div class="panel-body">
             <div class="pull-right text" id="score-container" style="margin-top: 9px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
             <div class="option-container"></div>
+            <div id="missed-answers" class="hidden"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
         </div>
     </div>
@@ -800,6 +777,8 @@ include '../includes/language.php';
             </div>
             <label class="question"></label> <span class="original-ueq-item-id text-center" style="margin-left: 5px; background-color: #777777; border-radius: 50%; width: 20px; height: 20px; display: inline-block; color: white; font-weight: bold; font-size: 8pt;"></span><br/>
             <div class="text" id="score-container" style="position: absolute; right:15px; bottom:15px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
+            <div id="participant-answers" class="hidden"></div>
+            <div id="missed-answers" class="hidden"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
         </div>
     </div>
@@ -1457,11 +1436,11 @@ include '../includes/language.php';
                     <div><span><?php echo $lang->fromWizard ?>:</span> <span class="text" id="from-wizard"></span></div>
                 </div>
             </div>
-            
+
             <div style="margin-top: 20px">
                 <div class="btn btn-default btn-block btn-shadow disabled" id="btn-start-simulation"><?php echo $lang->simulatorGestureSet ?></div>
             </div>
-            
+
         </div>
 
         <div id="observations">
@@ -1913,6 +1892,149 @@ include '../includes/language.php';
         </div>
     </div>
 
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="template-study-all-container" class="hidden">
+
+    <div class="root" id="questionnaire">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <div class="question-container" style="margin-top: 20px;"></div>
+    </div>
+
+    <div class="root" id="gus">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <!--<hr>-->
+        <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesWhereElicited ?></span> 
+        <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerWhereElicited ?></span>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+                <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+                <div id="feedback"><span class="address"></span> <span class="text"></span></div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                <div class="text-center gestureControls hidden">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-container" style="margin-top: 30px;"></div>
+    </div>
+    
+    <div class="root" id="questionnaireGestures">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <div class="question-container" style="margin-top: 20px;"></div>
+    </div>
+    
+    <div class="root" id="sus">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <!--<hr>-->
+        <div class="range-container" style="margin-top: 20px">
+            <div class="alert-space alert-sus-invalid"></div>
+            <div id="sus-score-results">
+                <div class="text-center">
+                    <div style="font-size: 100pt; line-height: 100pt; margin-top: 0" id="average-score"></div>
+                    <div id="score-adjective" style="margin-top: 0"><span class="address"></span> <span class="text"></span> <span class="tail"></span></div>
+                    <div id="sus-grade" style="margin-top: 0"><span class="address"></span> <span class="text"></span> <span class="tail"></span></div>
+                    <div id="sus-acceptability" style="margin-top: 0"><span class="address"></span> <span class="text"></span> <span class="tail"></span></div>
+                </div>
+
+                <i class="fa fa-chevron-down text" id="sus-score-pointer" aria-hidden="true" style="position: relative;"></i>
+
+                <div class="progress" id="sus-grade-scale-progress" style="margin-bottom: -1px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; box-shadow: none">
+                    <div class="progress-bar progress-bar-default" style="width: 50%; background-color: #d2d2d2; color: black; box-shadow: none;">
+                        <?php echo $lang->susAcceptabilityRange->inacceptable->title ?>
+                    </div>
+                    <div class="progress-bar progress-bar-default" style="width: 12.5%; background-color: #525252; color: white; box-shadow: none; cursor: pointer" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->susAcceptabilityRange->marginalLow->title ?>">
+                        <?php echo $lang->susAcceptabilityRange->marginalLow->titleShort ?>
+                    </div>
+                    <div class="progress-bar progress-bar-default" style="width: 7.5%; background-color: #525252; color: white; box-shadow: none; border-left: 2px solid; cursor: pointer" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->susAcceptabilityRange->marginalHigh->title ?>">
+                        <?php echo $lang->susAcceptabilityRange->marginalHigh->titleShort ?>
+                    </div>
+                    <div class="progress-bar progress-bar-default" style="width: 30%; background-color: #d2d2d2; color: black; box-shadow: none;">
+                        <?php echo $lang->susAcceptabilityRange->acceptable->title ?>
+                    </div>
+                </div>
+
+                <div class="progress" id="sus-grade-scale-progress" style="margin-bottom: 4px; border-radius: 0px; box-shadow: none">
+                    <div class="progress-bar progress-bar-success" style="width: 60%; background: none; color: black; box-shadow: none; border: 1px solid rgba(0,0,0,.1);">
+                        E
+                    </div>
+                    <div class="progress-bar progress-bar-warning" style="width: 10%; background: none; color: black; box-shadow: none; border: 1px solid rgba(0,0,0,.1);">
+                        D
+                    </div>
+                    <div class="progress-bar progress-bar-danger" style="width: 10%; background: none; color: black; box-shadow: none; border: 1px solid rgba(0,0,0,.1);">
+                        C
+                    </div>
+                    <div class="progress-bar progress-bar-danger" style="width: 10%; background: none; color: black; box-shadow: none; border: 1px solid rgba(0,0,0,.1);">
+                        B
+                    </div>
+                    <div class="progress-bar progress-bar-danger" style="width: 10%; background: none; color: black; box-shadow: none; border: 1px solid rgba(0,0,0,.1);">
+                        A
+                    </div>
+                </div>
+
+
+                <div class="progress" id="sus-score-progress" style="margin: 0; margin-top: -4px; border-top-left-radius: 0px; border-top-right-radius: 0px; height: 10px"></div>
+
+                <div id="sus-marker-container" style="margin-top: 3px; margin-bottom: 100px"></div>
+            </div>
+        </div>
+
+        <div class="question-container" style="padding-top: 40px"></div>
+    </div>
+    
+    
+    <div class="root" id="ueq">
+        <h3 id="headline" style="margin-top: 0"></h3>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <label><?php echo $lang->scales ?></label>
+                <div class="ueq-scales-statistics">
+                    <div class="attractiveness"><span class="address"><?php echo $lang->ueqDimensions->attractiveness->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->attractiveness->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="efficiency"><span class="address"><?php echo $lang->ueqDimensions->efficiency->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->efficiency->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="perspicuity"><span class="address"><?php echo $lang->ueqDimensions->perspicuity->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->perspicuity->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="dependability"><span class="address"><?php echo $lang->ueqDimensions->dependability->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->dependability->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="stimulation"><span class="address"><?php echo $lang->ueqDimensions->stimulation->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->stimulation->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="novelty"><span class="address"><?php echo $lang->ueqDimensions->novelty->title ?></span> <span role="button" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->ueqDimensions->novelty->popover ?>"><i class="fa fa-info-circle"></i></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label><?php echo $lang->pragmaticHedonicQuality ?></label>
+                <div class="ueq-quality-statistics">
+                    <div class="attractiveness"><span class="address"><?php echo $lang->ueqMainDimensions->attractiveness ?></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="pragmaticQuality"><span class="address"><?php echo $lang->ueqMainDimensions->pragmaticQuality ?></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                    <div class="hedonicQuality"><span class="address"><?php echo $lang->ueqMainDimensions->hedonicQuality ?></span>: <span class="text"></span> <span class="arrow-green hidden" style="color: #5cb85c"><i class="fa fa-arrow-up"></i></span><span class="arrow-yellow hidden" style="color: #ec971f"><i class="fa fa-arrow-right"></i></span><span class="arrow-red hidden" style="color: #d9534f"><i class="fa fa-arrow-down"></i></span></div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="question-container"></div>
+    </div>
 
 </div>
 
