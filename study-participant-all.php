@@ -1361,7 +1361,7 @@ if (login_check($mysqli) == true) {
                                         } else {
                                             value = parseInt(ueqAnswers[k].answer.selectedOption) - 3;
                                         }
-                                        console.log('value', key, value);
+                                        console.log('value', key, value, ueqAnswers[k].answer.selectedOption);
 //                                        value *= -1;
                                         scales[key].sum = scales[key].sum + value;
                                         scales[key].max++;
