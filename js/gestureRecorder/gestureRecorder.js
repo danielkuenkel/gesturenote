@@ -823,12 +823,10 @@ function renderStateSave() {
     
     checkContinuousValueTypeInput();
     $(typeInput).unbind('change').bind('change', function (event) {
-        event.preventDefault();
         checkContinuousValueTypeInput();
     });
 
     $(interactionTypeInput).unbind('change').bind('change', function (event) {
-        event.preventDefault();
         checkContinuousValueTypeInput();
     });
 

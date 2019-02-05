@@ -19,7 +19,7 @@ function WebcamRecorder(options) {
             navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia;
 
-    setTimeout(function () {
+//    setTimeout(function () {
         if (navigator.getUserMedia) {
             navigator.mediaDevices.enumerateDevices()
                     .then(gotDevices)
@@ -27,7 +27,7 @@ function WebcamRecorder(options) {
         } else {
             console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
         }
-    }, 3000);
+//    }, 3000);
 
 
     function gotDevices(deviceInfos) {

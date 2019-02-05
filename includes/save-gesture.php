@@ -64,7 +64,7 @@ if (isset($_POST['title'], $_POST['titleQuality'], $_POST['context'], $_POST['as
     }
 
     if (isset($_POST['images'], $_POST['gif'])) {
-        if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, title_quality, type, interaction_type, context, association, description, joints, double_sided_use, preview_image, images, gif, sensor_data) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$titleQuality','$type','$interactionType','$continuousValueType','$context','$association','$description','$joints','$doubleSidedUse','$previewImage','$dbImageURLs', '$gif', '$sensorData')")) {
+        if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, title_quality, type, interaction_type, continuous_value_type, context, association, description, joints, double_sided_use, preview_image, images, gif, sensor_data) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$titleQuality','$type','$interactionType','$continuousValueType','$context','$association','$description','$joints','$doubleSidedUse','$previewImage','$dbImageURLs', '$gif', '$sensorData')")) {
             if (!$insert_stmt->execute()) {
                 deleteFiles($target_dir, $imageURLs);
                 echo json_encode(array('status' => 'insertError'));
@@ -76,10 +76,10 @@ if (isset($_POST['title'], $_POST['titleQuality'], $_POST['context'], $_POST['as
             }
         } else {
             deleteFiles($target_dir, $imageURLs);
-            echo json_encode(array('status' => 'statemantError'));
+            echo json_encode(array('status' => 'statemantError1'));
         }
     } else {
-        if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, title_quality, type, interaction_type, context, association, description, joints, double_sided_use, preview_image, sensor_data) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$titleQuality','$type','$interactionType','$continuousValueType','$context','$association','$description','$joints','$doubleSidedUse','$previewImage','$sensorData')")) {
+        if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, title_quality, type, interaction_type, continuous_value_type,, context, association, description, joints, double_sided_use, preview_image, sensor_data) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$titleQuality','$type','$interactionType','$continuousValueType','$context','$association','$description','$joints','$doubleSidedUse','$previewImage','$sensorData')")) {
             if (!$insert_stmt->execute()) {
                 deleteFiles($target_dir, $imageURLs);
                 echo json_encode(array('status' => 'insertError'));
@@ -91,7 +91,7 @@ if (isset($_POST['title'], $_POST['titleQuality'], $_POST['context'], $_POST['as
             }
         } else {
             deleteFiles($target_dir, $imageURLs);
-            echo json_encode(array('status' => 'statemantError'));
+            echo json_encode(array('status' => 'statemantError2'));
         }
     }
 } else {

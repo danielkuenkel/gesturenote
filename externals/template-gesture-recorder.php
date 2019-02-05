@@ -465,7 +465,7 @@ include '../includes/language.php';
                     </div>
 
 
-                    <div class="form-group hidden" id="continuousValueTypeSelect" style="">
+                    <div class="form-group root hidden" id="continuousValueTypeSelect" style="">
                         <label>
                             <?php echo $lang->continuousValueTypeLabel ?> 
                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i>

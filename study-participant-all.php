@@ -1335,6 +1335,7 @@ if (login_check($mysqli) == true) {
             // calculate sums for each dimension
             for (var r = 0; r < resultsData.length; r++) {
                 var ueqAnswers = resultsData[r].tester.answers;
+                console.log('calc ueq for', ueqAnswers);
 
                 var scales = {
                     attractiveness: {sum: 0, max: 0, present: false},
@@ -1360,6 +1361,7 @@ if (login_check($mysqli) == true) {
                                         } else {
                                             value = parseInt(ueqAnswers[k].answer.selectedOption) - 3;
                                         }
+                                        console.log('value', key, value);
 //                                        value *= -1;
                                         scales[key].sum = scales[key].sum + value;
                                         scales[key].max++;
