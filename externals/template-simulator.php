@@ -46,6 +46,10 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
                     </div>
                 </div>
+                <div class="continuous-gesture-controls hidden" style="">
+		            <div class="control-continuous-slider-status">50%</div>
+		            <div class="btn-invert-slider-values" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->valuesNotInverted ?>"><i class="fa fa-exchange"></i></div>
+		        </div>
                 <div class="gesture-info-symbols">
                     <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
                         <span class="gesture-info-symbol-text text-sensor">
@@ -63,11 +67,36 @@ include '../includes/language.php';
                     </span>
                 </div>
             </div>
-            <div class="simulator-trigger text-center">
-            	<button type="button" class="btn btn-default btn-shadow" id="btn-trigger-gesture">
-            		<i class="fa fa-hand-o-up" aria-hidden="true"></i>
-            		<span class="btn-text">Geste ausführen</span>
-            	</button>
+            <div id="control-continuous-slider" class="hidden" style="margin-top: -10px; margin-bottom: 18px;">
+                <input id="continuous-slider" style="width: 100%; height: 34px" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-tooltip="hide" />
+            </div>
+            <div class="btn-group btn-group-justified hidden static-continuous-controls">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-shadow btn-start-static-continuous-gesture" style="border-radius: 0px; border-bottom-left-radius: 8px;">
+                    	<i class="fa fa-play"></i>
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-shadow disabled btn-stop-static-continuous-gesture" style="border-radius: 0px; border-bottom-right-radius: 8px;">
+                    	<i class="fa fa-stop"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="btn-group btn-group-justified simulator-trigger text-center hidden">
+	            <div class="btn-group">
+	            	<button type="button" class="btn btn-default btn-shadow" id="btn-trigger-gesture" style="border-radius: 0px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+	            		<i class="fa fa-hand-o-up" aria-hidden="true"></i>
+	            		<span class="btn-text">Geste ausführen</span>
+	            	</button>
+	            </div>
+            </div>
+            <div class="btn-group btn-group-justified simulator-continuous-trigger text-center hidden">
+	            <div class="btn-group">
+	            	<button type="button" class="btn btn-default btn-shadow" id="btn-trigger-continuous-gesture" style="border-radius: 0px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+	            		<i class="fa Example of arrows-alt fa-arrows-alt" aria-hidden="true"></i>
+	            		<span class="btn-text">Freihand</span>
+	            	</button>
+	            </div>
             </div>
             <div class="caption text-center">
                 <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></p><div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>

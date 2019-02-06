@@ -134,3 +134,35 @@ function sendPGGesture(gestureId) {
     // }, intervall);
     // return true;
 }
+
+
+function sendContinuousPGGesture(gestureId, value) {
+    if (client) {
+        client.send(APOLLO_DESTINATION, {}, JSON.stringify({
+            messageId: gestureId,
+            value: value
+        }));
+    } else {
+        console.warn('no stomp client');
+    }
+
+    // var mappingArray = findMappingForGesture(gestureId);
+    // var jsonString = "";
+    // if (yakindu) {
+    //     for (var i = mappingArray.length - 1; i >= 0; i--) {
+    //         jsonString = '{"type":"event","name":"' + mappingArray[i] + '","value":' + parseInt(value) + '}';
+
+    //         client.send('/topic/model.simulation.in', {
+    //             "content-type": "text/plain"
+    //         }, jsonString);
+    //         client.debug("send mapping: " + jsonString);
+    //     }
+    // }
+
+    // lastSentItem = parseInt(gestureId);
+    // sentItemIntervall = setInterval(function() {
+    //     lastSentItem = null;
+    //     clearInterval(sentItemIntervall);
+    // }, intervall);
+
+}

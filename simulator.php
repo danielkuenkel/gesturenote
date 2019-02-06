@@ -50,6 +50,13 @@ if (login_check($mysqli) == true) {
         <script src="js/websocket.js"></script>
         <script src="js/stomp/stomp.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
+        <script src="js\joint-selection.js"></script>
+        <script src="js\collaborativeVideo.js"></script>
+
+
+        <!-- bootstrap slider -->
+        <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
+        <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -170,6 +177,73 @@ if (login_check($mysqli) == true) {
                         isVideoShown = true;
                     }
                 });
+
+
+                for (var i = currentPreviewGestureSet.set.gestures.length - 1; i >= 0; i--) {
+                    var gesture = getGestureById(currentPreviewGestureSet.set.gestures[i]);
+                    if(gesture.interactionType === TYPE_GESTURE_DISCRETE)                     {
+                        $(clone).find('#'+gesture.id).find('.simulator-trigger').removeClass("hidden");
+                    } else{
+                        if(gesture.continuousValueType === PERCENT){
+                            $(clone).find('#'+gesture.id).find('#control-continuous-slider').removeClass('hidden');
+                            $(clone).find('#'+gesture.id).find('.continuous-gesture-controls').removeClass('hidden');
+                            //$(clone).find('#'+gesture.id).find('#control-continuous-slider-status').removeClass('hidden');
+
+                            var continuousSlider = $(clone).find('#'+gesture.id).find('#control-continuous-slider #continuous-slider');
+
+                            var sliderOptions = {
+                                value: 50,
+                                min: 0,
+                                max: 100,
+                                enabled: true
+                            };
+
+                            $(continuousSlider).slider(sliderOptions);
+                            $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
+                                event.preventDefault();
+                                var inverted = $(this).hasClass('inverted');
+                                var percent = parseInt(event.value.newValue);
+                                var imagePercent = inverted ? (100 - percent) : percent;
+                                var gestureId = event.data.gesture.id;
+                                $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
+                                var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
+                                $(gestureImages).removeClass('active').addClass('hidden');
+                                $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
+                                sendContinuousPGGesture(gestureId, percent);
+                            });
+                        } else if (gesture.continuousValueType === "position"){
+                            $(clone).find('#'+gesture.id).find('.simulator-continuous-trigger').removeClass('hidden');
+                        } else if (gesture.continuousValueType === "mouseSimulation"){
+                            $(clone).find('#'+gesture.id).find('.simulator-continuous-trigger').removeClass('hidden');
+                        } else {
+                            $(clone).find('#'+gesture.id).find('.static-continuous-controls').removeClass('hidden');
+
+                            var staticContinuousTimer = null;
+                            $(clone).find('#'+gesture.id).find('.btn-start-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
+                                event.preventDefault();
+                                if (!$(this).hasClass('disabled')) {
+                                    $(this).addClass('disabled');
+                                    $(this).closest('.static-continuous-controls').find('.btn-stop-static-continuous-gesture').removeClass('disabled');
+                                    staticContinuousTimer = setInterval(function () {
+                                        sendPGGesture(gesture.id);
+                                    }, 500);
+                                }
+                            });
+
+                            $(clone).find('#'+gesture.id).find('.btn-stop-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
+                                event.preventDefault();
+                                if (!$(this).hasClass('disabled')) {
+                                    $(this).addClass('disabled');
+                                    $(this).closest('.static-continuous-controls').find('.btn-start-static-continuous-gesture').removeClass('disabled');
+                                    if (staticContinuousTimer) {
+                                        clearInterval(staticContinuousTimer);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+
 
                 $(clone).find('#btn-trigger-gesture').unbind('click').bind('click', function(event){
                     event.preventDefault();
