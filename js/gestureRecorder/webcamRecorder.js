@@ -37,13 +37,14 @@ function WebcamRecorder(options) {
 
         var videoSources = [];
 //        var audioSources = [];
-//        for (var i = 0; i < deviceInfos.length; i++) {
-//            if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
-//                videoSources.push(deviceInfos[i]);
-//            } else if (deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
-//                audioSources.push(deviceInfos[i]);
+        for (var i = 0; i < deviceInfos.length; i++) {
+            if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
+                videoSources.push(deviceInfos[i]);
+            }
+//            else if (deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
+////                audioSources.push(deviceInfos[i]);
 //            }
-//        }
+        }
 
         for (var i = 0; i < deviceInfos.length; i++) {
             if (!videoSource && deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {

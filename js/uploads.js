@@ -329,8 +329,11 @@ function urlIsValid(url, type) {
             regEx = /https:\/\/pidoco.com\/rabbit\/edit\/[0-9]+#page\/page[0-9]+/;
             break;
         case TYPE_URL_PIDOCO_EMBED:
-//            https://pidoco.com/rabbit/api/prototypes/172450/pages/page648229105.xhtml?mode=plain&api_key=kzhIRzrEw4dmNbIvLfhvwL0c6tmUWL7Ek9PaiHNg
-            regEx = /https:\/\/(?:fulda\.)?pidoco.com\/rabbit\/api\/prototypes\/[0-9]+\/pages\/page[0-9]+/;
+            
+            // https://pidoco.com/rabbit/invitation/VMxmlrSqbOr16lsRXb5TdkT3lJQsNSo3hU1y3ghn
+            // https://pidoco.com/rabbit/api/prototypes/172450/pages/page648229105.xhtml?mode=plain&api_key=kzhIRzrEw4dmNbIvLfhvwL0c6tmUWL7Ek9PaiHNg
+            // regEx = /https:\/\/(?:fulda\.)?pidoco.com\/rabbit\/api\/prototypes\/[0-9]+\/pages\/page[0-9]+/;
+            regEx = /https:\/\/(?:fulda\.)?pidoco.com\/rabbit\/invitation\/[a-zA-Z0-9]{40}/;
             break;
         case TYPE_URL_VIDEO_EMBED:
             if (url.toLowerCase().indexOf("<iframe") >= 0

@@ -767,9 +767,7 @@ UserTest.prototype.renderModeratorView = function () {
                     $(item).find('#btn-trigger-woz').remove();
                     $(item).find('.static-continuous-controls').remove();
 
-                    if (activeTransitionScene.continuousValueType === 'manipulationPercent') {
-
-//                if (activeTransitionScene.continuousValueType === 'manipulationPercent') {
+                    if (activeTransitionScene.continuousValueType === 'percent') {
                         $(item).find('#control-continuous-slider').removeClass('hidden');
                         $(item).find('.continuous-gesture-controls').removeClass('hidden');
                         $(item).find('#control-continuous-slider-status').removeClass('hidden');
@@ -781,7 +779,7 @@ UserTest.prototype.renderModeratorView = function () {
                             value: 0,
                             min: 0,
                             max: 100,
-                            enabled: scenarioStartTriggered
+                            enabled: true
                         };
 
                         $(continuousSlider).slider(sliderOptions);
@@ -818,7 +816,7 @@ UserTest.prototype.renderModeratorView = function () {
                         }
 
                         initPopover();
-                    } else if (activeTransitionScene.continuousValueType === 'manipulationMouse') {
+                    } else if (activeTransitionScene.continuousValueType === 'position') {
                         $(item).find('#control-continuous-slider').remove();
                         $(item).find('.continuous-gesture-controls').remove();
                         var toggleButton = $(item).find('.btn-trigger-continuous-mouse-manipulation');
