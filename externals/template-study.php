@@ -1890,8 +1890,7 @@ include '../includes/language.php';
                 </div>
             </div>
         </div>
-    </div>
-
+    </div>    
 
 </div>
 
@@ -1911,6 +1910,18 @@ include '../includes/language.php';
 
 
 <div id="template-study-all-container" class="hidden">
+
+    <div class="root" id="letterOfAcceptance">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <span class="label label-success hidden" id="letter-accepted"><i class="fa fa-check"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceAccepted ?></span></span>
+        <span class="label label-danger hidden" id="letter-not-accepted"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceNotAccepted ?></span></span>
+        <p id="letter-text" class="text" style="margin-top: 15px; white-space:pre-wrap;"></p>
+    </div>
+
+    <div class="root" id="thanks">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <p id="thanks-text" class="text"></p>
+    </div>
 
     <div class="root" id="questionnaire">
         <h3 id="headline" style="margin-top: 0"></h3>
@@ -1943,12 +1954,12 @@ include '../includes/language.php';
 
         <div class="question-container" style="margin-top: 30px;"></div>
     </div>
-    
+
     <div class="root" id="questionnaireGestures">
         <h3 id="headline" style="margin-top: 0"></h3>
         <div class="question-container" style="margin-top: 20px;"></div>
     </div>
-    
+
     <div class="root" id="sus">
         <h3 id="headline" style="margin-top: 0"></h3>
         <!--<hr>-->
@@ -2006,8 +2017,8 @@ include '../includes/language.php';
 
         <div class="question-container" style="padding-top: 40px"></div>
     </div>
-    
-    
+
+
     <div class="root" id="ueq">
         <h3 id="headline" style="margin-top: 0"></h3>
 
@@ -2035,6 +2046,135 @@ include '../includes/language.php';
         <hr>
         <div class="question-container"></div>
     </div>
+
+
+    <div class="root" id="identification">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <div id="identification-item-container"></div>
+    </div>
+
+    <div class="root" id="identification-gesture-item">
+        <h3 id="headline-participant"></h3>
+        <hr>
+        <div id="item-view" style="margin-top: 20px;">
+            <h4><?php echo $lang->elicitedGestures ?></h4>
+            <div class="alert-space alert-no-phase-data"></div>
+            <div class="list-container row" id="gestures-list-container"></div>
+        </div>
+
+        <div id="observations">
+            <h4 id="headline-observations"><?php echo $lang->observations ?></h4>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
+
+        <div id="annotated-notes" style="margin-top: 30px">
+            <h4 id="headline-annotated-notes"><?php echo $lang->annotatedNotes ?></h4>
+            <div id="annotated-notes-container"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+
+        <div id="notes" style="margin-top: 30px">
+            <h4 id="headline-notes"><?php echo $lang->notes ?></h4>
+            <div id="note-container" class="text"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+    <div class="root" id="identification-trigger-item">
+        <h3 id="headline-participant"></h3>
+        <hr>
+        <div id="item-view" style="margin-top: 20px;">
+            <h4><?php echo $lang->elicitedTrigger ?></h4>
+            <div class="alert-space alert-no-phase-data"></div>
+            <div class="list-container" id="trigger-list-container"></div>
+        </div>
+
+        <div id="observations">
+            <h4 id="headline-observations"><?php echo $lang->observations ?></h4>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
+
+        <div id="annotated-notes" style="margin-top: 30px">
+            <h4 id="headline-annotated-notes"><?php echo $lang->annotatedNotes ?></h4>
+            <div id="annotated-notes-container"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+
+        <div id="notes" style="margin-top: 30px">
+            <h4 id="headline-notes"><?php echo $lang->notes ?></h4>
+            <div id="note-container" class="text"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+
+
+    <div id="scenario">
+        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <div id="scenario-item-container"></div>
+    </div>
+
+    <div class="root" id="scenario-item">
+        <h3 id="headline-participant"></h3>
+        <hr>
+        <div id="summary" style="margin-top: 20px;">
+            <h4><?php echo $lang->summary ?></h4>
+            <div class="alert-space alert-no-phase-data"></div>
+            <div class="" id="summary-container"></div>
+        </div>
+
+        <div id="observations" style="margin-top: 30px">
+            <h4 id="headline-observations"><?php echo $lang->observations ?></h4>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
+
+        <div id="annotated-notes" style="margin-top: 30px">
+            <h4 id="headline-annotated-notes"><?php echo $lang->annotatedNotes ?></h4>
+            <div id="annotated-notes-container"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+
+        <div id="notes" style="margin-top: 30px">
+            <h4 id="headline-notes"><?php echo $lang->notes ?></h4>
+            <div id="note-container" class="text"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+    <div id="scenario-summary">
+        <div class="row">
+            <div class="col-sm-6">
+                <label><?php echo $lang->tasks ?></label>
+                <div><span><?php echo $lang->taskSuccessRate ?>:</span> <span class="text" id="task-success-rate"></span></div>
+                <div><span><?php echo $lang->taskFailureRate ?>:</span> <span class="text" id="task-failure-rate"></span></div>
+                <div style="margin-top: 10px"><span><?php echo $lang->totalTasks ?>:</span> <span class="text" id="total-tasks"></span></div>
+                <div><span><?php echo $lang->taskAssessmentType->success->titlePlural ?>:</span> <span class="text" id="task-success"></span></div>
+                <div><span><?php echo $lang->taskAssessmentType->help->titlePlural ?>:</span> <span class="text" id="task-help"></span></div>
+                <div><span><?php echo $lang->taskAssessmentType->failure->titlePlural ?>:</span> <span class="text" id="task-failure"></span></div>
+                <div><span><?php echo $lang->taskAssessmentType->cancelTask->titlePlural ?>:</span> <span class="text" id="task-canceled"></span></div>
+                <div><span><?php echo $lang->taskAssessmentType->cancelScenario->title ?>:</span> <span class="text" id="scenario-canceled"></span></div>
+                <div style="margin-top: 20px">
+                    <label><?php echo $lang->taskProblems ?></label>
+                    <div class="" id="task-problems"></div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label><?php echo $lang->annotationSources ?></label>
+                <div><span><?php echo $lang->duringExecution ?>:</span> <span class="text" id="annotations-during-execution"></span></div>
+                <div><span><?php echo $lang->afterExecution ?>:</span> <span class="text" id="annotations-after-execution"></span></div>
+                <div style="margin-top: 10px"><span><?php echo $lang->fromModerator ?>:</span> <span class="text" id="from-evaluator"></span></div>
+                <div><span><?php echo $lang->fromObserver ?>:</span> <span class="text" id="from-observer"></span></div>
+                <div><span><?php echo $lang->fromWizard ?>:</span> <span class="text" id="from-wizard"></span></div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px">
+            <div class="btn btn-default btn-block btn-shadow disabled" id="btn-start-simulation"><?php echo $lang->simulatorGestureSet ?></div>
+        </div>
+
+    </div>
+
+
 
 </div>
 

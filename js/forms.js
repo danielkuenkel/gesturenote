@@ -1463,7 +1463,9 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
 
         }
 
-//        console.log(studyData[i].format, getAnswerForId(studyData[i].id, resultsData.answers, sequentialAnswerSearch, i));
+//        if (resultsData) {
+//            console.log(content, listItem, studyData[i].format, resultsData, getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
+//        }
         switch (studyData[i].format) {
             case COUNTER:
                 renderCounter(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
@@ -1628,8 +1630,8 @@ function renderDichotomousQuestion(item, studyData, answer) {
 
         if (answer) {
             if ((answer.selectedSwitch === studyData.parameters.justificationFor || studyData.parameters.justificationFor === 'always') && answer.justification !== '') {
-                $(item).find('#justification-content').removeClass('hidden');
-                $(item).find('#justification-content .text').text(answer.justification);
+                $(item).find('[data-id=' + answer.selectedSwitch + '] #justification-content').removeClass('hidden');
+                $(item).find('[data-id=' + answer.selectedSwitch + '] #justification-content .text').text(answer.justification);
             } else if (answer.justification === '' && (answer.selectedSwitch === studyData.parameters.justificationFor || studyData.parameters.justificationFor === 'always')) {
                 $(item).find('#no-justification-result').removeClass('hidden');
             }

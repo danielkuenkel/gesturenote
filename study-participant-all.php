@@ -380,17 +380,19 @@ if (login_check($mysqli) == true) {
             TweenMax.to($('.pretest-select'), .3, {opacity: 1, clearProps: 'all'});
             if (phaseSteps && phaseSteps.length > 0) {
                 for (var i = 0; i < phaseSteps.length; i++) {
-                    var navItem = document.createElement('button');
-                    $(navItem).attr('role', 'presentation');
-                    $(navItem).addClass('btn btn-default');
-                    $(navItem).attr('id', phaseSteps[i].id);
-                    $('#phase-results-nav').append(navItem);
+                    if (phaseSteps[i].format !== THANKS && phaseSteps[i].format !== LETTER_OF_ACCEPTANCE) {
+                        var navItem = document.createElement('button');
+                        $(navItem).attr('role', 'presentation');
+                        $(navItem).addClass('btn btn-default');
+                        $(navItem).attr('id', phaseSteps[i].id);
+                        $('#phase-results-nav').append(navItem);
 
-                    var text = document.createElement('span');
-                    $(text).text(phaseSteps[i].title);
-                    $(navItem).append(text);
+                        var text = document.createElement('span');
+                        $(text).text(phaseSteps[i].title);
+                        $(navItem).append(text);
 
-                    TweenMax.from($(navItem), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0, clearProps: 'all'});
+                        TweenMax.from($(navItem), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0, clearProps: 'all'});
+                    }
                 }
 
                 var status = window.location.hash.substr(1);
@@ -799,13 +801,13 @@ if (login_check($mysqli) == true) {
                 function switchDataRendering() {
                     switch (phaseStep.format) {
                         case LETTER_OF_ACCEPTANCE:
-                            renderLetterOfAcceptance(content, phaseData, testerResults);
+                            renderLetterOfAcceptance(content, phaseData, results);
                             break;
                         case THANKS:
                             renderThanks(content, phaseData);
                             break;
                         case QUESTIONNAIRE:
-                            renderQuestionnaire(content, phaseData, results);
+                            renderQuestionnaireResults(content, phaseData, results);
 //                            renderQuestionnaireAnswers(content, phaseData, testerResults, true);
                             break;
                         case INTERVIEW:
@@ -822,29 +824,29 @@ if (login_check($mysqli) == true) {
                             renderSingleGUS(content, phaseData, results);
                             break;
                         case GUS_MULTIPLE_GESTURES:
-                            renderQuestionnaire(content, getAssembledItems(phaseData.gus), results);
+                            renderQuestionnaireResults(content, getAssembledItems(phaseData.gus), results);
 //                            renderQuestionnaireAnswers(content, , testerResults, true);
                             break;
                         case GESTURE_TRAINING:
-                            renderGestureTraining(content, phaseData, testerResults, evaluatorResults);
+                            renderGestureTraining(content, phaseData, results);
                             break;
                         case SLIDESHOW_GESTURES:
-                            renderGestureSlideshow(content, phaseData, testerResults, evaluatorResults);
+                            renderGestureSlideshow(content, phaseData, results);
                             break;
                         case SLIDESHOW_TRIGGER:
-                            renderTriggerSlideshow(content, phaseData, testerResults);
+                            renderTriggerSlideshow(content, phaseData, results);
                             break;
                         case PHYSICAL_STRESS_TEST:
-                            renderPhysicalStressTest(content, phaseData, testerResults);
+                            renderPhysicalStressTest(content, phaseData, results);
                             break;
                         case SCENARIO:
-                            renderScenario(content, phaseData, testerResults);
+                            renderScenario(content, phaseData, results);
                             break;
                         case IDENTIFICATION:
-                            renderIdentification(content, phaseData, testerResults);
+                            renderIdentification(content, phaseData, results);
                             break;
                         case EXPLORATION:
-                            renderExploration(content, phaseData, testerResults, evaluatorResults);
+                            renderExploration(content, phaseData, results);
                             break;
                     }
 
@@ -915,7 +917,7 @@ if (login_check($mysqli) == true) {
             $(content).find('#thanks-text').text(studyData);
         }
 
-        function renderQuestionnaire(content, phaseData, results) {
+        function renderQuestionnaireResults(content, phaseData, results) {
             console.log('render questionnaire', results);
             renderQuestionnaireAnswers(content, phaseData);
             renderQuestionnaireStatistics(content, phaseData, results);
@@ -1204,7 +1206,7 @@ if (login_check($mysqli) == true) {
         }
 
         function renderSUS(content, studyData, resultsData) {
-            renderQuestionnaire(content, studyData, resultsData);
+            renderQuestionnaireResults(content, studyData, resultsData);
 
             // calculate the average sus score
             var missingCount = 0;
@@ -1306,7 +1308,7 @@ if (login_check($mysqli) == true) {
         }
 
         function renderUEQ(content, studyData, resultsData) {
-            renderQuestionnaire(content, studyData, resultsData);
+            renderQuestionnaireResults(content, studyData, resultsData);
 
 //            return null;
             // calculate the average sus score
@@ -1361,7 +1363,7 @@ if (login_check($mysqli) == true) {
                                         } else {
                                             value = parseInt(ueqAnswers[k].answer.selectedOption) - 3;
                                         }
-                                        console.log('value', key, value);
+                                        console.log('value', key, value, ueqAnswers[k].answer.selectedOption);
 //                                        value *= -1;
                                         scales[key].sum = scales[key].sum + value;
                                         scales[key].max++;
@@ -1375,9 +1377,30 @@ if (login_check($mysqli) == true) {
                 }
                 ueqScores.push(scales);
             }
-            console.log('ueq scores', ueqScores);
 
-            return null;
+            var scales = {
+                attractiveness: {sum: 0, max: 0, present: false},
+                efficiency: {sum: 0, max: 0, present: false},
+                perspicuity: {sum: 0, max: 0, present: false},
+                dependability: {sum: 0, max: 0, present: false},
+                stimulation: {sum: 0, max: 0, present: false},
+                novelty: {sum: 0, max: 0, present: false}
+            };
+
+            for (var i = 0; i < ueqScores.length; i++) {
+                for (var key in ueqDimensions) {
+                    for (var scoreKey in ueqScores[i]) {
+                        if (key === scoreKey && ueqScores[i][key].present === true) {
+                            scales[key].sum = scales[key].sum + ueqScores[i][key].sum;
+                            scales[key].max = scales[key].max + ueqScores[i][key].max;
+                            scales[key].present = ueqScores[i][key].present;
+                        }
+                    }
+                }
+            }
+            console.log('ueq scores', ueqScores, scales);
+
+//            return null;
 //            console.log('scales', scales);
 
             var qualities = {
@@ -1485,7 +1508,7 @@ if (login_check($mysqli) == true) {
         function renderSingleGUS(content, studyData, resultsData) {
             console.log('render single gus', resultsData);
             currentGUSData = studyData;
-            renderQuestionnaire(content, getAssembledItems(studyData.gus), resultsData);
+            renderQuestionnaireResults(content, getAssembledItems(studyData.gus), resultsData);
 //            renderQuestionnaireAnswers(content, , resultsData, true);
 
             var gesture = getGestureById(studyData.gestureId);
@@ -1835,220 +1858,237 @@ if (login_check($mysqli) == true) {
             renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
         }
 
-        function renderScenario(container, studyData, resultsData) {
-            renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
-            if (resultsPlayer) {
-                var annotations = resultsPlayer.player.annotations();
+        function renderScenario(content, studyData, results) {
+            if (results && results.length > 0) {
+                for (var i = 0; i < results.length; i++) {
+                    var evaluatorResults = results[i].evaluator;
+                    var identificationItem = $('#template-study-all-container').find('#scenario-item').clone().css({marginTop: i === 0 ? '0px' : '80px'});
+                    $(identificationItem).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
+                    $(content).find('#scenario-item-container').append(identificationItem);
 
-                // task section
-                var success = 0;
-                var help = 0;
-                var failure = 0;
-                var taskCanceled = 0;
-                var scenarioCanceled = 0;
-                var problemTaskIds = [];
+                    if (evaluatorResults && evaluatorResults.results) {
+                        var summary = $('#template-study-all-container').find('#scenario-summary').clone();
+                        $(identificationItem).find('#summary-container').append(summary);
 
-                // annotation section
-                var duringExecution = 0;
-                var afterExecution = 0;
-                var fromModerator = 0;
-                var fromObserver = 0;
-                var fromWizard = 0;
-
-                for (var i = 0; i < annotations.length; i++) {
-                    if (annotations[i].action === ACTION_CUSTOM) {
-                        afterExecution++;
-                    } else {
-                        duringExecution++;
+                        renderAnnotatedNotes($(identificationItem).find('#annotated-notes'), getAnnotatedNotes(evaluatorResults.results.annotations));
+                        renderNotes($(identificationItem).find('#notes'), evaluatorResults.notes);
                     }
+                    renderObservation($(identificationItem).find('#observations'), studyData, evaluatorResults.observations);
+                }
+            }
 
-                    if (annotations[i].source === 'evaluator' && annotations[i].action !== ACTION_CUSTOM) {
-                        fromModerator++;
-                    } else if (annotations[i].source === 'observer') {
-                        fromObserver++;
-                    } else if (annotations[i].source === 'wizard') {
-                        fromWizard++;
-                    }
 
-                    if (annotations[i].action === ACTION_ASSESSMENT) {
-                        switch (annotations[i].assessmentType) {
-                            case 'success':
-                                success++;
-                                break;
-                            case 'help':
-                                help++;
-                                problemTaskIds.push(annotations[i]);
-                                break;
-                            case 'failure':
-                                failure++;
-                                problemTaskIds.push(annotations[i]);
-                                break;
-                            case 'cancelTask':
-                                taskCanceled++;
-                                problemTaskIds.push(annotations[i]);
-                                break;
-                            case 'cancelScenario':
-                                scenarioCanceled++;
-                                break;
+//            return null;
+//            renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
+
+            function renderParticipantSummary(container, annotations) {
+                if (annotations && annotations.length > 0) {
+                    var annotations = resultsPlayer.player.annotations();
+
+                    // task section
+                    var success = 0;
+                    var help = 0;
+                    var failure = 0;
+                    var taskCanceled = 0;
+                    var scenarioCanceled = 0;
+                    var problemTaskIds = [];
+
+                    // annotation section
+                    var duringExecution = 0;
+                    var afterExecution = 0;
+                    var fromModerator = 0;
+                    var fromObserver = 0;
+                    var fromWizard = 0;
+
+                    for (var i = 0; i < annotations.length; i++) {
+                        if (annotations[i].action === ACTION_CUSTOM) {
+                            afterExecution++;
+                        } else {
+                            duringExecution++;
+                        }
+
+                        if (annotations[i].source === 'evaluator' && annotations[i].action !== ACTION_CUSTOM) {
+                            fromModerator++;
+                        } else if (annotations[i].source === 'observer') {
+                            fromObserver++;
+                        } else if (annotations[i].source === 'wizard') {
+                            fromWizard++;
+                        }
+
+                        if (annotations[i].action === ACTION_ASSESSMENT) {
+                            switch (annotations[i].assessmentType) {
+                                case 'success':
+                                    success++;
+                                    break;
+                                case 'help':
+                                    help++;
+                                    problemTaskIds.push(annotations[i]);
+                                    break;
+                                case 'failure':
+                                    failure++;
+                                    problemTaskIds.push(annotations[i]);
+                                    break;
+                                case 'cancelTask':
+                                    taskCanceled++;
+                                    problemTaskIds.push(annotations[i]);
+                                    break;
+                                case 'cancelScenario':
+                                    scenarioCanceled++;
+                                    break;
+                            }
                         }
                     }
-                }
 
-                // task section
-                var taskSuccessRate = Math.min(100, parseInt(Math.round(success / studyData.tasks.length * 100)));
-                var taskFailureRate = 100 - taskSuccessRate;
+                    // task section
+                    var taskSuccessRate = Math.min(100, parseInt(Math.round(success / studyData.tasks.length * 100)));
+                    var taskFailureRate = 100 - taskSuccessRate;
 
-                $(container).find('#task-success-rate').text(taskSuccessRate + '%');
-                $(container).find('#task-failure-rate').text(taskFailureRate + '%');
-                $(container).find('#total-tasks').text(studyData.tasks.length);
-                $(container).find('#task-success').text(success > 0 ? success : '-');
-                $(container).find('#task-help').text(help > 0 ? help : '-');
-                $(container).find('#task-failure').text(failure > 0 ? failure : '-');
-                $(container).find('#task-canceled').text(taskCanceled > 0 ? taskCanceled : '-');
-                $(container).find('#scenario-canceled').text(scenarioCanceled > 0 ? scenarioCanceled : '-');
+                    $(container).find('#task-success-rate').text(taskSuccessRate + '%');
+                    $(container).find('#task-failure-rate').text(taskFailureRate + '%');
+                    $(container).find('#total-tasks').text(studyData.tasks.length);
+                    $(container).find('#task-success').text(success > 0 ? success : '-');
+                    $(container).find('#task-help').text(help > 0 ? help : '-');
+                    $(container).find('#task-failure').text(failure > 0 ? failure : '-');
+                    $(container).find('#task-canceled').text(taskCanceled > 0 ? taskCanceled : '-');
+                    $(container).find('#scenario-canceled').text(scenarioCanceled > 0 ? scenarioCanceled : '-');
 
-                $(container).find('#task-problems').empty();
-                if (problemTaskIds.length > 0) {
-                    problemTaskIds = sortByKey(problemTaskIds, 'timestamp');
+                    $(container).find('#task-problems').empty();
+                    if (problemTaskIds.length > 0) {
+                        problemTaskIds = sortByKey(problemTaskIds, 'timestamp');
 
-                    for (var i = 0; i < problemTaskIds.length; i++) {
-                        var taskStart = resultsPlayer.player.getAssessmentTaskStart(problemTaskIds[i].time);
-                        var seconds = getSeconds(getTimeBetweenTimestamps(resultsData.startRecordingTime || resultsData.startTime, taskStart.time), true);
-                        var linkListItem = $('#template-study-container').find('#link-list-item').clone().removeAttr('id');
-                        $(linkListItem).find('.link-list-item-url').attr('data-jumpto', seconds);
-                        $(linkListItem).find('.btn-delete-annotation').remove();
-                        $(linkListItem).find('.btn-edit-annotation').remove();
-                        $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)));
-                        $(linkListItem).find('.link-list-item-title').text(taskStart.task.title);
-                        $(container).find('#task-problems').append(linkListItem);
+                        for (var i = 0; i < problemTaskIds.length; i++) {
+                            var taskStart = resultsPlayer.player.getAssessmentTaskStart(problemTaskIds[i].time);
+                            var seconds = getSeconds(getTimeBetweenTimestamps(resultsData.startRecordingTime || resultsData.startTime, taskStart.time), true);
+                            var linkListItem = $('#template-study-container').find('#link-list-item').clone().removeAttr('id');
+                            $(linkListItem).find('.link-list-item-url').attr('data-jumpto', seconds);
+                            $(linkListItem).find('.btn-delete-annotation').remove();
+                            $(linkListItem).find('.btn-edit-annotation').remove();
+                            $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)));
+                            $(linkListItem).find('.link-list-item-title').text(taskStart.task.title);
+                            $(container).find('#task-problems').append(linkListItem);
 
-                        $(linkListItem).find('.link-list-item-url').on('click', function (event) {
-                            event.preventDefault();
-                            var jumpTo = parseFloat($(this).attr('data-jumpto'));
-                            resultsPlayer.player.jumpTo(jumpTo);
-                            $("html, body").animate({scrollTop: 0}, 300);
-                        });
+                            $(linkListItem).find('.link-list-item-url').on('click', function (event) {
+                                event.preventDefault();
+                                var jumpTo = parseFloat($(this).attr('data-jumpto'));
+                                resultsPlayer.player.jumpTo(jumpTo);
+                                $("html, body").animate({scrollTop: 0}, 300);
+                            });
+                        }
+                    } else {
+                        $(container).find('#task-problems').text(translation.noTaskProblems);
                     }
-                } else {
-                    $(container).find('#task-problems').text(translation.noTaskProblems);
+
+                    // annotation section
+                    $(container).find('#annotations-during-execution').text(duringExecution > 0 ? duringExecution : '-');
+                    $(container).find('#annotations-after-execution').text(afterExecution > 0 ? afterExecution : '-');
+                    $(container).find('#from-evaluator').text(fromModerator > 0 ? fromModerator : '-');
+                    $(container).find('#from-observer').text(fromObserver > 0 ? fromObserver : '-');
+                    $(container).find('#from-wizard').text(fromWizard > 0 ? fromWizard : '-');
                 }
-
-                $(resultsPlayer.player).unbind('dataUpdated').bind('dataUpdated', function (event) {
-                    event.preventDefault();
-                    renderScenario(container, studyData, resultsData);
-                });
-
-                // annotation section
-                $(container).find('#annotations-during-execution').text(duringExecution > 0 ? duringExecution : '-');
-                $(container).find('#annotations-after-execution').text(afterExecution > 0 ? afterExecution : '-');
-                $(container).find('#from-evaluator').text(fromModerator > 0 ? fromModerator : '-');
-                $(container).find('#from-observer').text(fromObserver > 0 ? fromObserver : '-');
-                $(container).find('#from-wizard').text(fromWizard > 0 ? fromWizard : '-');
             }
         }
 
-        function renderIdentification(container, studyData, phaseResults) {
+        function renderIdentification(content, studyData, results) {
             if (studyData.identificationFor === 'gestures') {
-                removeAlert($(container).find('#item-view'), ALERT_NO_GESTURES_TRIMMED);
+                if (results && results.length > 0) {
+                    for (var i = 0; i < results.length; i++) {
+                        var evaluatorResults = results[i].evaluator;
+                        var identificationItem = $('#template-study-all-container').find('#identification-gesture-item').clone().css({marginTop: i === 0 ? '0px' : '80px'});
+                        $(identificationItem).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
+                        $(content).find('#identification-item-container').append(identificationItem);
 
-                $(container).find('#search-gestures').removeClass('hidden');
-                var elicitedGestures = getLocalItem(GESTURE_CATALOG);
-                var trigger = getLocalItem(ASSEMBLED_TRIGGER);
-                var gestureTriggerPairs, triggerGesturePairs;
-                if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
-                    gestureTriggerPairs = getLocalItem(phaseResults.id + '.evaluator').gestures;
-                }
+                        if (evaluatorResults && evaluatorResults.results) {
+                            if (evaluatorResults.results.gestures && evaluatorResults.results.gestures.length > 0) {
+                                for (var j = 0; j < studyData.identification.length; j++) {
+                                    var count = 0;
+                                    var triggerHeadline = document.createElement('h5');
+                                    $(triggerHeadline).addClass('col-xs-12').text(getTriggerById(studyData.identification[j].triggerId).title);
+                                    $(identificationItem).find('#gestures-list-container').append(triggerHeadline);
 
-                if (elicitedGestures && elicitedGestures.length > 0 && gestureTriggerPairs) {
-                    $(container).find('.list-container').empty();
+                                    for (var k = 0; k < evaluatorResults.results.gestures.length; k++) {
+                                        if (parseInt(studyData.identification[j].triggerId) === parseInt(evaluatorResults.results.gestures[k].triggerId)) {
+                                            count++;
+                                            var gesture = getGestureById(evaluatorResults.results.gestures[k].id);
+                                            var thumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-4 col-md-4 col-lg-4');
+                                            $(identificationItem).find('#gestures-list-container').append(thumbnail);
+                                        }
+                                    }
 
-                    for (var i = 0; i < trigger.length; i++) {
-                        var triggerElement = document.createElement('div');
-                        var headline = document.createElement('div');
-                        var headlineText = document.createElement('span');
-                        $(headlineText).text(trigger[i].title).css({marginRight: '5px'});
-                        $(headline).append(headlineText);
-                        $(triggerElement).append(headline);
-                        var badge = document.createElement('span');
-                        $(badge).addClass('badge');
-                        $(headline).append(badge);
-                        $(container).find('.list-container').append(triggerElement);
-
-                        var gestureList = document.createElement('div');
-                        $(gestureList).addClass('row').css({marginTop: "10px"});
-                        $(triggerElement).append(gestureList);
-
-                        var gestureCount = 0;
-                        for (var j = 0; j < gestureTriggerPairs.length; j++) {
-                            if (parseInt(gestureTriggerPairs[j].triggerId) === parseInt(trigger[i].id)) {
-                                gestureCount++;
-                                var gesture = getGestureById(gestureTriggerPairs[j].id);
-                                var item = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-4 col-md-4 col-lg-4');
-                                $(gestureList).append(item);
-                                $(badge).text(gestureCount > 1 ? gestureCount + ' ' + translation.gestures : gestureCount + ' ' + translation.gesture);
+                                    if (count === 0) {
+                                        $(triggerHeadline).remove();
+                                    } else {
+                                        var badge = document.createElement('span');
+                                        $(badge).addClass('badge').text(count === 1 ? count + ' ' + translation.gesture : count + ' ' + translation.gestures).css({marginLeft: '5px'});
+                                        $(triggerHeadline).append(badge);
+                                    }
+                                }
+                            } else {
+                                // append alert, no gestures trimmed
+                                appendAlert(identificationItem, ALERT_NO_PHASE_DATA);
                             }
-                        }
 
-                        if (gestureCount > 0) {
-                            if (i > 0) {
-                                $(triggerElement).css({marginTop: "20px"});
-                            }
+                            renderAnnotatedNotes($(identificationItem).find('#annotated-notes'), getAnnotatedNotes(evaluatorResults.results.annotations));
+                            renderNotes($(identificationItem).find('#notes'), evaluatorResults.notes);
                         } else {
-                            $(triggerElement).remove();
+                            // append alert, no result data
+                            appendAlert(identificationItem, ALERT_NO_PHASE_DATA);
                         }
+
+                        renderObservation($(identificationItem).find('#observations'), studyData, evaluatorResults.observations);
                     }
-                } else {
-                    appendAlert($(container).find('#item-view'), ALERT_NO_GESTURES_TRIMMED);
                 }
             } else if (studyData.identificationFor === 'trigger') {
-                var triggerGesturePairs;
-                if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
-                    triggerGesturePairs = getLocalItem(phaseResults.id + '.evaluator').trigger;
-                }
+                if (results && results.length > 0) {
+                    for (var i = 0; i < results.length; i++) {
+                        var evaluatorResults = results[i].evaluator;
+                        var identificationItem = $('#template-study-all-container').find('#identification-trigger-item').clone().css({marginTop: i === 0 ? '0px' : '80px'});
+                        $(identificationItem).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
+                        $(content).find('#identification-item-container').append(identificationItem);
 
-                $(container).find('#search-trigger').removeClass('hidden');
+                        if (evaluatorResults && evaluatorResults.results) {
+                            if (evaluatorResults.results.trigger && evaluatorResults.results.trigger.length > 0) {
+                                for (var j = 0; j < studyData.identification.length; j++) {
+                                    var count = 0;
+//                                    var gestureHeadline = document.createElement('h5');
+//                                    $(gestureHeadline).addClass('col-xs-12').text(getGestureById(studyData.identification[j].gestureId).title);
+//                                    $(identificationItem).find('#trigger-list-container').append(gestureHeadline);
 
-                var gestures = getLocalItem(GESTURE_CATALOG);
-                if (gestures && triggerGesturePairs && triggerGesturePairs.length > 0) {
-                    for (var i = 0; i < gestures.length; i++) {
-                        var column = document.createElement('div');
-                        $(column).addClass('col-xs-12');
-                        $(container).find('.list-container').append(column);
+                                    for (var k = 0; k < evaluatorResults.results.trigger.length; k++) {
+                                        if (parseInt(studyData.identification[j].gestureId) === parseInt(evaluatorResults.results.trigger[k].gestureId)) {
+                                            count++;
 
-                        var gesture = gestures[i];
-                        var gestureItem = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-lg-4');
+                                            var gesture = getGestureById(evaluatorResults.results.trigger[k].gestureId);
+                                            var gestureItem = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-lg-4');
+                                            $(identificationItem).find('#trigger-list-container').append(gestureItem);
 
-                        for (var j = 0; j < triggerGesturePairs.length; j++) {
-                            if (parseInt(triggerGesturePairs[j].gestureId) === parseInt(gesture.id)) {
-                                var trigger = triggerGesturePairs[j].preferredTrigger.answers[0].answer;
-                                var item = $('#template-study-container').find('#trigger-identification').clone();
-                                $(item).prepend(gestureItem);
-                                $(item).find('#trigger-name .address').text(translation.trigger + ':');
-                                $(item).find('#trigger-name .text').text(trigger.openAnswer);
-                                $(item).find('#trigger-justification .address').text(translation.justification + ':');
-                                $(item).find('#trigger-justification .text').text(trigger.justification);
-                                $(column).append(item);
+                                            var trigger = evaluatorResults.results.trigger[k].preferredTrigger.answers[0].answer;
+                                            var item = $('#template-study-container').find('#trigger-identification').clone();
+                                            $(item).prepend(gestureItem);
+                                            $(item).find('#trigger-name .address').text(translation.trigger + ':');
+                                            $(item).find('#trigger-name .text').text(trigger.openAnswer);
+                                            $(item).find('#trigger-justification .address').text(translation.justification + ':');
+                                            $(item).find('#trigger-justification .text').text(trigger.justification);
 
-                                if (i < gestures.length - 1) {
-                                    var line = document.createElement('hr');
-                                    $(line).css({margin: 0, marginBottom: 20});
-                                    $(column).append(line);
+                                            $(identificationItem).find('#trigger-list-container').append(item);
+                                        }
+                                    }
                                 }
-                                TweenMax.from(column, .2, {delay: i * .1, opacity: 0, y: -10});
+                            } else {
+                                // append alert, no gestures trimmed
+                                appendAlert(identificationItem, ALERT_NO_PHASE_DATA);
                             }
+
+                            renderAnnotatedNotes($(identificationItem).find('#annotated-notes'), getAnnotatedNotes(evaluatorResults.results.annotations));
+                            renderNotes($(identificationItem).find('#notes'), evaluatorResults.notes);
+                        } else {
+                            // append alert, no result data
+                            appendAlert(identificationItem, ALERT_NO_PHASE_DATA);
                         }
+
+                        renderObservation($(identificationItem).find('#observations'), studyData, evaluatorResults.observations);
                     }
-                } else {
-//                    console.log('no triggers there');
                 }
             }
-
-            $(resultsPlayer.player).unbind('dataUpdated').bind('dataUpdated', function (event) {
-                event.preventDefault();
-                renderIdentification(container, studyData, phaseResults);
-            });
-
-            renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
         }
 
         function renderExploration(container, phaseData, testerResults, evaluatorResults) {
@@ -2115,32 +2155,69 @@ if (login_check($mysqli) == true) {
 
         function renderObservation(target, studyData, observationResults) {
             if (studyData.observations && studyData.observations.length > 0) {
-                var evaluator = getLocalItem(STUDY_DATA_EVALUATOR);
-                renderQuestionnaire(target, studyData.observations, observationResults && observationResults.length > 0 ? {answers: observationResults} : null);
-                $(target).find('#observations-container').on('change', function () {
-                    saveObservationAnwers($(target).find('#observations-container'), getLocalItem(STUDY).id, getLocalItem(STUDY_RESULTS).userId, evaluator.evaluatorId, $('#phase-results-nav').find('.active').attr('id'), false, true);
-                });
+                renderQuestionnaireAnswers(target, studyData.observations, observationResults && observationResults.length > 0 ? {answers: observationResults[0].answers} : null);
+
             } else {
                 $(target).addClass('hidden');
             }
         }
 
-        function addObservationsDropdown(container) {
-            var dropdown = $('#template-study-container').find('#add-observations-dropdown').clone().removeAttr('id');
-            $(container).find('#headline-observations').after(dropdown);
-            $(dropdown).find('#btn-add-observation').on('click', function (event) {
-                event.preventDefault();
-                if (event.handled !== true && dropdown.find('.chosen').attr('id') !== 'unselected') {
-                    event.handled = true;
-                    var format = dropdown.find('.chosen').attr('id');
-                    var item = $('#template-study-editable-container').find('#' + format).clone();
-                    $(container).find('#observations-container').prepend(item);
-                    checkCurrentListState($(container).find('#observations-container'));
-                    updateBadges($(container).find('#observations-container'), format);
-                    TweenMax.from(item, .3, {y: -20, opacity: 0, clearProps: 'all'});
+        function renderAnnotatedNotes(target, annotations) {
+            if (annotations && annotations.length > 0) {
+                var list = document.createElement('ul');
+                $(list).css({listStylePosition: 'inside', paddingLeft: 0}).addClass('text');
+                $(target).find('#annotated-notes-container').empty().append(list);
+
+                for (var i = 0; i < annotations.length; i++) {
+                    var listItem = document.createElement('li');
+                    $(listItem).text(annotations[i].content).addClass(annotations[i].annotationColor);
+                    $(list).append(listItem);
                 }
-            });
+            } else {
+                appendAlert(target, ALERT_NO_PHASE_DATA);
+            }
         }
+
+        function getAnnotatedNotes(annotations) {
+            if (annotations && annotations.length > 0) {
+                var tempAnnotations = [];
+                for (var i = 0; i < annotations.length; i++) {
+                    if (annotations[i].action === ACTION_NOTE) {
+                        tempAnnotations.push(annotations[i]);
+                    }
+                }
+                if (tempAnnotations.length > 0) {
+                    tempAnnotations = sortByKey(tempAnnotations, 'time');
+                    return tempAnnotations;
+                }
+            }
+            return null;
+        }
+
+        function renderNotes(target, notes) {
+            if (notes && notes.note) {
+                $(target).find('#note-container').text(notes.note);
+            } else {
+                appendAlert(target, ALERT_NO_PHASE_DATA);
+            }
+        }
+
+//        function addObservationsDropdown(container) {
+//            var dropdown = $('#template-study-container').find('#add-observations-dropdown').clone().removeAttr('id');
+//            $(container).find('#headline-observations').after(dropdown);
+//            $(dropdown).find('#btn-add-observation').on('click', function (event) {
+//                event.preventDefault();
+//                if (event.handled !== true && dropdown.find('.chosen').attr('id') !== 'unselected') {
+//                    event.handled = true;
+//                    var format = dropdown.find('.chosen').attr('id');
+//                    var item = $('#template-study-editable-container').find('#' + format).clone();
+//                    $(container).find('#observations-container').prepend(item);
+//                    checkCurrentListState($(container).find('#observations-container'));
+//                    updateBadges($(container).find('#observations-container'), format);
+//                    TweenMax.from(item, .3, {y: -20, opacity: 0, clearProps: 'all'});
+//                }
+//            });
+//        }
 
 
         $('#btn-introduction').on('click', function (event) {

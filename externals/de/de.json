@@ -693,6 +693,7 @@
     "checklist": "Checkliste",
     "note": "Notiz",
     "notes": "Notizen",
+    "annotatedNotes": "Annotierte Notizen",
     "execution": "Dauer",
     "recognitionTime": "Zeitfenster",
     "hideTimeline": "Zeitleiste ausblenden",
@@ -2394,6 +2395,7 @@
         "publicUserGestures": "freigegebene Gesten",
         "elicitedGestures": "Ermittelte Gesten"
     },
+    "elicitedGestures": "Ermittelte Gesten",
     "elicitedTrigger": "Ermittelte Interaktionsaufgaben",
     "mainDimensions": {
         "effectiveness": "Effektivität",
@@ -4003,7 +4005,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "accuracy",
-            "question": "Ich denke, dass sich eine oder mehrere Gesten nicht ausreichend von alltäglichen Bewegungen unterschieden.",
+            "question": "Ich denke, dass sich eine oder mehrere Gesten nicht ausreichend von alltäglichen Bewegungen unterscheiden.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
