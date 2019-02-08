@@ -88,6 +88,8 @@ include '../includes/language.php';
 
 
     <div id="popover-scene-preview" style="position: absolute; opacity: 0; width: 400px;"></div>
+    
+    <div id="popover-image-preview" style="position: absolute; opacity: 0; width: 200px;"></div>
 
     <div id="popover-web">
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 400px; height: 300px; pointer-events: none;"></iframe>
@@ -845,7 +847,7 @@ include '../includes/language.php';
                                 <span> / </span>
                                 <span class="video-time-code-duration">00:00:00</span>
                             </div>
-                            <div class="video-trim btn-shadow" id="btn-toggle-trim-video" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->cutGesture ?>" style="position: absolute; bottom: 6px; right: 15px; border-top-left-radius: 8px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
+                            <div class="video-trim btn-shadow hidden" id="btn-toggle-trim-video" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->cutGesture ?>" style="position: absolute; bottom: 6px; right: 15px; border-top-left-radius: 8px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
                                 <span style="font-size: 11pt"><i class="fa fa-scissors"></i></span>
                             </div>
                         </div>
@@ -2049,12 +2051,13 @@ include '../includes/language.php';
 
 
     <div class="root" id="identification">
-        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <!--<h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>-->
         <div id="identification-item-container"></div>
     </div>
 
     <div class="root" id="identification-gesture-item">
-        <h3 id="headline-participant"></h3>
+        <h3 id="headline-participant" style="display: table-cell"></h3>
+        <div class="btn btn-sm btn-default btn-shadow" id="btn-open-participant-results" style="float:right; margin-top: -25px"><i class="fa fa-eye"></i> <span><?php echo $lang->openParticipantResults ?></span></div>
         <hr>
         <div id="item-view" style="margin-top: 20px;">
             <h4><?php echo $lang->elicitedGestures ?></h4>
@@ -2081,7 +2084,8 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="identification-trigger-item">
-        <h3 id="headline-participant"></h3>
+        <h3 id="headline-participant" style="display: table-cell"></h3>
+        <div class="btn btn-sm btn-default btn-shadow" id="btn-open-participant-results" style="float:right; margin-top: -25px"><i class="fa fa-eye"></i> <span><?php echo $lang->openParticipantResults ?></span></div>
         <hr>
         <div id="item-view" style="margin-top: 20px;">
             <h4><?php echo $lang->elicitedTrigger ?></h4>
@@ -2110,17 +2114,50 @@ include '../includes/language.php';
 
 
     <div id="scenario">
-        <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
+        <!--<h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>-->
         <div id="scenario-item-container"></div>
     </div>
 
     <div class="root" id="scenario-item">
-        <h3 id="headline-participant"></h3>
+        <h3 id="headline-participant" style="display: table-cell"></h3>
+        <div class="btn btn-sm btn-default btn-shadow" id="btn-open-participant-results" style="float:right; margin-top: -25px"><i class="fa fa-eye"></i> <span><?php echo $lang->openParticipantResults ?></span></div>
         <hr>
         <div id="summary" style="margin-top: 20px;">
             <h4><?php echo $lang->summary ?></h4>
             <div class="alert-space alert-no-phase-data"></div>
-            <div class="" id="summary-container"></div>
+
+            <div id="scenario-summary">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label><?php echo $lang->tasks ?></label>
+                        <div><span><?php echo $lang->taskSuccessRate ?>:</span> <span class="text" id="task-success-rate">-</span></div>
+                        <div><span><?php echo $lang->taskFailureRate ?>:</span> <span class="text" id="task-failure-rate">-</span></div>
+                        <div style="margin-top: 10px"><span><?php echo $lang->totalTasks ?>:</span> <span class="text" id="total-tasks">-</span></div>
+                        <div><span><?php echo $lang->taskAssessmentType->success->titlePlural ?>:</span> <span class="text" id="task-success">-</span></div>
+                        <div><span><?php echo $lang->taskAssessmentType->help->titlePlural ?>:</span> <span class="text" id="task-help">-</span></div>
+                        <div><span><?php echo $lang->taskAssessmentType->failure->titlePlural ?>:</span> <span class="text" id="task-failure">-</span></div>
+                        <div><span><?php echo $lang->taskAssessmentType->cancelTask->titlePlural ?>:</span> <span class="text" id="task-canceled">-</span></div>
+                        <div><span><?php echo $lang->taskAssessmentType->cancelScenario->title ?>:</span> <span class="text" id="scenario-canceled">-</span></div>
+                        <div style="margin-top: 20px">
+                            <label><?php echo $lang->taskProblems ?></label>
+                            <div class="" id="task-problems"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label><?php echo $lang->annotationSources ?></label>
+                        <div><span><?php echo $lang->duringExecution ?>:</span> <span class="text" id="annotations-during-execution">-</span></div>
+                        <div><span><?php echo $lang->afterExecution ?>:</span> <span class="text" id="annotations-after-execution">-</span></div>
+                        <div style="margin-top: 10px"><span><?php echo $lang->fromModerator ?>:</span> <span class="text" id="from-evaluator">-</span></div>
+                        <div><span><?php echo $lang->fromObserver ?>:</span> <span class="text" id="from-observer">-</span></div>
+                        <div><span><?php echo $lang->fromWizard ?>:</span> <span class="text" id="from-wizard">-</span></div>
+                    </div>
+                </div>
+<!--
+                <div style="margin-top: 20px">
+                    <div class="btn btn-default btn-block btn-shadow disabled" id="btn-start-simulation"><?php echo $lang->simulatorGestureSet ?></div>
+                </div>-->
+
+            </div>
         </div>
 
         <div id="observations" style="margin-top: 30px">
@@ -2140,40 +2177,6 @@ include '../includes/language.php';
             <div class="alert-space alert-no-phase-data"></div>
         </div>
     </div>
-
-    <div id="scenario-summary">
-        <div class="row">
-            <div class="col-sm-6">
-                <label><?php echo $lang->tasks ?></label>
-                <div><span><?php echo $lang->taskSuccessRate ?>:</span> <span class="text" id="task-success-rate"></span></div>
-                <div><span><?php echo $lang->taskFailureRate ?>:</span> <span class="text" id="task-failure-rate"></span></div>
-                <div style="margin-top: 10px"><span><?php echo $lang->totalTasks ?>:</span> <span class="text" id="total-tasks"></span></div>
-                <div><span><?php echo $lang->taskAssessmentType->success->titlePlural ?>:</span> <span class="text" id="task-success"></span></div>
-                <div><span><?php echo $lang->taskAssessmentType->help->titlePlural ?>:</span> <span class="text" id="task-help"></span></div>
-                <div><span><?php echo $lang->taskAssessmentType->failure->titlePlural ?>:</span> <span class="text" id="task-failure"></span></div>
-                <div><span><?php echo $lang->taskAssessmentType->cancelTask->titlePlural ?>:</span> <span class="text" id="task-canceled"></span></div>
-                <div><span><?php echo $lang->taskAssessmentType->cancelScenario->title ?>:</span> <span class="text" id="scenario-canceled"></span></div>
-                <div style="margin-top: 20px">
-                    <label><?php echo $lang->taskProblems ?></label>
-                    <div class="" id="task-problems"></div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <label><?php echo $lang->annotationSources ?></label>
-                <div><span><?php echo $lang->duringExecution ?>:</span> <span class="text" id="annotations-during-execution"></span></div>
-                <div><span><?php echo $lang->afterExecution ?>:</span> <span class="text" id="annotations-after-execution"></span></div>
-                <div style="margin-top: 10px"><span><?php echo $lang->fromModerator ?>:</span> <span class="text" id="from-evaluator"></span></div>
-                <div><span><?php echo $lang->fromObserver ?>:</span> <span class="text" id="from-observer"></span></div>
-                <div><span><?php echo $lang->fromWizard ?>:</span> <span class="text" id="from-wizard"></span></div>
-            </div>
-        </div>
-
-        <div style="margin-top: 20px">
-            <div class="btn btn-default btn-block btn-shadow disabled" id="btn-start-simulation"><?php echo $lang->simulatorGestureSet ?></div>
-        </div>
-
-    </div>
-
 
 
 </div>

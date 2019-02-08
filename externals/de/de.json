@@ -333,6 +333,8 @@
     "number": "Anzahl",
     "zeroOClick": "00:00 Uhr",
     "summary": "Zusammenfassung",
+    "showAllParticipantResults":"Zusammengefasste Resultate anzeigen",
+    "openParticipantResults": "Sichten und bearbeiten",
     "from": "vom",
     "of": "von",
     "atLeast": "mindestens",
