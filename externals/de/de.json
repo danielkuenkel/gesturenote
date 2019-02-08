@@ -6131,5 +6131,9 @@
         }
     },
     "mappings": "Mappings",
-    "chooseMappings": "Mappings auswählen"
+    "chooseMappings": "Mappings auswählen",
+    "modalsimposition" : {
+        "heading": "Simulation der Maus",
+        "close" : "Schließen"
+    }
 }

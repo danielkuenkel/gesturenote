@@ -22,21 +22,13 @@ include '../includes/language.php';
 
             </div>
         </div>
-        <!-- <div class="panel-footer panel-footer-gesture-set">
-            <div class="gesture-set-footer-controls text-center">
-                <div class="btn-like-set update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->likeGesture ?>"><i class="fa fa-heart-o"></i> <span class="amount"></span></div>
-                <div class="btn-share-set" data-toggle="popover" data-trigger="hover" data-placement="auto" title="<?php echo $lang->gestureSharedWith ?>" data-content="<?php echo $lang->shareGesture ?>"><i class="fa fa-share-alt"></i> <span class="amount"></span></div>
-                <div class="btn-comment-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->commentGesture ?>"><i class="fa fa-comment-o"></i> <span class="amount"></span></div>
-                <div class="btn-show-set-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
-            </div>
-        </div> -->
     </div>
 
 
 
     <div class="root deleteable" id="gestures-catalog-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
-            <div class="embed-responsive embed-responsive-4by3">
+            <div class="embed-responsive embed-responsive-4by3" style="margin-bottom: 5px">
                 <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
@@ -67,24 +59,24 @@ include '../includes/language.php';
                     </span>
                 </div>
             </div>
-            <div id="control-continuous-slider" class="hidden" style="margin-top: -10px; margin-bottom: 18px;">
-                <input id="continuous-slider" style="width: 100%; height: 34px" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-tooltip="hide" />
+            <div id="control-continuous-slider" class="hidden" style="margin-top: -7px; margin-bottom: 18px;">
+                <input id="continuous-slider" style="width: 100%; height: 34px;" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-tooltip="hide" />
             </div>
             <div class="btn-group btn-group-justified hidden static-continuous-controls">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-shadow btn-start-static-continuous-gesture" style="border-radius: 0px; border-bottom-left-radius: 8px;">
+                    <button type="button" class="btn btn-default btn-shadow btn-start-static-continuous-gesture" style="border-radius: 8px;">
                     	<i class="fa fa-play"></i>
                     </button>
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-shadow disabled btn-stop-static-continuous-gesture" style="border-radius: 0px; border-bottom-right-radius: 8px;">
+                    <button type="button" class="btn btn-default btn-shadow disabled btn-stop-static-continuous-gesture" style="border-radius: 8px;">
                     	<i class="fa fa-stop"></i>
                     </button>
                 </div>
             </div>
             <div class="btn-group btn-group-justified simulator-trigger text-center hidden">
 	            <div class="btn-group">
-	            	<button type="button" class="btn btn-default btn-shadow" id="btn-trigger-gesture" style="border-radius: 0px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+	            	<button type="button" class="btn btn-default btn-shadow" id="btn-trigger-gesture" style="border-radius: 8px;">
 	            		<i class="fa fa-hand-o-up" aria-hidden="true"></i>
 	            		<span class="btn-text">Geste ausführen</span>
 	            	</button>
@@ -92,7 +84,7 @@ include '../includes/language.php';
             </div>
             <div class="btn-group btn-group-justified simulator-continuous-trigger text-center hidden">
 	            <div class="btn-group">
-	            	<button type="button" class="btn btn-default btn-shadow" id="btn-trigger-continuous-gesture" style="border-radius: 0px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+	            	<button type="button" class="btn btn-default btn-shadow" id="btn-trigger-continuous-gesture" style="border-radius: 8px;">
 	            		<i class="fa Example of arrows-alt fa-arrows-alt" aria-hidden="true"></i>
 	            		<span class="btn-text">Freihand</span>
 	            	</button>
@@ -101,15 +93,6 @@ include '../includes/language.php';
             <div class="caption text-center">
                 <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></p><div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
             </div>
-
-            <!-- <div class="thumbnail-footer text-center">
-                <div class="btn-rate" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->rateGesture ?>"><i class="fa fa-star-o"></i> <span class="amount"></span></div>
-                <div class="btn-like update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->likeGesture ?>"><i class="fa fa-heart-o"></i> <span class="amount"></span></div>
-                <div class="btn-share update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" title="<?php echo $lang->gestureSharedWith ?>" data-content="<?php echo $lang->shareGesture ?>"><i class="fa fa-share-alt"></i> <span class="amount"></span></div>
-                <div class="btn-edit-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" title="<?php echo $lang->assignmentToGestureSets ?>" data-content=""><i class="fa fa-paperclip"></i> <span class="amount"></span></div>
-                <div class="btn-comment" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->commentGesture ?>"><i class="fa fa-comment-o"></i> <span class="amount"></span></div>
-                <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
-            </div> -->
         </div>
     </div>
 

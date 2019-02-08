@@ -84,6 +84,22 @@ function sendContinuousPosition(gestureId, type, relPosX, relPosY, isClick) {
 }
 
 
+function sendContinuousPGPosition(gestureId, type, relPosX, relPosY, isClick) {
+    if (client) {
+        var positionType = "mouseSimulation";
+        client.send(APOLLO_DESTINATION, {}, JSON.stringify({
+            messageId: gestureId,
+            relPosX: relPosX,
+            relPosY: relPosY,
+            type: (type ===  positionType? PIDOCO_TYPE_MOUSE_SIMULATION : ''),
+            isClick: isClick
+        }));
+    } else {
+        console.warn('no stomp client');
+    }
+}
+
+
 function handleWebsocketRequest(message) {
     var jsonObj = JSON.parse(message.body);
     if (jsonObj.type === "event") {

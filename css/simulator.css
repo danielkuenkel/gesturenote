@@ -2,3 +2,21 @@
     Created on : 31.01.2019, 10:53:55
     Author     : dominikrupprecht
 */
+
+#control-continuous-slider .slider-selection {
+    background: #5cb85c;
+    border-radius: 8px;
+}
+
+#control-continuous-slider .slider-track {
+    /* margin-top: -41px; */
+    border-radius: 8px;
+    height: 34px;
+}
+
+.positionArea {
+	border: 1px solid black;
+	width: 80%;
+	height: 400px;
+	margin-left: 10%;
+}

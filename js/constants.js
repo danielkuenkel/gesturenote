@@ -354,3 +354,5 @@ var AGREEMENT_MARGINS = [
     {max: 0.5, interpretation: 'highAgreement'},
     {max: 1.0, interpretation: 'veryHightAgreement'}
 ];
+
+var GESTURE_GET_MOUSE_POSITION_SPEED = 50;

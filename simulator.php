@@ -67,10 +67,10 @@ if (login_check($mysqli) == true) {
 
         <!-- Modal -->
         <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog root">
 
                 <!-- Modal content-->
-                <div class="modal-content root">
+                <div class="modal-content">
                 </div>
             </div>
         </div>
@@ -153,6 +153,8 @@ if (login_check($mysqli) == true) {
 
 
             var isVideoShown = true;
+            var pauseGetPosition = false;
+            var staticContinuousTimer = null;
 
             $('#gesture-sets-select').unbind('change').bind('change', function (event) {
                 event.preventDefault();
@@ -183,6 +185,7 @@ if (login_check($mysqli) == true) {
                     var gesture = getGestureById(currentPreviewGestureSet.set.gestures[i]);
                     if(gesture.interactionType === TYPE_GESTURE_DISCRETE)                     {
                         $(clone).find('#'+gesture.id).find('.simulator-trigger').removeClass("hidden");
+                        $(clone).find('#'+gesture.id).find('.static-continuous-controls').remove();
                     } else{
                         if(gesture.continuousValueType === PERCENT){
                             $(clone).find('#'+gesture.id).find('#control-continuous-slider').removeClass('hidden');
@@ -213,19 +216,34 @@ if (login_check($mysqli) == true) {
                             });
                         } else if (gesture.continuousValueType === "position"){
                             $(clone).find('#'+gesture.id).find('.simulator-continuous-trigger').removeClass('hidden');
+                            $(clone).find('#'+gesture.id).find('#btn-trigger-continuous-gesture').unbind('click').bind('click', {gesture: gesture} , function(event) {
+                                event.preventDefault();
+                                loadHTMLintoModal('custom-modal', 'externals/modal-simPosition.php', 'modal-lg');
+                                $('#custom-modal').on('shown.bs.modal', function () {
+                                    $(this).find('#viewer_positionScreen_type').val(event.data.gesture.continuousValueType);
+                                    $(this).find('.root').attr('id', event.data.gesture.id);
+                                });
+                            });
                         } else if (gesture.continuousValueType === "mouseSimulation"){
                             $(clone).find('#'+gesture.id).find('.simulator-continuous-trigger').removeClass('hidden');
+                            $(clone).find('#'+gesture.id).find('#btn-trigger-continuous-gesture').unbind('click').bind('click', {gesture: gesture} , function(event) {
+                                event.preventDefault();
+                                loadHTMLintoModal('custom-modal', 'externals/modal-simPosition.php', 'modal-lg');
+                                $('#custom-modal').on('shown.bs.modal', function () {
+                                    $(this).find('#viewer_positionScreen_type').val(event.data.gesture.continuousValueType);
+                                    $(this).find('.root').attr('id', event.data.gesture.id);
+                                });
+                            });
                         } else {
                             $(clone).find('#'+gesture.id).find('.static-continuous-controls').removeClass('hidden');
 
-                            var staticContinuousTimer = null;
                             $(clone).find('#'+gesture.id).find('.btn-start-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
                                 event.preventDefault();
                                 if (!$(this).hasClass('disabled')) {
                                     $(this).addClass('disabled');
                                     $(this).closest('.static-continuous-controls').find('.btn-stop-static-continuous-gesture').removeClass('disabled');
                                     staticContinuousTimer = setInterval(function () {
-                                        sendPGGesture(gesture.id);
+                                        sendPGGesture(event.data.gesture.id);
                                     }, 500);
                                 }
                             });
@@ -250,16 +268,62 @@ if (login_check($mysqli) == true) {
                     var gestureId = $(this).closest('.root').attr('id');
                     sendPGGesture(gestureId);
                 });
-                // $('#custom-modal').unbind('mappingsApplied').bind('mappingsApplied', function (event, mappings) {
-                //     $('#custom-modal').unbind('mappingsApplied');
-                //     // read out selected mappings and render gesture set
-                //     console.log('mappings applied', mappings);
-                //     if(mappings) {
-                //     } else {
-                //         resetDropdown($('#gesture-sets-select'));
-                //     }
-                // });
-                // loadHTMLintoModal('custom-modal', 'externals/modal-select-mappings.php', 'modal-md');
+
+                $(document).on('click', '.positionArea', function(event) {
+                    var gesture = getGestureById($(this).closest('.root').attr('id'));
+                    var pos = getMousePosition(this);
+                    var positionType = $('#viewer_positionScreen_type').val();
+                    console.log(positionType);
+                    sendContinuousPGPosition($(this).closest('.root').prop('id'), positionType, pos.relPosX, pos.relPosY, true);
+                });
+
+                $(document).on('mousemove', '.positionArea', function(event) {
+                    var gesture = getGestureById($(this).closest('.root').attr('id'));
+                    if (!pauseGetPosition) {
+                        var pos = getMousePosition(this);
+                        var positionType = $('#viewer_positionScreen_type').val();
+                        console.log(positionType);
+                        sendContinuousPGPosition($(this).closest('.root').prop('id'), positionType, pos.relPosX, pos.relPosY, false);
+
+                    }
+
+                });
+
+                var getMousePosition = function(element) {
+                    var offset = $(element).offset();
+                    var width = $(element).width();
+                    var height = $(element).height();
+                    var posx = 0;
+                    var posy = 0;
+                    var relPosx = 0;
+                    var relPosy = 0;
+                    if (!event) var event = window.event;
+                    if (event.pageX || event.pageY) {
+                        posx = event.pageX;
+                        posy = event.pageY;
+                    } else if (event.clientX || event.clientY) {
+                        posx = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                        posy = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+                    }
+
+
+                    posx = parseInt(posx - offset.left);
+                    posy = parseInt(posy - offset.top);
+
+                    relPosx = posx / width;
+                    relPosy = posy / height;
+
+                    var coor = "rel X coords: " + relPosx + ",<br/> rel Y coords: " + relPosy;
+                    $(".output").html(coor);
+                    pauseGetPosition = true;
+                    window.setTimeout(function() {
+                        pauseGetPosition = false
+                    }, GESTURE_GET_MOUSE_POSITION_SPEED);
+                    return {
+                        relPosX: relPosx,
+                        relPosY: relPosy
+                    };
+                }
             });
         </script>
 
