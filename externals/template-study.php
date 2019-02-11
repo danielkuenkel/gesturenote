@@ -464,7 +464,7 @@ include '../includes/language.php';
     </div>
 
     <span id="dichotomous-question-item">
-        <div><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+        <div><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
         <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
     </span>
 
@@ -507,7 +507,7 @@ include '../includes/language.php';
             <div class="hidden" id="optionalanswer-content" data-id="optionalAnswer" style="margin-top: 15px">
                 <hr style="margin-bottom: 5px">
                 <div><span class="label label-warning hidden" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span></div>
-                <span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="option-text address" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
+                <span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="option-text address" style="padding: 7px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
                 <span class="filter-option" style="margin-left: 5px"></span><br/>
                 <span class="text"></span>
             </div>
@@ -517,7 +517,7 @@ include '../includes/language.php';
     </div>
 
     <span id="grouping-question-item">
-        <div><span class="badge count-badge hidden" style="margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+        <div><span class="badge count-badge hidden" style="margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
         <div>
             <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
@@ -537,7 +537,7 @@ include '../includes/language.php';
             <div class="hidden" id="optionalanswer-content" style="margin-top: 15px">
                 <hr style="margin-bottom: 5px">
                 <div><span class="label label-warning hidden" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span></div>
-                <span class="option-text address" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
+                <span class="option-text address" style="padding: 7px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
                 <span class="filter-option" style="margin-left: 5px"></span><br/>
                 <span class="text"></span>
             </div>
@@ -546,9 +546,9 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="grouping-question-gus-triggers-option" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px"><span class="text"></span></div>
-    <div id="grouping-question-gus-feedbacks-option" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px"><span class="text"></span></div>
-    <div id="grouping-question-gus-gestures-option" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px">
+    <div id="grouping-question-gus-triggers-option" style="padding: 7px; margin-right: 6px; display: inline-block; margin-bottom: 5px"><span class="text"></span></div>
+    <div id="grouping-question-gus-feedbacks-option" style="padding: 7px; margin-right: 6px; display: inline-block; margin-bottom: 5px"><span class="text"></span></div>
+    <div id="grouping-question-gus-gestures-option" style="padding: 7px; margin-right: 6px; display: inline-block; margin-bottom: 5px">
         <span class="text"></span>
         <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
     </div>
@@ -575,7 +575,7 @@ include '../includes/language.php';
             <div class="hidden" id="optionalanswer-content" style="margin-top: 15px">
                 <hr style="margin-bottom: 5px">
                 <div><span class="label label-warning hidden" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span></div>
-                <span class="option-text address" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
+                <span class="option-text address" style="padding: 7px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
                 <span class="filter-option" style="margin-left: 5px"></span><br/>
                 <span class="text"></span>
             </div>
@@ -607,7 +607,7 @@ include '../includes/language.php';
         <div id="scale-container"></div>
     </div>
 
-    <div id="rating-scale-item"><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+    <div id="rating-scale-item"><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
     <!--<span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>-->
 
     <div class="panel panel-default panel-shadow" id="matrix" style="margin-bottom: 5px;">
@@ -675,7 +675,7 @@ include '../includes/language.php';
     </div>
 
     <div id="ranking-item">
-        <span class="text option-text" style="padding: 7px; border-radius: 4px; margin-right: 6px; padding-left: 0px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span>
+        <span class="text option-text" style="padding: 7px; margin-right: 6px; padding-left: 0px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span>
     </div>
 
     <div class="panel panel-default panel-shadow" id="alternativeQuestion" style="margin-bottom: 5px;">
@@ -711,12 +711,12 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="alternativeQuestion-gesture-item" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px">
+    <div id="alternativeQuestion-gesture-item" style="padding: 7px; margin-right: 6px; display: inline-block; margin-bottom: 5px">
         <span class="text"></span>
         <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
     </div>
 
-    <div id="alternativeQuestion-trigger-item" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"><span class="text"></span></div>
+    <div id="alternativeQuestion-trigger-item" style="padding: 7px; margin-right: 6px; display: inline-block"><span class="text"></span></div>
 
     <div class="panel panel-default panel-shadow" id="gusSingle" style="margin-bottom: 5px;">
         <div class="panel-body">
@@ -741,7 +741,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <span id="gus-single-item-option" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
+    <span id="gus-single-item-option" class="text" style="padding: 7px; margin-right: 6px; display: inline-block"></span>
 
     <div class="panel panel-default panel-shadow" id="susItem" style="margin-bottom: 5px;">
         <div class="panel-body">
@@ -761,7 +761,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <span id="sus-item-option" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
+    <span id="sus-item-option" class="text" style="padding: 7px; margin-right: 6px; display: inline-block"></span>
 
 
 

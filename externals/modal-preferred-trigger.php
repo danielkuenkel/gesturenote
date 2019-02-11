@@ -11,7 +11,7 @@ include '../includes/language.php';
             <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
                 <div id="" class="webcam-image-container"></div>
                 <div class="controls-container embed-responsive-item">
-                    <div class="hidden-control text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                    <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                 </div>
             </div>
 
@@ -37,8 +37,6 @@ include '../includes/language.php';
         var gesture = getGestureById(currentPhaseData.exploration[currentExplorationIndex].gestureId);
         if (gesture) {
             renderGesturePreview(container.find('#webcam-preview'), gesture);
-//            renderGestureImages($(container.find('.previewGesture'), gesture.images, gesture.previewImage, function () {
-//            });
         }
 
         var data = [{id: chance.natural(), dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: translation.askPreferredTriggerForGesture, parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}}];
