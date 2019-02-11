@@ -541,6 +541,33 @@ function resetScenePopover() {
     $(popover).remove();
 }
 
+
+function renderImagePopoverPreview(imageUrl, callback) {
+    var popover = $('#popover-image-preview').clone();
+    popover.attr('id', 'popover-image-elem');
+
+    if (imageUrl) {
+        var image = document.createElement('img');
+        $(image).css({width: '100%'}).addClass('mirroredHorizontally');
+
+        image.onload = function () {
+            if (callback) {
+                callback(popover);
+            }
+        };
+
+        $(image).attr('src', imageUrl);
+        $(popover).empty().append(image);
+        $('body').append(popover);
+    }
+}
+
+function resetImagePopover() {
+    var popover = $('#popover-image-elem');
+    console.log(popover);
+    $(popover).remove();
+}
+
 function renderLeapPopoverPreview(dataUrl, callback) {
     var popover = $('#popover-leap-preview').clone();
     popover.attr('id', 'popover-leap');

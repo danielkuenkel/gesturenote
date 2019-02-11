@@ -357,7 +357,7 @@ PhysicalStressTest.prototype.renderModeratorView = function () {
         var answers = currentQuestionnaireAnswers;
         console.log('render stress test questions, answers:', currentQuestionnaireAnswers, currentStressTestCount, currentStressTestIndex, currentStressTestCount >= parseInt(data.stressAmount) - 1);
         var currentStressTestData = data.stressTestItems[currentStressTestIndex];
-        var gesture = getGestureById(currentStressTestData);
+//        var gesture = getGestureById(currentStressTestData);
         var item = $('#item-container-moderator').find('#physical-stress-test-questions').clone().removeAttr('id');
         $(container).find('#question-container').empty().append(item);
 
@@ -368,13 +368,13 @@ PhysicalStressTest.prototype.renderModeratorView = function () {
             $(jointAnswers).insertAfter($(item).find('#headline-single-questions'));
             if (singleStressGraphicsRating === 'hands') {
                 $(jointAnswers).find('#joint-answers-body').remove();
-                renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
+                renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'single');
             } else if (singleStressGraphicsRating === 'body') {
                 $(jointAnswers).find('#joint-answers-hands').remove();
-                renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
+                renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'single');
             } else {
-                renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
-                renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
+                renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'single');
+                renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'single');
             }
         }
 
@@ -412,13 +412,13 @@ PhysicalStressTest.prototype.renderModeratorView = function () {
                 $(jointAnswers).insertAfter($(item).find('#headline-sequence-questions'));
                 if (sequenceStressGraphicsRating === 'hands') {
                     $(jointAnswers).find('#joint-answers-body').remove();
-                    renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
+                    renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'sequence');
                 } else if (sequenceStressGraphicsRating === 'body') {
                     $(jointAnswers).find('#joint-answers-hands').remove();
-                    renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
+                    renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'sequence');
                 } else {
-                    renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
-                    renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
+                    renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'sequence');
+                    renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'sequence');
                 }
             }
         }
@@ -687,10 +687,12 @@ PhysicalStressTest.prototype.renderTesterView = function () {
             var singleQuestionnaire = $(container).find('#single-questions .question-container').children();
             var singleQuestionAnswers = getQuestionnaireAnswers(singleQuestionnaire, data.singleStressQuestions);
             singleAnswer.stressTestIndex = currentStressTestIndex;
+            singleAnswer.sequenceId = data.stressTestItems[currentStressTestIndex].id;
             singleAnswer.answers = singleQuestionAnswers;
             getJointSelectionRatings(singleAnswer, data.singleStressGraphicsRating, $(container).find('#single-joint-selection'));
         } else if (data.singleStressGraphicsRating) {
             singleAnswer.stressTestIndex = currentStressTestIndex;
+            singleAnswer.sequenceId = data.stressTestItems[currentStressTestIndex].id;
             getJointSelectionRatings(singleAnswer, data.singleStressGraphicsRating, $(container).find('#single-joint-selection'));
         }
 
@@ -700,10 +702,12 @@ PhysicalStressTest.prototype.renderTesterView = function () {
                 var sequenceQuestionnaire = $(container).find('#sequence-questions .question-container').children();
                 var sequenceQuestionAnswers = getQuestionnaireAnswers(sequenceQuestionnaire, data.sequenceStressQuestions);
                 sequenceAnswer.stressTestIndex = currentStressTestIndex;
+                sequenceAnswer.sequenceId = data.stressTestItems[currentStressTestIndex].id;
                 sequenceAnswer.answers = sequenceQuestionAnswers;
                 getJointSelectionRatings(sequenceAnswer, data.sequenceStressGraphicsRating, $(container).find('#sequence-joint-selection'));
             } else if (data.sequenceStressGraphicsRating) {
                 sequenceAnswer.stressTestIndex = currentStressTestIndex;
+                sequenceAnswer.sequenceId = data.stressTestItems[currentStressTestIndex].id;
                 getJointSelectionRatings(sequenceAnswer, data.sequenceStressGraphicsRating, $(container).find('#sequence-joint-selection'));
             }
         }
@@ -715,7 +719,7 @@ PhysicalStressTest.prototype.renderTesterView = function () {
             peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
 
             // save joints and questionnaire answers if in live mode
-            var answerIndex = (parseInt(data.stressAmount) * currentStressTestIndex) + currentStressTestCount;           
+            var answerIndex = (parseInt(data.stressAmount) * currentStressTestIndex) + currentStressTestCount;
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
             tempData.answers.singleAnswers[answerIndex] = singleAnswer;
             tempData.answers.sequenceAnswers[currentStressTestIndex] = sequenceAnswer;
@@ -797,13 +801,13 @@ PhysicalStressTest.prototype.renderObserverView = function () {
     if (!data.stressTestItems || data.stressTestItems.length === 0) {
         return false;
     }
-    
+
     if (!previewModeEnabled) {
         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
         tempData.annotations = new Array();
         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
     }
-    
+
     // observation section
     renderObservations(data, container);
 
@@ -970,7 +974,7 @@ PhysicalStressTest.prototype.renderObserverView = function () {
 
         currentStressTestGestureIndex = 0;
         $(container).find('#question-container, #stress-test-controls').addClass('hidden');
-        
+
         appendAlert(container, ALERT_PLEASE_WAIT);
 
         if (!previewModeEnabled) {
@@ -1032,9 +1036,9 @@ PhysicalStressTest.prototype.renderObserverView = function () {
 
     function renderStressTestQuestions() {
         var answers = currentQuestionnaireAnswers;
-        console.log('render stress test questions, answers:', currentQuestionnaireAnswers, currentStressTestCount, currentStressTestIndex, currentStressTestCount >= parseInt(data.stressAmount) - 1);
+        console.log('render stress test questions, answers:', answers, currentStressTestCount, currentStressTestIndex, currentStressTestCount >= parseInt(data.stressAmount) - 1);
         var currentStressTestData = data.stressTestItems[currentStressTestIndex];
-        var gesture = getGestureById(currentStressTestData);
+//        var gesture = getGestureById(currentStressTestData);
         var item = $('#item-container-moderator').find('#physical-stress-test-questions').clone().removeAttr('id');
         $(container).find('#question-container').empty().append(item);
 
@@ -1045,13 +1049,13 @@ PhysicalStressTest.prototype.renderObserverView = function () {
             $(jointAnswers).insertAfter($(item).find('#headline-single-questions'));
             if (singleStressGraphicsRating === 'hands') {
                 $(jointAnswers).find('#joint-answers-body').remove();
-                renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
+                renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'single');
             } else if (singleStressGraphicsRating === 'body') {
                 $(jointAnswers).find('#joint-answers-hands').remove();
-                renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
+                renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'single');
             } else {
-                renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
-                renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'single');
+                renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'single');
+                renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'single');
             }
         }
 
@@ -1089,13 +1093,13 @@ PhysicalStressTest.prototype.renderObserverView = function () {
                 $(jointAnswers).insertAfter($(item).find('#headline-sequence-questions'));
                 if (sequenceStressGraphicsRating === 'hands') {
                     $(jointAnswers).find('#joint-answers-body').remove();
-                    renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
+                    renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'sequence');
                 } else if (sequenceStressGraphicsRating === 'body') {
                     $(jointAnswers).find('#joint-answers-hands').remove();
-                    renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
+                    renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'sequence');
                 } else {
-                    renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
-                    renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, gesture.id, 'sequence');
+                    renderBodyJointAnswers($(jointAnswers).find('#human-body'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'sequence');
+                    renderHandJointAnswers($(jointAnswers).find('#human-hand'), answers && answers.answers ? answers.answers : null, currentStressTestData.id, 'sequence');
                 }
             }
         }

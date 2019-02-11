@@ -677,15 +677,6 @@ include '../includes/language.php';
     <div class="row root"  id="trainingItem">
         <div class="col-xs-5 col-sm-6 col-md-4">
             <div id="thumbnail-container" class="row"></div>
-            <!--            <div class="btn-shadow">
-                            <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3"></div>
-                            <div class="text-center hidden gestureControls">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                                    <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                                </div>
-                            </div>
-                        </div>-->
             <div class="" style="margin-top: 0px">
                 <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-show-gesture" style=""><i class="fa fa-eye hidden"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
                 <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-quit-gesture-preview" style=""><i class="fa"></i> <span class="btn-text"><?php echo $lang->quitGesturePreview ?></span></button>
@@ -731,20 +722,15 @@ include '../includes/language.php';
     <div class="row root" id="gestureSlideshow">
         <div class="col-md-5 rtc-scalable" id="column-left">
             <div class="" id="observations">
-                <!--<div class="panel-heading">-->
                 <h3 class="panel-heading-text"><?php echo $lang->observations ?></h3>
-                <!--</div>-->
-                <!--<div class="panel-body">-->
                 <div class="alert-space alert-no-phase-data"></div>
                 <div class="question-container"></div>
-                <!--</div>-->
             </div>
         </div>
-        <div class="col-md-7" id="column-right">
+        <div class="col-md-7" id="column-right" style="margin-bottom: 15px">
             <div class="" id="general" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"></h3>
                 <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
-                <!--<p id="description"></p>-->
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-show-overview" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
@@ -764,20 +750,14 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="gestureSlideshowItem" class="row" style="padding-left: 15px; padding-right: 15px; margin-top: 10px">
+    <div id="gestureSlideshowItem" class="row" style="padding-left: 15px; padding-right: 15px; margin-top: 10px;">
         <div class="col-xs-6 col-lg-4">
-            <!--<div class="row">-->
-            <!--<div class="col-xs-12">-->
             <div class="row" id="thumbnail-container"></div>
 
             <div class="" id="gesture-slide-controls" style="margin-top: 0px">
                 <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="trigger-slide"><i class="fa"></i> <span class="btn-text"><?php echo $lang->request ?></span></button>
-
-<!--<button type="button" class="btn btn-success btn-shadow btn-block hidden" id="btn-next-slide"><i class="fa fa-check" aria-hidden="true"></i> <span><?php echo $lang->nextGesture ?></span></button>-->
                 <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-restart-slideshow"><i class="fa fa-check" aria-hidden="true"></i> <span>Neu starten</span></button>
             </div>
-            <!--</div>-->
-            <!--</div>-->
 
         </div>
         <div class="col-xs-6 col-lg-8" style="margin-bottom: 10px;">
@@ -886,17 +866,7 @@ include '../includes/language.php';
     </div>
 
     <div class="" id="physical-stress-test-questions" style="margin-bottom: 20px">
-        <!--        <div class="root">
-                    <div style="max-width: 300px; margin: 0 auto">
-                        <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-                        <div class="text-center gestureControls">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
+
         <hr>
 
         <div id="stress-test-questionnaire">
@@ -984,7 +954,7 @@ include '../includes/language.php';
     <div class="col-xs-6 col-sm-4 col-md-4 root" id="wozItem">
         <div class="panel panel-default panel-shadow btn-shadow">
             <div class="btn-shadow">
-                <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 0px; border-top-left-radius: 4px; border-top-right-radius: 4px"></div>
+                <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 0px; border-top-left-radius: 8px; border-top-right-radius: 8px"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
@@ -1272,7 +1242,7 @@ include '../includes/language.php';
             <div class="hidden" id="identified-trigger">
                 <h3 class="headline" style="margin-top: 0px"><?php echo $lang->favoriteTrigger ?></h3>
                 <div class="alert-space alert-waiting-for-tester"></div>
-                <div class="row">
+                <div class="row" id="answer-container">
                     <div class="col-md-4">
                         <div class="row" id="thumbnail-container"></div>
                     </div>
@@ -2399,9 +2369,7 @@ include '../includes/language.php';
 
         <div class="col-md-7 col-lg-8" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-8 col-lg-9">
             <h3 class="headline" style="margin-top: 0" ><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
-            <!--<hr>-->
             <div class="letter-text text" style="white-space:pre-wrap;"></div>
-            <!--<hr>-->
             <div style="margin-top: 20px">
                 <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><?php echo $lang->letterOfAcceptanceAccept ?></button>
                 <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><?php echo $lang->letterOfAcceptanceNotAccept ?></button>
@@ -2412,9 +2380,7 @@ include '../includes/language.php';
 
     <div class="" id="letterOfAcceptance-unmoderated">
         <h3 class="headline" style="margin-top: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
-        <!--<hr>-->
         <div class="letter-text" style="white-space:pre-wrap;"></div>
-        <!--<hr>-->
         <div style="margin-top: 20px">
             <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><?php echo $lang->letterOfAcceptanceAccept ?></button>
             <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><?php echo $lang->letterOfAcceptanceNotAccept ?></button>
@@ -2429,10 +2395,8 @@ include '../includes/language.php';
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 15px;" data-original-col-specs="col-md-8">
             <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaire ?></h3>
-            <!--<hr>-->
             <div class="alert-space alert-waiting-for-moderator"></div>
             <div class="question-container"></div>
-            <!--<hr>-->
             <div class="clearfix" style="margin-top: 10px;">
                 <button class="btn btn-success btn-shadow hidden btn-next-question pull-right"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></button>
                 <button class="btn btn-success btn-shadow hidden btn-questionnaire-done pull-right" id="btn-next-step"><i class="fa fa-check"></i> <?php echo $lang->done ?></button>
@@ -2442,9 +2406,7 @@ include '../includes/language.php';
 
     <div class="container" id="questionnaire-unmoderated">
         <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaire ?></h3>
-        <!--<hr>-->
         <div class="question-container"></div>
-        <!--<hr>-->
         <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
@@ -2454,7 +2416,6 @@ include '../includes/language.php';
         <div class="col-md-5" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-7" id="column-right" style="margin-bottom: 15px;" data-original-col-specs="col-md-7">
             <h3 class="headline" style="margin-top: 0"><?php echo $lang->formats->interview->text ?></h3>
-            <!--<hr>-->
             <div class="question-container"></div>
         </div>
     </div>
@@ -2468,18 +2429,14 @@ include '../includes/language.php';
         <div class="col-md-8" id="column-right" style="" data-original-col-specs="col-md-8">
             <div class="alert-space alert-waiting-for-moderator"></div>
             <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireSystem ?></h3>
-            <!--<hr>-->
             <div class="question-container"></div>
-            <!--<hr>-->
             <button class="next-step btn btn-success pull-right btn-questionnaire-done" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
     <div class="container" id="sus-unmoderated">
         <h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireSystem ?></h3>
-        <!--<hr>-->
         <div class="question-container"></div>
-        <!--<hr>-->
         <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
@@ -2491,7 +2448,6 @@ include '../includes/language.php';
         <div class="col-md-8" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-8">
             <div class="alert-space alert-waiting-for-moderator"></div>
             <div id="gus-questionnaire-content">
-                <!--<h3 class="headline" style="margin-top: 0"><?php echo $lang->questionnaireGesture ?></h3>-->
                 <div class="row">
                     <div class="col-sm-6 right" style="margin-bottom: 10px;">
                         <div id="gesture"><span class="address"></span> <span class="text"></span></div>
@@ -2508,9 +2464,8 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>
-                <!--<hr>-->
+
                 <div class="question-container" style="margin-top: 20px; margin-bottom: 10px"></div>
-                <!--<hr>-->
                 <button class="next-step btn btn-success pull-right btn-questionnaire-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
 
@@ -2586,7 +2541,7 @@ include '../includes/language.php';
         <div class="col-md-4 col-lg-3" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8 col-lg-9" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-8 col-lg-9">
             <div class="alert-space alert-please-wait"></div>
-            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 8px; background-color: #eee" allowtransparency></div>
         </div>
 
 
@@ -2746,7 +2701,7 @@ include '../includes/language.php';
 
             <div class="hidden" id="trigger-questions">
                 <div style="width: 300px; height: auto; margin: 0 auto;">
-                    <div class="embed-responsive embed-responsive-4by3" style="border-radius: 4px">
+                    <div class="embed-responsive embed-responsive-4by3" style="border-radius: 8px">
                         <div class="previewGesture mousePlayable"></div>
                     </div>
                     <div class="text-center gestureControls">
@@ -2757,17 +2712,6 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <!--                <div class="text-center" style="width:300px; height:auto; margin: 0 auto" id="gesturePreview">
-                                    <div class="embed-responsive embed-responsive-4by3">
-                                        <div class="previewGesture autoplay" ></div>
-                                    </div>
-                                </div>-->
-                <!--                <div class="text-center gestureControls">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                                    </div>
-                                </div>-->
                 <div style="margin-top: 20px">
                     <div class="question-container"></div>
                     <div style="margin-top: 20px">
@@ -2825,7 +2769,7 @@ include '../includes/language.php';
         <div class="col-md-4 col-lg-3" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8 col-lg-9" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-8 col-lg-9">
             <div class="alert-space alert-please-wait"></div>
-            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 8px; background-color: #eee" allowtransparency></div>
         </div>
     </div>
 
@@ -2872,7 +2816,7 @@ include '../includes/language.php';
         <div class="col-md-4 col-lg-3" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8 col-lg-9" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-8 col-lg-9">
             <div class="alert-space alert-please-wait"></div>
-            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 8px; background-color: #eee" allowtransparency></div>
         </div>
     </div>
 
@@ -2972,16 +2916,8 @@ include '../includes/language.php';
     <div class="root row" id="physicalStressTest" style="">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <!--            <div id="general">
-                            <h3 class="headline" style="margin-top: 0"></h3>
-                            <div class="description"></div>
-                            <hr>
-                        </div>-->
             <div class="alert-space alert-please-wait"></div>
-
             <div class="" id="stressTestContainer"></div>
-
-            <!--<button class="btn btn-block btn-success btn-shadow hidden" id="btn-start-stress-test" name="btn-success"><?php echo $lang->startNow ?></button>-->
         </div>
     </div>
 
@@ -2991,10 +2927,8 @@ include '../includes/language.php';
         <div class="hidden" id="stress-test-questionnaire" style="margin-top: 30px">
             <div id="questionnaire-heading" class="hidden">
                 <h3 class="headline" style="margin-top: 0"><?php echo $lang->pleaseAnswerQuestions ?></h3>
-                <!--<hr>-->
             </div>
             <div id="single-questions" class="hidden">
-                <!--<h4 id="headline-single-questions" style="margin-top: 0">Einzel-Fragen</h4>-->
 
                 <div id="single-joint-selection" class="hidden">
                     <div class="panel panel-default panel-shadow" id="human-body-selection-rating" style="margin-bottom: 5px;">
@@ -3022,7 +2956,6 @@ include '../includes/language.php';
             </div>
 
             <div id="sequence-questions" class="hidden" style="margin-top: 0px">
-                <!--<h4 id="headline-sequence-questions">Sequenz-Fragen</h4>-->
 
                 <div id="sequence-joint-selection" class="hidden">
                     <div class="panel panel-default panel-shadow" id="human-body-selection-rating" style="margin-bottom: 5px;">
@@ -3049,26 +2982,19 @@ include '../includes/language.php';
                 <div class="question-container"></div>
             </div>
 
-            <!--<hr>-->
-
             <button class="btn btn-block btn-success btn-shadow" id="btn-done-questionnaire" name="btn-success" style="margin-top: 20px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
 
     </div>
 
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 root" id="physicalStressTestItem-gesture">
-        <!--<div style="max-width: 400px; margin: 0 auto">-->
-        <div class="previewGesture previewProgress mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 4px"></div>
-        <!--                <div class="progress gesture-progress">
-                            <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                        </div>-->
+        <div class="previewGesture previewProgress mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 8px"></div>
         <div class="text-center gestureControls">
             <div class="btn-group">
                 <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
                 <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
             </div>
         </div>
-        <!--</div>-->
     </div>
 
     <div class="root row" id="physicalStressTestUnmoderated">
@@ -3098,7 +3024,6 @@ include '../includes/language.php';
 
         <div class="col-sm-12 hidden" id="stress-test-questionnaire">
             <div id="single-questions" class="hidden">
-                <!--<h4 id="headline-single-questions" style="margin-top: 0">Einzel-Fragen</h4>-->
 
                 <div id="single-joint-selection" class="hidden">
                     <div class="panel panel-default panel-shadow" id="human-body-selection-rating" style="margin-bottom: 5px;">
@@ -3126,7 +3051,6 @@ include '../includes/language.php';
             </div>
 
             <div id="sequence-questions" class="hidden" style="margin-top: 30px">
-                <!--<h4 id="headline-sequence-questions">Sequenz-Fragen</h4>-->
 
                 <div id="sequence-joint-selection" class="hidden">
                     <div class="panel panel-default panel-shadow" id="human-body-selection-rating" style="margin-bottom: 5px;">
@@ -3171,7 +3095,7 @@ include '../includes/language.php';
         <div class="col-md-4 col-lg-3" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8 col-lg-9" id="column-right" style="margin-bottom: 15px" data-original-col-specs="col-md-8 col-lg-9">
             <div class="alert-space alert-please-wait"></div>
-            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 5px; background-color: #eee" allowtransparency></div>
+            <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius: 8px; background-color: #eee" allowtransparency></div>
         </div>
 
         <!--        <div id="scene-container" class="text-center" style="position: fixed; top:0px; width: 100%;" allowtransparency></div>

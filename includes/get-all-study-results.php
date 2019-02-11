@@ -23,7 +23,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
             while ($select_stmt->fetch()) {
 
                 $encodedEvaluatorResultData = null;
-                if ($select_evaluator_stmt = $mysqli2->prepare("SELECT data, observations, notes FROM study_results_evaluator WHERE tester_id = '$userId' AND execution_phase = 'real' LIMIT 1")) {
+                if ($select_evaluator_stmt = $mysqli2->prepare("SELECT data, observations, notes FROM study_results_evaluator WHERE tester_id = '$userId' AND study_id = '$currentStudyId' AND execution_phase = 'real' LIMIT 1")) {
                     if (!$select_evaluator_stmt->execute()) {
                         echo json_encode(array('status' => 'selectEvaluatorError'));
                         exit();
@@ -44,7 +44,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                 }
 
                 $encodedObserverResultData = null;
-                if ($select_evaluator_stmt = $mysqli2->prepare("SELECT data FROM study_results_observer WHERE tester_id = '$userId' AND execution_phase = 'real' LIMIT 1")) {
+                if ($select_evaluator_stmt = $mysqli2->prepare("SELECT data FROM study_results_observer WHERE tester_id = '$userId' AND study_id = '$currentStudyId' AND execution_phase = 'real' LIMIT 1")) {
                     if (!$select_evaluator_stmt->execute()) {
                         echo json_encode(array('status' => 'selectObserverError'));
                         exit();
@@ -63,7 +63,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                 }
 
                 $encodedWizardResultData = null;
-                if ($select_evaluator_stmt = $mysqli2->prepare("SELECT data FROM study_results_wizard WHERE tester_id = '$userId' AND execution_phase = 'real' LIMIT 1")) {
+                if ($select_evaluator_stmt = $mysqli2->prepare("SELECT data FROM study_results_wizard WHERE tester_id = '$userId' AND study_id = '$currentStudyId' AND execution_phase = 'real' LIMIT 1")) {
                     if (!$select_evaluator_stmt->execute()) {
                         echo json_encode(array('status' => 'selectWizardError'));
                         exit();
