@@ -177,11 +177,16 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="row hidden" id="gesture-edit-general-info-container">
+<!--            <div class="row hidden" id="gesture-edit-general-info-container">
                 <div class="col-xs-12 col-md-8 col-md-offset-2">
                     <div class="recorder-content" id="update-gesture-recorder-content"></div>
                     <button type="button" class="btn btn-default btn-shadow btn-block" id="btn-cancel-edit-gesture" style="margin-top: 10px"><i class="fa fa-close"></i> <?php echo $lang->gesturePreviewable ?></button>
                 </div>
+            </div>-->
+            <div class="hidden" id="gesture-edit-general-info-container">
+                <!--<div class="col-xs-12 col-md-8 col-md-offset-2">-->
+                    <div class="recorder-content" id="update-gesture-recorder-content"></div>
+                <!--</div>-->
             </div>
         </div>
 
@@ -268,6 +273,7 @@ include '../includes/language.php';
 </div>
 
 <div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-default btn-shadow hidden" id="btn-cancel-edit-gesture" style="float: left"><i class="fa fa-close"></i> <?php echo $lang->gesturePreviewable ?></button>
     <button type="button" class="btn btn-shadow btn-danger pull-left gesture-owner-controls" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
     <div class="" style="display: inline-block; margin-right: 12px">
         <button type="button" class="btn btn-default btn-shadow btn-join-conversation"><span class=""><?php echo $lang->joinConversation ?></span> <i class="fa fa-group"></i></button>
@@ -587,9 +593,6 @@ include '../includes/language.php';
         container.find('#btn-edit-gesture .btn-text').text(translation.edit);
         container.find('#tab-gesture-general .btn-download-as-gif').attr('data-gesture-id', gesture.id);
 
-
-
-
         if (gesture.images && gesture.images.length > 0) {
             renderGesturePreview(container.find('#gesture-general-info-container #webcam-preview'), gesture);
             $(container).find('#sensor-content-container').removeClass('hidden');
@@ -603,11 +606,13 @@ include '../includes/language.php';
         updateGestureSharing();
         updateGestureRating();
         updateGestureLikes();
-
+        
+        var modal = $('#custom-modal');
         $('#modal-body #btn-edit-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            var modal = $('#custom-modal');
+            
             $(modal).find('.gesture-owner-controls').addClass('hidden');
+            $(modal).find('#gesture-info-nav-tab').addClass('hidden');
 
             var playbackButtons = $(modal).find('#gesture-general-info-container .btn-toggle-playback');
             for (var i = 0; i < playbackButtons.length; i++) {
@@ -620,12 +625,14 @@ include '../includes/language.php';
                 leapMotionPreview.destroy(true);
                 leapMotionPreview = null;
             }
-
+            
+            $(modal).find('#btn-cancel-edit-gesture').removeClass('hidden');
             $(modal).find('#gesture-general-info-container').addClass('hidden');
             $(modal).find('#gesture-edit-general-info-container').removeClass('hidden');
             $(modal).find('#gesture-edit-general-info-container #update-gesture-recorder-content').empty();
 
-            var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
+            var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-with-introductions').clone().removeAttr('id');
+//            var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
             $(modal).find('#gesture-edit-general-info-container #update-gesture-recorder-content').append(recorder);
 
             var initRecorders = [];
@@ -654,7 +661,7 @@ include '../includes/language.php';
                 updateGestureId: gesture.id,
                 checkType: true,
                 checkInteractionType: true,
-                showIntroduction: false,
+                showIntroduction: true,
                 startState: startState,
                 usedStates: [GR_STATE_PRE_INITIALIZE, GR_STATE_INITIALIZE, GR_STATE_RECORD, 'recordingStopped', GR_STATE_PLAYBACK, GR_STATE_SAVE],
                 record: [
@@ -709,14 +716,14 @@ include '../includes/language.php';
                 gestureUpdateRecorder = null;
                 renderSensorData();
 
+                $(modal).find('#gesture-info-nav-tab').removeClass('hidden');
                 $(modal).trigger('gestureUpdated');
             });
         });
-
-        $('#modal-body #btn-cancel-edit-gesture').unbind('click').bind('click', function (event) {
+        
+        $(modal).find('#btn-cancel-edit-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            var modal = $('#custom-modal');
-
+            $(this).addClass('hidden');
             $(modal).find('.gesture-owner-controls').removeClass('hidden');
             $(modal).find('#gesture-general-info-container').removeClass('hidden');
             $(modal).find('#gesture-edit-general-info-container').addClass('hidden');
@@ -728,9 +735,7 @@ include '../includes/language.php';
             renderSensorData();
         });
 
-        var modal = $('#custom-modal');
         if ($(thumbnail).hasClass('deleteable')) {
-
             $(modal).find('#btn-delete-gesture').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 var button = $(this);

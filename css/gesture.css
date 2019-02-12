@@ -291,18 +291,28 @@ and open the template in the editor.
 * gesture recorder slider
 */
 #playback-webcam-slider-controls .slider-track, #playback-leap-slider-controls .slider-track {
-    border-radius: 0px 0px 4px 4px;
+    border-radius: 0px 0px 8px 8px;
+}
+#playback-webcam-slider-controls .slider-track-low, #playback-leap-slider-controls .slider-track-low {
+    border-radius: 0px 0px 0px 8px;
+    background-color: #d9534f;
+    opacity: .5;
+}
+#playback-webcam-slider-controls .slider-track-high, #playback-leap-slider-controls .slider-track-high {
+    border-radius: 0px 0px 8px 0px;
+    background-color: #d9534f;
+    opacity: .5;
 }
 #playback-webcam-slider-controls .slider-selection, #playback-leap-slider-controls .slider-selection {
     background: none;
     box-shadow: none;
 }
 #playback-webcam-crop-slider-controls .slider-selection, #playback-leap-crop-slider-controls .slider-selection {
-    background: #0480BE;
-    opacity: .2;
+    opacity: .5;
+    background-color: #5cb85c
 }
 #playback-webcam-slider-controls .slider-rangeHighlight.isGesture, #playback-leap-slider-controls .slider-rangeHighlight.isGesture {
-    border-radius: 0px 0px 4px 4px;
+    border-radius: 0px 0px 8px 8px;
     background: #0480BE;
     opacity: .2;
 }
@@ -409,13 +419,13 @@ and open the template in the editor.
     padding: 6px;
     background-color: rgba(255,255,255,1);
     border-bottom-left-radius: 10px;
-    border-top-right-radius: 4px;
+    border-top-right-radius: 8px;
 }
 
 .gesture-info-symbols.small {
     padding: 4px;
     border-bottom-left-radius: 6px;
-    border-top-right-radius: 4px;
+    border-top-right-radius: 8px;
 }
 
 .gesture-info-symbol {
@@ -498,3 +508,28 @@ and open the template in the editor.
     margin-right: 1px;
     text-transform: uppercase;
 }
+
+.custom-nav-pills .fa {
+    font-size: 14pt;
+}
+
+.custom-nav-pills>li.active>a, 
+.custom-nav-pills>li.active>a:focus, 
+.custom-nav-pills>li.active>a:hover {
+    background-color: white;
+    font-weight: bold;
+    color:black;
+}
+
+/*.custom-nav-pills>li+li:before {
+    color: #777777;
+    content: "\276F\00a0";
+    margin-top: 2px;
+}*/
+
+/*.gesture-recorder-with-introductions .recorder-content {
+    padding: 0px 15px 15px 15px; 
+    background-color: #f9f9f9; 
+    border-bottom-left-radius: 8px; 
+    border-bottom-right-radius: 8px
+}*/

@@ -3219,11 +3219,9 @@ include '../includes/language.php';
             </div>
 
             <div class="hidden" id="study-share">
-                <hr>
                 <i class="fa fa-share" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
                 <p class="text" id="static-study-url"></p>
                 <p class="text"><?php echo $lang->thanksShare ?></p>
-                <hr>
             </div>
 
             <button type="button" class="btn btn-success btn-shadow pull-right hidden" id="btn-execution-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>

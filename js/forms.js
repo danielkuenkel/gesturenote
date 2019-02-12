@@ -1822,9 +1822,7 @@ function renderEditableGroupingQuestion(item, studyData, answer) {
 
 
 function renderGroupingQuestionGUS(item, studyData, answer) {
-//    console.log(item, studyData, answer);
     var options;
-
     if (studyData.parameters.options) {
         options = studyData.parameters.options;
     } else {
@@ -1841,112 +1839,39 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
         }
     }
 
-//    renderFilterOptionsData(GROUPING_QUESTION, item, studyData.filterOptions, true);
-
-//    if (studyData.parameters.multiselect === 'yes') {
-//        item.find('#multiselect').removeClass('hidden');
-//    } else {
-//        item.find('#singleselect').removeClass('hidden');
-//    }
-//
-//    if (studyData.parameters.optionalanswer === 'yes') {
-//        $(item).find('#optionalanswer').removeClass('hidden');
-//        if (answer) {
-//            if (answer.optionalAnswer !== '') {
-//                $(item).find('#no-answer').addClass('hidden');
-//                $(item).find('#optionalanswer-content').removeClass('hidden');
-//                $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
-//            } else {
-//                $(item).find('#no-optional-answer').removeClass('hidden');
-//            }
-//        }
-//    }
-//
-//    if (options && options.length > 0) {
-//        for (var i = 0; i < options.length; i++) {
-//            var optionItem = $('#template-study-container').find('#grouping-question-item').clone();
-//            $(optionItem).find('.option-text').text(options[i].title);
-//            $(item).find('.option-container').append(optionItem);
-//
-//            if (i < options.length) {
-//                var hr = document.createElement('hr');
-//                $(hr).css({marginTop: "15px", marginBottom: "5px"});
-//                $(item).find('.option-container').append(hr);
-//            }
-//
-//            if (studyData.parameters.justification === 'yes') {
-//                optionItem.find('#justification').removeClass('hidden');
-//                optionItem.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
-//
-//                if (answer) {
-//                    var values = answer[options[i].id];
-//                    if (studyData.parameters.justificationFor === 'selectOne') {
-//                        if (values.selected === 'yes' && values.justification !== '') {
-//                            $(optionItem).find('#justification-content').removeClass('hidden');
-//                            $(optionItem).find('#justification-content .text').text(values.justification);
-//                        } else if (values.selected === 'yes') {
-//                            $(optionItem).find('#no-answer-justification').removeClass('hidden');
-//                        }
-//                    } else if (studyData.parameters.justificationFor === 'selectNothing') {
-//                        if (values.selected === 'no' && values.justification !== '') {
-//                            $(optionItem).find('#justification-content').removeClass('hidden');
-//                            $(optionItem).find('#justification-content .text').text(values.justification);
-//                        } else if (values.selected === 'no') {
-//                            $(optionItem).find('#no-answer-justification').removeClass('hidden');
-//                        }
-//                    } else if (studyData.parameters.justificationFor === 'always' && values.justification !== '') {
-//                        $(optionItem).find('#justification-content').removeClass('hidden');
-//                        $(optionItem).find('#justification-content .text').text(values.justification);
-//                    } else {
-//                        $(optionItem).find('#no-answer-justification').removeClass('hidden');
-//                    }
-//                } else {
-//                    $(item).find('#no-answer').removeClass('hidden');
-//                }
-//            } else {
-//                optionItem.find('#no-justification').removeClass('hidden');
-//            }
-//
-//            if (answer) {
-//                var value = answer[options[i].id];
-//                if (value.selected === 'yes') {
-//                    $(item).find('#no-answer').addClass('hidden');
-//                    $(optionItem).find('.option-text').addClass('bordered-scale-item');
-//                    if (i > 0) {
-//                        $(optionItem).find('.option-text').css({marginTop: '5px'});
-//                    }
-//                } else {
-//                    $(optionItem).find('.option-text').css({paddingLeft: "0px"});
-//                }
-//
-//                if (studyData.parameters.optionSource === 'gestures') {
-//                    var gesture = getGestureById(options[i].id);
-//                    var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
-//                    button.attr('name', gesture.id);
-//                    $(button).insertAfter($(optionItem).find('.option-text'));
-//                    $(button).css({border: '1px solid rgba(0,0,0,0.3)'});
-//                }
-//            } else {
-//                $(optionItem).find('.option-text').css({paddingLeft: "0px"});
-//            }
-//
-//            renderFilterOptionsData(GROUPING_QUESTION_OPTIONS, optionItem, getFilterOptionsById(studyData.filterOptions, options[i].id));
-//        }
-//    }
-
     if (studyData.parameters.multiselect === 'yes') {
         $(item).find('#multiselect').removeClass('hidden');
     } else {
         $(item).find('#singleselect').removeClass('hidden');
     }
 
-//    console.log('answer:', answer);
-
     for (var i = 0; i < options.length; i++) {
         var optionItem = $('#template-study-container').find('#grouping-question-item').clone();
         $(optionItem).find('.option-text').text(options[i].title);
         $(optionItem).attr('data-id', options[i].id);
         $(item).find('.option-container').append(optionItem);
+
+        if (studyData.parameters.optionSource === 'gestures') {
+            $(optionItem).find('.option-text').parent().css({display: 'contents'});
+            $(optionItem).find('.option-text').css({cursor: 'pointer'}).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                var button = $(this);
+                var gesture = getGestureById($(this).parent().parent().attr('data-id'));
+                renderGesturePopoverPreview(gesture, function () {
+                    var popover = $('#popover-gesture');
+                    var top = button.offset().top - popover.height() - 2;
+                    var left = button.offset().left + parseInt(((button.width() - popover.width()) / 2));
+                    popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                    playThroughThumbnails(popover.find('.previewGesture'));
+                    TweenMax.to(popover, .3, {autoAlpha: 1});
+                });
+            });
+
+            $(optionItem).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                resetGesturePopover();
+            });
+        }
 
         if (i < options.length - 1) {
             var hr = document.createElement('hr');
@@ -2040,7 +1965,7 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
 
         if (optionalAnswerValue) {
             if (optionalAnswerValue.content !== '') {
-                $(item).find('#optionalanswer-content .address').addClass('bordered-scale-item');
+                $(item).find('#optionalanswer-content .address').addClass('bordered-scale-item').css({color: 'black'});;
                 $(item).find('#optionalanswer-content .text').text(optionalAnswerValue.content);
                 $(item).find('#no-answer').addClass('hidden');
             } else {

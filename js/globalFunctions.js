@@ -31,6 +31,17 @@ function checkCookies(cookiesAccepted) {
     }
 }
 
+function getWindowStatusHash() {
+    var status = window.location.hash.substr(1);
+    var statusAddressMatch = statusAddressMatchIndex(status);
+    console.log('statusAddressMatch', statusAddressMatch)
+    var statusHash = '';
+    if (status !== '' && statusAddressMatch !== null) {
+        statusHash = statusAddressMatch.id;
+    }
+    return statusHash;
+}
+
 function setParam(uri, key, val) {
     var newurl = uri
             .replace(new RegExp("([?&]" + key + "(?=[=&#]|$)[^#&]*|(?=#|$))"), "&" + key + "=" + encodeURIComponent(val))
@@ -564,7 +575,6 @@ function renderImagePopoverPreview(imageUrl, callback) {
 
 function resetImagePopover() {
     var popover = $('#popover-image-elem');
-    console.log(popover);
     $(popover).remove();
 }
 

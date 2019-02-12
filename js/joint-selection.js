@@ -286,7 +286,8 @@ function getSelectedJoints(target) {
 
 
 
-function renderBodyJointAnswers(target, answers, sequenceId, renderType) {
+function renderBodyJointAnswers(target, answers, sequenceId, renderType, showCount) {
+    console.log('render Body Joint answers', answers, sequenceId, renderType);
     if (answers) {
         var jointScores = getBodyJointScores();
         if (renderType === 'single' && answers.singleAnswers && answers.singleAnswers.length > 0) {
@@ -307,6 +308,8 @@ function renderBodyJointAnswers(target, answers, sequenceId, renderType) {
             }
         }
 
+        console.log('joint scores', jointScores, target);
+
         var ratio = $(target).width() / ORIGINAL_BODY_WIDTH;
         $(target).find('#joint-container').empty();
 
@@ -325,7 +328,7 @@ function renderBodyJointAnswers(target, answers, sequenceId, renderType) {
             if (jointScores[bodyJoints[i].title] > 0) {
                 var score = document.createElement('div');
                 $(score).addClass('joint-text-score text-center');
-                if (renderType === 'single') {
+                if (renderType === 'single' || showCount === true) {
                     $(score).text(jointScores[bodyJoints[i].title]);
                 }
                 $(buttonJoint).append(score);
