@@ -263,7 +263,7 @@ include '../includes/language.php';
             startState = GR_STATE_SAVE;
             initRecorders.push({type: 'webcam', images: gesture.images, blobs: gesture.blobs, previewImage: gesture.previewImage, gif: gesture.gif, autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true});
         }
-        
+
         console.log('sensor data', gesture.sensorData);
         if (gesture.sensorData) {
             var sensorData = gesture.sensorData;
@@ -294,7 +294,7 @@ include '../includes/language.php';
             ],
             initRecorders: initRecorders,
             updateData: {
-//                title: gesture.title,
+                title: currentSaveGesture.trigger.title,
 //                titleQuality: gesture.titleQuality,
 //                execution: gesture.type,
 //                interaction: gesture.interactionType,

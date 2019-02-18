@@ -591,7 +591,6 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
 
                         $('#custom-modal').unbind('gestureSaved').bind('gestureSaved', function (event, gesture) {
                             event.preventDefault();
-//                            console.log('gesture saved successfully', gesture);
 
                             var selectedAnnotation = $(resultsPlayer.domElement).find('#select-annotation-for-gesture .chosen').attr('id');
                             var trigger = getTriggerById(selectedAnnotation);
@@ -642,9 +641,11 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                             };
                         }
 
+                        var selectedAnnotation = $(resultsPlayer.domElement).find('#select-annotation-for-gesture .chosen').attr('id');
+                        var trigger = getTriggerById(selectedAnnotation);
                         loadHTMLintoModal('custom-modal', 'externals/modal-gesture-recorder.php', 'modal-lg');
                         var query = getQueryParams(document.location.search);
-                        currentSaveGesture = {source: GESTURE_CATALOG, gesture: {images: shotsArray, blobs: blobsArray, previewImage: 0, sensorData: sensorData}, userId: query.participantId, gestureSource: 'tester'};
+                        currentSaveGesture = {source: GESTURE_CATALOG, gesture: {images: shotsArray, blobs: blobsArray, previewImage: 0, sensorData: sensorData}, userId: query.participantId, gestureSource: 'tester', trigger: trigger};
                     }
                 }, 'image/jpeg', 0.8);
             }
@@ -718,6 +719,10 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                     if (!secondVideo) {
                         $(resultsPlayer.domElement).find('#webcam-video-container').removeClass('col-xs-3').addClass('col-xs-12');
                         $(resultsPlayer.domElement).find('#seek-bar-container').removeClass('col-xs-10 col-sm-7 col-lg-7 col-lg-11').addClass('col-lg-9');
+                    } else if (secondVideo && !screenShareVideoHolder) {
+                        $(resultsPlayer.domElement).find('#webcam-video-container').removeClass('col-xs-3').addClass('col-xs-12');
+                        $(resultsPlayer.domElement).find('#tester-video-container').removeClass('col-xs-12').addClass('col-xs-6');
+                        $(resultsPlayer.domElement).find('#moderator-video-container').removeClass('col-xs-12').addClass('col-xs-6').css({marginTop: ''});
                     }
 
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {

@@ -107,6 +107,7 @@ Exploration.prototype.renderModeratorView = function () {
                 currentPhaseState = 'prototypeOpened';
                 renderCurrentPhaseState();
             });
+//            $(container).find('#btn-open-prototype').click();
         } else {
             // without screen sharing
             $(container).find('#btn-open-prototype').remove();
@@ -160,6 +161,7 @@ Exploration.prototype.renderModeratorView = function () {
                 }
             }
         });
+        $(container).find('#btn-start-screen-sharing').click();
     }
 
     function renderStateExplorationStarted() {

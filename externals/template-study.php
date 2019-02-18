@@ -466,7 +466,7 @@ include '../includes/language.php';
     </div>
 
     <span id="dichotomous-question-item">
-        <div><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+        <div><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px"><span class="count-label">0</span>x</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
         <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
     </span>
 
@@ -509,7 +509,7 @@ include '../includes/language.php';
             <div class="hidden" id="optionalanswer-content" data-id="optionalAnswer" style="margin-top: 15px">
                 <hr style="margin-bottom: 5px">
                 <div><span class="label label-warning hidden" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span></div>
-                <span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="option-text address" style="padding: 7px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
+                <span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px"><span class="count-label">0</span>x</span><span class="option-text address" style="padding: 7px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
                 <span class="filter-option" style="margin-left: 5px"></span><br/>
                 <span class="text"></span>
             </div>
@@ -519,7 +519,7 @@ include '../includes/language.php';
     </div>
 
     <span id="grouping-question-item">
-        <div><span class="badge count-badge hidden" style="margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+        <div><span class="badge count-badge hidden" style="margin-top: -4px"><span class="count-label">0</span>x</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
         <div>
             <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
@@ -609,7 +609,7 @@ include '../includes/language.php';
         <div id="scale-container"></div>
     </div>
 
-    <div id="rating-scale-item"><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+    <div id="rating-scale-item"><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px"><span class="count-label">0</span>x</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
     <!--<span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>-->
 
     <div class="panel panel-default panel-shadow" id="matrix" style="margin-bottom: 5px;">
@@ -1001,7 +1001,7 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-7 col-sm-7 col-lg-7" id="seek-bar-container">
+                    <div class="col-xs-7 col-sm-6 col-lg-7" id="seek-bar-container">
                         <div class="hidden" id="video-trim-marker">
                             <div class="video-trim-marker-start hidden"></div>
                             <div class="video-trim-marker-end hidden"></div>
@@ -2119,7 +2119,7 @@ include '../includes/language.php';
         <h3 id="headline-participant" style="display: table-cell"></h3>
         <div class="btn btn-sm btn-default btn-shadow" id="btn-open-participant-results" style="float:right; margin-top: -25px"><i class="fa fa-eye"></i> <span><?php echo $lang->openParticipantResults ?></span></div>
         <hr>
-        
+
         <div id="">
             <h4><?php echo $lang->favoriteTrigger ?></h4>
             <div id="item-view"></div>
@@ -2142,17 +2142,17 @@ include '../includes/language.php';
             <div class="alert-space alert-no-phase-data"></div>
         </div>
     </div>
-    
-<!--    <div id="exploration-trigger-summary-item">
-        
-    </div>
-    
 
-    <div id="exploration-answer-item-for-trigger">
-        <div class="list-container row" id="gestures-list-container">
-            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 question-container"></div>
+    <!--    <div id="exploration-trigger-summary-item">
+            
         </div>
-    </div>-->
+        
+    
+        <div id="exploration-answer-item-for-trigger">
+            <div class="list-container row" id="gestures-list-container">
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 question-container"></div>
+            </div>
+        </div>-->
 
 
     <div id="exploration-gesture-item">

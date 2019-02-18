@@ -741,8 +741,8 @@ if (login_check($mysqli) == true) {
                                 case DICHOTOMOUS_QUESTION:
                                 case DICHOTOMOUS_QUESTION_GUS:
                                     var option = $(questionPanel).find('[data-id=' + allAnswers[i].answers[j].selectedSwitch + ']');
-                                    var currentCount = parseInt($(option).find('.count-badge').text());
-                                    $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                    var currentCount = parseInt($(option).find('.count-badge .count-label').text());
+                                    $(option).find('.count-badge .count-label').text(isNaN(currentCount) ? 1 : currentCount + 1);
                                     if (allAnswers[i].answers[j].justification !== '') {
                                         $(option).find('#justification-content').removeClass('hidden').find('.text').text($(option).find('#justification-content').find('.text').text() + allAnswers[i].answers[j].justification + '; ');
                                     }
@@ -752,8 +752,8 @@ if (login_check($mysqli) == true) {
                                 case GROUPING_QUESTION_GUS:
                                     if (allAnswers[i].answers[j] !== null) {
                                         var option = $(questionPanel).find('[data-id=' + allAnswers[i].answers[j].id + ']');
-                                        var currentCount = parseInt($(option).find('.count-badge').text());
-                                        $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                        var currentCount = parseInt($(option).find('.count-badge .count-label').text());
+                                        $(option).find('.count-badge .count-label').text(isNaN(currentCount) ? 1 : currentCount + 1);
                                         if (allAnswers[i].answers[j].id === 'optionalAnswer' && allAnswers[i].answers[j].content !== '') {
                                             var optionAnswerContent = $(questionPanel).find('#optionalanswer-content');
                                             $(optionAnswerContent).find('#no-optional-answer').remove();
@@ -770,16 +770,16 @@ if (login_check($mysqli) == true) {
                                     break;
                                 case RATING:
                                     var option = $(questionPanel).find('[data-id=' + allAnswers[i].answers[j].id + ']');
-                                    var currentCount = parseInt($(option).find('.count-badge').text());
-                                    $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                    var currentCount = parseInt($(option).find('.count-badge .count-label').text());
+                                    $(option).find('.count-badge .count-label').text(isNaN(currentCount) ? 1 : currentCount + 1);
                                     break;
                                 case MATRIX:
                                     var matrixItems = $(questionPanel).find('#matrix-item');
                                     for (var k = 0; k < allAnswers[i].answers[j].scales.length; k++) {
                                         var scaleKey = allAnswers[i].answers[j].scales[k].id;
                                         var option = $(questionPanel).find('.option-container #' + scaleKey);
-                                        var currentCount = parseInt($(option).find('.count-badge').text());
-                                        $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                        var currentCount = parseInt($(option).find('.count-badge .count-label').text());
+                                        $(option).find('.count-badge .count-label').text(isNaN(currentCount) ? 1 : currentCount + 1);
                                         scalesMissing[$(option).closest('#matrix-item').attr('data-id')] = isNaN(parseInt(scalesMissing[$(option).closest('#matrix-item').attr('data-id')])) ? 1 : parseInt(scalesMissing[$(option).closest('#matrix-item').attr('data-id')]) + 1;
                                     }
 
@@ -2121,11 +2121,12 @@ if (login_check($mysqli) == true) {
                                     var answer = preferredTrigger;
                                     var questionnaire = [];
                                     var question = {id: preferredTrigger.id, dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: translation.askPreferredTriggerForGesture, parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}};
-                                    var triggerOptions = [];
-
-                                    for (var k = 0; k < phaseData.exploration[i].trigger.length; k++) {
-                                        triggerOptions.push(getTriggerById(phaseData.exploration[i].trigger[k]));
-                                    }
+//                                    var triggerOptions = [];
+//                                    
+//                                    console.log(phaseData.exploration[i])
+//                                    for (var k = 0; k < phaseData.exploration[i].trigger.length; k++) {
+//                                        triggerOptions.push(getTriggerById(phaseData.exploration[i].trigger[k]));
+//                                    }
 
                                     answers.push(answer);
                                     questionnaire.push(question);
