@@ -486,7 +486,14 @@ function updateMatchingView(updateLeft, updateRight) {
 
     var leftGesture = gesturesLeft[gesturesLeftIndex];
     var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
-//    console.log('update matching view', rightGesture, gesturesRight, gesturesRightIndex);
+
+    if (!rightGesture) {
+        if (gesturesRightIndex < gesturesRight.length - 1) {
+            gesturesRightIndex++;
+            updateMatchingView(updateLeft, updateRight);
+        }
+        return false;
+    }
 
     var leftItem = getGestureCatalogListThumbnail(leftGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
     $(leftItem).removeClass('deleteable');
