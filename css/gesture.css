@@ -330,18 +330,20 @@ and open the template in the editor.
     /*height:100%;*/
 }
 #control-continuous-slider .slider-handle {
-    opacity: 0;
-    width:0;
-    height:0;
+    left: 50%;
+    height: 34px;
+    border-radius: 8px;
+    top: 5px;
 }
 #control-continuous-slider .slider-track {
     /*margin-top: -41px;*/
-    border-radius: 0px 0px 8px 8px;
+    /*border-radius: 0px 0px 8px 8px;*/
     height:34px;
 }
 #control-continuous-slider .slider-selection {
-    background: #5cb85c;
-    border-radius: 0px 0px 8px 8px;
+    /*background: #5cb85c;*/
+    /*border-radius: 0px 0px 8px 8px;*/
+    display: none;
 }
 
 .control-continuous-slider-status {

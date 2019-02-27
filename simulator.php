@@ -49,9 +49,28 @@ if (login_check($mysqli) == true) {
         <script src="js/gesture.js"></script>
         <script src="js/websocket.js"></script>
         <script src="js/stomp/stomp.js"></script>
+        
+        <script src="js/joint-selection.js"></script>
+        
+        <script src="js/upload-queue.js"></script>
+        <script src="js/gifshot/gifshot.min.js"></script>
+        <script src="js/color-thief/color-thief.js"></script> 
         <script src="js/filesaver/FileSaver.min.js"></script>
-        <script src="js\joint-selection.js"></script>
-        <script src="js\collaborativeVideo.js"></script>
+        <script src="js/jszip/jszip.min.js"></script>
+        <script src="js/jszip/jszip-utils.min.js"></script>
+
+        <!-- leap and plugins -->
+        <script src="js/leapjs/leap-0.6.4.min.js"></script>
+        <script src="js/leapjs/leap-plugins-0.1.12.min.js"></script>
+        <script src="js/three/three.min.js"></script>
+        <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
+        <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
+
+        <!--gesture recorder--> 
+        <script src="js/gestureRecorder/gestureRecorder.js"></script>
+        <script src="js/gestureRecorder/webcamRecorder.js"></script>
+        <script src="js/gestureRecorder/leapRecorder.js"></script>
+        <script src="js/resumable/resumable.js"></script>
 
 
         <!-- bootstrap slider -->
@@ -63,6 +82,7 @@ if (login_check($mysqli) == true) {
         <!-- externals -->
         <div id="alerts"></div>
         <div id="template-general"></div>
+        <div id="template-gesture-recorder"></div>
         <div id="template-simulator"></div>
 
         <!-- Modal -->
@@ -114,6 +134,7 @@ if (login_check($mysqli) == true) {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
+                    externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     externals.push(['#template-simulator', PATH_EXTERNALS + 'template-simulator.php']);
                     loadExternals(externals);
                 });
@@ -208,6 +229,8 @@ if (login_check($mysqli) == true) {
                                 var percent = parseInt(event.value.newValue);
                                 var imagePercent = inverted ? (100 - percent) : percent;
                                 var gestureId = event.data.gesture.id;
+                                console.log('slider changed', $(this));
+                                $(this).closest('.root').find('.btn-pause-gesture').click();
                                 $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
                                 var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
                                 $(gestureImages).removeClass('active').addClass('hidden');
