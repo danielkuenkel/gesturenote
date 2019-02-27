@@ -324,6 +324,7 @@ var APOLLO_URL = 'wss://progesture.org:61624';
 var APOLLO_LOGIN = 'admin';
 var APOLLO_PASSWORD = 'password';
 var APOLLO_DESTINATION = '/topic/gestures';
+var APOLLO_DESTINATION_SIMULATION = '/topic/model.simulation.out';
 
 var PIDOCO_TYPE_MOUSE_SIMULATION = 'simulateMouse';
 
