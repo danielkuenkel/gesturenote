@@ -502,7 +502,7 @@ LeapRecorder.prototype.extract = function () {
     var playbackVideo = $(preview).find('#renderArea');
     $(playbackVideo).css({borderRadius: "4px"});
 
-    var toggleCroppingButton = $(preview).find('#btn-toggle-cropping');
+    var toggleCroppingButton = $(leapRecorder.options.parent).find('.gr-playback #btn-toggle-cropping');
     if ($(toggleCroppingButton).hasClass('cropping')) {
         $(toggleCroppingButton).click();
     }

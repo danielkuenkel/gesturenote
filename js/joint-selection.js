@@ -286,12 +286,13 @@ function getSelectedJoints(target) {
 
 
 
-function renderBodyJointAnswers(target, answers, gestureId, renderType) {
+function renderBodyJointAnswers(target, answers, sequenceId, renderType, showCount) {
+    console.log('render Body Joint answers', answers, sequenceId, renderType);
     if (answers) {
         var jointScores = getBodyJointScores();
         if (renderType === 'single' && answers.singleAnswers && answers.singleAnswers.length > 0) {
             for (var i = 0; i < answers.singleAnswers.length; i++) {
-                if (parseInt(gestureId) === parseInt(answers.singleAnswers[i].gestureId) && answers.singleAnswers[i].selectedBodyJoints) {
+                if (parseInt(sequenceId) === parseInt(answers.singleAnswers[i].sequenceId) && answers.singleAnswers[i].selectedBodyJoints) {
                     for (var j = 0; j < answers.singleAnswers[i].selectedBodyJoints.length; j++) {
                         jointScores[answers.singleAnswers[i].selectedBodyJoints[j]]++;
                     }
@@ -299,13 +300,15 @@ function renderBodyJointAnswers(target, answers, gestureId, renderType) {
             }
         } else if (renderType === 'sequence' && answers.sequenceAnswers && answers.sequenceAnswers.length > 0) {
             for (var i = 0; i < answers.sequenceAnswers.length; i++) {
-                if (parseInt(gestureId) === parseInt(answers.sequenceAnswers[i].gestureId) && answers.sequenceAnswers[i].selectedBodyJoints) {
+                if (parseInt(sequenceId) === parseInt(answers.sequenceAnswers[i].sequenceId) && answers.sequenceAnswers[i].selectedBodyJoints) {
                     for (var j = 0; j < answers.sequenceAnswers[i].selectedBodyJoints.length; j++) {
                         jointScores[answers.sequenceAnswers[i].selectedBodyJoints[j]]++;
                     }
                 }
             }
         }
+
+        console.log('joint scores', jointScores, target);
 
         var ratio = $(target).width() / ORIGINAL_BODY_WIDTH;
         $(target).find('#joint-container').empty();
@@ -325,7 +328,7 @@ function renderBodyJointAnswers(target, answers, gestureId, renderType) {
             if (jointScores[bodyJoints[i].title] > 0) {
                 var score = document.createElement('div');
                 $(score).addClass('joint-text-score text-center');
-                if (renderType === 'single') {
+                if (renderType === 'single' || showCount === true) {
                     $(score).text(jointScores[bodyJoints[i].title]);
                 }
                 $(buttonJoint).append(score);

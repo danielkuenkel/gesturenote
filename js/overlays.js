@@ -598,7 +598,7 @@ function renderAssembledTriggerItems(container, triggerIds, preselect) {
                     $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
                     $(this).parent().find('.trigger-title').addClass('text').css({fontWeight: 'bold'});
                 }
-                
+
                 $(item).parent().trigger('change');
             });
         }
@@ -2136,10 +2136,10 @@ function initPhysicalStressTestOverlay(id, formatClone) {
             for (var i = 0; i < items.length; i++) {
                 if (items[i].gestures.length > 0) {
                     var clone = $('#form-item-container').find('#physicalStressTestItem').clone().removeClass('hidden');
+                    $(clone).attr('data-id', items[i].id || chance.natural());
                     container.append(clone);
 
                     var gestureListContainer = $(clone).find('#item-view');
-
                     for (var j = 0; j < items[i].gestures.length; j++) {
                         var gesture = getGestureById(items[i].gestures[j]);
 
@@ -2210,13 +2210,12 @@ function initPhysicalStressTestOverlay(id, formatClone) {
         if (items && items.length > 0) {
             var set = new Array();
             for (var i = 0; i < items.length; i++) {
+                var itemId = $(items[i]).attr('data-id');
                 var gestureItems = $(items[i]).find('#item-view').children();
-                console.log(gestureItems);
                 if (gestureItems && gestureItems.length > 0) {
                     var gestures = [];
                     for (var j = 0; j < gestureItems.length; j++) {
                         var gestureId = $(gestureItems[j]).find('.chosen').attr('id');
-                        console.log(gestureId);
                         if (gestureId !== 'unselected') {
                             var gesture = getGestureById(gestureId);
                             if (gesture) {
@@ -2226,7 +2225,9 @@ function initPhysicalStressTestOverlay(id, formatClone) {
                     }
 
                     if (gestures && gestures.length > 0) {
-                        set.push({gestures: gestures});
+                        
+                        set.push({id: itemId, gestures: gestures});
+                        console.log('id:', itemId, set);
                     }
                 } else {
 
@@ -2263,6 +2264,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
             stressTest.sequenceStressGraphicsRating = $(formatClone).find('#useGraphicalSequenceStressSwitch .btn-option-checked').attr('id');
         }
 
+console.log(stressTest);
         saveObservations($(formatClone), $(formatClone).find('#observations #list-container').children(), stressTest);
         setLocalItem(id + ".data", stressTest);
     });

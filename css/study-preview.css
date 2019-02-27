@@ -177,6 +177,7 @@ and open the template in the editor.
     padding-left: 7px;
     padding-right: 7px;
     border: solid 2px #337ab7;
+    border-radius: 8px;
 }
 
 /*.btn-ban-sensor {

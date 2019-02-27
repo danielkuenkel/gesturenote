@@ -94,7 +94,7 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
 
-        <div class="hidden-xs hidden-sm study-participant-controls" id="fixed-study-participant-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 10001; opacity: 0; left:-204px">
+        <div class="hidden-xs hidden-sm study-participant-controls" id="fixed-study-participant-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 10001; opacity: 0; left:-327px">
             <div class="btn-group-vertical">
                 <!--                <div>
                                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
@@ -107,6 +107,9 @@ if (login_check($mysqli) == true) {
                 </div>
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-next-participant disabled" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->nextParticipant ?> <i class="fa fa-arrow-right" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-show-all-participant-results" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->showAllParticipantResults ?> <i class="fa fa-bar-chart" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
@@ -213,6 +216,7 @@ if (login_check($mysqli) == true) {
                     <div class="btn-group-vertical btn-block hidden-lg hidden-md" id="phase-results-control-nav" style="margin-top: 20px">
                         <button class="btn btn-default btn-shadow btn-prev-participant disabled" type="button"><i class="fa fa-arrow-left"></i> <span class="btn-text"><?php echo $lang->previousParticipant ?></span></button>
                         <button class="btn btn-default btn-shadow btn-next-participant disabled" type="button"><i class="fa fa-arrow-right"></i> <span class="btn-text"><?php echo $lang->nextParticipant ?></span></button>
+                        <button class="btn btn-default btn-shadow btn-show-all-participant-results" type="button"><i class="fa fa-bar-chart"></i> <span class="btn-text"><?php echo $lang->showAllParticipantResults ?></span></button>
                         <button class="btn btn-default btn-shadow btn-join-conversation" type="button"><i class="fa fa-group"></i> <span class="btn-text"><?php echo $lang->joinConversation ?></span></button>
                         <button class="btn btn-default btn-shadow btn-leave-conversation hidden" type="button"><i class="fa fa-group"></i><i class="fa fa-ban" style="font-size: 9pt; position: relative; right: 3px; top: -6px;"></i> <span class="btn-text"><?php echo $lang->leaveConversation ?></span></button>
                     </div>
@@ -390,6 +394,10 @@ if (login_check($mysqli) == true) {
             $('#execution-date').text(convertSQLTimestampToDate(resultData.created).toLocaleString());
             $('#main-headline').text(studyData.generalData.title);
 
+            if (results.snapshot) {
+                $('#participant-image').removeClass('hidden').attr('src', results.snapshot);
+            }
+
             if (results.aborted === 'no' && results.studySuccessfull === 'yes') {
                 $('#phase-results').find('#execution-success').removeClass('hidden');
                 $('#phase-results').find('#execution-success .label-text').text(translation.studySuccessful);
@@ -428,12 +436,6 @@ if (login_check($mysqli) == true) {
 
                         for (var i = 0; i < result.studyResults.length; i++) {
                             if (query.participantId === result.studyResults[i].userId) {
-
-                                if (result.studyResults[i].data && result.studyResults[i].data.snapshot) {
-                                    $('#participant-image').removeClass('hidden').attr('src', result.studyResults[i].data.snapshot);
-//                                    console.log('snapshot', );
-                                }
-
                                 if (i === 0) {
                                     disablePrevButton = true;
                                     nextParticipantId = result.studyResults[i + 1].userId;
@@ -449,23 +451,13 @@ if (login_check($mysqli) == true) {
 
                         }
 
-                        function getParticipantStatusHash() {
-                            var status = window.location.hash.substr(1);
-                            var statusAddressMatch = statusAddressMatchIndex(status);
-                            var statusHash = '';
-                            if (status !== '' && statusAddressMatch !== null) {
-                                statusHash = statusAddressMatch.id;
-                            }
-                            return statusHash;
-                        }
-
                         $('#pageBody').find('.btn-prev-participant').removeClass('disabled').unbind('click');
                         $('#pageBody').find('.btn-next-participant').removeClass('disabled').unbind('click');
                         if (disablePrevButton) {
                             $('#pageBody').find('.btn-prev-participant').addClass('disabled');
                             $('#pageBody').find('.btn-next-participant').bind('click', function (event) {
                                 event.preventDefault();
-                                var status = getParticipantStatusHash();
+                                var status = getWindowStatusHash();
                                 clearLocalItems();
                                 goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
@@ -473,21 +465,21 @@ if (login_check($mysqli) == true) {
                             $('#pageBody').find('.btn-next-participant').addClass('disabled');
                             $('#pageBody').find('.btn-prev-participant').bind('click', function (event) {
                                 event.preventDefault();
-                                var status = getParticipantStatusHash();
+                                var status = getWindowStatusHash();
                                 clearLocalItems();
                                 goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
                         } else {
                             $('#pageBody').find('.btn-next-participant').bind('click', function (event) {
                                 event.preventDefault();
-                                var status = getParticipantStatusHash();
+                                var status = getWindowStatusHash();
                                 clearLocalItems();
                                 goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
 
                             $('#pageBody').find('.btn-prev-participant').bind('click', function (event) {
                                 event.preventDefault();
-                                var status = getParticipantStatusHash();
+                                var status = getWindowStatusHash();
                                 clearLocalItems();
                                 goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
@@ -529,7 +521,6 @@ if (login_check($mysqli) == true) {
                 var study = getLocalItem(STUDY);
 
                 if (study.isOwner === 'false' || study.isOwner === false) {
-//                        console.log(study, study.isOwner);
                     $('.btn-delete-result').remove();
                     $('#fixed-study-participant-controls .btn-next-participant').css({borderRadius: '0px', borderBottomRightRadius: '8px'});
                 }
@@ -644,18 +635,15 @@ if (login_check($mysqli) == true) {
                 prevParticipantButtonTimeline.reverse();
             });
 
+
+
             var nextParticipantButton = $('#fixed-study-participant-controls .btn-next-participant');
             var nextParticipantButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(nextParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
                     $(nextParticipantButton).addClass('btn-primary');
                 }, onReverseComplete: function () {
-//                    if (study.isOwner === 'false' || study.isOwner === false) {
-//                        $(nextParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
-//                        $(nextParticipantButton).removeClass('btn-primary');
-//                    } else {
                     $(nextParticipantButton).css({borderRadius: '0px'});
                     $(nextParticipantButton).removeClass('btn-primary');
-//                    }
                 }});
 
             nextParticipantButtonTimeline.add("saveStudy", 0)
@@ -669,6 +657,39 @@ if (login_check($mysqli) == true) {
             $(nextParticipantButton).unbind('mouseleave').bind('mouseleave', function (event) {
                 event.preventDefault();
                 nextParticipantButtonTimeline.reverse();
+            });
+
+
+
+            var showAllResultsButton = $('#fixed-study-participant-controls .btn-show-all-participant-results');
+            var showAllResultsButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(showAllResultsButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+                    $(showAllResultsButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(showAllResultsButton).css({borderRadius: '0px'});
+                    $(showAllResultsButton).removeClass('btn-primary');
+                }});
+
+            showAllResultsButtonTimeline.add("saveStudy", 0)
+                    .to(showAllResultsButton, .3, {left: +326, ease: Quad.easeInOut}, "saveStudy");
+
+            $(showAllResultsButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                showAllResultsButtonTimeline.play();
+            });
+
+            $(showAllResultsButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                showAllResultsButtonTimeline.reverse();
+            });
+
+            $('.btn-show-all-participant-results').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                var query = getQueryParams(document.location.search);
+                var status = getWindowStatusHash();
+                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                clearLocalItems();
+                goto('study-participant-all.php?studyId=' + query.studyId + '&h=' + hash + "&joinedConv=" + joinedRoom + getWebRTCSources() + '#' + status);
             });
 
 
@@ -787,7 +808,7 @@ if (login_check($mysqli) == true) {
 
         function renderStudyPhaseResult(phaseId) {
             var phaseData = getLocalItem(phaseId + '.data');
-            var testerResults = getLocalItem(phaseId + '.results');
+            var testerResults = getLocalItem(phaseId + '.tester');
             var evaluatorResults = getLocalItem(phaseId + '.evaluator');
             var wizardResults = getLocalItem(phaseId + '.wizard');
             var observerResults = getLocalItem(phaseId + '.observer');
@@ -974,7 +995,7 @@ if (login_check($mysqli) == true) {
             var phaseId = $('#phase-results-nav').find('.active').attr('id');
 
             if (phaseId) {
-                var phaseResults = getLocalItem(phaseId + '.results');
+                var phaseResults = getLocalItem(phaseId + '.tester');
                 if (phaseResults && translation.formats[phaseResults.format].notes === 'yes') {
                     var note = $('#phase-result').find('#notes-input').val();
                     setLocalItem(phaseId + '.notes', note);
@@ -1539,13 +1560,13 @@ if (login_check($mysqli) == true) {
                         $(jointAnswers).insertAfter($(item).find('#headline-single-questions'));
                         if (singleStressGraphicsRating === 'hands') {
                             $(jointAnswers).find('#joint-answers-body').remove();
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'single');
+                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, studyData.stressTestItems[i].id, 'single');
                         } else if (singleStressGraphicsRating === 'body') {
                             $(jointAnswers).find('#joint-answers-hands').remove();
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'single');
+                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, studyData.stressTestItems[i].id, 'single');
                         } else {
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'single');
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'single');
+                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, studyData.stressTestItems[i].id, 'single');
+                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, studyData.stressTestItems[i].id, 'single');
                         }
                     }
 
@@ -1557,13 +1578,13 @@ if (login_check($mysqli) == true) {
 
                         if (sequenceStressGraphicsRating === 'hands') {
                             $(jointAnswers).find('#joint-answers-body').remove();
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'sequence');
+                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, studyData.stressTestItems[i].id, 'sequence');
                         } else if (sequenceStressGraphicsRating === 'body') {
                             $(jointAnswers).find('#joint-answers-hands').remove();
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'sequence');
+                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, studyData.stressTestItems[i].id, 'sequence');
                         } else {
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'sequence');
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'sequence');
+                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, studyData.stressTestItems[i].id, 'sequence');
+                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, studyData.stressTestItems[i].id, 'sequence');
                         }
                     }
 
@@ -1725,8 +1746,9 @@ if (login_check($mysqli) == true) {
 
         function renderIdentification(container, studyData, phaseResults) {
             if (studyData.identificationFor === 'gestures') {
+                $(container).find('#btn-toggle-trim-video').removeClass('hidden');
                 removeAlert($(container).find('#item-view'), ALERT_NO_GESTURES_TRIMMED);
-                
+
                 $(container).find('#search-gestures').removeClass('hidden');
                 var elicitedGestures = getLocalItem(GESTURE_CATALOG);
                 var trigger = getLocalItem(ASSEMBLED_TRIGGER);
@@ -1757,11 +1779,13 @@ if (login_check($mysqli) == true) {
                         var gestureCount = 0;
                         for (var j = 0; j < gestureTriggerPairs.length; j++) {
                             if (parseInt(gestureTriggerPairs[j].triggerId) === parseInt(trigger[i].id)) {
-                                gestureCount++;
                                 var gesture = getGestureById(gestureTriggerPairs[j].id);
-                                var item = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-4 col-md-4 col-lg-4');
-                                $(gestureList).append(item);
-                                $(badge).text(gestureCount > 1 ? gestureCount + ' ' + translation.gestures : gestureCount + ' ' + translation.gesture);
+                                if (gesture) {
+                                    gestureCount++;
+                                    var item = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-4 col-md-4 col-lg-4');
+                                    $(gestureList).append(item);
+                                    $(badge).text(gestureCount > 1 ? gestureCount + ' ' + translation.gestures : gestureCount + ' ' + translation.gesture);
+                                }
                             }
                         }
 

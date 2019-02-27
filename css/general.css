@@ -501,6 +501,7 @@ footer .fa {
 
 .label {
     margin-right: 2px;
+    border-radius: 7px;
 }
 
 .btn-gn {
@@ -1559,13 +1560,17 @@ canvas {
     opacity:1;
 }
 
-#popover-scene {
+#popover-scene, #popover-image-elem {
     z-index: 1000;
     border-radius: 8px;
     -webkit-box-shadow: rgba(0,0,0,0.8) 0px 5px 10px;
     -moz-box-shadow: rgba(0,0,0,0.8) 0 5px 10px;
     box-shadow: 0px 5px 10px rgba(0,0,0, .3);
     background-color: #eee;
+}
+
+#popover-image-elem img {
+    border-radius: 8px;
 }
 
 #popover-leap {

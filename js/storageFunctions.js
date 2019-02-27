@@ -471,12 +471,18 @@ function setStudyData(data) {
         setData.executionSuccess = data.resultData.results.studySuccessfull;
 //        console.log(data.resultData.results.aborted);
         setData.executionAborted = data.resultData.results.aborted;
+        
+        
+        if(data.resultData.results && data.resultData.results.snapshot) {
+            setData.snapshot = data.resultData.results.snapshot;
+        }
+        
         setLocalItem(STUDY_RESULTS, setData);
 
         var phases = data.resultData.results.phases;
         if (phases && phases.length > 0) {
             for (var i = 0; i < phases.length; i++) {
-                setLocalItem(phases[i].id + '.results', phases[i]);
+                setLocalItem(phases[i].id + '.tester', phases[i]);
             }
         }
 

@@ -31,6 +31,17 @@ function checkCookies(cookiesAccepted) {
     }
 }
 
+function getWindowStatusHash() {
+    var status = window.location.hash.substr(1);
+    var statusAddressMatch = statusAddressMatchIndex(status);
+    console.log('statusAddressMatch', statusAddressMatch)
+    var statusHash = '';
+    if (status !== '' && statusAddressMatch !== null) {
+        statusHash = statusAddressMatch.id;
+    }
+    return statusHash;
+}
+
 function setParam(uri, key, val) {
     var newurl = uri
             .replace(new RegExp("([?&]" + key + "(?=[=&#]|$)[^#&]*|(?=#|$))"), "&" + key + "=" + encodeURIComponent(val))
@@ -538,6 +549,32 @@ function renderScenePopoverPreview(scene, callback) {
 
 function resetScenePopover() {
     var popover = $('#popover-scene');
+    $(popover).remove();
+}
+
+
+function renderImagePopoverPreview(imageUrl, callback) {
+    var popover = $('#popover-image-preview').clone();
+    popover.attr('id', 'popover-image-elem');
+
+    if (imageUrl) {
+        var image = document.createElement('img');
+        $(image).css({width: '100%'}).addClass('mirroredHorizontally');
+
+        image.onload = function () {
+            if (callback) {
+                callback(popover);
+            }
+        };
+
+        $(image).attr('src', imageUrl);
+        $(popover).empty().append(image);
+        $('body').append(popover);
+    }
+}
+
+function resetImagePopover() {
+    var popover = $('#popover-image-elem');
     $(popover).remove();
 }
 

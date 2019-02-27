@@ -465,7 +465,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                 var selectedTriggerId = $(resultsPlayer.domElement).find('#select-annotation-for-gesture .chosen').attr('id');
                 $(resultsPlayer.domElement).find('#recorded-data-selection');
                 if (selectedTriggerId !== 'unselected') {
-                    var tempData = getLocalItem(timelineData.phaseResults.id + '.results');
+                    var tempData = getLocalItem(timelineData.phaseResults.id + '.tester');
                     renderAssembledSensorData($(resultsPlayer.domElement).find('#recorded-data-selection'), selectedTriggerId, tempData.recordedData);
                 }
             }
@@ -591,7 +591,6 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
 
                         $('#custom-modal').unbind('gestureSaved').bind('gestureSaved', function (event, gesture) {
                             event.preventDefault();
-                            console.log('gesture saved successfully', gesture);
 
                             var selectedAnnotation = $(resultsPlayer.domElement).find('#select-annotation-for-gesture .chosen').attr('id');
                             var trigger = getTriggerById(selectedAnnotation);
@@ -617,7 +616,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                             var currentTime = parseFloat(mainVideo.currentTime).toFixed(3) * 1000;
                             var annotationTime = (parseFloat(startTime) + parseFloat(currentTime));
                             var annotation = {id: chance.natural(), action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, triggerId: trigger.id, time: annotationTime};
-                            console.log(annotation, startTime, currentTime, annotationTime);
+//                            console.log(annotation, startTime, currentTime, annotationTime);
 
                             addAnnotation(annotation, content, function () {
                                 var visData = getVisDataSet(timelineData);
@@ -642,9 +641,11 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                             };
                         }
 
+                        var selectedAnnotation = $(resultsPlayer.domElement).find('#select-annotation-for-gesture .chosen').attr('id');
+                        var trigger = getTriggerById(selectedAnnotation);
                         loadHTMLintoModal('custom-modal', 'externals/modal-gesture-recorder.php', 'modal-lg');
                         var query = getQueryParams(document.location.search);
-                        currentSaveGesture = {source: GESTURE_CATALOG, gesture: {images: shotsArray, blobs: blobsArray, previewImage: 0, sensorData: sensorData}, userId: query.participantId, gestureSource: 'tester'};
+                        currentSaveGesture = {source: GESTURE_CATALOG, gesture: {images: shotsArray, blobs: blobsArray, previewImage: 0, sensorData: sensorData}, userId: query.participantId, gestureSource: 'tester', trigger: trigger};
                     }
                 }, 'image/jpeg', 0.8);
             }
@@ -716,7 +717,12 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                     $(resultsPlayer.domElement).find('#loader').addClass('hidden');
 
                     if (!secondVideo) {
-                        $(mainVideo).parent().removeClass('col-xs-6').addClass('col-xs-12');
+                        $(resultsPlayer.domElement).find('#webcam-video-container').removeClass('col-xs-3').addClass('col-xs-12');
+                        $(resultsPlayer.domElement).find('#seek-bar-container').removeClass('col-xs-10 col-sm-7 col-lg-7 col-lg-11').addClass('col-lg-9');
+                    } else if (secondVideo && !screenShareVideoHolder) {
+                        $(resultsPlayer.domElement).find('#webcam-video-container').removeClass('col-xs-3').addClass('col-xs-12');
+                        $(resultsPlayer.domElement).find('#tester-video-container').removeClass('col-xs-12').addClass('col-xs-6');
+                        $(resultsPlayer.domElement).find('#moderator-video-container').removeClass('col-xs-12').addClass('col-xs-6').css({marginTop: ''});
                     }
 
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
@@ -933,7 +939,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                         });
                     }
 
-                    timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, resultSource: 'evaluator', executionTime: executionTime, duration: getTimeBetweenTimestamps(evaluatorResults.startRecordingTime || evaluatorResults.startTime, evaluatorResults.endRecordingTime || evaluatorResults.endTime), checkedVideos: checkedVideos} : {phaseData: phaseData, phaseResults: testerResults, resultSource: 'results', executionTime: executionTime, duration: getTimeBetweenTimestamps(testerResults.startRecordingTime || testerResults.startTime, testerResults.endRecordingTime || testerResults.endTime), checkedVideos: checkedVideos};
+                    timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, resultSource: 'evaluator', executionTime: executionTime, duration: getTimeBetweenTimestamps(evaluatorResults.startRecordingTime || evaluatorResults.startTime, evaluatorResults.endRecordingTime || evaluatorResults.endTime), checkedVideos: checkedVideos} : {phaseData: phaseData, phaseResults: testerResults, resultSource: 'tester', executionTime: executionTime, duration: getTimeBetweenTimestamps(testerResults.startRecordingTime || testerResults.startTime, testerResults.endRecordingTime || testerResults.endTime), checkedVideos: checkedVideos};
                     initializeTimeline(content);
                     initializeAnnotationHandling(content);
                 } else {
@@ -1023,6 +1029,7 @@ function initializeTimeline(content) {
     if (timelineData) {
         // Create a Timeline
         var data = getVisDataSet();
+//        console.log('initialize timeline', data);
 
         currentVisData = data;
         $(player).trigger('initialized');
@@ -1248,8 +1255,10 @@ function getVisDataSet() {
                 case ACTION_START_PERFORM_GESTURE:
                     var gesture = getGestureById(annotations[i].gestureId);
                     var trigger = getTriggerById(annotations[i].triggerId);
-                    contentText = '<i class="fa fa-ellipsis-v"></i> ' + translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
-                    originalContent = contentText;
+                    if (gesture && trigger) {
+                        contentText = '<i class="fa fa-ellipsis-v"></i> ' + translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
+                        originalContent = contentText;
+                    }
                     break;
                 case ACTION_START_GESTURE_TRAINING:
 //                case ACTION_START_PERFORM_GESTURE:
@@ -1856,7 +1865,7 @@ function initializeAnnotationHandling(content) {
             var annotationTime = (parseFloat(startTime) + parseFloat(currentTime));
 
 
-            console.log($(content).find('#add-annotation-container #add-annotation-type-select .chosen').attr('id'));
+//            console.log($(content).find('#add-annotation-container #add-annotation-type-select .chosen').attr('id'));
             switch ($(content).find('#add-annotation-container #add-annotation-type-select .chosen').attr('id')) {
                 case 'annotation':
                     var annotationLabel = $(content).find('.annotation-title-input').val().trim();
@@ -1952,6 +1961,11 @@ function addAnnotation(annotation, content, callback) {
         tempData.annotations = [annotation];
     }
 
+//    console.log('tempData', tempData);
+
+    timelineData.phaseResults = tempData;
+    setLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource, tempData);
+
     if (firstInitializeTimeline) {
         initializeTimeline(timelineData, content);
         updateTimeline(timelineData.checkedVideos.mainVideo[0].currentTime, content);
@@ -1961,8 +1975,6 @@ function addAnnotation(annotation, content, callback) {
         }
     }
 
-    timelineData.phaseResults = tempData;
-    setLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource, tempData);
     player.saveUpdatedPhaseResults(timelineData.resultSource, function () {
         // render timeline and other elements
         if (callback) {
@@ -2049,6 +2061,7 @@ RTCResultsPlayer.prototype.saveUpdatedPhaseResults = function (source, callback)
             });
             break;
         case VIEW_TESTER:
+            saveData.snapshot = generalStudyResults.snapshot;
             saveExecutionTester({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData}, function (result) {
                 console.log('saved execution tester', result);
                 if (callback) {

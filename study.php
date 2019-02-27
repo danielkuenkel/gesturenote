@@ -302,7 +302,7 @@ if (login_check($mysqli) == true) {
                             <div class="text text-center" style="font-size: 10pt">
                                 <span id="amount-participants-success"></span>, <span id="amount-participants-aborted"></span>, <span id="amount-participants-total"></span>
                             </div>
-                            <div class="btn btn-block btn-default btn-shadow" id="btn-show-all-participant-results" style="margin-top: 20px">Resultate über alle Probanden anzeigen</div>
+                            <div class="btn btn-block btn-default btn-shadow" id="btn-show-all-participant-results" style="margin-top: 20px"><i class="fa fa-bar-chart"></i> <?php echo $lang->showAllParticipantResults ?></div>
                         </div>
                     </div>
                 </div>

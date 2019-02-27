@@ -175,65 +175,9 @@ var Moderator = {
                 }
             });
 
-//            $(peerConnection).unbind(MESSAGE_REQUEST_SYNC).bind(MESSAGE_REQUEST_SYNC, function (event, payload) {
-//                console.log('on sync request');
-//
-//                resetConstraints();
-//                peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
-//
-//                $('#custom-modal').find('.modal-content').empty();
-//                $('#custom-modal').modal('hide');
-//
-//                renderPhaseStep();
-//            });
-
-//            $(peerConnection).unbind(MESSAGE_SYNC_PHASE_STEP).bind(MESSAGE_SYNC_PHASE_STEP, function (event, payload) {
-//                console.log('sync phase step', payload.index);
-//
-//                if (prototypeWindow) {
-//                    prototypeWindow.close();
-//                    prototypeWindow = null;
-//                }
-//
-//                syncPhaseStep = false;
-//                currentPhaseStepIndex = payload.index;
-//                renderPhaseStep();
-//                updateProgress();
-//            });
-
-//            $(peerConnection).unbind(CONNECTION_STATE_CONNECTED).bind(CONNECTION_STATE_CONNECTED, function () {
-//                console.log('connected: ', CONNECTION_STATE_CONNECTED);
-//            });
-//
-//            $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
-//                console.log('disconnected: ', CONNECTION_STATE_DISCONNECTED);
-//                removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
-//
-//                resetConstraints();
-//                peerConnection.stopShareScreen();
-//                if (prototypeWindow) {
-//                    prototypeWindow.close();
-//                    prototypeWindow = null;
-//                }
-//
-//                if (getCurrentPhase().format !== THANKS) {
-////                    console.log('append alert please wait', $('#viewModerator'));
-//                    appendAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
-//                    $('#viewModerator').find('#phase-content').addClass('hidden');
-//                    $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
-//                }
-//            });
-
-//            $(peerConnection).unbind('videoAdded').bind('videoAdded', function () {
-//                if (syncPhaseStep) {
-//                    peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
-//                }
-//            });
-
             var wizardTimer = null;
             var waitForWizard = false;
             $(peerConnection).unbind(MESSAGE_SYNC_REQUEST).bind(MESSAGE_SYNC_REQUEST, function (event, payload) {
-//                console.log('SYNC REQUEST', payload);
                 var study = getLocalItem(STUDY);
                 var currentPhase = getCurrentPhase();
 
@@ -272,7 +216,6 @@ var Moderator = {
             });
 
             $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function (event, video, peer) {
-//                console.log('videoRemoved', video, peer);
                 removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
                 var currentPhase = getCurrentPhase();
                 if (peer.nick === VIEW_TESTER || (peer.nick === VIEW_WIZARD && currentPhase.format === SCENARIO)) {
@@ -317,8 +260,6 @@ var Moderator = {
                 setTimeout(function () {
                     initScreenSharing();
                 }, 1000);
-
-//                peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
             });
         }
     },
@@ -372,7 +313,7 @@ var Moderator = {
         var options = getPhaseStepOptions(currentPhase.format);
         var query = getQueryParams(document.location.search);
         var mainElement = $('#video-caller');
-        console.log('append rtc live stream', iceTransports);
+//        console.log('append rtc live stream', iceTransports);
 
         var callerOptions = {
             target: $('#viewModerator').find('#pinnedRTC'),
@@ -419,7 +360,6 @@ var Moderator = {
             if (event.keyCode === 16) {
                 var mouseTarget = previewModeEnabled ? $('body').find('#web-rtc-placeholder') : $('body').find('#video-caller');
                 shiftKeyDown = true;
-                console.log('shift key down', $(mouseTarget), getMainContent());
                 $(mouseTarget).on('mousemove', function (event) {
                     if (shiftKeyDown === true) {
                         var targetDimensions = {width: $(mouseTarget).width(), height: $(mouseTarget).height()};
@@ -452,7 +392,6 @@ var Moderator = {
             var mouseTarget = previewModeEnabled ? $('body').find('#web-rtc-placeholder') : $('body').find('#video-caller');
             if (event.keyCode === 16) {
                 shiftKeyDown = false;
-                console.log('shift key up');
                 if ($(mouseTarget).parent().attr('id') === 'draggableRTC') {
                     showCursor(mouseTarget, CURSOR_MOVE);
                 } else {
@@ -463,6 +402,7 @@ var Moderator = {
     }
 };
 
+// obtaines when wizard is connected
 function initScreenSharing() {
     var container = $(getMainContent()).find('#scene-container');
     console.log('INIT SCREEN SHARING', container, currentSharedScreen);

@@ -107,6 +107,7 @@ Exploration.prototype.renderModeratorView = function () {
                 currentPhaseState = 'prototypeOpened';
                 renderCurrentPhaseState();
             });
+//            $(container).find('#btn-open-prototype').click();
         } else {
             // without screen sharing
             $(container).find('#btn-open-prototype').remove();
@@ -160,6 +161,7 @@ Exploration.prototype.renderModeratorView = function () {
                 }
             }
         });
+        $(container).find('#btn-start-screen-sharing').click();
     }
 
     function renderStateExplorationStarted() {
@@ -227,7 +229,7 @@ Exploration.prototype.renderModeratorView = function () {
     function renderStateAskResponsePreferredGestures() {
         console.log('render moderator state: ', currentPhaseState);
 
-        clearAlerts($(container).find('#identified-getures'));
+        clearAlerts(container);
         $(container).find('#slides').addClass('hidden');
         $(container).find('#identified-gestures').removeClass('hidden');
 
@@ -235,6 +237,9 @@ Exploration.prototype.renderModeratorView = function () {
         renderQuestionnaireAnswers($(container).find('#identified-gestures'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
 
         checkPreferredGesturesResponseControls();
+        if (previewModeEnabled) {
+            $(container).find('#btn-next-trigger, #btn-done').removeClass('disabled');
+        }
     }
 
 
@@ -294,7 +299,8 @@ Exploration.prototype.renderModeratorView = function () {
 
         $(container).find('#slides').addClass('hidden');
         $(container).find('#btn-request-gestures').addClass('hidden');
-        $(container).find('#identified-trigger').addClass('hidden');
+        $(container).find('#identified-trigger').removeClass('hidden');
+        $(container).find('#identified-trigger #answer-container').addClass('hidden');
         $(container).find('#identified-trigger .question-container').empty();
         appendAlert($(container).find('#identified-trigger'), ALERT_WAITING_FOR_TESTER);
         currentPreviewTrigger = null;
@@ -312,7 +318,11 @@ Exploration.prototype.renderModeratorView = function () {
 
         clearAlerts($(container).find('#identified-trigger'));
         $(container).find('#identified-trigger').removeClass('hidden');
+        $(container).find('#identified-trigger #answer-container').removeClass('hidden');
         $(container).find('#btn-request-trigger').addClass('hidden');
+
+        var gesture = getGestureById(data.exploration[currentExplorationIndex].gestureId);
+        $(container).find('#identified-trigger #thumbnail-container').empty().append(getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-12'));
 
         // render selected trigger
         renderQuestionnaireAnswers($(container).find('#identified-trigger'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
@@ -322,6 +332,8 @@ Exploration.prototype.renderModeratorView = function () {
         if (!previewModeEnabled) {
             var gesture = getGestureById(data.exploration[currentExplorationIndex].gestureId);
             $(container).find('#identified-trigger #thumbnail-container').empty().append(getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-12'));
+        } else {
+            $(container).find('#btn-next-gesture, #btn-done').removeClass('disabled');
         }
     }
 
@@ -342,26 +354,26 @@ Exploration.prototype.renderModeratorView = function () {
 //                event.preventDefault();
 //                $(this).addClass('hidden');
 
-                if (peerConnection) {
-                    peerConnection.stopShareScreen(true);
-                    peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
-                }
+            if (peerConnection) {
+                peerConnection.stopShareScreen(true);
+                peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
+            }
 
-                if (prototypeWindow) {
-                    prototypeWindow.close();
-                    prototypeWindow = null;
-                }
+            if (prototypeWindow) {
+                prototypeWindow.close();
+                prototypeWindow = null;
+            }
 
 //                currentPhaseState = 'explorationDone';
 //                renderCurrentPhaseState();
 //            });
         }
 //        else {
-            currentPhaseState = 'explorationDone';
-            renderCurrentPhaseState();
+        currentPhaseState = 'explorationDone';
+        renderCurrentPhaseState();
 //        }
 
-        
+
     }
 
     function renderStateExplorationDone() {
@@ -809,6 +821,8 @@ Exploration.prototype.renderModeratorView = function () {
 //                    $(transitionItem).find('.scene-description').removeClass('hidden');
                 }
             }
+        } else {
+            $(item).find('.scenes-container').remove();
         }
     }
 

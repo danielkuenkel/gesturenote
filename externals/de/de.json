@@ -333,6 +333,8 @@
     "number": "Anzahl",
     "zeroOClick": "00:00 Uhr",
     "summary": "Zusammenfassung",
+    "showAllParticipantResults":"Zusammengefasste Resultate anzeigen",
+    "openParticipantResults": "Sichten und bearbeiten",
     "from": "vom",
     "of": "von",
     "atLeast": "mindestens",
@@ -2105,7 +2107,10 @@
     "answeredCorrect": "Richtig beantwortet",
     "answeredWrong": "Falsch beantwortet",
     "notAnswered": "Noch nicht beantwortet",
-    "assignedCorrectly": "Richtig zugeordnet",
+    "quota":"Quote",
+    "quotaOverall":"Gesamtquote",
+    "AssignedCorrectly": "Richtig zugeordnet",
+    "assignedCorrectly": "richtig zugeordnet",
     "for": "für",
     "For": "Für",
     "GestureForTrigger": "Gesten für Interaktionsaufgabe",
@@ -2241,7 +2246,9 @@
     "pleaseRestart": "Bitte noch einmal neu starten",
     "askTrigger": "Welche Interaktionsaufgabe könnte auf diese Geste passen? Bitte tragen Sie Ihren Vorschlag bei Interaktionsaufgabe ein und begründen Sie anschließend Ihre Entscheidung.",
     "stressOfBody": "Welche Teile des Körpers wurden besonders beansprucht?",
+    "stressOfBodyOverall": "Welche Teile des Körpers wurden <u>INSGESAMT</u> besonders beansprucht?",
     "stressOfHands": "Welche Teile der Hand oder Hände wurden besonders beansprucht?",
+    "stressOfHandsOverall": "Welche Teile der Hand oder Hände wurden <u>INSGESAMT</u> besonders beansprucht?",
     "stressOfBodyTesterQuestion": "Welche Teile des Körpers wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.",
     "stressOfHandTesterQuestion": "Welche Teile der Hand oder Hände wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.",
     "stressOfBodyTotalTesterQuestion": "Welche Teile des Körpers wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.",
@@ -2348,10 +2355,10 @@
     "recordMoreGestures": "Weitere Geste aufzeichnen",
     "imageExportEvery": "Fragmentierung",
     "gestureRecorderNavigation": {
-        "preInitialize": "Auswahl",
+        "preInitialize": "Quelle",
         "record": "Aufzeichnen",
         "cut": "Schneiden",
-        "save": "Daten"
+        "save": "Speichern"
     },
     "gestureRecorderManual": {
         "preInitialize": {
@@ -2613,6 +2620,7 @@
             "association": "Warum wurde diese Geste gewählt? Welche Zusammenhänge gibt es mit der Anwendungsdomäne?",
             "description": "Beschreiben Sie die Geste genau. Teilt sich die Geste in Abschnitte auf? Sind die Hände geöffnet? Sind die Arme angewinkelt? Sind Bewegungen schnell oder langsam?",
             "bodyParts": "Welche Körperteile werden für die Gesten-Ausführung benötigt?",
+            "cut": "Schneiden Sie die Geste, um unnötige Bewegungen zu entfernen.",
             "fragmentation": "Bei der Fragmentierung werden die aufgezeichneten Videodaten als Einzelbilder gespeichert. Dafür ist es notwendig ein Bildexport alle x Millisekunden vom Videomaterial zu machen. Geben Sie hier an, in welchem Abstand (in Millisekunden) ein Bildexport erfolgen soll. Die exportierten Bilder dienen dann als Vorschau für eine Geste.",
             "doubleSidedUse": "Es handelt sich um eine Geste, deren genutzte Körperteile einseitig festgelegt sind? Die Geste kann jedoch von Links- als auch Rechtshändern genutzt werden? Z.B. bei einer Zeige- oder Wisch-Geste.",
             "markGestureArea": "Navigiere zum Start- oder Endpunkt der Geste und markiere diesen.",

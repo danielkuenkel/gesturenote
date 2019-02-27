@@ -170,7 +170,7 @@ GestureSlideshow.prototype.renderModeratorView = function () {
             }
 
             if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_NO_GESTURE_FIT_FOUND, {annotationData: {action: payload.action, gestureId: payload.correctGesture.id, triggerId: payload.triggerId, selectedGestureId: null}, slidesRestartCount: slidesRestartCount, currentSlideIndex: currentSlideIndex});
+                peerConnection.sendMessage(MESSAGE_NO_GESTURE_FIT_FOUND, {annotationData: {action: payload.action, gestureId: payload.correctGestureId, triggerId: payload.triggerId, selectedGestureId: null}, slidesRestartCount: slidesRestartCount, currentSlideIndex: currentSlideIndex});
             }
 
             currentPhaseState = 'gestureSlideshowOverview';
