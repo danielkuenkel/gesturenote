@@ -49,9 +49,9 @@ if (login_check($mysqli) == true) {
         <script src="js/gesture.js"></script>
         <script src="js/websocket.js"></script>
         <script src="js/stomp/stomp.js"></script>
-        
+
         <script src="js/joint-selection.js"></script>
-        
+
         <script src="js/upload-queue.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script> 
@@ -86,7 +86,7 @@ if (login_check($mysqli) == true) {
         <div id="template-simulator"></div>
 
         <!-- Modal -->
-        <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div id="custom-modal" class="modal fade custom-modal" data-conv-allowed="false" data-backdrop="static" data-keyboard="false" role="dialog">
             <div class="modal-dialog root">
 
                 <!-- Modal content-->
@@ -123,6 +123,10 @@ if (login_check($mysqli) == true) {
 
         <!-- Container (Landing Section) -->
         <div class="container mainContent hidden" id="simulator-content" style="margin-top: 0px">
+        </div>
+
+        <div class="container mainContent hidden" id="simulation-recorder-content">
+
         </div>
 
         <script>
@@ -172,181 +176,21 @@ if (login_check($mysqli) == true) {
                     }});
             }
 
-
-            var isVideoShown = true;
-            var pauseGetPosition = false;
-            var staticContinuousTimer = null;
-
             $('#gesture-sets-select').unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                currentPreviewGestureSet = {set: getGestureSetById($(event.target).attr('id'))};
-                console.log(currentPreviewGestureSet);
-
-                currentGestureSet = $('#pageBody').find('#simulator-content');
-                currentGestureSet.empty();
-                var clone = getGestureCatalogGestureSetPanel(currentPreviewGestureSet.set);
-                currentGestureSet.append(clone);
+                var selectedSet = getGestureSetById($(event.target).attr('id'));
+                var currentPreviewGestureSet = {set: selectedSet};
+                setParam(window.location.href, 'gestureSetId', selectedSet.id);
+                var clone = getGestureSimulationSetPanel(currentPreviewGestureSet.set);
+                $('#pageBody').find('#simulator-content').empty().append(clone);
                 initPopover();
+            });
 
-                $(clone).find('#btn-show-hide-video').unbind('click').bind('click', function (event) {
-                    event.preventDefault();
-                    if(isVideoShown){
-                        $(clone).find("#gestures-list-container .embed-responsive").hide();
-                        $(clone).find('#btn-show-hide-video').find('i').removeClass("fa-compress").addClass("fa-expand");
-                        isVideoShown = false;
-                    } else {
-                        $(clone).find("#gestures-list-container").find(".embed-responsive").show();
-                        $(clone).find('#btn-show-hide-video').find('i').removeClass("fa-expand").addClass("fa-compress");
-                        isVideoShown = true;
-                    }
-                });
-
-
-                for (var i = currentPreviewGestureSet.set.gestures.length - 1; i >= 0; i--) {
-                    var gesture = getGestureById(currentPreviewGestureSet.set.gestures[i]);
-                    if(gesture.interactionType === TYPE_GESTURE_DISCRETE)                     {
-                        $(clone).find('#'+gesture.id).find('.simulator-trigger').removeClass("hidden");
-                        $(clone).find('#'+gesture.id).find('.static-continuous-controls').remove();
-                    } else{
-                        if(gesture.continuousValueType === PERCENT){
-                            $(clone).find('#'+gesture.id).find('#control-continuous-slider').removeClass('hidden');
-                            $(clone).find('#'+gesture.id).find('.continuous-gesture-controls').removeClass('hidden');
-                            //$(clone).find('#'+gesture.id).find('#control-continuous-slider-status').removeClass('hidden');
-
-                            var continuousSlider = $(clone).find('#'+gesture.id).find('#control-continuous-slider #continuous-slider');
-
-                            var sliderOptions = {
-                                value: 50,
-                                min: 0,
-                                max: 100,
-                                enabled: true
-                            };
-
-                            $(continuousSlider).slider(sliderOptions);
-                            $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
-                                event.preventDefault();
-                                var inverted = $(this).hasClass('inverted');
-                                var percent = parseInt(event.value.newValue);
-                                var imagePercent = inverted ? (100 - percent) : percent;
-                                var gestureId = event.data.gesture.id;
-                                console.log('slider changed', $(this));
-                                $(this).closest('.root').find('.btn-pause-gesture').click();
-                                $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
-                                var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
-                                $(gestureImages).removeClass('active').addClass('hidden');
-                                $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
-                                sendContinuousPGGesture(gestureId, percent);
-                            });
-                        } else if (gesture.continuousValueType === "position"){
-                            $(clone).find('#'+gesture.id).find('.simulator-continuous-trigger').removeClass('hidden');
-                            $(clone).find('#'+gesture.id).find('#btn-trigger-continuous-gesture').unbind('click').bind('click', {gesture: gesture} , function(event) {
-                                event.preventDefault();
-                                loadHTMLintoModal('custom-modal', 'externals/modal-simPosition.php', 'modal-lg');
-                                $('#custom-modal').on('shown.bs.modal', function () {
-                                    $(this).find('#viewer_positionScreen_type').val(event.data.gesture.continuousValueType);
-                                    $(this).find('.root').attr('id', event.data.gesture.id);
-                                });
-                            });
-                        } else if (gesture.continuousValueType === "mouseSimulation"){
-                            $(clone).find('#'+gesture.id).find('.simulator-continuous-trigger').removeClass('hidden');
-                            $(clone).find('#'+gesture.id).find('#btn-trigger-continuous-gesture').unbind('click').bind('click', {gesture: gesture} , function(event) {
-                                event.preventDefault();
-                                loadHTMLintoModal('custom-modal', 'externals/modal-simPosition.php', 'modal-lg');
-                                $('#custom-modal').on('shown.bs.modal', function () {
-                                    $(this).find('#viewer_positionScreen_type').val(event.data.gesture.continuousValueType);
-                                    $(this).find('.root').attr('id', event.data.gesture.id);
-                                });
-                            });
-                        } else {
-                            $(clone).find('#'+gesture.id).find('.static-continuous-controls').removeClass('hidden');
-
-                            $(clone).find('#'+gesture.id).find('.btn-start-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-                                event.preventDefault();
-                                if (!$(this).hasClass('disabled')) {
-                                    $(this).addClass('disabled');
-                                    $(this).closest('.static-continuous-controls').find('.btn-stop-static-continuous-gesture').removeClass('disabled');
-                                    staticContinuousTimer = setInterval(function () {
-                                        sendPGGesture(event.data.gesture.id);
-                                    }, 500);
-                                }
-                            });
-
-                            $(clone).find('#'+gesture.id).find('.btn-stop-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-                                event.preventDefault();
-                                if (!$(this).hasClass('disabled')) {
-                                    $(this).addClass('disabled');
-                                    $(this).closest('.static-continuous-controls').find('.btn-start-static-continuous-gesture').removeClass('disabled');
-                                    if (staticContinuousTimer) {
-                                        clearInterval(staticContinuousTimer);
-                                    }
-                                }
-                            });
-                        }
-                    }
-                }
-
-
-                $(clone).find('#btn-trigger-gesture').unbind('click').bind('click', function(event){
-                    event.preventDefault();
-                    var gestureId = $(this).closest('.root').attr('id');
-                    sendPGGesture(gestureId);
-                });
-
-                $(document).on('click', '.positionArea', function(event) {
-                    var gesture = getGestureById($(this).closest('.root').attr('id'));
-                    var pos = getMousePosition(this);
-                    var positionType = $('#viewer_positionScreen_type').val();
-                    console.log(positionType);
-                    sendContinuousPGPosition($(this).closest('.root').prop('id'), positionType, pos.relPosX, pos.relPosY, true);
-                });
-
-                $(document).on('mousemove', '.positionArea', function(event) {
-                    var gesture = getGestureById($(this).closest('.root').attr('id'));
-                    if (!pauseGetPosition) {
-                        var pos = getMousePosition(this);
-                        var positionType = $('#viewer_positionScreen_type').val();
-                        console.log(positionType);
-                        sendContinuousPGPosition($(this).closest('.root').prop('id'), positionType, pos.relPosX, pos.relPosY, false);
-
-                    }
-
-                });
-
-                var getMousePosition = function(element) {
-                    var offset = $(element).offset();
-                    var width = $(element).width();
-                    var height = $(element).height();
-                    var posx = 0;
-                    var posy = 0;
-                    var relPosx = 0;
-                    var relPosy = 0;
-                    if (!event) var event = window.event;
-                    if (event.pageX || event.pageY) {
-                        posx = event.pageX;
-                        posy = event.pageY;
-                    } else if (event.clientX || event.clientY) {
-                        posx = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-                        posy = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-                    }
-
-
-                    posx = parseInt(posx - offset.left);
-                    posy = parseInt(posy - offset.top);
-
-                    relPosx = posx / width;
-                    relPosy = posy / height;
-
-                    var coor = "rel X coords: " + relPosx + ",<br/> rel Y coords: " + relPosy;
-                    $(".output").html(coor);
-                    pauseGetPosition = true;
-                    window.setTimeout(function() {
-                        pauseGetPosition = false
-                    }, GESTURE_GET_MOUSE_POSITION_SPEED);
-                    return {
-                        relPosX: relPosx,
-                        relPosY: relPosy
-                    };
-                }
+            $('#custom-modal').unbind('gestureUpdated').bind('gestureUpdated', function (event, gesture) {
+                event.preventDefault();
+//                var gestureThumbnail = $('#pageBody').find('#simulator-content #' + gesture.id);
+//                console.log('gesture updated', gestureThumbnail);
+                updateGestureSimluationThumbnail(gesture.id, $('#pageBody').find('#simulator-content'));
             });
         </script>
 

@@ -717,7 +717,8 @@ include '../includes/language.php';
                 renderSensorData();
 
                 $(modal).find('#gesture-info-nav-tab').removeClass('hidden');
-                $(modal).trigger('gestureUpdated');
+                $(modal).find('#btn-cancel-edit-gesture').addClass('hidden');
+                $(modal).trigger('gestureUpdated', [currentPreviewGesture.gesture]);
             });
         });
         
