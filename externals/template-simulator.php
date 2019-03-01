@@ -68,6 +68,7 @@ include '../includes/language.php';
                     <div class="btn-group btn-group-justified hidden static-continuous-controls " role="group" aria-label="...">
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-default btn-shadow btn-start-static-continuous-gesture"><i class="fa fa-play"></i></button>
+                            <div class="static-continuous-indicator hidden" style="background-color: #2a6da9; z-index: 100; position: absolute; width: 0%; height: 100%; border-top-left-radius: 8px; border-bottom-left-radius: 8px;"></div>
                         </div>
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-default btn-shadow disabled btn-stop-static-continuous-gesture"><i class="fa fa-stop"></i></button>
@@ -85,7 +86,7 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <button type="button" class="btn btn-default btn-shadow" id="btn-trigger-continuous-gesture" style="border-radius: 8px;">
                                 <i class="fa Example of arrows-alt fa-arrows-alt" aria-hidden="true"></i>
-                                <span class="btn-text"><?php echo $lang->simulateGestureFree ?> (Shift <i class="fa fa-arrow-up"></i>)</span>
+                                <span class="btn-text"><?php echo $lang->simulateGestureFree ?></span>
                             </button>
                         </div>
                     </div>
@@ -98,6 +99,11 @@ include '../includes/language.php';
             </div>
 
 
+            <div class="simple-mouse-simulation-pad hidden text-center readonly-without-mouse" style="position: absolute; top: 0px; left: 15px; right: 15px; bottom: 20px; border-radius: 8px; z-index: 100;">
+                <div style="top: 50%; position: relative; transform: translateY(-50%);" class="text"><i class="fa fa-mouse-pointer"></i> <?php echo $lang->simulateGestureMouse ?></div>
+                <div class="position-printing" style="position: absolute; bottom: 5px; width: 100%; left: 50%; transform: translateX(-50%); font-size: 10pt"><span>x-Position:</span> <span class="text x-position"></span>, <span>y-Position:</span> <span class="text y-position"></span></div>
+            </div>
+            
             <div class="mouse-simulation-pad hidden text-center readonly-without-mouse" style="position: absolute; top: 0px; left: 15px; right: 15px; bottom: 20px; border-radius: 8px; z-index: 100; border: 3px solid rgb(56, 129, 185);">
                 <div style="top: 50%; position: relative; transform: translateY(-50%);" class="text"><i class="fa fa-mouse-pointer"></i> <?php echo $lang->simulateGestureMouse ?></div>
                 <div class="position-printing" style="position: absolute; bottom: 5px; width: 100%; left: 50%; transform: translateX(-50%); font-size: 10pt"><span>x-Position:</span> <span class="text x-position"></span>, <span>y-Position:</span> <span class="text y-position"></span></div>

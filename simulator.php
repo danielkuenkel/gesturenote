@@ -49,6 +49,7 @@ if (login_check($mysqli) == true) {
         <script src="js/gesture.js"></script>
         <script src="js/websocket.js"></script>
         <script src="js/stomp/stomp.js"></script>
+        <script src="js/simulation/simulator.js"></script>
 
         <script src="js/joint-selection.js"></script>
 
@@ -158,7 +159,6 @@ if (login_check($mysqli) == true) {
                             var query = getQueryParams(document.location.search);
                             if (query.gestureSetId) {
                                 var gestureSetId = parseInt(query.gestureSetId);
-                                console.log('select prefered mappings for gesture set id:', gestureSetId);
                                 $('#gesture-sets-select').find('#' + gestureSetId).click();
                             }
 
@@ -188,8 +188,6 @@ if (login_check($mysqli) == true) {
 
             $('#custom-modal').unbind('gestureUpdated').bind('gestureUpdated', function (event, gesture) {
                 event.preventDefault();
-//                var gestureThumbnail = $('#pageBody').find('#simulator-content #' + gesture.id);
-//                console.log('gesture updated', gestureThumbnail);
                 updateGestureSimluationThumbnail(gesture.id, $('#pageBody').find('#simulator-content'));
             });
         </script>
