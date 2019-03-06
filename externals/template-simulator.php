@@ -2,7 +2,7 @@
 include '../includes/language.php';
 ?>
 
-<div id="template-study-container" class="hidden">
+<div id="template-simulation-container" class="hidden">
 
     <div class="panel panel-shadow panel-default deleteable" id="study-gesture-set-panel">
         <div class="panel-heading">
@@ -26,7 +26,7 @@ include '../includes/language.php';
 
 
 
-    <div class="root deleteable" id="gestures-catalog-thumbnail">
+    <div class="root deleteable" id="gesture-simulation-catalog-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
             <div class="gesture-preview-data">
                 <div class="embed-responsive embed-responsive-4by3" style="">
@@ -61,7 +61,7 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <!--<div class="" >-->
-                <div class="col-xs-12" style="margin-top: 15px">
+                <div class="col-xs-12" id="simulation-controls" style="margin-top: 15px">
                     <div id="control-continuous-slider" class="hidden" style="margin-top: -7px; margin-bottom: 18px;">
                         <input id="continuous-slider" style="width: 100%; height: 34px;" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-tooltip="hide" />
                     </div>
@@ -94,7 +94,7 @@ include '../includes/language.php';
                 <!--</div>-->
 
                 <div class="caption text-center" style="display: flow-root">
-                    <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content=""></p><div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
+                    <p class="gesture-name ellipsis" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: inline"></p><div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
                 </div>
             </div>
 
@@ -103,14 +103,28 @@ include '../includes/language.php';
                 <div style="top: 50%; position: relative; transform: translateY(-50%);" class="text"><i class="fa fa-mouse-pointer"></i> <?php echo $lang->simulateGestureMouse ?></div>
                 <div class="position-printing" style="position: absolute; bottom: 5px; width: 100%; left: 50%; transform: translateX(-50%); font-size: 10pt"><span>x-Position:</span> <span class="text x-position"></span>, <span>y-Position:</span> <span class="text y-position"></span></div>
             </div>
-            
+
             <div class="mouse-simulation-pad hidden text-center readonly-without-mouse" style="position: absolute; top: 0px; left: 15px; right: 15px; bottom: 20px; border-radius: 8px; z-index: 100; border: 3px solid rgb(56, 129, 185);">
-                <div style="top: 50%; position: relative; transform: translateY(-50%);" class="text"><i class="fa fa-mouse-pointer"></i> <?php echo $lang->simulateGestureMouse ?></div>
+                <div style="top: 50%; position: relative; transform: translateY(-50%);" class="text cursor-hint"><i class="fa fa-mouse-pointer"></i> <?php echo $lang->simulateGestureMouse ?></div>
                 <div class="position-printing" style="position: absolute; bottom: 5px; width: 100%; left: 50%; transform: translateX(-50%); font-size: 10pt"><span>x-Position:</span> <span class="text x-position"></span>, <span>y-Position:</span> <span class="text y-position"></span></div>
+                <div class="cursor-simulation hidden"></div>
             </div>
-            
+
             <div class="mouse-simulation-slider hidden text-center readonly-without-mouse" style="position: absolute; top: 0px; left: 15px; right: 15px; bottom: 20px; border-radius: 8px; z-index: 100; border: 3px solid rgb(56, 129, 185);"></div>
         </div>
+    </div>
+
+    <div class="col-sm-4" id="gesture-set-simulation-panel">
+        <!--<div class="row">-->
+            <!--<div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">-->
+                <div class="row" id="gesture-thumbnail-container"></div>
+            <!--</div>-->
+<!--            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                <div class="title"></div>
+                <div class="timestamp"></div>
+                <div class="duration"></div>
+            </div>-->
+        <!--</div>-->
     </div>
 
 </div>

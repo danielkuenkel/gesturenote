@@ -28,7 +28,7 @@ $(document).ready(function () {
             gotoNews();
         }
     });
-    
+
     $('body').on('click', '#btn-profile', function (event) {
         event.preventDefault();
         if (!event.handled) {
@@ -117,6 +117,11 @@ function gotoGestureStyleguides() {
 function gotoGesturesCatalog() {
     clearLocalItems();
     goto('gestures-catalog.php');
+}
+
+function gotoSimulator() {
+    clearLocalItems();
+    goto('simulator.php');
 }
 
 function gotoCreateStudy() {

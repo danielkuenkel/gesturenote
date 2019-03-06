@@ -333,7 +333,7 @@
     "number": "Anzahl",
     "zeroOClick": "00:00 Uhr",
     "summary": "Zusammenfassung",
-    "showAllParticipantResults":"Zusammengefasste Resultate anzeigen",
+    "showAllParticipantResults": "Zusammengefasste Resultate anzeigen",
     "openParticipantResults": "Sichten und bearbeiten",
     "from": "vom",
     "of": "von",
@@ -632,6 +632,15 @@
     "recordGesture": "Geste aufzeichnen",
     "rerecordGesture": "Geste neu aufzeichnen",
     "stopRecordGesture": "Aufzeichnung stoppen",
+    "simulationPlayer": "Player",
+    "recordSimulation": "Simulation aufzeichnen",
+    "pauseRecordSimulation": "Aufzeichnung pausieren",
+    "resumeRecordSimulation": "Aufzeichnung fortsetzen",
+    "stopRecordSimulation": "Aufzeichnung stoppen",
+    "loadSimulation": "Aufzeichnung laden",
+    "saveSimulation": "Aufzeichnung speichern",
+    "nameOfSimulation": "Name der Aufzeichnung",
+    "nameOfSimulationPlaceholder": "Zwischen 8 und 50 Zeichen",
     "negativeQuestionmark": "Negieren?",
     "positive": "positiv",
     "allPointsDistributed": "Alle Punkte verteilt",
@@ -2107,8 +2116,8 @@
     "answeredCorrect": "Richtig beantwortet",
     "answeredWrong": "Falsch beantwortet",
     "notAnswered": "Noch nicht beantwortet",
-    "quota":"Quote",
-    "quotaOverall":"Gesamtquote",
+    "quota": "Quote",
+    "quotaOverall": "Gesamtquote",
     "AssignedCorrectly": "Richtig zugeordnet",
     "assignedCorrectly": "richtig zugeordnet",
     "for": "für",
@@ -2233,7 +2242,7 @@
     "downloadAsExchangeable": "Als ProGesture-Datei herunterladen",
     "downloadAsCompressed": "Als komprimierte Datei herunterladen",
     "simulatorGestureSet": "Simulation starten",
-    "simulateGesture":"Geste ausführen",
+    "simulateGesture": "Geste ausführen",
     "simulateGestureFree": "Freihand",
     "simulateGestureMouse": "Mauszeiger bewegen",
     "showHideGestureVideo": "Vorschau anzeigen / verbergen",
@@ -6141,10 +6150,11 @@
             "locale": "en-gb"
         }
     },
+    "mapping": "Mapping",
     "mappings": "Mappings",
     "chooseMappings": "Mappings auswählen",
-    "modalsimposition" : {
+    "modalsimposition": {
         "heading": "Simulation der Maus",
-        "close" : "Schließen"
+        "close": "Schließen"
     }
 }

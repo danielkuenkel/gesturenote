@@ -1017,7 +1017,7 @@ function getGestureCatalog(callback) {
                         setLocalItem(GESTURE_CATALOG, result.sharedSetGestures);
                     }
                 }
-                
+
                 gestureCatalog = getLocalItem(GESTURE_CATALOG);
                 if (result.unsharedSetGestures && result.unsharedSetGestures.length > 0) {
                     if (gestureCatalog && gestureCatalog.length > 0) {
@@ -1736,6 +1736,43 @@ function getServerTime(callback) {
 function updateExecutionPhase(data, callback) {
     $.ajax({
         url: 'includes/update-execution-phase.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+
+function saveGestureSetSimulation(data, callback) {
+    $.ajax({
+        url: 'includes/save-gesture-set-simulation.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function getSimulationRecordings(data, callback) {
+    $.ajax({
+        url: 'includes/get-gesture-set-simulation.php',
         data: data,
         type: 'post',
         dataType: 'json',

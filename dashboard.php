@@ -112,7 +112,7 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 dashboard-item" style="opacity: 0">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-simulator">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-panel-simulator">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->breadcrump->simulator ?></div>
                         <div class="panel-body panel-content"><?php echo $lang->dashboard->simulatorPanelBody ?></div>
                     </div>
@@ -300,10 +300,9 @@ if (login_check($mysqli) == true) {
                 });
             }
 
-            $('#btn-simulator').unbind('click').bind('click', function (event) {
+            $('#btn-panel-simulator').unbind('click').bind('click', function (event) {
                 event.preventDefault();
-                console.log('open simulator');
-                goto('simulator.php');
+                gotoSimulator();
             });
 
             $('.btn-create-study').unbind('click').bind('click', function (event) {

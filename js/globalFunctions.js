@@ -345,6 +345,9 @@ $(document).on('click', '.main-burger-menu li a', function (event) {
             case 'btn-gesture-catalog':
                 gotoGesturesCatalog();
                 break;
+            case 'btn-simulator':
+                gotoSimulator();
+                break;
             case 'btn-news':
                 gotoNews();
                 break;

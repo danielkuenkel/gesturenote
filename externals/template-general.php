@@ -126,6 +126,17 @@ include '../includes/language.php';
             </div>
         </div>-->
 
+    <div class="btn-group" id="radio">
+        <button class="btn btn-default btn-radio list-btn" name="primary">
+            <span id="icons" style="margin-right: 6px">
+                <i class="fa fa-circle-thin" id="normal"></i>
+                <i class="fa fa-circle hidden" id="over"></i>
+                <i class="fa fa-check-circle hidden" id="checked"></i>
+            </span>
+            <span class="option-text ellipsis"></span>
+        </button>
+    </div>
+
     <div class="btn-group" id="checkbox">
         <button class="btn btn-default btn-checkbox" name="primary">
             <span id="icons" style="margin-right: 6px">
@@ -182,6 +193,7 @@ include '../includes/language.php';
                                 <li class="btn-study hidden" data-id="btn-study"><a href="#"><i class="fa fa-clipboard"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->study ?></span></a></li>
                                 <li class="btn-gesture-styleguides" data-id="btn-gesture-styleguides"><a href="#"><i class="fa fa-map-signs" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->gestureStyleguides ?></span></a></li>
                                 <li class="btn-gesture-catalog" data-id="btn-gesture-catalog"><a href="#"><i class="fa fa-sign-language" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->gestureCatalog ?></span></a></li>
+                                <li class="btn-simulator" data-id="btn-simulator"><a href="#"><i class="fa fa-sign-language" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->simulator ?></span></a></li>
                                 <li class="btn-news" data-id="btn-news"><a href="#"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->news ?></span></a></li>
                                 <li class="btn-publications" data-id="btn-publications"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->publications ?></span></a></li>
                                 <li class="btn-profile" data-id="btn-profile"><a href="#"><i class="fa fa-user" aria-hidden="true"></i> <span class="main-burger-menu-text"><?php echo $lang->breadcrump->profile ?></span></a></li>
@@ -198,7 +210,7 @@ include '../includes/language.php';
             </div>
 
         </div>
-        
+
         <div class="subpage-line"></div>
     </div>
 
