@@ -8,11 +8,10 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 
 session_start();
-if (isset($_SESSION['user_id'], $_POST['gestureSetId'])) {
+if (isset($_SESSION['user_id'])) {
     $sessionUserId = $_SESSION['user_id'];
-    $setId = $_POST['gestureSetId'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT * FROM gesture_set_simulation where gesture_set_id = '$setId' AND user_id = '$sessionUserId' ORDER BY created ASC")) {
+    if ($select_stmt = $mysqli->prepare("SELECT * FROM gesture_set_simulation WHERE user_id = '$sessionUserId' ORDER BY created ASC")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();

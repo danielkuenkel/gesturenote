@@ -22,20 +22,68 @@ include '../includes/language.php';
 <script>
     var recordings = null;
     $(document).ready(function () {
+        renderData();
+
+    });
+
+    function renderData() {
         var modal = $('#custom-modal');
         var query = getQueryParams(document.location.search);
+
         getSimulationRecordings({gestureSetId: query.gestureSetId}, function (result) {
+            $(modal).find('#select-simulation-recording .option-container').empty();
             if (result.status === RESULT_SUCCESS) {
                 recordings = result.recordings;
                 for (var i = 0; i < result.recordings.length; i++) {
-                    var option = $('#template-general-container').find('#radio').clone();
-                    option.find('.option-text').text(result.recordings[i].title);
-                    option.find('.btn-radio').attr('id', result.recordings[i].id);
+                    var option = document.createElement('div');
+                    $(option).addClass('btn-group').css({marginBottom: '5px'});
                     $(modal).find('#select-simulation-recording .option-container').append(option);
+
+                    var deleteOption = document.createElement('div');
+                    $(deleteOption).addClass('btn btn-default btn-shadow btn-delete-simulation').attr('id', result.recordings[i].id);
+                    $(option).append(deleteOption);
+
+                    var deleteOptionIcon = document.createElement('i');
+                    $(deleteOptionIcon).addClass('fa fa-trash');
+                    $(deleteOption).append(deleteOptionIcon);
+
+                    var optionRadio = $('#template-general-container').find('#radio').clone();
+                    $(optionRadio).css({marginTop: '0px'});
+                    optionRadio.find('.option-text').text(result.recordings[i].title);
+                    optionRadio.find('.btn-radio').attr('id', result.recordings[i].id);
+                    $(option).append(optionRadio);
                 }
+
+                var recordedSimulation = getLocalItem(RECORDED_SIMULATION);
+                if (recordedSimulation) {
+                    $(modal).find('#select-simulation-recording .option-container #' + recordedSimulation.id).click();
+                }
+
+                $(modal).find('.btn-delete-simulation').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
+                        var button = $(this);
+                        var checked = $(button).parent().find('.btn-radio').hasClass('btn-option-checked');
+                        lockButton(button, true, 'fa-trash');
+
+                        deleteSimulationRecording({id: $(button).attr('id')}, function (result) {
+                            unlockButton(button, true, 'fa-trash');
+                            if (result.status === RESULT_SUCCESS) {
+                                console.log('checked', checked);
+                                if (checked === true) {
+                                    removeLocalItem(RECORDED_SIMULATION);
+                                    $('#main-tab-pane').find('#btn-gestureSet a').click();
+                                    $('#main-tab-pane').find('#btn-player').addClass('disabled');
+                                }
+                                console.log('render data');
+                                renderData();
+                            }
+                        });
+                    }
+                });
             }
         });
-    });
+    }
 
 
     $('#btn-load-simulation-recording').unbind('click').bind('click', function (event) {

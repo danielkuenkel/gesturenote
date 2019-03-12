@@ -36,6 +36,7 @@ $(document).on('click', '.btn-play-gesture', function (event) {
     event.stopImmediatePropagation();
     if (!$(this).hasClass('active')) {
         $(this).addClass('active');
+        $(this).parent().find('.btn-pause-gesture').removeClass('active');
         playThroughThumbnails($(this).closest('.root').find('.previewGesture'), 0);
     }
 });
@@ -43,10 +44,12 @@ $(document).on('click', '.btn-play-gesture', function (event) {
 $(document).on('click', '.btn-pause-gesture', function (event) {
     event.preventDefault();
     event.stopPropagation();
-    event.stopImmediatePropagation();
-    resetPlayButton($(this));
-    clearTimer();
-    resetThumbnails($(this).closest('.root').find('.previewGesture'));
+    if (!$(this).hasClass('active')) {
+        event.stopImmediatePropagation();
+        resetPlayButton($(this));
+        clearTimer();
+        resetThumbnails($(this).closest('.root').find('.previewGesture'));
+    }
 });
 
 $(document).on('click', '.btn-step-forward-gesture', function (event) {
@@ -88,25 +91,18 @@ $(document).on('mousedown', '.btn-step-backward-gesture', function (event) {
     event.stopPropagation();
     clearTimer();
     mouseDownInterval = setInterval(function (container) {
-//        console.log(container);
         stepBackward(container);
     }, 200, $(this).closest('.root').find('.previewGesture'));
 });
 
 $(document).on('mouseenter', '.mousePlayable', function (event) {
     event.preventDefault();
-//    if ($(this).hasClass('mousePlayable')) {
-//        console.log('on mouse enter');
     $(this).parent().find('.btn-play-gesture').click();
-//    }
 });
 
 $(document).on('mouseleave', '.mousePlayable', function (event) {
     event.preventDefault();
-//    if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
-//        console.log('on mouse leave');
     $(this).parent().find('.btn-pause-gesture').click();
-//    }
 });
 
 $(document).on('click', '.btn-popover-gesture-preview', function (event) {
@@ -150,6 +146,7 @@ function resetGesturePopover() {
 
 function resetPlayButton(source) {
     $(source).closest('.root').find('.btn-play-gesture').removeClass('active');
+    $(source).closest('.root').find('.btn-pause-gesture').addClass('active');
 }
 
 var originalImageWidth = 0;

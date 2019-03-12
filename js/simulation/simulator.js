@@ -21,9 +21,8 @@ function renderGestureSetContent() {
     if (selectedSet) {
         var clone = getGestureSimulationSetPanel(currentPreviewGestureSet.set, 'gesture-simulation-catalog-thumbnail');
         $('#simulator-content').append(clone);
-        initPopover();
         $(recordSimulationButton).removeClass('disabled');
-        $(loadSimulationButton).removeClass('disabled');
+        initPopover();
 
         // check if current recorded simulation tempData is for this set. delete tempdata if not
         var query = getQueryParams(document.location.search);
@@ -34,28 +33,38 @@ function renderGestureSetContent() {
         var recordedSimulation = getLocalItem(RECORDED_SIMULATION);
         if (recordedSimulation) {
             $('#main-tab-pane').find('#btn-player').removeClass('disabled');
-//            renderRecordedGestureSetSimulation();
         }
-
-        // check mapping
     }
 }
 
 function getGestureSimulationSetPanel(data, type, layout) {
-    var panel = initGestureSetPanel(data, 'study-gesture-set-panel');
+    var panel = $('#template-simulation-container').find('#simulation-gesture-set-panel').clone();
+    $(panel).find('.panel-heading-text').text(data.title);
     initStandardGestureSetList(panel, data, type, layout);
-    $(panel).find('#btn-show-hide-video').unbind('click').bind('click', function (event) {
+
+    $('#gestureSetContent').find('#btn-show-hide-video').removeClass('disabled').attr('data-preview-present', 'true');
+    $('#gestureSetContent').find('#btn-show-hide-video').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if ($(this).attr('data-preview-present') === 'true') {
             $(panel).find("#gestures-list-container .embed-responsive").hide();
-            $(panel).find('#btn-show-hide-video').find('i').removeClass("fa-compress").addClass("fa-expand");
+            $(this).find('.fa').removeClass("fa-compress").addClass("fa-expand");
             $(this).attr('data-preview-present', 'false');
         } else {
             $(panel).find("#gestures-list-container").find(".embed-responsive").show();
-            $(panel).find('#btn-show-hide-video').find('i').removeClass("fa-expand").addClass("fa-compress");
+            $(this).find('.fa').removeClass("fa-expand").addClass("fa-compress");
             $(this).attr('data-preview-present', 'true');
         }
     });
+
+    $('#gestureSetContent').find('#btn-download-as-json').removeClass('disabled');
+    $('#gestureSetContent').find('#btn-download-as-json').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        $(this).popover('hide');
+        if (!$(this).hasClass('disabled')) {
+            downloadGestureSetAsJSON($(panel).find('.gesture-thumbnail'), data.title);
+        }
+    });
+
     // update thumbnail controls for every gesture in the set
     for (var i = data.gestures.length - 1; i >= 0; i--) {
         updateGestureSimluationThumbnail(data.gestures[i], panel, true);
@@ -67,6 +76,7 @@ function getGestureSimulationSetPanel(data, type, layout) {
         var positionType = $('#viewer_positionScreen_type').val();
         sendContinuousPGPosition($(this).closest('.root').prop('id'), positionType, pos.relPosX, pos.relPosY, true);
     });
+
     var pauseGetPosition = false;
     $(document).on('mousemove', '.positionArea', function (event) {
         event.preventDefault();
@@ -84,13 +94,6 @@ var currentMouseSimulationGesture = null;
 function updateGestureSimluationThumbnail(gestureId, container, simulationMode) {
     var gesture = getGestureById(gestureId);
     var gestureThumbnail = $(container).find('#' + gestureId);
-    // reset the simulation controls
-    $(gestureThumbnail).find('.simulator-trigger').addClass("hidden");
-    $(gestureThumbnail).find('#control-continuous-slider').addClass('hidden');
-    $(gestureThumbnail).find('.continuous-gesture-controls').addClass('hidden');
-    $(gestureThumbnail).find('.simulator-continuous-trigger').addClass('hidden');
-    $(gestureThumbnail).find('.static-continuous-controls').addClass('hidden');
-//    console.log('gesture', gesture);
 
     if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
         $(gestureThumbnail).find('.simulator-trigger').removeClass("hidden");
@@ -167,15 +170,21 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode) 
             });
 
             function animateSlider() {
+                startGesture = true;
                 var tweenDuration = (parseFloat($(gestureThumbnail).attr('data-tween-speed')) * .5);
-//                console.log(tweenDuration);
                 $(gestureThumbnail).find('.control-continuous-slider-status').text(tweenDuration.toFixed(1) + 's');
-                TweenMax.to(slider, tweenDuration, {width: '100%', ease: Linear.easeNone, onComplete: function () {
-                        $(slider).css({width: '0%'});
-                        commitSimulationData({gestureId: gesture.id});
-                        sendPGGesture(gesture.id);
-                        animateSlider();
-                    }});
+                var singleTrigger = $(gestureThumbnail).find('.btn-start-static-continuous-gesture').attr('data-trigger-single');
+                if (singleTrigger && singleTrigger === 'true') {
+                    $(gestureThumbnail).find('.btn-start-static-continuous-gesture').removeClass('disabled');
+                    sendPGGesture(gesture.id);
+                } else {
+                    TweenMax.to(slider, tweenDuration, {width: '100%', ease: Linear.easeNone, onComplete: function () {
+                            $(slider).css({width: '0%'});
+                            commitSimulationData({gestureId: gesture.id});
+                            sendPGGesture(gesture.id);
+                            animateSlider();
+                        }});
+                }
             }
         }
     }
@@ -207,7 +216,6 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode) 
         });
 
         function checkMouseSimulation() {
-            console.log('check mouse simulation', showMouseSimulationPad, currentMouseSimulationGesture, container);
             if (showMouseSimulationPad === true && currentMouseSimulationGesture) {
                 var gestureThumbnail = $(container).find('#' + currentMouseSimulationGesture.id);
                 if (currentMouseSimulationGesture.interactionType === TYPE_GESTURE_DISCRETE) {
@@ -219,13 +227,11 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode) 
                         }});
                 } else {
                     if (currentMouseSimulationGesture.continuousValueType === "position" || currentMouseSimulationGesture.continuousValueType === "mouseSimulation") {
-                        var mousePad = $(gestureThumbnail).find('.mouse-simulation-pad');
-                        $(mousePad).removeClass('hidden');
+                        var mousePad = $(gestureThumbnail).find('.mouse-simulation-pad').removeClass('hidden');
                         $(gestureThumbnail).find('.gesture-preview-data').css({filter: 'blur(5px)', opacity: .3});
                         initMouseSimulationPad(mousePad, gestureThumbnail);
                     } else if (currentMouseSimulationGesture.continuousValueType === PERCENT) {
-                        var mousePad = $(gestureThumbnail).find('.mouse-simulation-slider');
-                        $(mousePad).removeClass('hidden');
+                        var mousePad = $(gestureThumbnail).find('.mouse-simulation-slider').removeClass('hidden');
 
                         $(mousePad).unbind('mousemove').bind('mousemove', function (event) {
                             var relPositions = getMousePosition(mousePad, event);
@@ -246,7 +252,6 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode) 
                     }
                 }
             } else {
-                console.log('reset');
                 $(container).find('.mouse-simulation-pad, .simple-mouse-simulation-pad, .mouse-simulation-slider').addClass('hidden');
                 $(container).find('.gesture-preview-data').css({filter: '', opacity: ''});
                 $(container).unbind('mousemove');
@@ -254,6 +259,17 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode) 
                 startGesture = true;
             }
         }
+    } else {
+        $(gestureThumbnail).find('#control-continuous-slider').addClass('hidden');
+        $(gestureThumbnail).find('.continuous-gesture-controls').addClass('hidden');
+        $(gestureThumbnail).find('#simulation-controls').addClass('hidden');
+        $(gestureThumbnail).find('.gesture-info-symbols').addClass('hidden');
+        $(gestureThumbnail).find('.caption').addClass('hidden');
+        $(gestureThumbnail).find('.gestureImage').css({borderRadius: '8px'});
+        $(gestureThumbnail).removeClass('deleteable');
+        $(gestureThumbnail).find('.gesture-thumbnail').unbind('mouseenter');
+        $(gestureThumbnail).find('.gesture-thumbnail').unbind('mouseleave');
+        $(gestureThumbnail).find('.thumbnail').removeClass('btn-gesture-shadow');
     }
 }
 
@@ -305,7 +321,6 @@ function commitSimulationData(data) {
         }
 
         if (query.gestureSetId) {
-            console.log(simulationRecording.track, data);
             data.id = chance.natural();
             data.timestamp = new Date().getTime();
             data.start = startGesture;
@@ -341,6 +356,8 @@ function renderRecordedGestureSetSimulation() {
     if (recordedSimulation && recordedSimulation.track && recordedSimulation.track.length > 0) {
         $('#simulation-player-content').removeClass('hidden').find('#simulation-thumbnail-container').empty();
         renderMainSimulationItems();
+        renderSeekbarMetaData();
+
         var slider = $('#playback-slider-container').find('#playback-slider');
 
         var sliderOptions = {
@@ -356,9 +373,10 @@ function renderRecordedGestureSetSimulation() {
 
         $(slider).unbind('change').bind('change', function (event) {
             event.preventDefault();
-            var currentValue = parseInt(recordedSimulation.track[0].timestamp) + parseInt(event.value.newValue);
+            var currentValue = parseInt(sliderValues.min) + parseInt(event.value.newValue);
             updateView(currentValue);
             checkStepperButtons(currentValue);
+            checkStepperGestureButtons(currentValue);
         });
 
         $(slider).unbind('slideStart').bind('slideStart', function (event) {
@@ -382,7 +400,12 @@ function renderRecordedGestureSetSimulation() {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 $(this).addClass('disabled');
+                $(this).closest('.btn-group').addClass('hidden');
                 $(pauseButton).removeClass('disabled');
+                $(pauseButton).closest('.btn-group').removeClass('hidden');
+                if (parseInt(sliderValues.min) + parseInt($(slider).slider('getValue')) >= parseInt(sliderValues.max)) {
+                    $(slider).slider('setValue', 0, true, true);
+                }
                 playThroughSteps();
             }
         });
@@ -392,7 +415,9 @@ function renderRecordedGestureSetSimulation() {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 $(this).addClass('disabled');
+                $(this).closest('.btn-group').addClass('hidden');
                 $(playButton).removeClass('disabled');
+                $(playButton).closest('.btn-group').removeClass('hidden');
                 resetPlayThroughTimeout();
             }
         });
@@ -442,8 +467,90 @@ function renderRecordedGestureSetSimulation() {
             }
         }
 
+
+
+        var prevGestureButton = $('#btn-prev-gesture');
+        $(prevGestureButton).unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            console.log(prevGestureButton, '');
+            if (!$(this).hasClass('disabled')) {
+                $(pauseButton).click();
+
+                var currentValue = parseInt(sliderValues.min) + parseInt($(slider).slider('getValue'));
+                var currentSimulationStep = getCurrentSimulationStep(currentValue);
+
+                var prevGesture = null;
+                var searchPreviousStarts = false;
+                for (var i = recordedSimulation.track.length - 1; i >= 0; i--) {
+                    if (parseInt(currentSimulationStep.timestamp) === parseInt(recordedSimulation.track[i].timestamp)) {
+                        searchPreviousStarts = true;
+                    }
+
+                    if (searchPreviousStarts === true && (recordedSimulation.track[i].start === 'true' || recordedSimulation.track[i].start === true) && parseInt(currentValue) !== parseInt(recordedSimulation.track[i].timestamp)) {
+                        prevGesture = recordedSimulation.track[i];
+                        break;
+                    }
+                }
+
+                if (prevGesture) {
+                    var updateValue = parseInt($(slider).slider('getValue')) + ((parseInt(prevGesture.timestamp) - currentValue));
+                    $(slider).slider('setValue', updateValue, true, true);
+                }
+            }
+        });
+
+        var nextGestureButton = $('#btn-next-gesture');
+        $(nextGestureButton).unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                $(pauseButton).click();
+
+                var currentValue = parseInt(sliderValues.min) + parseInt($(slider).slider('getValue'));
+                var currentSimulationStep = getCurrentSimulationStep(currentValue);
+
+                var nextGesture = null;
+                var searchNextStarts = false;
+                for (var i = 0; i < recordedSimulation.track.length; i++) {
+                    if (parseInt(currentSimulationStep.timestamp) === parseInt(recordedSimulation.track[i].timestamp)) {
+                        searchNextStarts = true;
+                    }
+
+                    if (searchNextStarts === true && (recordedSimulation.track[i].start === 'true' || recordedSimulation.track[i].start === true) && parseInt(currentValue) !== parseInt(recordedSimulation.track[i].timestamp)) {
+                        nextGesture = recordedSimulation.track[i];
+                        break;
+                    }
+                }
+
+                if (nextGesture) {
+                    var updateValue = parseInt($(slider).slider('getValue')) + ((parseInt(nextGesture.timestamp) - currentValue));
+                    $(slider).slider('setValue', updateValue, true, true);
+                }
+            }
+        });
+
+        function checkStepperGestureButtons(currentValue) {
+            var activeItem = $('#simulation-thumbnail-container .item-active');
+
+            if ($(activeItem).prev().length > 0 || currentValue > sliderValues.min) {
+                $(prevGestureButton).removeClass('disabled');
+            } else {
+                $(prevGestureButton).addClass('disabled');
+            }
+
+            if ($(activeItem).next().length > 0) {
+                $(nextGestureButton).removeClass('disabled');
+            } else {
+                $(nextGestureButton).addClass('disabled');
+            }
+        }
+
         function playThroughSteps() {
             var timeout = 100;
+            var selectedTimeout = $('#update-time-select').find('.selected').attr('data-milliseconds');
+            if (selectedTimeout !== 'standard') {
+                timeout = parseInt(selectedTimeout);
+            }
+
             var currentValue = parseInt(sliderValues.min) + parseInt($(slider).slider('getValue'));
             var currentSimulationStep = getCurrentSimulationStep(currentValue);
             var gesture = getGestureById(currentSimulationStep.gestureId);
@@ -456,7 +563,6 @@ function renderRecordedGestureSetSimulation() {
             playThroughTimeout = setTimeout(function () {
                 if (currentValue >= parseInt(sliderValues.max)) {
                     $(pauseButton).click();
-                    $(slider).slider('setValue', 0, true, true);
                 } else {
                     nextStep();
                     playThroughSteps();
@@ -469,8 +575,9 @@ function renderRecordedGestureSetSimulation() {
             var currentValue = parseInt(sliderValues.min) + parseInt($(slider).slider('getValue'));
             var currentSimulationStep = getCurrentSimulationStep(currentValue);
             var nextStep = null;
+
             for (var i = 0; i < recordedSimulation.track.length; i++) {
-                if (parseInt(currentSimulationStep.id) === parseInt(recordedSimulation.track[i].id)) {
+                if (parseInt(currentSimulationStep.timestamp) === parseInt(recordedSimulation.track[i].timestamp)) {
                     nextStep = recordedSimulation.track[i + 1];
                     break;
                 }
@@ -491,10 +598,33 @@ function renderRecordedGestureSetSimulation() {
         var currentValue = parseInt(recordedSimulation.track[0].timestamp) + parseInt($(slider).slider('getValue'));
         updateView(currentValue);
         checkStepperButtons(currentValue);
+        checkStepperGestureButtons(currentValue);
+
+        var seconds = getSeconds(getTimeBetweenTimestamps(sliderValues.min, sliderValues.max), true);
+        var timeCode = secondsToHms(seconds);
+        $('#playerContent').find('#current-time-code .time-code-duration').text(timeCode + '.' + seconds.toFixed(3).split('.')[1]);
     } else {
 
     }
 
+    function renderSeekbarMetaData() {
+        var metaInfoContainer = $('#playerContent').find('#seek-bar-meta-info-container');
+        $(metaInfoContainer).empty();
+
+        if (recordedSimulation && recordedSimulation.track.length > 0) {
+            for (var i = 0; i < recordedSimulation.track.length; i++) {
+                if (recordedSimulation.track[i].start === 'true' || recordedSimulation.track[i].start === true) {
+                    var xPercentage = (parseInt(recordedSimulation.track[i].timestamp) - parseInt(recordedSimulation.track[0].timestamp)) / (parseInt(recordedSimulation.track[recordedSimulation.track.length - 1].timestamp) - parseInt(recordedSimulation.track[0].timestamp)) * 100;
+                    var infoDataItem = document.createElement('div');
+                    $(infoDataItem).addClass('simluation-meta-data-item');
+                    $(infoDataItem).css({left: xPercentage + '%'});
+                    $(metaInfoContainer).append(infoDataItem);
+                }
+            }
+        } else {
+            $(metaInfoContainer).addClass('hidden');
+        }
+    }
 
     function renderMainSimulationItems() {
         var panel = null;
@@ -520,12 +650,15 @@ function renderRecordedGestureSetSimulation() {
         }
     }
 
-
     function updateView(currentValue) {
         var items = $('#simulation-thumbnail-container').children();
-        $(items).removeClass('prev-2 prev-1 success next-1 next-2 next-3 col-sm-1 col-sm-3 col-sm-offset-4 col-sm-offset-1');
+        $(items).removeClass('prev-2 prev-1 success next-1 next-2 next-3 col-sm-1 col-sm-3 col-sm-offset-4 col-sm-offset-1 item-active');
         $(items).find('.gesture-thumbnail').css({pointerEvents: 'none'});
-        $(items).find('#simulation-controls, .gesture-info-symbols, .gesture-name ').removeClass('hidden');
+        $(items).find('#simulation-controls').addClass('hidden');
+
+        var seconds = getSeconds(getTimeBetweenTimestamps(sliderValues.min, currentValue), true);
+        var timeCode = secondsToHms(seconds);
+        $('#playerContent').find('#current-time-code .time-code-current-time').text(timeCode + '.' + seconds.toFixed(3).split('.')[1]);
 
         var tempItems = [];
         for (var i = 0; i < items.length; i++) {
@@ -539,15 +672,21 @@ function renderRecordedGestureSetSimulation() {
 
         // update vertical scroll view
         if (tempItems.length > 0) {
+            $(tempItems).last().prevAll().find('.btn-pause-gesture').click();
             $(tempItems).last().prevAll().addClass('hidden');
+            $(tempItems).last().nextAll().find('.btn-pause-gesture').click();
             $(tempItems).last().nextAll().addClass('hidden');
 
             var activeItem = $(tempItems).last();
-            $(activeItem).removeClass('hidden').addClass('col-sm-4').css({marginLeft: '', opacity: '', filter: '', transform: ''}).find('.gesture-thumbnail').css({pointerEvents: 'all'});
+            var gesture = getGestureById($(activeItem).attr('data-gesture-id'));
+            if (gesture.continuousValueType !== PERCENT) {
+                $(activeItem).find('.btn-play-gesture').click();
+            }
+
+            $(activeItem).removeClass('hidden').addClass('col-sm-4 item-active').css({marginLeft: '', opacity: '', filter: '', transform: ''}).find('.gesture-thumbnail').css({pointerEvents: 'all'});
 
             var prev2Item = $(activeItem).prev().prev();
             $(prev2Item).addClass('prev-2 col-sm-1').removeClass('hidden');
-            $(prev2Item).find('#simulation-controls, .gesture-info-symbols, .gesture-name ').addClass('hidden');
 
             var prev1Item = $(activeItem).prev();
             $(prev1Item).addClass('prev-1 col-sm-3').removeClass('hidden');
@@ -557,7 +696,6 @@ function renderRecordedGestureSetSimulation() {
 
             var next2Item = $(activeItem).next().next();
             $(next2Item).addClass('next-2 col-sm-1').removeClass('hidden');
-            $(next2Item).find('#simulation-controls, .gesture-info-symbols, .gesture-name ').addClass('hidden');
 
             var prevItemLength = $(activeItem).prevAll().length;
             if (prevItemLength === 0) {
@@ -569,6 +707,7 @@ function renderRecordedGestureSetSimulation() {
             // update gesture thumbnail view
             updateGestureThumbnailContainerView(activeItem, $(activeItem).attr('data-id'), currentValue);
             updateGestureThumbnailInfoView(activeItem, $(activeItem).attr('data-id'), currentValue);
+            updateLinkList(currentValue);
         }
     }
 
@@ -576,7 +715,7 @@ function renderRecordedGestureSetSimulation() {
     function updateGestureThumbnailContainerView(activeItem, dataId, currentValue) {
         var simulationRecording = getRecordedSimulationById(dataId);
 
-        $('#simulation-thumbnail-container').find('.mouse-simulation-pad, .simple-mouse-simulation-pad, .mouse-simulation-slider').addClass('hidden');
+        $('#simulation-thumbnail-container').find('.mouse-simulation-pad, .simple-mouse-simulation-pad, .mouse-simulation-slider').addClass('hidden').css({borderWidth: '5px'});
         $('#simulation-thumbnail-container').find('.gesture-preview-data').css({filter: '', opacity: ''});
         var gesture = getGestureById(simulationRecording.gestureId);
         var gestureThumbnail = $(activeItem).find('#' + gesture.id);
@@ -593,6 +732,7 @@ function renderRecordedGestureSetSimulation() {
 
             if ((currentSimulationStep.start === true || currentSimulationStep.start === 'true') && (!$(gestureThumbnail).find('#btn-trigger-gesture').hasClass('disabled') && !lastSimulationStep)) {
                 $(gestureThumbnail).find('#btn-trigger-gesture').click().addClass('disabled');
+                TweenMax.to(mousePad, .2, {scale: 1.08, opacity: 0, clearProps: 'scale,opacity', repeat: 1});
                 lastSimulationStep = currentSimulationStep;
             }
         } else {
@@ -600,13 +740,13 @@ function renderRecordedGestureSetSimulation() {
             $('#simulation-thumbnail-container').find('#btn-trigger-gesture').removeClass('disabled');
 
             if (gesture.continuousValueType === PERCENT) {
+                $(gestureThumbnail).find('#simulation-controls').removeClass('hidden');
                 if (currentSimulationStep.value) {
                     var mousePad = $(gestureThumbnail).find('.mouse-simulation-slider').removeClass('hidden');
                     var continuousSlider = $(gestureThumbnail).find('#control-continuous-slider #continuous-slider');
                     $(continuousSlider).slider('setValue', parseInt(currentSimulationStep.value), true, true);
                 }
             } else if (gesture.continuousValueType === "position" || gesture.continuousValueType === "mouseSimulation") {
-
                 if (currentSimulationStep.value) {
                     var mousePad = $(gestureThumbnail).find('.mouse-simulation-pad').removeClass('hidden');
                     $(mousePad).find('.cursor-simulation').addClass('hidden');
@@ -617,10 +757,9 @@ function renderRecordedGestureSetSimulation() {
                     var relPosY = parseFloat(currentSimulationStep.value.relPositions.relPosY * 100);
                     $(mousePad).find('.x-position').text(relPosX.toFixed() + '%');
                     $(mousePad).find('.y-position').text(relPosY.toFixed() + '%');
-                    $(mousePad).find('.cursor-simulation').removeClass('hidden').css({top: relPosX + '%', left: relPosY + '%'});
+                    $(mousePad).find('.cursor-simulation').removeClass('hidden').css({top: relPosY + '%', left: relPosX + '%'});
 
                     if ((currentSimulationStep.value.clicked === true || currentSimulationStep.value.clicked === 'true') && !lastSimulationStep) {
-                        console.log('clicked', $(mousePad).find('.cursor-simulation'));
                         lastSimulationStep = currentSimulationStep;
                         TweenMax.killTweensOf($(mousePad).find('.cursor-simulation'));
                         TweenMax.to($(mousePad).find('.cursor-simulation'), .05, {scale: 3, yoyo: true, repeat: 1, onComplete: function () {
@@ -633,21 +772,225 @@ function renderRecordedGestureSetSimulation() {
                 }
             } else {
                 var mousePad = $(gestureThumbnail).find('.mouse-simulation-slider').removeClass('hidden');
+                $(gestureThumbnail).find('.btn-start-static-continuous-gesture').attr('data-trigger-single', 'true');
+                if ((currentSimulationStep.start === true || currentSimulationStep.start === 'true') && (!$(gestureThumbnail).find('#btn-trigger-gesture').hasClass('disabled') && !lastSimulationStep)) {
+                    $(gestureThumbnail).find('.btn-start-static-continuous-gesture').click();
+                    TweenMax.to(mousePad, .2, {scale: 1.08, opacity: 0, clearProps: 'scale,opacity', repeat: 1});
+                    lastSimulationStep = currentSimulationStep;
+                }
             }
         }
     }
 
     function updateGestureThumbnailInfoView(activeItem, dataId, currentValue) {
-        var startTime = parseInt($(activeItem).attr('data-start-time'));
-        var endTime = parseInt($(activeItem).attr('data-end-time'));
-        if (!isNaN(startTime) && !isNaN(endTime)) {
-            var duration = getSeconds(getTimeBetweenTimestamps(startTime, endTime), true);
-            $('#simulation-thumbnail-info-panel').find('.duration').text(new String(duration.toFixed(3)).replace('.', ',') + ' ' + translation.times.seconds);
+        var activeItemId = parseInt(dataId);
+        if (!lastUpdatedInfoInfo || (activeItemId !== lastUpdatedInfoInfo))
+        {
+            lastUpdatedInfoInfo = activeItemId;
+
+            // render current gesture data
+            setTimeout(function () {
+                renderThumbnailInfoView(dataId);
+                updateThumbailInfoView(currentValue);
+                renderLinkList(dataId, currentValue);
+
+                // render gesture duration
+                var startTime = parseInt($(activeItem).attr('data-start-time'));
+                var endTime = parseInt($(activeItem).attr('data-end-time'));
+                if (!isNaN(startTime) && !isNaN(endTime)) {
+                    var duration = getSeconds(getTimeBetweenTimestamps(startTime, endTime), true);
+                    $('#simulation-thumbnail-info-panel').find('.duration-text').text(new String(duration.toFixed(3)).replace('.', ',') + ' ' + translation.times.seconds);
+                } else {
+                    $('#simulation-thumbnail-info-panel').find('.duration-text').text('-');
+                }
+            }, 100);
         } else {
-            $('#simulation-thumbnail-info-panel').find('.duration').text('-');
+            updateThumbailInfoView(currentValue);
         }
     }
 }
+
+var lastUpdatedInfoInfo = null;
+var graph2d = null;
+var currentPercentItems = null;
+function renderThumbnailInfoView(dataId) {
+    $('#simulation-thumbnail-info-panel').empty();
+
+    var data = getGestureSimulationData(dataId);
+    if (data && data.length > 0) {
+        var infoView = null;
+        var gesture = getGestureById(data[0].gestureId);
+
+        if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
+            infoView = $('#template-simulation-container').find('#playback-info-view-discrete').clone();
+            $('#simulation-thumbnail-info-panel').append(infoView);
+        } else {
+            if (gesture.continuousValueType === PERCENT) {
+                infoView = $('#template-simulation-container').find('#playback-info-view-percent').clone();
+                $('#simulation-thumbnail-info-panel').append(infoView);
+                var containerWidth = parseInt($(infoView).find('#graph-container').outerWidth());
+                var containerHeight = parseInt($(infoView).find('#graph-container').outerHeight());
+
+                var items = [];
+                var stepsX = containerWidth / (data.length - 1);
+                var startPoint, endPoint = null;
+                for (var i = 0; i < data.length; i++) {
+                    var posX = i * stepsX;
+                    var posY = containerHeight * (100 - data[i].value) / 100;
+
+                    if (i === 0) {
+                        startPoint = {xPos: posX, yPos: posY, id: data[i].id};
+                        items.push(startPoint);
+                    } else if (i > 0 && i < data.length) {
+                        endPoint = {xPos: posX, yPos: posY, id: data[i].id};
+                        $(infoView).find('#graph-container').line(startPoint.xPos, startPoint.yPos, endPoint.xPos, endPoint.yPos, {color: "#337ab7", stroke: 3, zindex: 0}, function (line) {
+                            if (i === 1) {
+                            }
+                            $(line).attr('data-id', data[i].id);
+                        });
+                        startPoint = endPoint;
+                        items.push(endPoint);
+                    }
+                }
+
+                currentPercentItems = items;
+            } else if (gesture.continuousValueType === "position" || gesture.continuousValueType === "mouseSimulation") {
+                infoView = $('#template-simulation-container').find('#playback-info-view-mouse-simulation').clone();
+                $('#simulation-thumbnail-info-panel').append(infoView);
+                var containerWidth = parseInt($(infoView).find('#mouse-path-container').outerWidth());
+                var containerHeight = parseInt($(infoView).find('#mouse-path-container').outerHeight());
+
+                var startPoint, endPoint = null;
+                for (var i = 0; i < data.length; i++) {
+                    var relPosX = parseFloat(data[i].value.relPositions.relPosX * 100);
+                    var relPosY = parseFloat(data[i].value.relPositions.relPosY * 100);
+
+                    if (data[i].value.clicked === 'true' || data[i].value.clicked === true) {
+                        var pathPoint = $('#template-simulation-container').find('#mouse-simulation-path-point').clone();
+                        $(pathPoint).css({top: relPosY + '%', left: relPosX + '%'});
+                        $(pathPoint).attr('data-id', data[i].id);
+                        $(infoView).find('#mouse-path').append(pathPoint);
+                    }
+
+                    if (i === 0) {
+                        startPoint = {xPos: containerWidth * data[i].value.relPositions.relPosX, yPos: containerHeight * data[i].value.relPositions.relPosY};
+                    } else if (i > 0 && i < data.length) {
+                        endPoint = {xPos: containerWidth * data[i].value.relPositions.relPosX, yPos: containerHeight * data[i].value.relPositions.relPosY};
+                        $(infoView).find('#mouse-path-lines').line(startPoint.xPos, startPoint.yPos, endPoint.xPos, endPoint.yPos, {color: "#337ab7", stroke: 3, zindex: 0}, function (line) {
+                            if (i === 1) {
+                            }
+                            $(line).attr('data-id', data[i].id);
+                        });
+                        startPoint = endPoint;
+                    }
+                }
+            } else {
+                infoView = $('#template-simulation-container').find('#playback-info-view-discrete').clone();
+                $('#simulation-thumbnail-info-panel').append(infoView);
+            }
+        }
+
+        var gestureInfoThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+        $(gestureInfoThumbnail).removeClass('deleteable');
+        $(infoView).find('#gesture-thumbnail-info-container').empty().append(gestureInfoThumbnail);
+    }
+}
+
+function updateThumbailInfoView(currentTime) {
+    $('#simulation-thumbnail-info-panel').find('#mouse-path-lines, #graph-container').children().css({opacity: .1});
+
+    var currentSimulationStep = getCurrentSimulationStep(currentTime);
+    var gesture = getGestureById(currentSimulationStep.gestureId);
+
+    if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
+
+    } else {
+        if (gesture.continuousValueType === PERCENT) {
+            var activeLine = $('#simulation-thumbnail-info-panel').find('#graph-container').find('.simulation-line[data-id=' + currentSimulationStep.id + ']');
+            $($(activeLine)[0]).prev().prev().css({opacity: .3});
+            $($(activeLine)[0]).prev().css({opacity: .6});
+            $(activeLine).css({opacity: 1});
+
+            if (currentPercentItems && currentPercentItems.length > 0) {
+                var graphSimulationPoint = $('#simulation-thumbnail-info-panel').find('#graph-simulation-point');
+                $(graphSimulationPoint).text(parseInt(currentSimulationStep.value));
+
+                for (var i = 0; i < currentPercentItems.length; i++) {
+                    if (parseInt(currentPercentItems[i].id) === parseInt(currentSimulationStep.id)) {
+                        $(graphSimulationPoint).css({top: currentPercentItems[i].yPos + 'px', left: currentPercentItems[i].xPos + 'px'});
+                        break;
+                    }
+                }
+            }
+        } else if (gesture.continuousValueType === "position" || gesture.continuousValueType === "mouseSimulation") {
+            var activeLine = $('#simulation-thumbnail-info-panel').find('#mouse-path-lines').find('.simulation-line[data-id=' + currentSimulationStep.id + ']');
+            $($(activeLine)[0]).prev().prev().css({opacity: .3});
+            $($(activeLine)[0]).prev().css({opacity: .6});
+            $(activeLine).css({opacity: 1});
+        } else {
+
+        }
+    }
+}
+
+function renderLinkList(dataId, currentTime) {
+    var data = getGestureSimulationData(dataId);
+
+    var recordedSimulation = getLocalItem(RECORDED_SIMULATION).track;
+    var container = $('#simulation-thumbnail-info-panel').find('#link-list-container');
+    var gesture = getGestureById(data[0].gestureId);
+    for (var i = 0; i < data.length; i++) {
+        var seconds = getSeconds(getTimeBetweenTimestamps(recordedSimulation[0].timestamp, data[i].timestamp), true);
+        var linkListItem = $('#template-simulation-container').find('#link-list-item').clone().removeAttr('id');
+        $(linkListItem).find('.link-list-item-url').attr('data-jumpto', (parseInt(data[i].timestamp) - sliderValues.min));
+        $(linkListItem).attr('data-id', data[i].id);
+        $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)) + '.' + seconds.toFixed(3).split('.')[1]);
+        $(container).append(linkListItem);
+
+        if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
+            $(linkListItem).find('.link-list-item-title').text(translation.gestureDemonstrated);
+        } else {
+            if (gesture.continuousValueType === PERCENT) {
+                $(linkListItem).find('.link-list-item-title').text(data[i].value + '%');
+            } else if (gesture.continuousValueType === "position" || gesture.continuousValueType === "mouseSimulation") {
+                var posX = (parseFloat(data[i].value.relPositions.relPosX) * 100).toFixed();
+                var posY = (parseFloat(data[i].value.relPositions.relPosY) * 100).toFixed();
+                if (data[i].value.clicked === 'true' || data[i].value.clicked === true) {
+                    $(linkListItem).find('.link-list-item-title').text(translation.relPosX + ': ' + posX + '%, ' + translation.relPosY + ': ' + posY + ', ' + translation.mouseClicked);
+                } else {
+                    $(linkListItem).find('.link-list-item-title').text(translation.relPosX + ': ' + posX + '%, ' + translation.relPosY + ': ' + posY);
+                }
+            } else {
+                $(linkListItem).find('.link-list-item-title').text(translation.gestureDemonstrated);
+            }
+        }
+
+        $(linkListItem).find('.link-list-item-url').on('click', function (event) {
+            event.preventDefault();
+            var jumpTo = parseInt($(this).attr('data-jumpto'));
+            var slider = $('#playback-slider-container').find('#playback-slider');
+            $(slider).slider('setValue', jumpTo, true, true);
+        });
+    }
+    updateLinkList(currentTime);
+}
+
+function updateLinkList(currentTime) {
+    var container = $('#simulation-thumbnail-info-panel').find('#link-list-container');
+    var currentSimulationStep = getCurrentSimulationStep(currentTime);
+
+    var activeLink = $(container).find('[data-id=' + currentSimulationStep.id + ']');
+    if ($(activeLink).length === 0) {
+        $(container).children().css({fontWeight: 'bold'});
+    } else {
+        $(activeLink).prevAll().css({fontWeight: 'bold'});
+        $(activeLink).css({fontWeight: 'bold'});
+        $(activeLink).nextAll().css({fontWeight: 'normal'});
+    }
+}
+
+
+
 
 function getRecordedSimulationById(id) {
     var recordings = getLocalItem(RECORDED_SIMULATION);
@@ -671,4 +1014,25 @@ function getCurrentSimulationStep(timestamp) {
         }
     }
     return null;
+}
+
+function getGestureSimulationData(id) {
+    var recordings = getLocalItem(RECORDED_SIMULATION);
+    var data = null;
+    var gestureDataStarted = false;
+
+    if (recordings.track && recordings.track.length > 0) {
+        data = [];
+        for (var i = 0; i < recordings.track.length; i++) {
+            if (parseInt(recordings.track[i].id) === parseInt(id)) {
+                data.push(recordings.track[i]);
+                gestureDataStarted = true;
+            } else if (gestureDataStarted === true && (recordings.track[i].start === 'false' || recordings.track[i].start === false)) {
+                data.push(recordings.track[i]);
+            } else if (gestureDataStarted === true && (recordings.track[i].start === 'true' || recordings.track[i].start === true)) {
+                break;
+            }
+        }
+    }
+    return data;
 }

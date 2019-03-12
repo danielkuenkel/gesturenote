@@ -130,7 +130,7 @@ and open the template in the editor.
 }
 
 .gesture-thumbnail.assembled {
-    border-color: #0480be;
+    border-color: #337ab7;
 }
 .gesture-thumbnail.assembled:hover {
     /*border-color: #385380;*/

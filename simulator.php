@@ -26,12 +26,16 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
+        <script src="js/lines/jquery.line.js"></script>
+        <link href="js/vis/vis-timeline-graph2d.min.css" rel="stylesheet">
+        <script src="js/vis/vis.min.js"></script>
 
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="css/simulator.css">
+        <link rel="stylesheet" href="css/study.css">
 
         <script src="js/refreshSession.js"></script>
         <script src="js/storage.js"></script>
@@ -85,6 +89,7 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
         <div id="template-general"></div>
         <div id="template-gesture-recorder"></div>
+        <div id="template-gesture"></div>
         <div id="template-simulator"></div>
 
         <!-- Modal -->
@@ -114,9 +119,6 @@ if (login_check($mysqli) == true) {
 
         <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-quick-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-201px">
             <div class="btn-group-vertical">
-                <!--                <div>
-                                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-create-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->createNewStudy ?> <i class="fa fa-plus" style="margin-left: 15px"></i></button>
-                                </div>-->
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-record-simulation disabled" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->recordSimulation ?> <i class="fa fa-dot-circle-o" style="margin-left: 15px"></i></button>
                 </div>
@@ -130,7 +132,7 @@ if (login_check($mysqli) == true) {
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-resume-record-simulation hidden" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->resumeRecordSimulation ?>  <i class="fa fa-play" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-load-simulation-recording disabled" style="position: relative; float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->loadSimulation ?> <i class="fa fa-folder-open" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-load-simulation-recording" style="position: relative; float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->loadSimulation ?> <i class="fa fa-folder-open" style="margin-left: 15px"></i></button>
                 </div>
             </div>
         </div>
@@ -156,9 +158,17 @@ if (login_check($mysqli) == true) {
                         <div class="input-group" id="gesture-sets-select">
                             <input class="form-control item-input-text option-gesture-sets show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select select-gesture-sets" role="group">
-                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                             </div>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default btn-shadow disabled" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
+                                <button class="btn btn-default btn-shadow disabled" id="btn-show-hide-video" data-preview-present="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showHideGestureVideo ?>"><i class="fa fa-compress"></i></button>
+                            </div>
+                        </div>
+                        <div class="input-group">
+
+
                         </div>
                     </div>
 
@@ -167,23 +177,43 @@ if (login_check($mysqli) == true) {
 
                 <div role="tabpanel" class="tab-pane" id="playerContent">
                     <div class="" id="simulation-player-content">
-                        <!--<h4>Abspielen einer Simulationsaufzeichnung</h4>-->
-                        <!--<div class="row">-->
-                        <!--<div class="col-xs-12">-->
                         <div class="row">
                             <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
                                 <div class="btn-group btn-group-justified">
                                     <div class="btn-group">
-                                        <button class="btn btn-default btn-shadow" id="btn-play-simulation"><i class="fa fa-play"></i></button>
+                                        <button class="btn btn-default btn-shadow" id="btn-play-simulation" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->playSimulation ?>"><i class="fa fa-play"></i></button>
+                                    </div>
+                                    <div class="btn-group hidden">
+                                        <button class="btn btn-default btn-shadow disabled" id="btn-pause-simulation" style="border-radius: 8px 0px 0px 8px;"  data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->pauseSimulation ?>"><i class="fa fa-pause"></i></button>
                                     </div>
                                     <div class="btn-group">
-                                        <button class="btn btn-default btn-shadow disabled" id="btn-pause-simulation"><i class="fa fa-pause"></i></button>
+                                        <button class="btn btn-default btn-shadow disabled" id="btn-prev-gesture" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->stepBackwardGesture ?>"><i class="fa fa-fast-backward"></i></button>
                                     </div>
                                     <div class="btn-group">
-                                        <button class="btn btn-default btn-shadow disabled" id="btn-step-backward-simulation"><i class="fa fa-step-backward"></i></button>
+                                        <button class="btn btn-default btn-shadow disabled" id="btn-step-backward-simulation" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->stepBackwardSimulation ?>"><i class="fa fa-step-backward"></i></button>
                                     </div>
                                     <div class="btn-group">
-                                        <button class="btn btn-default btn-shadow disabled" id="btn-step-forward-simulation"><i class="fa fa-step-forward"></i></button>
+                                        <button class="btn btn-default btn-shadow disabled" id="btn-step-forward-simulation" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->stepForwardSimulation ?>"><i class="fa fa-step-forward"></i></button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button class="btn btn-default btn-shadow disabled" id="btn-next-gesture" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->stepForwardGesture ?>"><i class="fa fa-fast-forward"></i></button>
+                                    </div>
+                                    <div class="btn-group select" id="update-time-select" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->chooseSimulationTimeout ?>">
+                                        <button type="button" class="btn btn-default btn-shadow dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu option">
+                                            <li id="standard" data-milliseconds="standard" class="selected"><a href="#">Standard</a></li>
+                                            <li id="seconds1" data-milliseconds="1000"><a href="#"><?php echo $lang->seconds1 ?></a></li>
+                                            <li id="seconds1-5" data-milliseconds="1500"><a href="#"><?php echo $lang->seconds15 ?></a></li>
+                                            <li id="seconds2" data-milliseconds="2000"><a href="#"><?php echo $lang->seconds2 ?></a></li>
+                                            <li id="seconds2-5" data-milliseconds="2500"><a href="#"><?php echo $lang->seconds25 ?></a></li>
+                                            <li id="seconds3" data-milliseconds="3000"><a href="#"><?php echo $lang->seconds3 ?></a></li>
+                                            <li id="seconds3-5" data-milliseconds="3500"><a href="#"><?php echo $lang->seconds35 ?></a></li>
+                                            <li id="seconds4" data-milliseconds="4000"><a href="#"><?php echo $lang->seconds4 ?></a></li>
+                                            <li id="seconds4-5" data-milliseconds="4500"><a href="#"><?php echo $lang->seconds45 ?></a></li>
+                                            <li id="seconds5" data-milliseconds="5000"><a href="#"><?php echo $lang->seconds5 ?></a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -191,17 +221,26 @@ if (login_check($mysqli) == true) {
                                 <div id="playback-slider-container" class="" style="margin-top: -10px">
                                     <input id="playback-slider" style="width: 100%; height: 34px;" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-tooltip="hide" />
                                 </div>
+                                <div id="seek-bar-meta-info-container" style="position: absolute; left: 15px; right: 15px; top:34px"></div>
                             </div>
                         </div>
 
                         <div id="simulation-thumbnail-container" class="row" style="margin-top: 40px"></div>
-                        <div id="simulation-thumbnail-info-panel" style="margin-top: 40px">
-                            <div class="title"></div>
-                            <div class="timestamp"></div>
-                            <div class="duration"></div>
+                        <div class="row" style="height: 60px">
+                            <div class="col-xs-12 text-center" id="current-time-code">
+                                <span class="time-code-current-time">00:00:00</span>
+                                <span> / </span>
+                                <span class="time-code-duration">00:00:00</span>
+                            </div>
+                            <div class="col-xs-12" style="">
+                                <div style="background-image: url('img/corner-back.jpg'); height: 50px; position: absolute; left: 15px; right: 15px"></div>
+                                <div style="background-image: url('img/corner-left.jpg'); width: 34px; height: 50px; position: absolute;"></div>
+                                <div style="background-image: url('img/corner-center.jpg'); width: 60px; height: 50px; position: absolute; left: 50%; transform: translateX(-50%)"></div>
+                                <div style="background-image: url('img/corner-right.jpg'); width: 35px; height: 50px; position: absolute; right: 0px"></div>
+                            </div>
+
                         </div>
-                        <!--</div>-->
-                        <!--</div>-->
+                        <div id="simulation-thumbnail-info-panel" style="margin-top: 35px"></div>
 
                     </div>
 
@@ -214,14 +253,6 @@ if (login_check($mysqli) == true) {
 
         </div>
 
-        <!-- Container (simulation recorder content) -->
-        <!--        <div class="container mainContent hidden" id="simulation-recorder-content">
-                    <h3>Aufzeichnen einer Simulation</h3>
-                    <hr>
-                </div>-->
-
-        <!-- Container (recorded simulation player content) -->
-
 
         <script>
             $(document).ready(function () {
@@ -232,6 +263,7 @@ if (login_check($mysqli) == true) {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
+                    externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     externals.push(['#template-simulator', PATH_EXTERNALS + 'template-simulator.php']);
                     loadExternals(externals);
@@ -292,8 +324,14 @@ if (login_check($mysqli) == true) {
 
                 TweenMax.to($('#main-tab-pane'), .4, {opacity: 1});
 
+                $('#main-tab-pane a').on('click', function (event) {
+                    event.preventDefault();
+                    if ($(event.target).parent().hasClass('disabled')) {
+                        event.stopImmediatePropagation();
+                    }
+                });
+
                 $('#main-tab-pane a[data-toggle="tab"]').on('show.bs.tab', function (event) {
-                    console.log('tab will change', event.target, event.relatedTarget);
                     $('#simulator-content, #simulation-thumbnail-container').empty();
                     $(recordSimulationButton).addClass('disabled');
 
@@ -511,7 +549,14 @@ if (login_check($mysqli) == true) {
                     loadHTMLintoModal('custom-modal', 'externals/modal-load-simulation-recording.php');
                     $('#custom-modal').unbind('loadGestureSetSimulation').bind('loadGestureSetSimulation', function (event) {
                         event.preventDefault();
-                        $('#main-tab-pane').find('#btn-player a').click();
+                        $('#main-tab-pane').find('#btn-player').removeClass('disabled');
+                        var recordedSimulation = getLocalItem(RECORDED_SIMULATION);
+                        $('#gestureSetContent').find('#gesture-sets-select #' + recordedSimulation.gestureSetId).click();
+                        if ($('#main-tab-pane').find('#btn-player').hasClass('active')) {
+                            renderRecordedGestureSetSimulation();
+                        } else {
+                            $('#main-tab-pane').find('#btn-player a').click();
+                        }
                     });
                 }
             });

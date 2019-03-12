@@ -6156,5 +6156,26 @@
     "modalsimposition": {
         "heading": "Simulation der Maus",
         "close": "Schließen"
-    }
+    },
+    "playSimulation": "Simulation abspielen",
+    "pauseSimulation": "Simulation pausieren",
+    "stepForwardSimulation": "Schritt vorwärts",
+    "stepBackwardSimulation": "Schritt zurück",
+    "stepBackwardGesture": "Vorherige Geste",
+    "stepForwardGesture": "Nächste Geste",
+    "chooseSimulationTimeout": "Zeitraum zwischen einzelnen Simulationsschritten wählen",
+    "standard": "Originalgeschwindigkeit",
+    "seconds1": "1 Sekunde",
+    "seconds15": "1,5 Sekunden",
+    "seconds2": "2 Sekunden",
+    "seconds25": "2,5 Sekunden",
+    "seconds3": "3 Sekunden",
+    "seconds35": "3,5 Sekunden",
+    "seconds4": "4 Sekunden",
+    "seconds45": "4,5 Sekunden",
+    "seconds5": "5 Sekunden",
+    "relPosX": "X",
+    "relPosY": "Y",
+    "mouseClicked": "Mausklick",
+    "gestureDemonstrated": "Geste ausgeführt"
 }

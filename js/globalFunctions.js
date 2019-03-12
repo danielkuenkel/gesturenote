@@ -3909,7 +3909,7 @@ function initMoreInfoGestureSet(button, panel, data) {
 }
 
 function initStandardGestureSetList(panel, data, type, layout) {
-    console.log('initStandardGestureSetList', data);
+//    console.log('initStandardGestureSetList', data);
     if (data.gestures !== null && data.gestures.length > 0) {
         clearAlerts(panel);
         var missingGestures = 0;

@@ -1787,3 +1787,21 @@ function getSimulationRecordings(data, callback) {
         }
     });
 }
+
+function deleteSimulationRecording(data, callback) {
+    $.ajax({
+        url: 'includes/delete-gesture-set-simulation.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
