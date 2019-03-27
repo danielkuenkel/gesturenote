@@ -97,6 +97,10 @@ if (login_check($mysqli) == true) {
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
+        
+        <!-- simulator specific -->
+        <link rel="stylesheet" href="css/simulator.css">
+        <script src="js/simulation/simulator.js"></script>
     </head>
     <body style="padding-bottom: 0px">
 
@@ -106,6 +110,7 @@ if (login_check($mysqli) == true) {
         <div id="template-previews"></div>
         <div id="template-study"></div>
         <div id="template-gesture-recorder"></div>
+        <div id="template-simulator"></div>
 
         <div id="preview-bar-top" style="padding: 10px; position: fixed; width: 100%">
 
@@ -273,6 +278,7 @@ if (login_check($mysqli) == true) {
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
+                    externals.push(['#template-simulator', PATH_EXTERNALS + 'template-simulator.php']);
                     loadExternals(externals);
                 });
             });
@@ -326,6 +332,7 @@ if (login_check($mysqli) == true) {
 
             // render data if all templates where loaded
             function onAllExternalsLoadedSuccessfully() {
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
                 var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyPreview'] ?>);
                 if (showTutorial === 1) {
                     $('#btn-introduction').click();
@@ -343,6 +350,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 if (query.studyId && query.edit && (query.edit === true || query.edit === "true")) {
+                    attachStudyPreparationContent();
                     checkStorage();
                     checkCollaborativeConversation();
 
@@ -355,18 +363,7 @@ if (login_check($mysqli) == true) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             setStudyData(result);
-
-                            var preparationData = {id: STUDY_EXECUTION_PREPARATION, format: STUDY_EXECUTION_PREPARATION, title: translation.studyExecutionPreparation};
-                            var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
-                            if (phaseSteps && phaseSteps.length > 0) {
-                                phaseSteps.unshift(preparationData);
-                            } else {
-                                phaseSteps = [preparationData];
-                            }
-                            setLocalItem(STUDY_PHASE_STEPS, phaseSteps);
-
-                            var study = getLocalItem(STUDY);
-                            setLocalItem(STUDY_EXECUTION_PREPARATION + '.data', {title: study.title, description: study.description, dateFrom: study.dateFrom, dateTo: study.dateTo, phase: study.phase, surveyType: study.surveyType});
+                            attachStudyPreparationContent();
                             checkStorage();
                         }
                     });
@@ -391,6 +388,22 @@ if (login_check($mysqli) == true) {
                     $('.btn-join-conversation').remove();
                     $('.btn-leave-conversation').remove();
                 }
+            }
+
+            function attachStudyPreparationContent() {
+                var preparationData = {id: STUDY_EXECUTION_PREPARATION, format: STUDY_EXECUTION_PREPARATION, title: translation.studyExecutionPreparation};
+                var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+                if (phaseSteps && phaseSteps.length > 0) {
+                    if (phaseSteps[0].format !== STUDY_EXECUTION_PREPARATION) {
+                        phaseSteps.unshift(preparationData);
+
+                        var study = getLocalItem(STUDY);
+                        setLocalItem(STUDY_EXECUTION_PREPARATION + '.data', {title: study.title, description: study.description, dateFrom: study.dateFrom, dateTo: study.dateTo, phase: study.phase, surveyType: study.surveyType});
+                    }
+                } else {
+                    phaseSteps = [preparationData];
+                }
+                setLocalItem(STUDY_PHASE_STEPS, phaseSteps);
             }
 
             $('.previous').on('click', function (event) {
@@ -423,6 +436,7 @@ if (login_check($mysqli) == true) {
                     renderPhaseStep();
                 }
             });
+
 
             function showModeratorView() {
                 console.log('show moderator view');

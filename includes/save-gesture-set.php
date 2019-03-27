@@ -19,7 +19,7 @@ if (isset($_SESSION['user_id'], $_POST['title'], $_POST['gestures'])) {
             exit();
         } else {
             $insertId = $mysqli->insert_id;
-            echo json_encode(array('status' => 'success', 'id' => $insertId));
+            echo json_encode(array('status' => 'success', 'id' => $insertId, 'ownerId' => $userSessionId));
             exit();
         }
     } else {

@@ -3,6 +3,7 @@ include './includes/language.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
+session_start();
 if (login_check($mysqli) == true) {
     if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'tester') {
         header('Location: index.php');
@@ -176,10 +177,10 @@ if (login_check($mysqli) == true) {
             var createStudyButton = $('#fixed-quick-controls .btn-create-study');
             var createStudyButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(createStudyButton).css({borderBottomRightRadius: '8px'});
-                    $(createStudyButton).addClass('btn-primary');
+                    $(createStudyButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(createStudyButton).css({borderBottomRightRadius: '0px'});
-                    $(createStudyButton).removeClass('btn-primary');
+                    $(createStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             createStudyButtonTimeline.add("createStudy", 0)
@@ -199,10 +200,10 @@ if (login_check($mysqli) == true) {
             var recordGestureButton = $('#fixed-quick-controls .btn-record-gesture');
             var recordGestureButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(recordGestureButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(recordGestureButton).addClass('btn-primary');
+                    $(recordGestureButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(recordGestureButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
-                    $(recordGestureButton).removeClass('btn-primary');
+                    $(recordGestureButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             recordGestureButtonTimeline.add("cacheStudy", 0)
@@ -222,10 +223,10 @@ if (login_check($mysqli) == true) {
             var gestureSetsButton = $('#fixed-quick-controls .btn-gesture-sets');
             var gestureSetsButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(gestureSetsButton).css({borderTopRightRadius: '8px'});
-                    $(gestureSetsButton).addClass('btn-primary');
+                    $(gestureSetsButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(gestureSetsButton).css({borderTopRightRadius: '0px'});
-                    $(gestureSetsButton).removeClass('btn-primary');
+                    $(gestureSetsButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             gestureSetsButtonTimeline.add("saveStudy", 0)
@@ -246,6 +247,7 @@ if (login_check($mysqli) == true) {
             // rendering
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 var fixedControlsTween = new TimelineMax({paused: true});
                 fixedControlsTween.add("parallel", .3)

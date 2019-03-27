@@ -238,9 +238,9 @@ if (login_check($mysqli) == true) {
 
                 var createStudyButton = $('#fixed-studies-controls #btn-create-study');
                 var timeline = new TimelineMax({paused: true, onStart: function () {
-                        $(createStudyButton).addClass('btn-primary');
+                        $(createStudyButton).removeClass('btn-default').addClass('btn-primary');
                     }, onReverseComplete: function () {
-                        $(createStudyButton).removeClass('btn-primary');
+                        $(createStudyButton).removeClass('btn-primary').addClass('btn-default');
                     }});
 
                 timeline.add("createStudy", 0)
@@ -258,6 +258,7 @@ if (login_check($mysqli) == true) {
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 getStudiesCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {

@@ -154,6 +154,7 @@
     "whatDoYouWantToTellUs": "Was möchten Sie uns mitteilen?",
     "manually": "manuell",
     "automatically": "automatisch",
+    "Automatically": "Automatisch",
     "cookieHint": "Cookies erleichtern das Bereitstellen unserer Dienste. Mit der Nutzung unserer Dienste erklären Sie sich damit einverstanden, dass wir Cookies verwenden.",
     "acceptCookies": "OK",
     "infosContent": {
@@ -1921,31 +1922,31 @@
         "9345099230942029": {
             "title": "Erfolg",
             "trigger": "nextTask",
-            "annotationColor": "green",
+            "annotationColor": "item-success-full",
             "assessmentType": "success"
         },
         "5930909238240203": {
             "title": "Mit Hilfe",
             "trigger": "nextTask",
-            "annotationColor": "yellow",
+            "annotationColor": "item-warning-full",
             "assessmentType": "help"
         },
         "4569395490823993": {
             "title": "Misserfolg",
             "trigger": "nextTask",
-            "annotationColor": "red",
+            "annotationColor": "item-danger-full",
             "assessmentType": "failure"
         },
         "3459239234989023": {
             "title": "Aufgabe abbrechen",
             "trigger": "nextTask",
-            "annotationColor": "red",
+            "annotationColor": "item-danger-full",
             "assessmentType": "cancelTask"
         },
         "3459909208340982": {
             "title": "Benutzertest abbrechen",
             "trigger": "nextStep",
-            "annotationColor": "red",
+            "annotationColor": "item-danger-full",
             "assessmentType": "cancelScenario"
         }
     },
@@ -2329,6 +2330,7 @@
     "addSlideshowElement": "Slideshowelement hinzufügen",
     "addIdentificationElement": "Identifikationselement hinzufügen",
     "addExplorationElement": "Explorationselement hinzufügen",
+    "wozElement":"WOZ-Element",
     "addWOZElement": "WOZ-Element hinzufügen",
     "addTaskElement": "Aufgabe hinzufügen",
     "assessment": "Beurteilung",
@@ -2566,8 +2568,8 @@
             "gestureTrainingGesture": "Welche Geste soll ein Benutzer vorführen, damit die Funktion ausgelöst werden kann?",
             "gestureTrainingFeedback": "Soll dem Benutzer eine Systemrückmeldung angezeigt werden? Oder genügt ein UI-Übergang als Rückmeldung (falls UIs verwendet werden)?",
             "invertContinuousValues": "Ist ein Pidoco-Prototyp als UI gekoppelt? Die Werte, welche an Pidoco gesendet werden, liegen für eine kontinuierliche Geste zwischen 0 und 100. Sie können für kontinuierliche Gesten-Interaktionen die Gesten-Vorschau invertieren. Eine Invertierung kann auch noch während der Durchführung vorgenommen werden.",
-            "useEventBus": "",
-            "continuousValueType": "Es kann hier die Art der Manipulation gewählt werden, welche Einfluss auf das Verhalten des Pidoco-Prototyps hat. Bei Auswahl <em>Keine</em> wird nur die Geste an Pidoco gesendet.",
+            "useEventBus": "Falls Sie einen Pidoco-Prototyp nutzen wollen, der mit Hilfe der Gestenausführung manipuliert wird, müssen diese Ereignisse über einen Event-Bus an Pidoco übertragen werden. Nutzen Sie den Event-Bus daher, um z.B. die Cursorsteuerung einer Maus zu simulieren oder einen Slider über Prozentwerte in Pidoco anzupassen.",
+            "continuousValueType": "Es kann hier die Art der Manipulation gewählt werden, welche Einfluss auf das Verhalten des Pidoco-Prototyps hat. Bei Auswahl <em>Automatisch</em> werden die hinterlegten Daten für die ausgewählte Geste übernommen. Bei Auswahl <em>Keine</em> wird nur die Geste an Pidoco gesendet. Mit den anderen Auswahlmöglichkeiten können die gespeicherten Daten einer Geste überschrieben werden.",
             "gestureTrainingFeedbackMode": "Automatisch bedeudet, dass diese Systemrückmeldung automatisch nach einer Geste angezeigt wird?",
             "gestureTrainingFeedbackTime": "Wie lange soll diese Systemrückmeldung angezeigt werden, bevor das nächste UI aufgerufen wird (falls UI's verwendet werden)?",
             "gestureTrainingRepeats": "Wie oft soll das Training für die gewählte Interaktionsaufgabe, Geste und Systemrückmeldung vom Probanden wiederholt werden?",

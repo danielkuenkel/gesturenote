@@ -1,5 +1,6 @@
 var currentPhaseStepIndex = 0;
 var currentClass = null;
+var currentSimulationGestureSetId = null;
 
 var questionnaireDone = false;
 //var gestureTrainingStartTriggered = false;

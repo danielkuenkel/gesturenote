@@ -423,6 +423,7 @@ if (login_check($mysqli) == true) {
         function onAllExternalsLoadedSuccessfully() {
             renderSubPageElements();
             animateBreadcrump();
+            checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
             getGestureSets(function (setResults) {
                 setLocalItem(GESTURE_SETS, setResults.gestureSets);

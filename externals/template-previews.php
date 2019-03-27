@@ -983,7 +983,7 @@ include '../includes/language.php';
                         <div class="btn-invert-slider-values" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->valuesNotInverted ?>"><i class="fa fa-exchange"></i></div>
                     </div>
 
-                    <div class="gesture-info-symbols small">
+                    <div class="gesture-info-symbols">
                         <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
                             <span class="gesture-info-symbol-text text-gesture-execution small"></span>
                             <div class="gesture-info-symbol symbol-gesture-execution small"></div>

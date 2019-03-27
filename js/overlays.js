@@ -985,20 +985,28 @@ function initGestureTrainingOverlay(id, formatClone) {
                     $(clone).find('#recognition-stepper').val(parseInt(recognitionTime));
                 }
 
+                $(clone).find('.use-event-bus #' + trainingItems[i].useEventBus).click();
+                if (trainingItems[i].useEventBus === 'yes') {
+                    $(clone).find('.continuous-value-type').removeClass('hidden');
+                    $(clone).find('.continuous-value-type #' + trainingItems[i].continuousValueType).click();
+                }
+
+                initTransitionWOZSceneSelect(clone);
+
                 if (trainingItems[i].transitionScenes && trainingItems[i].transitionScenes.length > 0) {
                     for (var j = 0; j < trainingItems[i].transitionScenes.length; j++) {
                         var scene = getSceneById(trainingItems[i].transitionScenes[j].sceneId);
                         var item = $('#form-item-container').find('#training-woz-transition-scene-option').clone().removeAttr('id');
                         $(clone).find('.transition-scenes-option-container').append(item);
                         $(item).find('#scene-description').val(trainingItems[i].transitionScenes[j].description);
-                        initTransitionWOZSceneSelect(item);
+//                        initTransitionWOZSceneSelect(item);
                         if (scene) {
                             $(item).find('.sceneSelect #' + scene.id).click();
-                            if (scene.type === SCENE_PIDOCO) {
-                                $(item).find('.event-bus-settings').removeClass('hidden');
-                            }
-                            $(item).find('.use-event-bus #' + trainingItems[i].transitionScenes[j].useEventBus).click();
-                            $(item).find('.continuous-value-type #' + trainingItems[i].transitionScenes[j].continuousValueType).click();
+//                            if (scene.type === SCENE_PIDOCO) {
+//                                $(item).find('.event-bus-settings').removeClass('hidden');
+//                            }
+//                            $(item).find('.use-event-bus #' + trainingItems[i].transitionScenes[j].useEventBus).click();
+//                            $(item).find('.continuous-value-type #' + trainingItems[i].transitionScenes[j].continuousValueType).click();
                         } else if (trainingItems[i].transitionScenes[j].sceneId !== 'unselected') {
                             appendAlert(item, ALERT_ASSEMBLED_SCENE_REMOVED);
                         }
@@ -1045,6 +1053,13 @@ function initGestureTrainingOverlay(id, formatClone) {
                 if (feedbackId === 'unselected') {
                     feedbackId = 'none';
                 }
+
+                var useEventBus = $(item).find('.use-event-bus .btn-option-checked').attr('id');
+                var continuousValueType = null;
+                if (useEventBus === 'yes') {
+                    continuousValueType = $(item).find('.continuous-value-type .btn-option-checked').attr('id');
+                }
+
                 var feedbackTransitionMode = $(item).find('.transitionFeedback-mode .btn-option-checked').attr('id');
                 var feedbackTransitionTime = $(item).find('.transitionFeedback-time-stepper .stepper-text').val();
 
@@ -1073,7 +1088,9 @@ function initGestureTrainingOverlay(id, formatClone) {
                         recognitionTime: recognitionTime,
                         feedbackTransitionMode: feedbackTransitionMode,
                         feedbackTransitionTime: feedbackTransitionTime,
-                        transitionScenes: transitionScenes
+                        transitionScenes: transitionScenes,
+                        useEventBus: useEventBus,
+                        continuousValueType: continuousValueType
                     });
                 }
             }
@@ -1094,6 +1111,7 @@ function initGestureTrainingOverlay(id, formatClone) {
             tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#training .option-container'), 'gestureTrainingItem', true);
             initTransitionFeedbackMode(item, formatClone);
             initAddTransitionSceneButton(item, formatClone);
+            initTransitionWOZSceneSelect(item);
 
             setTimeout(function () {
                 $(item).find('.btn-expand').click();
@@ -1210,7 +1228,6 @@ function initScenarioOverlay(id, formatClone) {
     if (scenes === null) {
         appendAlert($(formatClone).find('#wozExperiment'), ALERT_NO_SCENES_ASSEMBLED_LINK);
         $(formatClone).find('#wozExperiment .btn-add-woz-experimentOption').addClass('hidden');
-//        $(formatClone).find('#help .btn-add-helpOption').addClass('hidden');
         $(formatClone).find('#btn-assemble-scenes').on('click', function (event) {
             event.preventDefault();
             $(formatClone).find('.btn-close-overlay').click();
@@ -1218,7 +1235,6 @@ function initScenarioOverlay(id, formatClone) {
         });
     }
 
-//    renderAssembledGestures(null, [{id: 'wrongGesture', title: translation.wrongGesture}]);
     renderAssembledGestures();
     if (!assembledGestures()) {
         appendAlert($(formatClone).find('#wozExperiment'), ALERT_NO_STUDY_GESTURES_ASSEMBLED_LINK);
@@ -1242,12 +1258,7 @@ function initScenarioOverlay(id, formatClone) {
         });
     }
 
-//    var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
     renderAssembledFeedback(null, [{id: 'none', title: translation.none}]);
-//    if (!feedback) {
-//        appendAlert($(formatClone).find('#wozExperiment'), ALERT_NO_FEEDBACK_ASSEMBLED_LINK);
-//        $(formatClone).find('#wozExperiment .btn-add-woz-experimentOption').addClass('hidden');
-//    }
 
     var data = getLocalItem(id + '.data');
     if (data) {
@@ -1301,8 +1312,7 @@ function initScenarioOverlay(id, formatClone) {
                 if (wozItems && wozItems.length > 0) {
                     container = $(taskItem).find('#woz-item-container .option-container');
                     for (var j = 0; j < wozItems.length; j++) {
-                        var clone = $('#form-item-container').find('#wozExperimentItem').clone().removeAttr('id');
-                        $(clone).removeAttr('id');
+                        var clone = $('#form-item-container').find('#wozExperimentItem').clone().attr('id', 'wozItem');
                         container.append(clone);
 
                         var gesture = getGestureById(wozItems[j].gestureId);
@@ -1333,6 +1343,14 @@ function initScenarioOverlay(id, formatClone) {
                             }
                         }
 
+                        $(clone).find('.use-event-bus #' + wozItems[j].useEventBus).click();
+                        if (wozItems[j].useEventBus === 'yes') {
+                            $(clone).find('.continuous-value-type').removeClass('hidden');
+                            $(clone).find('.continuous-value-type #' + wozItems[j].continuousValueType).click();
+                        }
+
+                        initTransitionWOZSceneSelect(clone);
+
                         $(clone).find('.transitionFeedback-mode #' + wozItems[j].feedbackTransitionMode).click();
                         $(clone).find('.transitionFeedback-time-stepper .stepper-text').val(wozItems[j].feedbackTransitionTime);
                         if (wozItems[j].transitionScenes && wozItems[j].transitionScenes.length > 0) {
@@ -1341,14 +1359,14 @@ function initScenarioOverlay(id, formatClone) {
                                 var item = $('#form-item-container').find('#woz-transition-scene-option').clone().removeAttr('id');
                                 $(item).attr('id', wozItems[j].transitionScenes[k].id || chance.natural());
                                 $(clone).find('.transition-scenes-option-container').append(item);
-                                initTransitionWOZSceneSelect(item);
+
                                 if (scene) {
                                     $(item).find('.sceneSelect #' + scene.id).click();
-                                    if (scene.type === SCENE_PIDOCO) {
-                                        $(item).find('.event-bus-settings').removeClass('hidden');
-                                    }
-                                    $(item).find('.use-event-bus #' + wozItems[j].transitionScenes[k].useEventBus).click();
-                                    $(item).find('.continuous-value-type #' + wozItems[j].transitionScenes[k].continuousValueType).click();
+//                                    if (scene.type === SCENE_PIDOCO) {
+//                                        $(item).find('.event-bus-settings').removeClass('hidden');
+//                                    }
+//                                    $(item).find('.use-event-bus #' + wozItems[j].transitionScenes[k].useEventBus).click();
+//                                    $(item).find('.continuous-value-type #' + wozItems[j].transitionScenes[k].continuousValueType).click();
                                 } else if (wozItems[j].transitionScenes[k].sceneId !== 'unselected') {
                                     appendAlert(item, ALERT_ASSEMBLED_SCENE_REMOVED);
                                 }
@@ -1366,11 +1384,13 @@ function initScenarioOverlay(id, formatClone) {
                         }
                         initAddTransitionSceneButton(clone, formatClone);
                     }
+
                     checkCurrentListState(container);
                 }
             }
 
             updateBadges($(formatClone).find('#tasks-container .task-option-container'), 'taskItem');
+            updateBadges($(taskItem).find('#woz-item-container .option-container'), 'wozItem');
             renderAssembledTasks(getAssembledTasks());
             checkCurrentListState($(formatClone).find('#tasks-container .task-option-container'));
 //            $(formatClone).find('#tasks-container .task-option-container .panel-body').addClass('hidden');
@@ -1474,7 +1494,6 @@ function initScenarioOverlay(id, formatClone) {
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
         $(formatClone).find('#btn-save-phase-step-title').click();
         var scenario = new Object();
-//        scenario.title = $(formatClone).find('#scenarioTitle').val();
         scenario.description = $(formatClone).find('#scenarioDescription').val();
         if ($(formatClone).find('#general .sceneSelect .chosen').attr('id') !== 'unselected') {
             scenario.scene = $(formatClone).find('#general .sceneSelect .chosen').attr('id');
@@ -1498,7 +1517,6 @@ function initScenarioOverlay(id, formatClone) {
                 var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
                 var gesture = getGestureById(gestureId);
                 var invertContinuousValues = $(item).find('.invert-continuous-values .btn-option-checked').attr('id');
-//                console.log('continuousValueType', continuousValueType);
 
                 var feedbackId = $(item).find('.feedbackSelect .chosen').attr('id');
                 if (feedbackId === 'unselected') {
@@ -1506,6 +1524,13 @@ function initScenarioOverlay(id, formatClone) {
                 }
                 var feedbackTransitionMode = $(item).find('.transitionFeedback-mode .btn-option-checked').attr('id');
                 var feedbackTransitionTime = $(item).find('.transitionFeedback-time-stepper .stepper-text').val();
+
+                var useEventBus = $(item).find('.use-event-bus .btn-option-checked').attr('id');
+                var continuousValueType = null;
+                if (useEventBus === 'yes') {
+                    continuousValueType = $(item).find('.continuous-value-type .btn-option-checked').attr('id');
+                }
+
                 var transitionScenes = [];
                 var transitionItems = $(item).find('.transition-scenes-option-container').children();
                 for (var k = 0; k < transitionItems.length; k++) {
@@ -1518,11 +1543,6 @@ function initScenarioOverlay(id, formatClone) {
                         }
                     }
 
-                    object.useEventBus = $(transitionItems[k]).find('.use-event-bus .btn-option-checked').attr('id');
-                    if (object.useEventBus === 'yes') {
-                        object.continuousValueType = $(transitionItems[k]).find('.continuous-value-type .btn-option-checked').attr('id');
-                    }
-
                     transitionScenes.push(object);
                 }
 
@@ -1530,8 +1550,8 @@ function initScenarioOverlay(id, formatClone) {
                     woz.push({triggerId: triggerId,
                         gestureId: gestureId,
                         invertValues: invertContinuousValues,
-//                        useEventBus: useEventBus,
-//                        continuousValueType: continuousValueType,
+                        useEventBus: useEventBus,
+                        continuousValueType: continuousValueType,
                         feedbackId: feedbackId,
                         feedbackTransitionMode: feedbackTransitionMode,
                         feedbackTransitionTime: feedbackTransitionTime,
@@ -1563,8 +1583,6 @@ function initScenarioOverlay(id, formatClone) {
         scenario.taskAssessments = assessments;
 
         var helpItems = $(formatClone).find('#help .option-container').children();
-//        if ($(formatClone).find('#useHelpSwitch #yes').hasClass('active'))
-//        {
         var scenarioHelp = new Array();
         for (var i = 0; i < helpItems.length; i++) {
             var item = helpItems[i];
@@ -1585,7 +1603,6 @@ function initScenarioOverlay(id, formatClone) {
         } else {
             scenario.help = null;
         }
-//        }
 
         saveObservations($(formatClone), $(formatClone).find('#observations #list-container').children(), scenario);
         setLocalItem(id + ".data", scenario);
@@ -1633,18 +1650,6 @@ function initScenarioOverlay(id, formatClone) {
         });
     }
 
-//    function initExpandTaskButton(item) {
-//        $(item).find('.btn-expand').bind('click', function (event) {
-//            event.preventDefault();
-//            if ($(this).closest('.root').find('.panel-body').hasClass('hidden')) {
-//                $(this).closest('.task-option-container').find('.panel-body').addClass('hidden');
-//                $(this).closest('.task-option-container').find('.btn-expand').removeClass('hidden');
-//                $(this).closest('.root').find('.panel-body').removeClass('hidden');
-//                $(this).closest('.root').find('.btn-expand').addClass('hidden');
-//            }
-//        });
-//    }
-
     $(formatClone).find('.btn-add-taskAssessmentOption').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (event.handled !== true)
@@ -1672,10 +1677,13 @@ function initScenarioOverlay(id, formatClone) {
             {
                 event.handled = true;
                 clearAlerts($(taskItem).find('#woz-item-container'));
-                var item = $('#form-item-container').find('#wozExperimentItem').clone().removeAttr('id');
-                tweenAndAppend(item, $(this), $(formatClone), $(taskItem).find('#woz-item-container .option-container'), null, true);
+                var item = $('#form-item-container').find('#wozExperimentItem').clone().attr('id', 'wozItem');
+                tweenAndAppend(item, $(this), $(formatClone), $(taskItem).find('#woz-item-container .option-container'), null, true, function() {
+                    updateBadges($(taskItem).find('#woz-item-container .option-container'), 'wozItem');
+                });
                 initTransitionFeedbackMode(item, formatClone);
                 initAddTransitionSceneButton(item, formatClone);
+                initTransitionWOZSceneSelect(item);
                 $(item).find('.btn-add-transition-scene').click();
             }
         });
@@ -1733,16 +1741,18 @@ function initScenarioOverlay(id, formatClone) {
  */
 
 function initTransitionWOZSceneSelect(target) {
-    $(target).find('.sceneSelect').unbind('change').bind('change', function (event) {
-        event.preventDefault();
-        var sceneId = $(this).find('.chosen').attr('id');
-        var scene = getSceneById(sceneId);
-        if (scene.type === SCENE_PIDOCO) {
-            $(target).find('.event-bus-settings').removeClass('hidden');
-        } else {
-            $(target).find('.event-bus-settings').addClass('hidden');
-        }
-    });
+    $(target).find('.event-bus-settings').removeClass('hidden');
+
+//    $(target).find('.sceneSelect').unbind('change').bind('change', function (event) {
+//        event.preventDefault();
+//        var sceneId = $(this).find('.chosen').attr('id');
+//        var scene = getSceneById(sceneId);
+//        if (scene.type === SCENE_PIDOCO) {
+//            
+//        } else {
+//            $(target).find('.event-bus-settings').addClass('hidden');
+//        }
+//    });
 
     $(target).find('.use-event-bus').unbind('change').bind('change', function (event) {
         event.preventDefault();
@@ -2225,7 +2235,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
                     }
 
                     if (gestures && gestures.length > 0) {
-                        
+
                         set.push({id: itemId, gestures: gestures});
                         console.log('id:', itemId, set);
                     }
@@ -2264,7 +2274,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
             stressTest.sequenceStressGraphicsRating = $(formatClone).find('#useGraphicalSequenceStressSwitch .btn-option-checked').attr('id');
         }
 
-console.log(stressTest);
+        console.log(stressTest);
         saveObservations($(formatClone), $(formatClone).find('#observations #list-container').children(), stressTest);
         setLocalItem(id + ".data", stressTest);
     });
@@ -3089,6 +3099,7 @@ function initCatalogGesturesOverlay(formatClone) {
                     sort: $(formatClone).find('#study-gesture-set #sort')
                 }
             };
+
             initPagination(data);
             $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble) {
 //                console.log('study gestures changed', gestureId);
@@ -3101,6 +3112,7 @@ function initCatalogGesturesOverlay(formatClone) {
                             currentFilterData = sort();
                             updatePaginationItems();
                             renderData(originalFilterData);
+                            $(formatClone).find('.tagged-symbol').addClass('hidden');
                             $(formatClone).find('#study-gesture-set #filter-controls').removeClass('hidden');
                         } else {
                             currentFilterList.empty();
@@ -3112,6 +3124,7 @@ function initCatalogGesturesOverlay(formatClone) {
                     }
                 });
             });
+
             $(formatClone).find('#study-gesture-set #sort #newest').removeClass('selected');
             $(formatClone).find('#study-gesture-set #sort #newest').click();
         } else {
@@ -3123,7 +3136,10 @@ function initCatalogGesturesOverlay(formatClone) {
 
         $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
             renderData(data);
+            $(formatClone).find('.tagged-symbol').addClass('hidden');
         });
+
+        $(formatClone).find('.tagged-symbol').addClass('hidden');
     }
 
     function getWholeGestureCatalog() {
@@ -3249,17 +3265,14 @@ function initCatalogGesturesOverlay(formatClone) {
         });
 
         $(formatClone).find('#gesture-sets .create-gesture-set-input').unbind('gestureSetCreated').bind('gestureSetCreated', function (event) {
-//            console.log('gesture set created');
             getWholeGestureSets();
         });
 
         $(formatClone).find('#gesture-sets #gesture-sets-container').unbind('gestureSetDeleted').bind('gestureSetDeleted', function (event) {
-//            console.log('gesture set deleted');
             getWholeGestureSets();
         });
 
         $('#custom-modal').unbind('gestureSetsUpdated').bind('gestureSetsUpdated', function (event) {
-//            console.log('gesture set updated');
             getGestureSets(function (result) {
                 if (result.status === RESULT_SUCCESS) {
                     originalFilterData = result.gestureSets;
@@ -3277,7 +3290,6 @@ function initCatalogGesturesOverlay(formatClone) {
     function getWholeGestureRecorder() {
         var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-with-introductions').clone().removeAttr('id');
         $(formatClone).find('#gesture-recorder-container').empty().append(recorder);
-//            renderBodyJoints($(recorder).find('#human-body'));
 
         var options = {
             recorderTarget: recorder,
@@ -3294,30 +3306,9 @@ function initCatalogGesturesOverlay(formatClone) {
 
         gestureRecorder = new GestureRecorder(options);
 
-//        var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');
-//        $(formatClone).find('#gesture-recorder-container').empty().append(recorder);
-//        renderBodyJoints($(recorder).find('#human-body'));
-//        var options = {
-//            alertTarget: $(formatClone).find('#gesture-recorder-container'),
-//            recorderTarget: recorder,
-//            saveGestures: true,
-//            checkType: true,
-//            checkInteractionType: true
-//        };
-//        new GestureRecorder(options);
-
-//        var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
-//        formatClone.find('#recorder-description').empty().append(recorderDescription);
-//        $(gestureRecorder).unbind(EVENT_GR_UPDATE_STATE).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
-//            var descriptions = $('#item-container-gesture-recorder').find('#' + type).clone();
-//            recorderDescription.empty().append(descriptions);
-//            TweenMax.from(descriptions, .3, {y: -20, opacity: 0, clearProps: 'all'});
-//        });
-
         $(gestureRecorder).unbind(GR_EVENT_SAVE_SUCCESS).bind(GR_EVENT_SAVE_SUCCESS, function (event, savedGesture) {
             event.preventDefault();
             if (savedGesture) {
-//                console.log(savedGesture);
                 assembleGesture(savedGesture.id);
                 getGestureCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
@@ -3330,7 +3321,6 @@ function initCatalogGesturesOverlay(formatClone) {
         });
 
         $(gestureRecorder).unbind(GR_EVENT_DELETE_SUCCESS).bind(GR_EVENT_DELETE_SUCCESS, function (event, gestureId) {
-//            console.log(GR_EVENT_DELETE_SUCCESS, gestureId);
             event.preventDefault();
             reassembleGesture(gestureId);
             getGestureCatalog(function (result) {
@@ -3618,15 +3608,20 @@ function initCatalogScenesOverlay(formatClone) {
  * functions cound use for all overlay formats
  */
 
-function tweenAndAppend(item, triggerElement, formatClone, container, itemType, fixDynamicAffixScrolling) {
-    console.log('tweenAndAppend');
+function tweenAndAppend(item, triggerElement, formatClone, container, itemType, fixDynamicAffixScrolling, callback) {
+//    console.log('tweenAndAppend');
     var tweenTarget = container.children().last();
     var tweenTargetOffset = !tweenTarget || (tweenTarget && tweenTarget.length === 0) ? $(container).offset() : $(tweenTarget).offset();
     var tweenElementOffset = $(triggerElement).offset();
     var tweenOffset = {offsetY: tweenTargetOffset.top - tweenElementOffset.top + tweenTarget.height(), offsetX: tweenTargetOffset.left - tweenElementOffset.left};
     var alphaY = tweenOffset.offsetY < 0 ? '' + tweenOffset.offsetY : '+' + tweenOffset.offsetY;
     var alphaX = tweenOffset.offsetX < 0 ? '' + tweenOffset.offsetX : '+' + tweenOffset.offsetX;
-    TweenMax.to($(triggerElement), .3, {x: alphaX, y: alphaY, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: onMoveComplete, onCompleteParams: [item, formatClone, container, itemType, fixDynamicAffixScrolling]});
+    TweenMax.to($(triggerElement), .3, {x: alphaX, y: alphaY, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: function () {
+            onMoveComplete(item, formatClone, container, itemType, fixDynamicAffixScrolling);
+            if (callback) {
+                callback();
+            }
+        }});
 }
 
 function onMoveComplete(clone, formatClone, listContainer, itemType, fixDynamicAffixScrolling) {

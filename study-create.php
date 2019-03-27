@@ -596,6 +596,7 @@ if (login_check($mysqli) == true) {
         <script>
             var firstInit = false;
             var jumpToId = null;
+            var currentSessionUserId = parseInt(<?php echo $_SESSION['user_id'] ?>);
 
             $(document).ready(function () {
                 firstInit = true;
@@ -623,10 +624,10 @@ if (login_check($mysqli) == true) {
             var previewStudyButton = $('#fixed-study-edit-controls .btn-preview-study');
             var previewButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(previewStudyButton).css({borderBottomRightRadius: '8px'});
-                    $(previewStudyButton).addClass('btn-primary');
+                    $(previewStudyButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(previewStudyButton).css({borderBottomRightRadius: '0px'});
-                    $(previewStudyButton).removeClass('btn-primary');
+                    $(previewStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             previewButtonTimeline.add("previewStudy", 0)
@@ -646,10 +647,10 @@ if (login_check($mysqli) == true) {
             var cacheButton = $('#fixed-study-edit-controls .btn-cache-study');
             var cacheButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(cacheButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(cacheButton).addClass('btn-primary');
+                    $(cacheButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(cacheButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
-                    $(cacheButton).removeClass('btn-primary');
+                    $(cacheButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             cacheButtonTimeline.add("cacheStudy", 0)
@@ -669,10 +670,10 @@ if (login_check($mysqli) == true) {
             var saveStudyButton = ('#fixed-study-edit-controls .btn-save-study');
             var saveButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(saveStudyButton).css({borderTopRightRadius: '8px'});
-                    $(saveStudyButton).addClass('btn-primary');
+                    $(saveStudyButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(saveStudyButton).css({borderTopRightRadius: '0px'});
-                    $(saveStudyButton).removeClass('btn-primary');
+                    $(saveStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             saveButtonTimeline.add("saveStudy", 0)
@@ -692,10 +693,10 @@ if (login_check($mysqli) == true) {
             var joinConversationButton = $('#fixed-study-edit-controls .btn-join-conversation');
             var conversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(joinConversationButton).addClass('btn-primary');
+                    $(joinConversationButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(joinConversationButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
-                    $(joinConversationButton).removeClass('btn-primary');
+                    $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             conversationButtonTimeline.add("saveStudy", 0)
@@ -715,10 +716,10 @@ if (login_check($mysqli) == true) {
             var leaveConversationButton = $('#fixed-study-edit-controls .btn-leave-conversation');
             var leaveConversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(leaveConversationButton).addClass('btn-danger');
+                    $(leaveConversationButton).removeClass('btn-default').addClass('btn-danger');
                 }, onReverseComplete: function () {
                     $(leaveConversationButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
-                    $(leaveConversationButton).removeClass('btn-danger');
+                    $(leaveConversationButton).removeClass('btn-danger').addClass('btn-default');
                 }});
 
             leaveConversationButtonTimeline.add("saveStudy", 0)
@@ -756,6 +757,8 @@ if (login_check($mysqli) == true) {
             var studyEditable = false;
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
+
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 if (query.studyId && query.h === hash) {
@@ -876,6 +879,7 @@ if (login_check($mysqli) == true) {
                     $('#tab-introduction a').click();
                 }
 
+                checkPreviewAvailability();
                 showPageContent();
                 initTooltips();
                 initPopover();
@@ -960,7 +964,6 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-//                console.log('add phase step', prependItem, clone, $('#phaseStepList').find('.form-group').last());
                 if (prependItem && prependItem === true) {
                     setTimeout(function () {
                         $(clone).insertBefore($('#phaseStepList').children().last());
@@ -986,21 +989,7 @@ if (login_check($mysqli) == true) {
 
             $('#phaseSelect').on('change', function (event) {
                 event.preventDefault();
-
-                var catalogsNav = $('#create-tab-navigation #tab-catalogs');
-                var phasesNav = $('#create-tab-navigation #tab-phases');
-                if ($(phasesNav).hasClass('disabledTab') && $(catalogsNav).hasClass('disabledTab')) {
-                    $(phasesNav).removeClass('disabledTab');
-                    $(catalogsNav).removeClass('disabledTab');
-                    if (firstInit) {
-                        firstInit = false;
-                        TweenMax.to(catalogsNav, .1, {y: -20});
-                        TweenMax.to(catalogsNav, .5, {delay: .1, y: 0, ease: Bounce.easeOut});
-                        TweenMax.to(phasesNav, .1, {delay: .1, y: -20});
-                        TweenMax.to(phasesNav, .5, {delay: .2, y: 0, ease: Bounce.easeOut});
-                    }
-                }
-
+                checkNavbarButtons();
                 checkSelectedGeneralStudyProperties();
                 saveGeneralData();
                 renderPhaseSteps();
@@ -1034,6 +1023,48 @@ if (login_check($mysqli) == true) {
                     } else {
                         $(button).addClass('hidden');
                     }
+                }
+            }
+
+            $('#studyTitle').unbind('input').bind('input', function (event) {
+                event.preventDefault();
+                checkNavbarButtons();
+            });
+
+            $('#studyDescription').unbind('input').bind('input', function (event) {
+                event.preventDefault();
+                checkNavbarButtons();
+            });
+
+            function checkNavbarButtons() {
+                var catalogsNav = $('#create-tab-navigation #tab-catalogs');
+                var phasesNav = $('#create-tab-navigation #tab-phases');
+                $(catalogsNav).addClass('disabledTab');
+                $(phasesNav).addClass('disabledTab');
+
+                var selectedPhase = $('#phaseSelect').find('.btn-option-checked').attr('id');
+                if (!selectedPhase) {
+                    return null;
+                }
+
+                var titleInput = $('#studyTitle').val();
+                if (new String(titleInput).trim() === '') {
+                    return null;
+                }
+
+                var descriptionInput = $('#studyDescription').val();
+                if (new String(descriptionInput).trim() === '') {
+                    return null;
+                }
+
+                $(phasesNav).removeClass('disabledTab');
+                $(catalogsNav).removeClass('disabledTab');
+                if (firstInit) {
+                    firstInit = false;
+                    TweenMax.to(catalogsNav, .1, {y: -20});
+                    TweenMax.to(catalogsNav, .5, {delay: .1, y: 0, ease: Bounce.easeOut});
+                    TweenMax.to(phasesNav, .1, {delay: .1, y: -20});
+                    TweenMax.to(phasesNav, .5, {delay: .2, y: 0, ease: Bounce.easeOut});
                 }
             }
 
@@ -1291,7 +1322,6 @@ if (login_check($mysqli) == true) {
                             break;
                     }
                 }
-//                console.log(activeTab);
 
                 $('#custom-modal').attr('data-help-items-key', 'introductionCreateStudy');
                 $('#custom-modal').attr('data-help-context', 'studyCreation');
@@ -1323,12 +1353,11 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 var scrollTarget = $(event.target).children().last();
                 var newScrollTop = Math.max(0, $(scrollTarget).offset().top);
-                console.log($(scrollTarget).offset(), newScrollTop);
                 $('html, body').animate({
                     scrollTop: newScrollTop
                 }, 400);
             });
-            
+
             $('#phaseStepList').unbind('change').bind('change', function (event) {
                 savePhases();
             });
@@ -1432,7 +1461,8 @@ if (login_check($mysqli) == true) {
 
             $('#from-To-datepicker #end').on('hide', function (event) {
                 $('#btn-show-datepicker-to').removeClass('active');
-            });
+            }
+            );
         </script>
 
     </body>

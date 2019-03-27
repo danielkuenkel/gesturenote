@@ -1887,6 +1887,7 @@ include '../includes/language.php';
                     <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                     <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 </div>
+                <span><?php echo $lang->wozElement ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
             </div>
             <div class="panel-body" style="margin-bottom: 0px">
                 <div class="row">
@@ -1906,9 +1907,6 @@ include '../includes/language.php';
 
                     <div class="col-sm-12">
                         <div class="panel panel-default">
-                            <!--                            <div class="custom-panel-headline">
-                                                            Geste
-                                                        </div>-->
                             <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -1965,9 +1963,6 @@ include '../includes/language.php';
 
                     <div class="col-sm-12">
                         <div class="panel panel-default">
-                            <!--                            <div class="custom-panel-headline">
-                                                            Geste
-                                                        </div>-->
                             <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -2040,102 +2035,99 @@ include '../includes/language.php';
 
                 </div>
 
-                <!--                <div class="row">
-                
-                                    <div class="col-sm-12">
-                                        <div class="panel panel-default">
-                                            <div class="custom-panel-headline">
-                                                Event-Bus
-                                            </div>
-                                            <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px">
-                                                <div class="row">
-                
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group use-event-bus" style="">
-                                                            <label><?php echo $lang->useEventBus ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->useEventBus ?>"></i></label>
-                                                            <div class="root">
-                                                                <div class="btn-group" id="radio" style="margin: 0">
-                                                                    <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->no ?></span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="btn-group" id="radio" style="margin: 0">
-                                                                    <button class="btn btn-default btn-radio" name="primary" id="yes">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->yes ?></span>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group continuous-value-type hidden" style="">
-                                                            <label><?php echo $lang->continuousValueTypeLabel ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i></label>
-                                                            <div class="root">
-                                                                <div class="btn-group" id="radio" style="margin: 0; display: flex">
-                                                                    <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="none">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->none ?></span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                                                    <button class="btn btn-default btn-radio" name="primary" id="manipulationPercent">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->continuousValueType->manipulationPercent ?></span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                                                    <button class="btn btn-default btn-radio" name="primary" id="manipulationMouse">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->continuousValueType->manipulationMouse ?></span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                                                    <button class="btn btn-default btn-radio" name="primary" id="mouseSimulation">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->continuousValueType->mouseSimulation ?></span>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                
-                                                </div>
-                                            </div>
+                <div class="panel panel-default event-bus-settings hidden">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-no-margin use-event-bus" style="">
+                                    <label><?php echo $lang->useEventBus ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->useEventBus ?>"></i></label>
+                                    <div class="root">
+                                        <div class="btn-group" id="radio" style="margin: 0">
+                                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->no ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" id="radio" style="margin: 0">
+                                            <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->yes ?></span>
+                                            </button>
                                         </div>
                                     </div>
-                                </div>-->
+                                </div>
+                            </div>
 
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-no-margin continuous-value-type hidden" style="">
+                                    <label><?php echo $lang->continuousValueTypeLabel ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i></label>
+                                    <div class="root">
+                                        <div class="btn-group" id="radio" style="margin: 0; display: flex">
+                                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="automatically">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->Automatically ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                            <button class="btn btn-default btn-radio" name="primary" id="none">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->none ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                            <button class="btn btn-default btn-radio" name="primary" id="percent">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->continuousValueType->percent ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                            <button class="btn btn-default btn-radio" name="primary" id="position">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->continuousValueType->position ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                            <button class="btn btn-default btn-radio" name="primary" id="mouseSimulation">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->continuousValueType->mouseSimulation ?></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                <!--                <div class="row">
-                
-                                </div>-->
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="row">
                     <div class="col-sm-11">
@@ -2228,86 +2220,6 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>    
-            </div>
-
-            <div class="row event-bus-settings hidden" style="margin-top: 10px">
-
-                <div class="col-sm-6">
-                    <div class="form-group form-group-no-margin use-event-bus" style="">
-                        <label><?php echo $lang->useEventBus ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->useEventBus ?>"></i></label>
-                        <div class="root">
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->no ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio" name="primary" id="yes">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->yes ?></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6">
-                    <div class="form-group form-group-no-margin continuous-value-type hidden" style="">
-                        <label><?php echo $lang->continuousValueTypeLabel ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i></label>
-                        <div class="root">
-                            <div class="btn-group" id="radio" style="margin: 0; display: flex">
-                                <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="none">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->none ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                <button class="btn btn-default btn-radio" name="primary" id="percent">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->continuousValueType->percent ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                <button class="btn btn-default btn-radio" name="primary" id="position">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->continuousValueType->position ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                <button class="btn btn-default btn-radio" name="primary" id="mouseSimulation">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->continuousValueType->mouseSimulation ?></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
         </div>
@@ -2777,6 +2689,99 @@ include '../includes/language.php';
 
 
 
+            </div>
+
+            <div class="panel panel-default event-bus-settings hidden">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-no-margin use-event-bus" style="">
+                                <label><?php echo $lang->useEventBus ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->useEventBus ?>"></i></label>
+                                <div class="root">
+                                    <div class="btn-group" id="radio" style="margin: 0">
+                                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->no ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" id="radio" style="margin: 0">
+                                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->yes ?></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-no-margin continuous-value-type hidden" style="">
+                                <label><?php echo $lang->continuousValueTypeLabel ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i></label>
+                                <div class="root">
+                                    <div class="btn-group" id="radio" style="margin: 0; display: flex">
+                                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="automatically">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->Automatically ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                        <button class="btn btn-default btn-radio" name="primary" id="none">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->none ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                        <button class="btn btn-default btn-radio" name="primary" id="percent">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->continuousValueType->percent ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                        <button class="btn btn-default btn-radio" name="primary" id="position">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->continuousValueType->position ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                        <button class="btn btn-default btn-radio" name="primary" id="mouseSimulation">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->continuousValueType->mouseSimulation ?></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
             <div class="row">

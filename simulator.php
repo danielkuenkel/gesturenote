@@ -27,8 +27,8 @@ if (login_check($mysqli) == true) {
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
         <script src="js/lines/jquery.line.js"></script>
-        <link href="js/vis/vis-timeline-graph2d.min.css" rel="stylesheet">
-        <script src="js/vis/vis.min.js"></script>
+        <!--<link href="js/vis/vis-timeline-graph2d.min.css" rel="stylesheet">-->
+        <!--<script src="js/vis/vis.min.js"></script>-->
 
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
@@ -233,10 +233,10 @@ if (login_check($mysqli) == true) {
                                 <span class="time-code-duration">00:00:00</span>
                             </div>
                             <div class="col-xs-12" style="">
-                                <div style="background-image: url('img/corner-back.jpg'); height: 50px; position: absolute; left: 15px; right: 15px"></div>
-                                <div style="background-image: url('img/corner-left.jpg'); width: 34px; height: 50px; position: absolute;"></div>
-                                <div style="background-image: url('img/corner-center.jpg'); width: 60px; height: 50px; position: absolute; left: 50%; transform: translateX(-50%)"></div>
-                                <div style="background-image: url('img/corner-right.jpg'); width: 35px; height: 50px; position: absolute; right: 0px"></div>
+                                <div class="corner-background"></div>
+                                <div class="corner-left"></div>
+                                <div class="corner-center"></div>
+                                <div class="corner-right"></div>
                             </div>
 
                         </div>
@@ -273,6 +273,7 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
                 animateBreadcrump();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 var fixedControlsTween = new TimelineMax({paused: true});
                 fixedControlsTween.add("parallel", .3)

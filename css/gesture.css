@@ -214,7 +214,6 @@ and open the template in the editor.
 .btn-comment-set:hover,
 .btn-comment-set>.fa:hover,
 .btn-show-set-info:hover,
-.gesture-is-in-set>.fa:hover,
 .btn-tag-as-favorite-gesture>.fa:hover, 
 .btn-tag-as-mapping-gesture>.fa:hover, 
 .btn-add-gesture-to-scene>.fa:hover,
@@ -535,3 +534,54 @@ and open the template in the editor.
     border-bottom-left-radius: 8px; 
     border-bottom-right-radius: 8px
 }*/
+
+
+.dark .btn-rate:hover,
+.dark .btn-like:hover,
+.dark .btn-share:hover,
+.dark .btn-comment:hover,
+.dark .btn-edit-gesture-set:hover,
+.dark .btn-show-gesture-info:hover,
+.dark .btn-tag-as-favorite-gesture:hover,
+.dark .btn-tag-as-mapping-gesture:hover,
+.dark .btn-add-gesture-to-scene:hover,
+.dark .btn-delete-exchangeable-gesture:hover,
+.dark .gesture-set-shared>.fa:hover,
+.dark .gesture-liked>.fa:hover,
+.dark .gesture-set-liked>.fa:hover,
+.dark .gesture-rated>.fa:hover,
+.dark .gesture-is-in-set>.fa:hover
+.dark .btn-like-set:hover,
+.dark .btn-like-set>.fa:hover,
+.dark .btn-share-set:hover,
+.dark .btn-share-set>.fa:hover,
+.dark .btn-comment-set:hover,
+.dark .btn-comment-set>.fa:hover,
+.dark .btn-show-set-info:hover,
+.dark .btn-tag-as-favorite-gesture>.fa:hover, 
+.dark .btn-tag-as-mapping-gesture>.fa:hover, 
+.dark .btn-add-gesture-to-scene>.fa:hover,
+.dark .btn-tag-as-main-gesture>.fa:hover, 
+.dark .btn-delete-from-classification>.fa:hover, 
+.dark .btn-edit-gesture-set>.fa:hover /*
+.btn-delete-exchangeable-gesture>.fa:hover */
+{
+    color: white !important;
+}
+
+.dark .btn-like .amount, .dark .btn-comment .amount, .dark .btn-rate .amount, .dark .btn-share .amount, .dark .btn-edit-gesture-set .amount,
+.dark .btn-like-set .amount, .dark .btn-comment-set .amount, .dark .btn-share-set .amount {
+    color: white;
+}
+
+.dark .gesture-is-in-set .fa {
+    color: white;
+}
+
+.dark .gesture-shared, .dark .gesture-set-shared {
+    color: white;
+}
+
+.dark .gesture-tagged .fa {
+    color: white;
+}

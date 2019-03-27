@@ -262,6 +262,15 @@ function checkCookiesAccepted() {
     }
 }
 
+function checkDarkMode() {
+    if (isset($_SESSION['darkmode'])) {
+        echo print_r($_SESSION['darkmode']);
+    } else {
+        $_SESSION['darkmode'] = '0';
+        echo '0';
+    }
+}
+
 function isLocalhost() {
     $whitelist = ['localhost', '::1'];
     return in_array($_SERVER['REMOTE_ADDR'], $whitelist);

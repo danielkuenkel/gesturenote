@@ -31,10 +31,17 @@ function checkCookies(cookiesAccepted) {
     }
 }
 
+function checkDarkMode(darkModeEnabled) {
+    if (darkModeEnabled === 11) {
+        $('body').addClass('dark');
+        $('body').find('.sub-page-header #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
+    }
+}
+
 function getWindowStatusHash() {
     var status = window.location.hash.substr(1);
     var statusAddressMatch = statusAddressMatchIndex(status);
-    console.log('statusAddressMatch', statusAddressMatch)
+
     var statusHash = '';
     if (status !== '' && statusAddressMatch !== null) {
         statusHash = statusAddressMatch.id;
@@ -316,8 +323,22 @@ function renderSubPageElements(hasTopNavbar, hasNoImprint) {
         }
     });
 
+    $(header).find('#toggle-dark-mode').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+
+        toggleDarkmode({darkmode: $('body').hasClass('dark') ? '0' : '1'});
+        if ($('body').hasClass('dark')) {
+            $('body').removeClass('dark');
+            $(this).find('.fa').removeClass('fa-sun-o').addClass('fa-moon-o');
+        } else {
+            $('body').addClass('dark');
+            $(this).find('.fa').removeClass('fa-moon-o').addClass('fa-sun-o');
+        }
+    });
+
     updateLanguageIndicator($(header).find('#language-selection'));
     updateMainBurgerMenu($(header).find('.main-burger-menu'), $('body').find('#breadcrumb'));
+    initPopover();
 }
 
 function updateMainBurgerMenu(target, breadcrump) {

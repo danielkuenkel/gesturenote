@@ -70,32 +70,44 @@ function getGestureSimulationSetPanel(data, type, layout) {
         updateGestureSimluationThumbnail(data.gestures[i], panel, true);
     }
 
-    // mouse modal functionalities
-    $(document).on('click', '.positionArea', function (event) {
-        var pos = getMousePosition(this);
-        var positionType = $('#viewer_positionScreen_type').val();
-        sendContinuousPGPosition($(this).closest('.root').prop('id'), positionType, pos.relPosX, pos.relPosY, true);
-    });
+//    // mouse modal functionalities
+//    $(document).on('click', '.positionArea', function (event) {
+//        var pos = getMousePosition(this);
+//        var positionType = $('#viewer_positionScreen_type').val();
+//        sendContinuousPGPosition($(this).closest('.root').prop('id'), positionType, pos.relPosX, pos.relPosY, true);
+//    });
+//
+//    var pauseGetPosition = false;
+//    $(document).on('mousemove', '.positionArea', function (event) {
+//        event.preventDefault();
+//        if (!pauseGetPosition) {
+//            var pos = getMousePosition(this);
+//            var positionType = $('#viewer_positionScreen_type').val();
+//            sendContinuousPGPosition($(this).closest('.root').prop('id'), positionType, pos.relPosX, pos.relPosY, false);
+//        }
+//    });
 
-    var pauseGetPosition = false;
-    $(document).on('mousemove', '.positionArea', function (event) {
-        event.preventDefault();
-        if (!pauseGetPosition) {
-            var pos = getMousePosition(this);
-            var positionType = $('#viewer_positionScreen_type').val();
-            sendContinuousPGPosition($(this).closest('.root').prop('id'), positionType, pos.relPosX, pos.relPosY, false);
-        }
-    });
     return panel;
 }
 
 var showMouseSimulationPad = false;
 var currentMouseSimulationGesture = null;
-function updateGestureSimluationThumbnail(gestureId, container, simulationMode) {
-    var gesture = getGestureById(gestureId);
-    var gestureThumbnail = $(container).find('#' + gestureId);
+function updateGestureSimluationThumbnail(gestureId, container, simulationMode, valueType) {
 
-    if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
+
+    var gesture = getGestureById(gestureId);
+    var gestureThumbnail = $(container).find('#' + gesture.id);
+
+
+    var continuousValueType = gesture.continuousValueType;
+    if (valueType && valueType !== 'automatically') {
+        continuousValueType = valueType;
+    }
+    $(gestureThumbnail).attr('data-continuous-value-type', continuousValueType);
+
+    console.log('update gesture simulation thumbnail', gesture, valueType, continuousValueType);
+
+    if (continuousValueType === CONTINUOUS_VALUE_TYPE_NONE || gesture.interactionType === TYPE_GESTURE_DISCRETE) {
         $(gestureThumbnail).find('.simulator-trigger').removeClass("hidden");
         $(gestureThumbnail).find('#btn-trigger-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -106,7 +118,7 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode) 
             sendPGGesture(gestureId);
         });
     } else {
-        if (gesture.continuousValueType === PERCENT) {
+        if (continuousValueType === CONTINUOUS_VALUE_TYPE_PERCENT) {
             $(gestureThumbnail).find('#control-continuous-slider').removeClass('hidden');
             $(gestureThumbnail).find('.continuous-gesture-controls').removeClass('hidden');
             var continuousSlider = $(gestureThumbnail).find('#control-continuous-slider #continuous-slider');
@@ -133,7 +145,7 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode) 
                 checkCommitTimeout({gestureId: gestureId, value: percent});
                 sendContinuousPGGesture(gestureId, percent);
             });
-        } else if (gesture.continuousValueType === "position" || gesture.continuousValueType === "mouseSimulation") {
+        } else if (continuousValueType === CONTINUOUS_VALUE_TYPE_POSITION || continuousValueType === CONTINUOUS_VALUE_TYPE_MOUSE_SIMULATION) {
             $(gestureThumbnail).find('.simulator-continuous-trigger').removeClass('hidden');
             $(gestureThumbnail).find('#btn-trigger-continuous-gesture').unbind('click').bind('click', function (event) {
                 event.preventDefault();
@@ -191,7 +203,9 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode) 
 
     if (simulationMode && simulationMode === true) {
         $(gestureThumbnail).on('mouseenter', function () {
-            currentMouseSimulationGesture = getGestureById($(this).attr('id'));
+            var gesture = getGestureById($(this).attr('id'));
+            gesture.continuousValueType = $(this).attr('data-continuous-value-type');
+            currentMouseSimulationGesture = gesture;
             startGesture = true;
             checkMouseSimulation();
         });
@@ -218,7 +232,7 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode) 
         function checkMouseSimulation() {
             if (showMouseSimulationPad === true && currentMouseSimulationGesture) {
                 var gestureThumbnail = $(container).find('#' + currentMouseSimulationGesture.id);
-                if (currentMouseSimulationGesture.interactionType === TYPE_GESTURE_DISCRETE) {
+                if (currentMouseSimulationGesture.continuousValueType === CONTINUOUS_VALUE_TYPE_NONE || currentMouseSimulationGesture.interactionType === TYPE_GESTURE_DISCRETE) {
                     $(gestureThumbnail).find('#btn-trigger-gesture').click();
                     var mousePad = $(gestureThumbnail).find('.mouse-simulation-slider').removeClass('hidden');
                     TweenMax.to(mousePad, 0, {opacity: 1});
@@ -226,7 +240,7 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode) 
                             $(mousePad).addClass('hidden');
                         }});
                 } else {
-                    if (currentMouseSimulationGesture.continuousValueType === "position" || currentMouseSimulationGesture.continuousValueType === "mouseSimulation") {
+                    if (currentMouseSimulationGesture.continuousValueType === CONTINUOUS_VALUE_TYPE_POSITION || currentMouseSimulationGesture.continuousValueType === CONTINUOUS_VALUE_TYPE_MOUSE_SIMULATION) {
                         var mousePad = $(gestureThumbnail).find('.mouse-simulation-pad').removeClass('hidden');
                         $(gestureThumbnail).find('.gesture-preview-data').css({filter: 'blur(5px)', opacity: .3});
                         initMouseSimulationPad(mousePad, gestureThumbnail);
@@ -313,14 +327,22 @@ function checkCommitTimeout(data) {
 
 
 function commitSimulationData(data) {
+//    console.log('commit simulation data');
     if (currentSimulationState === STATE_SIMULATOR_RECORD) {
-        var query = getQueryParams(document.location.search);
-        var simulationRecording = getLocalItem(SIMULATION_RECORDING);
-        if (!simulationRecording) {
-            simulationRecording = {gestureSetId: query, id: null, track: []};
+        var gestureSetId = null;
+        if (previewModeEnabled) {
+            gestureSetId = currentSimulationGestureSetId;
+        } else {
+            var query = getQueryParams(document.location.search);
+            gestureSetId = query.gestureSetId;
         }
 
-        if (query.gestureSetId) {
+        if (gestureSetId) {
+            var simulationRecording = getLocalItem(SIMULATION_RECORDING);
+            if (!simulationRecording) {
+                simulationRecording = {gestureSetId: gestureSetId, id: null, track: []};
+            }
+
             data.id = chance.natural();
             data.timestamp = new Date().getTime();
             data.start = startGesture;

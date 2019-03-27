@@ -86,10 +86,77 @@
     display: none;
 }
 
+.corner-background {
+    background-image: url('../img/corner-back.jpg'); 
+    height: 50px; 
+    position: absolute; 
+    left: 15px; 
+    right: 15px
+}
+.corner-left {
+    background-image: url('../img/corner-left.jpg'); 
+    width: 34px; 
+    height: 50px; 
+    position: absolute;
+}
+.corner-center {
+    background-image: url('../img/corner-center.jpg'); 
+    width: 60px; 
+    height: 50px; 
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%)
+}
+.corner-right {
+    background-image: url('../img/corner-right.jpg'); 
+    width: 35px; 
+    height: 50px; 
+    position: absolute; 
+    right: 0px
+}
+
 .simluation-meta-data-item {
     background-color: #337ab7;
     width:2px;
     height:15px;
     transform: translateX(-50%);
     position: absolute;
+}
+
+.dark .simluation-meta-data-item {
+    background-color: rgba(255,255,255,.6);
+}
+
+.dark .slider-track {
+    background-image: none;
+    background-color: #4d4c4c;
+}
+
+.dark .corner-background {
+    background-image: url('../img/corner-back-dark.jpg'); 
+    height: 50px; 
+    position: absolute; 
+    left: 15px; 
+    right: 15px
+}
+.dark .corner-left {
+    background-image: url('../img/corner-left-dark.jpg'); 
+    width: 34px; 
+    height: 50px; 
+    position: absolute;
+}
+.dark .corner-center {
+    background-image: url('../img/corner-center-dark.jpg'); 
+    width: 60px; 
+    height: 50px; 
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%)
+}
+.dark .corner-right {
+    background-image: url('../img/corner-right-dark.jpg'); 
+    width: 35px; 
+    height: 50px; 
+    position: absolute; 
+    right: 0px
 }

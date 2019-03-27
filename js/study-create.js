@@ -28,6 +28,11 @@ function createOriginPhases() {
 
         setLocalItem(phases[0].id + '.data', translation.placeholderLetterOfAcceptance);
         setLocalItem(phases[1].id + '.data', translation.placeholderThanks);
+    } else if (phaseSteps && phaseSteps.length > 0) {
+        if (phaseSteps[0].format === STUDY_EXECUTION_PREPARATION) {
+            phaseSteps.shift();
+        }
+        setLocalItem(STUDY_PHASE_STEPS, phaseSteps);
     }
 }
 
@@ -99,7 +104,7 @@ function renderSessionStorageData() {
 //            $('#to-date-picker').data("DateTimePicker").date(new Date(study.dateTo));
 //        }
 
-        
+
 //        $('#from-To-datepicker .input-daterange input').each(function () {
 //            if ($(this).attr('id') === 'start' && study.dateFrom !== null && study.dateFrom !== "0" && study.dateFrom !== "") {
 //                var dateFrom = new Date(study.dateFrom * 1000);
@@ -295,6 +300,7 @@ function renderCatalogOverview() {
 }
 
 function renderStudyGestures(gestures, animate) {
+    console.log('render study gestures', gestures);
     $('#gestures-catalog').find('#gestures-list-container').empty();
     if (gestures && gestures.length > 0) {
         $('#gestures-catalog').find('#btn-download-as-json').removeClass('disabled');
@@ -302,13 +308,12 @@ function renderStudyGestures(gestures, animate) {
         for (var i = 0; i < gestures.length; i++) {
             var gesture = getGestureById(gestures[i]);
             var clone = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-4 col-lg-3');
-
+            $(clone).find('.tagged-symbol').addClass('hidden');
             $('#gestures-catalog').find('#gestures-list-container').append(clone);
+
             if (animate && animate === true) {
                 TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
             }
-            
-            
         }
     } else {
         appendAlert($('#gestures-catalog'), ALERT_NO_PHASE_DATA);
@@ -324,6 +329,32 @@ function renderStudyGestures(gestures, animate) {
             }
         });
     });
+
+
+    // save study gesture set in database
+    var study = getLocalItem(STUDY);
+    console.log('save gesture set in DB', study, gestures);
+    if (gestures && gestures.length > 0) {
+        if (study && study.savedStudyGestureSet) {
+            var ownerId = currentSessionUserId;
+            if (study.ownerId) {
+                ownerId = study.ownerId;
+            }
+
+            updateGestureSet({setId: study.savedStudyGestureSet.id, title: study.title, gestures: gestures, ownerId: ownerId}, function (result) {
+                if (result.status === RESULT_SUCCESS) {
+
+                }
+            });
+        } else {
+            saveGestureSet({title: study.title, gestures: gestures}, function (result) {
+                if (result.status === RESULT_SUCCESS) {
+                    study.savedStudyGestureSet = {id: result.id, ownerId: result.ownerId};
+                    setLocalItem(STUDY, study);
+                }
+            });
+        }
+    }
 
     initPopover();
     initTooltips();
@@ -359,7 +390,7 @@ function renderStudyScenes(scenes) {
         item.find('#' + scenes[i].type).removeClass('hidden');
         $('#scenes-catalog').find('.list-container').append(item);
         TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-        
+
         $(item).find('.text').unbind('mouseenter').bind('mouseenter', {sceneId: scenes[i].id}, function (event) {
             var button = $(this);
             var scene = getSceneById(event.data.sceneId);
@@ -375,7 +406,7 @@ function renderStudyScenes(scenes) {
             event.preventDefault();
             resetScenePopover();
         });
-        
+
         $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
             event.preventDefault();
             currentSceneId = event.data.sceneId;
@@ -472,7 +503,12 @@ function updateCatalogButtons() {
 }
 
 function saveGeneralData() {
-    var study = new Object();
+    var study = getLocalItem(STUDY);
+    if (!study) {
+        study = {};
+    }
+
+//    var study = new Object();
     study.title = $('#studyTitle').val();
     study.description = $('#studyDescription').val();
     study.phase = $('#phaseSelect .btn-option-checked').attr('id');

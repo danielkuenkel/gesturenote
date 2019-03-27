@@ -73,6 +73,23 @@ function acceptCookies(callback) {
     });
 }
 
+function toggleDarkmode(data, callback) {
+    $.ajax({
+        url: 'includes/toggle-darkmode.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function login(data, callback) {
     $.ajax({
         url: 'includes/process_login.php',
