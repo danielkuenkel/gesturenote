@@ -252,7 +252,7 @@ function renderData(data, hash) {
 
             window.location.hash = activeId;
             $(document).scrollTop(0);
-            TweenMax.from($('#main-content'), .2, {y: -10, opacity: 0.0, clearProps: 'all'});
+//            TweenMax.from($('#main-content'), .2, {y: -10, opacity: 0.0, clearProps: 'all'});
 
             setTimeout(function () {
                 tutorialAutomaticClicked = true;
@@ -612,13 +612,16 @@ function renderStudyParticipants(data, hash) {
             goto('study-participant.php?studyId=' + event.data.studyId + '&participantId=' + event.data.participantId + '&h=' + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
         });
     }
+    
+    var style = getComputedStyle(document.body);
+    var chartBorderCol = style.getPropertyValue('--chartBorderColor');
 
     var chartOptions = {
         rotation: -Math.PI,
         cutoutPercentage: 30,
-        circumference: Math.PI
+        circumference: Math.PI,
     };
-
+    
     var target = $('#study-participants');
     var ctx = $(target).find('#chart-participant-statistics');
     new Chart(ctx, {
@@ -630,7 +633,8 @@ function renderStudyParticipants(data, hash) {
                     backgroundColor: [
                         '#5cb85c',
                         '#d9534f'
-                    ]
+                    ],
+                    borderColor: chartBorderCol
                 }]
         },
         options: chartOptions

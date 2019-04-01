@@ -1,14 +1,24 @@
 <?php
 include './includes/language.php';
-?>
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
 
+session_start();
+if (login_check($mysqli) == true) {
+    if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'tester') {
+        header('Location: index.php');
+    }
+} else {
+    header('Location: index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title><?php echo $lang->gestureNotePublications ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -16,7 +26,7 @@ include './includes/language.php';
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
@@ -42,14 +52,17 @@ include './includes/language.php';
         <div class="container" id="breadcrumb" style="">
             <div class="row">
                 <ol class="breadcrumb">
-<!--                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>-->
                     <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li class="active" data-id="btn-publications"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php echo $lang->breadcrump->publications ?></li>
                 </ol>
             </div>
         </div>
 
-        <div class="container mainContent" style="margin-top: 0px">
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
+        <div class="container mainContent hidden" style="margin-top: 0px">
             <h3 style="margin-top:0px">2018</h3>
             <hr>
             <div class="row">
@@ -87,7 +100,7 @@ include './includes/language.php';
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();
-                
+
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
@@ -98,6 +111,13 @@ include './includes/language.php';
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
                 animateBreadcrump();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
+
+                $('.mainContent').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
             }
         </script>
 

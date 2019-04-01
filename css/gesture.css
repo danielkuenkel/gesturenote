@@ -333,6 +333,9 @@ and open the template in the editor.
     height: 34px;
     border-radius: 8px;
     top: 5px;
+    background-image: none;
+    box-shadow: none;
+    border: none;
 }
 #control-continuous-slider .slider-track {
     /*margin-top: -41px;*/
@@ -535,6 +538,17 @@ and open the template in the editor.
     border-bottom-right-radius: 8px
 }*/
 
+.dark #playback-webcam-slider-controls .slider-track-low, .dark #playback-leap-slider-controls .slider-track-low {
+    opacity: 1;
+}
+
+.dark #playback-webcam-slider-controls .slider-selection, .dark #playback-leap-slider-controls .slider-selection {
+    opacity: 1;
+}
+
+.dark #playback-webcam-slider-controls .slider-track-high, .dark #playback-leap-slider-controls .slider-track-high {
+    opacity: 1;
+}
 
 .dark .btn-rate:hover,
 .dark .btn-like:hover,

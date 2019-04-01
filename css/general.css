@@ -1148,6 +1148,12 @@ li.disabledTab > a[data-toggle="tab"] {
     line-height: 11pt;
 }
 
+.table-caption {
+    font-size:10pt; 
+    color:#888; 
+    margin-bottom:25px
+}
+
 #help-description .image-border-rounded {
     /*    border: 1px solid;
         border-color: #eee;*/
@@ -1237,7 +1243,7 @@ li.disabledTab > a[data-toggle="tab"] {
 }
 
 .btn-color-selector.selected {
-    border: 4px solid #cccccc;
+    border: 4px solid #cccccc !important;
 }
 
 .btn-color-selector.darkblue {
@@ -1652,20 +1658,33 @@ canvas {
 }
 
 .dark .text {
-    color:white;
+    color: white !important;
 }
 
 .dark .btn-default {
     background-color: #3e3d3d;
     border-color: #464646;
-    color: white;
+    color: rgba(255,255,255,.8);
 }
-.dark .btn-default:hover {
-    border-color: #3e3d3d;
+.dark .btn-default:hover, .dark .btn-default:focus {
+    background-color: #3e3d3d;
+    border-color: #464646;
+    color: white
 }
 .dark .btn-default.disabled:hover {
     background-color: #3e3d3d;
-    border-color: #3e3d3d;
+    border-color: #464646;
+}
+.dark .btn-default.active {
+    background-color: #2d2d2d;
+    color: white;
+    border-color: #464646;
+}
+
+.dark .btn-default.active:hover, .dark .btn-default.active:focus {
+    background-color: #2d2d2d;
+    color: white;
+    border-color: #464646;
 }
 
 /*.dark .btn-info {
@@ -1676,6 +1695,14 @@ canvas {
     background-color: #5bc0de;
 }*/
 
+
+.dark .btn-radio.active.focus, .dark .btn-radio.active:focus, .dark .btn-radio.focus, .dark .btn-radio:active.focus, .dark .btn-radio:active:focus, .dark .btn-radio:focus,
+.dark .btn-checkbox.active.focus, .dark .btn-checkbox.active:focus, .dark .btn-checkbox.focus, .dark .btn-checkbox:active.focus, .dark .btn-checkbox:active:focus, .dark .btn-checkbox:focus{
+    background-color: #2d2d2d;
+    color: white;
+    border-color: #464646;
+}
+
 .dark h2, .dark h3, .dark h4 {
     color: #ffffff !important;
 }
@@ -1685,10 +1712,17 @@ canvas {
 }
 
 .dark .breadcrump-btn {
-    color: black !important;
+    color: rgba(255,255,255,.5) !important;
 }
 
-.dark .breadcrumb>li+li:before {color: black}
+.dark .breadcrump-btn:hover, .dark .breadcrump-btn:focus {
+    color: white !important;
+}
+
+.dark .breadcrumb>li+li:before {
+    color: rgba(255,255,255,.5);
+}
+
 .dark .breadcrumb>.active {
     color: white;
 }
@@ -1786,8 +1820,12 @@ canvas {
 }
 .dark .popover {
     /*background-color: #2f2e2e;*/
-    color: #696969;
-}/*
+    color: #696969 !important;
+}
+.dark .popover-title {
+    color: #696969 !important;
+}
+/*
 
 .dark .popover[class*=tour-].top .arrow:after {
     border-top-color: #2f2e2e;
@@ -1864,3 +1902,91 @@ canvas {
     border-color: #303030;
 }
 
+.dark .image-caption, .dark .table-caption {
+    color: #fff !important;
+}
+
+.dark .style-headline {
+    background-color: #545454 !important;
+}
+.dark .factor-total-items {
+    color: rgba(255,255,255,.7) !important;
+}
+
+.dark a {
+    color: white;
+}
+
+.dark #help-description {
+    color: white;
+}
+.dark .img-image {
+    border-radius: 8px;
+    box-shadow: 0 0px 10px rgba(0,0,0,.5);
+}
+
+#dynamic-link-list-items .active {
+    font-weight: bold;
+    color: black;
+}
+.dark #dynamic-link-list-items .active {
+    color: white;
+}
+
+.dark .informations-subline {
+    font-weight: bold;
+    color: white;
+}
+
+.dark .participant-snapshot {
+    background-color: #545454;
+}
+
+.dark .bordered-statics {
+    border-color: #8a8a8a !important;
+}
+
+.dark .vis-timeline {
+    background-color: #585858;
+}
+.dark .progress {
+    background-color: #585858;
+}
+
+.dark .badge, .dark .label-default {
+    background-color: #8c8c8c;
+}
+
+
+.dark .slider-track {
+    background-image: none;
+    background-color: #4d4c4c;
+}
+
+.btn-joint-human-body #toggle-icon-back {
+    color: white;
+}
+
+.btn-joint-human-body #toggle-icon {
+    color: #C4C4C4;
+}
+.btn-joint-human-body > #toggle-icon:hover {
+    color: white;
+}
+.dark .btn-joint-human-body.active > #toggle-icon {
+    color: #c4c4c4;
+}
+.dark .btn-joint-human-body.active > #toggle-icon-back {
+    color: #545454;
+}
+
+.dark .joint-human-body.active > #toggle-icon-back {
+    color: #545454;
+}
+.dark .joint-human-body.active > #toggle-icon {
+    color: #c4c4c4;
+}
+
+.dark #waiting .participant-name {
+    color: white !important;
+}

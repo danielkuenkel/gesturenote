@@ -97,7 +97,7 @@ if (login_check($mysqli) == true) {
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
-        
+
         <!-- simulator specific -->
         <link rel="stylesheet" href="css/simulator.css">
         <script src="js/simulation/simulator.js"></script>
@@ -112,50 +112,54 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
         <div id="template-simulator"></div>
 
-        <div id="preview-bar-top" style="padding: 10px; position: fixed; width: 100%">
+        <div id="study-preview-top-bar" style="opacity: 0">
+            <div id="preview-bar-top" class="" style="padding: 10px; position: fixed; width: 100%">
 
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default" id="btnViewModerator"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->evaluator ?></span><span class="hidden-md hidden-lg">M</span></button>
-                    <button type="button" class="btn btn-default" id="btnViewTester"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->tester ?></span><span class="hidden-md hidden-lg">T</span></button>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default" id="btnViewModerator"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->evaluator ?></span><span class="hidden-md hidden-lg">M</span></button>
+                        <button type="button" class="btn btn-default" id="btnViewTester"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->tester ?></span><span class="hidden-md hidden-lg">T</span></button>
+                    </div>
+                    <input class="form-control item-input-text option-phase-steps text-center show-dropdown" tabindex="-1" type="text" value=""/>
+                    <div class="input-group-btn phaseStepsSelect select" role="group">
+                        <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option" role="menu">
+                        </ul>
+                        <button type="button" class="btn btn-default btn-join-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->joinConversation ?></span> <i class="fa fa-group"></i></button>
+                        <button type="button" class="btn btn-default btn-leave-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->leaveConversation ?></span> 
+                            <span>
+                                <i class="fa fa-group"></i>
+                                <i class="fa fa-ban" style="
+                                   font-size: 9pt;
+                                   position: absolute;
+                                   right: 5px;
+                                   top: 4px;"></i>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
+                        <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
+                        <button type="button" class="btn btn-default" id="toggle-dark-mode"><i class="fa fa-moon-o"></i></button>
+                        <button role="button" class="btn btn-default" id="btn-introduction"><i class="fa fa-support"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->help ?></span></button>
+                        <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="fa fa-close"></i><span class="hidden-sm hidden-xs"> <?php echo $lang->close ?></span></button>
+                    </div>
                 </div>
-                <input class="form-control item-input-text option-phase-steps text-center show-dropdown" tabindex="-1" type="text" value=""/>
-                <div class="input-group-btn phaseStepsSelect select" role="group">
-                    <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                    <ul class="dropdown-menu option" role="menu">
-                    </ul>
-                    <button type="button" class="btn btn-default btn-join-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->joinConversation ?></span> <i class="fa fa-group"></i></button>
-                    <button type="button" class="btn btn-default btn-leave-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->leaveConversation ?></span> 
-                        <span>
-                            <i class="fa fa-group"></i>
-                            <i class="fa fa-ban" style="
-                               font-size: 9pt;
-                               position: absolute;
-                               right: 5px;
-                               top: 4px;"></i>
-                        </span>
-                    </button>
-                    <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
-                    <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
-                    <button role="button" class="btn btn-default" id="btn-introduction"><i class="fa fa-support"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->help ?></span></button>
-                    <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="fa fa-close"></i><span class="hidden-sm hidden-xs"> <?php echo $lang->close ?></span></button>
+            </div>
+
+            <div style="position: fixed; top: 53px; width: 100%; z-index: 500">
+                <button class="btn-cancel btn btn-danger btn-block" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
+            </div>
+
+
+            <!-- progress bar -->
+            <div id="progressTop">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
+                        0%
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div style="position: fixed; top: 53px; width: 100%; z-index: 500">
-            <button class="btn-cancel btn btn-danger btn-block" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
-        </div>
-
-
-        <!-- progress bar -->
-        <div id="progressTop">
-            <div class="progress">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
-                    0%
-                </div>
-            </div>
-        </div>
+        
 
         <!-- modals -->
         <div id="custom-modal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -174,8 +178,13 @@ if (login_check($mysqli) == true) {
         <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 99; top: 150px; left:100px; display: block">
         </div>
 
+
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
         <!-- main content -->
-        <div class="mainContent" id="mainContent" style="padding-top: 124px; padding-bottom: 0px">
+        <div class="mainContent" id="mainContent hidden" style="padding-top: 124px; padding-bottom: 0px">
             <div id="viewTester" class="hidden" style="padding-left: 15px; padding-right: 15px;">
                 <div class="pinnedRTC" style="position: fixed; z-index: 99"></div>
                 <div id="phase-content"></div>
@@ -388,6 +397,13 @@ if (login_check($mysqli) == true) {
                     $('.btn-join-conversation').remove();
                     $('.btn-leave-conversation').remove();
                 }
+
+                $('.mainContent').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
+                TweenMax.to($('#study-preview-top-bar'), .4, {opacity: 1});
             }
 
             function attachStudyPreparationContent() {

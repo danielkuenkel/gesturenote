@@ -300,7 +300,7 @@ function renderCatalogOverview() {
 }
 
 function renderStudyGestures(gestures, animate) {
-    console.log('render study gestures', gestures);
+//    console.log('render study gestures', gestures);
     $('#gestures-catalog').find('#gestures-list-container').empty();
     if (gestures && gestures.length > 0) {
         $('#gestures-catalog').find('#btn-download-as-json').removeClass('disabled');

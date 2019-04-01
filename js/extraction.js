@@ -309,10 +309,20 @@ function renderAllGestures() {
 function renderElicitationStatistics(container, statistics, prependContainer, headline) {
     var statisticsContainer = $('#template-study').find('#elicitation-statistics').clone().removeAttr('id');
 
+    var style = getComputedStyle(document.body);
+    var chartTextColor = style.getPropertyValue('--chartTextColor');
+    var chartBorderCol = style.getPropertyValue('--chartBorderColor');
+
     var chartOptions = {
         rotation: -Math.PI,
         cutoutPercentage: 30,
-        circumference: Math.PI
+        circumference: Math.PI,
+        legend: {
+            labels: {
+                // This more specific font property overrides the global property
+                fontColor: chartTextColor
+            }
+        }
     };
 
     var ctx = $(statisticsContainer).find('.chart-gesture-execution-type');
@@ -327,7 +337,8 @@ function renderElicitationStatistics(container, statistics, prependContainer, he
                         '#97CB00',
                         '#4BACC6',
                         '#343C68'
-                    ]
+                    ],
+                    borderColor: chartBorderCol
                 }]
         },
         options: chartOptions
@@ -345,7 +356,8 @@ function renderElicitationStatistics(container, statistics, prependContainer, he
                         '#7030A0',
                         '#FFCB00',
                         '#C90F5A'
-                    ]
+                    ],
+                    borderColor: chartBorderCol
                 }]
         },
         options: chartOptions

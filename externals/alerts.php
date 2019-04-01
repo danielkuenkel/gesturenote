@@ -116,4 +116,5 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-gesture-set-mappings" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noGestureSetMappings->text ?></span></div>
     <div class="alert alert-danger"  id="script-input-error" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->scriptInputError->text ?></span></div>
     <div class="alert alert-warning" id="no-gestures-trimmed" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noGesturesTrimmed->text ?></span></div>
+    <div class="alert alert-info"    id="drag-and-drop-hint" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->dragAndDropHint->text ?></span></div>
 </div>

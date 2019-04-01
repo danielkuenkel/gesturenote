@@ -72,8 +72,9 @@ function renderStudyGestures(gestures, animate) {
         for (var i = 0; i < gestures.length; i++) {
             var gesture = getGestureById(gestures[i]);
             var clone = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-4 col-lg-3');
-
+            $(clone).find('.tagged-symbol').addClass('hidden');
             $('#gestures-catalog').find('#gestures-list-container').append(clone);
+            
             if (animate && animate === true) {
                 TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
             }

@@ -359,6 +359,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
 
                 $(this).popover('hide');
                 $(this).addClass('hidden');
+                $(resultsPlayer.domElement).find('#toggle-side-by-side').click();
                 $(resultsPlayer.domElement).find('#btn-lock-unlock-gap-input').addClass('disabled');
                 $(resultsPlayer.domElement).find('#results-timeline').addClass('hidden');
                 $(resultsPlayer.domElement).find('#timeline-content').addClass('hidden');

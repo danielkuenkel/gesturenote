@@ -58,98 +58,103 @@ if (login_check($mysqli) == true) {
                 </ol>
             </div>
         </div>
-
-
-        <div class="container" id="general-styleguides" style="margin-top: 0px">
-            <h2 style="margin-top: 20px"><?php echo $lang->gestureStyleguides->process->headline ?></h2>
-            <hr>
-            <div id="help-description" class="text">
-                <?php echo $lang->gestureStyleguides->process->info ?>
-            </div>
-            <!--<img src="<?php echo $lang->gestureStyleguides->process->processImage ?>" class="img-responsive" style="display: block; margin-left: auto; margin-right: auto"/>-->
+        
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
         </div>
 
-        <div class="container" id="general-styleguides" style="margin-top: 50px">
-            <h2><?php echo $lang->gestureStyleguides->processStyleguides->headline ?></h2>
-            <hr>
-            <p><?php echo $lang->gestureStyleguides->processStyleguides->info ?></p>
-            <div class="text">
-                <ul>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg1 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg2 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg3 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg4 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg5 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg6 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg7 ?></li>
+        <div class="mainContent hidden">
+            <div class="container" id="general-styleguides" style="margin-top: 0px">
+                <h2 style="margin-top: 20px"><?php echo $lang->gestureStyleguides->process->headline ?></h2>
+                <hr>
+                <div id="help-description" class="text">
+                    <?php echo $lang->gestureStyleguides->process->info ?>
+                </div>
+                <!--<img src="<?php echo $lang->gestureStyleguides->process->processImage ?>" class="img-responsive" style="display: block; margin-left: auto; margin-right: auto"/>-->
+            </div>
+
+            <div class="container" id="general-styleguides" style="margin-top: 50px">
+                <h2><?php echo $lang->gestureStyleguides->processStyleguides->headline ?></h2>
+                <hr>
+                <p><?php echo $lang->gestureStyleguides->processStyleguides->info ?></p>
+                <div class="text">
                     <ul>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg71 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg72 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg1 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg2 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg3 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg4 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg5 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg6 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg7 ?></li>
+                        <ul>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg71 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg72 ?></li>
+                        </ul>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg8 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg9 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg10 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg11 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg12 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg13 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg14 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg15 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg16 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg17 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg18 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg19 ?></li>
+                        <li><?php echo $lang->generalGestureProcessStyleguides->sg20 ?></li>
                     </ul>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg8 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg9 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg10 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg11 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg12 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg13 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg14 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg15 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg16 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg17 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg18 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg19 ?></li>
-                    <li><?php echo $lang->generalGestureProcessStyleguides->sg20 ?></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="container" id="gus-styleguides" style="margin-top: 50px">
-            <h2><?php echo $lang->gestureStyleguides->usabilityScale->headline ?></h2>
-            <hr>
-            <div id="help-description"><div class="image-with-caption text-center"><img class='img-image' style="max-width: 968px" src="<?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageUrl ?>"/><div class='image-caption'><?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageCaption ?></div></div></div>
-            <p class="text"><?php echo $lang->gestureStyleguides->usabilityScale->info ?></p>
-            <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-single">
-                <h4><span class="plus-sign pull-left" style="margin-right: 10px"><i class="fa fa-plus"></i></span> <?php echo $lang->gusForSingleGesture ?></h4>
-            </div>
-            <div style="clear: both"></div>
-            <div id="single-gus-list" class="hidden">
-                <hr style="margin-top: 10px; margin-bottom: 20px">
-                <div class="text" id="single-gus-list-container"></div>
+                </div>
             </div>
 
-            <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-multiple">
-                <h4><span class="plus-sign pull-left" style="margin-right: 10px"><i class="fa fa-plus"></i></span> <?php echo $lang->gusForMultipleGestures ?></h4>
-            </div>
-            <div style="clear: both"></div>
-            <div id="multiple-gus-list" class="hidden">
-                <hr style="margin-top: 10px; margin-bottom: 20px">
-                <div class="text" id="multiple-gus-list-container"></div>
-            </div>
+            <div class="container" id="gus-styleguides" style="margin-top: 50px">
+                <h2><?php echo $lang->gestureStyleguides->usabilityScale->headline ?></h2>
+                <hr>
+                <div id="help-description"><div class="image-with-caption text-center"><img class='img-image' style="max-width: 968px" src="<?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageUrl ?>"/><div class='image-caption'><?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageCaption ?></div></div></div>
+                <p class="text"><?php echo $lang->gestureStyleguides->usabilityScale->info ?></p>
+                <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-single">
+                    <h4><span class="plus-sign pull-left" style="margin-right: 10px"><i class="fa fa-plus"></i></span> <?php echo $lang->gusForSingleGesture ?></h4>
+                </div>
+                <div style="clear: both"></div>
+                <div id="single-gus-list" class="hidden">
+                    <hr style="margin-top: 10px; margin-bottom: 20px">
+                    <div class="text" id="single-gus-list-container"></div>
+                </div>
 
-        </div>
-        <div class="container" id="references" style="margin-bottom: 60px; margin-top: 50px">
-            <h2><?php echo $lang->gestureStyleguides->references->headline ?></h2>
-            <hr>
-            <div class="text">
-                <p>Ashbrook, D., & Starner, T. (2010). MAGIC : A Motion Gesture Design Tool. Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, 2159–2168. http://doi.org/10.1145/1753326.1753653</p>
-                <p>Intel. (2012). Intel ® Perceptual Computing SDK Human Interface Guidelines. Retrieved November 16, 2015, from https://software.intel.com/sites/default/files/article/401008/perc-humaninterfaceguidelines.pdf</p>
-                <p>Leap Motion. (n.d.-a). Menu Design Guidelines. Retrieved November 16, 2015, from https://developer.leapmotion.com/documentation/csharp/practices/Leap_Menu_Design_Guidelines.html</p>
-                <p>Leap Motion. (n.d.-b). User Experience Guidelines. Retrieved November 16, 2015, from https://developer.leapmotion.com/documentation/csharp/practices/Leap_UX_Guidelines.html</p>
-                <p>Long, A. C., Landay, J. a, & Rowe, L. a. (1999). Implications For a Gesture Design Tool. ACM, Computer-Human Interface, CHI ’99: Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, 40–47. http://doi.org/10.1145/302979.302985</p>
-                <p>Manresa-Yee, C., Amengual, E., & Pere, P. (2013). Usability of Vision-Based Interfaces. ACM International Conference on Interactive Tabletops and Surfaces (ITS ’11), 113–118.</p>
-                <p>Microsoft. (2013). Interface Guidelines. Retrieved November 16, 2015, from https://msdn.microsoft.com/en-us/library/jj663791.aspx</p>
-                <p>Nielsen, M., Störring, M., Moeslund, T. B., & Granum, E. (2004). A procedure for developing intuitive and ergonomic gesture interfaces for HCI. Gesture-Based Communication in Human-Computer Interaction, 409–420. http://doi.org/10.1007/978-3-540-24598-8_38</p>
-                <p>Ruiz, J., Li, Y., & Lank, E. (2011). User-defined motion gestures for mobile interaction. Proceedings of the 2011 Annual Conference on Human Factors in Computing Systems - CHI ’11, 197. http://doi.org/10.1145/1978942.1978971</p>
-                <p>Wachs, J. P., Kölsch, M., Stern, H., & Edan, Y. (2011). Vision-based hand-gesture applications. Communications of the ACM, 54(2), 60. http://doi.org/10.1145/1897816.1897838</p>
-                <p>Wobbrock, J. O., Aung, H. H., Rothrock, B., & Myers, B. A. (2005). Maximizing the guessability of symbolic input. CHI ’05 Extended Abstracts on Human Factors in Computing Systems - CHI ’05, 1869. http://doi.org/10.1145/1056808.1057043</p>
+                <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-multiple">
+                    <h4><span class="plus-sign pull-left" style="margin-right: 10px"><i class="fa fa-plus"></i></span> <?php echo $lang->gusForMultipleGestures ?></h4>
+                </div>
+                <div style="clear: both"></div>
+                <div id="multiple-gus-list" class="hidden">
+                    <hr style="margin-top: 10px; margin-bottom: 20px">
+                    <div class="text" id="multiple-gus-list-container"></div>
+                </div>
 
+            </div>
+            <div class="container" id="references" style="margin-bottom: 60px; margin-top: 50px">
+                <h2><?php echo $lang->gestureStyleguides->references->headline ?></h2>
+                <hr>
+                <div class="text">
+                    <p>Ashbrook, D., & Starner, T. (2010). MAGIC : A Motion Gesture Design Tool. Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, 2159–2168. http://doi.org/10.1145/1753326.1753653</p>
+                    <p>Intel. (2012). Intel ® Perceptual Computing SDK Human Interface Guidelines. Retrieved November 16, 2015, from https://software.intel.com/sites/default/files/article/401008/perc-humaninterfaceguidelines.pdf</p>
+                    <p>Leap Motion. (n.d.-a). Menu Design Guidelines. Retrieved November 16, 2015, from https://developer.leapmotion.com/documentation/csharp/practices/Leap_Menu_Design_Guidelines.html</p>
+                    <p>Leap Motion. (n.d.-b). User Experience Guidelines. Retrieved November 16, 2015, from https://developer.leapmotion.com/documentation/csharp/practices/Leap_UX_Guidelines.html</p>
+                    <p>Long, A. C., Landay, J. a, & Rowe, L. a. (1999). Implications For a Gesture Design Tool. ACM, Computer-Human Interface, CHI ’99: Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, 40–47. http://doi.org/10.1145/302979.302985</p>
+                    <p>Manresa-Yee, C., Amengual, E., & Pere, P. (2013). Usability of Vision-Based Interfaces. ACM International Conference on Interactive Tabletops and Surfaces (ITS ’11), 113–118.</p>
+                    <p>Microsoft. (2013). Interface Guidelines. Retrieved November 16, 2015, from https://msdn.microsoft.com/en-us/library/jj663791.aspx</p>
+                    <p>Nielsen, M., Störring, M., Moeslund, T. B., & Granum, E. (2004). A procedure for developing intuitive and ergonomic gesture interfaces for HCI. Gesture-Based Communication in Human-Computer Interaction, 409–420. http://doi.org/10.1007/978-3-540-24598-8_38</p>
+                    <p>Ruiz, J., Li, Y., & Lank, E. (2011). User-defined motion gestures for mobile interaction. Proceedings of the 2011 Annual Conference on Human Factors in Computing Systems - CHI ’11, 197. http://doi.org/10.1145/1978942.1978971</p>
+                    <p>Wachs, J. P., Kölsch, M., Stern, H., & Edan, Y. (2011). Vision-based hand-gesture applications. Communications of the ACM, 54(2), 60. http://doi.org/10.1145/1897816.1897838</p>
+                    <p>Wobbrock, J. O., Aung, H. H., Rothrock, B., & Myers, B. A. (2005). Maximizing the guessability of symbolic input. CHI ’05 Extended Abstracts on Human Factors in Computing Systems - CHI ’05, 1869. http://doi.org/10.1145/1056808.1057043</p>
+
+                </div>
             </div>
         </div>
 
         <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors-headline">
             <div class="row">
                 <div class="col-sm-6 col-md-5 col-lg-4">
-                    <div class="panel panel-default panel-shadow" style="background-color: #0480BE;color: white;">
+                    <div class="panel panel-default panel-shadow style-headline" style="background-color: #0480BE;color: white;">
                         <div class="panel-body" style="padding: 15px 15px 10px 15px">
                             <h3 class="factor-headline" style="margin: 0; font-weight: bold;"></h3>
                             <div class="factor-description" style="margin-top: 10px; line-height: 12pt; font-size: 10pt;"></div>
@@ -179,9 +184,16 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
                 animateBreadcrump();
-                
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
+
                 renderGUSStyleguides($('#single-gus-list-container'), translation.singleGUS);
                 renderGUSStyleguides($('#multiple-gus-list-container'), translation.multipleGUS);
+
+                $('.mainContent').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
             }
 
             function renderGUSStyleguides(target, gus) {

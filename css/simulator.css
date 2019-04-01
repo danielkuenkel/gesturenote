@@ -78,6 +78,10 @@
     box-shadow: 0px 0px 7px rgba(0,0,0, .9);
 }
 
+.dropable {
+    box-shadow: 0px 0px 0px 3px #337ab7;
+}
+
 #graph-container .vis-timeline {
     border:none;
 }
@@ -127,11 +131,6 @@
     background-color: rgba(255,255,255,.6);
 }
 
-.dark .slider-track {
-    background-image: none;
-    background-color: #4d4c4c;
-}
-
 .dark .corner-background {
     background-image: url('../img/corner-back-dark.jpg'); 
     height: 50px; 
@@ -159,4 +158,12 @@
     height: 50px; 
     position: absolute; 
     right: 0px
+}
+
+.dark #mouse-path-container {
+    /*background-color: #4d4c4c !important;*/
+    /*opacity: .6;*/
+}
+.dark .simulation-line {
+    /*opacity: 0.4 !important;*/
 }

@@ -129,8 +129,8 @@ function renderBodyJoints(target, activeJoints) {
         $(target).find('#joint-container').append(buttonJoint);
 
         var icon = document.createElement('i');
-        $(icon).addClass('fa fa-circle');
-        $(icon).css({position: 'absolute', color: '#ffffff'});
+        $(icon).addClass('fa fa-circle').attr('id', 'toggle-icon-back');
+        $(icon).css({position: 'absolute'});
         $(buttonJoint).append(icon);
 
         icon = document.createElement('i');
@@ -160,8 +160,8 @@ function renderBodyJointsPreview(target, activeJoints) {
         $(target).find('#joint-container').append(buttonJoint);
 
         var icon = document.createElement('i');
-        $(icon).addClass('fa fa-circle');
-        $(icon).css({position: 'absolute', color: '#ffffff'});
+        $(icon).addClass('fa fa-circle').attr('id', 'toggle-icon-back');
+        $(icon).css({position: 'absolute'});
         $(buttonJoint).append(icon);
 
         icon = document.createElement('i');
@@ -192,8 +192,8 @@ function renderHandJoints(target, activeJoints) {
         $(target).find('#joint-container').append(buttonJoint);
 
         var icon = document.createElement('i');
-        $(icon).addClass('fa fa-circle');
-        $(icon).css({position: 'absolute', color: '#ffffff'});
+        $(icon).addClass('fa fa-circle').attr('id', 'toggle-icon-back');
+        $(icon).css({position: 'absolute'});
         $(buttonJoint).append(icon);
 
         icon = document.createElement('i');
@@ -223,8 +223,8 @@ function renderHandJointsPreview(target, activeJoints) {
         $(target).find('#joint-container').append(buttonJoint);
 
         var icon = document.createElement('i');
-        $(icon).addClass('fa fa-circle');
-        $(icon).css({position: 'absolute', color: '#ffffff'});
+        $(icon).addClass('fa fa-circle').attr('id', 'toggle-icon-back');
+        $(icon).css({position: 'absolute'});
         $(buttonJoint).append(icon);
 
         icon = document.createElement('i');

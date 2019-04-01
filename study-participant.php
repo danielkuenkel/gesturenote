@@ -339,6 +339,7 @@ if (login_check($mysqli) == true) {
 
         function onAllExternalsLoadedSuccessfully() {
             renderSubPageElements();
+            checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
             var query = getQueryParams(document.location.search);
             var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');

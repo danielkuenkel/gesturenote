@@ -18,6 +18,8 @@ include '../includes/language.php';
         <div class="" id="item-view" style="padding-bottom: 0px">
             <div class="alert-space alert-empty-gesture-set"></div>
             <div class="alert-space alert-set-missing-gestures"></div>
+            <div class="alert-space alert-drag-and-drop-hint"></div>
+
             <div class="row" id="gestures-list-container">
 
             </div>
@@ -61,7 +63,7 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <!--<div class="" >-->
-                <div class="col-xs-12" id="simulation-controls" style="margin-top: 15px">
+                <div class="col-xs-12" id="simulation-controls" style="margin-top: 15px; height: 34px;">
                     <div id="control-continuous-slider" class="hidden" style="margin-top: -7px; margin-bottom: 18px;">
                         <input id="continuous-slider" style="width: 100%; height: 34px;" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-tooltip="hide" />
                     </div>
@@ -104,13 +106,13 @@ include '../includes/language.php';
                 <div class="position-printing" style="position: absolute; bottom: 5px; width: 100%; left: 50%; transform: translateX(-50%); font-size: 10pt"><span>x-Position:</span> <span class="text x-position"></span>, <span>y-Position:</span> <span class="text y-position"></span></div>
             </div>
 
-            <div class="mouse-simulation-pad hidden text-center readonly-without-mouse" style="position: absolute; top: 0px; left: 15px; right: 15px; bottom: 20px; border-radius: 8px; z-index: 100; border: 3px solid #337ab7;">
+            <div class="mouse-simulation-pad hidden text-center readonly-without-mouse" style="position: absolute; top: 0px; left: 15px; right: 15px; bottom: 20px; border-radius: 8px; z-index: 100; box-shadow: 0px 0px 0px 3px #337ab7;">
                 <div style="top: 50%; position: relative; transform: translateY(-50%);" class="text cursor-hint"><i class="fa fa-mouse-pointer"></i> <?php echo $lang->simulateGestureMouse ?></div>
                 <div class="position-printing" style="position: absolute; bottom: 5px; width: 100%; left: 50%; transform: translateX(-50%); font-size: 10pt"><span>x-Position:</span> <span class="text x-position"></span>, <span>y-Position:</span> <span class="text y-position"></span></div>
                 <div class="cursor-simulation hidden"></div>
             </div>
 
-            <div class="mouse-simulation-slider hidden text-center readonly-without-mouse" style="position: absolute; top: 0px; left: 15px; right: 15px; bottom: 20px; border-radius: 8px; z-index: 100; border: 3px solid #337ab7;"></div>
+            <div class="mouse-simulation-slider hidden text-center readonly-without-mouse" style="position: absolute; top: 0px; left: 15px; right: 15px; bottom: 20px; border-radius: 8px; z-index: 100; box-shadow: 0px 0px 0px 3px #337ab7;"></div>
         </div>
     </div>
 

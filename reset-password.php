@@ -129,6 +129,7 @@ if (!$h) {
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements(false);
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 $('#btn-reset-password').on('click', function (event) {
                     event.preventDefault();

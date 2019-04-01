@@ -83,8 +83,12 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
         <!-- Container (Panel Section) -->
-        <div class="container center-text mainContent" style="margin-top: 0px">
+        <div class="container center-text mainContent hidden" style="margin-top: 0px">
             <h3><?php echo $lang->breadcrump->dashboard ?></h3>
 
             <div class="row" id="dashboard-items-container" style="margin-top: 20px">
@@ -269,8 +273,14 @@ if (login_check($mysqli) == true) {
                         $(item).find('#user-public-gestures .text').text(result.publicUserGestures);
                         $(item).find('#elicited-gestures .address').text(translation.gesturesCatalog.elicitedGestures + ":");
                         $(item).find('#elicited-gestures .text').text(result.elicitedGestures);
-                        renderMasonryTest();
-                        animateStart();
+
+                        $('.mainContent').removeClass('hidden');
+                        TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                                $('#loading-indicator').remove();
+                                renderMasonryTest();
+                                animateStart();
+                            }});
+                        TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
                     } else {
 
                     }

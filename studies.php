@@ -73,11 +73,11 @@ if (login_check($mysqli) == true) {
                         <div class="label label-default hidden" id="participant-count" data-toggle="popover" data-trigger="hover" data-placement="auto"><i class="fa fa-users"></i> <span class="label-text"></span></div>
                         <div class="label label-default hidden" id="shared-study" data-toggle="popover" data-trigger="hover" title="<?php echo $lang->studySharedWith ?>" data-placement="auto"><i class="fa fa-share-alt"></i> <span class="label-text"></span></div>
                     </div>
-                    
+
                     <div id="study-description" style="line-height: 14pt; font-size: 11pt; margin-top: 10px">
-                        
+
                     </div>
-                    
+
                     <div id="study-plan" class="hidden" style="margin-top: 3px">
                         <div id="study-range-days" style="margin-bottom: -6px"><span class="address"></span> <span class="text"></span></div>
                         <div class="hidden study-no-plan text"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="status-text"></span></div>
@@ -118,9 +118,13 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent" style="margin-top: 0px; padding-top: 0px" id="item-view">
+        <div class="container mainContent hidden" style="margin-top: 0px; padding-top: 0px" id="item-view">
 
             <button type="button" class="btn btn-success hidden-md hidden-lg btn-block btn-shadow btn-create-study" style="margin-top: 20px"><i class="fa fa-plus"></i> <?php echo $lang->createNewStudy ?></button>
 
@@ -280,9 +284,16 @@ if (login_check($mysqli) == true) {
                                 }
                             };
 
-                            initPagination(data);
-                            currentFilterData = sort();
-                            renderData(currentFilterData, true);
+                            $('.mainContent').removeClass('hidden');
+                            TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                                    $('#loading-indicator').remove();
+                                    initPagination(data);
+                                    currentFilterData = sort();
+                                    renderData(currentFilterData, true);
+                                }});
+                            TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
+
+
 //                            $('#sort #newest').click();
                         } else {
                             appendAlert($('#item-view'), ALERT_NO_STUDIES);
@@ -358,6 +369,7 @@ if (login_check($mysqli) == true) {
                     percentPosition: true,
                     transitionDuration: 0
                 });
+
                 $container.masonry('layout');
                 firstInit = false;
             }

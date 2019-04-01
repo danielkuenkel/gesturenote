@@ -1091,6 +1091,7 @@ if (login_check($mysqli) == true) {
             var tutorialAutomaticClicked = false;
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 fixedOwnerControlsTween = new TimelineMax({paused: true});
                 fixedOwnerControlsTween.add("parallel", .3)

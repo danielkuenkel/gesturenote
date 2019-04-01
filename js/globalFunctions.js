@@ -35,6 +35,7 @@ function checkDarkMode(darkModeEnabled) {
     if (darkModeEnabled === 11) {
         $('body').addClass('dark');
         $('body').find('.sub-page-header #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
+        $('body').find('#preview-bar-top #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
     }
 }
 
@@ -323,23 +324,24 @@ function renderSubPageElements(hasTopNavbar, hasNoImprint) {
         }
     });
 
-    $(header).find('#toggle-dark-mode').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-
-        toggleDarkmode({darkmode: $('body').hasClass('dark') ? '0' : '1'});
-        if ($('body').hasClass('dark')) {
-            $('body').removeClass('dark');
-            $(this).find('.fa').removeClass('fa-sun-o').addClass('fa-moon-o');
-        } else {
-            $('body').addClass('dark');
-            $(this).find('.fa').removeClass('fa-moon-o').addClass('fa-sun-o');
-        }
-    });
-
     updateLanguageIndicator($(header).find('#language-selection'));
     updateMainBurgerMenu($(header).find('.main-burger-menu'), $('body').find('#breadcrumb'));
     initPopover();
 }
+
+
+$(document).on('click', '#toggle-dark-mode', function (event) {
+    event.preventDefault();
+
+    toggleDarkmode({darkmode: $('body').hasClass('dark') ? '0' : '1'});
+    if ($('body').hasClass('dark')) {
+        $('body').removeClass('dark');
+        $(this).find('.fa').removeClass('fa-sun-o').addClass('fa-moon-o');
+    } else {
+        $('body').addClass('dark');
+        $(this).find('.fa').removeClass('fa-moon-o').addClass('fa-sun-o');
+    }
+});
 
 function updateMainBurgerMenu(target, breadcrump) {
     var activeId = $(breadcrump).find('.active').attr('data-id');

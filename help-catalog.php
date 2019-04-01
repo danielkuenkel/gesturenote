@@ -51,7 +51,11 @@ include_once 'includes/functions.php';
             </div>
         </div>
 
-        <div class="container mainContent" style="margin-top: 0px">
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
+        <div class="container mainContent hidden" style="margin-top: 0px">
             <div class="row">
                 <div class="col-md-5 col-lg-4" id="link-list" style="margin-bottom: 30px">
                     <!--<a href="#createStudy" class="smooth-goto">1. Gesten-Design-Studien</a>-->
@@ -62,7 +66,7 @@ include_once 'includes/functions.php';
             </div>
         </div>
 
-        <div class="hidden-sm hidden-xs" id="dynamic-link-list" style="position: fixed; top:20px; width: 100%; opacity:0">
+        <div class="hidden-sm hidden-xs hidden" id="dynamic-link-list" style="position: fixed; top:20px; width: 100%; opacity:0">
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 col-lg-4" id="dynamic-link-list-items"></div>
@@ -87,6 +91,7 @@ include_once 'includes/functions.php';
                 var loggedIn = parseInt('<?php echo login_check($mysqli) ?>') === 1;
                 renderSubPageElements(loggedIn);
                 animateBreadcrump();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 var allHelp = [];
                 allHelp.push({id: 'gesturesGestureSets', content: translation.introductionGestureCatalog});
@@ -171,16 +176,13 @@ include_once 'includes/functions.php';
                     }
                 }
 
-//                var query = getQueryParams(document.location.search);
-//                if (query && query.section) {
-//                    $('html').addClass('hidden');
-////                    
-////                    var scrollTop = $('#help-description').find('#' + query.section).offset().top;
-//                    console.log('scroll to', query.section);
-//                    setTimeout(function () {
-//                        $('html').removeClass('hidden').animate({scrollTop: query.section}, 0);
-//                    }, 1000);
-//                }
+                $('.mainContent').removeClass('hidden');
+                $('#dynamic-link-list').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
+                TweenMax.from($('#dynamic-link-list'), .3, {delay: .3, opacity: 0});
             }
 
             $(document).on('click', '.smooth-goto', function () {
@@ -245,8 +247,8 @@ include_once 'includes/functions.php';
                         var link = document.createElement(renderItems[i].active && renderItems[i].active === true ? 'span' : 'a');
                         $(link).html($(renderItems[i].item).html());
                         if (renderItems[i].active && renderItems[i].active === true) {
-                            $(link).css({fontWeight: 'bold', color: 'black'});
-                            var sectionId = $(renderItems[i].item).attr('id');
+                            $(link).addClass('active');
+//                            var sectionId = $(renderItems[i].item).attr('id');
 //                            scrollTimeout = setTimeout(function () {
 //                                setParam(window.location.href, 'section', $('html, body').scrollTop());
 //                            }, 300);

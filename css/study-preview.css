@@ -33,7 +33,7 @@ and open the template in the editor.
 
 #preview-bar-top {
     z-index: 501;
-    background-color: #303030;
+    background-color: #303030 !important;
 }
 
 .web-rtc-placeholder {
@@ -187,3 +187,15 @@ and open the template in the editor.
 .btn-ban-sensor:hover {
     color: #d9534f;
 }*/
+
+.dark .read-aloud-icon {
+    background-color: #ffffff;
+    color: dimgrey;
+}
+.dark .read-aloud-text {
+    color: white;
+}
+
+.dark .fa-upload {
+    color: white !important;
+}

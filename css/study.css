@@ -200,6 +200,23 @@ and open the template in the editor.
     border-color: #ec971f;
 }
 
+:root {
+    --chartTextColor: black;
+
+}
+:root {
+    --chartBorderColor: rgba(0,0,0,0);
+}
+.dark :root {
+    --chartTextColor: white;
+}
+/*.chartTextColor {
+    color: #d9534f;
+}
+.chartBorderColor {
+    border-color: #5cb85c;
+}*/
+
 .btn-tag-as-main-trigger {
     cursor: pointer;
 }
@@ -360,4 +377,24 @@ and open the template in the editor.
     position: absolute;
     transform: translateX(-1px);
     pointer-events: none;
+}
+
+.dark .btn-edit-annotation.disabled {
+    cursor: not-allowed;
+    font-size: 10pt;
+    color: rgba(255,255,255,.6);
+}
+.dark .btn-edit-annotation:hover {
+    color: white;
+}
+.dark .btn-edit-annotation.disabled:hover {
+    color: rgba(255,255,255,.6);
+}
+
+.dark .btn-cancel-edit-annotation:hover {
+    color: white;
+}
+
+.dark .item-advanced-primary-full {
+    border-color: #737373;
 }

@@ -27,8 +27,6 @@ if (login_check($mysqli) == true) {
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
         <script src="js/lines/jquery.line.js"></script>
-        <!--<link href="js/vis/vis-timeline-graph2d.min.css" rel="stylesheet">-->
-        <!--<script src="js/vis/vis.min.js"></script>-->
 
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
@@ -141,7 +139,7 @@ if (login_check($mysqli) == true) {
 
 
         <!-- Container (gesture set simulator content) -->
-        <div class="container" id="" style="margin-top: 20px">
+        <div class="container mainContent" id="" style="margin-top: 20px">
 
             <!-- Nav tabs -->
             <ul class="nav nav-pills" role="tablist" id="main-tab-pane" style="opacity:0; display: flex; justify-content: center;">
@@ -167,7 +165,6 @@ if (login_check($mysqli) == true) {
                             </div>
                         </div>
                         <div class="input-group">
-
 
                         </div>
                     </div>
@@ -290,8 +287,14 @@ if (login_check($mysqli) == true) {
 
                             var query = getQueryParams(document.location.search);
                             if (query.gestureSetId) {
+                                console.log('temp save recorded simulation');
+
                                 var gestureSetId = parseInt(query.gestureSetId);
+                                var recordedSimulation = getLocalItem(RECORDED_SIMULATION);
                                 $('#gesture-sets-select').find('#' + gestureSetId).click();
+                                if (recordedSimulation) {
+                                    setLocalItem(RECORDED_SIMULATION, recordedSimulation);
+                                }
                             }
 
                             if (query.state) {
@@ -319,9 +322,11 @@ if (login_check($mysqli) == true) {
             }
 
             function showPageContent() {
+                $('.mainContent').removeClass('hidden');
                 TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
                         $('#loading-indicator').remove();
                     }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
 
                 TweenMax.to($('#main-tab-pane'), .4, {opacity: 1});
 
@@ -354,7 +359,14 @@ if (login_check($mysqli) == true) {
 
                 var query = getQueryParams(document.location.search);
                 if (query.tab) {
-                    $('#main-tab-pane').find('#btn-' + query.tab + ' a').click();
+                    var recordedSimulation = getLocalItem(RECORDED_SIMULATION);
+                    if (query.tab === 'player' && recordedSimulation) {
+                        setLocalItem(RECORDED_SIMULATION, recordedSimulation);
+                        $('#btn-player').removeClass('disabled');
+                        $('#main-tab-pane').find('#btn-' + query.tab + ' a').click();
+                    } else {
+                        $('#main-tab-pane').find('#btn-gestureSet a').click();
+                    }
                 } else {
                     $('#main-tab-pane').find('#btn-gestureSet a').click();
                 }
@@ -362,6 +374,9 @@ if (login_check($mysqli) == true) {
 
             $('#gesture-sets-select').unbind('change').bind('change', function (event) {
                 event.preventDefault();
+                removeLocalItem(SIMULATION_RECORDING);
+                removeLocalItem(RECORDED_SIMULATION);
+                $('#btn-player').addClass('disabled');
                 setParam(window.location.href, 'gestureSetId', $(event.target).attr('id'));
                 renderGestureSetContent();
             });
@@ -369,7 +384,8 @@ if (login_check($mysqli) == true) {
 
             $('#custom-modal').unbind('gestureUpdated').bind('gestureUpdated', function (event, gesture) {
                 event.preventDefault();
-                updateGestureSimluationThumbnail(gesture.id, $('#pageBody').find('#simulator-content'));
+                var isInSimulationMode = $('#gestureSetContent').hasClass('active');
+                updateGestureSimluationThumbnail(gesture.id, $('#pageBody').find('#simulator-content'), isInSimulationMode);
             });
 
 
@@ -550,9 +566,12 @@ if (login_check($mysqli) == true) {
                     loadHTMLintoModal('custom-modal', 'externals/modal-load-simulation-recording.php');
                     $('#custom-modal').unbind('loadGestureSetSimulation').bind('loadGestureSetSimulation', function (event) {
                         event.preventDefault();
-                        $('#main-tab-pane').find('#btn-player').removeClass('disabled');
+
                         var recordedSimulation = getLocalItem(RECORDED_SIMULATION);
                         $('#gestureSetContent').find('#gesture-sets-select #' + recordedSimulation.gestureSetId).click();
+                        setLocalItem(RECORDED_SIMULATION, recordedSimulation);
+                        $('#main-tab-pane').find('#btn-player').removeClass('disabled');
+
                         if ($('#main-tab-pane').find('#btn-player').hasClass('active')) {
                             renderRecordedGestureSetSimulation();
                         } else {

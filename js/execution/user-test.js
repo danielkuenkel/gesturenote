@@ -416,7 +416,6 @@ UserTest.prototype.renderModeratorView = function () {
                         $(feedbackButton).find('#waiting-indicator').addClass('hidden');
 
                         getGMT(function (timestamp) {
-//                            var currentPhase = getCurrentPhase();
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_FEEDBACK, feeback: feedback, time: timestamp});
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -424,7 +423,6 @@ UserTest.prototype.renderModeratorView = function () {
                     });
 
                     getGMT(function (timestamp) {
-//                        var currentPhase = getCurrentPhase();
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_FEEDBACK, feeback: feedback, time: timestamp});
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -440,7 +438,7 @@ UserTest.prototype.renderModeratorView = function () {
             if (transitionsLength === 1) {
                 // this scene has no follow scene, maybe a pidoco prototype
                 if (currentWOZScene.type === SCENE_PIDOCO) {
-                    var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
+//                    var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
 //                    sendGesture(gestureId);
                 } else {
                     // if scene has no follow scene and is not a pidoco prototype: delete items
@@ -596,6 +594,8 @@ UserTest.prototype.renderModeratorView = function () {
                                 var button = $(this);
                                 if (!$(button).hasClass('disabled')) {
                                     $(button).addClass('disabled');
+                                    var gesture = getGestureById($(this).attr('data-gesture-id'));
+                                    commitSimulationData({gestureId: gesture.id});
                                     checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
                                 }
                             });
@@ -674,10 +674,6 @@ UserTest.prototype.renderModeratorView = function () {
                             }
                         }
                     } else {
-//                        if (!scenarioStartTriggered) {
-//                            $(document).scrollTop(0);
-//                            wobble(container.find('#general'));
-//                        }
                     }
                 });
                 if (helpData[i].useGestureHelp === true || helpData[i].useGestureHelp === 'true') {
@@ -687,176 +683,24 @@ UserTest.prototype.renderModeratorView = function () {
                 } else {
                     item.find('.btn-popover-gesture-preview').remove();
                 }
-
-//                if (scenarioPrototypeOpened && scenarioStartTriggered) {
-//                    item.find('#offer-help').removeClass('disabled');
-//                }
             }
         } else {
             appendAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
         }
     }
 
-//    function enableScenarioControls(container) {
-//        $(container).find('#general #description').closest('.read-aloud').remove();
-//        $(container).find('#general').addClass('hidden');
-//
-//        var wozItems = $(container).find('.woz-container .disabled');
-//        wozItems.removeClass('disabled');
-//
-//        var sliders = $(container).find('.woz-container #continuous-slider');
-//        $(sliders).slider('enable');
-//
-//        var helpItems = $(container).find('.help-container .disabled');
-//        helpItems.removeClass('disabled');
-//    }
-
     function checkGestureUI(item, wozData) {
-//        var currentActiveBtn = $(item).find('.btn-primary').last();
-//        var gesture = getGestureById($(item).find('.previewGesture').attr('id'));
+//        console.log(currentWOZScene, wozData);
 
-//        if (gesture) {
-        // find current active transition id for this woz element
-//            var activeTransitionScene = null;
-//            for (var i = 0; i < wozData.transitionScenes.length; i++) {
-//                if (parseInt(wozData.transitionScenes[i].sceneId) === parseInt($(currentActiveBtn).attr('data-transition-scene-id'))) {
-//                    activeTransitionScene = wozData.transitionScenes[i];
-//                }
-//            }
-
-        console.log(currentWOZScene, wozData);
-
-//            var scene = getSceneById(activeTransitionScene.sceneId);
         if (currentWOZScene.type === SCENE_PIDOCO && wozData.useEventBus === 'yes') {
-            console.log('show event bus specific controls', item);
-            updateGestureSimluationThumbnail(wozData.gestureId, $(item).closest('.woz-container'), true, wozData.continuousValueType);
-
-            return null;
-
-//                Moderator.initMousePositionFunctionalities();
-
-
-//                if (activeTransitionScene.continuousValueType === 'none') {
-//                    if (gesture.type === TYPE_GESTURE_POSE && gesture.interactionType === TYPE_GESTURE_CONTINUOUS) {
-//                        $(item).find('#btn-trigger-woz').remove();
-//                        $(item).find('#control-continuous-slider').remove();
-//                        $(item).find('.continuous-gesture-controls').remove();
-//                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-//                        $(item).find('.static-continuous-controls').removeClass('hidden');
-//
-//                        var staticContinuousTimer = null;
-//                        $(item).find('.btn-start-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-//                            event.preventDefault();
-//                            if (!$(this).hasClass('disabled')) {
-//                                $(this).addClass('disabled');
-//                                $(this).closest('.static-continuous-controls').find('.btn-stop-static-continuous-gesture').removeClass('disabled');
-//                                staticContinuousTimer = setInterval(function () {
-//                                    sendGesture(gesture.id);
-//                                }, 500);
-//                            }
-//                        });
-//
-//                        $(item).find('.btn-stop-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-//                            event.preventDefault();
-//                            if (!$(this).hasClass('disabled')) {
-//                                $(this).addClass('disabled');
-//                                $(this).closest('.static-continuous-controls').find('.btn-start-static-continuous-gesture').removeClass('disabled');
-//                                if (staticContinuousTimer) {
-//                                    clearInterval(staticContinuousTimer);
-//                                }
-//                            }
-//                        });
-//                    }
-//                } else {
-//                    $(item).find('#btn-trigger-woz').remove();
-//                    $(item).find('.static-continuous-controls').remove();
-//
-//                    if (activeTransitionScene.continuousValueType === 'percent') {
-//                        $(item).find('#control-continuous-slider').removeClass('hidden');
-//                        $(item).find('.continuous-gesture-controls').removeClass('hidden');
-//                        $(item).find('#control-continuous-slider-status').removeClass('hidden');
-//                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-//
-//                        var continuousSlider = $(item).find('#control-continuous-slider #continuous-slider');
-//
-//                        var sliderOptions = {
-//                            value: 0,
-//                            min: 0,
-//                            max: 100,
-//                            enabled: true
-//                        };
-//
-//                        $(continuousSlider).slider(sliderOptions);
-//                        $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
-//                            event.preventDefault();
-//                            var inverted = $(this).hasClass('inverted');
-//                            var percent = parseInt(event.value.newValue);
-//                            var imagePercent = inverted ? (100 - percent) : percent;
-//                            var gestureId = event.data.gesture.id;
-//                            $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
-//                            var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
-//                            $(gestureImages).removeClass('active').addClass('hidden');
-//                            $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
-//                            sendContinuousGesture(gestureId, percent);
-//                        });
-//
-//                        var invertValuesButton = $(item).find('.btn-invert-slider-values');
-//                        $(invertValuesButton).unbind('click').bind('click', {slider: continuousSlider}, function (event) {
-//                            event.preventDefault();
-//                            $(this).popover('hide');
-//                            if ($(event.data.slider).hasClass('inverted')) {
-//                                $(event.data.slider).removeClass('inverted');
-//                                $(this).attr('data-content', translation.tooltips.execution.valuesNotInverted);
-//                                TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#fff"});
-//                            } else {
-//                                $(event.data.slider).addClass('inverted');
-//                                $(this).attr('data-content', translation.tooltips.execution.valuesInverted);
-//                                TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#5bc0de"});
-//                            }
-//                        });
-//
-//                        if (wozData.invertValues === 'yes') {
-//                            $(invertValuesButton).click();
-//                        }
-//
-//                        initPopover();
-//                    } else if (activeTransitionScene.continuousValueType === 'position') {
-//                        $(item).find('#control-continuous-slider').remove();
-//                        $(item).find('.continuous-gesture-controls').remove();
-//                        var toggleButton = $(item).find('.btn-trigger-continuous-mouse-manipulation');
-//                        var wozContainer = $(toggleButton).closest('.woz-container');
-//                        $(toggleButton).removeClass('hidden');
-//                        $(toggleButton).unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
-//                            event.preventDefault();
-//                            if (!$(this).hasClass('disabled')) {
-//                                if ($(this).attr('data-activated') === 'true') {
-//                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').attr('data-activated', false);
-//                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').removeClass('btn-success');
-//                                    continuousMouseManipluationGesture = null;
-//                                } else {
-//                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').attr('data-activated', false);
-//                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').removeClass('btn-success');
-//                                    $(this).attr('data-activated', true);
-//                                    $(this).addClass('btn-success');
-//                                    continuousMouseManipluationGesture = event.data.gestureId;
-//                                }
-//                            }
-//                        });
-//                    } else {
-//                        $(item).find('#control-continuous-slider').remove();
-//                        $(item).find('.continuous-gesture-controls').remove();
-//                        $(item).find('.static-continuous-controls').remove();
-//                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-//                    }
-//                }
+//            console.log('show event bus specific controls', item);
+            updateGestureSimluationThumbnail(wozData.gestureId, $(item).closest('.woz-container'), true, wozData.continuousValueType, true);
         } else {
             $(item).find('#control-continuous-slider').remove();
             $(item).find('.continuous-gesture-controls').remove();
             $(item).find('.static-continuous-controls').remove();
             $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-            console.log($(item).find('#btn-trigger-woz'));
         }
-//        }
     }
 
     function checkRecognizedGesture(data) {
@@ -1254,6 +1098,8 @@ UserTest.prototype.renderWizardView = function () {
         $(container).find('#general').addClass('hidden');
         $(container).find('#scenario-controls').removeClass('hidden');
 
+        currentSimulationState = STATE_SIMULATOR_RECORD;
+
         //woz section
         renderWOZ();
 
@@ -1339,18 +1185,39 @@ UserTest.prototype.renderWizardView = function () {
 
     function renderStateUsertestDone() {
         console.log('render wizard state: ', currentPhaseState);
+//
+//        clearAlerts($(container).find('#column-right'));
+//        appendAlert(container, ALERT_PHASE_STEP_DONE);
+//
+//        $(container).find('#btn-done-scenario').removeClass('hidden');
+//        $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//            if (peerConnection) {
+//                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+//            }
+//            nextStep();
+//        });
 
-        clearAlerts($(container).find('#column-right'));
-        appendAlert(container, ALERT_PHASE_STEP_DONE);
+        // save recorded simulation data;
+        var commitData = getLocalItem(SIMULATION_RECORDING);
+        if (!previewModeEnabled && commitData && commitData.track && commitData.track.length > 0) {
+            var study = getLocalItem(STUDY);
+            saveGestureSetSimulation({gestureSetId: study.savedStudyGestureSet.id, title: study.title.trim(), data: commitData}, function (result) {
+                removeLocalItem(SIMULATION_RECORDING);
+                gotoNextStep();
+            });
+        } else {
+            gotoNextStep();
+        }
 
-        $(container).find('#btn-done-scenario').removeClass('hidden');
-        $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
-            event.preventDefault();
+        function gotoNextStep() {
+            $(container).find('#scene-container').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').addClass('hidden');
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_NEXT_STEP);
             }
             nextStep();
-        });
+        }
     }
 
     return container;

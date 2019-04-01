@@ -81,8 +81,12 @@ if ($h && $token && $studyId) {
             </div>
         </div>
 
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
         <!-- Container (Panel Section) -->
-        <div class="container mainContent">
+        <div class="container mainContent hidden">
 
             <div class="row">
                 <div class="col-xs-12">
@@ -351,6 +355,7 @@ if ($h && $token && $studyId) {
             function onAllExternalsLoadedSuccessfully() {
                 initPopover();
                 renderSubPageElements(false);
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 var query = getQueryParams(document.location.search);
                 if (query.studyId && query.h && query.token) {
@@ -438,7 +443,14 @@ if ($h && $token && $studyId) {
                         returnToStudyDetails();
                     });
                 }
+
+                $('.mainContent').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
             }
+
 
             function checkRoles() {
                 var studyData = getLocalItem(STUDY);

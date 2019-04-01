@@ -108,6 +108,10 @@ if ($h && $token && $studyId) {
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
+        
+        <!-- simulator specific -->
+        <link rel="stylesheet" href="css/simulator.css">
+        <script src="js/simulation/simulator.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 

@@ -296,7 +296,7 @@ if (login_check($mysqli) == true) {
 
                 <div class="row" id="statistic-participants">
                     <div class="col-xs-12 text-center">
-                        <div style="border: 1px solid #eee; border-radius: 8px; padding: 15px">
+                        <div class="bordered-statics" style="border: 1px solid #eee; border-radius: 8px; padding: 15px">
                             <!--<div class="text text-center"><?php echo $lang->studyExecutionStatistic ?></div>-->
                             <canvas id="chart-participant-statistics" style="max-width:400px; margin: 0 auto"></canvas>
                             <div class="text text-center" style="font-size: 10pt">
@@ -1112,10 +1112,12 @@ if (login_check($mysqli) == true) {
             }
 
             function showPageContent() {
-                $('#main-content').removeClass('hidden');
+                $('.mainContent').removeClass('hidden');
                 TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
                         $('#loading-indicator').remove();
                     }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
+
                 checkCollaborativeConversation();
             }
 
