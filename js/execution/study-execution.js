@@ -1,6 +1,5 @@
 var currentPhaseStepIndex = 0;
 var currentClass = null;
-var currentSimulationGestureSetId = null;
 
 var questionnaireDone = false;
 //var gestureTrainingStartTriggered = false;
@@ -789,4 +788,28 @@ function recognizeLeapGestures(data) {
     }
 
     return false;
+}
+
+function attachSimulationRecording(data) {
+    if (data && data.recordedGestureSimulation && data.recordedGestureSimulation.data) {
+        var commitedData = data.recordedGestureSimulation.data;
+        console.log('attach simulation recording', commitedData);
+        if (commitedData && commitedData.track && commitedData.track.length > 0) {
+            for (var i = 0; i < commitedData.track.length; i++) {
+                if (commitedData.track[i].start === 'true' || commitedData.track[i].start === true) {
+                    data.annotations.push({
+                        id: data.annotations.length + i,
+                        action: ACTION_START_PERFORM_GESTURE,
+                        gestureId: commitedData.track[i].gestureId,
+                        triggerId: commitedData.track[i].triggerId,
+                        time: commitedData.track[i].timestampGMT
+                    });
+                }
+            }
+
+            console.log('temp annotations: ', data);
+        }
+    }
+
+    return data;
 }

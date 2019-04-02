@@ -55,7 +55,7 @@ if ($h && $token && $studyId) {
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
-        <script src="js/study-execution.js"></script>
+        <script src="js/execution/study-execution.js"></script>
 
         <!-- streaming -->
         <script src="js/andyet/simplewebrtc.bundle.js"></script>
@@ -416,13 +416,14 @@ if ($h && $token && $studyId) {
                                 if (mediaSources && mediaSources.video && mediaSources.audio) {
                                     $(peerConnection).unbind(MESSAGE_PARTICIPANT_ENTERED_STUDY).bind(MESSAGE_PARTICIPANT_ENTERED_STUDY, function (event) {
                                         event.preventDefault();
+                                        startExecution({iceTransports: iceTransports, rtcToken: rtcToken, testerId: testerId});
 //                                        setTimeout(function () {
-                                        var query = getQueryParams(document.location.search);
-                                        if (iceTransports !== '') {
-                                            goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio + '&iceTransports=' + iceTransports);
-                                        } else {
-                                            goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio);
-                                        }
+//                                        var query = getQueryParams(document.location.search);
+//                                        if (iceTransports !== '') {
+//                                            goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio + '&iceTransports=' + iceTransports);
+//                                        } else {
+//                                            goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio);
+//                                        }
 //                                        }, 1000);
                                     });
 
@@ -912,8 +913,8 @@ if ($h && $token && $studyId) {
                 });
 
                 if (selectedRole !== VIEW_MODERATOR) {
-                    $('#btn-close-call').css({borderTopRightRadius: '4px', borderBottomRightRadius: '4px'});
-                    $('#btn-enter-study').addClass('hidden');
+                    $('#btn-close-call').css({borderTopRightRadius: '8px', borderBottomRightRadius: '8px'});
+                    $('#btn-enter-study').remove();
                 } else {
                     $('#btn-close-call').css({borderTopRightRadius: '', borderBottomRightRadius: ''});
                     $('#btn-enter-study').removeClass('hidden');
@@ -997,20 +998,25 @@ if ($h && $token && $studyId) {
             function checkExecutionRole() {
                 console.log('check execution role', peerConnection);
                 var selectedRole = $('.roleSelect').find('.btn-option-checked').attr('id');
-
                 if (selectedRole !== VIEW_MODERATOR) {
                     $(peerConnection).unbind(MESSAGE_ENTER_SURVEY).bind(MESSAGE_ENTER_SURVEY, function (event, payload) {
                         event.preventDefault();
-                        console.log('message enter survey');
-                        var query = getQueryParams(document.location.search);
-                        var mediaSources = peerConnection.mediaSources();
-
-                        if (payload.iceTransports !== '') {
-                            goto('study-execution-' + selectedRole + '.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&testerId=' + payload.testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio + '&iceTransports=' + payload.iceTransports);
-                        } else {
-                            goto('study-execution-' + selectedRole + '.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&testerId=' + payload.testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio);
-                        }
+                        startExecution(payload);
                     });
+                }
+            }
+
+
+            function startExecution(payload) {
+                console.log('start execution', payload);
+                var selectedRole = $('.roleSelect').find('.btn-option-checked').attr('id');
+                var query = getQueryParams(document.location.search);
+                var mediaSources = peerConnection.mediaSources();
+
+                if (payload.iceTransports !== '') {
+                    goto('study-execution-' + selectedRole + '.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&testerId=' + payload.testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio + '&iceTransports=' + payload.iceTransports);
+                } else {
+                    goto('study-execution-' + selectedRole + '.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&testerId=' + payload.testerId + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio);
                 }
             }
         </script>

@@ -91,7 +91,15 @@ include '../includes/language.php';
         var modal = $('#custom-modal');
         var selectedRecording = getSimulationRecordingById($('#select-simulation-recording').find('.btn-option-checked').attr('id'));
         if (selectedRecording) {
-            setLocalItem(RECORDED_SIMULATION, {id: selectedRecording.id, title: selectedRecording.title, created: selectedRecording.created, gestureSetId: selectedRecording.gestureSetId, track: selectedRecording.data.track});
+            setLocalItem(RECORDED_SIMULATION, {
+                id: selectedRecording.id,
+                title: selectedRecording.title,
+                created: selectedRecording.created,
+                gestureSetId: selectedRecording.gestureSetId,
+                source: selectedRecording.data.source || null,
+                track: selectedRecording.data.track
+            });
+            
             $(modal).trigger('loadGestureSetSimulation');
             $(modal).modal('hide');
         } else {

@@ -13,7 +13,7 @@ if ($h && $studyId) {
             if ($_SESSION['usertype'] == 'guest') {
                 header('Location: study-prepare-tester.php?studyId=' . $studyId . '&token=' . $h . '&h=' . $hash);
             } else if ($_SESSION['usertype'] == 'evaluator') {
-                header('Location: study-prepare-evaluator.php?studyId=' . $studyId . '&token=' . $h . '&h=' . $hash);
+                header('Location: study-prepare-moderator.php?studyId=' . $studyId . '&token=' . $h . '&h=' . $hash);
             }
         }
     }
@@ -170,7 +170,7 @@ if ($h && $studyId) {
                     event.preventDefault();
                     var hash = hex_sha512(parseInt(query.studyId) + result.userId + result.forename + result.surname);
                     if (result.userType === 'evaluator') {
-                        goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
+                        goto('study-prepare-moderator.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
                     }
                 });
 

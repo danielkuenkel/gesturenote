@@ -3,7 +3,7 @@ include '../includes/language.php';
 ?>
 
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
     <h4 class="modal-title"><?php echo $lang->saveSimulation ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
@@ -15,11 +15,18 @@ include '../includes/language.php';
 
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" style="float:left"><i class="fa fa-close"></i> <?php echo $lang->cancel ?></button>
+    <button type="button" class="btn btn-default btn-shadow" id="btn-cancel-save-simulation-recording" style="float:left"><i class="fa fa-close"></i> <?php echo $lang->cancel ?></button>
     <button type="button" class="btn btn-default btn-shadow" id="btn-save-simulation-recording"><i class="fa fa-save"></i> <?php echo $lang->saveAndClose ?></button>
 </div>
 
 <script>
+    $('#btn-cancel-save-simulation-recording').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        removeLocalItem(SIMULATION_RECORDING);
+        var modal = $('#custom-modal');
+        $(modal).modal('hide');
+    });
+
     $('#btn-save-simulation-recording').unbind('click').bind('click', function (event) {
         event.preventDefault();
 

@@ -55,7 +55,7 @@ if (login_check($mysqli) == true) {
         <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/rtc-result-player.js"></script>
-        <script src="js/study-execution.js"></script>
+        <!--<script src="js/study-execution.js"></script>-->
         <script src="js/upload-queue.js"></script>
 
         <!-- leap and plugins -->

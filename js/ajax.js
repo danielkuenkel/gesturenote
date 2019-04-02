@@ -1789,6 +1789,24 @@ function saveGestureSetSimulation(data, callback) {
 
 function getSimulationRecordings(data, callback) {
     $.ajax({
+        url: 'includes/get-gesture-set-simulations.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function getSimulationRecording(data, callback) {
+    $.ajax({
         url: 'includes/get-gesture-set-simulation.php',
         data: data,
         type: 'post',

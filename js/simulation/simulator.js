@@ -4,6 +4,7 @@ var STATE_SIMULATOR_PAUSE_RECORDING = 'pauseRecording';
 var STATE_SIMULATOR_STOP_RECORDING = 'stopRecording';
 var currentSimulationState = null;
 var startGesture = true;
+var currentStudyExecutionGestureSetId = null;
 /*
  * gesture set simulation panel functionalities
  */
@@ -67,6 +68,7 @@ function getGestureSimulationSetPanel(data, type, layout) {
             downloadGestureSetAsJSON($(panel).find('.gesture-thumbnail'), data.title);
         }
     });
+
 
     // update thumbnail controls for every gesture in the set
     for (var i = data.gestures.length - 1; i >= 0; i--) {
@@ -133,7 +135,6 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode, 
     var gesture = getGestureById(gestureId);
     var gestureThumbnail = $(container).find('#' + gesture.id);
 
-
     var continuousValueType = gesture.continuousValueType;
     if (valueType && valueType !== 'automatically') {
         continuousValueType = valueType;
@@ -141,7 +142,7 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode, 
     $(gestureThumbnail).attr('data-continuous-value-type', continuousValueType);
     $(gestureThumbnail).attr('data-woz-mode', wozMode || false);
 
-    console.log('update gesture simulation thumbnail', valueType, continuousValueType, gesture.interactionType);
+//    console.log('update gesture simulation thumbnail', valueType, continuousValueType, gesture.interactionType, wozMode);
 
     if ((continuousValueType === CONTINUOUS_VALUE_TYPE_NONE && wozMode && wozMode === true) || gesture.interactionType === TYPE_GESTURE_DISCRETE) {
         $(gestureThumbnail).find('.simulator-trigger').removeClass("hidden");
@@ -149,7 +150,7 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode, 
             event.preventDefault();
             TweenMax.to($(this), .3, {opacity: 0, scale: 1.1, clearProps: 'all'});
             var gestureId = $(this).closest('.root').attr('id');
-            commitSimulationData({gestureId: gestureId});
+            commitSimulationData({gestureId: gestureId, triggerId: $(gestureThumbnail).attr('data-trigger-id'), continuousValueType: $(gestureThumbnail).attr('data-continuous-value-type')});
             startGesture = true;
             sendPGGesture(gestureId);
         });
@@ -178,7 +179,7 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode, 
                 var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
                 $(gestureImages).removeClass('active').addClass('hidden');
                 $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
-                checkCommitTimeout({gestureId: gestureId, value: percent});
+                checkCommitTimeout({gestureId: gestureId, triggerId: $(gestureThumbnail).attr('data-trigger-id'), value: percent});
                 sendContinuousPGGesture(gestureId, percent);
             });
         } else if (continuousValueType === CONTINUOUS_VALUE_TYPE_POSITION || continuousValueType === CONTINUOUS_VALUE_TYPE_MOUSE_SIMULATION) {
@@ -228,7 +229,7 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode, 
                 } else {
                     TweenMax.to(slider, tweenDuration, {width: '100%', ease: Linear.easeNone, onComplete: function () {
                             $(slider).css({width: '0%'});
-                            commitSimulationData({gestureId: gesture.id});
+                            commitSimulationData({gestureId: gesture.id, triggerId: $(gestureThumbnail).attr('data-trigger-id'), continuousValueType: $(gestureThumbnail).attr('data-continuous-value-type')});
                             sendPGGesture(gesture.id);
                             animateSlider();
                         }});
@@ -266,12 +267,13 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode, 
         });
 
         function checkMouseSimulation() {
-            console.log('check mouse simulation', currentMouseSimulationGesture)
+//            console.log('check mouse simulation', currentMouseSimulationGesture)
             if (showMouseSimulationPad === true && currentMouseSimulationGesture) {
                 var gestureThumbnail = $(container).find('#' + currentMouseSimulationGesture.id);
                 var wozMode = $(gestureThumbnail).attr('data-woz-mode');
+                var continuousValueType = $(gestureThumbnail).attr('data-continuous-value-type');
 
-                if ((currentMouseSimulationGesture.continuousValueType === CONTINUOUS_VALUE_TYPE_NONE && (wozMode === 'true' || wozMode === true)) || currentMouseSimulationGesture.interactionType === TYPE_GESTURE_DISCRETE) {
+                if ((continuousValueType === CONTINUOUS_VALUE_TYPE_NONE && (wozMode === 'true' || wozMode === true)) || currentMouseSimulationGesture.interactionType === TYPE_GESTURE_DISCRETE) {
                     $(gestureThumbnail).find('#btn-trigger-gesture').click();
                     var mousePad = $(gestureThumbnail).find('.mouse-simulation-slider').removeClass('hidden');
                     TweenMax.to(mousePad, 0, {opacity: 1});
@@ -279,12 +281,12 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode, 
                             $(mousePad).addClass('hidden');
                         }});
                 } else {
-                    if (currentMouseSimulationGesture.continuousValueType === CONTINUOUS_VALUE_TYPE_POSITION ||
-                            currentMouseSimulationGesture.continuousValueType === CONTINUOUS_VALUE_TYPE_MOUSE_SIMULATION) {
+                    if (continuousValueType === CONTINUOUS_VALUE_TYPE_POSITION ||
+                            continuousValueType === CONTINUOUS_VALUE_TYPE_MOUSE_SIMULATION) {
                         var mousePad = $(gestureThumbnail).find('.mouse-simulation-pad').removeClass('hidden');
                         $(gestureThumbnail).find('.gesture-preview-data').css({filter: 'blur(5px)', opacity: .3});
                         initMouseSimulationPad(mousePad, gestureThumbnail);
-                    } else if (currentMouseSimulationGesture.continuousValueType === PERCENT) {
+                    } else if (continuousValueType === PERCENT) {
                         var mousePad = $(gestureThumbnail).find('.mouse-simulation-slider').removeClass('hidden');
 
                         $(mousePad).unbind('mousemove').bind('mousemove', function (event) {
@@ -314,7 +316,7 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode, 
             }
         }
     } else {
-        console.log('not in simulation mode', $(gestureThumbnail).find('#simulation-controls'));
+//        console.log('not in simulation mode', $(gestureThumbnail).find('#simulation-controls'));
         $(gestureThumbnail).find('#control-continuous-slider').addClass('hidden');
         $(gestureThumbnail).find('.continuous-gesture-controls').addClass('hidden');
         $(gestureThumbnail).find('#simulation-controls').addClass('hidden');
@@ -336,13 +338,13 @@ function initMouseSimulationPad(mousePad, gestureThumbnail) {
         $(mousePad).find('.x-position').text(parseFloat(relPositions.relPosX * 100).toFixed() + '%');
         $(mousePad).find('.y-position').text(parseFloat(relPositions.relPosY * 100).toFixed() + '%');
         showCursor(mousePad, CURSOR_CROSSHAIR);
-        checkCommitTimeout({gestureId: gesture.id, value: {relPositions: relPositions, clicked: false}});
+        checkCommitTimeout({gestureId: gesture.id, triggerId: $(gestureThumbnail).attr('data-trigger-id'), continuousValueType: $(gestureThumbnail).attr('data-continuous-value-type'), value: {relPositions: relPositions, clicked: false}});
         sendContinuousPGPosition($(this).closest('.root').prop('id'), currentMouseSimulationGesture.continuousValueType, relPositions.relPosX, relPositions.relPosY, false);
     });
 
     $(mousePad).unbind('click').bind('click', function (event) {
         var relPositions = getMousePosition(mousePad, event);
-        commitSimulationData({gestureId: gesture.id, value: {relPositions: relPositions, clicked: true}});
+        commitSimulationData({gestureId: gesture.id, triggerId: $(gestureThumbnail).attr('data-trigger-id'), continuousValueType: $(gestureThumbnail).attr('data-continuous-value-type'), value: {relPositions: relPositions, clicked: true}});
         sendContinuousPGPosition($(gestureThumbnail).attr('id'), currentMouseSimulationGesture.continuousValueType, relPositions.relPosX, relPositions.relPosY, true);
     });
 }
@@ -368,14 +370,14 @@ function checkCommitTimeout(data) {
 
 
 function commitSimulationData(data) {
-//    console.log('commit simulation data');
     if (currentSimulationState === STATE_SIMULATOR_RECORD) {
         var gestureSetId = null;
-        if (previewModeEnabled) {
-            gestureSetId = currentSimulationGestureSetId;
+        if (currentStudyExecutionGestureSetId) {
+            gestureSetId = currentStudyExecutionGestureSetId;
         } else {
             var query = getQueryParams(document.location.search);
             gestureSetId = query.gestureSetId;
+            data.continuousValueType = null;
         }
 
         if (gestureSetId) {
@@ -387,10 +389,23 @@ function commitSimulationData(data) {
             data.id = chance.natural();
             data.timestamp = new Date().getTime();
             data.start = startGesture;
-            simulationRecording.track.push(data);
-            setLocalItem(SIMULATION_RECORDING, simulationRecording);
             if (startGesture === true) {
+                if (currentStudyExecutionGestureSetId) {
+                    getGMT(function (timestamp) {
+                        data.timestampGMT = timestamp;
+                        pushData(data);
+                    });
+                } else {
+                    pushData(data);
+                }
                 startGesture = false;
+            } else {
+                pushData(data);
+            }
+
+            function pushData(data) {
+                simulationRecording.track.push(data);
+                setLocalItem(SIMULATION_RECORDING, simulationRecording);
             }
         }
     }
@@ -535,7 +550,7 @@ function renderRecordedGestureSetSimulation() {
         var prevGestureButton = $('#btn-prev-gesture');
         $(prevGestureButton).unbind('click').bind('click', function (event) {
             event.preventDefault();
-            console.log(prevGestureButton, '');
+//            console.log(prevGestureButton, '');
             if (!$(this).hasClass('disabled')) {
                 $(pauseButton).click();
 
@@ -617,7 +632,11 @@ function renderRecordedGestureSetSimulation() {
             var currentValue = parseInt(sliderValues.min) + parseInt($(slider).slider('getValue'));
             var currentSimulationStep = getCurrentSimulationStep(currentValue);
             var gesture = getGestureById(currentSimulationStep.gestureId);
-            if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
+            var activeItem = $('#simulation-thumbnail-container .item-active');
+            var thumbnail = $(activeItem).find('.gesture-thumbnail').parent();
+            var wozMode = $(thumbnail).attr('data-woz-mode');
+            var continuousValueType = $(thumbnail).attr('data-continuous-value-type');
+            if ((continuousValueType === CONTINUOUS_VALUE_TYPE_NONE && (wozMode === 'true' || wozMode === true)) || gesture.interactionType === TYPE_GESTURE_DISCRETE) {
                 timeout = Math.max(timeout, 2000);
             } else if (gesture.interactionType === TYPE_GESTURE_CONTINUOUS && gesture.type === TYPE_GESTURE_POSE) {
                 timeout = Math.max(timeout, 2000);
@@ -691,13 +710,14 @@ function renderRecordedGestureSetSimulation() {
 
     function renderMainSimulationItems() {
         var panel = null;
+//        console.log(recordedSimulation);
         for (var i = 0; i < recordedSimulation.track.length; i++) {
             if (recordedSimulation.track[i].start === true || recordedSimulation.track[i].start === 'true') {
                 var gesture = getGestureById(recordedSimulation.track[i].gestureId);
                 panel = $('#template-simulation-container').find('#gesture-set-simulation-panel').clone();
                 var gestureThumbnail = getGestureCatalogListThumbnail(gesture, 'gesture-simulation-catalog-thumbnail', 'col-xs-12');
                 $(panel).find('#gesture-thumbnail-container').append(gestureThumbnail);
-                updateGestureSimluationThumbnail(gesture.id, panel);
+                updateGestureSimluationThumbnail(gesture.id, panel, false, recordedSimulation.track[i].continuousValueType, recordedSimulation.source === 'studyExecution');
 
                 var seconds = getSeconds(getTimeBetweenTimestamps(recordedSimulation.track[0].timestamp, recordedSimulation.track[i].timestamp), true);
                 $(panel).attr('data-id', recordedSimulation.track[i].id);
@@ -789,8 +809,11 @@ function renderRecordedGestureSetSimulation() {
             $(gestureThumbnail).find('#btn-trigger-gesture').removeClass('disabled');
         }
 
+        var wozMode = $(gestureThumbnail).attr('data-woz-mode');
+        var continuousValueType = $(gestureThumbnail).attr('data-continuous-value-type');
 
-        if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
+        if ((continuousValueType === CONTINUOUS_VALUE_TYPE_NONE && (wozMode === 'true' || wozMode === true)) || gesture.interactionType === TYPE_GESTURE_DISCRETE) {
+//        if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
             var mousePad = $(gestureThumbnail).find('.mouse-simulation-slider').removeClass('hidden');
 
             if ((currentSimulationStep.start === true || currentSimulationStep.start === 'true') && (!$(gestureThumbnail).find('#btn-trigger-gesture').hasClass('disabled') && !lastSimulationStep)) {
@@ -882,13 +905,18 @@ function renderThumbnailInfoView(dataId) {
     var data = getGestureSimulationData(dataId);
     if (data && data.length > 0) {
         var infoView = null;
+        var gestureThumbnail = $('#simulation-thumbnail-container .item-active').find('.gesture-thumbnail').parent();
         var gesture = getGestureById(data[0].gestureId);
+        var wozMode = $(gestureThumbnail).attr('data-woz-mode');
+        var continuousValueType = $(gestureThumbnail).attr('data-continuous-value-type');
+//        console.log('continuous value type, wozmode', gestureThumbnail, continuousValueType, wozMode);
+        if ((continuousValueType === CONTINUOUS_VALUE_TYPE_NONE && (wozMode === 'true' || wozMode === true)) || gesture.interactionType === TYPE_GESTURE_DISCRETE) {
 
-        if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
+//        if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
             infoView = $('#template-simulation-container').find('#playback-info-view-discrete').clone();
             $('#simulation-thumbnail-info-panel').append(infoView);
         } else {
-            if (gesture.continuousValueType === PERCENT) {
+            if (continuousValueType === PERCENT) {
                 infoView = $('#template-simulation-container').find('#playback-info-view-percent').clone();
                 $('#simulation-thumbnail-info-panel').append(infoView);
                 var containerWidth = parseInt($(infoView).find('#graph-container').outerWidth());
@@ -917,7 +945,7 @@ function renderThumbnailInfoView(dataId) {
                 }
 
                 currentPercentItems = items;
-            } else if (gesture.continuousValueType === "position" || gesture.continuousValueType === "mouseSimulation") {
+            } else if (continuousValueType === "position" || continuousValueType === "mouseSimulation") {
                 infoView = $('#template-simulation-container').find('#playback-info-view-mouse-simulation').clone();
                 $('#simulation-thumbnail-info-panel').append(infoView);
                 var containerWidth = parseInt($(infoView).find('#mouse-path-container').outerWidth());
@@ -925,26 +953,28 @@ function renderThumbnailInfoView(dataId) {
 
                 var startPoint, endPoint = null;
                 for (var i = 0; i < data.length; i++) {
-                    var relPosX = parseFloat(data[i].value.relPositions.relPosX * 100);
-                    var relPosY = parseFloat(data[i].value.relPositions.relPosY * 100);
+                    if (data[i].value && data[i].value.relPositions) {
+                        var relPosX = parseFloat(data[i].value.relPositions.relPosX * 100);
+                        var relPosY = parseFloat(data[i].value.relPositions.relPosY * 100);
 
-                    if (data[i].value.clicked === 'true' || data[i].value.clicked === true) {
-                        var pathPoint = $('#template-simulation-container').find('#mouse-simulation-path-point').clone();
-                        $(pathPoint).css({top: relPosY + '%', left: relPosX + '%'});
-                        $(pathPoint).attr('data-id', data[i].id);
-                        $(infoView).find('#mouse-path').append(pathPoint);
-                    }
-
-                    if (i === 0) {
-                        startPoint = {xPos: containerWidth * data[i].value.relPositions.relPosX, yPos: containerHeight * data[i].value.relPositions.relPosY};
-                    } else if (i > 0 && i < data.length) {
-                        endPoint = {xPos: containerWidth * data[i].value.relPositions.relPosX, yPos: containerHeight * data[i].value.relPositions.relPosY};
-                        $(infoView).find('#mouse-path-lines').line(startPoint.xPos, startPoint.yPos, endPoint.xPos, endPoint.yPos, {color: "#337ab7", stroke: 3, zindex: 0}, function (line) {
-                            if (i === 1) {
-                            }
-                            $(line).attr('data-id', data[i].id);
-                        });
-                        startPoint = endPoint;
+                        if (data[i].value.clicked === 'true' || data[i].value.clicked === true) {
+                            var pathPoint = $('#template-simulation-container').find('#mouse-simulation-path-point').clone();
+                            $(pathPoint).css({top: relPosY + '%', left: relPosX + '%'});
+                            $(pathPoint).attr('data-id', data[i].id);
+                            $(infoView).find('#mouse-path').append(pathPoint);
+                        }
+                        
+                        if (i === 0) {
+                            startPoint = {xPos: containerWidth * data[i].value.relPositions.relPosX, yPos: containerHeight * data[i].value.relPositions.relPosY};
+                        } else if (i > 0 && i < data.length) {
+                            endPoint = {xPos: containerWidth * data[i].value.relPositions.relPosX, yPos: containerHeight * data[i].value.relPositions.relPosY};
+                            $(infoView).find('#mouse-path-lines').line(startPoint.xPos, startPoint.yPos, endPoint.xPos, endPoint.yPos, {color: "#337ab7", stroke: 3, zindex: 0}, function (line) {
+                                if (i === 1) {
+                                }
+                                $(line).attr('data-id', data[i].id);
+                            });
+                            startPoint = endPoint;
+                        }
                     }
                 }
             } else {
@@ -961,14 +991,17 @@ function renderThumbnailInfoView(dataId) {
 
 function updateThumbailInfoView(currentTime) {
     $('#simulation-thumbnail-info-panel').find('#mouse-path-lines, #graph-container').children().css({opacity: .1});
+    var gestureThumbnail = $('#simulation-thumbnail-container .item-active').find('.gesture-thumbnail').parent();
+    var wozMode = $(gestureThumbnail).attr('data-woz-mode');
+    var continuousValueType = $(gestureThumbnail).attr('data-continuous-value-type');
 
     var currentSimulationStep = getCurrentSimulationStep(currentTime);
     var gesture = getGestureById(currentSimulationStep.gestureId);
 
-    if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
+    if ((continuousValueType === CONTINUOUS_VALUE_TYPE_NONE && (wozMode === 'true' || wozMode === true)) || gesture.interactionType === TYPE_GESTURE_DISCRETE) {
 
     } else {
-        if (gesture.continuousValueType === PERCENT) {
+        if (continuousValueType === PERCENT) {
             var activeLine = $('#simulation-thumbnail-info-panel').find('#graph-container').find('.simulation-line[data-id=' + currentSimulationStep.id + ']');
             $($(activeLine)[0]).prev().prev().css({opacity: .3});
             $($(activeLine)[0]).prev().css({opacity: .6});
@@ -985,7 +1018,7 @@ function updateThumbailInfoView(currentTime) {
                     }
                 }
             }
-        } else if (gesture.continuousValueType === "position" || gesture.continuousValueType === "mouseSimulation") {
+        } else if (continuousValueType === "position" || continuousValueType === "mouseSimulation") {
             var activeLine = $('#simulation-thumbnail-info-panel').find('#mouse-path-lines').find('.simulation-line[data-id=' + currentSimulationStep.id + ']');
             $($(activeLine)[0]).prev().prev().css({opacity: .3});
             $($(activeLine)[0]).prev().css({opacity: .6});
@@ -999,9 +1032,14 @@ function updateThumbailInfoView(currentTime) {
 function renderLinkList(dataId, currentTime) {
     var data = getGestureSimulationData(dataId);
 
+    var gestureThumbnail = $('#simulation-thumbnail-container .item-active').find('.gesture-thumbnail').parent();
+    var wozMode = $(gestureThumbnail).attr('data-woz-mode');
+    var continuousValueType = $(gestureThumbnail).attr('data-continuous-value-type');
+
     var recordedSimulation = getLocalItem(RECORDED_SIMULATION).track;
     var container = $('#simulation-thumbnail-info-panel').find('#link-list-container');
     var gesture = getGestureById(data[0].gestureId);
+
     for (var i = 0; i < data.length; i++) {
         var seconds = getSeconds(getTimeBetweenTimestamps(recordedSimulation[0].timestamp, data[i].timestamp), true);
         var linkListItem = $('#template-simulation-container').find('#link-list-item').clone().removeAttr('id');
@@ -1010,12 +1048,12 @@ function renderLinkList(dataId, currentTime) {
         $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)) + '.' + seconds.toFixed(3).split('.')[1]);
         $(container).append(linkListItem);
 
-        if (gesture.interactionType === TYPE_GESTURE_DISCRETE) {
+        if ((continuousValueType === CONTINUOUS_VALUE_TYPE_NONE && (wozMode === 'true' || wozMode === true)) || gesture.interactionType === TYPE_GESTURE_DISCRETE) {
             $(linkListItem).find('.link-list-item-title').text(translation.gestureDemonstrated);
         } else {
-            if (gesture.continuousValueType === PERCENT) {
+            if (continuousValueType === PERCENT) {
                 $(linkListItem).find('.link-list-item-title').text(data[i].value + '%');
-            } else if (gesture.continuousValueType === "position" || gesture.continuousValueType === "mouseSimulation") {
+            } else if (continuousValueType === "position" || continuousValueType === "mouseSimulation") {
                 var posX = (parseFloat(data[i].value.relPositions.relPosX) * 100).toFixed();
                 var posY = (parseFloat(data[i].value.relPositions.relPosY) * 100).toFixed();
                 if (data[i].value.clicked === 'true' || data[i].value.clicked === true) {

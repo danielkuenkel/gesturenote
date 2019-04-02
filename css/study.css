@@ -264,19 +264,19 @@ and open the template in the editor.
     color: #5a5a5a;
 }
 .link-list-item-url .link-list-item-title.item-primary-full {
-    color: #428bca;
+    color: #428bca !important;
 }
 .link-list-item-url .link-list-item-title.item-success-full {
-    color: #5cb85c;
+    color: #5cb85c !important;
 }
 .link-list-item-url .link-list-item-title.item-info-full {
-    color: #5bc0de;
+    color: #5bc0de !important;
 }
 .link-list-item-url .link-list-item-title.item-danger-full {
-    color: #d9534f;
+    color: #d9534f !important;
 }
 .link-list-item-url .link-list-item-title.item-warning-full {
-    color: #ec971f;
+    color: #ec971f !important;
 }
 /*.link-list-item-url .link-list-item-time {
     color: #428bca;
@@ -397,4 +397,8 @@ and open the template in the editor.
 
 .dark .item-advanced-primary-full {
     border-color: #737373;
+}
+
+.dark #seek-bar-meta-info-container .item-advanced-primary-full {
+    background-color: #dcdcdc
 }

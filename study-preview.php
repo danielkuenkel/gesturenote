@@ -52,12 +52,13 @@ if (login_check($mysqli) == true) {
         <script src="js/gesture.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/study-execution.js"></script>
-        <script src="js/study-execution-tester.js"></script>
-        <script src="js/study-execution-tester-save.js"></script>
-        <script src="js/study-execution-moderator.js"></script>
-
+        
         <!-- phase step formats -->
+        <script src="js/execution/study-execution.js"></script>
+        <script src="js/execution/study-execution-tester.js"></script>
+        <script src="js/execution/study-execution-tester-save.js"></script>
+        <script src="js/execution/study-execution-moderator.js"></script>
+        
         <script src="js/execution/executionPreparation.js"></script>
         <script src="js/execution/exploration.js"></script>
         <script src="js/execution/focus-group-interview.js"></script>

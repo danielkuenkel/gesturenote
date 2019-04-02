@@ -1422,7 +1422,7 @@ include '../includes/language.php';
             </div>
 
             <div style="margin-top: 20px">
-                <div class="btn btn-default btn-block btn-shadow disabled" id="btn-start-simulation"><?php echo $lang->simulatorGestureSet ?></div>
+                <div class="btn btn-default btn-block btn-shadow disabled" id="btn-start-simulation"><i class="fa fa-sign-language"></i> <?php echo $lang->simulatorGestureSet ?></div>
             </div>
 
         </div>

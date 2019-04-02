@@ -14,7 +14,6 @@ var Tester = {
             Tester.initializePeerConnection();
             Tester.initializeRTC();
         } else {
-//            console.log('render view');
             var item = null;
             var currentPhase = getCurrentPhase();
             var currentPhaseData = getCurrentPhaseData();
@@ -29,9 +28,7 @@ var Tester = {
                 });
             }
 
-//            Tester.initializePeerConnection();
             if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
-
                 switch (currentPhase.format) {
                     case STUDY_EXECUTION_PREPARATION:
                         currentClass = new ExecutionPreparation();
@@ -127,7 +124,6 @@ var Tester = {
                 });
 
                 $(peerConnection).unbind(MESSAGE_CANCEL_SURVEY).bind(MESSAGE_CANCEL_SURVEY, function (event, payload) {
-//                    console.log('on cancel survey');
                     var study = getLocalItem(STUDY);
                     study.aborted = 'yes';
                     setLocalItem(STUDY, study);

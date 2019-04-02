@@ -95,7 +95,7 @@ include '../includes/language.php';
             $('.phaseStepsSelect').find('li a').last().click();
         } else {
             currentPhaseStepIndex = getThanksStepIndex();
-            resetRecorder();
+//            resetRecorder();
             updateProgress();
             renderPhaseStep();
         }

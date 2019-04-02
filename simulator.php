@@ -15,7 +15,7 @@ if (login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title><?php echo $lang->gestureNoteProfile ?></title>
+        <title><?php echo $lang->gestureNoteSimulator ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -295,6 +295,16 @@ if (login_check($mysqli) == true) {
                                 if (recordedSimulation) {
                                     setLocalItem(RECORDED_SIMULATION, recordedSimulation);
                                 }
+                            }
+
+                            if (query.recordingId) {
+                                getSimulationRecording({recordingId: query.recordingId}, function (result) {
+                                    if (result.status === RESULT_SUCCESS) {
+                                        setLocalItem(RECORDED_SIMULATION, {id: result.id, gestureSetId: result.gestureSetId, title: result.title, track: result.data.track, created: result.created});
+                                        $('#main-tab-pane').find('#btn-player').removeClass('disabled');
+                                        renderRecordedGestureSetSimulation();
+                                    }
+                                });
                             }
 
                             if (query.state) {

@@ -150,6 +150,8 @@ function getScenarioFormData(data) {
         data.startScreenRecordingTime = tempData.startScreenRecordingTime;
         data.endScreenRecordingTime = tempData.endScreenRecordingTime;
         data.screenRecordUrl = tempData.screenRecordUrl;
+        data.recordedGestureSimulation = tempData.recordedGestureSimulation || null;
+        data = attachSimulationRecording(data);
     }
     return data;
 }

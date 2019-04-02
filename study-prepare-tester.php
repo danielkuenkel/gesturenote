@@ -68,7 +68,7 @@ if ($h && $token && $studyId) {
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/chance.min.js"></script>
-        <script src="js/study-execution.js"></script>
+        <script src="js/execution/study-execution.js"></script>
 
         <!-- streaming -->
         <script src="js/andyet/simplewebrtc.bundle.js"></script>
@@ -656,20 +656,22 @@ if ($h && $token && $studyId) {
             });
 
             $(peerConnection).on(MESSAGE_ENTER_SURVEY, function (event, payload) {
-//                console.log('enter survey', payload);
                 event.preventDefault();
                 peerConnection.sendMessage(MESSAGE_PARTICIPANT_ENTERED_STUDY);
-                var query = getQueryParams(document.location.search);
-                var mediaSources = peerConnection.mediaSources();
-                if (mediaSources && mediaSources.video && mediaSources.audio) {
-                    if (payload.iceTransports !== '') {
-                        goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio + '&iceTransports=' + payload.iceTransports);
+
+                setTimeout(function () {
+                    var query = getQueryParams(document.location.search);
+                    var mediaSources = peerConnection.mediaSources();
+                    if (mediaSources && mediaSources.video && mediaSources.audio) {
+                        if (payload.iceTransports !== '') {
+                            goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio + '&iceTransports=' + payload.iceTransports);
+                        } else {
+                            goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio);
+                        }
                     } else {
-                        goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken + '&vSource=' + mediaSources.video + '&aSource=' + mediaSources.audio);
+                        // send message to moderator with more infos why the participant cant start the execution, missing sources (audio or video)
                     }
-                } else {
-                    // send message to moderator with more infos why the participant cant start the execution, missing sources (audio or video)
-                }
+                }, 1000);
             });
 
             function sensorArrayHasType(sensors, type) {

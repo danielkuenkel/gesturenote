@@ -1698,9 +1698,17 @@ canvas {
 
 .dark .btn-radio.active.focus, .dark .btn-radio.active:focus, .dark .btn-radio.focus, .dark .btn-radio:active.focus, .dark .btn-radio:active:focus, .dark .btn-radio:focus,
 .dark .btn-checkbox.active.focus, .dark .btn-checkbox.active:focus, .dark .btn-checkbox.focus, .dark .btn-checkbox:active.focus, .dark .btn-checkbox:active:focus, .dark .btn-checkbox:focus{
-    background-color: #2d2d2d;
+    background-color: #3e3d3d !important;
     color: white;
     border-color: #464646;
+}
+
+.dark .btn-radio, .dark .btn-checkbox {
+    background-color: rgba(0,0,0,0) !important;
+}
+
+.dark .btn-option-checked {
+    background-color: #3e3d3d !important;
 }
 
 .dark h2, .dark h3, .dark h4 {

@@ -66,10 +66,10 @@ if ($h && $token && $studyId) {
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/study-execution.js"></script>
-        <script src="js/study-execution-moderator.js"></script>
-        <script src="js/study-execution-moderator-save.js"></script>
         <script src="js/upload-queue.js"></script>
+        <script src="js/execution/study-execution.js"></script>
+        <script src="js/execution/study-execution-moderator.js"></script>
+        <script src="js/execution/study-execution-moderator-save.js"></script>
 
         <!-- phase step formats -->
         <script src="js/execution/exploration.js"></script>
@@ -108,7 +108,7 @@ if ($h && $token && $studyId) {
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
-        
+
         <!-- simulator specific -->
         <link rel="stylesheet" href="css/simulator.css">
         <script src="js/simulation/simulator.js"></script>
@@ -121,6 +121,7 @@ if ($h && $token && $studyId) {
         <div id="template-previews"></div>
         <div id="template-study"></div>
         <div id="template-gesture-recorder"></div>
+        <div id="template-simulator"></div>
 
         <!--<div id="screenSharingTarget" class="hidden"></div>-->
 
@@ -135,15 +136,21 @@ if ($h && $token && $studyId) {
             </div>
         </div>
 
-        <div style="position: fixed;top: 0;  width: 100%; z-index: 500">
-            <button class="btn-cancel btn btn-danger btn-block" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
         </div>
 
-        <!-- progress bar -->
-        <div id="progressTop" style="position: fixed; top: 34px; left: 0; right: 0">
-            <div class="progress" style="border-radius: 0px">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
-                    0%
+        <div id="study-execution-top-bar" style="opacity: 0">
+            <div style="position: fixed;top: 0;  width: 100%; z-index: 500">
+                <button class="btn-cancel btn btn-danger btn-block" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
+            </div>
+
+            <!-- progress bar -->
+            <div id="progressTop" style="position: fixed; top: 34px; left: 0; right: 0">
+                <div class="progress" style="border-radius: 0px">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
+                        0%
+                    </div>
                 </div>
             </div>
         </div>
@@ -195,11 +202,6 @@ if ($h && $token && $studyId) {
 
 
         <script>
-//            window.onerror = function (msg, url, lineNo, columnNo, error) {
-//                console.log(msg, url, lineNo, columnNo, error);
-//                return false;
-//            };
-
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();
@@ -212,6 +214,7 @@ if ($h && $token && $studyId) {
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
+                    externals.push(['#template-simulator', PATH_EXTERNALS + 'template-simulator.php']);
                     loadExternals(externals);
                 });
             });
@@ -262,6 +265,13 @@ if ($h && $token && $studyId) {
                     }
 
                     checkStorage();
+
+                    $('.mainContent').removeClass('hidden');
+                    TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                            $('#loading-indicator').remove();
+                        }});
+                    TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
+                    TweenMax.to($('#study-execution-top-bar'), .3, {opacity: 1});
                 });
             }
 
@@ -285,7 +295,7 @@ if ($h && $token && $studyId) {
 
             $(window).scroll(function () {
                 updateRTCHeight($('#viewModerator #column-left').width());
-                if(peerConnection) {
+                if (peerConnection) {
                     peerConnection.checkRemoteStreamsPositions();
                 }
             });

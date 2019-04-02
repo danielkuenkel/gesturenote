@@ -392,7 +392,7 @@ PeerConnection.prototype.initialize = function (options) {
                 console.log('local screen added', video);
                 if (options.target && options.remoteVideoElement) {
                     $(video).addClass('mirroredHorizontally');                    
-                    $(video).css({borderRadius: '8px 0 8px 0', width: 'auto', height: '40%', top:'60%', float: 'left'});
+                    $(video).css({borderRadius: '8px 0 8px 0', width: 'auto', height: '40%', top:'60%', float: 'left', opacity: .5});
                     $(options.target).find('#' + options.remoteVideoElement).append(video);
                 }
             });

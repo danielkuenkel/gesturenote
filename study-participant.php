@@ -55,7 +55,7 @@ if (login_check($mysqli) == true) {
         <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/rtc-result-player.js"></script>
-        <script src="js/study-execution.js"></script>
+        <!--<script src="js/study-execution.js"></script>-->
         <script src="js/upload-queue.js"></script>
 
         <!-- leap and plugins -->
@@ -971,7 +971,7 @@ if (login_check($mysqli) == true) {
                             renderPhysicalStressTest(content, phaseData, testerResults);
                             break;
                         case SCENARIO:
-                            renderScenario(content, phaseData, testerResults);
+                            renderScenario(content, phaseData, testerResults, evaluatorResults, wizardResults);
                             break;
                         case IDENTIFICATION:
                             renderIdentification(content, phaseData, testerResults);
@@ -1633,7 +1633,7 @@ if (login_check($mysqli) == true) {
             renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
         }
 
-        function renderScenario(container, studyData, resultsData) {
+        function renderScenario(container, studyData, resultsData, evaluatorResults, wizardResults) {
             renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             if (resultsPlayer) {
                 var annotations = resultsPlayer.player.annotations();
@@ -1654,6 +1654,7 @@ if (login_check($mysqli) == true) {
                 var fromWizard = 0;
 
                 for (var i = 0; i < annotations.length; i++) {
+                    console.log('annotation', annotations[i]);
                     if (annotations[i].action === ACTION_CUSTOM) {
                         afterExecution++;
                     } else {
@@ -1742,6 +1743,22 @@ if (login_check($mysqli) == true) {
                 $(container).find('#from-evaluator').text(fromModerator > 0 ? fromModerator : '-');
                 $(container).find('#from-observer').text(fromObserver > 0 ? fromObserver : '-');
                 $(container).find('#from-wizard').text(fromWizard > 0 ? fromWizard : '-');
+
+                if (evaluatorResults && evaluatorResults.recordedGestureSimulation) {
+                    console.log('evaluator results data', evaluatorResults);
+                    $(container).find('#btn-start-simulation').removeClass('disabled');
+                    $(container).find('#btn-start-simulation').unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        goto('simulator.php?tab=player&gestureSetId=' + evaluatorResults.recordedGestureSimulation.data.gestureSetId + '&recordingId=' + evaluatorResults.recordedGestureSimulation.id, true);
+                    });
+                } else if (wizardResults && wizardResults.recordedGestureSimulation) {
+                    console.log('wizard results data', wizardResults);
+                    $(container).find('#btn-start-simulation').removeClass('disabled');
+                    $(container).find('#btn-start-simulation').unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        goto('simulator.php?tab=player&gestureSetId=' + wizardResults.recordedGestureSimulation.data.gestureSetId + '&recordingId=' + wizardResults.recordedGestureSimulation.id, true);
+                    });
+                }
             }
         }
 

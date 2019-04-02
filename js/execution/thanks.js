@@ -42,7 +42,7 @@ Thanks.prototype.renderModeratorView = function () {
         event.preventDefault();
         var query = getQueryParams(document.location.search);
         if (query.studyId && query.h && query.token) {
-            goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
+            goto('study-prepare-moderator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
         }
     });
 
@@ -160,7 +160,7 @@ Thanks.prototype.renderObserverView = function () {
         event.preventDefault();
         var query = getQueryParams(document.location.search);
         if (query.studyId && query.h && query.token) {
-            goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
+            goto('study-prepare-moderator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
         }
     });
 
@@ -220,7 +220,7 @@ Thanks.prototype.renderWizardView = function () {
         event.preventDefault();
         var query = getQueryParams(document.location.search);
         if (query.studyId && query.h && query.token) {
-            goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
+            goto('study-prepare-moderator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
         }
     });
 

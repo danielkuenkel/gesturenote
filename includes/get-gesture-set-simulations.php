@@ -8,20 +8,25 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 
 session_start();
-if (isset($_SESSION['user_id'], $_POST['recordingId'])) {
+if (isset($_SESSION['user_id'])) {
     $sessionUserId = $_SESSION['user_id'];
-    $recordingId = $_POST['recordingId'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT * FROM gesture_set_simulation WHERE user_id = '$sessionUserId' AND id = '$recordingId'")) {
+    if ($select_stmt = $mysqli->prepare("SELECT * FROM gesture_set_simulation WHERE user_id = '$sessionUserId' ORDER BY created ASC")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();
         } else {
             $select_stmt->store_result();
+
             $select_stmt->bind_result($id, $gestureSetId, $userId, $title, $data, $created);
-            $select_stmt->fetch();
-            
-            echo json_encode(array('status' => 'success', 'id' => $id, 'gestureSetId' => $gestureSetId, 'userId' => $userId, 'title' => json_decode_nice($title, false), 'data' => json_decode_nice($data, false), 'created' => $created));
+            while ($select_stmt->fetch()) {
+                $recordings[] = array('id' => $id,
+                    'gestureSetId' => $gestureSetId,
+                    'title' => json_decode_nice($title, false),
+                    'data' => json_decode_nice($data, false),
+                    'created' => $created);
+            }
+            echo json_encode(array('status' => 'success', 'recordings' => $recordings));
             exit();
         }
     } else {
