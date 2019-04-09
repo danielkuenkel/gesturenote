@@ -132,6 +132,10 @@ if (login_check($mysqli) == true) {
         </div>
     </div>
 
+    <div id="loading-indicator" class="window-sized-loading text-center">
+        <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+    </div>
+
     <!-- Container (Breadcrump) -->
     <div class="container" id="breadcrumb" style="">
         <div class="row">
@@ -157,21 +161,13 @@ if (login_check($mysqli) == true) {
 
 
     <!-- main content -->
-    <div class="container mainContent" style="margin-top: 0px; padding-bottom: 0px" id="general-view">
+    <div class="container mainContent hidden" style="margin-top: 0px; padding-bottom: 0px" id="general-view">
         <div>
             <h2 id="main-headline" style="margin-top: 0; display: inline"></h2>
             <a role="button" class="pull-right" id="btn-introduction" style=" clear: both;"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
         </div>
 
         <hr>
-
-        <!--        <nav>
-                    <ul class="pager"style="margin-bottom: 2px">
-                        <li class="btn-sm btn-prev-participant disabled pull-left" style="padding: 0"><a href="#"><span aria-hidden="true">&larr;</span> <?php echo $lang->previousParticipant ?></a></li>
-                        <li class="btn-sm btn-next-participant disabled pull-right" style="padding: 0"><a href="#"><?php echo $lang->nextParticipant ?> <span aria-hidden="true">&rarr;</span></a></li>
-                    </ul>
-                </nav>-->
-
     </div>
 
     <div class="container" id="phase-results" style="margin-bottom: 0px;">
@@ -373,6 +369,12 @@ if (login_check($mysqli) == true) {
                     }
                 });
             }
+
+            $('.mainContent').removeClass('hidden');
+            TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                    $('#loading-indicator').remove();
+                }});
+            TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
 
             animateBreadcrump();
         }
@@ -617,10 +619,10 @@ if (login_check($mysqli) == true) {
             var prevParticipantButton = $('#fixed-study-participant-controls .btn-prev-participant');
             var prevParticipantButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(prevParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(prevParticipantButton).addClass('btn-primary');
+                    $(prevParticipantButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(prevParticipantButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '8px'});
-                    $(prevParticipantButton).removeClass('btn-primary');
+                    $(prevParticipantButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             prevParticipantButtonTimeline.add("saveStudy", 0)
@@ -641,10 +643,10 @@ if (login_check($mysqli) == true) {
             var nextParticipantButton = $('#fixed-study-participant-controls .btn-next-participant');
             var nextParticipantButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(nextParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(nextParticipantButton).addClass('btn-primary');
+                    $(nextParticipantButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(nextParticipantButton).css({borderRadius: '0px'});
-                    $(nextParticipantButton).removeClass('btn-primary');
+                    $(nextParticipantButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             nextParticipantButtonTimeline.add("saveStudy", 0)
@@ -665,10 +667,10 @@ if (login_check($mysqli) == true) {
             var showAllResultsButton = $('#fixed-study-participant-controls .btn-show-all-participant-results');
             var showAllResultsButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(showAllResultsButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(showAllResultsButton).addClass('btn-primary');
+                    $(showAllResultsButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(showAllResultsButton).css({borderRadius: '0px'});
-                    $(showAllResultsButton).removeClass('btn-primary');
+                    $(showAllResultsButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             showAllResultsButtonTimeline.add("saveStudy", 0)
@@ -697,14 +699,14 @@ if (login_check($mysqli) == true) {
             var joinConversationButton = $('#fixed-study-participant-controls .btn-join-conversation');
             var conversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(joinConversationButton).addClass('btn-primary');
+                    $(joinConversationButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     if (study.isOwner === 'false' || study.isOwner === false) {
                         $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
-                        $(joinConversationButton).removeClass('btn-primary');
+                        $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                     } else {
                         $(joinConversationButton).css({borderRadius: '0px'});
-                        $(joinConversationButton).removeClass('btn-primary');
+                        $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                     }
                 }});
 
@@ -725,14 +727,14 @@ if (login_check($mysqli) == true) {
             var leaveConversationButton = $('#fixed-study-participant-controls .btn-leave-conversation');
             var leaveConversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(leaveConversationButton).addClass('btn-danger');
+                    $(leaveConversationButton).removeClass('btn-default').addClass('btn-danger');
                 }, onReverseComplete: function () {
                     if (study.isOwner === 'false' || study.isOwner === false) {
                         $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
                     } else {
                         $(leaveConversationButton).css({borderRadius: '0px'});
                     }
-                    $(leaveConversationButton).removeClass('btn-danger');
+                    $(leaveConversationButton).removeClass('btn-danger').addClass('btn-default');
                 }});
 
             leaveConversationButtonTimeline.add("saveStudy", 0)
@@ -775,10 +777,10 @@ if (login_check($mysqli) == true) {
             var deleteResultButton = $('#fixed-study-participant-controls .btn-delete-result');
             var deleteButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(deleteResultButton).css({borderTopRightRadius: '8px'});
-                    $(deleteResultButton).addClass('btn-danger');
+                    $(deleteResultButton).removeClass('btn-default').addClass('btn-danger');
                 }, onReverseComplete: function () {
                     $(deleteResultButton).css({borderTopRightRadius: '0px'});
-                    $(deleteResultButton).removeClass('btn-danger');
+                    $(deleteResultButton).removeClass('btn-danger').addClass('btn-default');
                 }});
             deleteButtonTimeline.add("saveStudy", 0)
                     .to(deleteResultButton, .3, {left: +146, ease: Quad.easeInOut}, "saveStudy");
@@ -928,8 +930,7 @@ if (login_check($mysqli) == true) {
                     switchDataRendering();
                 }
 
-                $(content).css({y: 0, opacity: 1});
-                TweenMax.from(content, .2, {opacity: 0, y: -60});
+                TweenMax.from(content, .3, {opacity: 0, y: -20});
 
                 function switchDataRendering() {
                     switch (testerResults.format) {

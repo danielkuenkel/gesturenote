@@ -391,9 +391,17 @@ PeerConnection.prototype.initialize = function (options) {
             webrtc.on('localScreenAdded', function (video) {
                 console.log('local screen added', video);
                 if (options.target && options.remoteVideoElement) {
-                    $(video).addClass('mirroredHorizontally');                    
-                    $(video).css({borderRadius: '8px 0 8px 0', width: 'auto', height: '40%', top:'60%', float: 'left', opacity: .5});
+                    $(video).addClass('mirroredHorizontally');
+                    $(video).css({borderRadius: '8px 0 8px 0', width: 'auto', height: '40%', top: '60%', float: 'left', opacity: .5});
                     $(options.target).find('#' + options.remoteVideoElement).append(video);
+                        
+                    $(video).unbind('mouseenter').bind('mouseenter', function () {
+                        TweenMax.to(video, .2, {opacity: 1});
+                    });
+
+                    $(video).unbind('mouseleave').bind('mouseleave', function () {
+                        TweenMax.to(video, 1, {opacity: .5});
+                    });
                 }
             });
 
@@ -1042,11 +1050,12 @@ PeerConnection.prototype.stopScreenRecording = function (save, callback) {
 };
 
 var snapshotTimer = null;
-PeerConnection.prototype.takeSnapshot = function (upload) {
+PeerConnection.prototype.takeSnapshot = function (upload, callback) {
     var snapshotUrl = getLocalItem(STUDY).snapshot;
+    console.log('take snapshot', snapshotUrl);
 
     if (snapshotUrl && snapshotUrl !== '') {
-        return snapshotUrl;
+        checkSnapshotCallback();
     } else {
         clearTimeout(snapshotTimer);
         snapshotTimer = setTimeout(function () {
@@ -1074,14 +1083,24 @@ PeerConnection.prototype.takeSnapshot = function (upload) {
                             var study = getLocalItem(STUDY);
                             study.snapshot = url;
                             setLocalItem(STUDY, study);
+                            checkSnapshotCallback();
                         });
                         snapshotUploadQueue.upload([blob], filename);
+                    } else {
+                        checkSnapshotCallback();
                     }
                 } else {
                     console.log('black frame of snapshot detected');
+                    checkSnapshotCallback();
                 }
             }, 'image/jpeg', 0.8);
-        }, 10000);
+        }, 200);
+    }
+
+    function checkSnapshotCallback() {
+        if (callback) {
+            callback();
+        }
     }
 };
 

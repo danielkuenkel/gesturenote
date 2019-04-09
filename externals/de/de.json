@@ -845,7 +845,7 @@
             "notes": "no"
         },
         "thanks": {
-            "text": "Danksagung",
+            "text": "Verabschiedung",
             "class": "both",
             "moderated": {
                 "tester": {
@@ -1730,7 +1730,7 @@
     "wozControlElements": "Steuerelemente",
     "wozExperiment": "Wizard-of-Oz-Experiment",
     "previewHoleQuestionnaire": "Vorschau des gesamten Fragebogens",
-    "thanksInput": "Danksagung einfügen",
+    "thanksInput": "Verabschiedung einfügen",
     "thanksHeadline": "Danke für die Teilnahme",
     "thanksWait": "Bitte warten! Die Daten werden nun gespeichert. Bitte nicht dieses Fenster, bzw. den Browser schließen oder neu laden. Wenn die Daten gespeichert sind, erscheint eine Meldung.",
     "thanksWaitForVideoUpload": "Bitte warten… Videodaten werden gespeichert.",
@@ -2529,8 +2529,8 @@
             "catalogScenes": "User Interfaces sind von Bedeutung, wenn dem Nutzer eine visuelle Rückmeldung gezeigt werden soll. Mit User Interfaces können z.B. Benutzertests inkl. Wizard-of-OZ-Experimenten erstellt werden.",
             "letterOfAcceptance": "Die Einverständniserklärung sollte in GestureNote immer die Einwilligung des Probanden für die Aufzeichnung personenbezogener Daten einholen, d.h. bei einer Ermittlung Gesten in Bildform und bei einer Evalierung Videoaufnahmen. GestureNote bietet aktuell keine Funktion für eine Anonymisierung an. Die Aufnahmen könenn für Auswertungen jedoch nachträglich händisch anonymisiert werden.",
             "letterOfAcceptanceOverlay": "Die Einverständniserklärung sollte in GestureNote immer die Einwilligung des Probanden für die Aufzeichnung personenbezogener Daten einholen. Bei einer Gesten-Ermittlung oder einer Evalierung werden z.B. Videoaufnahmen vom Probanden gespeichert. GestureNote bietet aktuell keine Funktion für eine Anonymisierung. Die Aufnahmen können für Auswertungen jedoch nachträglich händisch anonymisiert werden.",
-            "thanks": "Hier haben Sie die Möglichkeit den Probanden für die Teilnahme an Ihrer Studie zu danken. Des Weiteren umfasst dieser Schritt den finalen Upload der erhobenen Daten und Videoaufzeichnung, sowie eine Info-Anzeige, wann der Proband den Tab oder Browser schließen kann. Die Danksagung sollte im Leitfaden immer unten, d.h. am Ende des Leitfadens stehen.",
-            "thanksOverlay": "Hier haben Sie die Möglichkeit den Probanden für die Teilnahme an Ihrer Studie zu danken. Des Weiteren umfasst dieser Schritt den finalen Upload der erhobenen Daten und Videoaufzeichnung, sowie eine Info-Anzeige, wann der Proband den Tab oder Browser schließen kann. Die Danksagung sollte im Leitfaden immer unten, d.h. am Ende des Leitfadens stehen.",
+            "thanks": "Hier haben Sie die Möglichkeit den Probanden für die Teilnahme an Ihrer Studie zu danken. Des Weiteren umfasst dieser Schritt den finalen Upload der erhobenen Daten und Videoaufzeichnung, sowie eine Info-Anzeige, wann der Proband den Tab oder Browser schließen kann. Die Verabschiedung sollte im Leitfaden immer unten, d.h. am Ende des Leitfadens stehen.",
+            "thanksOverlay": "Hier haben Sie die Möglichkeit den Probanden für die Teilnahme an Ihrer Studie zu danken. Des Weiteren umfasst dieser Schritt den finalen Upload der erhobenen Daten und Videoaufzeichnung, sowie eine Info-Anzeige, wann der Proband den Tab oder Browser schließen kann. Die Verabschiedung sollte im Leitfaden immer unten, d.h. am Ende des Leitfadens stehen.",
             "questionnaire": "Setzen Sie Fragebögen ein, um z.B. Eingangsfragen zu definieren. Infos zu unterstützten Frage- und Antwortformaten finden sich in der Hilfe.",
             "interview": "Ein Interview ist wie ein Fragebogen zu behandeln, nur dass nicht der Proband die Antworten in das Formular eingibt, sondern der Moderator.",
             "focusGroupInterview": "Beschreibung, Artefakte (Interaktionsaufgaben, UIs, Systemrückmeldung und Gesten), Annotationen, Leitfragen.",
@@ -5619,14 +5619,14 @@
             "popover": "Leitfaden",
             "description": 
                     [
-                        "<p>In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Danksagung. Diese Schritte sind vorausgewählt und können nicht gelöscht werden. Um weitere Abschnitte hinzuzufügen, klicken Sie einfach auf das entsprechende Format wie z.B. Fragebogen. Um die Abschnitte zu bearbeiten, klicken Sie in der Leitfadenliste auf den Titel des jeweiligen Abschnitts.</p>",
+                        "<p>In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Verabschiedung. Diese Schritte sind vorausgewählt und können nicht gelöscht werden. Um weitere Abschnitte hinzuzufügen, klicken Sie einfach auf das entsprechende Format wie z.B. Fragebogen. Um die Abschnitte zu bearbeiten, klicken Sie in der Leitfadenliste auf den Titel des jeweiligen Abschnitts.</p>",
                         "<table class='table table-bordered'><thead><tr><th>Methode</th><th class='text-center'>Ermittlung</th><th class='text-center'>Extraktion</th><th class='text-center'>Evaluierung</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'><i class='fa fa-check'/></td><td class='text-center'><i class='fa fa-check'/></td><td class='text-center'><i class='fa fa-check'/></td></tr><tr><td>Interview</td><td class='text-center'><i class='fa fa-check'/></td><td class='text-center'><i class='fa fa-check'/></td><td class='text-center'><i class='fa fa-check'/></td></tr><tr><td>GUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'/></td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'/></td></tr><tr><td>UEQ</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'/></td></tr><tr><td>Ermittlung</td><td class='text-center'><i class='fa fa-check'/><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Exploration</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'/></td><td class='text-center'>-</td></tr><tr><td>Gesten-Training</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'/></td></tr><tr><td>Benutzertest</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'/></td></tr><tr><td>Gesten erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'/></td></tr><tr><td>Interaktionsaufgaben erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'/></td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'/></td></tr></tbody></table>",
                         "<div class='text-center table-caption' style='font-size:10pt; color:#888; margin-bottom:25px'>Die mit GestureNote unterstützten Methoden und Einordnung in jeweilige Design-Phase.</div>",
                         "<p style='margin-top:10px'>In der oberen Tabelle sind für eine bessere Übersicht alle Design-Phasen und die dort unterstützten Methoden dargestellt.</p>",
                         "<h4>Einverständniserklärung</h4><hr>",
                         "<p>Die Einverständniserklärung sollte in GestureNote immer die Einwilligung des Probanden für die Aufzeichnung personenbezogener Daten einholen. Bei einer Gesten-Ermittlung oder einer Evalierung werden z.B. Videoaufnahmen vom Probanden gespeichert. GestureNote bietet aktuell keine Funktion für eine Anonymisierung. Die Aufnahmen können für Auswertungen jedoch nachträglich händisch anonymisiert werden.</p>",
-                        "<h4>Danksagung</h4><hr>",
-                        "<p>Hier haben Sie die Möglichkeit den Probanden für die Teilnahme an Ihrer Studie zu danken. Des Weiteren umfasst dieser Schritt den finalen Upload der erhobenen Daten und Videoaufzeichnungen (falls vorhanden), sowie eine Info-Anzeige, wann der Proband den Tab oder den Browser schließen kann. Die Danksagung kann wie die Einverständniserklärung nicht gelöscht werden und muss in jeder Studie vorhanden sein.</p>",
+                        "<h4>Verabschiedung</h4><hr>",
+                        "<p>Hier haben Sie die Möglichkeit den Probanden für die Teilnahme an Ihrer Studie zu danken. Des Weiteren umfasst dieser Schritt den finalen Upload der erhobenen Daten und Videoaufzeichnungen (falls vorhanden), sowie eine Info-Anzeige, wann der Proband den Tab oder den Browser schließen kann. Die Verabschiedung kann wie die Einverständniserklärung nicht gelöscht werden und muss in jeder Studie vorhanden sein.</p>",
                         "<h4>Fragebogen</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-create/carousel-04-01.jpg' style='max-width:1029px' /><div class='image-caption'>Auszug eines neu angelegten Fragebogens (links) und unterstützte Formate (rechts).</div></div>",
                         "<p>Setzen Sie Fragebögen ein, um z.B. Eingangsfragen zu definieren. Folgende Frage- und Antwortformate bietet Ihnen GestureNote an:</p>",
@@ -5707,7 +5707,7 @@
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-preview/carousel-01-02.png' style='max-width:992px' /><div class='image-caption'>Steuerleiste für Studien-Vorschau.</div></div>",
                         "<p>Ein weiterer Unterschied betrifft die oberere Navigationsleiste. Mit dieser kann in der Vorschau frei zwischen den einzelnen Leitfadenschritten gewählt werden. In der eigentlichen Durchführung ist diese Leiste nicht vorhanden. Der Abbrechen-Button und die Fortschrittsanzeige sind hingegen in der Vorschau wie auch in der Durchführung vorhanden.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-preview/carousel-01-03.jpg' style='max-width:791px'/><div class='image-caption'>Unteschiede Studien-Vorschau (links) - Studien-Durchführung (rechts). Links nur ein Platzhalter, rechts Livestreams von den Beteiligten.</div></div>",
-                        "<p>In der Durchführung wird der WebRTC Platzhalter (links) durch den eigentlichen Stream (rechts) ersetzt, sodass der Moderator den Tester sieht. Bei einigen Abschnitten kann auch der Tester den Moderator sehen (z.B. beim Ausfüllen eines Fragebogens oder bei der Danksagung). Die Funktionalität gleicht einem Videoanruf, nur dass dieser in einem Browser statt findet.</p>",
+                        "<p>In der Durchführung wird der WebRTC Platzhalter (links) durch den eigentlichen Stream (rechts) ersetzt, sodass der Moderator den Tester sieht. Bei einigen Abschnitten kann auch der Tester den Moderator sehen (z.B. beim Ausfüllen eines Fragebogens oder bei der Verabschiedung). Die Funktionalität gleicht einem Videoanruf, nur dass dieser in einem Browser statt findet.</p>",
                         "<p>In der Duruchführung werden alle Daten gespeichert (außer beim Neu laden), für die Vorschau hingegen nicht.</p>",
                         "<h4>Neu laden bei Durchführung</h4><hr>",
                         "<p>Kommt es bei einer Befragung zu Problemen, kann derjenige mit den Problemen die Durchführung neu laden. Dabei gehen jedoch alle für den aktuellen Leitfadenschritt erhobenen Daten verloren und es muss dieser von vorne gestartet werden. Die Synchronisierung nach einem Neu laden geschieht automatisch, sodass sich alle Teilnehmer immer im gleichen Leitfadenschritt befinden.</p>"
@@ -5896,7 +5896,7 @@
                 "<p>Zeitlinks repräsentieren einzelne Annotationen, deren genauen Timecode und springen bei einem Klick an die jeweilige Stelle in der Videovorschau. Die von GestureNote automatisch Während einer Durchführung gespeicherten Annotationen werden in der Liste mit schwarzem Text dargestellt. </p>",
                 "<p>Es können weitere Annotationen hinzugefügt werden. Diese werden immer an die aktuelle Abspielposition gekoppelt. Zusätzlich können vorhandene Annotationen mit einem Suchbegriff durchsucht und über die Annotationsfarbe gefiltert werden. Des Weiteren besteht die Möglichkeit einzelne Annotationen zu bearbeiten. Somit können auch die von GestureNote automatisch gespeicherten Annotationen nach Belieben geändert werden.</p>",
                 "<h4>Notizen</h4><hr>",
-                "<p>Fällt Ihnen z.B. etwas während der Durchsicht eines Gesten-Trainings auf und haben keinen Beobachtungsbogen angelegt? Notizen können zusätzlich für jedes Leitfadenformat in Textform hinterlegt werden (ausgenommen Einverständniserklärung und Danksagung). Die Notizen befinden sich immer am Ende der Seite.</p>"
+                "<p>Fällt Ihnen z.B. etwas während der Durchsicht eines Gesten-Trainings auf und haben keinen Beobachtungsbogen angelegt? Notizen können zusätzlich für jedes Leitfadenformat in Textform hinterlegt werden (ausgenommen Einverständniserklärung und Verabschiedung). Die Notizen befinden sich immer am Ende der Seite.</p>"
             ]
         },
         {
@@ -6074,13 +6074,6 @@
     "news": "Aktuelles",
     "moreNews": "Alle News abrufen",
     "allNews": [
-        {
-            "title": "Weihnachtsgrüße",
-            "date": "12/15/2018",
-            "content": [
-                "<p>Das Team von GestureNote wünscht allen Nutzern eine schöne Weihnachtszeit, besinnliche Feiertage und ein erfolgreiches Jahr 2019.</p>"
-            ]
-        },
         {
             "title": "Evaluierungsphase gestartet",
             "date": "8/28/2018",

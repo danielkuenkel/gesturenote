@@ -116,7 +116,6 @@ Thanks.prototype.renderTesterView = function () {
     $(heartIcon).css({cursor: 'pointer'});
     function animateHeartIcon() {
         var heartOffset = $(heartIcon).offset();
-        console.log(heartOffset);
         for (var i = 0; i < 4; i++) {
             var heartCopy = $(heartIcon).clone().removeAttr('id');
             $(heartCopy).insertAfter(heartIcon);
@@ -129,7 +128,6 @@ Thanks.prototype.renderTesterView = function () {
 
     setTimeout(animateHeartIcon, 1000);
     $(heartIcon).on('click', function (event) {
-        console.log('heart icon clicked');
         event.preventDefault();
         animateHeartIcon();
     });

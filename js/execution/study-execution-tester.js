@@ -159,13 +159,10 @@ var Tester = {
 //                });
 
                 $(peerConnection).unbind(MESSAGE_REQUEST_SYNC).bind(MESSAGE_REQUEST_SYNC, function (event, payload) {
-//                    console.log('REQUEST SYNC', payload);
                     event.preventDefault();
                     currentPhaseStepIndex = payload.index;
-//                    console.log('CURRENT PHASE STEP INDEX', currentPhaseStepIndex)
 
                     setTimeout(function () {
-//                        console.log('CONNECTION:', peerConnection);
                         peerConnection.sendMessage(MESSAGE_SYNC_REQUEST, {nick: VIEW_TESTER});
                     }, 500);
 
@@ -175,7 +172,6 @@ var Tester = {
                     event.preventDefault();
                     console.log('SYNC RESPONSE', payload);
                     if (payload && payload.nick === VIEW_TESTER) {
-//                        
                         syncPhaseStep = false;
                         currentPhaseStepIndex = payload.index;
                         currentPhaseState = payload.currentPhaseState;
@@ -192,25 +188,12 @@ var Tester = {
                     }
                 });
 
-//                $(peerConnection).unbind('videoAdded').bind('videoAdded', function (event, video) {
-//                    event.preventDefault();
-////                    if (syncPhaseStep) {
-////                        peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
-////
-////                    }
-//
-////                    resetRTC();
-////                    peerConnection.takeSnapshot(true);
-//                });
-
                 $(peerConnection).unbind('joinedRoom').bind('joinedRoom', function () {
                     peerConnection.sendMessage(MESSAGE_SYNC_REQUEST, {nick: VIEW_TESTER});
-                    peerConnection.takeSnapshot(true);
                 });
 
                 $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function (event, video, peer) {
                     event.preventDefault();
-//                    console.log('videoRemoved', peer);
 
                     removeAlert($('#viewTester'), ALERT_GENERAL_PLEASE_WAIT);
                     var currentPhase = getCurrentPhase();
@@ -228,26 +211,6 @@ var Tester = {
                         }
                     }
                 });
-
-//                $(peerConnection).unbind(CONNECTION_STATE_CONNECTED).bind(CONNECTION_STATE_CONNECTED, function () {
-//                    console.log('connected');
-//                    removeAlert($('#viewTester'), ALERT_GENERAL_PLEASE_WAIT);
-//                    if (getCurrentPhase().format !== THANKS) {
-//                        $('#viewTester').find('#phase-content').removeClass('hidden');
-//                        $('#viewTester').find('#pinnedRTC').css({opacity: 1});
-//                    }
-//                    resetRTC();
-//                });
-//
-//                $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
-//                    console.log('disconnected');
-//                    removeAlert($('#viewTester'), ALERT_GENERAL_PLEASE_WAIT);
-//                    if (getCurrentPhase().format !== THANKS) {
-//                        appendAlert($('#viewTester'), ALERT_GENERAL_PLEASE_WAIT);
-//                        $('#viewTester').find('#phase-content').addClass('hidden');
-//                        $('#viewTester').find('#pinnedRTC').css({opacity: 0});
-//                    }
-//                });
             } else {
                 clearAlerts($('#viewTester'));
                 $('#viewTester').find('#phase-content').removeClass('hidden');
@@ -269,31 +232,8 @@ var Tester = {
         } else {
             $('html, body').find('#web-rtc-placeholder').addClass('hidden');
         }
-
-//        updateRTCHeight($('#viewTester #column-left').width(), true);
     },
     appendRTCPreviewStream: function appendRTCPreviewStream() {
-//        var currentPhase = getCurrentPhase();
-//        var source = getSourceContainer(currentView);
-//        var target = $('#viewTester').find('#column-left');
-//        switch (currentPhase.format) {
-//            case SCENARIO:
-//            case IDENTIFICATION:
-//            case EXPLORATION:
-////            case GESTURE_TRAINING:
-//                target = $(container).find('#fixed-rtc-preview');
-//                $(target).find('#video-caller').css({width: '100%', height: 'auto'});
-//                break;
-//            default:
-//                pinRTC();
-//                break;
-//        }
-//        console.log('appendRTCPreviewStream', target);
-//        $(target).empty().append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
-//        var source = getSourceContainer(currentView);
-//        var target = $('#viewTester').find('#fixedRTC');
-//        $(target).empty().prepend($(source).find('#tester-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder'));
-
         var source = getSourceContainer(currentView);
         var target = $('#viewTester').find('.pinnedRTC');
         var callerElement = $(source).find('#tester-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
@@ -303,7 +243,6 @@ var Tester = {
 
         var currentPhase = getCurrentPhase();
         var options = getPhaseStepOptions(currentPhase.format);
-//        console.log(options);
         if (options.tester.recordStream === 'yes') {
             showRecordIndicator();
         } else {
@@ -344,10 +283,9 @@ var Tester = {
 
         console.log('append rtc live stream', target, iceTransports);
         var options = getPhaseStepOptions(currentPhase.format);
-//        console.log(options, currentPhase.format);
         var query = getQueryParams(document.location.search);
-//        console.log('video source', query.vSource);
         var mainElement = $('#video-caller');
+        
         var callerOptions = {
             target: target,
             callerElement: mainElement,
@@ -395,8 +333,6 @@ var Tester = {
     initScreenSharing: function initScreenSharing(container) {
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_SHARED_SCREEN_ADDED).bind(MESSAGE_SHARED_SCREEN_ADDED, function (event, video) {
-//                console.log('on add shared screen', video);
-
                 $(container).empty().append(video);
                 var newHeight = $(window).height() - 70 - 15;
                 $(container).css({height: newHeight + "px"});
@@ -405,7 +341,6 @@ var Tester = {
                 $(video).removeAttr('id');
                 $(window).on('resize', function () {
                     var newHeight = $(window).height() - 70 - 15;
-//                    console.log('resize:', newHeight);
                     $(container).css({height: newHeight + "px"});
                 }).resize();
 
@@ -454,7 +389,6 @@ function submitFinalData(container, areAllRTCsUploaded) {
 
 function renderSceneItem(source, container, sceneId) {
     container.find('#scene-container').empty();
-//    console.log('render scene Item for id', sceneId);
 
     if (!isNaN(sceneId) && (sceneId !== 'none' || sceneId !== null)) {
         $(container).find('#btn-refresh-scene').removeClass('hidden');
@@ -493,9 +427,6 @@ function renderSceneItem(source, container, sceneId) {
         // scene positioning
         // calcuation of the new window height if resizing the window
         $(window).resize(function () {
-//            if (!event.handled) {
-//                event.handled = true;
-//            console.log($(container).find('#scene-container').offset());
             var height = $(window).height() - 124 - 15;
 
             if (scene.type === SCENE_VIDEO_EMBED) {
@@ -510,8 +441,6 @@ function renderSceneItem(source, container, sceneId) {
             }
 
             sceneItem.height(height);
-//            }
-
         }).resize();
 
         return sceneItem;
@@ -569,24 +498,17 @@ function animateLiveStream(zoom, swap, callback) {
             }
         }
 
-//        return false;
         if (swap && !previewModeEnabled) {
             if (swap === VIEW_TESTER) {
                 $(stream).find("#remote-stream").addClass('hidden');
-//                $(stream).find(".rtc-local-container").after($(stream).find(".rtc-remote-container"));
                 $(stream).find("#local-stream").css({width: '100%', top: '0px', left: '0px'});
-//                $(stream).find("#remote-stream").css({width: '30%', height: '30%', top: '5px', left: '5px'});
             } else if (swap === VIEW_MODERATOR) {
                 $(stream).find("#remote-stream").removeClass('hidden');
-//                $(stream).find(".rtc-remote-container").after($(stream).find(".rtc-local-container"));
                 $(stream).find("#local-stream").css({width: '30%', top: '5px', left: '5px'});
-//                $(stream).find("#remote-stream").css({width: '100%', height: '100%', top: '0px', left: '0px'});
             }
-//            keepStreamsAlive(stream);
         }
 
         Tester.keepStreamsPlaying();
-//        keepStreamsAlive(stream);
     }, 300);
 }
 
@@ -595,7 +517,6 @@ function calcDimensions() {
     var maxHeight = screenSize.height - 120;
     var maxWidth = (maxHeight * 4 / 3) - 30;
     var ratio = screenSize.width / screenSize.height;
-//    console.log(maxHeight, maxWidth, ratio);
     if (ratio < 1) {
         maxWidth = screenSize.width - 30;
         maxHeight = maxWidth * 3 / 4;

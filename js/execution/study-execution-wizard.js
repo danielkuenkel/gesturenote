@@ -145,6 +145,15 @@ var Wizard = {
                         });
 
                         peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
+                    } else {
+                        saveCurrentStatus(false);
+                        peerConnection.stopRecording(function () {
+                            console.log('recording stopped for canceling');
+                            currentPhaseStepIndex = getThanksStepIndex();
+                            renderPhaseStep();
+                            updateProgress();
+                        }, true);
+                        peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
                     }
                 } else {
                     saveCurrentStatus(false);

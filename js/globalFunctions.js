@@ -34,6 +34,7 @@ function checkCookies(cookiesAccepted) {
 function checkDarkMode(darkModeEnabled) {
     if (darkModeEnabled === 11) {
         $('body').addClass('dark');
+        $('body').find('.navbar-fixed-index #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
         $('body').find('.sub-page-header #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
         $('body').find('#preview-bar-top #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
     }
@@ -327,6 +328,9 @@ function renderSubPageElements(hasTopNavbar, hasNoImprint) {
     updateLanguageIndicator($(header).find('#language-selection'));
     updateMainBurgerMenu($(header).find('.main-burger-menu'), $('body').find('#breadcrumb'));
     initPopover();
+
+//    $(header).css({opacity: 0, position: 'relative', top: '-57px'});
+//    TweenMax.to(header, .4, {opacity: 1, top: 0, ease: Quad.easeInOut, delay: .2});
 }
 
 

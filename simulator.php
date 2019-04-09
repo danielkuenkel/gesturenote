@@ -300,7 +300,7 @@ if (login_check($mysqli) == true) {
                             if (query.recordingId) {
                                 getSimulationRecording({recordingId: query.recordingId}, function (result) {
                                     if (result.status === RESULT_SUCCESS) {
-                                        setLocalItem(RECORDED_SIMULATION, {id: result.id, gestureSetId: result.gestureSetId, title: result.title, track: result.data.track, created: result.created});
+                                        setLocalItem(RECORDED_SIMULATION, {id: result.id, gestureSetId: result.gestureSetId, title: result.title, track: result.data.track, created: result.created, source:result.data.source || null});
                                         $('#main-tab-pane').find('#btn-player').removeClass('disabled');
                                         renderRecordedGestureSetSimulation();
                                     }

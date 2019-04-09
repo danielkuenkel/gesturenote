@@ -121,7 +121,7 @@ if ($h && $token && $studyId) {
         <div id="template-gesture"></div>
         <div id="template-previews"></div>
         <div id="template-study"></div>
-        <div id="template-gesture-recorder"></div>
+        <!--<div id="template-gesture-recorder"></div>-->
         <div id="template-simulator"></div>
 
         <!--<div id="screenSharingTarget" class="hidden"></div>-->

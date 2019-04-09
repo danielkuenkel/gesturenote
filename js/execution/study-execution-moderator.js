@@ -11,6 +11,7 @@ var continuousMouseManipluationGesture = null;
 var Moderator = {
     renderView: function renderView() {
         if (syncPhaseStep) {
+            console.log('sync phase step');
             appendAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
             Moderator.initializePeerConnection();
             Moderator.initializeRTC();
@@ -143,10 +144,13 @@ var Moderator = {
         if (!peerConnection && !previewModeEnabled) {
             peerConnection = new PeerConnection(false);
             $(peerConnection).unbind(MESSAGE_NEXT_STEP).bind(MESSAGE_NEXT_STEP, function (event, payload) {
+                event.preventDefault();
                 nextStep();
             });
 
             $(peerConnection).unbind(MESSAGE_CANCEL_SURVEY).bind(MESSAGE_CANCEL_SURVEY, function (event, payload) {
+                event.preventDefault();
+
                 var currentPhase = getCurrentPhase();
                 if (currentPhase.format === IDENTIFICATION || currentPhase.format === EXPLORATION || currentPhase.format === GESTURE_TRAINING || currentPhase.format === SCENARIO) {
                     if (prototypeWindow) {
@@ -163,6 +167,15 @@ var Moderator = {
                                 updateProgress();
                             }, true);
                         });
+                        peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
+                    } else {
+                        saveCurrentStatus(false);
+                        peerConnection.stopRecording(function () {
+                            console.log('recording stopped for canceling');
+                            currentPhaseStepIndex = getThanksStepIndex();
+                            renderPhaseStep();
+                            updateProgress();
+                        }, true);
                         peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
                     }
                 } else {

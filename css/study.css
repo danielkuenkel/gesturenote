@@ -402,3 +402,8 @@ and open the template in the editor.
 .dark #seek-bar-meta-info-container .item-advanced-primary-full {
     background-color: #dcdcdc
 }
+
+.dark .participant-snapshot-background {
+    background-color: #464646 !important;
+    color: #797979;
+}

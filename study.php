@@ -150,7 +150,7 @@ if (login_check($mysqli) == true) {
         </div>
 
         <div class="container" style="margin-top: 20px">
-            <ul class="nav nav-tabs" role="tablist" id="tab-pane">
+            <ul class="nav nav-tabs" role="tablist" id="tab-pane-study" style="opacity: 0">
                 <li role="presentation" id="general"><a href="#general-infos" aria-controls="general-infos" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->general ?></a></li>
                 <li role="presentation" id="catalogs"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
                 <li role="presentation" id="phase-steps"><a href="#study-phase-steps" aria-controls="study-phase-steps" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->phases ?></a></li>
@@ -1116,6 +1116,7 @@ if (login_check($mysqli) == true) {
                 TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
                         $('#loading-indicator').remove();
                     }});
+                TweenMax.to($('#tab-pane-study'), .3, {delay: .3, opacity: 1});
                 TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
 
                 checkCollaborativeConversation();
@@ -1125,7 +1126,7 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 var showTutorial = false;
 
-                var activeTab = $('#tab-pane').find('.active a').attr('href');
+                var activeTab = $('#tab-pane-study').find('.active a').attr('href');
                 if (activeTab !== '#gesture-extraction' && activeTab !== '#trigger-extraction') {
                     $('.study-owner-controls').removeClass('hidden');
                 } else {

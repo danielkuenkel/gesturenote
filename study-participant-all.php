@@ -113,6 +113,10 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
 
         <!-- Container (Breadcrump) -->
         <div class="container" id="breadcrumb" style="">
@@ -139,21 +143,13 @@ if (login_check($mysqli) == true) {
 
 
         <!-- main content -->
-        <div class="container mainContent" style="margin-top: 0px; padding-bottom: 0px" id="general-view">
+        <div class="container mainContent hidden" style="margin-top: 0px; padding-bottom: 0px" id="general-view">
             <div>
                 <h2 id="main-headline" style="margin-top: 0; display: inline"></h2>
                 <a role="button" class="pull-right" id="btn-introduction" style=" clear: both;"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
             </div>
 
             <hr>
-
-            <!--        <nav>
-                        <ul class="pager"style="margin-bottom: 2px">
-                            <li class="btn-sm btn-prev-participant disabled pull-left" style="padding: 0"><a href="#"><span aria-hidden="true">&larr;</span> <?php echo $lang->previousParticipant ?></a></li>
-                            <li class="btn-sm btn-next-participant disabled pull-right" style="padding: 0"><a href="#"><?php echo $lang->nextParticipant ?> <span aria-hidden="true">&rarr;</span></a></li>
-                        </ul>
-                    </nav>-->
-
         </div>
 
         <div class="container" id="phase-results" style="margin-bottom: 0px;">
@@ -351,6 +347,12 @@ if (login_check($mysqli) == true) {
                         }
                     });
                 }
+                
+                $('.mainContent').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
 
                 animateBreadcrump();
             }
@@ -440,9 +442,9 @@ if (login_check($mysqli) == true) {
                 var joinConversationButton = $('#fixed-study-participant-controls .btn-join-conversation');
                 var conversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                         $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                        $(joinConversationButton).addClass('btn-primary');
+                        $(joinConversationButton).removeClass('btn-default').addClass('btn-primary');
                     }, onReverseComplete: function () {
-                        $(joinConversationButton).removeClass('btn-primary');
+                        $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                     }});
 
                 conversationButtonTimeline.add("saveStudy", 0)
@@ -462,9 +464,9 @@ if (login_check($mysqli) == true) {
                 var leaveConversationButton = $('#fixed-study-participant-controls .btn-leave-conversation');
                 var leaveConversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                         $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                        $(leaveConversationButton).addClass('btn-danger');
+                        $(leaveConversationButton).removeClass('btn-default').addClass('btn-danger');
                     }, onReverseComplete: function () {
-                        $(leaveConversationButton).removeClass('btn-danger');
+                        $(leaveConversationButton).removeClass('btn-danger').addClass('btn-default');
                     }});
 
                 leaveConversationButtonTimeline.add("saveStudy", 0)

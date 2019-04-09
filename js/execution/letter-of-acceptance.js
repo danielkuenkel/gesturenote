@@ -48,12 +48,15 @@ LetterOfAcceptance.prototype.renderTesterView = function () {
     $(container).find('#letter-agreed').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!previewModeEnabled) {
-            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-            tempData.accepted = 'yes';
-            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-            if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-            }
+            peerConnection.takeSnapshot(true, function () {
+                console.log('snapshot taken and uploaded, now to the next step');
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.accepted = 'yes';
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                }
+            });
         }
 
         nextStep();

@@ -120,7 +120,7 @@ if ($h && $token && $studyId) {
         <div id="template-gesture"></div>
         <div id="template-previews"></div>
         <div id="template-study"></div>
-        <div id="template-gesture-recorder"></div>
+        <!--<div id="template-gesture-recorder"></div>-->
         <div id="template-simulator"></div>
 
         <!--<div id="screenSharingTarget" class="hidden"></div>-->
@@ -213,7 +213,7 @@ if ($h && $token && $studyId) {
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
-                    externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
+//                    externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     externals.push(['#template-simulator', PATH_EXTERNALS + 'template-simulator.php']);
                     loadExternals(externals);
                 });

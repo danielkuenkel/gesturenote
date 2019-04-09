@@ -1757,15 +1757,12 @@ canvas {
 .dark .nav-pills>li>a {
     color: white;
     border: none;
-    /*background-color: #3e3d3d;*/
 }
 .dark .nav-pills>li>a:focus, .dark .nav-pills>li>a:hover {
-    background-color: #3e3d3d !important;
-    /*border: 1px solid #3e3d3d !important;*/
+    background-color: #484848 !important;
 }
 .dark .nav-pills>li.active>a, .dark .nav-pills>li.active>a:focus, .dark .nav-pills>li.active>a:hover {
     background-color: #3e3d3d !important;
-    /*border: 1px solid #3e3d3d !important;*/
 }
 .dark .nav-pills>li.active>.badge, .dark .nav-pills>li.active>.badge:focus, .dark .nav-pills>li.active>.badge:hover {
     color: black;
@@ -1774,7 +1771,11 @@ canvas {
 .dark .nav-tabs>li>a {
     color: white;
 }
-.dark .nav-tabs>li>a:focus, .dark .nav-tabs>li>a:hover,
+.dark .nav-tabs>li>a:focus, .dark .nav-tabs>li>a:hover {
+    background-color: #484848 !important;
+    border: 1px solid #3e3d3d !important;
+} 
+.dark .nav-tabs>li>a:focus, 
 .dark .nav-tabs>li.active>a, .dark .nav-tabs>li.active>a:focus, .dark .nav-tabs>li.active>a:hover {
     color: white;
     background-color: #3e3d3d !important;
@@ -1891,6 +1892,18 @@ canvas {
 
 .dark hr {
     border-top: 1px solid #8a8a8a;
+}
+
+.dark .page-header {
+    border-bottom: 1px solid #8a8a8a;
+}
+
+.dark .bg-grey {
+    background-color: #545454;
+}
+
+.dark #googleMap {
+    opacity: .85;
 }
 
 .dark .custom-nav-pills>li.active>a, .dark .custom-nav-pills>li.active>a:focus, .dark .custom-nav-pills>li.active>a:hover {

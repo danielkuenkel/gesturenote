@@ -47,7 +47,7 @@ include '../includes/language.php';
                         <div class="navbar-brand"><i class="glyphicon glyphicon-stats"></i> <span style="letter-spacing: 0pt; margin-left: -5px"><?php echo $lang->gestureNote ?></span> <sup><span class="label label-success uppercase" style="position: relative; font-size: 6pt; letter-spacing: normal"><?php echo $lang->beta ?></span></sup></div>
                     </div>
                     <div class="pull-right" style="display: flex">
-                        <div class="pull-right" id="toggle-dark-mode" style="padding-right: 17px; cursor: pointer; font-size: 13pt; color: white" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>">
+                        <div class="pull-right text-center" id="toggle-dark-mode" style="padding-right: 37px; cursor: pointer; font-size: 13pt; color: white; width: 22px">
                             <i class="fa fa-moon-o" style="top: 13px; position: relative"></i>
                         </div>
                         <div class="dropdown pull-right language-selection" id="language-selection" style="padding-right: 10px">

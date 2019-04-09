@@ -167,3 +167,7 @@
 .dark .simulation-line {
     /*opacity: 0.4 !important;*/
 }
+
+.dark .mouse-simulation-slider, .dark .mouse-simulation-pad {
+    box-shadow: rgb(255, 255, 255) 0px 0px 0px 3px !important;
+}
