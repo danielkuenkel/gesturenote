@@ -44,12 +44,12 @@ $(document).on('click', '.btn-play-gesture', function (event) {
 $(document).on('click', '.btn-pause-gesture', function (event) {
     event.preventDefault();
     event.stopPropagation();
-    if (!$(this).hasClass('active')) {
+//    if (!$(this).hasClass('active')) {
         event.stopImmediatePropagation();
         resetPlayButton($(this));
         clearTimer();
         resetThumbnails($(this).closest('.root').find('.previewGesture'));
-    }
+//    }
 });
 
 $(document).on('click', '.btn-step-forward-gesture', function (event) {
@@ -337,7 +337,6 @@ function stepBackward(container) {
 }
 
 function resetThumbnails(container) {
-//    clearTimer();
     var previewIndex;
     var children = $(container).children();
     for (var i = 0; i < children.length; i++) {
@@ -351,7 +350,6 @@ function resetThumbnails(container) {
         }
     }
     $(container).trigger('imageChange', [parseInt(previewIndex)]);
-//    updateModalProgress(container);
 }
 
 function clearTimer() {

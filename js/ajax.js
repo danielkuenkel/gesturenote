@@ -212,30 +212,32 @@ function updateUser(data, callback) {
 }
 
 function updateIntroduction(data, callback) {
-    var url = null;
-    switch (data.context) {
-        case 'studyCreation':
-            url = 'includes/update-introduction-study-creation.php';
-            break;
-        case 'studyPreview':
-            url = 'includes/update-introduction-study-preview.php';
-            break;
-        case 'study':
-            url = 'includes/update-introduction-study.php';
-            break;
-        case 'extraction':
-            url = 'includes/update-introduction-extraction.php';
-            break;
-        case 'participant':
-            url = 'includes/update-introduction-participant.php';
-            break;
-        case 'gestureCatalog':
-            url = 'includes/update-introduction-gesture-catalog.php';
-            break;
-    }
+    var url = 'includes/update-introduction.php';
+//    switch (data.context) {
+//        case 'studyCreation':
+//            url = 'includes/update-introduction-study-creation.php';
+//            break;
+//        case 'studyExtractionCreation':
+//            url = 'includes/update-introduction-extraction-study-creation.php';
+//            break;
+//        case 'studyPreview':
+//            url = 'includes/update-introduction-study-preview.php';
+//            break;
+//        case 'study':
+//            url = 'includes/update-introduction-study.php';
+//            break;
+//        case 'extraction':
+//            url = 'includes/update-introduction-extraction.php';
+//            break;
+//        case 'participant':
+//            url = 'includes/update-introduction-participant.php';
+//            break;
+//        case 'gestureCatalog':
+//            url = 'includes/update-introduction-gesture-catalog.php';
+//            break;
+//    }
 
     $.ajax({
-
         url: url,
         type: 'post',
         dataType: 'json',

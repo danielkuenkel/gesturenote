@@ -107,6 +107,7 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
 
+
         <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-306px">
             <div class="btn-group-vertical">
                 <div>
@@ -167,7 +168,7 @@ if (login_check($mysqli) == true) {
         <div id="creation-content-background" style="visibility: hidden;position: fixed; background-color: rgba(255,255,255,1); top: 0px; left: 0; width: 100%; height: 100%; z-index: 100;"></div>
 
 
-        <div class="container mainContent">
+        <div class="container mainContent" style="opacity: 0">
 
             <div class="alert-space alert-no-storage-api"></div>
 
@@ -228,7 +229,7 @@ if (login_check($mysqli) == true) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-5 col-md-6 col-lg-7">
+                        <div class="col-sm-5 col-md-6 col-lg-7 hidden">
                             <div class="form-group root" id="surveyTypeSelect">
                                 <label style="margin: 0">
                                     <?php echo $lang->studySurveyType ?>
@@ -872,10 +873,9 @@ if (login_check($mysqli) == true) {
                 } else {
                     $('#create-tab-navigation').children().first().find('a').click();
                 }
-//                $('#loading-indicator').remove();
 
-                var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>);
-                if (showTutorial === 1) {
+                var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                if (tutorials && tutorials.studyCreation && parseInt(tutorials.studyCreation) === 1) {
                     $('#tab-introduction a').click();
                 }
 
@@ -891,6 +891,7 @@ if (login_check($mysqli) == true) {
                         $('#loading-indicator').remove();
                     }});
                 TweenMax.from($('#create-study-tab-content'), .3, {delay: .3, opacity: 0});
+                TweenMax.to($('.mainContent'), .3, {delay: .3, opacity: 1});
 
                 TweenMax.to($('.study-edit-controls'), .3, {autoAlpha: 1});
                 TweenMax.to($('#fixed-study-edit-controls'), .3, {opacity: 1});

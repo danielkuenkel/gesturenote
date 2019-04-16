@@ -1057,9 +1057,9 @@ function renderLinkList(dataId, currentTime) {
                 var posX = (parseFloat(data[i].value.relPositions.relPosX) * 100).toFixed();
                 var posY = (parseFloat(data[i].value.relPositions.relPosY) * 100).toFixed();
                 if (data[i].value.clicked === 'true' || data[i].value.clicked === true) {
-                    $(linkListItem).find('.link-list-item-title').text(translation.relPosX + ': ' + posX + '%, ' + translation.relPosY + ': ' + posY + ', ' + translation.mouseClicked);
+                    $(linkListItem).find('.link-list-item-title').text(translation.relPosX + ': ' + posX + '%, ' + translation.relPosY + ': ' + posY + '%, ' + translation.mouseClicked);
                 } else {
-                    $(linkListItem).find('.link-list-item-title').text(translation.relPosX + ': ' + posX + '%, ' + translation.relPosY + ': ' + posY);
+                    $(linkListItem).find('.link-list-item-title').text(translation.relPosX + ': ' + posX + '%, ' + translation.relPosY + ': ' + posY + '%');
                 }
             } else {
                 $(linkListItem).find('.link-list-item-title').text(translation.gestureDemonstrated);

@@ -267,7 +267,6 @@ if (login_check($mysqli) == true) {
                 getStudiesCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         if (result.studies && result.studies.length > 0) {
-                            console.log(result.studies)
                             originalFilterData = sortByKey(result.studies, 'created');
 
                             var data = {

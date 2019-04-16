@@ -51,6 +51,7 @@ function renderCatalogOverview() {
     var studyScenes = getLocalItem(ASSEMBLED_SCENES);
     $('#scenes-catalog').find('.list-container').empty();
     if (studyScenes && studyScenes.length > 0) {
+         $('#scenes-catalog').find('.list-container').removeClass('hidden');
         clearAlerts($('#scenes-catalog'));
         renderStudyScenes(studyScenes);
     } else {

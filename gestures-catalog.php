@@ -111,17 +111,20 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="container">
-            <a role="button" class="pull-right" id="btn-introduction"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
+        <div id="navigation-container" style="opacity: 0">
+            <div class="container">
+                <a role="button" class="pull-right" id="btn-introduction"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
+            </div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-pills" id="gesture-catalogs-nav-tab" style="display: flex; justify-content: center;">
+                <li role="presentation" id="tab-catalog"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->allGestures ?></a></li>
+                <li role="presentation" id="tab-sets"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill"><i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo $lang->gestureSets ?></a></li>
+                <li role="presentation" id="tab-recorder"><a href="#gesture-recorder" aria-controls="gesture-recorder" role="tab" data-toggle="pill"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGestures ?></a></li>
+                <li role="presentation" id="tab-import"><a href="#gesture-importer" aria-controls="gesture-importer" role="tab" data-toggle="pill"><i class="fa fa-file-zip-o" aria-hidden="true"></i> <?php echo $lang->gestureImporter ?></a></li>
+            </ul> 
         </div>
 
-        <!-- Nav tabs -->
-        <ul class="nav nav-pills" id="gesture-catalogs-nav-tab" style="display: flex; justify-content: center;">
-            <li role="presentation" id="tab-catalog"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->allGestures ?></a></li>
-            <li role="presentation" id="tab-sets"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill"><i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo $lang->gestureSets ?></a></li>
-            <li role="presentation" id="tab-recorder"><a href="#gesture-recorder" aria-controls="gesture-recorder" role="tab" data-toggle="pill"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGestures ?></a></li>
-            <li role="presentation" id="tab-import"><a href="#gesture-importer" aria-controls="gesture-importer" role="tab" data-toggle="pill"><i class="fa fa-file-zip-o" aria-hidden="true"></i> <?php echo $lang->gestureImporter ?></a></li>
-        </ul> 
 
         <div id="loading-indicator" class="window-sized-loading text-center">
             <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
@@ -436,8 +439,9 @@ if (login_check($mysqli) == true) {
                     $('#gesture-catalogs-nav-tab').children().first().find('a').click();
                 }
 
-                var showTutorial = parseInt(<?php echo $_SESSION['tutorialGestureCatalog'] ?>);
-                if (showTutorial === 1) {
+                var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                console.log(tutorials);
+                if (tutorials && tutorials.gestureCatalog && parseInt(tutorials.gestureCatalog) === 1) {
                     $('#btn-introduction').click();
                 }
             });
@@ -459,6 +463,7 @@ if (login_check($mysqli) == true) {
                     $('#loading-indicator').remove();
                 }});
             TweenMax.from($('#gesture-catalog-content'), .3, {delay: .3, opacity: 0});
+            TweenMax.to($('#navigation-container'), .3, {delay: .3, opacity: 1});
         }
 
         var currentFilterList;

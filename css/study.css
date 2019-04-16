@@ -407,3 +407,11 @@ and open the template in the editor.
     background-color: #464646 !important;
     color: #797979;
 }
+
+.dark #accordance-amount {
+    color: rgba(255,255,255,.7) !important;
+}
+
+.dark .table-bordered {
+    
+}

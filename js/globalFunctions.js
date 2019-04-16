@@ -3614,7 +3614,7 @@ function getStudiesCatalogListThumbnail(target, data) {
         var descriptionText = data.data.generalData.description.length < 100 ? data.data.generalData.description : data.data.generalData.description.substring(0, 200) + ' …';
         $(clone).find('#study-description').text(descriptionText);
 
-        $(clone).find('#type-method').text(translation.methodType[data.data.generalData.method])
+        $(clone).find('#type-method').text(translation.methodType[data.data.generalData.method]);
         $(clone).find('#type-survey').text(translation.surveyType[data.data.generalData.surveyType]);
         $(clone).find('#type-phase').text(translation.phaseType[data.data.generalData.phase]);
     }

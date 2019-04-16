@@ -317,7 +317,6 @@ if (login_check($mysqli) == true) {
 
     <script>
         var resultsPlayer = null;
-
         $(document).ready(function () {
             checkDomain();
             keepSessionAlive();
@@ -340,8 +339,8 @@ if (login_check($mysqli) == true) {
             var query = getQueryParams(document.location.search);
             var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
 
-            var showTutorial = parseInt(<?php echo $_SESSION['tutorialParticipant'] ?>);
-            if (showTutorial === 1) {
+            var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+            if (tutorials && tutorials.participant && parseInt(tutorials.participant) === 1) {
                 $('#btn-introduction').click();
             }
 
@@ -539,7 +538,6 @@ if (login_check($mysqli) == true) {
                         $(navigationBarContent).removeClass('affix');
                         $(navigationBarContent).css({width: '', top: ''});
                     } else {
-//                            $(navigationBarContent).addClass('affix');
                         $(navigationBarContent).css({width: rowWidth + 'px'});
                     }
                 }).resize();
@@ -563,18 +561,13 @@ if (login_check($mysqli) == true) {
                             var top = 46 - scrollOffset - 35;
                             $(navigationBarContent).addClass('affix');
                             $(navigationBarContent).css({top: top + 'px'});
-//                            if (scrollOffset > 0) {
-//                                $('#pager-bottom').addClass('hidden');
-//                            }
                         } else {
                             $(navigationBarContent).removeClass('affix');
                             $(navigationBarContent).css({top: ''});
-//                            $('#pager-bottom').removeClass('hidden');
                         }
                     } else {
                         $(navigationBarContent).removeClass('affix');
                         $(navigationBarContent).css({top: ''});
-//                        $('#pager-bottom').removeClass('hidden');
                     }
                 });
 
@@ -587,7 +580,6 @@ if (login_check($mysqli) == true) {
                         loadHTMLintoModal('custom-modal', 'externals/modal-delete-study-result.php', 'modal-md');
                         var study = getLocalItem(STUDY);
                         var tester = getLocalItem(STUDY_RESULTS);
-//                            console.log(study, tester);
 
                         $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
                             deleteStudyResult({studyId: study.id, testerId: tester.userId}, function (result) {
@@ -823,8 +815,6 @@ if (login_check($mysqli) == true) {
             console.log('EVALUATOR DATA: ', evaluatorResults);
             console.log('WIZARD DATA: ', wizardResults);
             console.log('OBSERVER DATA: ', observerResults);
-//            console.log('OBSERVER LOG: ', (phaseData !== null && testerResults !== null));
-//            console.log('OBSERVER LOG: ', phaseData !== null && testerResults !== null && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults !== null && evaluatorResults.startTime !== undefined) || testerResults.startTime !== undefined)) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults.startTime)));
 
             if (phaseData !== null && testerResults !== null && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults && evaluatorResults.startTime) || testerResults.startTime)) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults.startTime))) {
                 var content = $('#template-study-container').find('#' + testerResults.format).clone().removeAttr('id');
@@ -832,7 +822,6 @@ if (login_check($mysqli) == true) {
                 $('#phase-result').empty().append(content);
 
                 var executionTime = study.surveyType === TYPE_SURVEY_MODERATED && evaluatorResults !== null ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
-//                console.log(executionTime);
                 if (!isEmpty(executionTime) && testerResults.format !== THANKS) {
                     var badge = document.createElement('span');
                     $(badge).addClass('badge pull-right');
@@ -1081,9 +1070,7 @@ if (login_check($mysqli) == true) {
                 $(content).find('#sus-grade .address').text(translation.grade);
                 $(content).find('#sus-grade .text').text(fittedScore.susGrade);
                 $(content).find('#sus-grade .tail').text(translation.received);
-//                $(content).find('#sus-acceptability .address').text(translation.systemIs);
                 $(content).find('#sus-acceptability .text').text(fittedScore.susAcceptability);
-//                $(content).find('#sus-acceptability .tail').text(translation.rated);
                 renderSUSProgress($(content), translation.susScores, count);
             } else {
                 $(content).find('#sus-score-results').remove();
@@ -1092,7 +1079,6 @@ if (login_check($mysqli) == true) {
         }
 
         function renderSUSProgress(container, susQuartiles, score) {
-//                <div class="progress-bar progress-bar-danger" style="width: 35%; background-color: #003399 !important;">
             var currentWidth = 0.0;
             var oldWidth = 0.0;
             var targetWidth = $(container).find('#sus-score-progress').width();
@@ -1103,7 +1089,6 @@ if (login_check($mysqli) == true) {
 
                 var progressBar = document.createElement('div');
                 $(progressBar).addClass('progress-bar');
-//                $(progressBar).css('background-color', susQuartiles[i].color);
                 $(progressBar).css({width: currentWidth + '%', backgroundColor: susQuartiles[i].color, boxShadow: 'none'});
                 $(container).find('#sus-score-progress').append(progressBar);
 
@@ -1179,8 +1164,6 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-//            console.log('scales', scales);
-
             var qualities = {
                 attractiveness: {sum: 0.0, max: 0, presentMax: 1},
                 pragmaticQuality: {sum: 0.0, max: 0, presentMax: 3},
@@ -1212,8 +1195,6 @@ if (login_check($mysqli) == true) {
                     $(content).find('.ueq-scales-statistics .' + key + ' .text').text(translation.noDataCollected);
                 }
             }
-
-//            console.log('qualities', qualities);
 
             var timeline = null;
             var firstOffsetY = -4;
@@ -1298,7 +1279,6 @@ if (login_check($mysqli) == true) {
                 $(content).find('#trigger .address').text(translation.trigger + ':');
                 $(content).find('#trigger .text').text(trigger.title);
 
-
                 var feedback = getFeedbackById(studyData.feedbackId);
                 if (feedback) {
                     $(content).find('#feedback .address').text(translation.feedback + ':');
@@ -1322,7 +1302,6 @@ if (login_check($mysqli) == true) {
                     $(label).prepend(icon);
                     content.find('#feedback .text').prepend(label);
                 }
-
             } else {
 //                    $(content).find('#gesturePreview').addClass('hidden');
             }
@@ -1330,8 +1309,6 @@ if (login_check($mysqli) == true) {
 
 
         function renderGestureTraining(container, studyData, testerResults, evaluatorResults) {
-//                console.log('visData: ', studyData.training, evaluatorResults);
-
             var startTrainingTimes = new Array;
             for (var j = 0; j < evaluatorResults.annotations.length; j++) {
                 if (evaluatorResults.annotations[j].action === ACTION_START_GESTURE_TRAINING) {
@@ -1344,21 +1321,12 @@ if (login_check($mysqli) == true) {
                 var trigger = getTriggerById(studyData.training[i].triggerId);
                 var feedback = getFeedbackById(studyData.training[i].feedbackId);
 
-                //                    console.log(gesture);
-
                 var item = $('#template-study-container').find('#training-gesture-item').clone().removeAttr('id');
                 container.find('#gestures-container').append(item);
-//                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-//                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-//                    $(item).find('#gesture .text').text(gesture.title);
                 $(item).find('#trigger .address').text(translation.trigger + ': ');
                 $(item).find('#trigger .text').text(trigger.title);
                 $(item).find('#repeats .address').text(translation.repeats + ': ');
                 $(item).find('#repeats .text').text(studyData.training[i].repeats);
-//                    $(item).find('#recognition-time .address').text(translation.recognitionTime + ': ');
-//                    var recognitionSeconds = parseInt(studyData.training[i].recognitionTime);
-//                    $(item).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
-
                 $(item).find('#feedback .address').text(translation.feedback + ': ');
 
                 var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
@@ -1377,7 +1345,6 @@ if (login_check($mysqli) == true) {
                     $(item).find('#feedback .text').text(translation.none);
                 }
 
-//                    console.log('start training times', startTrainingTimes);
                 if (evaluatorResults.annotations && evaluatorResults.annotations.length) {
                     var trainingStart, trainingEnd = null;
                     for (var j = 0; j < startTrainingTimes.length; j++) {
@@ -1395,12 +1362,7 @@ if (login_check($mysqli) == true) {
                     if (trainingStart && trainingEnd) {
                         var execution = getTimeBetweenTimestamps(trainingStart, trainingEnd);
                         $(item).find('#training-time .address').text(translation.execution + ': ');
-//                            if (testerResults && testerResults.training && testerResults.training[i].gestureTrainingStart && testerResults.training[i].gestureTrainingEnd) {
-//                                var executionTime = getTimeBetweenTimestamps(testerResults.training[i].gestureTrainingStart, testerResults.training[i].gestureTrainingEnd);
                         $(item).find('#training-time .text').text(getTimeString(execution, false, true));
-//                            } else {
-//                                $(item).find('#training-time .text').text('-');
-//                            }
                     } else {
                         $(item).find('#training-time').remove();
                     }
@@ -1410,32 +1372,21 @@ if (login_check($mysqli) == true) {
             }
 
             renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
-//                addObservationsDropdown(container);
         }
 
 
         function renderGestureSlideshow(container, studyData, resultsData, evaluatorResults) {
-//                console.log(studyData, resultsData, evaluatorResults);
-
             $(container).find('#restarts .address').text(parseInt(resultsData.restarts) === 1 ? translation.restart : translation.restarts);
             $(container).find('#restarts .text').text(resultsData.restarts);
 
             for (var i = 0; i < studyData.slideshow.length; i++) {
                 var gesture = getGestureById(studyData.slideshow[i].gestureId);
                 var trigger = getTriggerById(studyData.slideshow[i].triggerId);
-                //                    var feedback = getFeedbackById(studyData.slideshow[i].feedbackId);
-//                    console.log('gesture for gesture slideshow', gesture, item);
-
 
                 var item = $('#template-study-container').find('#slideshow-gesture-item').clone().removeAttr('id');
                 container.find('#gestures-container').append(item);
-//                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-//                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-//                    $(item).find('#gesture .text').text(gesture.title);
                 $(item).find('#trigger .address').text(translation.trigger + ': ');
                 $(item).find('#trigger .text').text(trigger.title);
-//                    $(item).find('#repeats .address').text(translation.repeats + ': ');
-                //                    $(item).find('#repeats .text').text(studyData.training[i].repeats);
                 $(item).find('#recognition-time .address').text(translation.recognitionTime + ': ');
                 var recognitionSeconds = parseInt(studyData.slideshow[i].recognitionTime);
                 $(item).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
@@ -1447,7 +1398,6 @@ if (login_check($mysqli) == true) {
                 if (resultsData.annotations && resultsData.annotations.length > 0) {
                     var count = 0;
                     for (var j = 0; j < resultsData.annotations.length; j++) {
-//                            console.log(resultsData.annotations[j]);
                         if (resultsData.annotations[j].action === ACTION_NO_GESTURE_FIT_FOUND && parseInt(resultsData.annotations[j].gestureId) === parseInt(gesture.id)) {
                             count++;
                         }
@@ -1469,16 +1419,12 @@ if (login_check($mysqli) == true) {
         }
 
         function renderTriggerSlideshow(container, studyData, resultsData) {
-//            console.log(studyData, resultsData);
             var globalFaults = 0;
             for (var i = 0; i < studyData.slideshow.length; i++) {
                 var gesture = getGestureById(studyData.slideshow[i].gestureId);
                 var trigger = getTriggerById(studyData.slideshow[i].triggerId);
                 var item = $('#template-study-container').find('#slideshow-trigger-item').clone().removeAttr('id');
                 container.find('#gestures-container').append(item);
-//                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-//                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-//                    $(item).find('#gesture .text').text(gesture.title);
                 $(item).find('#trigger .address').text(translation.trigger + ': ');
                 $(item).find('#trigger .text').text(trigger.title);
                 $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
@@ -1521,20 +1467,16 @@ if (login_check($mysqli) == true) {
             }
 
             if (globalFaults === -1) {
-//                console.log('selection fault');
                 $(container).find('#score #no-fault-score').removeClass('hidden');
             } else {
                 $(container).find('#score #fault-score').removeClass('hidden');
                 var faultScore = globalFaults / studyData.slideshow.length;
-//                console.log('globalFaults: ' + globalFaults + ' fault: ' + fault + ', score: ' + faultScore);
                 var faultPercentage = (1 - faultScore) * 100;
                 $(container).find('#score .text').text(faultPercentage + '%');
             }
         }
 
-
         function renderPhysicalStressTest(container, studyData, resultsData) {
-//                console.log(studyData, resultsData);
             for (var i = 0; i < studyData.stressTestItems.length; i++) {
                 var item = $('#template-study-container').find('#physicalStressTest-item').clone().removeAttr('id');
                 container.find('#gestures-container').append(item);
@@ -1550,7 +1492,6 @@ if (login_check($mysqli) == true) {
                 $(item).find('#trigger .address').text(translation.trigger + ': ');
                 $(item).find('#trigger .text').text(trigger.title);
                 $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
-
 
                 // check if answers are there
                 if (resultsData && resultsData.answers && !$.isEmptyObject(resultsData.answers)) {
@@ -1605,7 +1546,6 @@ if (login_check($mysqli) == true) {
                         }
 
                         if (questions.length > 0 && results.answers.length > 0) {
-//                                console.log(results, questions);
                             renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results, false, true);
                         }
                     }
@@ -1655,7 +1595,6 @@ if (login_check($mysqli) == true) {
                 var fromWizard = 0;
 
                 for (var i = 0; i < annotations.length; i++) {
-                    console.log('annotation', annotations[i]);
                     if (annotations[i].action === ACTION_CUSTOM) {
                         afterExecution++;
                     } else {
@@ -1746,14 +1685,12 @@ if (login_check($mysqli) == true) {
                 $(container).find('#from-wizard').text(fromWizard > 0 ? fromWizard : '-');
 
                 if (evaluatorResults && evaluatorResults.recordedGestureSimulation) {
-                    console.log('evaluator results data', evaluatorResults);
                     $(container).find('#btn-start-simulation').removeClass('disabled');
                     $(container).find('#btn-start-simulation').unbind('click').bind('click', function (event) {
                         event.preventDefault();
                         goto('simulator.php?tab=player&gestureSetId=' + evaluatorResults.recordedGestureSimulation.data.gestureSetId + '&recordingId=' + evaluatorResults.recordedGestureSimulation.id, true);
                     });
                 } else if (wizardResults && wizardResults.recordedGestureSimulation) {
-                    console.log('wizard results data', wizardResults);
                     $(container).find('#btn-start-simulation').removeClass('disabled');
                     $(container).find('#btn-start-simulation').unbind('click').bind('click', function (event) {
                         event.preventDefault();
@@ -1858,7 +1795,6 @@ if (login_check($mysqli) == true) {
                         }
                     }
                 } else {
-//                    console.log('no triggers there');
                 }
             }
 
@@ -1961,7 +1897,6 @@ if (login_check($mysqli) == true) {
             });
         }
 
-
         $('#btn-introduction').on('click', function (event) {
             event.preventDefault();
             $('#custom-modal').attr('data-help-items-key', 'introductionParticipant');
@@ -1977,13 +1912,11 @@ if (login_check($mysqli) == true) {
                 var evaluatorId = $(this).attr('data-evaluator-id') || null;
                 var executionPhase = $(this).find('.btn-option-checked').attr('id');
 
-//                console.log('pretest selection changed', participantId, evaluatorId, executionPhase);
                 updateExecutionPhase(evaluatorId ? {participantId: participantId, evaluatorId: evaluatorId, executionPhase: executionPhase} : {participantId: participantId, executionPhase: executionPhase}, function (result) {
 
                 });
             }
         });
-
     </script>
 </body>
 </html>

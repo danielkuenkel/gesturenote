@@ -274,7 +274,7 @@ if (login_check($mysqli) == true) {
                             </button>
                         </div>
 
-                        <div class="list-container" style="display:inline-grid"></div>
+                        <div class="list-container hidden" style="display:inline-grid"></div>
                         <div class="alert-space alert-no-phase-data" style="margin-top: 10px"></div>
                     </div>
 
@@ -680,9 +680,10 @@ if (login_check($mysqli) == true) {
                 } else {
                     $('#create-tab-navigation').children().first().find('a').click();
                 }
-
-                var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>);
-                if (showTutorial === 1) {
+                
+                var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                console.log(tutorials);
+                if (tutorials && tutorials.studyExtractionCreation && parseInt(tutorials.studyExtractionCreation) === 1) {
                     $('#tab-introduction a').click();
                 }
 
@@ -1041,15 +1042,15 @@ if (login_check($mysqli) == true) {
                         case '#catalogs':
                             $('#custom-modal').attr('data-start-tab-id', 'catalogs');
                             break;
-                        case '#phases':
-                            $('#custom-modal').attr('data-start-tab-id', 'phases');
+                        case '#mapping':
+                            $('#custom-modal').attr('data-start-tab-id', 'mapping');
                             break;
                     }
                 }
 
                 $('#custom-modal').attr('data-help-items-key', 'introductionCreateExtractionStudy');
                 $('#custom-modal').attr('data-help-context', 'studyExtractionCreation');
-                $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialStudyExtractionCreation'] ?>));
+                $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialExtractionStudyCreation'] ?>));
                 loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
             });
 

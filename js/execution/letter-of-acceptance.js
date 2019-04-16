@@ -47,19 +47,19 @@ LetterOfAcceptance.prototype.renderTesterView = function () {
     $(container).find('.letter-text').html(data);
     $(container).find('#letter-agreed').unbind('click').bind('click', function (event) {
         event.preventDefault();
-        if (!previewModeEnabled) {
+        if (!previewModeEnabled && peerConnection) {
             peerConnection.takeSnapshot(true, function () {
-                console.log('snapshot taken and uploaded, now to the next step');
+                console.log('snapshot taken and uploaded, now to next step');
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.accepted = 'yes';
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                if (peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-                }
-            });
-        }
 
-        nextStep();
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                nextStep();
+            });
+        } else {
+            nextStep();
+        }
     });
 
     $(container).find('#letter-decline').unbind('click').bind('click', function (event) {

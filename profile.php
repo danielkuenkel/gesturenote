@@ -160,6 +160,31 @@ if (login_check($mysqli) == true) {
                             </div>
                         </div>
 
+                        <div class="form-group root" id="tutorialExtractionStudyCreation" data-help-context="studyExtractionCreation">
+                            <label><?php echo $lang->tutorialExtractionStudyCreationQuestion ?></label><br/>
+
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="no">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->no ?></span>
+                                </button>
+                            </div>
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->yes ?></span>
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="form-group root" id="tutorialStudyPreview" data-help-context="studyPreview">
                             <label><?php echo $lang->tutorialStudyPreviewQuestion ?></label><br/>
 
@@ -302,6 +327,7 @@ if (login_check($mysqli) == true) {
         </div>
 
         <script>
+            var firstInit = true;
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();
@@ -349,19 +375,31 @@ if (login_check($mysqli) == true) {
                         $('#label-current-password').text(translation.currentPassword);
                         $('#label-new-password').text(translation.newPassword);
                         $('#label-confirm-new-password').text(translation.confirmNewPassword);
-
-//                        $('#user-type .address').text(translation.userType + ": ");
-//                        $('#user-type .text').text(translation.userTypes[user.userType]);
+                        
 
                         $('#user-registered .address').text(translation.userRegistered + ": ");
                         $('#user-registered .text').text(convertSQLTimestampToDate(user.created).toLocaleDateString());
 
-                        $('#tutorialStudyCreation').find(parseInt(user.tutorialStudyCreation) === 0 ? '#no' : '#yes').click();
-                        $('#tutorialStudyPreview').find(parseInt(user.tutorialStudyPreview) === 0 ? '#no' : '#yes').click();
-                        $('#tutorialStudy').find(parseInt(user.tutorialStudy) === 0 ? '#no' : '#yes').click();
-                        $('#tutorialExtraction').find(parseInt(user.tutorialExtraction) === 0 ? '#no' : '#yes').click();
-                        $('#tutorialParticipant').find(parseInt(user.tutorialParticipant) === 0 ? '#no' : '#yes').click();
-                        $('#tutorialGestureCatalog').find(parseInt(user.tutorialGestureCatalog) === 0 ? '#no' : '#yes').click();
+                        var tutorial = user.tutorials && user.tutorials.studyCreation ? user.tutorials.studyCreation : 0;
+                        $('#tutorialStudyCreation').find(parseInt(tutorial) === 0 ? '#no' : '#yes').click();
+
+                        tutorial = user.tutorials && user.tutorials.studyExtractionCreation ? user.tutorials.studyExtractionCreation : 0;
+                        $('#tutorialExtractionStudyCreation').find(parseInt(tutorial) === 0 ? '#no' : '#yes').click();
+
+                        tutorial = user.tutorials && user.tutorials.studyPreview ? user.tutorials.studyPreview : 0;
+                        $('#tutorialStudyPreview').find(parseInt(tutorial) === 0 ? '#no' : '#yes').click();
+
+                        tutorial = user.tutorials && user.tutorials.study ? user.tutorials.study : 0;
+                        $('#tutorialStudy').find(parseInt(tutorial) === 0 ? '#no' : '#yes').click();
+
+                        tutorial = user.tutorials && user.tutorials.extraction ? user.tutorials.extraction : 0;
+                        $('#tutorialExtraction').find(parseInt(tutorial) === 0 ? '#no' : '#yes').click();
+
+                        tutorial = user.tutorials && user.tutorials.participant ? user.tutorials.participant : 0;
+                        $('#tutorialParticipant').find(parseInt(tutorial) === 0 ? '#no' : '#yes').click();
+
+                        tutorial = user.tutorials && user.tutorials.gestureCatalog ? user.tutorials.gestureCatalog : 0;
+                        $('#tutorialGestureCatalog').find(parseInt(tutorial) === 0 ? '#no' : '#yes').click();
 
                         // render statistics
                         $('#stats-studies .amount').text(user.statistics.totalStudies);
@@ -381,6 +419,8 @@ if (login_check($mysqli) == true) {
                         $('#loading-indicator').remove();
                     }});
                 TweenMax.from($('#profile-content'), .3, {delay: .3, opacity: 0});
+
+                firstInit = false;
             }
 
             $('#btn-edit-profile').on('click', function (event) {
@@ -461,11 +501,13 @@ if (login_check($mysqli) == true) {
                 }
             });
 
-            $('#tutorialStudyCreation, #tutorialStudyPreview, #tutorialStudy, #tutorialExtraction, #tutorialParticipant, #tutorialGestureCatalog').unbind('change').bind('change', function (event) {
+            $('#tutorialStudyCreation, #tutorialExtractionStudyCreation, #tutorialStudyPreview, #tutorialStudy, #tutorialExtraction, #tutorialParticipant, #tutorialGestureCatalog').unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                var context = $(this).attr('data-help-context');
-                var showTutorial = $(this).find('.btn-option-checked').attr('id') === 'yes' ? 1 : 0;
-                updateIntroduction({context: context, dontShowIntroduction: showTutorial});
+                if (firstInit === false) {
+                    var context = $(this).attr('data-help-context');
+                    var showTutorial = $(this).find('.btn-option-checked').attr('id') === 'yes' ? 1 : 0;
+                    updateIntroduction({context: context, dontShowIntroduction: showTutorial});
+                }
             });
         </script>
 

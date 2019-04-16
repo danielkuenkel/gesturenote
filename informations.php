@@ -169,6 +169,27 @@ include_once 'includes/functions.php';
                 </div>
             </div>
 
+            <div class="row" style="margin-top: 120px">
+                <div class="col-md-12 text-center">
+                    <h2 class="uppercase font-bold"><?php echo $lang->infosContent->useCases->title ?></h2>
+                    <p class="font-bold text"><?php echo $lang->infosContent->useCases->subline ?></p>
+                </div>
+            </div>
+            
+            <div class="row text" id="" style="margin-top: 30px">
+                <div class="col-md-4">
+                    <h4 class="text-center font-italic" style="margin: 0"><?php echo $lang->infosContent->useCases->useCase01->title ?></h4>
+                </div>
+                <div class="col-md-8">
+                    <p><?php echo $lang->infosContent->useCases->useCase01->section01 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase01->section02 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase01->section03 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase01->section04 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase01->section05 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase01->section06 ?></p>
+                </div>
+            </div>
+
             <script>
                 $(document).ready(function () {
                     checkDomain();

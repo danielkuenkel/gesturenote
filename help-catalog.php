@@ -55,14 +55,17 @@ include_once 'includes/functions.php';
             <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
         </div>
 
+
+        <!--        <div class="container">
+                    <div class="text"><?php echo $lang->infosContent->general->content ?></div>
+                </div>-->
+        
+        <!--<div id="help-background-gradient" style="position: fixed; width: 100vw; height: 100vh; background-image: linear-gradient(white, #);"></div>-->
+
         <div class="container mainContent hidden" style="margin-top: 0px">
             <div class="row">
-                <div class="col-md-5 col-lg-4" id="link-list" style="margin-bottom: 30px">
-                    <!--<a href="#createStudy" class="smooth-goto">1. Gesten-Design-Studien</a>-->
-                </div>
-                <div class="col-md-7 col-lg-8" id="help-description">
-
-                </div>
+                <div class="col-md-5 col-lg-4" id="link-list" style="margin-bottom: 30px"></div>
+                <div class="col-md-7 col-lg-8" id="help-description"></div>
             </div>
         </div>
 
@@ -94,6 +97,7 @@ include_once 'includes/functions.php';
                 checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 var allHelp = [];
+                allHelp.push({id: 'gestureNoteGeneral', content: translation.introductionGestureNoteGeneral});
                 allHelp.push({id: 'gesturesGestureSets', content: translation.introductionGestureCatalog});
                 allHelp.push({id: 'createStudy', content: translation.introductionCreateStudy});
                 allHelp.push({id: 'study', content: translation.introductionStudy});
@@ -137,7 +141,6 @@ include_once 'includes/functions.php';
                         $(contentHeadline).text(allHelp[i].content[j].title).css({marginTop: '60px'});
                         $(contentHeadline).prepend(contentHeadlineNumber);
                         $(helpItem).append(contentHeadline);
-//                        $(helpItem).append(document.createElement('hr'));
 
                         var link = document.createElement('a');
                         $(link).attr('href', '#' + allHelp[i].id + '-' + allHelp[i].content[j].tabId).addClass('smooth-goto ellipsis').text((i + 1) + '.' + (j + 1) + ' ' + allHelp[i].content[j].title);

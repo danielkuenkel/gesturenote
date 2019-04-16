@@ -110,7 +110,8 @@ body {
 }
 
 .form-control {
-    border-radius: 8px
+    border-radius: 8px;
+    height: auto;
 }
 
 .nav-tabs>li>a {
@@ -255,6 +256,10 @@ h4 {
     font-weight: bold;
 }
 
+.font-italic {
+    font-style: italic;
+}
+
 .ellipsis {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -359,6 +364,10 @@ h4 {
 .panel-default {
     border-radius: 8px;
 }
+.panel-default>.panel-heading {
+    border-color: rgba(0,0,0,0);
+}
+
 
 .btn-panel {
     cursor: pointer;
@@ -1611,7 +1620,12 @@ canvas {
 }
 
 .input-group-addon {
-    border-radius: 8px
+    border-radius: 8px;
+    height: 34px;
+}
+
+.btn-group-sm .btn {
+    border-radius: 8px;
 }
 
 
@@ -2010,4 +2024,42 @@ canvas {
 
 .dark #waiting .participant-name {
     color: white !important;
+}
+
+.fixed-help-naviation {
+    width: 99.9%; 
+    height: 80px; 
+    position: absolute; 
+    z-index: 1; 
+    top: 0;
+}
+.fixed-help-naviation-background {
+    width: 99.9%; 
+    height: 80px; 
+    position: absolute; 
+    z-index: 1; 
+    top: 0;
+    background-image: linear-gradient(rgba(255,255,255,1) 66%, rgba(255,255,255,0));
+}
+.dark .fixed-help-naviation-background {
+    background-image: linear-gradient(rgba(105,105,105,1) 66%, rgba(105,105,105,0));
+}
+
+ul.dropdown-menu-center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dark .hover-cell:hover {
+    background-color: #3e3d3d !important;
+}
+
+.dark .table-bordered,
+.dark .table-bordered>tbody>tr>td, 
+.dark .table-bordered>tbody>tr>th, 
+.dark .table-bordered>tfoot>tr>td, 
+.dark .table-bordered>tfoot>tr>th, 
+.dark .table-bordered>thead>tr>td, 
+.dark .table-bordered>thead>tr>th {
+    border: 1px solid #999;
 }

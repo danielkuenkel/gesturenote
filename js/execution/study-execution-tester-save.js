@@ -80,7 +80,6 @@ function getLetterOfAcceptanceFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.accepted = tempData.accepted;
-//        removeLocalItem(data.id + '.tempSaveData');
     }
 
     return data;

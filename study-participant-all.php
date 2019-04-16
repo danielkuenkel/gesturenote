@@ -321,8 +321,8 @@ if (login_check($mysqli) == true) {
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
 
-                var showTutorial = parseInt(<?php echo $_SESSION['tutorialParticipant'] ?>);
-                if (showTutorial === 1) {
+                var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                if (tutorials && tutorials.participant && parseInt(tutorials.participant) === 1) {
                     $('#btn-introduction').click();
                 }
 
@@ -347,7 +347,7 @@ if (login_check($mysqli) == true) {
                         }
                     });
                 }
-                
+
                 $('.mainContent').removeClass('hidden');
                 TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
                         $('#loading-indicator').remove();

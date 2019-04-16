@@ -356,6 +356,7 @@ function getExtractionStudyData() {
     var data = new Object();
     data.generalData = getLocalItem(STUDY);
     data.generalData.method = 'expertBased';
+    data.generalData.phase = 'extraction';
 
     var mapping = getLocalItem('extractionMapping');
     data.mapping = mapping;

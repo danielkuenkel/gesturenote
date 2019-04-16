@@ -343,8 +343,8 @@ if (login_check($mysqli) == true) {
             // render data if all templates where loaded
             function onAllExternalsLoadedSuccessfully() {
                 checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
-                var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyPreview'] ?>);
-                if (showTutorial === 1) {
+                var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                if (tutorials && tutorials.studyPreview && parseInt(tutorials.studyPreview) === 1) {
                     $('#btn-introduction').click();
                 }
 

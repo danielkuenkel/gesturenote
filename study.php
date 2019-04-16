@@ -1092,11 +1092,16 @@ if (login_check($mysqli) == true) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             setStudyData(result);
-                            showStudyTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
-                            showExtractionTutorial = parseInt(<?php echo $_SESSION['tutorialExtraction'] ?>);
+
+                            var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                            if (tutorials && tutorials.study && parseInt(tutorials.study) === 1) {
+                                showStudyTutorial = parseInt(tutorials.study);
+                            }
+                            if (tutorials && tutorials.extraction && parseInt(tutorials.extraction) === 1) {
+                                showExtractionTutorial = parseInt(tutorials.extraction);
+                            }
 
                             getGestureSets(function (setResults) {
-//                                console.log(setResults);
                                 setLocalItem(GESTURE_SETS, setResults.gestureSets);
 
                                 renderData(result, hash);
@@ -1126,7 +1131,7 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 var showTutorial = false;
 
-                var activeTab = $('#tab-pane-study').find('.active a').attr('href');
+                var activeTab = $($('#tab-pane-study').find('.active a').last()).attr('href');
                 if (activeTab !== '#gesture-extraction' && activeTab !== '#trigger-extraction') {
                     $('.study-owner-controls').removeClass('hidden');
                 } else {
@@ -1134,7 +1139,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 if (tutorialAutomaticClicked === false || (tutorialAutomaticClicked === true && (showStudyTutorial === 1 || showExtractionTutorial === 1))) {
-
+                    console.log('tab introduction clicked', activeTab, $('#tab-pane-study').find('.active'));
                     var helpContext = 'study';
                     var helpKey = 'introductionStudy';
 
@@ -1156,7 +1161,8 @@ if (login_check($mysqli) == true) {
                                 $('#custom-modal').attr('data-start-tab-id', 'study-participants');
                                 showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
                                 break;
-                            case '#gesture-extraction':
+                            case '#study-trigger-extraction':
+                            case '#study-gesture-extraction':
                                 var activeExtractionTab = $('#gesture-extraction-navigation').find('.active').attr('id');
 
                                 switch (activeExtractionTab) {
