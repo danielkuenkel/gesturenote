@@ -214,22 +214,22 @@ function renderData(data, hash) {
 
     $('#tab-pane-study li a').on('click', function (event) {
         event.preventDefault();
+//        console.log('tab pane clicked', $(this).closest('li').attr('id'));
+        
         if ($(this).parent().hasClass('disabled')) {
             event.stopImmediatePropagation();
         } else {
             if (!event.handled && !$(this).parent().hasClass('active') && !$(this).hasClass('dropdown-toggle')) {
                 event.handled = true;
-//                console.log('check if disabled', $(this).parent().hasClass('disabled'));
+                console.log('check if disabled', $(this).parent().hasClass('disabled'), $(this).closest('li').attr('id'));
                 $(this).trigger('change', [$(this).closest('li').attr('id')]);
-//                console.log('tab pane clicked', $(this).closest('li').attr('id'));
             }
         }
     });
 
     $('#tab-pane-study').on('change', function (event, activeId) {
         event.preventDefault();
-//        $('#btn-scroll-to-top').addClass('hidden');
-//        console.log('active ID', activeId);
+
         if (activeId !== 'tab-introduction') {
             switch (activeId) {
                 case 'catalogs':
@@ -243,7 +243,6 @@ function renderData(data, hash) {
                     break;
                 case 'gesture-extraction':
                     renderExtraction(ELICITED_GESTURES);
-//                    $('#btn-scroll-to-top').removeClass('hidden');
                     break;
                 case 'trigger-extraction':
                     renderExtraction(ELICITED_TRIGGER);
@@ -252,19 +251,13 @@ function renderData(data, hash) {
 
             window.location.hash = activeId;
             $(document).scrollTop(0);
-//            TweenMax.from($('#main-content'), .2, {y: -10, opacity: 0.0, clearProps: 'all'});
 
             setTimeout(function () {
                 tutorialAutomaticClicked = true;
                 $('#tab-introduction a').click();
             }, 300);
 
-//            var status = window.location.hash.substr(1);
-//            if (status !== 'gesture-extraction' && status !== 'trigger-extraction') {
             fixedOwnerControlsTween.play();
-//            } else {
-//                fixedOwnerControlsTween.reverse();
-//            }
         }
     });
 

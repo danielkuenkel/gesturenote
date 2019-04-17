@@ -160,8 +160,8 @@ if (login_check($mysqli) == true) {
                         <?php echo $lang->phaseType->extraction ?> <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li role="presentation" id="gesture-extraction" class="disabled"><a href="#study-gesture-extraction" aria-controls="study-gesture-extraction" role="tab" data-toggle="tab">Gesten</a></li>
-                        <li role="presentation" id="trigger-extraction" class="disabled"><a href="#study-trigger-extraction" aria-controls="study-trigger-extraction" role="tab" data-toggle="tab">Interaktionsaufgaben</a></li>
+                        <li role="presentation" id="gesture-extraction" class="disabled"><a href="#study-gesture-extraction" aria-controls="study-gesture-extraction" role="tab" data-toggle="tab"><?php echo $lang->gestures ?></a></li>
+                        <li role="presentation" id="trigger-extraction" class="disabled"><a href="#study-trigger-extraction" aria-controls="study-trigger-extraction" role="tab" data-toggle="tab"><?php echo $lang->trigger ?></a></li>
                     </ul>
                 </li>
                 <!--                <li role="presentation" id="gesture-extraction"><a href="#study-gesture-extraction" aria-controls="study-gesture-extraction" role="tab" data-toggle="tab">Gesten</a></li>

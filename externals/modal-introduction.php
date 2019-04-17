@@ -2,10 +2,10 @@
 include '../includes/language.php';
 ?>
 
-<div class="modal-header">
+<div class="modal-header" style="opacity: 0">
     <h4 class="modal-title"><i class="fa fa-support"></i> <?php echo $lang->help ?></h4>
 </div>
-<div class="fixed-help-naviation text-center hidden" style="">
+<div class="fixed-help-naviation text-center hidden" style="opacity: 0">
     <div class="fixed-help-naviation-background hidden"></div>
     <!--<div class="form-group" style="display: block; left: 50%; position: relative; transform: translateX(-50%); top: 12px;">-->
     <div style="position: absolute; z-index: 1; top: 12px; left: 50%; transform: translateX(-50%); display: flex">
@@ -57,6 +57,12 @@ include '../includes/language.php';
         var startTabId = $(modal).attr('data-start-tab-id');
         var context = $(modal).attr('data-help-context');
 
+        $(modal).find('#btn-close').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            closeIntroduction();
+        });
+
+
         $(modal).scroll(function () {
             var scrollTop = $('.modal').scrollTop();
             if (parseInt(scrollTop) > 117) {
@@ -106,7 +112,7 @@ include '../includes/language.php';
             $(contentHeadline).addClass('dynamic-scrolling-item');
             var contentHeadlineNumber = document.createElement('span');
             $(contentHeadlineNumber).text((i + 1)).css({marginRight: '10px'});
-            $(contentHeadline).attr('id', items[i].tabId);
+            $(contentHeadline).attr('id', 'help-' + items[i].tabId);
             $(contentHeadline).attr('data-headline-format', 'h2');
             $(contentHeadline).text(items[i].title).css({marginTop: (i > 0) ? '60px' : '0px'});
             $(contentHeadline).prepend(contentHeadlineNumber);
@@ -114,21 +120,14 @@ include '../includes/language.php';
 
             var linkListItem = document.createElement('li');
             var link = document.createElement('a');
-            $(link).attr('href', '#' + items[i].tabId).addClass('smooth-goto ellipsis').text((i + 1) + ' ' + items[i].title);
-//            $('#link-list').append(document.createElement('br')).append(link);
+            $(link).attr('href', '#help-' + items[i].tabId).addClass('smooth-goto ellipsis').text((i + 1) + ' ' + items[i].title);
             $(linkListItem).append(link);
             $(modal).find('.fixed-help-naviation .option').append(linkListItem);
 
             if (i === 0) {
                 $(modal).find('.fixed-help-naviation .chosen').text($(link).text());
             }
-//
-//            var helpItemImage = document.createElement('img');
-//            $(helpItemImage).attr('src', allHelp[i].content[j].imgSrc).addClass('img-image');
-//            $(helpItemImage).css({marginBottom: '30px', width: '100%'});
-//            $(helpItemImage).addClass('image-border-rounded');
-//            $(helpItem).append(helpItemImage);
-//
+
             var helpContent = document.createElement('div');
             $(helpContent).html(items[i].description);
             $(container).append(helpContent);
@@ -137,23 +136,24 @@ include '../includes/language.php';
             $(headlines).addClass('dynamic-scrolling-item');
             $(headlines).attr('data-headline-format', 'h4');
 
+
+
             for (var j = 0; j < headlines.length; j++) {
                 var number = (i + 1) + '.' + (j + 1);
                 var idNumber = (i + 1) + '-' + (j + 1);
 
                 linkListItem = document.createElement('li');
                 var link = document.createElement('a');
-                $(link).attr('href', '#' + items[i].tabId + '-' + idNumber).addClass('smooth-goto ellipsis').text(number + ' ' + $(headlines[j]).text());
+                $(link).attr('href', '#help-' + items[i].tabId + '-' + idNumber).addClass('smooth-goto ellipsis').text(number + ' ' + $(headlines[j]).text());
                 $(linkListItem).append(link);
-                (modal).find('.fixed-help-naviation .option').append(linkListItem);
-//                $('#link-list').append(document.createElement('br')).append(link);
+                $(modal).find('.fixed-help-naviation .option').append(linkListItem);
 
                 $(headlines[j]).css({marginTop: '40px'});
                 var headlineNumber = document.createElement('span');
 
                 $(headlineNumber).text(number);
                 $(headlineNumber).css({marginRight: '10px'});
-                $(headlines[j]).attr('id', items[i].tabId + '-' + idNumber);
+                $(headlines[j]).attr('id', 'help-' + items[i].tabId + '-' + idNumber);
                 $(headlines[j]).prepend(headlineNumber);
             }
         }
@@ -164,14 +164,23 @@ include '../includes/language.php';
             $(modal).animate({scrollTop: scrollTop + 90}, 300);
         });
 
+
+        var tweenDelay = 0;
         if (startTabId) {
             console.log('start tab id', startTabId, $(modal).find('.fixed-help-naviation .option').find('[href="#' + startTabId + '"]'));
             setTimeout(function () {
-                $(modal).find('.fixed-help-naviation .option').find('[href="#' + startTabId + '"]').click();
-                TweenMax.to(container, .3, {delay: .3, opacity: 1});
+                $(modal).find('.fixed-help-naviation .option').find('[href="#help-' + startTabId + '"]').click();
+                tweenDelay = .3;
+                showContent();
             }, 400);
         } else {
-            TweenMax.to(container, .3, {opacity: 1});
+            showContent();
+        }
+
+        function showContent() {
+            TweenMax.to(container, .3, {delay: tweenDelay, opacity: 1});
+            TweenMax.to($(modal).find('.fixed-help-naviation'), .3, {delay: tweenDelay, opacity: 1});
+            TweenMax.to($(modal).find('.modal-header'), .3, {delay: tweenDelay, opacity: 1});
         }
 
         initPopover(0);
@@ -181,10 +190,6 @@ include '../includes/language.php';
             $(modal).find('#checkbox-automatic-show .btn-checkbox').click();
         }
 
-        $(modal).find('#btn-close').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            closeIntroduction();
-        });
 
         $(modal).find('#btn-close-top').unbind('click').bind('click', function (event) {
             event.preventDefault();
