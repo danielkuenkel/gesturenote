@@ -107,8 +107,8 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
 
-        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-205px">
-            <div class="btn-group-vertical">
+        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0;">
+            <div class="btn-group-vertical left-controls">
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->cache ?> <i class="fa fa-folder-open-o" style="margin-left: 15px"></i></button>
                 </div>
@@ -529,9 +529,6 @@ if (login_check($mysqli) == true) {
                     $(cacheButton).removeClass('btn-primary');
                 }});
 
-            cacheButtonTimeline.add("cacheStudy", 0)
-                    .to(cacheButton, .3, {left: +173, ease: Quad.easeInOut}, "cacheStudy");
-
             $(cacheButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 cacheButtonTimeline.play();
@@ -551,9 +548,6 @@ if (login_check($mysqli) == true) {
                     $(saveStudyButton).css({borderTopRightRadius: '0px'});
                     $(saveStudyButton).removeClass('btn-primary');
                 }});
-
-            saveButtonTimeline.add("saveStudy", 0)
-                    .to(saveStudyButton, .3, {left: +192, ease: Quad.easeInOut}, "saveStudy");
 
             $(saveStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -575,9 +569,6 @@ if (login_check($mysqli) == true) {
                     $(joinConversationButton).removeClass('btn-primary');
                 }});
 
-            conversationButtonTimeline.add("saveStudy", 0)
-                    .to(joinConversationButton, .3, {left: +202, ease: Quad.easeInOut}, "saveStudy");
-
             $(joinConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 conversationButtonTimeline.play();
@@ -597,9 +588,6 @@ if (login_check($mysqli) == true) {
                     $(leaveConversationButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
                     $(leaveConversationButton).removeClass('btn-danger');
                 }});
-
-            leaveConversationButtonTimeline.add("saveStudy", 0)
-                    .to(leaveConversationButton, .3, {left: +203, ease: Quad.easeInOut}, "saveStudy");
 
             $(leaveConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -624,6 +612,25 @@ if (login_check($mysqli) == true) {
             });
 
 
+            setTimeout(function () {
+                var leftFlex = 51;
+  
+                cacheButtonTimeline.add("tween", 0)
+                        .to(cacheButton, .3, {left: +parseInt($(cacheButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                saveButtonTimeline.add("tween", 0)
+                        .to(saveStudyButton, .3, {left: +parseInt($(saveStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                conversationButtonTimeline.add("tween", 0)
+                        .to(joinConversationButton, .3, {left: +parseInt($(joinConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                $(leaveConversationButton).removeClass('hidden');
+                leaveConversationButtonTimeline.add("tween", 0)
+                        .to(leaveConversationButton, .3, {left: +parseInt($(leaveConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(leaveConversationButton).addClass('hidden');
+            }, 200);
+
+
 
 
 
@@ -634,7 +641,7 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
                 checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
-                
+
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 if (query.studyId && query.h === hash) {
@@ -680,7 +687,7 @@ if (login_check($mysqli) == true) {
                 } else {
                     $('#create-tab-navigation').children().first().find('a').click();
                 }
-                
+
                 var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
                 console.log(tutorials);
                 if (tutorials && tutorials.studyExtractionCreation && parseInt(tutorials.studyExtractionCreation) === 1) {
@@ -827,7 +834,7 @@ if (login_check($mysqli) == true) {
                         renderAssembledTriggerItems(clone.find('#assembled-trigger-container'), data.triggerIds, true);
                     }
                 }
-                
+
                 initPopover();
             }
 

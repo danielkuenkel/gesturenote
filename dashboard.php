@@ -69,8 +69,8 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-quick-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-187px">
-            <div class="btn-group-vertical">
+        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-quick-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0;">
+            <div class="btn-group-vertical left-controls">
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-create-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->createNewStudy ?> <i class="fa fa-plus" style="margin-left: 15px"></i></button>
                 </div>
@@ -187,8 +187,7 @@ if (login_check($mysqli) == true) {
                     $(createStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
-            createStudyButtonTimeline.add("createStudy", 0)
-                    .to(createStudyButton, .3, {left: +186, ease: Quad.easeInOut}, "previewStudy");
+
 
             $(createStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -210,9 +209,6 @@ if (login_check($mysqli) == true) {
                     $(recordGestureButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
-            recordGestureButtonTimeline.add("cacheStudy", 0)
-                    .to(recordGestureButton, .3, {left: +166, ease: Quad.easeInOut}, "cacheStudy");
-
             $(recordGestureButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 recordGestureButtonTimeline.play();
@@ -233,9 +229,6 @@ if (login_check($mysqli) == true) {
                     $(gestureSetsButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
-            gestureSetsButtonTimeline.add("saveStudy", 0)
-                    .to(gestureSetsButton, .3, {left: +113, ease: Quad.easeInOut}, "saveStudy");
-
             $(gestureSetsButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 gestureSetsButtonTimeline.play();
@@ -245,6 +238,20 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 gestureSetsButtonTimeline.reverse();
             });
+
+
+            setTimeout(function () {
+                var leftFlex = 51;
+                
+                createStudyButtonTimeline.add("tween", 0)
+                        .to(createStudyButton, .3, {left: +parseInt($(createStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                recordGestureButtonTimeline.add("tween", 0)
+                        .to(recordGestureButton, .3, {left: +parseInt($(recordGestureButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                gestureSetsButtonTimeline.add("tween", 0)
+                        .to(gestureSetsButton, .3, {left: +parseInt($(gestureSetsButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+            }, 200);
 
 
 

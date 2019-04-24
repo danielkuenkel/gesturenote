@@ -110,8 +110,8 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-studies-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left: -186px">
-            <div class="btn-group-vertical">
+        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-studies-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0;">
+            <div class="btn-group-vertical left-controls" style="right: -44px">
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-create-study" id="btn-create-study" style="float: right; position: relative; border-bottom-left-radius: 0px; border-top-left-radius: 0px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;"><?php echo $lang->createNewStudy ?> <i class="fa fa-plus" style="margin-left: 10px"></i> </button>
                 </div>
@@ -241,23 +241,28 @@ if (login_check($mysqli) == true) {
                 });
 
                 var createStudyButton = $('#fixed-studies-controls #btn-create-study');
-                var timeline = new TimelineMax({paused: true, onStart: function () {
+                var createStudyButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                         $(createStudyButton).removeClass('btn-default').addClass('btn-primary');
                     }, onReverseComplete: function () {
                         $(createStudyButton).removeClass('btn-primary').addClass('btn-default');
                     }});
 
-                timeline.add("createStudy", 0)
-                        .to(createStudyButton, .3, {left: +186, ease: Quad.easeInOut}, "createStudy");
-
                 $(createStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                     event.preventDefault();
-                    timeline.play();
+                    createStudyButtonTimeline.play();
                 });
+                
                 $(createStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
                     event.preventDefault();
-                    timeline.reverse();
+                    createStudyButtonTimeline.reverse();
                 });
+
+                setTimeout(function () {
+                    var leftFlex = 46;
+
+                    createStudyButtonTimeline.add("tween", 0)
+                            .to(createStudyButton, .3, {left: +parseInt($(createStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                }, 200);
             });
 
             function onAllExternalsLoadedSuccessfully() {

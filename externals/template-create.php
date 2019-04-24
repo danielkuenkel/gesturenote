@@ -3460,7 +3460,7 @@ include '../includes/language.php';
             <form class="form-inline" style="margin-top: 10px">
                 <div class="form-group form-group-no-margin opposites" style="margin-right: 20px; margin-bottom: 10px">
                     <label style="margin: 0"><?php echo $lang->opposites ?></label>
-                    <div><span class="left"></span> - <span class="right"></span></div>
+                    <div style="height:34px"><span class="left"></span> - <span class="right"></span></div>
                 </div>
 
                 <div class="form-group root negative" style="margin-bottom: 10px">

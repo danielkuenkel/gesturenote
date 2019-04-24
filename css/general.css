@@ -2063,3 +2063,9 @@ ul.dropdown-menu-center {
 .dark .table-bordered>thead>tr>th {
     border: 1px solid #999;
 }
+
+.left-controls {
+    position: absolute;
+    right: -50px;
+    display: grid;
+}

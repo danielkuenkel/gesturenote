@@ -108,8 +108,8 @@ if (login_check($mysqli) == true) {
 
 
 
-        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-306px">
-            <div class="btn-group-vertical">
+        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0;">
+            <div class="btn-group-vertical left-controls">
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
                 </div>
@@ -631,9 +631,6 @@ if (login_check($mysqli) == true) {
                     $(previewStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
-            previewButtonTimeline.add("previewStudy", 0)
-                    .to(previewStudyButton, .3, {left: +305, ease: Quad.easeInOut}, "previewStudy");
-
             $(previewStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 previewButtonTimeline.play();
@@ -653,9 +650,6 @@ if (login_check($mysqli) == true) {
                     $(cacheButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
                     $(cacheButton).removeClass('btn-primary').addClass('btn-default');
                 }});
-
-            cacheButtonTimeline.add("cacheStudy", 0)
-                    .to(cacheButton, .3, {left: +173, ease: Quad.easeInOut}, "cacheStudy");
 
             $(cacheButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -677,9 +671,6 @@ if (login_check($mysqli) == true) {
                     $(saveStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
-            saveButtonTimeline.add("saveStudy", 0)
-                    .to(saveStudyButton, .3, {left: +192, ease: Quad.easeInOut}, "saveStudy");
-
             $(saveStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 saveButtonTimeline.play();
@@ -700,9 +691,6 @@ if (login_check($mysqli) == true) {
                     $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
-            conversationButtonTimeline.add("saveStudy", 0)
-                    .to(joinConversationButton, .3, {left: +202, ease: Quad.easeInOut}, "saveStudy");
-
             $(joinConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 conversationButtonTimeline.play();
@@ -722,9 +710,6 @@ if (login_check($mysqli) == true) {
                     $(leaveConversationButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
                     $(leaveConversationButton).removeClass('btn-danger').addClass('btn-default');
                 }});
-
-            leaveConversationButtonTimeline.add("saveStudy", 0)
-                    .to(leaveConversationButton, .3, {left: +203, ease: Quad.easeInOut}, "saveStudy");
 
             $(leaveConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -748,6 +733,25 @@ if (login_check($mysqli) == true) {
                 leaveCollaborativeVideoCaller();
             });
 
+            setTimeout(function () {
+                var leftFlex = 51;
+                previewButtonTimeline.add("tween", 0)
+                        .to(previewStudyButton, .3, {left: +parseInt($(previewStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                cacheButtonTimeline.add("tween", 0)
+                        .to(cacheButton, .3, {left: +parseInt($(cacheButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                saveButtonTimeline.add("tween", 0)
+                        .to(saveStudyButton, .3, {left: +parseInt($(saveStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                conversationButtonTimeline.add("tween", 0)
+                        .to(joinConversationButton, .3, {left: +parseInt($(joinConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                $(leaveConversationButton).removeClass('hidden');
+                leaveConversationButtonTimeline.add("tween", 0)
+                        .to(leaveConversationButton, .3, {left: +parseInt($(leaveConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(leaveConversationButton).addClass('hidden');
+            }, 200);
 
 
 

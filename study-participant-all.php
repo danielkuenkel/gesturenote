@@ -94,8 +94,8 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
 
-        <div class="hidden-xs hidden-sm study-participant-controls" id="fixed-study-participant-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 10001; opacity: 0; left:-204px">
-            <div class="btn-group-vertical">
+        <div class="hidden-xs hidden-sm study-participant-controls" id="fixed-study-participant-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 10001; opacity: 0;">
+            <div class="btn-group-vertical left-controls">
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px; border-bottom-right-radius: 8px; border-top-right-radius: 8px"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
                 </div>
@@ -447,9 +447,6 @@ if (login_check($mysqli) == true) {
                         $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                     }});
 
-                conversationButtonTimeline.add("saveStudy", 0)
-                        .to(joinConversationButton, .3, {left: +202, ease: Quad.easeInOut}, "saveStudy");
-
                 $(joinConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                     event.preventDefault();
                     conversationButtonTimeline.play();
@@ -468,9 +465,6 @@ if (login_check($mysqli) == true) {
                     }, onReverseComplete: function () {
                         $(leaveConversationButton).removeClass('btn-danger').addClass('btn-default');
                     }});
-
-                leaveConversationButtonTimeline.add("saveStudy", 0)
-                        .to(leaveConversationButton, .3, {left: +203, ease: Quad.easeInOut}, "saveStudy");
 
                 $(leaveConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                     event.preventDefault();
@@ -493,6 +487,19 @@ if (login_check($mysqli) == true) {
                     event.preventDefault();
                     leaveCollaborativeVideoCaller();
                 });
+                
+                
+                setTimeout(function () {
+                    var leftFlex = 51;
+
+                    conversationButtonTimeline.add("tween", 0)
+                            .to(joinConversationButton, .3, {left: +parseInt($(joinConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                    
+                    $(leaveConversationButton).removeClass('hidden');
+                    leaveConversationButtonTimeline.add("tween", 0)
+                            .to(leaveConversationButton, .3, {left: +parseInt($(leaveConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                    $(leaveConversationButton).addClass('hidden');
+                }, 200);
 
                 TweenMax.to($('#fixed-study-participant-controls'), .3, {opacity: 1});
                 TweenMax.from($('#fixed-study-participant-controls'), .3, {x: -20, ease: Quad.easeInOut});

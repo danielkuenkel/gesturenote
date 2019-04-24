@@ -97,8 +97,8 @@ if (login_check($mysqli) == true) {
         <div id="template-study"></div>
         <div id="template-gesture-recorder"></div>
 
-        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-306px">
-            <div class="btn-group-vertical">
+        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0;">
+            <div class="btn-group-vertical left-controls">
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
                 </div>
@@ -206,7 +206,7 @@ if (login_check($mysqli) == true) {
                     <!--<div class="row">-->
 
                     <div class="">
-                        <label>Eingeladene Interaktions-Designer</label>
+                        <label><?php echo $lang->invitedInteractionDesigners ?></label>
                         <div class="alert-space alert-no-users-invited"></div>
                         <div id="shared-studies-list"></div>
                     </div>
@@ -919,9 +919,6 @@ if (login_check($mysqli) == true) {
                     $(previewStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
-            previewButtonTimeline.add("previewStudy", 0)
-                    .to(previewStudyButton, .3, {left: 305, ease: Quad.easeInOut}, "previewStudy");
-
             $(previewStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 previewButtonTimeline.play();
@@ -942,9 +939,6 @@ if (login_check($mysqli) == true) {
                     $(editStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
-            editButtonTimeline.add("cacheStudy", 0)
-                    .to(editStudyButton, .3, {left: +156, ease: Quad.easeInOut}, "cacheStudy");
-
             $(editStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 editButtonTimeline.play();
@@ -964,9 +958,6 @@ if (login_check($mysqli) == true) {
                     $(executionButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
                     $(executionButton).removeClass('btn-primary').addClass('btn-default');
                 }});
-
-            executionUrlButtonTimeline.add("saveStudy", 0)
-                    .to(executionButton, .3, {left: +200, ease: Quad.easeInOut}, "saveStudy");
 
             $(executionButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -994,9 +985,6 @@ if (login_check($mysqli) == true) {
                     $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
-            conversationButtonTimeline.add("saveStudy", 0)
-                    .to(joinConversationButton, .3, {left: +202, ease: Quad.easeInOut}, "saveStudy");
-
             $(joinConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 conversationButtonTimeline.play();
@@ -1021,9 +1009,6 @@ if (login_check($mysqli) == true) {
                     }
                     $(leaveConversationButton).removeClass('btn-danger');
                 }});
-
-            leaveConversationButtonTimeline.add("saveStudy", 0)
-                    .to(leaveConversationButton, .3, {left: +203, ease: Quad.easeInOut}, "saveStudy");
 
             $(leaveConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -1057,8 +1042,7 @@ if (login_check($mysqli) == true) {
                     $(deleteStudyButton).css({borderTopRightRadius: '0px'});
                     $(deleteStudyButton).removeClass('btn-danger').addClass('btn-default');
                 }});
-            deleteButtonTimeline.add("saveStudy", 0)
-                    .to(deleteStudyButton, .3, {left: +131, ease: Quad.easeInOut}, "saveStudy");
+
 
             $(deleteStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -1069,6 +1053,33 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 deleteButtonTimeline.reverse();
             });
+
+
+            setTimeout(function () {
+                var leftFlex = 51;
+
+                previewButtonTimeline.add("tween", 0)
+                        .to(previewStudyButton, .3, {left: +parseInt($(previewStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                editButtonTimeline.add("tween", 0)
+                        .to(editStudyButton, .3, {left: +parseInt($(editStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                $(executionButton).removeClass('hidden').css({opacity: 0});
+                executionUrlButtonTimeline.add("tween", 0)
+                        .to(executionButton, .3, {left: +parseInt($(executionButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(executionButton).addClass('hidden').css({opacity: 1});
+
+                conversationButtonTimeline.add("tween", 0)
+                        .to(joinConversationButton, .3, {left: +parseInt($(joinConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                $(leaveConversationButton).removeClass('hidden');
+                leaveConversationButtonTimeline.add("tween", 0)
+                        .to(leaveConversationButton, .3, {left: +parseInt($(leaveConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(leaveConversationButton).addClass('hidden');
+
+                deleteButtonTimeline.add("tween", 0)
+                        .to(deleteStudyButton, .3, {left: +parseInt($(deleteStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+            }, 200);
 
 
             // rendering
