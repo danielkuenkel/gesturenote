@@ -2261,6 +2261,7 @@
     "downloadAsPidocoJSON": "Download as Pidoco gesture set",
     "downloadAsExchangeable": "Download as ProGesture file",
     "downloadAsCompressed": "Download as compressed file",
+    "downloadAsCSV": "Download",
     "simulatorGestureSet": "Start simulation",
     "simulateGesture": "Execute gesture",
     "simulateGestureFree": "Freehand",
@@ -2535,7 +2536,8 @@
             "editPhasestep": "Edit execution guide step",
             "readAloudText": "Read text to the subject",
             "readAloudScenario": "Read the scenario",
-            "readAloudTask": "Read the task"
+            "readAloudTask": "Read the task",
+            "downloadAsCSV":"Download als CSV file"
         },
         "studyCreate": {
             "title": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Es können mehrere Studien mit dem gleichen Titel angelegt werden, z.B. einmal für eine <em>Ermittlung</em> und einmal für eine <em>Evaluierung</em>.",
@@ -2661,10 +2663,10 @@
             "trigger": "Zu welcher Interaktionsaufgabe soll die Geste zugewiesen werden?"
         }, 
         "execution": {
-            "valuesNotInverted": "Geste nicht invertiert",
-            "valuesInverted": "Geste invertiert",
-            "participantPretest": "Diese Befragung ist ein Pretest",
-            "bypassFirewall": "Kommt es während des Verbindungsaufbaus zu Problemen, liegt dies ggf. an einer aktiven Firewall."
+            "valuesNotInverted": "Gesture not inverted",
+            "valuesInverted": "Gesture inverted",
+            "participantPretest": "This survey is a pretest",
+            "bypassFirewall": "If problems arise during connection setup, this may be due to an active firewall."
         }
     },
     "gestureStyleguides": {
@@ -2832,31 +2834,31 @@
     ],
     "susAcceptabilityRange": {
         "inacceptable": {
-            "title": "Inakzeptabel",
+            "title": "Inacceptable",
             "score": "50"
         },
         "marginalLow": {
-            "title": "Akzeptabel (marginal niedrig)",
-            "titleShort": "Niedrig",
+            "title": "Acceptable (marginal low)",
+            "titleShort": "Low",
             "score": "62.5"
         },
         "marginalHigh": {
-            "title": "Akzeptabel (marginal hoch)",
-            "titleShort": "Hoch",
+            "title": "Acceptable (marginal high)",
+            "titleShort": "High",
             "score": "70"
         },
         "acceptable": {
-            "title": "Akzeptabel",
+            "title": "Acceptable",
             "score": "100"
         }
     },
-    "objectiveExtractionChecklistQuestion": "Ist die Geste aufgrund der beantworteten Fragen für ein Gesten-Set geeignet?",
-    "objectiveCognitiveRelationshipQuestion": "Ist die Geste aufgrund der Assoziationen für ein Gesten-Set geeignet?",
+    "objectiveExtractionChecklistQuestion": "Is the gesture suitable for a gesture set based on the questions answered?",
+    "objectiveCognitiveRelationshipQuestion": "Is the gesture suitable for a gesture set because of the associations?",
     "extractionChecklistItems": [
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "any",
-            "question": "Könnte die Geste dem Nutzer peinlich sein?",
+            "question": "Could the gesture be embarrassing for the user?",
             "parameters": {
                 "used": "used",
                 "justification": "yes",
@@ -2866,7 +2868,7 @@
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "any",
-            "question": "Könnte die Geste dem Nutzer unangenehm sein?",
+            "question": "Could the gesture be uncomfortable for the user?",
             "parameters": {
                 "used": "used",
                 "justification": "yes",
@@ -3270,27 +3272,27 @@
     "ueqDimensions": {
         "attractiveness": {
             "title": "Attractiveness",
-            "popover": "Gesamteindruck des Produkts. Mögen die Nutzer das Produkt?"
+            "popover": "Overall impression of the product. Do users like or dislike the product?"
         },
         "efficiency": {
             "title": "Efficiency",
-            "popover": "Können Benutzer ihre Aufgaben ohne unnötigen Aufwand lösen?"
+            "popover": "Can users solve their tasks without unnecessary effort?"
         },
         "perspicuity": {
             "title": "Perspicuity",
-            "popover": "Ist es einfach, sich mit dem Produkt vertraut zu machen? Ist die Nutzung leicht zu erlernen?"
+            "popover": "Is it easy to get familiar with the product? Is it easy to learn how to use the product?"
         },
         "dependability": {
             "title": "Dependability",
-            "popover": "Hat der Benutzer die Kontrolle über die Interaktion?"
+            "popover": "Does the user feel in control of the interaction?"
         },
         "stimulation": {
             "title": "Stimulation",
-            "popover": "Ist es aufregend und motivierend, das Produkt zu verwenden?"
+            "popover": "Is it exciting and motivating to use the product?"
         },
         "novelty": {
             "title": "Novelty",
-            "popover": "Ist das Produkt innovativ und kreativ? Beeinflusst das Produkt das Interesse der Nutzer?"
+            "popover": "Is the product innovative and creative? Does the product catch the interest of users?"
         }
     },
     "ueqItems": [
@@ -3689,7 +3691,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "any",
-            "question": "Welche Geste(n) finden Sie für die Funktion {fn} am Besten geeignet?",
+            "question": "Which gesture(s) do you find most suitable for the {fn} task?",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -4999,580 +5001,580 @@
         "generalError": {
             "id": "general-error",
             "type": "danger",
-            "text": "Es ist ein unbekannter Fehler aufgetreten!"
+            "text": "An unknown error has occurred!"
         },
         "missingFields": {
             "id": "missing-fields",
             "type": "warning",
-            "text": "Bitte alle Felder ausfüllen!"
+            "text": "Please fill in all fields!"
         },
         "missingEmail": {
             "id": "missing-email",
             "type": "warning",
-            "text": "Bitte geben Sie eine E-Mail-Adresse an!"
+            "text": "Please enter an e-mail address!"
         },
         "missingName": {
             "id": "missing-name",
             "type": "warning",
-            "text": "Bitte geben Sie einen Namen an!"
+            "text": "Please enter a name!"
         },
         "insertName": {
             "id": "insert-name",
             "type": "warning",
-            "text": "Bitte geben Sie einen Namen an! Dieser Name wird nur für die Kontaktaufnahme mit dem Moderator benötigt und nicht gespeichert."
+            "text": "Please enter a name! This name is only needed to contact the moderator and is not saved."
         },
         "checkEmail": {
             "id": "check-email",
             "type": "warning",
-            "text": "Bitte überprüfen Sie die eingegebene E-Mail-Adresse!"
+            "text": "Please check the entered e-mail address!"
         },
         "passwordResetSend": {
             "id": "password-reset-send",
             "type": "success",
-            "text": "Es wurde eine E-Mail an Ihre eingegebene E-Mail-Adresse mit einem Passwort-Reset gesendet. Überprüfen Sie auch Ihr Spam-Postfach."
+            "text": "An e-mail was sent to your entered e-mail address with a password reset. Also check your spam mailbox."
         },
         "passwordResetSuccess": {
             "id": "password-reset-success",
             "type": "success",
-            "text": "Das neue Passwort wurde erfolgreich gespeichert. Sie können sich nun einloggen."
+            "text": "The new password has been saved successfully. You can now log in."
         },
         "contactSuccess": {
             "id": "contact-success",
             "type": "success",
-            "text": "Ihre Anfrage ist bei uns eingegangen. Wir kümmern uns umgehend um die Bearbeitung."
+            "text": "Your request has been received by us. We take care of the processing immediately."
         },
         "resetPasswordError": {
             "id": "reset-password-error",
             "type": "danger",
-            "text": "Es ist ein Fehler beim Passwort-Reset aufgetreten. Bitte überprüfen Sie ihre Eingaben."
+            "text": "An error has occurred during the password reset. Please check your entries."
         },
         "loginFailed": {
             "id": "login-failed",
             "type": "warning",
-            "text": "Einloggen fehlgeschlagen. Bitte versuche es erneut!"
+            "text": "Login failed. Please try again!"
         },
         "accountLogged": {
             "id": "account-logged",
             "type": "danger",
-            "text": "Du hast zu oft versucht dich einzuloggen! Dein Account ist deshalb die nächsten 2 Stunden gesperrt!"
+            "text": "You tried too many times to log in! Your account is therefore locked for the next 2 hours!"
         },
         "invalidEmail": {
             "id": "invalid-email",
             "type": "warning",
-            "text": "E-Mail-Adresse entspricht nicht dem Standard!"
+            "text": "E-mail address does not match the standard!"
         },
         "wrongPassword": {
             "id": "wrong-password",
             "type": "warning",
-            "text": "Das eingegebene Passwort ist falsch!"
+            "text": "The entered password is wrong!"
         },
         "passwordShort": {
             "id": "password-short",
             "type": "warning",
-            "text": "Das eingegebene Passwort muss mindestens 6 Zeichen haben!"
+            "text": "The entered password must have at least 6 characters!"
         },
         "passwordInvalid": {
             "id": "password-invalid",
             "type": "warning",
-            "text": "Das eingegebene Passwort muss mindestens eine Zahl, einen großen und einen kleinen Buchstaben enthalten!"
+            "text": "The entered password must contain at least a number, a large and a small letter!"
         },
         "passwordsNotMatching": {
             "id": "passwords-not-matching",
             "type": "warning",
-            "text": "Die Passwörter stimmen nicht überein."
+            "text": "The passwords do not match."
         },
         "invalidBirthday": {
             "id": "invalid-birthday",
             "type": "warning",
-            "text": "Das eingegebene Datum entspricht nicht dem gewünschten Format."
+            "text": "The entered date does not correspond to the desired format."
         },
         "userExists": {
             "id": "user-exists",
             "type": "warning",
-            "text": "Der Nutzer mit der eingegebenen E-Mail existiert bereits."
+            "text": "The user with the entered e-mail already exists."
         },
         "noUserExists": {
             "id": "no-user-exists",
             "type": "warning",
-            "text": "Der Nutzer mit der eingegebenen E-Mail existiert nicht."
+            "text": "The user with the entered email does not exist."
         },
         "registerSuccess": {
             "id": "register-success",
             "type": "success",
-            "text": "Die Registrierung war erfolgreich! Sie können sich nun einloggen."
+            "text": "The registration was successful! You can now log in."
         },
         "wrongCurrentPassword": {
             "id": "wrong-current-password",
             "type": "warning",
-            "text": "Das eingegebene aktuelle Passwort ist falsch."
+            "text": "The entered current password is wrong."
         },
         "noGesturesAssembled": {
             "id": "no-gestures-assembled",
             "type": "danger",
-            "text": "Bitte zuerst ein Gestenset für diese Studie zusammenstellen!"
+            "text": "Please put together a gesture set for this study first!"
         },
         "noStudyGesturesAssembled": {
             "id": "no-study-gestures-assembled",
             "type": "warning",
-            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt. Die Quellen für ein Studien-Gesten-Set können der Gesten-Katalog, die Gesten-Sets oder neu aufgezeichnete Gesten sein. Wählen Sie zunächst eine dieser drei Quellen aus und fügen Sie mit einem Klick auf den Button <i class='fa fa-plus-square'></i> eine Geste zum Studien-Gesten-Set hinzu. Das Entfernen ist mit einem Klick auf den Button <i class='fa fa-minus-square'></i> möglich."
+            "text": "No study gesture set has been arranged yet. The sources for a study gesture set may be the gesture catalog, the gesture sets, or newly recorded gestures. First select one of these three sources and add a gesture to the study gesture set by clicking on the button <i class='fa fa-plus-square'></i>. The removal is possible by clicking on the button <i class='fa fa-minus-square'></i>."
         },
         "noStudyGesturesAssembledLink": {
             "id": "no-study-gestures-assembled-link",
             "type": "danger",
-            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt! <a href='#' class='alert-link' id='btn-assemble-study-gesture-set'>Jetzt zusammenstellen</a>"
+            "text": "No study gesture set has been arranged! <a href='#' class='alert-link' id='btn-assemble-study-gesture-set'>Arrange Now</a>"
         },
         "noStudyGesturesAssembledLinkWarning": {
             "id": "no-study-gestures-assembled-link-warning",
             "type": "warning",
-            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt! <a href='#' class='alert-link' id='btn-assemble-study-gesture-set'>Jetzt zusammenstellen</a>"
+            "text": "No study gesture set has been arranged! <a href='#' class='alert-link' id='btn-assemble-study-gesture-set'>Arrange Now</a>"
         },
         "assembledGestureRemoved": {
             "id": "assembled-gesture-removed",
             "type": "warning",
-            "text": "Die verknüpfte Geste aus dem Gestenset ist nicht mehr verfügbar."
+            "text": "The linked gesture from the gesture set is no longer available."
         },
         "noTriggerAssembled": {
             "id": "no-trigger-assembled",
             "type": "danger",
-            "text": "Bitte zuerst ein Interaktionsaufgaben-Set für diese Studie erstellen!"
+            "text": "Please create an interaction task set for this study first!"
         },
         "noTriggerAssembledLink": {
             "id": "no-trigger-assembled-link",
             "type": "danger",
-            "text": "Bitte zuerst ein Interaktionsaufgaben-Set für diese Studie erstellen! <a href='#' class='alert-link' id='btn-assemble-trigger'>Jetzt zusammenstellen</a>"
+            "text": "Please create an interaction task set for this study first! <a href='#' class='alert-link' id='btn-assemble-trigger'>Arrange Now</a>"
         },
         "noTriggerAssembledLinkWarning": {
             "id": "no-trigger-assembled-link-warning",
             "type": "warning",
-            "text": "Es wurden noch keine Interaktionsaufgaben für diese Studie hinterlegt! <a href='#' class='alert-link' id='btn-assemble-trigger'>Jetzt zusammenstellen</a>"
+            "text": "There are no interaction tasks for this study! <a href='#' class='alert-link' id='btn-assemble-trigger'>Arrange Now</a>"
         },
         "assembledTriggerRemoved": {
             "id": "assembled-trigger-removed",
             "type": "warning",
-            "text": "Die verknüpfte Interaktionsaufgabe ist nicht mehr verfügbar!"
+            "text": "The linked interaction task is no longer available!"
         },
         "assembledTaskRemoved": {
             "id": "assembled-task-removed",
             "type": "warning",
-            "text": "Die verknüpfte Aufgabe ist nicht mehr verfügbar! Überprüfen Sie die hinterlegten Aufgaben."
+            "text": "The linked task is no longer available! Check the stored tasks."
         },
         "noFeedbackAssembled": {
             "id": "no-feedback-assembled",
             "type": "danger",
-            "text": "Bitte zuerst Systemrückmeldungen für diese Studie zusammenstellen!"
+            "text": "Please first arrange system feedback for this study!"
         },
         "noFeedbackAssembledLink": {
             "id": "no-feedback-assembled-link",
             "type": "danger",
-            "text": "Bitte zuerst Systemrückmeldungen für diese Studie zusammenstellen! <a href='#' class='alert-link' id='btn-assemble-feedback'>Jetzt zusammenstellen</a>"
+            "text": "Please first arrange system feedback for this study! <a href='#' class='alert-link' id='btn-assemble-feedback'>Arrange Now</a>"
         },
         "noFeedbackAssembledLinkWarning": {
             "id": "no-feedback-assembled-link-warning",
             "type": "warning",
-            "text": "Es wurden noch keine Systemrückmeldungen für diese Studie hinterlegt! <a href='#' class='alert-link' id='btn-assemble-feedback'>Jetzt zusammenstellen</a>"
+            "text": "There are no system feedbacks for this study! <a href='#' class='alert-link' id='btn-assemble-feedback'>Arrange Now</a>"
         },
         "assembledFeedbackRemoved": {
             "id": "assembled-feedback-removed",
             "type": "warning",
-            "text": "Die verknüpfte Systemrückmeldung ist nicht mehr verfügbar!"
+            "text": "The linked system feedback is no longer available!"
         },
         "noTitle": {
             "id": "no-title",
             "type": "danger",
-            "text": "Bitte einen Titel angeben!"
+            "text": "Please enter a title!"
         },
         "noScenesAssembled": {
             "id": "no-scenes-assembled",
             "type": "danger",
-            "text": "Bitte zuerst User Interfaces für diese Studie zusammenstellen!"
+            "text": "Please first arrange user interfaces for this study!"
         },
         "noScenesAssembledLink": {
             "id": "no-scenes-assembled-link",
             "type": "danger",
-            "text": "Bitte zuerst User Interfaces für diese Studie zusammenstellen! <a href='#' class='alert-link' id='btn-assemble-scenes'>Jetzt zusammenstellen</a>"
+            "text": "Please first arrange user interfaces for this study! <a href='#' class='alert-link' id='btn-assemble-scenes'>Arrange Now</a>"
         },
         "noScenesAssembledLinkWarning": {
             "id": "no-scenes-assembled-link-warning",
             "type": "warning",
-            "text": "Es wurden noch keine User Interfaces für diese Studie hinterlegt! <a href='#' class='alert-link' id='btn-assemble-scenes'>Jetzt zusammenstellen</a>"
+            "text": "There are no user interfaces for this study! <a href='#' class='alert-link' id='btn-assemble-scenes'>Arrange Now</a>"
         },
         "assembledSceneRemoved": {
             "id": "assembled-scene-removed",
             "type": "warning",
-            "text": "Die verknüpfte Szene ist nicht mehr verfügbar!"
+            "text": "The linked UI is no longer available!"
         },
         "pidocoEmbedUrlInvalid": {
             "id": "pidoco-embed-url-invalid",
             "type": "warning",
-            "text": "Die eingegebene Simluations-URL wird nicht unterstützt oder scheint nicht korrekt zu sein."
+            "text": "The entered simulation URL is not supported or does not seem to be correct."
         },
         "pidocoEditUrlInvalid": {
             "id": "pidoco-edit-url-invalid",
             "type": "warning",
-            "text": "Die eingegebene Bearbeitungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein."
+            "text": "The entered URL is not supported or does not seem to be correct."
         },
         "videoEmbedUrlInvalid": {
             "id": "video-embed-url-invalid",
             "type": "warning",
-            "text": "Die eingegebene Videoeinbettungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein."
+            "text": "The entered video embed URL is not supported or does not seem to be correct."
         },
         "imageToLarge": {
             "id": "image-to-large",
             "type": "warning",
-            "text": "Das Bild ist zu groß. Es darf eine Dateigröße von 8MB nicht überschreiten!"
+            "text": "The image is too large. It may not exceed a file size of 8MB!"
         },
         "soundToLarge": {
             "id": "sound-to-large",
             "type": "warning",
-            "text": "Die Sounddatei ist zu groß. Es darf eine Dateigröße von 8MB nicht überschreiten!"
+            "text": "The sound file is too large. It may not exceed a file size of 8MB!"
         },
         "noSearchResults": {
             "id": "no-search-results",
             "type": "warning",
-            "text": "Keine Treffer gefunden."
+            "text": "No match found."
         },
         "noPhaseData": {
             "id": "no-phase-data",
             "type": "warning",
-            "text": "Es sind keine Daten hinterlegt."
+            "text": "There is no data stored."
         },
         "quitScreensharing": {
             "id": "quit-screen-sharing",
             "type": "warning",
-            "text": "Beenden Sie das Screensharing mit einem Klick auf <button class='btn-xs btn-success'><i class='fa fa-check'></i> Screensharing beenden</button>."
+            "text": "Quit screen sharing with a click on <button class='btn-xs btn-success'><i class = 'fa fa-check'></i>End screen sharing</button>."
         },
         "phaseStepDone": {
             "id": "phase-step-done",
             "type": "warning",
-            "text": "Für diesen Leitfadenschritt sind keine weiteren Daten hinterlegt. Falls Sie Beobachtungsfragen angelegt haben, können Sie diese noch beantworten. Sie gelangen mit einem Klick auf <button class='btn-xs btn-success'><i class='fa fa-check'></i> Fertig</button> zum nächsten Leitfadenschritt."
+            "text": "For this guideline step, no further data are stored. If you have created observation questions, you can still answer them. Click <button class='btn-xs btn-success'><i class='fa fa-check'></i>Done</button> to go to the next step in the guide."
         },
         "generalError": {
             "id": "general-error",
             "type": "warning",
-            "text": "Es ist ein unbekannter Fehler aufgetreten!"
+            "text": "An unknown error has occurred!"
         },
         "waitingForTrainingGesture": {
             "id": "waiting-for-training-gesture",
             "type": "warning",
-            "text": "Bitte warten …"
+            "text": "Please wait …"
         },
         "waitingForSlideshow": {
             "id": "waiting-for-slideshow",
             "type": "danger",
-            "text": "Bitte warten …"
+            "text": "Please wait …"
         },
         "waitingForIdentification": {
             "id": "waiting-for-identification",
             "type": "warning",
-            "text": "Bitte warten …"
+            "text": "Please wait …"
         },
         "waitingForScenarioStart": {
             "id": "waiting-for-scenario-start",
             "type": "danger",
-            "text": "Bitte warten …"
+            "text": "Please wait …"
         },
         "webRTCNotSupported": {
             "id": "web-rtc-not-supported",
             "type": "danger",
-            "text": "Bitte verwenden Sie die aktuelle Version von Google Chrome für dieses Feature! Dieser Browser unterstützt kein WebRTC."
+            "text": "Please use the latest version of Google Chrome for this feature! This browser does not support WebRTC."
         },
         "anotherBrowserNeededForWebRTC": {
             "id": "another-browser-needed-for-web-rtc",
             "type": "warning",
-            "text": "Ihr Browser oder die aktuelle Version Ihres Browsers unterstützt kein WebRTC. Bitte verwenden Sie die aktuelle Version von Google Chrome für dieses Feature!"
+            "text": "Your browser or the current version of your browser does not support WebRTC. Please use the latest version of Google Chrome for this feature!"
         },
         "noStorageAPI": {
             "id": "no-storage-api",
             "type": "danger",
-            "text": "Dieser Browser unterstützt nicht die Session Storage API. Bitte verwenden Sie für dieses Feature z.B. die aktuelle Version von Google Chrome!"
+            "text": "This browser does not support the Session Storage API. Please use for this feature e.g. the current version of Google Chrome!"
         },
         "gestureTooShort": {
             "id": "gesture-too-short",
             "type": "danger",
-            "text": "Die Geste ist zu kurz!"
+            "text": "The gesture is too short!"
         },
         "gestureSaveSuccess": {
             "id": "gesture-save-success",
             "type": "success",
-            "text": "Die Geste wurde erfolgreich gespeichert."
+            "text": "The gesture was saved successfully."
         },
         "gestureDeleteSuccess": {
             "id": "gesture-delete-success",
             "type": "success",
-            "text": "Die Geste wurde erfolgreich gelöscht."
+            "text": "The gesture was deleted successfully."
         },
         "noGestures": {
             "id": "no-gestures",
             "type": "warning",
-            "text": "Es sind noch keine Gesten verfügbar."
+            "text": "There are no gestures available yet."
         },
         "noStudies": {
             "id": "no-studies",
             "type": "warning",
-            "text": "Es wurden keine Studien gefunden."
+            "text": "No studies were found."
         },
         "studyUnmoderated": {
             "id": "study-unmoderated",
             "type": "warning",
-            "text1": "Die Durchführung erfolgt",
-            "text2": "unmoderiert",
-            "text3": "Sie können als Moderator nicht teilnehmen.",
-            "text4": "Studien-Details anzeigen"
+            "text1": "The study is",
+            "text2": "unmoderated",
+            "text3": "You can not attend as a moderator.",
+            "text4": "Show study details"
         },
         "ratingSubmitted": {
             "id": "rating-submitted",
             "type": "success",
-            "text": "Bewertung wurde erfolgreich gespeichert."
+            "text": "Rating was saved successfully."
         },
         "noComments": {
             "id": "no-comments",
             "type": "warning",
-            "text": "Für diese Geste sind noch keine Kommentare abgegeben worden."
+            "text": "No comments have been made for this gesture yet."
         },
         "contactSupport": {
             "id": "contact-support",
             "type": "danger",
-            "text": "Es scheint ein Problem zu geben, bitte kontaktieren Sie den"
+            "text": "There seems to be a problem, please contact the GestureNote team."
         },
         "susInvalid": {
             "id": "sus-invalid",
             "type": "danger",
-            "text": "Es wurden nicht alle Items des SUS beantwortet. Der Scorewert kann deshalb nicht berechnet werden."
+            "text": "Not all items of the SUS were answered. The score can therefore not be calculated."
         },
         "webmUnsupported": {
             "id": "webm-unsupported",
             "type": "warning",
-            "text": "Das Videoformat WebM wird von dem aktuellen Browser nicht unterstützt. Bitte nutzen Sie einen Browser wie Google Chrome oder Mozilla Firefox."
+            "text": "The video format WebM is not supported by the current browser. Please use a browser like Google Chrome or Mozilla Firefox."
         },
         "noRecord": {
             "id": "no-record",
             "type": "warning",
-            "text": "Es steht keine Aufzeichnung zur Verfügung."
+            "text": "There is no record available."
         },
         "recordUrlInvalid": {
             "id": "record-url-invalid",
             "type": "danger",
-            "text": "Die Videodatei steht nicht mehr zur Verfügung."
+            "text": "The video file is no longer available."
         },
         "waitingForModerator": {
             "id": "waiting-for-moderator",
             "type": "warning",
-            "text": "Bitte haben Sie etwas Geduld. Auf Moderator warten …"
+            "text": "Please have a little patience. Waiting for moderator ..."
         },
         "waitingForTester": {
             "id": "waiting-for-tester",
             "type": "warning",
-            "text": "Auf Proband warten …"
+            "text": "Waiting for participants ..."
         },
         "noParticipationRequests": {
             "id": "no-participation-requests",
             "type": "warning",
-            "text": "Kein(e) Probanden mit Befragungs-Anfrage gefunden."
+            "text": "No participant(s) found with survey request."
         },
         "searchParticipationRequests": {
             "id": "search-participation-requests",
             "type": "warning",
-            "text": "Suche nach Probanden mit Befragungs-Anfrage …"
+            "text": "Search for participants with survey request ..."
         },
         "studyOverRange": {
             "id": "study-over-range",
             "type": "warning",
-            "text": "Studienteilnahme nicht möglich. Studie ist beendet."
+            "text": "Study participation not possible. Study is over."
         },
         "studyUnderRange": {
             "id": "study-under-range",
             "type": "warning",
-            "text": "Studienteilnahme nicht möglich. Studie noch nicht gestartet."
+            "text": "Study participation not possible. Study not started yet."
         },
         "duplicatedRoleDetected": {
             "id": "duplicated-role-detected",
             "type": "warning",
-            "text": "Pro Konversation darf nur jeweils eine Rolle eingenommen werden. Diese Rolle gibt es schon. Wählen Sie eine andere aus."
+            "text": "Only one role may be taken per conversation. This role already exists. Choose another one."
         },
         "pleaseWait": {
             "id": "please-wait",
             "type": "warning",
-            "text": "Bitte warten …"
+            "text": "Please wait …"
         },
         "generalPleaseWait": {
             "id": "general-please-wait",
             "type": "warning",
-            "text": "Bitte warten …"
+            "text": "Please wait …"
         },
         "noRecordedGestures": {
             "id": "no-recorded-gestures",
             "type": "warning",
-            "text": "Es wurden noch keine Gesten vom Probanden aufgezeichnet. Bitte warten …"
+            "text": "No gestures have been recorded by the subject yet. Please wait …"
         },
         "noGesturesClassified": {
             "id": "no-gestures-classified",
             "type": "warning",
-            "text": "Es wurden noch keine Gesten klassifiziert."
+            "text": "No gestures have been classified yet."
         },
         "noTriggerClassified": {
             "id": "no-trigger-classified",
             "type": "warning",
-            "text": "Es wurden noch keine Interaktionsaufgaben klassifiziert."
+            "text": "No interaction tasks have been classified yet."
         },
         "noMoreGesturesForClassification": {
             "id": "no-more-gestures-for-classification",
             "type": "warning",
-            "text": "Es stehen keine Gesten für eine Klassifizierung zur Verfügung."
+            "text": "There are no gestures available for classification."
         },
         "noMoreTriggerForClassification": {
             "id": "no-more-trigger-for-classification",
             "type": "warning",
-            "text": "Es stehen keine Interaktionsaufgaben für eine Klassifizierung zur Verfügung."
+            "text": "There are no interaction tasks available for classification."
         },
         "noPlan": {
             "id": "no-plan",
             "type": "warning",
-            "text": "Es wurde kein Zeitplan hinterlegt."
+            "text": "There was no schedule."
         },
         "planExpired": {
             "id": "plan-expired",
             "type": "warning",
-            "text": "Der Zeitplan ist abgelaufen. Es ist keine Befragung mehr möglich. Um weitere Befragungen durchzuführen, bearbeiten Sie diese Studie."
+            "text": "The schedule has expired. It is no longer possible to interview. To conduct further interviews, edit this study."
         },
         "planNotStarted": {
             "id": "plan-not-started",
             "type": "warning",
-            "text": "Eine Befragung kann noch nicht durchgeführt werden, da der Zeitplan noch nicht gestartet ist. Um Befragungen durchzuführen, bearbeiten Sie diese Studie."
+            "text": "A questionnaire can not yet be completed because the schedule has not yet started. To conduct interviews, edit this study."
         },
         "noParticipantData": {
             "id": "no-participant-data",
             "type": "warning",
-            "text": "Es wurden noch keine Befragungen durchgeführt."
+            "text": "No interviews have been conducted yet."
         },
         "noGestureSetsForStudy": {
             "id": "no-gesture-sets-for-study-text",
             "type": "warning",
-            "text": "Es wurden noch keine eigenen Gesten-Sets angelegt."
+            "text": "No own gesture sets have been created yet."
         },
         "gestureSetTitleTooShort": {
             "id": "gesture-set-title-too-short",
             "type": "warning",
-            "text": "Der Name eines Gesten-Sets muss mindestens 8 Zeichen lang sein."
+            "text": "The name of a gesture set must be at least 8 characters long."
         },
         "emptyGestureSet": {
             "id": "empty-gesture-set",
             "type": "warning",
-            "text": "Das Gesten-Set ist leer."
+            "text": "The gesture set is empty."
         },
         "noDataAvailable": {
             "id": "no-data-available",
             "type": "warning",
-            "text": "Es sind keine Daten verfügbar."
+            "text": "There is no data available."
         },
         "noDataQuestionnaire": {
             "id": "no-data-questionnaire",
             "type": "warning",
-            "text": "Noch kein Fragebogen erstellt. Einzelne Frage mit Klick auf entsprechendes Format hinzufügen."
+            "text": "No questionnaire yet. Add a single question by clicking on the appropriate format."
         },
         "noDataGUS": {
             "id": "no-data-gus",
             "type": "warning",
-            "text": "Um einen GUS zu erstellen, wählen Sie den gewünschten Aspekt aus (z.B. <em>Soziale Akzeptanz</em>). Sie können anschließend die vordefinierten Fragen anpassen. Falls einmal eine Frage nicht für die Befragung übernommen werden soll, klicken Sie auf das Symbol <i class='fa fa-star'></i>. Die Einstellungen werden für diese Frage ausgeblendet und das Element zusätzlich ausgegraut."
+            "text": "To create a GUS, select the desired aspect (for example, <em>Social Acceptance</em>). You can then adjust the predefined questions. If a question should not be accepted for the survey, click on the symbol <i class='fa fa-star'></i>. The settings will be hidden for this question and the element will also be grayed out."
         },
         "noDataGUSQuestionnaire": {
             "id": "no-data-gus-questionnaire",
             "type": "warning",
-            "text": "Um einen GUS zu erstellen, wählen Sie den gewünschten Aspekt aus (z.B. <em>Soziale Akzeptanz</em>). Sie können anschließend die vordefinierten Fragen anpassen. Falls einmal eine Frage nicht für die Befragung übernommen werden soll, klicken Sie auf das Symbol <i class='fa fa-star'></i>. Die Einstellungen werden für diese Frage ausgeblendet und das Element zusätzlich ausgegraut."
+            "text": "To create a GUS, select the desired aspect (for example, <em>Social Acceptance</em>). You can then adjust the predefined questions. If a question should not be accepted for the survey, click on the symbol <i class='fa fa-star'></i>. The settings will be hidden for this question and the element will also be grayed out."
         },
         "noDataUEQQuestionnaire": {
             "id": "no-data-ueq-questionnaire",
             "type": "warning",
-            "text": "Um einen UEQ zu erstellen, wählen Sie den gewünschten Aspekt aus (z.B. <em>Soziale Akzeptanz</em>). Sie können anschließend die vordefinierten Fragen anpassen. Falls einmal eine Frage nicht für die Befragung übernommen werden soll, klicken Sie auf das Symbol <i class='fa fa-star'></i>. Die Einstellungen werden für diese Frage ausgeblendet und das Element zusätzlich ausgegraut."
+            "text": "To create a UEQ, select the desired aspect (z.B. <em>Stimulation</em>). If you do not want to apply a question to the questionnaire, click on the symbol <i class='fa fa-star'></i>. The settings will be hidden for this question and the element will also be grayed out."
         },
         "notAssignedToGestureSet": {
             "id": "not-assigned-to-gesture-set",
             "type": "warning",
-            "text": "Nicht zu einem Gesten-Set zugeordnet."
+            "text": "Not assigned to a gesture set."
         },
         "setMissingGestures": {
             "id": "set-missing-gestures",
             "type": "warning",
-            "text": "Es wurden Gesten gelöscht, die diesem Set zugewiesen wurden."
+            "text": "Gestures that have been assigned to this set have been deleted."
         },
         "previewDummy": {
             "id": "preview-dummy",
             "type": "warning",
-            "text": "Es handelt sich hierbei um eine Dummy-Vorschau. Der Workflow entspricht dem gleichen wie bei der Aufzeichnung von Gesten (z.B. im Gesten-Katalog), mit dem Unterschied, dass die Gesten hier beim Proband aufgezeichnet und dann zum Moderator übertragen werden. Sie müssen die Geste schneiden und danach die Eigenschaften der Geste im Formular angeben. Werden zusätzlich Sensor-Daten aufgezeichnet, können diese ebenfalls geschnitten werden."
+            "text": "This is a dummy preview. The workflow is the same as with the recording of gestures (for example, in the gesture catalog), with the difference that the gestures are recorded here on the subject and then transmitted to the moderator. You must cut the gesture and then specify the properties of the gesture in the form. If additional sensor data are recorded, these can also be cut."
         },
         "noMoreTasks": {
             "id": "no-more-tasks",
             "type": "warning",
-            "text": "Für diesen Benutzertest gibt es keine weiteren Aufgaben. Beenden Sie bitte das Screen-Sharing. Falls vorhanden, können sie danach noch letzte Eingaben in ihrem Beobachtungsbogen tätigen."
+            "text": "There are no other tasks for this user test. Please finish the screen sharing. If available, they can then make final entries in their observation sheet."
         },
         "noAnnotations": {
             "id": "no-annotations",
             "type": "warning",
-            "text": "Es sind keine Annotationen vorhanden."
+            "text": "There are no annotations."
         },
         "noUsersInvited": {
             "id": "no-users-invited",
             "type": "warning",
-            "text": "Diese Studie wurde noch nicht für andere Interaktionsdesigner freigegeben."
+            "text": "This study has not been shared with other interaction designers yet."
         },
         "userAlreadyInvited": {
             "id": "user-already-invited",
             "type": "warning",
-            "text": "Interaktionsdesigner mit dieser E-Mail-Adress wurde bereits eingeladen."
+            "text": "Interaction Designer with this email address has already been invited."
         },
         "inviteYourself": {
             "id": "invite-yourself",
             "type": "warning",
-            "text": "Sie können sich nicht selbst einladen."
+            "text": "You can not invite yourself."
         },
         "noExchangeableFileSelected": {
             "id": "no-exchangeable-file-selected",
             "type": "warning",
-            "text": "Keine ZIP-Datei ausgewählt."
+            "text": "No ZIP file selected."
         },
         "exchangeableGesturesImportedSuccess": {
             "id": "exchangeable-gestures-imported-success",
             "type": "success",
-            "text": "Gesten erfolgreich in den Gesten-Katalog von GestureNote importiert."
+            "text": "Gestures successfully imported into the gesture catalog of GestureNote."
         },
         "gestureSetNotShared": {
             "id": "gesture-set-not-shared",
             "type": "success",
-            "text": "Gesten-Set nicht per E-Mail freigegeben."
+            "text": "Gesture set not shared by e-mail."
         },
         "shareGestureSetToYourself": {
             "id": "share-gesture-set-to-yourself",
             "type": "success",
-            "text": "Sie können sich das Gesten-Set nicht selbst freigeben."
+            "text": "You can not invite yourself."
         },
         "gestureNotShared": {
             "id": "gesture-not-shared",
             "type": "success",
-            "text": "Geste nicht per E-Mail freigegeben."
+            "text": "Gesture not shared by email."
         },
         "shareGestureToYourself": {
             "id": "share-gesture-to-yourself",
             "type": "success",
-            "text": "Sie können sich die Geste nicht selbst freigeben."
+            "text": "You can not invite yourself."
         },
         "noGestureSetMappings": {
             "id": "no-gesture-set-mappings",
             "type": "warning",
-            "text": "Für dieses Gesten-Set sind keine Mappings vorhanden. Eine Simulation ist deshalb nicht möglich."
+            "text": "There are no mappings for this gesture set. A simulation is therefore not possible."
         },
         "scriptInputError": {
             "id": "script-input-error",
             "type": "danger",
-            "text": "Ausführbare Scripts sind für diese Eingabe nicht erlaubt."
+            "text": "Executable scripts are not allowed for this input."
         },
         "noGesturesTrimmed": {
             "id": "no-gestures-trimmed",
             "type": "warning",
-            "text": "Es wurden noch keine Gesten aus dem Video des Probanden geschnitten und gespeichert. Um Gesten aus dem Video zu schneiden, klicken Sie auf das Symbol <i class='fa fa-scissors'></i> im Vorschauvideo des Probanden. Dies ist notwendig, um die Gesten z.B. mit anderen Interaktionsdesignern zu teilen. Auch die Durchführung einer Gesten-Extraktion wird erst möglich, wenn Gesten vorliegen."
+            "text": "No gestures have been cut from the video of the participant and saved. To cut gestures from the video, click the <i class='fa fa-scissors'></i> icon in the participant's preview video. This is necessary, e.g. to share the gestures with other interaction designers. Also, the execution of a gesture extraction is only possible when gestures are present."
         },
         "dragAndDropHint": {
             "id": "drag-and-drop-hint",
             "type": "info",
-            "text": "Die Reihenfolge der Gesten lässt sich über <span styl='text-decoration=italic'>Drag & Drop</span> anpassen"
+            "text": "The order of the gestures can be adjusted via <span style='text-decoration=italic'>Drag & Drop</span>"
         }
     },
     "introductionGestureNoteGeneral": [
@@ -6187,11 +6189,11 @@
                     ]
         }
     ],
-    "news": "Aktuelles",
-    "moreNews": "Alle News abrufen",
+    "news": "News",
+    "moreNews": "Get all news",
     "allNews": [
         {
-            "title": "Evaluierungsphase gestartet",
+            "title": "Evaluation phase started",
             "date": "8/28/2018",
             "content": [
                 "<p>Während zweier Workshops konnten einige Probleme bei der Nutzung von GestureNote identifiziert werden. Diese sind bereits für die aktuelle Version von GestureNote behoben. Es wurden ebenfalls grundlegende Konzepte von den Teilnehmern hinterfragt und anschließend im Detail überarbeitet. Z.B. wurde die Methode für den physischen Belastungstest dahingehend erweitert, sodass jetzt nicht nur eine einzelne Geste, sondern eine Sequenz von Gesten vom Probanden abgefragt werden kann. Dies ist besonders für gemischte Gesten-Interaktionen wichtig.</p>",
@@ -6199,39 +6201,25 @@
             ]
         },
         {
-            "title": "Unterstützung für Leap Motion Controller",
+            "title": "Support for Leap Motion Controller",
             "date": "4/6/2018",
             "content": [
                 "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/gesture-catalog/carousel-03-03.jpg' style='max-width:345px; border-radius:8px' /><div class='image-caption'>Aufzeichnen einer Handgeste mit Leap Motion Controller.</div></div><p>GestureNote unterstützt den Leap Motion Controller. Dies beinhaltet das Aufzeichnen und Anzeigen von Gesten. Eine Erkennung z.B. von benutzerdefinierten Gesten während einer Evaluierung wird derzeit nicht unterstützt. Jedoch werden die 8 Standardgesten des Leap Motion Controllers in einer Evaluierung unterstützt. Fügen Sie die gewünschten Gesten aus dem Leap Motion Controller Gesten-Set zu ihrer Studie hinzu. Das Gesten-Set ist für alle Interaktionsdesigner freigegeben.</p>"
             ]
         },
         {
-            "title": "Testphase gestartet",
+            "title": "Test phase started",
             "date": "1/22/2018",
             "content": [
                 "<p>Die Testphase für GestureNote ist gestartet. Dabei werden alle Bereiche auf Funktionstüchtigkeit überprüft.</p>"
             ]
         },
         {
-            "title": "Erhöhung der Sicherheit bei Passwörtern",
+            "title": "Increased security for passwords",
             "date": "1/20/2018",
             "content": [
                 "<p>Aufgrund eines Problems beim Verschlüsseln von Passwörtern während des Anmeldevorgangs, müssen alle Passwörter zurückgesetzt werden.</p>",
                 "<p>Haben Sie bereits bei GestureNote einen Account eingerichtet? Setzen Sie einfach Ihr Passwort mit der Funktion <em>Passwort vergessen</em> auf der Startseite von GestureNote zurück.</p>"
-            ]
-        },
-        {
-            "title": "Frohes neues Jahr",
-            "date": "1/1/2018",
-            "content": [
-                "<p>GestureNote wünscht allen ein erfolgreiches Jahr 2018.</p>"
-            ]
-        },
-        {
-            "title": "Weihnachtsgrüße",
-            "date": "12/24/2017",
-            "content": [
-                "<p>GestureNote wünscht allen ein gesegnetes Weihnachtsfest und ruhige Feiertage.</p>"
             ]
         }
     ],
@@ -6239,20 +6227,20 @@
         "webcam": {
             "title": "Webcam",
             "titleShort": "Webcam",
-            "initialize": "Webcam initialisieren"
+            "initialize": "Initialize webcam"
         },
         "leap": {
             "title": "Leap Motion Controller",
             "titleShort": "Leap",
-            "initialize": "Leap Motion Controller initialisieren"
+            "initialize": "Initialize Leap Motion Controller"
         },
         "kinect": {
             "title": "Kinect",
             "titleShort": "Kinect",
-            "initialize": "Kinect initialisieren"
+            "initialize": "Initialize Kinect"
         }
     },
-    "waitForSensorData": "Auf Sensordaten warten",
+    "waitForSensorData": "Waiting for sensor data",
     "languages": {
         "de": {
             "countryCode": "de",
@@ -6269,30 +6257,30 @@
     },
     "mapping": "Mapping",
     "mappings": "Mappings",
-    "chooseMappings": "Mappings auswählen",
+    "chooseMappings": "Select mappings",
     "modalsimposition": {
-        "heading": "Simulation der Maus",
-        "close": "Schließen"
+        "heading": "Mouse simulation",
+        "close": "Close"
     },
-    "playSimulation": "Simulation abspielen",
-    "pauseSimulation": "Simulation pausieren",
-    "stepForwardSimulation": "Schritt vorwärts",
-    "stepBackwardSimulation": "Schritt zurück",
-    "stepBackwardGesture": "Vorherige Geste",
-    "stepForwardGesture": "Nächste Geste",
-    "chooseSimulationTimeout": "Zeitraum zwischen einzelnen Simulationsschritten wählen",
-    "standard": "Originalgeschwindigkeit",
-    "seconds1": "1 Sekunde",
-    "seconds15": "1,5 Sekunden",
-    "seconds2": "2 Sekunden",
-    "seconds25": "2,5 Sekunden",
-    "seconds3": "3 Sekunden",
-    "seconds35": "3,5 Sekunden",
-    "seconds4": "4 Sekunden",
-    "seconds45": "4,5 Sekunden",
-    "seconds5": "5 Sekunden",
+    "playSimulation": "Play simulation",
+    "pauseSimulation": "Pause simulation",
+    "stepForwardSimulation": "Next frame",
+    "stepBackwardSimulation": "Previous frame",
+    "stepBackwardGesture": "Previous gesture",
+    "stepForwardGesture": "Next gesture",
+    "chooseSimulationTimeout": "Select period between individual simulation steps",
+    "standard": "original speed",
+    "seconds1": "1 second",
+    "seconds15": "1,5 seconds",
+    "seconds2": "2 seconds",
+    "seconds25": "2,5 seconds",
+    "seconds3": "3 seconds",
+    "seconds35": "3,5 seconds",
+    "seconds4": "4 seconds",
+    "seconds45": "4,5 seconds",
+    "seconds5": "5 seconds",
     "relPosX": "X",
     "relPosY": "Y",
-    "mouseClicked": "Mausklick",
-    "gestureDemonstrated": "Geste ausgeführt"
+    "mouseClicked": "Mouse click",
+    "gestureDemonstrated": "Execute gesture"
 }

@@ -115,8 +115,8 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-quick-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-201px">
-            <div class="btn-group-vertical">
+        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-quick-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0;">
+            <div class="btn-group-vertical left-controls">
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-record-simulation disabled" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->recordSimulation ?> <i class="fa fa-dot-circle-o" style="margin-left: 15px"></i></button>
                 </div>
@@ -300,7 +300,7 @@ if (login_check($mysqli) == true) {
                             if (query.recordingId) {
                                 getSimulationRecording({recordingId: query.recordingId}, function (result) {
                                     if (result.status === RESULT_SUCCESS) {
-                                        setLocalItem(RECORDED_SIMULATION, {id: result.id, gestureSetId: result.gestureSetId, title: result.title, track: result.data.track, created: result.created, source:result.data.source || null});
+                                        setLocalItem(RECORDED_SIMULATION, {id: result.id, gestureSetId: result.gestureSetId, title: result.title, track: result.data.track, created: result.created, source: result.data.source || null});
                                         $('#main-tab-pane').find('#btn-player').removeClass('disabled');
                                         renderRecordedGestureSetSimulation();
                                     }
@@ -410,9 +410,6 @@ if (login_check($mysqli) == true) {
                     $(recordSimulationButton).removeClass('btn-primary');
                 }});
 
-            recordSimulationButtonTimeline.add("recordSimulation", 0)
-                    .to(recordSimulationButton, .3, {left: +200, ease: Quad.easeInOut}, "recordSimulation");
-
             $(recordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 recordSimulationButtonTimeline.play();
@@ -427,7 +424,7 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (!$(this).hasClass('hidden') && !$(this).hasClass('disabled')) {
                     $(this).addClass('hidden');
-                    $('#fixed-quick-controls').css({left: '-208px'});
+//                    $('#fixed-quick-controls').css({left: '-208px'});
                     $(stopRecordSimulationButton).removeClass('hidden');
                     $(pauseRecordSimulationButton).removeClass('hidden');
                     currentSimulationState = STATE_SIMULATOR_RECORD;
@@ -447,9 +444,6 @@ if (login_check($mysqli) == true) {
                     $(stopRecordSimulationButton).removeClass('btn-primary');
                 }});
 
-            stopRecordSimulationButtonTimeline.add("stopRecordSimulation", 0)
-                    .to(stopRecordSimulationButton, .3, {left: +192, ease: Quad.easeInOut}, "stopRecordSimulation");
-
             $(stopRecordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 stopRecordSimulationButtonTimeline.play();
@@ -464,7 +458,7 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (!$(this).hasClass('hidden')) {
                     $(this).addClass('hidden');
-                    $('#fixed-quick-controls').css({left: '-201px'});
+//                    $('#fixed-quick-controls').css({left: '-201px'});
                     $(recordSimulationButton).removeClass('hidden');
                     $(pauseRecordSimulationButton).addClass('hidden');
                     $(resumeRecordSimulationButton).addClass('hidden');
@@ -475,8 +469,6 @@ if (login_check($mysqli) == true) {
             });
 
 
-
-
             var pauseRecordSimulationButton = $('#fixed-quick-controls .btn-pause-record-simulation');
             var pauseRecordSimulationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(pauseRecordSimulationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
@@ -485,9 +477,6 @@ if (login_check($mysqli) == true) {
                     $(pauseRecordSimulationButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
                     $(pauseRecordSimulationButton).removeClass('btn-primary');
                 }});
-
-            pauseRecordSimulationButtonTimeline.add("pauseRecordSimulation", 0)
-                    .to(pauseRecordSimulationButton, .3, {left: +207, ease: Quad.easeInOut}, "pauseRecordSimulation");
 
             $(pauseRecordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -503,7 +492,7 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (!$(this).hasClass('hidden')) {
                     $(this).addClass('hidden');
-                    $('#fixed-quick-controls').css({left: '-211px'});
+//                    $('#fixed-quick-controls').css({left: '-211px'});
                     $(resumeRecordSimulationButton).removeClass('hidden');
                     currentSimulationState = STATE_SIMULATOR_PAUSE_RECORDING;
                     setParam(window.location.href, 'state', currentSimulationState);
@@ -522,9 +511,6 @@ if (login_check($mysqli) == true) {
                     $(resumeRecordSimulationButton).removeClass('btn-primary');
                 }});
 
-            resumeRecordSimulationButtonTimeline.add("resumeRecordSimulation", 0)
-                    .to(resumeRecordSimulationButton, .3, {left: +207, ease: Quad.easeInOut}, "resumeRecordSimulation");
-
             $(resumeRecordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 resumeRecordSimulationButtonTimeline.play();
@@ -539,7 +525,7 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (!$(this).hasClass('hidden')) {
                     $(this).addClass('hidden');
-                    $('#fixed-quick-controls').css({left: '-208px'});
+//                    $('#fixed-quick-controls').css({left: '-208px'});
                     $(pauseRecordSimulationButton).removeClass('hidden');
                     currentSimulationState = STATE_SIMULATOR_RECORD;
                     setParam(window.location.href, 'state', currentSimulationState);
@@ -556,9 +542,6 @@ if (login_check($mysqli) == true) {
                     $(loadSimulationButton).css({borderTopRightRadius: '0px'});
                     $(loadSimulationButton).removeClass('btn-primary');
                 }});
-
-            loadSimulationButtonTimeline.add("loadSimulation", 0)
-                    .to(loadSimulationButton, .3, {left: +176, ease: Quad.easeInOut}, "loadSimulation");
 
             $(loadSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -590,6 +573,33 @@ if (login_check($mysqli) == true) {
                     });
                 }
             });
+
+
+
+            setTimeout(function () {
+                var leftFlex = 51;
+
+                recordSimulationButtonTimeline.add("tween", 0)
+                        .to(recordSimulationButton, .3, {left: +parseInt($(recordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                $(stopRecordSimulationButton).removeClass('hidden').css({opacity: 0});
+                stopRecordSimulationButtonTimeline.add("tween", 0)
+                        .to(stopRecordSimulationButton, .3, {left: +parseInt($(stopRecordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(stopRecordSimulationButton).addClass('hidden').css({opacity: 1});
+
+                $(pauseRecordSimulationButton).removeClass('hidden').css({opacity: 0});
+                pauseRecordSimulationButtonTimeline.add("tween", 0)
+                        .to(pauseRecordSimulationButton, .3, {left: +parseInt($(pauseRecordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(pauseRecordSimulationButton).addClass('hidden').css({opacity: 1});
+
+                $(resumeRecordSimulationButton).removeClass('hidden').css({opacity: 0});
+                resumeRecordSimulationButtonTimeline.add("tween", 0)
+                        .to(resumeRecordSimulationButton, .3, {left: +parseInt($(resumeRecordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(resumeRecordSimulationButton).addClass('hidden').css({opacity: 1});
+
+                loadSimulationButtonTimeline.add("tween", 0)
+                        .to(loadSimulationButton, .3, {left: +parseInt($(loadSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+            }, 200);
         </script>
 
     </body>

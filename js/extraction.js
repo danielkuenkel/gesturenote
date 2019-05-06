@@ -1526,6 +1526,61 @@ function renderGestureGuessabilityTable(target, assignments) {
     } else {
         $(meanAccordanceItem).find('.veryHighAgreement').removeClass('hidden');
     }
+
+
+    $(table).find('#btn-download-csv').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        var referents = [];
+        var participants = [];
+        if (assignments && assignments.length > 0) {
+            for (var i = 0; i < assignments.length; i++) {
+                var gestures = assignments[i].gestures;
+                if (gestures && gestures.length > 0) {
+                    var sameAs = assignments[i].sameAs;
+                    for (var j = 0; j < gestures.length; j++) {
+                        var gesture = getGestureById(gestures[j], ELICITED_GESTURES);
+                        referents.push({triggerId: assignments[i].triggerId, userId: gesture.userId, gestureId: sameAs !== undefined ? parseInt(sameAs) : parseInt(assignments[i].mainGestureId)});
+                    }
+                }
+            }
+
+            var csvString = 'referent';
+            for (var i = 0; i < referents.length; i++) {
+                if (i > 0) {
+                    for (var j = 0; j < participants.length; j++) {
+                        if (referents[i].userId === participants[j].userId) {
+                            participants[j].pairs.push({gestureId: referents[i].gestureId, triggerId: referents[i].triggerId});
+                            break;
+                        } else if (j === participants.length - 1) {
+                            participants.push({userId: referents[i].userId, pairs: [{gestureId: referents[i].gestureId, triggerId: referents[i].triggerId}]});
+                            csvString += ',p' + (j + 2);
+                            break;
+                        }
+                    }
+                } else {
+                    participants.push({userId: referents[i].userId, pairs: [{gestureId: referents[i].gestureId, triggerId: referents[i].triggerId}]});
+                    csvString += ',p' + (i + 1);
+                }
+            }
+
+            for (var i = 0; i < trigger.length; i++) {
+                csvString += '\n' + trigger[i].title;
+                var triggerId = parseInt(trigger[i].id);
+
+                for (var j = 0; j < participants.length; j++) {
+                    for (var k = 0; k < participants[j].pairs.length; k++) {
+                        if (triggerId === parseInt(participants[j].pairs[k].triggerId)) {
+                            csvString += ',' + participants[j].pairs[k].gestureId;
+                        }
+                    }
+                }
+            }
+
+            // create csv file and download it
+            var blob = new Blob([csvString], {type: "text/csv;charset=utf-8"});
+            saveAs(blob, getLocalItem(STUDY).title + ".csv");
+        }
+    });
 }
 
 function renderPotentialGesturesTotalStatistics(target, assignments) {

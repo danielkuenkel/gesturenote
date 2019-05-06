@@ -2264,6 +2264,7 @@
     "downloadAsPidocoJSON": "Als Pidoco-Gesten-Set herunterladen",
     "downloadAsExchangeable": "Als ProGesture-Datei herunterladen",
     "downloadAsCompressed": "Als komprimierte Datei herunterladen",
+    "downloadAsCSV": "Herunterladen",
     "simulatorGestureSet": "Simulation starten",
     "simulateGesture": "Geste ausführen",
     "simulateGestureFree": "Freihand",
@@ -2538,7 +2539,8 @@
             "editPhasestep": "Leitfadenschritt bearbeiten",
             "readAloudText": "Text dem Probanden vorlesen",
             "readAloudScenario": "Szenario vorlesen",
-            "readAloudTask": "Aufgabe vorlesen"
+            "readAloudTask": "Aufgabe vorlesen",
+            "downloadAsCSV":"Als CSV-Datei herunterladen"
         },
         "studyCreate": {
             "title": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Es können mehrere Studien mit dem gleichen Titel angelegt werden, z.B. einmal für eine <em>Ermittlung</em> und einmal für eine <em>Evaluierung</em>.",
