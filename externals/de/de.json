@@ -5560,6 +5560,11 @@
             "id": "drag-and-drop-hint",
             "type": "info",
             "text": "Die Reihenfolge der Gesten lässt sich über <span styl='text-decoration=italic'>Drag & Drop</span> anpassen"
+        },
+        "invalidAgateFormat": {
+            "id": "invalid-agate-format",
+            "type": "warning",
+            "text": "Das Format der heruntergeladenen CSV-Datei ist nicht valide. Das Tool AGATe berechnet unter Umständen die Übereinstimmungen falsch."
         }
     },
     "introductionGestureNoteGeneral": [

@@ -133,6 +133,8 @@ var ALERT_SHARE_GESTURE_TO_YOURSELF = 'share-gesture-to-yourself';
 var ALERT_NO_EXCHANGEABLE_FILE_SELECTED = 'no-exchangeable-file-selected';
 var ALERT_EXCHANGEABLE_GESTURES_IMPORTED_SUCCESS = 'exchangeable-gestures-imported-success';
 
+var ALERT_INVALID_AGATE_FORMAT = 'invalid-agate-format';
+
 // progesture alerts
 var ALERT_NO_GESTURE_SET_MAPPINGS = 'no-gesture-set-mappings';
 var ALERT_DRAG_AND_DROP_HINT = 'drag-and-drop-hint';

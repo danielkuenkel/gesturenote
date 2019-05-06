@@ -5575,6 +5575,11 @@
             "id": "drag-and-drop-hint",
             "type": "info",
             "text": "The order of the gestures can be adjusted via <span style='text-decoration=italic'>Drag & Drop</span>"
+        },
+        "invalidAgateFormat": {
+            "id": "invalid-agate-format",
+            "type": "warning",
+            "text": "Invalid format for the downloaded CSV file. The AGATe Tool could calculate agreement rates not correctly."
         }
     },
     "introductionGestureNoteGeneral": [

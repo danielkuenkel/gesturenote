@@ -25,6 +25,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
     var videosLoadedSuccessfully = 0;
 
 
+
     if (getBrowser() !== 'Safari') {
         resultsPlayer = $('#template-study-container').find('#rtc-video-result').clone().removeAttr('id');
         var playButton = $(resultsPlayer).find('#btn-play-pause');

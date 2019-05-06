@@ -1467,6 +1467,8 @@ include '../includes/language.php';
 
     <div id="guessability-table">
         <div style="margin-top: -5px"><span style="margin-right: 5px"><?php echo $lang->potentialGesturesOverviewTable ?></span> <button class="btn btn-default btn-xs btn-shadow" id="btn-download-csv"  data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->downloadAsCSV ?>"><i class="fa fa-download"></i> <span><?php echo $lang->downloadAsCSV ?></span></button></div>
+        <!--<div class="alert-space alert-invalid-agate-format" style="margin-top: 10px"></div>-->
+        
         <table class="table table-bordered table-sm text" style="margin-top: 10px">
             <thead>
                 <tr class="table-head-row">

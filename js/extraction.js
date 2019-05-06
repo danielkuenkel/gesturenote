@@ -1454,7 +1454,7 @@ function renderGestureGuessabilityTable(target, assignments) {
         for (var j = 0; j < assignments.length; j++) {
             var assignment = assignments[j];
             if (parseInt(assignment.triggerId) === parseInt(trigger[i].id)) {
-                var gesture = getGestureById(assignment.mainGestureId);
+                var gesture = getGestureById(assignment.mainGestureId, ELICITED_GESTURES);
                 if (gesture) {
                     var row = document.createElement('tr');
                     $(table).find('.table-body').append(row);
@@ -1532,6 +1532,7 @@ function renderGestureGuessabilityTable(target, assignments) {
         event.preventDefault();
         var referents = [];
         var participants = [];
+
         if (assignments && assignments.length > 0) {
             for (var i = 0; i < assignments.length; i++) {
                 var gestures = assignments[i].gestures;
@@ -1539,12 +1540,15 @@ function renderGestureGuessabilityTable(target, assignments) {
                     var sameAs = assignments[i].sameAs;
                     for (var j = 0; j < gestures.length; j++) {
                         var gesture = getGestureById(gestures[j], ELICITED_GESTURES);
-                        referents.push({triggerId: assignments[i].triggerId, userId: gesture.userId, gestureId: sameAs !== undefined ? parseInt(sameAs) : parseInt(assignments[i].mainGestureId)});
+                        if (gesture) {
+                            referents.push({triggerId: assignments[i].triggerId, userId: gesture.userId, gestureId: sameAs !== undefined ? parseInt(sameAs) : parseInt(assignments[i].mainGestureId)});
+                        }
                     }
                 }
             }
 
-            var csvString = 'referent';
+            var csvHeadline = 'referent';
+
             for (var i = 0; i < referents.length; i++) {
                 if (i > 0) {
                     for (var j = 0; j < participants.length; j++) {
@@ -1553,28 +1557,41 @@ function renderGestureGuessabilityTable(target, assignments) {
                             break;
                         } else if (j === participants.length - 1) {
                             participants.push({userId: referents[i].userId, pairs: [{gestureId: referents[i].gestureId, triggerId: referents[i].triggerId}]});
-                            csvString += ',p' + (j + 2);
+                            csvHeadline += ',p' + (j + 2);
                             break;
                         }
                     }
                 } else {
                     participants.push({userId: referents[i].userId, pairs: [{gestureId: referents[i].gestureId, triggerId: referents[i].triggerId}]});
-                    csvString += ',p' + (i + 1);
+                    csvHeadline += ',p' + (i + 1);
                 }
             }
 
+            var csvString = '';
             for (var i = 0; i < trigger.length; i++) {
                 csvString += '\n' + trigger[i].title;
+                var gesturesString = '';
                 var triggerId = parseInt(trigger[i].id);
 
                 for (var j = 0; j < participants.length; j++) {
                     for (var k = 0; k < participants[j].pairs.length; k++) {
                         if (triggerId === parseInt(participants[j].pairs[k].triggerId)) {
                             csvString += ',' + participants[j].pairs[k].gestureId;
+                            gesturesString += ',' + participants[j].pairs[k].gestureId;
+
+                            if (k >= trigger.length) {
+                                if (gesturesString.split(',').length >= csvHeadline.split(',').length) {
+                                    csvHeadline += ',p' + csvHeadline.split(',').length;
+                                }
+
+                                break;
+                            }
                         }
                     }
                 }
             }
+
+            csvString = csvHeadline + csvString;
 
             // create csv file and download it
             var blob = new Blob([csvString], {type: "text/csv;charset=utf-8"});

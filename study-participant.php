@@ -1807,7 +1807,11 @@ if (login_check($mysqli) == true) {
 
             $(resultsPlayer.player).unbind('dataUpdated').bind('dataUpdated', function (event) {
                 event.preventDefault();
-                renderIdentification(container, studyData, phaseResults);
+
+                var selectedId = $('#phase-results-nav .active').attr('id');
+                var testerResults = getLocalItem(selectedId + '.tester');
+                console.log('updated, testerResults:', testerResults);
+                renderIdentification(container, studyData, testerResults);
             });
 
             renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
