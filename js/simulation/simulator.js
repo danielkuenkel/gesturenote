@@ -72,58 +72,58 @@ function getGestureSimulationSetPanel(data, type, layout) {
 
     // update thumbnail controls for every gesture in the set
     for (var i = data.gestures.length - 1; i >= 0; i--) {
-        updateGestureSimluationThumbnail(data.gestures[i], panel, true);
-        var thumbnail = $(panel).find('#' + data.gestures[i]);
-        $(thumbnail).attr('draggable', true);
-        $(thumbnail).unbind('dragstart').bind('dragstart', function (event) {
-            currentDragElement = event.originalEvent.target;
-        });
+        var gesture = getGestureById(data.gestures[i]);
+        if (gesture) {
+            updateGestureSimluationThumbnail(data.gestures[i], panel, true);
+            var thumbnail = $(panel).find('#' + data.gestures[i]);
+            $(thumbnail).attr('draggable', true);
+            $(thumbnail).unbind('dragstart').bind('dragstart', function (event) {
+                currentDragElement = event.originalEvent.target;
+            });
 
-        $(thumbnail).unbind('dragover').bind('dragover', function (event) {
-            event.preventDefault();
-            var dragOverElement = $(event.currentTarget);
-//            $(dragOverElement).parent().children().css({opacity: '1'});
-            $(dragOverElement).parent().children().find('.gesture-thumbnail').removeClass('dropable');
+            $(thumbnail).unbind('dragover').bind('dragover', function (event) {
+                event.preventDefault();
+                var dragOverElement = $(event.currentTarget);
+                $(dragOverElement).parent().children().find('.gesture-thumbnail').removeClass('dropable');
 
-            if (parseInt($(dragOverElement).attr('id')) !== parseInt($(currentDragElement).attr('id'))) {
-                $(dragOverElement).find('.gesture-thumbnail').addClass('dropable');
-//                $(dragOverElement).css({opacity: '.3'});
-            }
-        });
-
-        $(thumbnail).unbind('drop').bind('drop', function (event) {
-            event.preventDefault();
-            var dragOverElement = $(event.currentTarget);
-//            $(dragOverElement).parent().children().css({opacity: '1'});
-            $(dragOverElement).parent().children().find('.gesture-thumbnail').removeClass('dropable');
-            $(dragOverElement).parent().children().blur();
-
-            if (parseInt($(dragOverElement).attr('id')) !== parseInt($(currentDragElement).attr('id'))) {
-                var currentDragOverIndex = $($(dragOverElement).nextAll().prevObject).index();
-                var currentDragElementIndex = $(currentDragElement).index();
-                if (currentDragOverIndex > currentDragElementIndex) {
-                    $(currentDragElement).insertAfter(dragOverElement);
-                } else {
-                    $(currentDragElement).insertBefore(dragOverElement);
+                if (parseInt($(dragOverElement).attr('id')) !== parseInt($(currentDragElement).attr('id'))) {
+                    $(dragOverElement).find('.gesture-thumbnail').addClass('dropable');
                 }
-                $(currentDragElement).focus();
-                currentDragElement = null;
+            });
 
-                var gestures = [];
-                var gestureItems = $('#gestureSetContent #gestures-list-container').children();
-                for (var i = 0; i < gestureItems.length; i++) {
-                    gestures.push($(gestureItems[i]).attr('id'));
+            $(thumbnail).unbind('drop').bind('drop', function (event) {
+                event.preventDefault();
+                var dragOverElement = $(event.currentTarget);
+                $(dragOverElement).parent().children().find('.gesture-thumbnail').removeClass('dropable');
+                $(dragOverElement).parent().children().blur();
+
+                if (parseInt($(dragOverElement).attr('id')) !== parseInt($(currentDragElement).attr('id'))) {
+                    var currentDragOverIndex = $($(dragOverElement).nextAll().prevObject).index();
+                    var currentDragElementIndex = $(currentDragElement).index();
+                    if (currentDragOverIndex > currentDragElementIndex) {
+                        $(currentDragElement).insertAfter(dragOverElement);
+                    } else {
+                        $(currentDragElement).insertBefore(dragOverElement);
+                    }
+                    $(currentDragElement).focus();
+                    currentDragElement = null;
+
+                    var gestures = [];
+                    var gestureItems = $('#gestureSetContent #gestures-list-container').children();
+                    for (var i = 0; i < gestureItems.length; i++) {
+                        gestures.push($(gestureItems[i]).attr('id'));
+                    }
+
+                    var query = getQueryParams(document.location.search);
+                    updateGestureById(GESTURE_SETS, query.gestureSetId, {gestures: gestures});
+
+                    var currentGestureSet = getGestureSetById(query.gestureSetId);
+                    updateGestureSet({setId: query.gestureSetId, title: currentGestureSet.title, gestures: gestures, ownerId: currentGestureSet.userId}, function (result) {
+
+                    });
                 }
-
-                var query = getQueryParams(document.location.search);
-                updateGestureById(GESTURE_SETS, query.gestureSetId, {gestures: gestures});
-
-                var currentGestureSet = getGestureSetById(query.gestureSetId);
-                updateGestureSet({setId: query.gestureSetId, title: currentGestureSet.title, gestures: gestures, ownerId: currentGestureSet.userId}, function (result) {
-
-                });
-            }
-        });
+            });
+        }
     }
 
     return panel;
@@ -132,7 +132,11 @@ function getGestureSimulationSetPanel(data, type, layout) {
 var showMouseSimulationPad = false;
 var currentMouseSimulationGesture = null;
 function updateGestureSimluationThumbnail(gestureId, container, simulationMode, valueType, wozMode) {
+    console.log(gestureId);
     var gesture = getGestureById(gestureId);
+    if (!gesture) {
+        return false;
+    }
     var gestureThumbnail = $(container).find('#' + gesture.id);
 
     var continuousValueType = gesture.continuousValueType;
@@ -141,8 +145,6 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode, 
     }
     $(gestureThumbnail).attr('data-continuous-value-type', continuousValueType);
     $(gestureThumbnail).attr('data-woz-mode', wozMode || false);
-
-//    console.log('update gesture simulation thumbnail', valueType, continuousValueType, gesture.interactionType, wozMode);
 
     if ((continuousValueType === CONTINUOUS_VALUE_TYPE_NONE && wozMode && wozMode === true) || gesture.interactionType === TYPE_GESTURE_DISCRETE) {
         $(gestureThumbnail).find('.simulator-trigger').removeClass("hidden");
@@ -550,7 +552,6 @@ function renderRecordedGestureSetSimulation() {
         var prevGestureButton = $('#btn-prev-gesture');
         $(prevGestureButton).unbind('click').bind('click', function (event) {
             event.preventDefault();
-//            console.log(prevGestureButton, '');
             if (!$(this).hasClass('disabled')) {
                 $(pauseButton).click();
 
@@ -632,6 +633,9 @@ function renderRecordedGestureSetSimulation() {
             var currentValue = parseInt(sliderValues.min) + parseInt($(slider).slider('getValue'));
             var currentSimulationStep = getCurrentSimulationStep(currentValue);
             var gesture = getGestureById(currentSimulationStep.gestureId);
+            if (!gesture) {
+                return false;
+            }
             var activeItem = $('#simulation-thumbnail-container .item-active');
             var thumbnail = $(activeItem).find('.gesture-thumbnail').parent();
             var wozMode = $(thumbnail).attr('data-woz-mode');
@@ -695,7 +699,8 @@ function renderRecordedGestureSetSimulation() {
 
         if (recordedSimulation && recordedSimulation.track.length > 0) {
             for (var i = 0; i < recordedSimulation.track.length; i++) {
-                if (recordedSimulation.track[i].start === 'true' || recordedSimulation.track[i].start === true) {
+                var gesture = getGestureById(recordedSimulation.track[i].gestureId);
+                if (gesture && (recordedSimulation.track[i].start === 'true' || recordedSimulation.track[i].start === true)) {
                     var xPercentage = (parseInt(recordedSimulation.track[i].timestamp) - parseInt(recordedSimulation.track[0].timestamp)) / (parseInt(recordedSimulation.track[recordedSimulation.track.length - 1].timestamp) - parseInt(recordedSimulation.track[0].timestamp)) * 100;
                     var infoDataItem = document.createElement('div');
                     $(infoDataItem).addClass('simluation-meta-data-item');
@@ -710,25 +715,26 @@ function renderRecordedGestureSetSimulation() {
 
     function renderMainSimulationItems() {
         var panel = null;
-//        console.log(recordedSimulation);
         for (var i = 0; i < recordedSimulation.track.length; i++) {
-            if (recordedSimulation.track[i].start === true || recordedSimulation.track[i].start === 'true') {
-                var gesture = getGestureById(recordedSimulation.track[i].gestureId);
-                panel = $('#template-simulation-container').find('#gesture-set-simulation-panel').clone();
-                var gestureThumbnail = getGestureCatalogListThumbnail(gesture, 'gesture-simulation-catalog-thumbnail', 'col-xs-12');
-                $(panel).find('#gesture-thumbnail-container').append(gestureThumbnail);
-                updateGestureSimluationThumbnail(gesture.id, panel, false, recordedSimulation.track[i].continuousValueType, recordedSimulation.source === 'studyExecution');
+            var gesture = getGestureById(recordedSimulation.track[i].gestureId);
+            if (gesture) {
+                if (recordedSimulation.track[i].start === true || recordedSimulation.track[i].start === 'true') {
+                    panel = $('#template-simulation-container').find('#gesture-set-simulation-panel').clone();
+                    var gestureThumbnail = getGestureCatalogListThumbnail(gesture, 'gesture-simulation-catalog-thumbnail', 'col-xs-12');
+                    $(panel).find('#gesture-thumbnail-container').append(gestureThumbnail);
+                    updateGestureSimluationThumbnail(gesture.id, panel, false, recordedSimulation.track[i].continuousValueType, recordedSimulation.source === 'studyExecution');
 
-                var seconds = getSeconds(getTimeBetweenTimestamps(recordedSimulation.track[0].timestamp, recordedSimulation.track[i].timestamp), true);
-                $(panel).attr('data-id', recordedSimulation.track[i].id);
-                $(panel).attr('data-start-time', recordedSimulation.track[i].timestamp);
-                $(panel).attr('data-timestamp', recordedSimulation.track[i].timestamp);
-                $(panel).attr('data-gesture-id', recordedSimulation.track[i].gestureId);
-                $(panel).find('.title').text(gesture.title);
-                $(panel).find('.timestamp').text(secondsToHms(parseInt(seconds)));
-                $('#simulation-thumbnail-container').append(panel);
-            } else if ((i < recordedSimulation.track.length - 1 && (recordedSimulation.track[i + 1].start === true || recordedSimulation.track[i + 1].start === 'true')) || (i === recordedSimulation.track.length - 1 && (recordedSimulation.track[i].start !== true || recordedSimulation.track[i].start !== 'true'))) {
-                $(panel).attr('data-end-time', recordedSimulation.track[i].timestamp);
+                    var seconds = getSeconds(getTimeBetweenTimestamps(recordedSimulation.track[0].timestamp, recordedSimulation.track[i].timestamp), true);
+                    $(panel).attr('data-id', recordedSimulation.track[i].id);
+                    $(panel).attr('data-start-time', recordedSimulation.track[i].timestamp);
+                    $(panel).attr('data-timestamp', recordedSimulation.track[i].timestamp);
+                    $(panel).attr('data-gesture-id', recordedSimulation.track[i].gestureId);
+                    $(panel).find('.title').text(gesture.title);
+                    $(panel).find('.timestamp').text(secondsToHms(parseInt(seconds)));
+                    $('#simulation-thumbnail-container').append(panel);
+                } else if ((i < recordedSimulation.track.length - 1 && (recordedSimulation.track[i + 1].start === true || recordedSimulation.track[i + 1].start === 'true')) || (i === recordedSimulation.track.length - 1 && (recordedSimulation.track[i].start !== true || recordedSimulation.track[i].start !== 'true'))) {
+                    $(panel).attr('data-end-time', recordedSimulation.track[i].timestamp);
+                }
             }
         }
     }
@@ -963,7 +969,7 @@ function renderThumbnailInfoView(dataId) {
                             $(pathPoint).attr('data-id', data[i].id);
                             $(infoView).find('#mouse-path').append(pathPoint);
                         }
-                        
+
                         if (i === 0) {
                             startPoint = {xPos: containerWidth * data[i].value.relPositions.relPosX, yPos: containerHeight * data[i].value.relPositions.relPosY};
                         } else if (i > 0 && i < data.length) {
@@ -997,6 +1003,9 @@ function updateThumbailInfoView(currentTime) {
 
     var currentSimulationStep = getCurrentSimulationStep(currentTime);
     var gesture = getGestureById(currentSimulationStep.gestureId);
+    if (!gesture) {
+        return false;
+    }
 
     if ((continuousValueType === CONTINUOUS_VALUE_TYPE_NONE && (wozMode === 'true' || wozMode === true)) || gesture.interactionType === TYPE_GESTURE_DISCRETE) {
 
@@ -1054,12 +1063,14 @@ function renderLinkList(dataId, currentTime) {
             if (continuousValueType === PERCENT) {
                 $(linkListItem).find('.link-list-item-title').text(data[i].value + '%');
             } else if (continuousValueType === "position" || continuousValueType === "mouseSimulation") {
-                var posX = (parseFloat(data[i].value.relPositions.relPosX) * 100).toFixed();
-                var posY = (parseFloat(data[i].value.relPositions.relPosY) * 100).toFixed();
-                if (data[i].value.clicked === 'true' || data[i].value.clicked === true) {
-                    $(linkListItem).find('.link-list-item-title').text(translation.relPosX + ': ' + posX + '%, ' + translation.relPosY + ': ' + posY + '%, ' + translation.mouseClicked);
-                } else {
-                    $(linkListItem).find('.link-list-item-title').text(translation.relPosX + ': ' + posX + '%, ' + translation.relPosY + ': ' + posY + '%');
+                if (data[i].value && data[i].value.relPositions) {
+                    var posX = (parseFloat(data[i].value.relPositions.relPosX) * 100).toFixed();
+                    var posY = (parseFloat(data[i].value.relPositions.relPosY) * 100).toFixed();
+                    if (data[i].value.clicked === 'true' || data[i].value.clicked === true) {
+                        $(linkListItem).find('.link-list-item-title').text(translation.relPosX + ': ' + posX + '%, ' + translation.relPosY + ': ' + posY + '%, ' + translation.mouseClicked);
+                    } else {
+                        $(linkListItem).find('.link-list-item-title').text(translation.relPosX + ': ' + posX + '%, ' + translation.relPosY + ': ' + posY + '%');
+                    }
                 }
             } else {
                 $(linkListItem).find('.link-list-item-title').text(translation.gestureDemonstrated);
@@ -1136,4 +1147,26 @@ function getGestureSimulationData(id) {
         }
     }
     return data;
+}
+
+function cleanUpRecordedSimulation(recordedData) {
+    console.log('clean up recorded simulation', recordedData);
+    var tempData = null;
+
+    if (recordedData && recordedData.track && recordedData.track.length > 0) {
+        tempData = recordedData;
+        tempData.track = [];
+        for (var i = 0; i < recordedData.track.length; i++) {
+            var gesture = getGestureById(recordedData.track[i].gestureId);
+            console.log(gesture);
+            if (gesture) {
+                tempData.track.push(recordedData.track[i]);
+            }
+        }
+        
+        console.log(tempData, recordedData);
+        return tempData;
+    } else {
+        return recordedData;
+    }
 }

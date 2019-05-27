@@ -255,7 +255,7 @@ if (login_check($mysqli) == true) {
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();
-
+                
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
@@ -266,17 +266,17 @@ if (login_check($mysqli) == true) {
                     loadExternals(externals);
                 });
             });
-
+            
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
                 animateBreadcrump();
                 checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
-
+                
                 var fixedControlsTween = new TimelineMax({paused: true});
                 fixedControlsTween.add("parallel", .3)
                         .to($('#fixed-quick-controls'), .2, {opacity: 1, ease: Quad.easeInOut}, 'parallel')
                         .from($('#fixed-quick-controls'), .2, {x: -20, ease: Quad.easeInOut}, 'parallel');
-
+                
                 getGestureCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         getGestureSets(function (result) {
@@ -284,29 +284,29 @@ if (login_check($mysqli) == true) {
                                 setLocalItem(GESTURE_SETS, result.gestureSets);
                                 renderAssembledGestureSets(result.gestureSets, $('#gesture-sets-select'));
                             }
-
+                            
                             var query = getQueryParams(document.location.search);
                             if (query.gestureSetId) {
                                 console.log('temp save recorded simulation');
-
+                                
                                 var gestureSetId = parseInt(query.gestureSetId);
                                 var recordedSimulation = getLocalItem(RECORDED_SIMULATION);
                                 $('#gesture-sets-select').find('#' + gestureSetId).click();
                                 if (recordedSimulation) {
-                                    setLocalItem(RECORDED_SIMULATION, recordedSimulation);
+                                    setLocalItem(RECORDED_SIMULATION, cleanUpRecordedSimulation(recordedSimulation));
                                 }
                             }
-
+                            
                             if (query.recordingId) {
                                 getSimulationRecording({recordingId: query.recordingId}, function (result) {
                                     if (result.status === RESULT_SUCCESS) {
-                                        setLocalItem(RECORDED_SIMULATION, {id: result.id, gestureSetId: result.gestureSetId, title: result.title, track: result.data.track, created: result.created, source: result.data.source || null});
+                                        setLocalItem(RECORDED_SIMULATION, cleanUpRecordedSimulation({id: result.id, gestureSetId: result.gestureSetId, title: result.title, track: result.data.track, created: result.created, source: result.data.source || null}));
                                         $('#main-tab-pane').find('#btn-player').removeClass('disabled');
                                         renderRecordedGestureSetSimulation();
                                     }
                                 });
                             }
-
+                            
                             if (query.state) {
                                 currentSimulationState = query.state;
                                 switch (currentSimulationState) {
@@ -322,7 +322,7 @@ if (login_check($mysqli) == true) {
                                         break;
                                 }
                             }
-
+                            
                             showPageContent();
                             initWebSocket();
                             fixedControlsTween.play();
@@ -330,27 +330,27 @@ if (login_check($mysqli) == true) {
                     }
                 });
             }
-
+            
             function showPageContent() {
                 $('.mainContent').removeClass('hidden');
                 TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
                         $('#loading-indicator').remove();
                     }});
                 TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
-
+                
                 TweenMax.to($('#main-tab-pane'), .4, {opacity: 1});
-
+                
                 $('#main-tab-pane a').on('click', function (event) {
                     event.preventDefault();
                     if ($(event.target).parent().hasClass('disabled')) {
                         event.stopImmediatePropagation();
                     }
                 });
-
+                
                 $('#main-tab-pane a[data-toggle="tab"]').on('show.bs.tab', function (event) {
                     $('#simulator-content, #simulation-thumbnail-container').empty();
                     $(recordSimulationButton).addClass('disabled');
-
+                    
                     switch ($(event.target).attr('href')) {
                         case '#gestureSetContent':
                             setParam(window.location.href, 'tab', 'gestureSet');
@@ -366,12 +366,12 @@ if (login_check($mysqli) == true) {
                             break;
                     }
                 });
-
+                
                 var query = getQueryParams(document.location.search);
                 if (query.tab) {
                     var recordedSimulation = getLocalItem(RECORDED_SIMULATION);
                     if (query.tab === 'player' && recordedSimulation) {
-                        setLocalItem(RECORDED_SIMULATION, recordedSimulation);
+                        setLocalItem(RECORDED_SIMULATION, cleanUpRecordedSimulation(recordedSimulation));
                         $('#btn-player').removeClass('disabled');
                         $('#main-tab-pane').find('#btn-' + query.tab + ' a').click();
                     } else {
@@ -381,7 +381,7 @@ if (login_check($mysqli) == true) {
                     $('#main-tab-pane').find('#btn-gestureSet a').click();
                 }
             }
-
+            
             $('#gesture-sets-select').unbind('change').bind('change', function (event) {
                 event.preventDefault();
                 removeLocalItem(SIMULATION_RECORDING);
@@ -390,17 +390,17 @@ if (login_check($mysqli) == true) {
                 setParam(window.location.href, 'gestureSetId', $(event.target).attr('id'));
                 renderGestureSetContent();
             });
-
-
+            
+            
             $('#custom-modal').unbind('gestureUpdated').bind('gestureUpdated', function (event, gesture) {
                 event.preventDefault();
                 var isInSimulationMode = $('#gestureSetContent').hasClass('active');
                 updateGestureSimluationThumbnail(gesture.id, $('#pageBody').find('#simulator-content'), isInSimulationMode);
             });
-
-
+            
+            
             // fixed buttons tweening
-
+            
             var recordSimulationButton = $('#fixed-quick-controls .btn-record-simulation');
             var recordSimulationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(recordSimulationButton).css({borderBottomRightRadius: '8px'});
@@ -409,17 +409,17 @@ if (login_check($mysqli) == true) {
                     $(recordSimulationButton).css({borderBottomRightRadius: '0px'});
                     $(recordSimulationButton).removeClass('btn-primary');
                 }});
-
+            
             $(recordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 recordSimulationButtonTimeline.play();
             });
-
+            
             $(recordSimulationButton).unbind('mouseleave').bind('mouseleave', function (event) {
                 event.preventDefault();
                 recordSimulationButtonTimeline.reverse();
             });
-
+            
             $(recordSimulationButton).unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('hidden') && !$(this).hasClass('disabled')) {
@@ -431,10 +431,10 @@ if (login_check($mysqli) == true) {
                     setParam(window.location.href, 'state', currentSimulationState);
                 }
             });
-
-
-
-
+            
+            
+            
+            
             var stopRecordSimulationButton = $('#fixed-quick-controls .btn-stop-record-simulation');
             var stopRecordSimulationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(stopRecordSimulationButton).css({borderBottomRightRadius: '8px'});
@@ -443,17 +443,17 @@ if (login_check($mysqli) == true) {
                     $(stopRecordSimulationButton).css({borderBottomRightRadius: '0px'});
                     $(stopRecordSimulationButton).removeClass('btn-primary');
                 }});
-
+            
             $(stopRecordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 stopRecordSimulationButtonTimeline.play();
             });
-
+            
             $(stopRecordSimulationButton).unbind('mouseleave').bind('mouseleave', function (event) {
                 event.preventDefault();
                 stopRecordSimulationButtonTimeline.reverse();
             });
-
+            
             $(stopRecordSimulationButton).unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('hidden')) {
@@ -467,8 +467,8 @@ if (login_check($mysqli) == true) {
                     saveSimulationRecording();
                 }
             });
-
-
+            
+            
             var pauseRecordSimulationButton = $('#fixed-quick-controls .btn-pause-record-simulation');
             var pauseRecordSimulationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(pauseRecordSimulationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
@@ -477,17 +477,17 @@ if (login_check($mysqli) == true) {
                     $(pauseRecordSimulationButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
                     $(pauseRecordSimulationButton).removeClass('btn-primary');
                 }});
-
+            
             $(pauseRecordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 pauseRecordSimulationButtonTimeline.play();
             });
-
+            
             $(pauseRecordSimulationButton).unbind('mouseleave').bind('mouseleave', function (event) {
                 event.preventDefault();
                 pauseRecordSimulationButtonTimeline.reverse();
             });
-
+            
             $(pauseRecordSimulationButton).unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('hidden')) {
@@ -498,10 +498,10 @@ if (login_check($mysqli) == true) {
                     setParam(window.location.href, 'state', currentSimulationState);
                 }
             });
-
-
-
-
+            
+            
+            
+            
             var resumeRecordSimulationButton = $('#fixed-quick-controls .btn-resume-record-simulation');
             var resumeRecordSimulationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(resumeRecordSimulationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
@@ -510,17 +510,17 @@ if (login_check($mysqli) == true) {
                     $(resumeRecordSimulationButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
                     $(resumeRecordSimulationButton).removeClass('btn-primary');
                 }});
-
+            
             $(resumeRecordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 resumeRecordSimulationButtonTimeline.play();
             });
-
+            
             $(resumeRecordSimulationButton).unbind('mouseleave').bind('mouseleave', function (event) {
                 event.preventDefault();
                 resumeRecordSimulationButtonTimeline.reverse();
             });
-
+            
             $(resumeRecordSimulationButton).unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('hidden')) {
@@ -531,9 +531,9 @@ if (login_check($mysqli) == true) {
                     setParam(window.location.href, 'state', currentSimulationState);
                 }
             });
-
-
-
+            
+            
+            
             var loadSimulationButton = $('#fixed-quick-controls .btn-load-simulation-recording');
             var loadSimulationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(loadSimulationButton).css({borderTopRightRadius: '8px'});
@@ -542,29 +542,29 @@ if (login_check($mysqli) == true) {
                     $(loadSimulationButton).css({borderTopRightRadius: '0px'});
                     $(loadSimulationButton).removeClass('btn-primary');
                 }});
-
+            
             $(loadSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
                 loadSimulationButtonTimeline.play();
             });
-
+            
             $(loadSimulationButton).unbind('mouseleave').bind('mouseleave', function (event) {
                 event.preventDefault();
                 loadSimulationButtonTimeline.reverse();
             });
-
+            
             $(loadSimulationButton).unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
                     loadHTMLintoModal('custom-modal', 'externals/modal-load-simulation-recording.php');
                     $('#custom-modal').unbind('loadGestureSetSimulation').bind('loadGestureSetSimulation', function (event) {
                         event.preventDefault();
-
+                        
                         var recordedSimulation = getLocalItem(RECORDED_SIMULATION);
                         $('#gestureSetContent').find('#gesture-sets-select #' + recordedSimulation.gestureSetId).click();
-                        setLocalItem(RECORDED_SIMULATION, recordedSimulation);
+                        setLocalItem(RECORDED_SIMULATION, cleanUpRecordedSimulation(recordedSimulation));
                         $('#main-tab-pane').find('#btn-player').removeClass('disabled');
-
+                        
                         if ($('#main-tab-pane').find('#btn-player').hasClass('active')) {
                             renderRecordedGestureSetSimulation();
                         } else {
@@ -573,30 +573,30 @@ if (login_check($mysqli) == true) {
                     });
                 }
             });
-
-
-
+            
+            
+            
             setTimeout(function () {
                 var leftFlex = 51;
-
+                
                 recordSimulationButtonTimeline.add("tween", 0)
                         .to(recordSimulationButton, .3, {left: +parseInt($(recordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
-
+                
                 $(stopRecordSimulationButton).removeClass('hidden').css({opacity: 0});
                 stopRecordSimulationButtonTimeline.add("tween", 0)
                         .to(stopRecordSimulationButton, .3, {left: +parseInt($(stopRecordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
                 $(stopRecordSimulationButton).addClass('hidden').css({opacity: 1});
-
+                
                 $(pauseRecordSimulationButton).removeClass('hidden').css({opacity: 0});
                 pauseRecordSimulationButtonTimeline.add("tween", 0)
                         .to(pauseRecordSimulationButton, .3, {left: +parseInt($(pauseRecordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
                 $(pauseRecordSimulationButton).addClass('hidden').css({opacity: 1});
-
+                
                 $(resumeRecordSimulationButton).removeClass('hidden').css({opacity: 0});
                 resumeRecordSimulationButtonTimeline.add("tween", 0)
                         .to(resumeRecordSimulationButton, .3, {left: +parseInt($(resumeRecordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
                 $(resumeRecordSimulationButton).addClass('hidden').css({opacity: 1});
-
+                
                 loadSimulationButtonTimeline.add("tween", 0)
                         .to(loadSimulationButton, .3, {left: +parseInt($(loadSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
             }, 200);
