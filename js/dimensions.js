@@ -166,7 +166,7 @@ $(document).on('click', '.btn-use', function (event) {
         if ($(this).hasClass('used')) {
             $(this).find('.fa').removeClass('fa-star').addClass('fa-star-o');
             $(this).attr('data-content', translation.tooltips.general.useQuestion).data('bs.popover').setContent();
-            $(this).removeClass('used btn-success').addClass('not-used');
+            $(this).removeClass('used btn-success').addClass('not-used btn-default');
             $(this).closest('.root').removeClass('used').addClass('not-used');
             if ($(this).closest('.root').find('.hide-when-unused').length > 0) {
                 $(this).closest('.root').find('.hide-when-unused').addClass('hidden');
@@ -174,7 +174,7 @@ $(document).on('click', '.btn-use', function (event) {
         } else {
             $(this).find('.fa').removeClass('fa-star-o').addClass('fa-star');
             $(this).attr('data-content', translation.tooltips.general.dontUseQuestion).data('bs.popover').setContent();
-            $(this).removeClass('not-used').addClass('used btn-success');
+            $(this).removeClass('not-used btn-default').addClass('used btn-success');
             $(this).closest('.root').removeClass('not-used').addClass('used');
             if ($(this).closest('.root').find('.hide-when-unused').length > 0) {
                 $(this).closest('.root').find('.hide-when-unused').removeClass('hidden');

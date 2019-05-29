@@ -727,34 +727,56 @@ $(document).on('click', '.btn-delete', function (event) {
     $(this).popover('hide');
 
     if ($(element).attr('id') === SCENE_IMAGE) {
-        var url = ["../" + $(element).find('.imageAreaContent').attr('src')];
-        deleteSceneImage({image: url}, null);
+        var url = "../" + $(element).find('.imageAreaContent').attr('src');
+        var splitUrl = url.split('/');
+
+        if (splitUrl.length > 1 && splitUrl[1].trim() !== '') {
+            deleteFiles({files: [url]}, null);
+        }
     }
 
     if ($(element).attr('id') === TYPE_FEEDBACK_SOUND) {
         var url = ["../" + $(element).find('.audio-holder').attr('src')];
-        deleteSound({sound: url}, null);
+        var splitUrl = url.split('/');
+
+        if (splitUrl.length > 1 && splitUrl[1].trim() !== '') {
+            deleteFiles({files: [url]}, null);
+        }
     }
 
-    TweenMax.to(element, .3, {opacity: 0, clearProps: 'all', onComplete: onTweenDeleteComplete, onCompleteParams: [element, parent, $(this)]});
+    TweenMax.to(element, .15, {opacity: 0, clearProps: 'all', onComplete: onTweenDeleteComplete, onCompleteParams: [element, parent, $(this)]});
 });
 
 function onTweenDeleteComplete(element, parent, button) {
-    $(element).remove();
-    checkCurrentListState(parent);
+    var nextAll = $(element).nextAll();
+    var next = $(element).next();
+    if (next.length === 1) {
+        var nextOffset = $(next).offset().top - $(element).offset().top;
+        $(element).remove();
 
-//    if ($(button).hasClass('saveGeneralData')) {
-//        savePhases();
-//    }
-
-    var deleteId = $(button).closest('.root').attr('id');
-    updateBadges(parent, deleteId);
-
-    if (isNaN(deleteId)) {
-        deleteId = $(button).closest('.root').attr('name');
+        var timeline = new TimelineMax({onComplete: afterTweenNextElements, paused: true});
+        for (var i = 0; i < nextAll.length; i++) {
+            timeline.add("start", 0)
+                    .from(nextAll[i], .1, {y: +nextOffset, delay: i * .05, clearProps: 'all'}, "start");
+        }
+        timeline.play();
+    } else {
+        $(element).remove();
+        afterTweenNextElements();
     }
-//    $(parent).trigger('change');
-    $(parent).trigger('change', [{type: 'delete', id: deleteId}]);
+
+    function afterTweenNextElements() {
+        checkCurrentListState(parent);
+
+        var deleteId = $(button).closest('.root').attr('id');
+        updateBadges(parent, deleteId);
+
+        if (isNaN(deleteId)) {
+            deleteId = $(button).closest('.root').attr('name');
+        }
+
+        $(parent).trigger('change', [{type: 'delete', id: deleteId}]);
+    }
 }
 
 $(document).on('click', '.btn-up', function (event) {
@@ -3979,9 +4001,11 @@ function initAssembledGestureSetList(panel, data, type, layout) {
         clearAlerts(panel);
         for (var j = 0; j < data.gestures.length; j++) {
             var gesture = getGestureById(data.gestures[j]);
-            var isGestureAss = isGestureAssembled(gesture.id);
-            var gestureThumbnail = getCreateStudyGestureListThumbnail(gesture, type ? type : 'favorite-gesture-catalog-thumbnail', layout ? layout : 'col-xs-6 col-md-3', null, isGestureAss ? 'panel-info' : null);
-            $(panel).find('#gestures-list-container').append(gestureThumbnail);
+            if (gesture) {
+                var isGestureAss = isGestureAssembled(gesture.id);
+                var gestureThumbnail = getCreateStudyGestureListThumbnail(gesture, type ? type : 'favorite-gesture-catalog-thumbnail', layout ? layout : 'col-xs-6 col-md-3', null, isGestureAss ? 'panel-info' : null);
+                $(panel).find('#gestures-list-container').append(gestureThumbnail);
+            }
         }
         var assembledGesturesLength = $(panel).find('#gestures-list-container .gesture-thumbnail.assembled').length;
         if (assembledGesturesLength === $(panel).find('#gestures-list-container .gesture-thumbnail').length) {
@@ -4797,22 +4821,21 @@ $(document).on('click', '.btn-expand', function (event) {
     event.preventDefault();
 
     if (!$(this).hasClass('disabled')) {
-        var panel = $(this).closest('.panel');
+        var panel = $(this).closest('.root');
         var container = $(panel).parent();
+        $(this).popover('hide');
+        console.log(panel, $(container).find('.panel-body-expandable'));
 
-//        console.log('click expand', panel, container);
-        $(panel).find('.btn-expand').popover('hide');
-
-        if ($(panel).find('.panel-body-expandable').hasClass('hidden')) {
+        if ($($(panel).find('.panel-body-expandable')[0]).hasClass('hidden')) {
             $(container).find('.panel-body-expandable').addClass('hidden');
             $(container).find('.btn-expand').attr('data-content', translation.expand).data('bs.popover').setContent();
             $(container).find('.btn-expand .fa').removeClass('fa-chevron-up').addClass('fa-chevron-down');
             $(container).find('.panel-heading-expandable').css({borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px'});
 
-            $(panel).find('.panel-body-expandable').removeClass('hidden');
-            $(panel).find('.btn-expand .fa').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-            $(panel).find('.panel-heading-expandable').css({borderBottomLeftRadius: '', borderBottomRightRadius: ''});
-            $(panel).find('.btn-expand').attr('data-content', translation.collapse).data('bs.popover').setContent();
+            $($(panel).find('.panel-body-expandable')[0]).removeClass('hidden');
+            $($(panel).find('.btn-expand')[0]).find('.fa').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+            $($(panel).find('.panel-heading-expandable')[0]).css({borderBottomLeftRadius: '', borderBottomRightRadius: ''});
+            $($(panel).find('.btn-expand')[0]).attr('data-content', translation.collapse).data('bs.popover').setContent();
 
             // scroll after expand
             setTimeout(function () {
@@ -4822,9 +4845,28 @@ $(document).on('click', '.btn-expand', function (event) {
             }, 300);
         } else {
             $(panel).find('.panel-body-expandable').addClass('hidden');
-            $(panel).find('.btn-expand .fa').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            $(panel).find('.btn-expand').find('.fa').removeClass('fa-chevron-up').addClass('fa-chevron-down');
             $(panel).find('.panel-heading-expandable').css({borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px'});
             $(panel).find('.btn-expand').attr('data-content', translation.expand).data('bs.popover').setContent();
         }
     }
 });
+
+previewModeEnabled = true;
+function getCurrentPhase() {
+    var phaseSteps = null;
+    if (!previewModeEnabled) {
+        phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+    } else {
+        phaseSteps = getContextualPhaseSteps();
+    }
+    return phaseSteps[currentPhaseStepIndex];
+}
+
+function getCurrentPhaseData() {
+    var currentPhase = getCurrentPhase();
+    if (currentPhase) {
+        return getLocalItem(currentPhase.id + '.data');
+    }
+    return null;
+}

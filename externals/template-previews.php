@@ -1526,7 +1526,7 @@ include '../includes/language.php';
     <div id="image">
         <span><?php echo $lang->title ?>: </span><span class="title"></span><br/>
         <span><?php echo $lang->type ?>: </span><div class="label label-default type"><i class="fa fa-image"></i> <span class="label-text"></span></div><br/><br/>
-        <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
+        <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 8px;" />
     </div>
 
     <div id="videoEmbed">

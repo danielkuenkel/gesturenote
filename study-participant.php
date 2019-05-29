@@ -1505,7 +1505,7 @@ if (login_check($mysqli) == true) {
 
                     // single questions joint section
                     var singleStressGraphicsRating = studyData.singleStressGraphicsRating;
-                    if (singleStressGraphicsRating !== 'none') {
+                    if (singleStressGraphicsRating && singleStressGraphicsRating !== 'none') {
                         var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
                         $(jointAnswers).insertAfter($(item).find('#headline-single-questions'));
                         if (singleStressGraphicsRating === 'hands') {
@@ -1518,11 +1518,13 @@ if (login_check($mysqli) == true) {
                             renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, studyData.stressTestItems[i].id, 'single');
                             renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, studyData.stressTestItems[i].id, 'single');
                         }
+                    } else {
+                        $(item).find('#single-stress-answers').remove();
                     }
 
                     // sequence questions joint section
                     var sequenceStressGraphicsRating = studyData.sequenceStressGraphicsRating;
-                    if (sequenceStressGraphicsRating !== 'none') {
+                    if (sequenceStressGraphicsRating && sequenceStressGraphicsRating !== 'none') {
                         var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
                         $(jointAnswers).insertAfter($(item).find('#headline-sequence-questions'));
 
@@ -1536,7 +1538,15 @@ if (login_check($mysqli) == true) {
                             renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, studyData.stressTestItems[i].id, 'sequence');
                             renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, studyData.stressTestItems[i].id, 'sequence');
                         }
+                    } else {
+                        $(item).find('#sequence-stress-answers').remove();
                     }
+
+                    if (singleStressGraphicsRating && singleStressGraphicsRating !== 'none' && sequenceStressGraphicsRating && sequenceStressGraphicsRating !== 'none') {
+                        $(item).find('#sequence-stress-answers').css({marginTop: '40px'});
+                    }
+
+                    console.log(singleStressGraphicsRating, sequenceStressGraphicsRating)
 
                     // single answers section
                     var singleStressQuestionnaire = studyData.singleStressQuestions;
@@ -1572,6 +1582,7 @@ if (login_check($mysqli) == true) {
                         }
 
                         if (questions.length > 0 && results.answers.length > 0) {
+                            console.log('render questionnaire answers', questions, results);
                             renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions, results, false, true);
                         }
                     }

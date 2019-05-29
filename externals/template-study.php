@@ -1354,7 +1354,7 @@ include '../includes/language.php';
                 <h4 id="headline-single-questions" style="margin-top: 0px"><?php echo $lang->singleAnswers ?></h4>
                 <div class="question-container"></div>
             </div>
-            <div id="sequence-stress-answers" style="margin-top: 40px">
+            <div id="sequence-stress-answers">
                 <h4 id="headline-sequence-questions" style="margin-top: 0px"><?php echo $lang->multipleAnswers ?></h4>
                 <div class="question-container"></div>
             </div>

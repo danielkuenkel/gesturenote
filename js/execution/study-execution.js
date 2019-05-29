@@ -409,24 +409,6 @@ function getThanksStepIndex() {
     return null;
 }
 
-function getCurrentPhase() {
-    var phaseSteps = null;
-    if (!previewModeEnabled) {
-        phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
-    } else {
-        phaseSteps = getContextualPhaseSteps();
-    }
-    return phaseSteps[currentPhaseStepIndex];
-}
-
-function getCurrentPhaseData() {
-    var currentPhase = getCurrentPhase();
-    if (currentPhase) {
-        return getLocalItem(currentPhase.id + '.data');
-    }
-    return null;
-}
-
 function getSourceContainer(selector) {
     switch (selector) {
         case VIEW_MODERATOR:

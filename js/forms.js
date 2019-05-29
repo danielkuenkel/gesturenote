@@ -1965,7 +1965,8 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
 
         if (optionalAnswerValue) {
             if (optionalAnswerValue.content !== '') {
-                $(item).find('#optionalanswer-content .address').addClass('bordered-scale-item').css({color: 'black'});;
+                $(item).find('#optionalanswer-content .address').addClass('bordered-scale-item').css({color: 'black'});
+                ;
                 $(item).find('#optionalanswer-content .text').text(optionalAnswerValue.content);
                 $(item).find('#no-answer').addClass('hidden');
             } else {
@@ -2750,9 +2751,25 @@ function renderGroupingQuestionGUSInput(item, parameters) {
             switch (parameters.optionSource) {
                 case 'gestures':
                     optionItem = getGestureById(options[i].id);
-                    var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
-                    button.attr('name', optionItem.id);
-                    option.prepend(button);
+//                    var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
+//                    button.attr('name', optionItem.id);
+//                    option.prepend(button);
+//                    $(formGroup).css({display: 'initial'});
+                    $(formGroup).on('mouseenter', {gesture: optionItem}, function (event) {
+                        var element = $(this);
+                        renderGesturePopoverPreview(event.data.gesture, function () {
+                            var popover = $('#popover-gesture');
+                            var top = $(element).offset().top - popover.height() + 3;
+                            var left = $(element).offset().left + parseInt((($(element).find('.btn-group').width() - popover.width()) / 2));
+                            popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                            playThroughThumbnails(popover.find('.previewGesture'));
+                            TweenMax.to(popover, .3, {autoAlpha: 1});
+                        });
+                    });
+
+                    $(formGroup).on('mouseleave', function () {
+                        resetGesturePopover();
+                    });
                     break;
                 case 'triggers':
                     optionItem = getTriggerById(options[i].id);
@@ -2985,6 +3002,24 @@ function renderAlternativeQuestionInput(item, data) {
                     var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
                     button.attr('name', options[i].id);
                     option.prepend(button);
+
+                    var gesture = getGestureById(optionId);
+                    $(formGroup).on('mouseenter', {gesture: gesture}, function (event) {
+                        var element = $(this);
+                        
+                        renderGesturePopoverPreview(event.data.gesture, function () {
+                            var popover = $('#popover-gesture');
+                            var top = $(element).offset().top - popover.height() + 3;
+                            var left = $(element).offset().left + parseInt((($(element).find('.btn-group').width() - popover.width()) / 2));
+                            popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                            playThroughThumbnails(popover.find('.previewGesture'));
+                            TweenMax.to(popover, .3, {autoAlpha: 1});
+                        });
+                    });
+
+                    $(formGroup).on('mouseleave', function () {
+                        resetGesturePopover();
+                    });
                 }
 
                 if (parameters.justification === 'yes') {
@@ -3467,10 +3502,11 @@ function renderFilterOptionsData(format, target, filters) {
 //    console.log('statusAddressMatch', statusAddressMatch);
     if (statusAddressMatch !== null && statusAddressMatch.index) {
         currentPhaseStepIndex = statusAddressMatch.index;
-//        console.log(currentPhaseData);
+        
     }
 
     var currentPhaseData = getCurrentPhaseData();
+//    console.log(currentPhaseStepIndex, currentPhaseData);
 
 //    console.log('render filter data:', format, filters);
 

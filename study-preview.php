@@ -139,7 +139,7 @@ if (login_check($mysqli) == true) {
                         </button>
                         <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
                         <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
-                        <button type="button" class="btn btn-default" id="toggle-dark-mode"><i class="fa fa-moon-o"></i></button>
+                        <!--<button type="button" class="btn btn-default" id="toggle-dark-mode"><i class="fa fa-moon-o"></i></button>-->
                         <button role="button" class="btn btn-default" id="btn-introduction"><i class="fa fa-support"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->help ?></span></button>
                         <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="fa fa-close"></i><span class="hidden-sm hidden-xs"> <?php echo $lang->close ?></span></button>
                     </div>
@@ -342,7 +342,7 @@ if (login_check($mysqli) == true) {
 
             // render data if all templates where loaded
             function onAllExternalsLoadedSuccessfully() {
-                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
+//                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
                 var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
                 if (tutorials && tutorials.studyPreview && parseInt(tutorials.studyPreview) === 1) {
                     $('#btn-introduction').click();

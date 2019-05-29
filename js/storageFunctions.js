@@ -273,10 +273,16 @@ function clearSceneImages() {
         var imageUrls = new Array();
         for (var i = 0; i < scenes.length; i++) {
             if (scenes[i].type === SCENE_IMAGE && scenes[i].parameters && scenes[i].parameters.url) {
-                imageUrls.push("../" + scenes[i].parameters.url);
+                var url = "../" + scenes[i].parameters.url;
+                var splitUrl = url.split('/');
+
+                if (splitUrl.length > 1 && splitUrl[1].trim() !== '') {
+                    imageUrls.push(url);
+                }
             }
         }
-        deleteSceneImage({image: imageUrls});
+
+        deleteFiles({files: imageUrls}, null);
     }
 }
 
@@ -306,7 +312,7 @@ function clearSounds() {
                 urls.push("../" + feedback[i].parameters.url);
             }
         }
-        deleteSound({sound: urls});
+        deleteFiles({files: urls});
     }
 }
 
@@ -432,8 +438,8 @@ function setStudyData(data) {
                 setLocalItem(phaseStepId + '.data', setData[phaseStepId]);
             }
         }
-        
-        if(setData.mapping && setData.mapping.length > 0) {
+
+        if (setData.mapping && setData.mapping.length > 0) {
             setLocalItem('extractionMapping', setData.mapping);
         }
 
@@ -472,12 +478,12 @@ function setStudyData(data) {
         setData.executionSuccess = data.resultData.results.studySuccessfull;
 //        console.log(data.resultData.results.aborted);
         setData.executionAborted = data.resultData.results.aborted;
-        
-        
-        if(data.resultData.results && data.resultData.results.snapshot) {
+
+
+        if (data.resultData.results && data.resultData.results.snapshot) {
             setData.snapshot = data.resultData.results.snapshot;
         }
-        
+
         setLocalItem(STUDY_RESULTS, setData);
 
         var phases = data.resultData.results.phases;
@@ -554,8 +560,8 @@ function setStudyData(data) {
             }
         }
     }
-    
-    if(data.allStudyResults) {
+
+    if (data.allStudyResults) {
         setLocalItem('allStudyResults', data.allStudyResults);
     }
 }

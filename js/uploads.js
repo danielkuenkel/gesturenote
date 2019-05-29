@@ -25,56 +25,58 @@ $(document).on('change', '.imageUpload', function (event) {
         button.addClass('disabled');
         clearAlerts(element);
 
-        var form = $(element).find('#upload-image-form');
-        var formData = new FormData(form[0]);
-        var uploadFiles = $(this)[0].files[0];
-        if (uploadFiles) {
-            formData.append('image', uploadFiles);
-        }
-
-        // check file
-        if (uploadFiles) {
-            if (uploadFiles.size > 8000000) {
-                appendAlert(element, ALERT_IMAGE_TO_LARGE);
-                $(button).next().attr('src', '');
-                $(button).removeClass('disabled');
-                $(button).closest('.root').find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
-                $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('fa-picture').addClass('fa-refresh');
-                control.replaceWith(control = control.clone(true));
-                $(button).trigger('saveData');
-                return null;
-            }
-            $(element).find('.title').val(uploadFiles.name);
-        }
-
-        var imageUrl = $(element).find('.imageAreaContent').attr('src');
-        if (imageUrl.trim() !== '') {
-            deleteSceneImage({image: ["../" + imageUrl]});
-        }
-
-        readFile(this.files[0], function () {
+        var uploadFiles = $(this)[0].files;
+        if (uploadFiles && uploadFiles.length > 0)
+        {
             showCursor($('body'), CURSOR_PROGRESS);
             $(button).closest('.root').find('#image-loading-indicator').removeClass('hidden');
             $(imageArea).addClass('hidden');
 
-            uploadSceneImage(formData, function (result) {
+            var tempData = [];
+            var uploadQueue = new UploadQueue();
+            $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
                 showCursor($('body'), CURSOR_DEFAULT);
                 $(button).removeClass('disabled');
-                if (result.status === RESULT_SUCCESS) {
-                    $(button).closest('.root').find('#image-loading-indicator').addClass('hidden');
-                    $(imageAreaContent).attr("src", result.imageUrl);
-                    $(element).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
-                    $(element).find('.chooseSceneImage .btn-icon').removeClass('fa-picture').addClass('fa-refresh');
-                    control.replaceWith(control = control.clone(true));
-                    $(button).trigger('saveData');
-                } else {
+                $(button).closest('.root').find('#image-loading-indicator').addClass('hidden');
+                $(element).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
+                $(element).find('.chooseSceneImage .btn-icon').removeClass('fa-picture').addClass('fa-refresh');
+                control.replaceWith(control = control.clone(true));
+                $(button).trigger('saveData');
 
+                var uploadedFiles = uploadQueue.getUploadURLs();
+                var unaddedElementData = [];
+                for (var j = 0; j < tempData.length; j++) {
+                    if (tempData[j].filename === uploadedFiles[0]) {
+                        $(element).find('.title').val(tempData[0].title);
+                        $(imageAreaContent).attr("src", uploadedFiles[0]);
+                        $(button).closest('.root').find('#image-loading-indicator').addClass('hidden');
+                        $(imageArea).removeClass('hidden');
+                    } else {
+                        unaddedElementData.push(tempData[j]);
+                    }
                 }
 
-                $(button).closest('.root').find('#image-loading-indicator').addClass('hidden');
-                $(imageArea).removeClass('hidden');
+                if (unaddedElementData.length > 0) {
+                    $(button).trigger('multipleImages', [unaddedElementData]);
+                }
             });
-        });
+
+            for (var i = 0; i < uploadFiles.length; i++) {
+                var filename = new String(hex_sha512(new Date().getTime() + "" + i)).substring(0, 92) + ".jpg";
+                if (uploadFiles[i].size <= 8000000) {
+                    uploadQueue.upload([uploadFiles[i]], filename);
+
+                    tempData.push({title: uploadFiles[i].name, filename: UPLOADS + filename});
+                    if (i === 0) {
+                        var imageUrl = "../" + $(element).find('.imageAreaContent').attr('src');
+                        var splitUrl = imageUrl.split('/');
+                        if (splitUrl.length > 1 && splitUrl[1].trim() !== '') {
+                            deleteFiles({files: [imageUrl]}, null);
+                        }
+                    }
+                }
+            }
+        }
     }
 });
 
@@ -85,24 +87,29 @@ $(document).on('click', '.btn-delete-image', function (event) {
         var button = $(this);
         button.addClass('disabled');
         var element = $(this).closest('.root');
-        var imageUrl = ["../" + $(element).find('.imageAreaContent').attr('src')];
-        showCursor($('body'), CURSOR_PROGRESS);
+
+        var imageUrl = "../" + $(element).find('.imageAreaContent').attr('src');
+        var splitUrl = imageUrl.split('/');
+
         clearAlerts(element);
+        if (splitUrl.length > 1 && splitUrl[1].trim() !== '') {
+            showCursor($('body'), CURSOR_PROGRESS);
 
-        deleteSceneImage({image: imageUrl}, function (result) {
-            showCursor($('body'), CURSOR_DEFAULT);
-            $(button).removeClass('disabled');
-            if (result.status === RESULT_SUCCESS) {
-                $(button).next().attr('src', '');
-                $(element).find('.imageArea').addClass('hidden');
-                $(button).closest('.root').find('.chooseSceneImage .btn-text').text('Bild auswählen');
-                $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('fa-refresh').addClass('fa-picture');
-                $(element).find('.title').val('');
-                $(button).trigger('saveData');
-            } else {
+            deleteFiles({files: [imageUrl]}, function (result) {
+                showCursor($('body'), CURSOR_DEFAULT);
+                $(button).removeClass('disabled');
+                if (result.status === RESULT_SUCCESS) {
+                    $(button).next().attr('src', '');
+                    $(element).find('.imageArea').addClass('hidden');
+                    $(button).closest('.root').find('.chooseSceneImage .btn-text').text('Bild auswählen');
+                    $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('fa-refresh').addClass('fa-picture');
+                    $(element).find('.title').val('');
+                    $(button).trigger('saveData');
+                } else {
 
-            }
-        });
+                }
+            });
+        }
     }
 });
 
@@ -123,63 +130,61 @@ $(document).on('change', '.soundUpload', function (event) {
         var dataHolder = $(element).find('.audio-holder');
         var audioPlayer = $(element).find('.audioPlayer');
         var control = $(this);
-        var button = $(dataHolder).parent().find('.chooseFeedbackSound');
+        var button = $(element).find('.chooseFeedbackSound');
         button.addClass('disabled');
 
-
-        var form = new FormData();
-        var uploadFiles = $(this)[0].files[0];
-        if (uploadFiles) {
-            form.append('sound', uploadFiles);
-        }
-
-        // check file
-        if (uploadFiles) {
-            if (uploadFiles.size > 8000000) {
-                appendAlert(element, ALERT_SOUND_TO_LARGE);
-                $(button).next().attr('src', '');
-                $(button).removeClass('disabled');
-                $(button).closest('.root').find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
-                $(button).closest('.root').find('.chooseFeedbackSound .btn-icon').removeClass('fa-picture').addClass('fa-refresh');
-                control.replaceWith(control = control.clone(true));
-                $(button).trigger('saveData');
-                return null;
-            }
-            $(element).find('.title').val(uploadFiles.name);
-        }
-
-        var soundUrl = $(element).find('.audio-holder').attr('src');
-        if (soundUrl.trim() !== '') {
-            deleteSound({sound: ["../" + soundUrl]}, function (result) {
-            });
-        }
-
-        readFile(this.files[0], function () {
+        var uploadFiles = $(this)[0].files;
+        if (uploadFiles && uploadFiles.length > 0)
+        {
             showCursor($('body'), CURSOR_PROGRESS);
-            $(element).find('#sound-loading-indicator').removeClass('hidden');
+            $(button).closest('.root').find('#sound-loading-indicator').removeClass('hidden');
             $(audioPlayer).addClass('hidden');
 
-            uploadSound(form, function (result) {
+            var tempData = [];
+            var uploadQueue = new UploadQueue();
+            $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
                 showCursor($('body'), CURSOR_DEFAULT);
                 $(button).removeClass('disabled');
-                if (result.status === RESULT_SUCCESS) {
-                    $(element).find('#sound-loading-indicator').addClass('hidden');
-                    $(dataHolder).attr("src", result.soundUrl);
-                    $(audioPlayer).removeClass('hidden');
-                    $(element).find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
-                    $(element).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-volume-up');
-                    $(element).find('.chooseFeedbackSound .btn-icon').addClass('fa fa-refresh');
-                    control.replaceWith(control = control.clone(true));
-                    $(element).trigger('saveData');
-                } else {
+                $(button).closest('.root').find('#sound-loading-indicator').addClass('hidden');
+                $(element).find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
+                $(element).find('.chooseFeedbackSound .btn-icon').removeClass('fa-volume-up').addClass('fa-refresh');
+                control.replaceWith(control = control.clone(true));
+                $(button).trigger('saveData');
 
+                var uploadedFiles = uploadQueue.getUploadURLs();
+                var unaddedElementData = [];
+                for (var j = 0; j < tempData.length; j++) {
+                    if (tempData[j].filename === uploadedFiles[0]) {
+                        $(element).find('.title').val(tempData[0].title);
+                        $(dataHolder).attr("src", uploadedFiles[0]);
+                        $(button).closest('.root').find('#sound-loading-indicator').addClass('hidden');
+                        $(audioPlayer).removeClass('hidden');
+                    } else {
+                        unaddedElementData.push(tempData[j]);
+                    }
                 }
 
-                $(element).find('#sound-loading-indicator').addClass('hidden');
-                $(audioPlayer).removeClass('hidden');
+                if (unaddedElementData.length > 0) {
+                    $(button).trigger('multipleSounds', [unaddedElementData]);
+                }
             });
-//
-        });
+
+            for (var i = 0; i < uploadFiles.length; i++) {
+                var filename = new String(hex_sha512(new Date().getTime() + "" + i)).substring(0, 92) + ".mp3";
+                if (uploadFiles[i].size <= 8000000) {
+                    uploadQueue.upload([uploadFiles[i]], filename);
+
+                    tempData.push({title: uploadFiles[i].name, filename: UPLOADS + filename});
+                    if (i === 0) {
+                        var imageUrl = "../" + $(element).find('.dataHolder').attr('src');
+                        var splitUrl = imageUrl.split('/');
+                        if (splitUrl.length > 1 && splitUrl[1].trim() !== '') {
+                            deleteFiles({files: [imageUrl]}, null);
+                        }
+                    }
+                }
+            }
+        }
     }
 });
 
@@ -190,24 +195,28 @@ $(document).on('click', '.btn-delete-sound', function (event) {
         var button = $(this);
         button.addClass('disabled');
         var element = $(this).closest('.root');
-        var soundUrl = ["../" + $(element).find('.audio-holder').attr('src')];
-        showCursor($('body'), CURSOR_PROGRESS);
-        deleteSound({sound: soundUrl}, function (result) {
-            showCursor($('body'), CURSOR_DEFAULT);
-            $(button).removeClass('disabled');
-            if (result.status === RESULT_SUCCESS) {
-                $(element).find('.audio-holder').attr('src', '');
-                $(element).find('.audioPlayer').addClass('hidden');
-                $(element).find('.chooseFeedbackSound .btn-text').text('Sounddatei auswählen');
-                $(element).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-refresh');
-                $(element).find('.chooseFeedbackSound .btn-icon').addClass('fa fa-volume-up');
-                $(element).find('#stop').click();
-                $(element).find('.title').val('');
-                $(button).trigger('saveData');
-            } else {
+        var soundUrl = "../" + $(element).find('.audio-holder').attr('src');
+        var splitUrl = soundUrl.split('/');
 
-            }
-        });
+        if (splitUrl.length > 1 && splitUrl[1].trim() !== '') {
+            showCursor($('body'), CURSOR_PROGRESS);
+
+            deleteFiles({files: [soundUrl]}, function (result) {
+                showCursor($('body'), CURSOR_DEFAULT);
+                $(button).removeClass('disabled');
+                if (result.status === RESULT_SUCCESS) {
+                    $(element).find('.audio-holder').attr('src', '');
+                    $(element).find('.audioPlayer').addClass('hidden');
+                    $(element).find('.chooseFeedbackSound .btn-text').text('Sounddatei auswählen');
+                    $(element).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-refresh').addClass('fa fa-volume-up');
+                    $(element).find('#stop').click();
+                    $(element).find('.title').val('');
+                    $(button).trigger('saveData');
+                } else {
+
+                }
+            });
+        }
     }
 });
 
@@ -329,7 +338,7 @@ function urlIsValid(url, type) {
             regEx = /https:\/\/pidoco.com\/rabbit\/edit\/[0-9]+#page\/page[0-9]+/;
             break;
         case TYPE_URL_PIDOCO_EMBED:
-            
+
             // https://pidoco.com/rabbit/invitation/VMxmlrSqbOr16lsRXb5TdkT3lJQsNSo3hU1y3ghn
             // https://pidoco.com/rabbit/api/prototypes/172450/pages/page648229105.xhtml?mode=plain&api_key=kzhIRzrEw4dmNbIvLfhvwL0c6tmUWL7Ek9PaiHNg
             // regEx = /https:\/\/(?:fulda\.)?pidoco.com\/rabbit\/api\/prototypes\/[0-9]+\/pages\/page[0-9]+/;

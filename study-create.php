@@ -341,7 +341,7 @@ if (login_check($mysqli) == true) {
                     </div>
 
                     <div class="" id="scenes-catalog" style="margin-top: 40px">
-                        <div style="">
+                        <div style="display: inline;">
                             <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->scenes ?> 
                                 <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogScenes ?>"></i>
                             </h4>
@@ -350,7 +350,7 @@ if (login_check($mysqli) == true) {
                             </button>
                         </div>
 
-                        <div class="list-container" style="display: inline-grid"></div>
+                        <div class="list-container" style="display: grid"></div>
                         <div class="alert-space alert-no-phase-data" style="margin-top: 10px"></div>
                     </div>
 
@@ -988,7 +988,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 if (animate === true) {
-                    TweenMax.from(clone, 1.2, {y: -50, opacity: 0, delay: .3, ease: Elastic.easeOut});
+                    TweenMax.from(clone, .8, {y: -50, opacity: 0, delay: .3, ease: Elastic.easeOut});
                 }
             }
 

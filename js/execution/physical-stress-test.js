@@ -247,6 +247,7 @@ PhysicalStressTest.prototype.renderModeratorView = function () {
                 $(container).find('#btn-next-gesture').removeClass('hidden disabled');
             } else {
                 $(container).find('#btn-done-questionnaire').removeClass('hidden disabled');
+                $(container).find('#btn-done-questionnaire').click();
             }
 
             if (data.singleStressQuestions || data.sequenceStressQuestions) {
@@ -301,14 +302,14 @@ PhysicalStressTest.prototype.renderModeratorView = function () {
         appendAlert(container, ALERT_PHASE_STEP_DONE);
         $(container).find('#stress-test-controls, #question-container').addClass('hidden');
 
-        $(container).find('#btn-stress-test-done').removeClass('hidden');
-        $(container).find('#btn-stress-test-done').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-            }
-            nextStep();
-        });
+//        $(container).find('#btn-stress-test-done').removeClass('hidden');
+//        $(container).find('#btn-stress-test-done').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+        if (peerConnection) {
+            peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+        }
+        nextStep();
+//        });
     }
 
 

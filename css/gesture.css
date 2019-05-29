@@ -423,13 +423,13 @@ and open the template in the editor.
     padding: 6px;
     background-color: rgba(255,255,255,1);
     border-bottom-left-radius: 10px;
-    border-top-right-radius: 8px;
+    border-top-right-radius: 6px;
 }
 
 .gesture-info-symbols.small {
     padding: 4px;
     border-bottom-left-radius: 6px;
-    border-top-right-radius: 8px;
+    border-top-right-radius: 6px;
 }
 
 .gesture-info-symbol {

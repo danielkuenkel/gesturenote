@@ -17,7 +17,7 @@ function initOverlayContent(format, id) {
 function initOverlayContentByFormat(format) {
     var formatClone = $('#overlays-item-container').find('#' + format).clone().removeAttr('id');
     $('#overlay-content-placeholder').empty().append(formatClone);
-    console.log(format, formatClone);
+//    console.log(format, formatClone);
     $(window).unbind('scroll resize');
     initOverlayContentFunctionalitiesByFormat(format, formatClone);
 }
@@ -199,7 +199,7 @@ function initQuestionnairePreview(button, list, getAssembledGestures, additional
 
     $(list).bind('change listItemAdded', function (event, data) {
 
-        console.log('change listItemAdded', event);
+//        console.log('change listItemAdded', event);
         if ($(this).children().length > 0) {
             $(button).removeClass('disabled');
             if (additionalFunction) {
@@ -210,7 +210,7 @@ function initQuestionnairePreview(button, list, getAssembledGestures, additional
         }
 
         var allowFilterOptions = $(list).attr('data-allow-filters') === 'true';
-        console.log('list allowFilterOptions', allowFilterOptions);
+//        console.log('list allowFilterOptions', allowFilterOptions);
         if (allowFilterOptions) {
             if (event.type === 'change' && data && data.type === 'delete') {
                 var deleteFilterElement = $(list).find('.filter-options-container').find('.dropdown-toggle #' + data.id).closest('.root');
@@ -242,13 +242,13 @@ function initQuestionnairePreview(button, list, getAssembledGestures, additional
                                     break;
                                 }
                             }
-                            console.log(filterOptionData, filterOption, element);
+//                            console.log(filterOptionData, filterOption, element);
                             updateAvailableFilterOptions(formatData, dataRoot, root, element, filterOption);
                         }
                     }
                 }
             } else if (event.type === 'listItemAdded') {
-                console.log('list item added');
+//                console.log('list item added');
                 checkFilterOptions(list);
             }
         } else {
@@ -310,7 +310,7 @@ function initFocusGroupInterviewOverlay(id, formatClone) {
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-question-button-group'), keyQuestionsContainer, $(formatClone), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
 
     var data = getLocalItem(id + '.data');
-    console.log(data);
+//    console.log(data);
     if (data) {
         renderData(data);
     } else {
@@ -561,7 +561,7 @@ function initFocusGroupInterviewOverlay(id, formatClone) {
             clearAlerts($(formatClone).find('#annotations-container'));
             var item = $('#form-item-container').find('#annotation-item').clone();
             $(item).attr('data-annotation-id', chance.natural());
-            console.log('add annotation item', item);
+//            console.log('add annotation item', item);
             tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#annotations-container .option-container'), 'annotation-item', true);
             $(item).find('.color-selector .darkblue').addClass('selected');
 
@@ -1678,7 +1678,7 @@ function initScenarioOverlay(id, formatClone) {
                 event.handled = true;
                 clearAlerts($(taskItem).find('#woz-item-container'));
                 var item = $('#form-item-container').find('#wozExperimentItem').clone().attr('id', 'wozItem');
-                tweenAndAppend(item, $(this), $(formatClone), $(taskItem).find('#woz-item-container .option-container'), null, true, function() {
+                tweenAndAppend(item, $(this), $(formatClone), $(taskItem).find('#woz-item-container .option-container'), null, true, function () {
                     updateBadges($(taskItem).find('#woz-item-container .option-container'), 'wozItem');
                 });
                 initTransitionFeedbackMode(item, formatClone);
@@ -2237,7 +2237,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
                     if (gestures && gestures.length > 0) {
 
                         set.push({id: itemId, gestures: gestures});
-                        console.log('id:', itemId, set);
+//                        console.log('id:', itemId, set);
                     }
                 } else {
 
@@ -2274,7 +2274,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
             stressTest.sequenceStressGraphicsRating = $(formatClone).find('#useGraphicalSequenceStressSwitch .btn-option-checked').attr('id');
         }
 
-        console.log(stressTest);
+//        console.log(stressTest);
         saveObservations($(formatClone), $(formatClone).find('#observations #list-container').children(), stressTest);
         setLocalItem(id + ".data", stressTest);
     });
@@ -2283,7 +2283,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
         event.preventDefault();
         if (event.handled !== true)
         {
-            console.log('add option clicked');
+//            console.log('add option clicked');
             event.handled = true;
             clearAlerts($(formatClone).find('#stressTest'));
             var item = $('#form-item-container').find('#physicalStressTestItem').clone();
@@ -2313,7 +2313,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
 
     function initAddGestureButton(container) {
         $(container).find('.btn-add-physicalStressTestOptionGesture').unbind('click').bind('click', function (event) {
-            console.log('add gesture clicked');
+//            console.log('add gesture clicked');
             event.preventDefault();
             var item = $('#form-item-container').find('#physicalStressTestItem-gesture').clone();
             tweenAndAppend(item, $(this), $(formatClone), $(container).find('#item-view'), 'physicalStressTestItem-gesture', true);
@@ -2989,7 +2989,7 @@ function initCatalogGesturesOverlay(formatClone) {
         $(formatClone).find('.search-input').val('');
         $('#custom-modal').unbind('gestureSetsUpdated');
         resetRecorder();
-        console.log($(event.target).attr('href'))
+//        console.log($(event.target).attr('href'))
         switch ($(event.target).attr('href')) {
             case '#study-gesture-set':
                 getWholeStudyGestures();
@@ -3334,7 +3334,7 @@ function initCatalogGesturesOverlay(formatClone) {
     }
 
     function getWholeGestureImporter() {
-        console.log(formatClone, $(formatClone).find('#gesture-importer-content'));
+//        console.log(formatClone, $(formatClone).find('#gesture-importer-content'));
         var importer = $('#template-gesture').find('#gesture-importer-template').clone().removeAttr('id');
         $(formatClone).find('#gesture-importer').empty().append(importer);
         appendAlert($(formatClone).find('#gesture-importer'), ALERT_NO_EXCHANGEABLE_FILE_SELECTED);
@@ -3383,7 +3383,13 @@ function initCatalogTriggerOverlay(formatClone) {
         saveData();
         renderCatalogOverview();
     });
+    
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-trigger-button-group'), $(formatClone).find('#list-container'), formatClone, true, true, ALERT_NO_PHASE_DATA);
+    
+    $(formatClone).find('#list-container').bind('change', function () {
+        saveData();
+        renderCatalogOverview();
+    });
 }
 
 function initCatalogFeedbackOverlay(formatClone) {
@@ -3413,8 +3419,7 @@ function initCatalogFeedbackOverlay(formatClone) {
                         $(clone).find('.audio-holder').attr('src', data[i].parameters.url);
                         $(clone).find('.audioPlayer').removeClass('hidden');
                         $(clone).find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
-                        $(clone).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-volume-up');
-                        $(clone).find('.chooseFeedbackSound .btn-icon').addClass('fa fa-refresh');
+                        $(clone).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-volume-up').addClass('fa fa-refresh');
                     }
                     break;
             }
@@ -3457,11 +3462,39 @@ function initCatalogFeedbackOverlay(formatClone) {
         saveData();
         renderCatalogOverview();
     });
+    
     $(formatClone).find('#list-container').unbind('saveData').bind('saveData', function (event) {
-//        console.log('save data catched');
+        saveData();
+    }); 
+    
+    initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-feedback-button-group'), $(formatClone).find('#list-container'), formatClone, true, true, ALERT_NO_PHASE_DATA);
+    
+    $(formatClone).find('#list-container').bind('change', function () {
+        saveData();
+        renderCatalogOverview();
+    });
+    
+    $(formatClone).find('#list-container').unbind('multipleSounds').bind('multipleSounds', function (event, unaddedData) {
+        event.preventDefault();
+        for (var i = 0; i < unaddedData.length; i++) {
+            var clone = $('#form-item-container').find('#sound').clone();
+            clone.find('.title').val(unaddedData[i].title);
+            clone.attr('name', chance.natural());
+            $(formatClone).find('#list-container').append(clone);
+            updateBadges($(formatClone).find('#list-container'), 'sound');
+
+            $(clone).find('.audio-holder').attr("src", unaddedData[i].filename);
+            $(clone).find('.audioPlayer').removeClass('hidden');
+            $(clone).find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
+            $(clone).find('.chooseFeedbackSound .btn-icon').removeClass('fa-volume-up').addClass('fa-refresh');
+        }
+
+        checkCurrentListState($(formatClone).find('#list-container'));
+        initPopover();
         saveData();
     });
-    initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-feedback-button-group'), $(formatClone).find('#list-container'), formatClone, true, true, ALERT_NO_PHASE_DATA);
+    
+    console.log($(formatClone).find('#list-container'));
 }
 
 function initCatalogScenesOverlay(formatClone) {
@@ -3526,7 +3559,7 @@ function initCatalogScenesOverlay(formatClone) {
             var name = $(item).attr('name');
             var title = $(item).find('.title').val();
             var parameters = {};
-//            var data = new Array();
+
             if (name === undefined || name === null) {
                 name = chance.natural();
             }
@@ -3555,8 +3588,9 @@ function initCatalogScenesOverlay(formatClone) {
                     break;
             }
 
-//            console.log(parameters);
-            assembledData.push({id: name, type: type, title: title, parameters: parameters});
+            if (parameters && parameters.url) {
+                assembledData.push({id: name, type: type, title: title, parameters: parameters});
+            }
         }
         setLocalItem(ASSEMBLED_SCENES, assembledData);
     }
@@ -3567,8 +3601,29 @@ function initCatalogScenesOverlay(formatClone) {
     });
 
     $(formatClone).find('#list-container').unbind('saveData').bind('saveData', function (event) {
-//        console.log('save data catched');
         initControlButtons();
+        saveData();
+    });
+
+    $(formatClone).find('#list-container').unbind('multipleImages').bind('multipleImages', function (event, unaddedData) {
+        event.preventDefault();
+        for (var i = 0; i < unaddedData.length; i++) {
+            var clone = $('#form-item-container').find('#image').clone();
+            clone.find('.title').val(unaddedData[i].title);
+            clone.attr('name', chance.natural());
+            $(formatClone).find('#list-container').append(clone);
+            updateBadges($(formatClone).find('#list-container'), SCENE_IMAGE);
+
+            $(clone).find('.imageAreaContent').attr("src", unaddedData[i].filename);
+            $(clone).find('.imageArea').removeClass('hidden');
+            $(clone).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
+            $(clone).find('.chooseSceneImage .btn-icon').removeClass('fa-picture');
+            $(clone).find('.chooseSceneImage .btn-icon').addClass('fa-refresh');
+        }
+
+        checkCurrentListState($(formatClone).find('#list-container'));
+        initControlButtons();
+        initPopover();
         saveData();
     });
 
@@ -3597,6 +3652,12 @@ function initCatalogScenesOverlay(formatClone) {
     initControlButtons();
     initPopover();
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-scenes-button-group'), $(formatClone).find('#list-container'), formatClone, true, true, ALERT_NO_PHASE_DATA);
+
+    $(formatClone).find('#list-container').bind('change', function (event) {
+        initControlButtons();
+        saveData();
+        renderCatalogOverview();
+    });
 }
 
 
@@ -3625,7 +3686,7 @@ function tweenAndAppend(item, triggerElement, formatClone, container, itemType, 
 }
 
 function onMoveComplete(clone, formatClone, listContainer, itemType, fixDynamicAffixScrolling) {
-    console.log('on move complete');
+//    console.log('on move complete');
     $(listContainer).append(clone);
     checkCurrentListState(listContainer);
     if (itemType) {
@@ -3636,7 +3697,7 @@ function onMoveComplete(clone, formatClone, listContainer, itemType, fixDynamicA
         resetDynamicAffixScrolling(formatClone);
     }
 
-//    TweenMax.from(clone, 1, {y: -40, opacity: 0, ease: Elastic.easeOut, clearProps: 'all'});
+    TweenMax.from(clone, .8, {y: -40, opacity: 0, ease: Elastic.easeOut, clearProps: 'all'});
     $(listContainer).trigger('listItemAdded', [clone]);
     initPopover();
 }

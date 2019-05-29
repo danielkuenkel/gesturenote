@@ -2640,7 +2640,7 @@
             "explorationScenesForTrigger": "Soll dem Probanden nicht nur die Gesten und die Interaktionsaufgaben mitgeteilt werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden? Es kann für den Probanden einfacher sein geeignete Interaktionsaufgaben auszuwählen, wenn dieser weiß wie das User Interface aussehen wird.",
             "web": "Aus Sicherheitsgründen überprüfen einige Webseiten den sog. Same-Origin. Wenn eine Webseite in der UI-Vorschau nicht angezeigt wird, dann kann diese nicht geladen werden. ",
             "pidoco": "Hinterlegen Sie einen fertigen Pidoco-Prototypen als UI. Exportieren Sie das Studien-Gesten-Set und nutzen Sie es in Pidoco.",
-            "image": "Hinterlegen Sie ein Bild im Format JPEG oder PNG mit maximal 8MB.",
+            "image": "Hinterlegen Sie ein Bild im Format JPEG oder PNG mit maximal 8MB. Es können auch mehrere Bilder gleichzeitig ausgewählt und geladen werden.",
             "videoEmbed": "Hinterlegen Sie eine Embed-URL von YouTube oder Vimeo. Die URL kann dem Teilen-Dialog der jeweiligen Plattform entnommen werden.",
             "embedURL": "Die Einbettungs-URL finden Sie bei YouTube und Vimeo im Teilen-Dialog. Gehen Sie dort auf Einbetten und kopieren Sie den kompletten Text.",
             "text": "Erstellen Sie eine Text-Rückmeldung, der beim Probanden angezeigt werden kann, z.B. während eines Benutzertests.",

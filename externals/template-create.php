@@ -1881,15 +1881,18 @@ include '../includes/language.php';
 
     <div class="col-xs-12 col-sm-11 root" id="wozExperimentItem">
         <div class="panel panel-default panel-shadow">
-            <div class="panel-heading panel-heading-success">
+            <div class="panel-heading panel-heading-expandable panel-heading-success">
                 <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                     <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                     <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                     <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 </div>
                 <span><?php echo $lang->wozElement ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+                <div class="btn-group btn-group-sm pull-right">
+                    <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+                </div>
             </div>
-            <div class="panel-body" style="margin-bottom: 0px">
+            <div class="panel-body panel-body-expandable hidden" style="margin-bottom: 0px">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -3198,18 +3201,21 @@ include '../includes/language.php';
                 </div>
 
                 <form enctype="multipart/form-data" id="upload-image-form" class="hidden">
-                    <input class="imageUpload hidden" name="image" type="file" accept="image/jpeg, image/gif, image/png" />
+                    <input class="imageUpload hidden" name="image" type="file" accept="image/jpeg, image/gif, image/png" multiple />
                 </form>
             </div>
             <div class="alert-space alert-image-to-large" style="margin-top: 10px"></div>
 
             <div class="imageArea hidden" style="margin-top: 10px; width: 400px; height: auto; position: relative;">
-                <div class="btn-group"style="position: absolute; margin: 10px;">
+                <div class="btn-group btn-group-sm"style="position: absolute; margin: 10px;">
                     <button class="btn btn-danger btn-shadow btn-delete-image"><span class="fa fa-trash"></span> <?php echo $lang->deleteImage ?></button>
+                </div>
+
+                <div class="btn-group btn-group-sm"style="position: absolute; margin: 10px; right: 0px;">
                     <button class="btn btn-default btn-shadow btn-decrease-image"><i class="fa fa-minus"></i></button>
                     <button class="btn btn-default btn-shadow btn-increase-image"><i class="fa fa-plus"></i></button>
                 </div>
-                <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
+                <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 8px;" />
             </div>
 
             <div id="image-loading-indicator" class="hidden" style="margin-top: 10px">
@@ -3561,7 +3567,7 @@ include '../includes/language.php';
                 </div>
 
                 <form enctype="multipart/form-data" id="upload-sound-form" method="post" class="hidden">
-                    <input class="soundUpload hidden" name="sound" type="file" accept="audio/mp3" />
+                    <input class="soundUpload hidden" name="sound" type="file" accept="audio/mp3" multiple />
                 </form>
 
                 <div class="alert-space alert-sound-to-large" style="margin-top: 10px"></div>
