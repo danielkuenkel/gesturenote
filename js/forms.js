@@ -119,11 +119,12 @@ function renderScaleItems(container, count, options) {
 }
 
 function updateBadges(container, selector) {
+    
     if (selector !== null) {
         var children = $(container).children('#' + selector);
         for (var i = 0; i < children.length; i++) {
-            $(children[i]).find('.badgeId').text(i + 1);
-            $(children[i]).find('.badgeQuantity').text(children.length);
+            $(children[i]).find('.badgeId').first().text(i + 1);
+            $(children[i]).find('.badgeQuantity').first().text(children.length);
         }
     }
 }

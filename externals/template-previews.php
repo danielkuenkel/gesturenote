@@ -58,6 +58,7 @@ include '../includes/language.php';
 
                 <div id="preparation-role-selection-container" class="">
                     <h3><?php echo $lang->roleSelection ?></h3>
+                    <div class="alert-space alert-select-role-hint"></div>
                     <div class="alert-space alert-duplicated-role-detected"></div>
                     <div class="form-group root preparation-roleSelect">
                         <!--                            <label style="margin: 0">
@@ -147,6 +148,7 @@ include '../includes/language.php';
 
                 <div id="preparation-participation-queue" class="hidden" style="margin-top: 40px">
                     <h3><?php echo $lang->waitingParticipants ?></h3>
+                    <div class="alert-space alert-select-participant-hint"></div>
 
                     <div class="form-group hidden root preparation-iceTransportsSelect">
                         <label style="margin: 0">
@@ -190,7 +192,10 @@ include '../includes/language.php';
                 </div>
 
                 <div id="preparation-call-screen" class="row hidden">
+                    
                     <div class="col-xs-12">
+                        <div class="alert-space alert-welcome-participant-hint"></div>
+                        
                         <div class="embed-responsive embed-responsive-4by3" id="preparation-video-caller">
                             <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto" style="border-radius:8px; border: 1px solid #eeeeee;"/>
                             <!--                            <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
@@ -405,7 +410,7 @@ include '../includes/language.php';
             <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>-->
             <span class="label label-default hidden" id="dimension"></span>
             <div><?php echo $lang->groupingOptions ?></div>
-            <div class="option-container"></div>
+            <div class="option-container" style="display: grid"></div>
         </div>
     </div>
 

@@ -4824,7 +4824,7 @@ $(document).on('click', '.btn-expand', function (event) {
         var panel = $(this).closest('.root');
         var container = $(panel).parent();
         $(this).popover('hide');
-        console.log(panel, $(container).find('.panel-body-expandable'));
+//        console.log(panel, $(container).find('.panel-body-expandable'));
 
         if ($($(panel).find('.panel-body-expandable')[0]).hasClass('hidden')) {
             $(container).find('.panel-body-expandable').addClass('hidden');

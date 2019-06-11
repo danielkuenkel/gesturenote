@@ -55,6 +55,7 @@ ExecutionPreparation.prototype.renderModeratorView = function () {
         $(container).find('.preparation-study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + ": ");
         $(container).find('.preparation-study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + translation.from + ' ' + (totalDays === 1 ? new Date(dateFrom).toLocaleDateString() : new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString()));
         $(container).find('.preparation-study-plan').removeClass('hidden');
+        appendAlert(container, ALERT_SELECT_ROLE_HINT);
 
         $(container).find('#btn-preparation-check-rtc').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -62,6 +63,8 @@ ExecutionPreparation.prototype.renderModeratorView = function () {
             setTimeout(function () {
                 $(container).find('#preparation-check-rtc-status').addClass('hidden');
                 $(container).find('#preparation-participation-queue').removeClass('hidden');
+                clearAlerts(container);
+                appendAlert(container, ALERT_SELECT_PARTICIPANT_HINT);
             }, 2000);
         });
 
@@ -70,6 +73,8 @@ ExecutionPreparation.prototype.renderModeratorView = function () {
             $(container).find('#preparation-participation-queue').addClass('hidden');
             $(container).find('#preparation-role-selection-container').addClass('hidden');
             $(container).find('#preparation-call-screen').removeClass('hidden');
+            clearAlerts(container);
+            appendAlert(container, ALERT_WELCOME_PARTICIPANT_HINT);
         });
 
         $(container).find('#btn-preparation-close-call').unbind('click').bind('click', function (event) {

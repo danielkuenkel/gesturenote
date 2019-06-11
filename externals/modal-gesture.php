@@ -215,6 +215,7 @@ include '../includes/language.php';
                         <label class="text"><?php echo $lang->assignToGestureSet ?></label>
 
                         <div id="existing-sets-container">
+                            <div id="gesture-set-loading-indicator" class="hidden"><i class="fa fa-circle-o-notch fa-2x fa-spin"></i></div>
                             <div class="option-container root"></div>
                         </div>
                         <div class="alert-space alert-no-gesture-sets-for-study"></div>
@@ -1003,17 +1004,19 @@ include '../includes/language.php';
      * gesture set adding and attached rendering
      */
     function renderAttachedGestureSets(preselect, id) {
+        $('#existing-sets-container').find('#gesture-set-loading-indicator').removeClass('hidden');
         getGestureSets(function (result) {
             if (result.status === RESULT_SUCCESS) {
                 setLocalItem(GESTURE_SETS, result.gestureSets);
                 renderModalGestureSets(preselect, id);
+                $('#existing-sets-container').find('#gesture-set-loading-indicator').addClass('hidden');
             }
         });
     }
 
     function renderModalGestureSets(preselect, id) {
         var sets = getLocalItem(GESTURE_SETS);
-//        console.log('render attached gesture sets', sets);
+        
         if (sets && sets !== null && sets !== '' && sets.length > 0) {
             var container = $('#add-to-gesture-set #existing-sets-container');
             container.find('.option-container').empty();

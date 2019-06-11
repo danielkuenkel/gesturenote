@@ -4384,7 +4384,7 @@
                 "used": "used",
                 "multiselect": "yes",
                 "justification": "yes",
-                "justificationFor": "selectOption",
+                "justificationFor": "selectOne",
                 "optionSource": "gestures",
                 "optionalAnswer": "no"
             },
@@ -5389,7 +5389,22 @@
         "duplicatedRoleDetected": {
             "id": "duplicated-role-detected",
             "type": "warning",
-            "text": "Only one role may be taken per conversation. This role already exists. Choose another one."
+            "text": "Only one role may be taken per execution. This role already exists. Choose another one."
+        },
+        "selectRoleHint": {
+            "id": "select-role-hint",
+            "type": "warning",
+            "text": "Select a role. Only one role may be taken per execution. There will be a technical check of the hardware. To conduct a study, you need a webcam and a microphone. Access must be explicitly granted."
+        },
+        "selectParticipantHint": {
+            "id": "select-participant-hint",
+            "type": "warning",
+            "text": "Participants are waiting for you. You can only consult one participant per execution. Select the participant from the list with whom you would like to conduct the survey."
+        },
+        "welcomeParticipantHint": {
+            "id": "welcome-participant-hint",
+            "type": "warning",
+            "text": "Welcome your participant and explain him this study. Use the shown study description. Then start the survey by clicking <div class='btn btn-xs btn-success'><i class='fa fa-chevron-right'> </i>Start survey</div>. Keep in mind that a redirect to a new page will happen and the conversation is briefly interrupted."
         },
         "pleaseWait": {
             "id": "please-wait",

@@ -120,6 +120,7 @@ if ($h && $token && $studyId) {
 
                     <div id="role-selection-container" class="">
                         <h3><?php echo $lang->roleSelection ?></h3>
+                        <div class="alert-space alert-select-role-hint"></div>
                         <div class="alert-space alert-duplicated-role-detected"></div>
                         <div class="form-group root roleSelect">
                             <!--                            <label style="margin: 0">
@@ -217,6 +218,7 @@ if ($h && $token && $studyId) {
 
                     <div id="participation-queue" class="hidden" style="margin-top: 40px">
                         <h3><?php echo $lang->waitingParticipants ?></h3>
+                        <div class="alert-space alert-select-participant-hint"></div>
 
                         <div class="form-group hidden root iceTransportsSelect">
                             <label style="margin: 0">
@@ -253,6 +255,8 @@ if ($h && $token && $studyId) {
 
                     <div id="call-screen" class="row hidden">
                         <div class="col-xs-12">
+                            <div class="alert-space alert-welcome-participant-hint"></div>
+                            
                             <div class="embed-responsive embed-responsive-4by3" id="video-caller">
                                 <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
                                     <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
@@ -391,9 +395,7 @@ if ($h && $token && $studyId) {
                 if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
                     $('#study-details').removeClass('hidden');
                     if (now > dateFrom && now < dateTo) {
-
                         checkRoles();
-
                         appendAlert($('#participation-queue'), ALERT_SEARCH_PARTICIPATION_REQUESTS);
 
                         getParticipationRequests({studyId: studyData.generalData.id}, function (result) {
@@ -480,6 +482,8 @@ if ($h && $token && $studyId) {
                 if (!needObserver) {
                     $('.roleSelect #observer').addClass('disabled');
                 }
+
+                appendAlert($('#role-selection-container'), ALERT_SELECT_ROLE_HINT);
             }
 
             var currentRequests = null;
@@ -530,10 +534,10 @@ if ($h && $token && $studyId) {
                 $('#participation-queue').find('#list-container').empty();
                 if (requests && requests.length > 0) {
                     clearAlerts($('#participation-queue'));
+                    appendAlert($('#participation-queue'), ALERT_SELECT_PARTICIPANT_HINT);
                     $('.iceTransportsSelect').removeClass('hidden');
 
                     for (var i = 0; i < requests.length; i++) {
-
                         var request = requests[i];
                         var item = $('#queue-thumbnail').clone().removeAttr('id').removeClass('hidden');
                         $('#participation-queue').find('#list-container').append(item);
@@ -592,6 +596,7 @@ if ($h && $token && $studyId) {
 
             var sources = {video: null, mic: null, constraints: null};
             function checkRTC(target) {
+                clearAlerts($('#role-selection-container'));
                 $('#participation-queue').addClass('hidden');
                 $('#check-rtc-status').removeClass('hidden');
 
@@ -757,6 +762,10 @@ if ($h && $token && $studyId) {
                     event.preventDefault();
 
                     clearAlerts($('#study-participation, #role-selection-container'));
+//                    var selectedRole = $('.roleSelect').find('.btn-option-checked').attr('id');
+                    if (selectedRole === VIEW_MODERATOR) {
+                        appendAlert($('#call-screen'), ALERT_WELCOME_PARTICIPANT_HINT);
+                    }
                     $('#study-details #initialize-recorders-list').empty();
 
                     // check if sensor has be connected

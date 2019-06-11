@@ -1921,9 +1921,9 @@
     "insertScenarioDescription": "Eingangsszenario einfügen",
     "expand": "Ausklappen",
     "collapse": "Einklappen",
-    "task": "Aufgabe",
-    "tasks": "Aufgaben",
-    "insertTask": "Aufgabe einfügen",
+    "task": "Szenariobasierte Aufgabe",
+    "tasks": "Szenariobasierte Aufgaben",
+    "insertTask": "Szenariobasierte Aufgabe einfügen",
     "taskTitle": "Aufgaben-Titel",
     "insertTaskTitle": "Aufgaben-Titel einfügen",
     "insertNote": "Notiz einfügen",
@@ -2356,7 +2356,7 @@
     "addExplorationElement": "Explorationselement hinzufügen",
     "wozElement": "WOZ-Element",
     "addWOZElement": "WOZ-Element hinzufügen",
-    "addTaskElement": "Aufgabe hinzufügen",
+    "addTaskElement": "Szenariobasierte Aufgabe hinzufügen",
     "assessment": "Beurteilung",
     "insertAssessment": "Beurteilung einfügen",
     "addTaskAssessmentElement": "Aufgaben-Beurteilung hinzufügen",
@@ -4369,7 +4369,7 @@
                 "used": "used",
                 "multiselect": "yes",
                 "justification": "yes",
-                "justificationFor": "selectOption",
+                "justificationFor": "selectOne",
                 "optionSource": "gestures",
                 "optionalAnswer": "no"
             },
@@ -5374,7 +5374,22 @@
         "duplicatedRoleDetected": {
             "id": "duplicated-role-detected",
             "type": "warning",
-            "text": "Pro Konversation darf nur jeweils eine Rolle eingenommen werden. Diese Rolle gibt es schon. Wählen Sie eine andere aus."
+            "text": "Pro Durchführung darf nur jeweils eine Rolle eingenommen werden. Diese Rolle gibt es schon. Wählen Sie eine andere aus."
+        },
+        "selectRoleHint": {
+            "id": "select-role-hint",
+            "type": "warning",
+            "text": "Wählen Sie eine Rolle aus. Pro Durchführung darf nur jeweils eine Rolle eingenommen werden. Es findet eine technische Überprüfung der Hardware statt. Um eine Befragung durchzuführen, benötigen Sie eine Webcam und ein Mikrofon. Ein Zugriff muss expliziet gewährt werden."
+        },
+        "selectParticipantHint": {
+            "id": "select-participant-hint",
+            "type": "warning",
+            "text": "Probanden warten darauf, dass Sie sich begrüßen. Sie können immer nur einen Probanden befragen. Wählen Sie dazu aus der Liste den Proband aus, mit dem Sie die Befragung durchführen möchten."
+        },
+        "welcomeParticipantHint": {
+            "id": "welcome-participant-hint",
+            "type": "warning",
+            "text": "Begrüßen Sie ihren Probanden und klären Sie ihn über diese Studie auf. Nutzen Sie dazu die eingeblendete Studienbeschreibung. Anschließend starten Sie die Befragung mit einem Klick auf <div class='btn btn-xs btn-success'><i class='fa fa-chevron-right'></i> Befragung starten</div>. Denken Sie daran, dass eine Weiterleitung auf eine neue Seite statt findet und die Konversation dazu kurz unterbrochen wird."
         },
         "pleaseWait": {
             "id": "please-wait",

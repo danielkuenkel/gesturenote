@@ -81,6 +81,9 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="study-over-range" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->studyOverRange->text ?></span></div>
     <div class="alert alert-warning" id="study-under-range" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->studyUnderRange->text ?></span></div>
     <div class="alert alert-warning" id="duplicated-role-detected" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->duplicatedRoleDetected->text ?></span></div>
+    <div class="alert alert-warning" id="select-role-hint" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->selectRoleHint->text ?></span></div>
+    <div class="alert alert-warning" id="select-participant-hint" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->selectParticipantHint->text ?></span></div>
+    <div class="alert alert-warning" id="welcome-participant-hint" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->welcomeParticipantHint->text ?></span></div>
     <div class="alert alert-warning" id="please-wait" role="alert"><i class="fa fa-circle-o-notch fa-spin"></i> <span class="alert-text"><?php echo $lang->alerts->pleaseWait->text ?></span></div>
     <div class="alert alert-warning" id="general-please-wait" role="alert"><i class="fa fa-circle-o-notch fa-spin"></i> <span class="alert-text"><?php echo $lang->alerts->generalPleaseWait->text ?></span></div>
     <div class="alert alert-warning" id="no-recorded-gestures" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noRecordedGestures->text ?></span></div>
