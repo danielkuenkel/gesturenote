@@ -289,7 +289,7 @@ function renderGesturePreview(container, gesture, callback) {
 function renderGesturePopoverPreview(gesture, callback) {
     var popover = $('#popover-gesture-preview').clone();
     popover.attr('id', 'popover-gesture');
-    $('body').append(popover);
+    $('body').prepend(popover);
 
     if (gesture) {
         renderGestureImages($(popover).find('.previewGesture'), gesture.images, gesture.previewImage, function () {

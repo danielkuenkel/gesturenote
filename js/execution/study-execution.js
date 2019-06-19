@@ -21,7 +21,7 @@ var currentScenarioTaskIndex = 0;
 var currentSceneId;
 //var scenarioStartTriggered = false;
 //var scenarioPrototypeOpened = false;
-var triggeredWoz = null;
+//var triggeredWoz = null;
 var triggeredHelp = null;
 //var scenarioDone = false;
 var currentTriggeredSceneId = null;
@@ -56,7 +56,7 @@ var currentStressTestGestureIndex = 0;
 //var currentPhaseStepDone = false;
 //var screenSharingStopped = false;
 
-var testerDoneTriggered = false;
+//var testerDoneTriggered = false;
 var previewModeEnabled = false;
 
 var currentTransitionSceneIndex = 0;
@@ -64,11 +64,15 @@ var currentGUSData = null;
 
 var currentPhaseState = null;
 var syncPhaseStep = false;
+
+var webcamPreview = null;
 var peerConnection = null;
 
 var currentQuestionnaireAnswers = null;
 var prototypeWindow = null;
 var iceTransports = null;
+
+//var helpScreensharingTriggered = false;
 
 var USER_ROLE_MODERATOR = 'moderator';
 var USER_ROLE_TESTER = 'tester';
@@ -301,46 +305,46 @@ function resetConstraints() {
     scenarioPrototypeOpened = false;
     triggeredHelp = null;
     triggeredFeedback = null;
-    triggeredWoz = null;
+//    triggeredWoz = null;
     currentWOZScene = null;
     currentScenarioTask = null;
     currentScenarioTaskIndex = 0;
-    scenarioDone = false;
+//    scenarioDone = false;
 
     currentStressTestCount = 0;
     currentStressTestIndex = 0;
     currentStressTestGestureIndex = 0;
-    stressTestStartTriggered = false;
-    stressTestGestureTriggered = false;
-    stressTestQuestionsTriggered = false;
+//    stressTestStartTriggered = false;
+//    stressTestGestureTriggered = false;
+//    stressTestQuestionsTriggered = false;
 
     currentIdentificationIndex = 0;
-    identificationTriggered = false;
-    identificationDone = false;
-    identificationStartTriggered = false;
-    identificationPrototypeOpened = false;
-    identificationSensorInitialized = false;
-    identificationRecordingStartTriggered = false;
-    identificationRecordingStopTriggered = false;
-    identificationTriggerRequest = false;
+//    identificationTriggered = false;
+//    identificationDone = false;
+//    identificationStartTriggered = false;
+//    identificationPrototypeOpened = false;
+//    identificationSensorInitialized = false;
+//    identificationRecordingStartTriggered = false;
+//    identificationRecordingStopTriggered = false;
+//    identificationTriggerRequest = false;
     currentIdentificationScene = 0;
 
-    explorationStartTriggered = false;
-    explorationShowGestures = false;
+//    explorationStartTriggered = false;
+//    explorationShowGestures = false;
     currentExplorationIndex = 0;
     currentExplorationScene = 0;
-    explorationPreferredGesturesRequest = false;
-    explorationPrototypeOpened = false;
-    currentPresentGesture = null;
-    currentPresentGestureInfoClosed = false;
+//    explorationPreferredGesturesRequest = false;
+//    explorationPrototypeOpened = false;
+//    currentPresentGesture = null;
+//    currentPresentGestureInfoClosed = false;
 
     singleGUSGesture = null;
     currentGUSData = null;
     currentTransitionSceneIndex = 0;
 
     currentQuestionnaireAnswers = null;
-    currentPhaseStepDone = false;
-    screenSharingStopped = false;
+//    currentPhaseStepDone = false;
+//    screenSharingStopped = false;
 
     currentQuestionIndex = 0;
     filterQuestionStack = [];
@@ -438,19 +442,16 @@ function getMainContent() {
 var draggable = null;
 var resizable = false;
 var resizing = false;
-
 function dragRTC(opacity) {
     var video = $('#web-rtc-placeholder');
     if (previewModeEnabled !== true) {
         video = $(getMainContent()).find('#video-caller');
     }
-    $(video).css({opacity: opacity ? opacity : .7, width: (DRAGGABLE_MIN_WIDTH + 100) + 'px', height: ((DRAGGABLE_MIN_WIDTH + 100) * 3 / 4) + 'px'});
 
+    $(video).css({opacity: opacity ? opacity : .7, width: (DRAGGABLE_MIN_WIDTH + 100) + 'px', height: ((DRAGGABLE_MIN_WIDTH + 100) * 3 / 4) + 'px'});
     var toggleButton = $(video).find('#btn-toggle-rtc-fixed');
-    console.log(toggleButton);
     $(toggleButton).removeClass('pinned');
     $(toggleButton).find('.fa').removeClass('fa-window-restore').addClass('fa-window-maximize');
-//    $(toggleButton).attr('data-content', translation.pinRTC).data('bs.popover').setContent();
 
     $(video).addClass('shadow');
     $('#draggableRTC').removeClass('hidden');
@@ -462,7 +463,6 @@ function dragRTC(opacity) {
     if (peerConnection) {
         peerConnection.keepStreamsPlaying();
     }
-//    keepStreamsAlive(video);
 
     TweenMax.to($('#phase-content #column-left'), .2, {css: {marginTop: 0, opacity: 1.0}});
 
@@ -503,10 +503,9 @@ function dragRTC(opacity) {
         event.preventDefault();
         if (draggable) {
             $('body').addClass('readonly-without-mouse');
+
             if (resizable) {
                 var newWidth = Math.min(Math.max(event.pageX - $('#draggableRTC').offset().left, DRAGGABLE_MIN_WIDTH), DRAGGABLE_MAX_WIDTH);
-//                $(video).width(newWidth);
-//                $(video).height(newWidth * 3 / 4);
                 $(video).css({width: newWidth + 'px', height: (newWidth * 3 / 4) + 'px'});
             } else {
                 var x = event.pageX - draggable.offsetLeft;
@@ -583,12 +582,11 @@ function pinRTC() {
     if (previewModeEnabled !== true) {
         video = $('#video-caller');
     }
+
     $(video).css({opacity: 1});
-//    console.log('pin rtc', video, $(view).find('.pinnedRTC'));
     var toggleButton = $(video).find('#btn-toggle-rtc-fixed');
     $(toggleButton).addClass('pinned');
     $(toggleButton).find('.fa').removeClass('fa-window-maximize').addClass('fa-window-restore');
-//    $(toggleButton).attr('data-content', translation.dragRTC).data('bs.popover').setContent();
 
     $(video).find('#resize-sign').addClass('hidden');
     $(view).find('.pinnedRTC').removeClass('hidden');
@@ -601,7 +599,11 @@ function pinRTC() {
     if (peerConnection) {
         peerConnection.keepStreamsPlaying();
     }
-//    keepStreamsAlive(video);
+//    else if(previewModeEnabled) {
+//        console.log($(video).find('video'));
+//        $(video).find('video')[0].play();
+//    }
+
     resetRTC();
 }
 
@@ -634,46 +636,26 @@ function showStream() {
 
 function showRecordIndicator() {
     console.log('show record indicator');
-//    var stream = $('#web-rtc-placeholder');
-//    if (previewModeEnabled !== true) {
-//        stream = $('#video-caller');
-//    }
-//    var indicator = $(stream).find('.record-stream-indicator').removeClass('hidden');
-//    TweenMax.to(indicator, 1, {opacity: 1, onComplete: function () {
-//            TweenMax.to(indicator, 1, {opacity: .2, yoyo: true, repeat: -1});
-//        }});
+//    var showStreamButtonIcon = $('#btn-show-stream').find('.fa');
+//    var showStreamButtonIcon = $('.record-stream-indicator');
+//    TweenMax.to(showStreamButtonIcon, 1, {color: "#ff0000", opacity: 1, yoyo: true, repeat: -1});
 
-    var showStreamButtonIcon = $('#btn-show-stream').find('.fa');
-    TweenMax.to(showStreamButtonIcon, 1, {color: "#ff0000", yoyo: true, repeat: -1});
+    var indicator = $('.record-stream-indicator').removeClass('hidden');
+    TweenMax.to(indicator, 1, {color: "#ff0000", opacity: 1, onComplete: function () {
+            TweenMax.to(indicator, 1, {opacity: .2, yoyo: true, repeat: -1});
+        }});
 }
 
 function hideRecordIndicator() {
     console.log('hide record indicator');
-//    var stream = $('#web-rtc-placeholder');
-//    if (previewModeEnabled !== true) {
-//        stream = $('#video-caller');
-//    }
-//    var indicator = $(stream).find('.record-stream-indicator');
-//    TweenMax.to(indicator, .3, {opacity: 0, onComplete: function () {
-//            $(indicator).addClass('hidden');
-//        }});
+//    var showStreamButtonIcon = $('.record-stream-indicator');
+//    TweenMax.to(showStreamButtonIcon, .3, {color: "#000000", opacity: 0});
 
-    var showStreamButtonIcon = $('#btn-show-stream').find('.fa');
-    TweenMax.to(showStreamButtonIcon, .3, {color: "#000000"});
+    var indicator = $('.record-stream-indicator');
+    TweenMax.to(indicator, .3, {opacity: 0, onComplete: function () {
+            $(indicator).addClass('hidden');
+        }});
 }
-
-//function keepStreamsAlive(target) {
-//    if (previewModeEnabled === false) {
-//        var pausedStreams = $(target).find('video');
-//        if (pausedStreams.length > 0) {
-//            for (var i = 0; i < pausedStreams.length; i++) {
-////                if (pausedStreams[i].paused) {
-//                pausedStreams[i].play();
-////                }
-//            }
-//        }
-//    }
-//}
 
 function checkScreenSharingZombies(target) {
     if (previewModeEnabled === false) {
@@ -754,7 +736,6 @@ function sensorTypeBanned(type) {
 }
 
 function recognizeLeapGestures(data) {
-    console.log(data);
     if (data && data.tasks && data.tasks.length > 0) {
         for (var i = 0; i < data.tasks.length; i++) {
             if (data.tasks[i].woz && data.tasks[i].woz.length > 0) {
@@ -794,4 +775,12 @@ function attachSimulationRecording(data) {
     }
 
     return data;
+}
+
+function checkScreensharingHelp() {
+    var prewiew = getLocalItem('preview');
+    if (!prewiew || (prewiew && !prewiew.helpScreensharingTriggered) || (prewiew && prewiew.helpScreensharingTriggered && prewiew.helpScreensharingTriggered === false)) {
+        loadHTMLintoModal('custom-modal', 'externals/modal-help-screen-sharing.php', 'modal-lg');
+        setLocalItem('preview', {helpScreensharingTriggered: true});
+    }
 }

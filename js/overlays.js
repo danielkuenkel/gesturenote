@@ -3359,7 +3359,7 @@ function initCatalogTriggerOverlay(formatClone) {
             var clone = $('#triggerItem').clone().removeClass('hidden');
             clone.find('.option').val(data[i].title);
             clone.attr('id', data[i].type);
-            clone.attr('name', data[i].id);
+            clone.attr('data-id', data[i].id);
             $(formatClone).find('#list-container').append(clone);
         }
         checkCurrentListState($(formatClone).find('#list-container'));
@@ -3369,14 +3369,14 @@ function initCatalogTriggerOverlay(formatClone) {
         var trigger = new Array();
         var elements = $(formatClone).find('#list-container').children();
         for (var i = 0; i < elements.length; i++) {
-            var triggerId = $(element).attr('name');
             var element = elements[i];
-            var title = $(elements[i]).find('.option').val();
-            if (triggerId === undefined) {
-                triggerId = chance.natural();
+            var id = $(element).attr('data-id');
+            var title = $(element).find('.option').val();
+            if (id === undefined) {
+               id = chance.natural();
             }
             if (title.trim() !== "") {
-                trigger.push({id: triggerId, type: TYPE_TRIGGER, title: title}); //new Trigger(triggerId, TYPE_TRIGGER, $(elements[i]).find('.option').val()));
+                trigger.push({id: id, type: TYPE_TRIGGER, title: title}); //new Trigger(triggerId, TYPE_TRIGGER, $(elements[i]).find('.option').val()));
             }
         }
         setLocalItem(ASSEMBLED_TRIGGER, trigger);
@@ -3410,7 +3410,7 @@ function initCatalogFeedbackOverlay(formatClone) {
             var item = data[i];
             var clone = $('#form-item-container').find('#' + item.type).clone();
             clone.find('.item-input-text').val(item.title);
-            clone.attr('name', item.id);
+            clone.attr('data-id', item.id);
             $(formatClone).find('#list-container').append(clone);
             updateBadges($(formatClone).find('#list-container'), item.type);
             switch (item.type) {
@@ -3437,7 +3437,7 @@ function initCatalogFeedbackOverlay(formatClone) {
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
             var type = $(item).attr('id');
-            var id = $(item).attr('name') === undefined || null ? chance.natural() : $(item).attr('name');
+            var id = $(item).attr('data-id') === undefined || null ? chance.natural() : $(item).attr('name');
             var title = $(item).find('.item-input-text').val().trim();
             var parameters = null;
 
@@ -3482,7 +3482,7 @@ function initCatalogFeedbackOverlay(formatClone) {
         for (var i = 0; i < unaddedData.length; i++) {
             var clone = $('#form-item-container').find('#sound').clone();
             clone.find('.title').val(unaddedData[i].title);
-            clone.attr('name', chance.natural());
+            clone.attr('data-id', chance.natural());
             $(formatClone).find('#list-container').append(clone);
             updateBadges($(formatClone).find('#list-container'), 'sound');
 
@@ -3515,7 +3515,7 @@ function initCatalogScenesOverlay(formatClone) {
             var item = data[i];
             var clone = $('#form-item-container').find('#' + item.type).clone();
             clone.find('.title').val(item.title);
-            clone.attr('name', item.id);
+            clone.attr('data-id', item.id);
             $(formatClone).find('#list-container').append(clone);
             updateBadges($(formatClone).find('#list-container'), item.type);
 
@@ -3559,12 +3559,12 @@ function initCatalogScenesOverlay(formatClone) {
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
             var type = $(item).attr('id');
-            var name = $(item).attr('name');
+            var id = $(item).attr('data-id');
             var title = $(item).find('.title').val();
             var parameters = {};
 
-            if (name === undefined || name === null) {
-                name = chance.natural();
+            if (id === undefined || id === null) {
+                id = chance.natural();
             }
 
             switch (type) {
@@ -3592,7 +3592,7 @@ function initCatalogScenesOverlay(formatClone) {
             }
 
             if (parameters && parameters.url) {
-                assembledData.push({id: name, type: type, title: title, parameters: parameters});
+                assembledData.push({id: id, type: type, title: title, parameters: parameters});
             }
         }
         setLocalItem(ASSEMBLED_SCENES, assembledData);
@@ -3613,7 +3613,7 @@ function initCatalogScenesOverlay(formatClone) {
         for (var i = 0; i < unaddedData.length; i++) {
             var clone = $('#form-item-container').find('#image').clone();
             clone.find('.title').val(unaddedData[i].title);
-            clone.attr('name', chance.natural());
+            clone.attr('data-id', chance.natural());
             $(formatClone).find('#list-container').append(clone);
             updateBadges($(formatClone).find('#list-container'), SCENE_IMAGE);
 

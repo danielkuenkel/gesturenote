@@ -142,6 +142,9 @@ var ALERT_INVALID_AGATE_FORMAT = 'invalid-agate-format';
 var ALERT_NO_GESTURE_SET_MAPPINGS = 'no-gesture-set-mappings';
 var ALERT_DRAG_AND_DROP_HINT = 'drag-and-drop-hint';
 
+// rtc alerts
+var ALERT_RTC_PERMISSION_DENIED = 'rtc-permission-denied';
+
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);
     if (children.length === 0) {

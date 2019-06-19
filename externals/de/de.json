@@ -332,6 +332,10 @@
         "noSchedule": "Studie ohne Zeitplan"
     },
     "pickStudyQuestion": "Was für eine Art Studie soll durchgeführt werden?",
+    "expertBasedStudyCreationHead": "Expertenbasierte Studie",
+    "expertBasedStudyCreation": "Dies umfasst einen Teilbereich des Gesten-Design-Prozesses. Damit kann eine expertenbasierte Gesten-Extraktion durchgeführt werden.",
+    "userCenteredStudyCreationHead": "Nutzerzentrierte Studie",
+    "userCenteredStudyCreation": "Dies umfasst den gesamten nutzerzentrierten Gesten-Design-Prozess. Damit können Gesten mit potentiellen Endanwendern ermittelt, extrahiert und evaluiert werden.",
     "lapse": "Zeitspanne",
     "day": "Tag",
     "days": "Tage",
@@ -416,6 +420,14 @@
     "deleteCreateModal": "Die Erstellung dieser Studie wirklich beenden? Sollen die gemachten Änderungen gespeichert werden?",
     "deleteGestureModal": "Wollen Sie alle Daten dieser Geste wirklich löschen?",
     "deleteGestureSetModal": "Wollen Sie alle Daten dieses Geste-Sets wirklich löschen? Die zugeordneten Gesten verbleiben im Gesten-Katalog.",
+    "createNewStudyFirstInit": "Nutzen Sie <u>NICHT</u> den Zurück-Button ihrers Browsers! Dadurch können alle Daten verloren gehen. Nutzen Sie stattdessen die Elemente von GestureNote um zu navigieren (z.B. Schließen-Buttons, Breadcrump, Seitenleiste).<p>Um die Studie zu speichern, klicken Sie auf der linken Seite auf <button class='btn btn-default btn-xs'><i class='fa fa-folder-open-o'></i> Zwischenspeichern</button>. Wollen Sie den Erstellungsdialog komplett verlassen klicken Sie auf <button class='btn btn-default btn-xs'><i class='fa fa-save'></i> Speichern und Schließen</button> oder nutzen die Breadcrump.</p>",
+    "helpScreensharing": [
+        "<p>Einige Leitfadenschritte erfordern das Freigeben des hinterlegten User Interface (UI). So auch dieser. Öffnen Sie zunächst das UI mit einem Klick auf den Button <button class='btn btn-xs btn-success'>UI öffnen</button>. Es öffnet sich ein neues Fenster, in dem das UI hineingeladen wird. Positionieren Sie dieses Fenster, wenn möglich, auf einem zweiten Bildschirm. Passen Sie die Fenstergröße so an, dass kein Whitespace vorhanden ist. Starten Sie anschließend das Screen-Sharing mit einem Klick auf <button class='btn btn-xs btn-success'>Screen-Sharing starten</button>.<p>",
+        "<p>Es öffnet sich ein browserabhängiger Dialog, in dem das UI-Fenster ausgwählt werden muss. Nachfolgend ist der Auswahldialog von Google Chrome dargestellt. Hier kann ein einzelnes Fester über den Reiter <em>Anwendungsfenster</em> ausgewählt werden. Für andere Browser kann diese Darstellung variieren.</p>",
+        "<div class='image-with-caption text-center'><img class='img-image' style='max-width:741px; width:100%' src='img/de/introduction/study-preview/carousel-02-01.png' /><div class='image-caption'>Dialog für das Starten des Screen-Sharings. Auswahl des UI-Fensters über den Reiter <em>Anwendungsfenster</em>.</div></div>",
+        "<p>Der Auswahldialog erscheint nicht in der Studien-Vorschau, sondern nur während einer Durchführung. Zudem wird während der Durchführung das freigegebene Fenster bei den Videostreams, d.h. beim Video des Probanden, eingeblendet.</p>",
+        "<p>Schließen Sie auf keinen Fall das UI-Fenster! Falls doch, laden Sie die Seite neu.</p>"
+    ],
     "chooseVideoInput": "Video",
     "chooseAudioInput": "Mikrofon",
     "executeStudy": "Befragung starten",
@@ -443,6 +455,7 @@
     "studyPhase": "Gesten-Design-Phase",
     "studySurveyMethod": "Befragungs-Methode",
     "studySurveyType": "Befragungsart",
+    "editThisData": "Diese Daten der Studie bearbeiten",
     "whatShouldBeIdentified": "Was soll identifiziert werden?",
     "shouldUseWebcam": "Soll eine Webcam aufgezeichnet werden?",
     "banSensor": "Nicht verwenden",
@@ -787,6 +800,7 @@
         "simulatorPanelBody": "ProGesture Simulator"
     },
     "createNewStudy": "Neue Studie erstellen",
+    "pleaseNote": "Bitte beachten!",
     "copy": "Kopieren",
     "openStudyUrl": "Befragung durchführen",
     "executionTester": "Probanden zur Befragung einladen",
@@ -2099,16 +2113,18 @@
     "inviteGestureSetSubject": "Freigabe eines Gesten-Sets",
     "uninviteGestureSetSubject": "Freigabe eines Gesten-Sets zurückgezogen",
     "inviteGestureSetTitle": "Ein Gesten-Set wurde Ihnen freigegeben",
-    "inviteGestureSetText": "ein anderer Interaktionsdesigner hat Ihnen ein Gesten-Set freigegeben. Dieses Gesten-Set wird, solange dieses freigegeben ist, in Ihrer Gesten-Set-Übersicht angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/gestures-catalog.php#sets'>Link</a> direkt zur Übersicht.",
+    "titleOfGestureSet": "Titel des Gesten-Sets",
+    "inviteGestureSetText": "hat Ihnen ein Gesten-Set freigegeben. Dieses Gesten-Set wird, solange dieses freigegeben ist, in Ihrer Gesten-Set-Übersicht angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/gestures-catalog.php#sets'>Link</a> direkt zur Übersicht.",
     "uninviteGestureSetTitle": "Ein Gesten-Set ist nicht mehr für Sie freigegeben",
-    "uninviteGestureSetText": "ein anderer Interaktionsdesigner hat Ihre Freigabe eines Gesten-Sets zurückgezogen. Dieses Gesten-Set wird nicht mehr in Ihrer Gesten-Set-Übersicht angezeigt und Sie haben keinen Zugriff mehr darauf.",
+    "uninviteGestureSetText": "hat Ihre Freigabe eines Gesten-Sets zurückgezogen. Dieses Gesten-Set wird nicht mehr in Ihrer Gesten-Set-Übersicht angezeigt und Sie haben keinen Zugriff mehr darauf.",
     "inviteGestureSetGreetings": "Mit freundlichen Grüßen",
     "inviteGestureSubject": "Freigabe einer Geste",
     "uninviteGestureSubject": "Freigabe einer Geste zurückgezogen",
     "inviteGestureTitle": "Eine Geste wurde Ihnen freigegeben",
-    "inviteGestureText": "ein anderer Interaktionsdesigner hat Ihnen eine Geste freigegeben. Diese Geste wird, solange diese freigegeben ist, in Ihrem Gesten-Katalog angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/gestures-catalog.php'>Link</a> direkt zur Übersicht.",
+    "titleOfGesture": "Titel der Geste",
+    "inviteGestureText": "hat Ihnen eine Geste freigegeben. Diese Geste wird, solange diese freigegeben ist, in Ihrem Gesten-Katalog angezeigt. Sie gelangen über diesen <a href='https://gesturenote.de/gestures-catalog.php'>Link</a> direkt zur Übersicht.",
     "uninviteGestureTitle": "Eine Geste ist nicht mehr für Sie freigegeben",
-    "uninviteGestureText": "ein anderer Interaktionsdesigner hat Ihre Freigabe für eine Geste zurückgezogen. Diese Geste wird nicht mehr in Ihrem Gesten-Katalog angezeigt und Sie haben keinen Zugriff mehr darauf.",
+    "uninviteGestureText": "hat Ihre Freigabe für eine Geste zurückgezogen. Diese Geste wird nicht mehr in Ihrem Gesten-Katalog angezeigt und Sie haben keinen Zugriff mehr darauf.",
     "inviteGestureGreetings": "Mit freundlichen Grüßen",
     "scale": "Skala",
     "url": "URL",
@@ -2325,6 +2341,7 @@
     "recordedGestures": "Aufgezeichnete Gesten",
     "gesturePreview": "Geste",
     "gestureSetPreview": "Gesten-Set",
+    "mandatory": "Pflichtfeld",
     "gestureName": "Gesten-Name",
     "gestureNameQuality": "Qualität des Gesten-Namens",
     "gestureNameQualities": {
@@ -2413,15 +2430,13 @@
         },
         "previewTrimmingGesture": {
             "headline": "Ansehen und Schneiden einer Geste",
-            "descriptionPreview": "Sie sehen eine Vorschau der aufgezeichneten Geste. Der Balken unter der Vorschau zeigt die Abspielposition des Videos. Diese kann zu einer bestimmten Stelle mit einem Klick bewegt werden. Halten Sie die Maustaste gedrückt und ziehen Sie die Maus für eine feinere Justierung der Abspielposition.",
-            "descriptionTrimming": "Um einen bestimmten Bereich im Video zu markieren, klicken Sie auf <span class='font-bold'><i class='fa fa-crop'></i> Geste schneiden</span>. Stellen Sie die beiden Kontrollelemente auf den gewünschten Start- und Endpunkt einer Gesteein. Es wird nur der markierte Bereich der jeweiligen Vorschau gespeichert."
+            "descriptionPreview": "Sie sehen eine Vorschau der aufgezeichneten Geste. Der Balken unter der Vorschau zeigt an, welcher Bereich der aufgezeichneten Geste gespeichert wird. Der grüne Bereich zeigt an, was von dem Video gespeichert wird, der rote Bereich wird igoniert.",
+            "descriptionTrimming": "Um einen bestimmten Bereich im Video zu markieren, stellen Sie die beiden blauen runden Kontrollelemente auf den gewünschten Start- und Endpunkt einer Geste ein. Es wird nur der markierte Bereich der jeweiligen Vorschau gespeichert."
         },
         "describeAndSave": {
             "headline": "Beschreiben und Speichern einer Geste",
             "previewImage": "Sie können ein Vorschaubild auswählen indem Sie auf <span class='font-bold'><i class='fa fa-bookmark-o'></i> Vorschaubild</span> klicken. Pausieren Sie das Video für eine einfachere Auswahl des Vorschaubildes.",
-            "gestureDescription": "Geben Sie der Geste einen Namen und überlegen Sie, in welchem Kontext Sie Anwendung findet. Geben Sie ebenfalls eine Beschreibung der Geste an. Z.B. die Bewegungen, die gemacht werden müssen und warum die Geste so gut zur Interaktionsaufgabe passt.",
-            "graphicsDescription": "Wählen Sie aus, welche Körperteile für die Geste benötigt werden. Klicken Sie dafür auf die jeweiligen Kreisflächen. Es erscheint ein blauer Kreis mit weißem Haken.",
-            "saveDescription": "Haben Sie alle nötigen Eingaben gemacht, können Sie die Geste speichern. Überprüfen Sie vor dem Speichern nochmals alle Eingaben auf Richtigkeit.",
+            "gestureDescription": "Geben Sie der Geste einen Namen. Alle weiteren Felder sind optional.",
             "worstResultDescription": "Gefällt Ihnen das Resultat nicht, können Sie die Geste noch einmal neu schneiden oder komplett neu aufzeichnen."
         },
         "savedGesture": {
@@ -2540,7 +2555,7 @@
             "readAloudText": "Text dem Probanden vorlesen",
             "readAloudScenario": "Szenario vorlesen",
             "readAloudTask": "Aufgabe vorlesen",
-            "downloadAsCSV":"Als CSV-Datei herunterladen"
+            "downloadAsCSV": "Als CSV-Datei herunterladen"
         },
         "studyCreate": {
             "title": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Es können mehrere Studien mit dem gleichen Titel angelegt werden, z.B. einmal für eine <em>Ermittlung</em> und einmal für eine <em>Evaluierung</em>.",
@@ -2669,7 +2684,9 @@
             "valuesNotInverted": "Geste nicht invertiert",
             "valuesInverted": "Geste invertiert",
             "participantPretest": "Diese Befragung ist ein Pretest",
-            "bypassFirewall": "Kommt es während des Verbindungsaufbaus zu Problemen, liegt dies ggf. an einer aktiven Firewall."
+            "bypassFirewall": "Kommt es während des Verbindungsaufbaus zu Problemen, liegt dies ggf. an einer aktiven Firewall.",
+            "offerHelp": "Hilfe anbieten",
+            "showAssessmentControls": "Aufgabe beurteilen"
         }
     },
     "gestureStyleguides": {
@@ -5580,6 +5597,11 @@
             "id": "invalid-agate-format",
             "type": "warning",
             "text": "Das Format der heruntergeladenen CSV-Datei ist nicht valide. Das Tool AGATe berechnet unter Umständen die Übereinstimmungen falsch."
+        },
+        "rtcPermissionDenied": {
+            "id": "rtc-permission-denied",
+            "type": "warning",
+            "text": "Zugriff auf Webcam und Mikrofon nicht freigeben. Stellen Sie sicher, dass Webcam und Mikrofon für GestureNote freigegeben sind. Laden Sie die Seite nach Freigabe neu."
         }
     },
     "introductionGestureNoteGeneral": [

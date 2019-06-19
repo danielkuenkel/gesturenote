@@ -144,7 +144,18 @@ function renderData(data, hash) {
     $('.btn-edit-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-            goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+            var startEditAt = 'generalData';
+            var activeTabId = $('#tab-pane-study').find('.active').attr('id');
+            switch (activeTabId) {
+                case 'catalogs':
+                    startEditAt = 'catalogs';
+                    break;
+                case 'phase-steps':
+                    startEditAt = 'phases';
+                    break;
+            }
+            
+            goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources() + '&startEditAt=' + startEditAt);
         }
     });
 
@@ -214,14 +225,12 @@ function renderData(data, hash) {
 
     $('#tab-pane-study li a').on('click', function (event) {
         event.preventDefault();
-//        console.log('tab pane clicked', $(this).closest('li').attr('id'));
-        
+
         if ($(this).parent().hasClass('disabled')) {
             event.stopImmediatePropagation();
         } else {
             if (!event.handled && !$(this).parent().hasClass('active') && !$(this).hasClass('dropdown-toggle')) {
                 event.handled = true;
-                console.log('check if disabled', $(this).parent().hasClass('disabled'), $(this).closest('li').attr('id'));
                 $(this).trigger('change', [$(this).closest('li').attr('id')]);
             }
         }
@@ -301,6 +310,7 @@ function renderData(data, hash) {
         if (studyFeedback && studyFeedback.length > 0) {
             renderStudyFeedback(studyFeedback);
             noCatalogData = false;
+        } else {
             $('#study-feedback-catalog').remove();
         }
 
@@ -601,7 +611,7 @@ function renderStudyParticipants(data, hash) {
         } else {
             $(item).find('.participant-snapshot').addClass('hidden');
         }
-        
+
 
         $(item).find('.panel').on('click', {studyId: data[i].studyId, participantId: data[i].userId}, function (event) {
             event.preventDefault();
@@ -609,7 +619,7 @@ function renderStudyParticipants(data, hash) {
             goto('study-participant.php?studyId=' + event.data.studyId + '&participantId=' + event.data.participantId + '&h=' + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
         });
     }
-    
+
     var style = getComputedStyle(document.body);
     var chartBorderCol = style.getPropertyValue('--chartBorderColor');
 
@@ -618,7 +628,7 @@ function renderStudyParticipants(data, hash) {
         cutoutPercentage: 30,
         circumference: Math.PI,
     };
-    
+
     var target = $('#study-participants');
     var ctx = $(target).find('#chart-participant-statistics');
     new Chart(ctx, {

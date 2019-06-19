@@ -20,7 +20,6 @@ $(document).on('change', '.scaleSelect', function (event, result) {
         for (var i = 0; i < existingItems.length; i++) {
             existingScale.push({id: $(existingItems[i]).attr('data-id'), title: $(existingItems[i]).find('.option').val()});
         }
-//        console.log(existingScale);
 
         switch (count) {
             case 4:
@@ -119,7 +118,7 @@ function renderScaleItems(container, count, options) {
 }
 
 function updateBadges(container, selector) {
-    
+
     if (selector !== null) {
         var children = $(container).children('#' + selector);
         for (var i = 0; i < children.length; i++) {
@@ -2752,23 +2751,21 @@ function renderGroupingQuestionGUSInput(item, parameters) {
             switch (parameters.optionSource) {
                 case 'gestures':
                     optionItem = getGestureById(options[i].id);
-//                    var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
-//                    button.attr('name', optionItem.id);
-//                    option.prepend(button);
-//                    $(formGroup).css({display: 'initial'});
-                    $(formGroup).on('mouseenter', {gesture: optionItem}, function (event) {
+                    $(formGroup).find('.option-text').parent().unbind('mouseenter').bind('mouseenter', function (event) {
+                        event.preventDefault();
                         var element = $(this);
-                        renderGesturePopoverPreview(event.data.gesture, function () {
+                        var gesture = getGestureById($(element).attr('id'));
+                        renderGesturePopoverPreview(gesture, function () {
                             var popover = $('#popover-gesture');
-                            var top = $(element).offset().top - popover.height() + 3;
-                            var left = $(element).offset().left + parseInt((($(element).find('.btn-group').width() - popover.width()) / 2));
+                            var top = element.offset().top - popover.height() - 2;
+                            var left = element.offset().left + parseInt(((element.width() - popover.width()) / 2)) + 10;
                             popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
                             playThroughThumbnails(popover.find('.previewGesture'));
                             TweenMax.to(popover, .3, {autoAlpha: 1});
                         });
                     });
 
-                    $(formGroup).on('mouseleave', function () {
+                    $(formGroup).find('.option-text').parent().on('mouseleave', function () {
                         resetGesturePopover();
                     });
                     break;
@@ -3007,7 +3004,7 @@ function renderAlternativeQuestionInput(item, data) {
                     var gesture = getGestureById(optionId);
                     $(formGroup).on('mouseenter', {gesture: gesture}, function (event) {
                         var element = $(this);
-                        
+
                         renderGesturePopoverPreview(event.data.gesture, function () {
                             var popover = $('#popover-gesture');
                             var top = $(element).offset().top - popover.height() + 3;
@@ -3503,7 +3500,7 @@ function renderFilterOptionsData(format, target, filters) {
 //    console.log('statusAddressMatch', statusAddressMatch);
     if (statusAddressMatch !== null && statusAddressMatch.index) {
         currentPhaseStepIndex = statusAddressMatch.index;
-        
+
     }
 
     var currentPhaseData = getCurrentPhaseData();

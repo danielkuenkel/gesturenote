@@ -332,6 +332,10 @@
         "noSchedule": "study without a schedule"
     },
     "pickStudyQuestion": "What kind of study should be created?",
+    "expertBasedStudyCreationHead": "Expert based study",
+    "expertBasedStudyCreation": "This includes a subarea of the gesture design process. This allows you to perform an expert-based gesture extraction.",
+    "userCenteredStudyCreationHead": "User centered study",
+    "userCenteredStudyCreation": "This includes the entire user centered gesture design process. Thus, e.g. Eliciting, extracting or evaluating gestures with potential end users.",
     "lapse": "Period of time",
     "day": "Day",
     "days": "Days",
@@ -416,6 +420,14 @@
     "deleteCreateModal": "Stop creating this study? Should the changes made be saved?",
     "deleteGestureModal": "Do you really want to delete all data from this gesture?",
     "deleteGestureSetModal": "Do you really want to delete all data from this gesture set? The associated gestures remain in the gesture catalog.",
+    "createNewStudyFirstInit": "<u>DON'T</u> use the back button of your browser! All data can be lost. Instead, use the elements of GestureNote to navigate (e.g. close buttons, breadcrumbs, sidebar). <p> To save the study, click <button class='btn btn-default btn-xs'><i class='fa fa-folder-open-o'></i>Cache</button> on the left side. If you want to leave the creation dialog completely click <button class='btn btn-default btn-xs'><i class='fa fa-save'></i> Save & Close</button> or use the breadcrump.</p>",
+    "helpScreensharing": [
+        "<p>Einige Leitfadenschritte erfordern das Freigeben des hinterlegten User Interface (UI). So auch dieser. Öffnen Sie zunächst das UI mit einem Klick auf den Button <button class='btn btn-xs btn-success'>UI öffnen</button>. Es öffnet sich ein neues Fenster, in dem das UI hineingeladen wird. Positionieren Sie dieses Fenster, wenn möglich, auf einem zweiten Bildschirm. Passen Sie die Fenstergröße so an, dass kein Whitespace vorhanden ist. Starten Sie anschließend das Screen-Sharing mit einem Klick auf <button class='btn btn-xs btn-success'>Screen-Sharing starten</button>.<p>",
+        "<p>Es öffnet sich ein browserabhängiger Dialog, in dem das UI-Fenster ausgwählt werden muss. Nachfolgend ist der Auswahldialog von Google Chrome dargestellt. Hier kann ein einzelnes Fester über den Reiter <em>Anwendungsfenster</em> ausgewählt werden. Für andere Browser kann diese Darstellung variieren.</p>",
+        "<div class='image-with-caption text-center'><img class='img-image' style='max-width:741px; width:100%' src='img/de/introduction/study-preview/carousel-02-01.png' /><div class='image-caption'>Dialog für das Starten des Screen-Sharings. Auswahl des UI-Fensters über den Reiter <em>Anwendungsfenster</em>.</div></div>",
+        "<p>Der Auswahldialog erscheint nicht in der Studien-Vorschau, sondern nur während einer Durchführung. Zudem wird während der Durchführung das freigegebene Fenster bei den Videostreams, d.h. beim Video des Probanden, eingeblendet.</p>",
+        "<p>Schließen Sie auf keinen Fall das UI-Fenster! Falls doch, laden Sie die Seite neu.</p>"
+    ],
     "chooseVideoInput": "Video",
     "chooseAudioInput": "Microphone",
     "executeStudy": "Start survey",
@@ -443,6 +455,7 @@
     "studyPhase": "Gestures design phase",
     "studySurveyMethod": "Poll Method",
     "studySurveyType": "Befragungsart",
+    "editThisData": "Edit this study data",
     "whatShouldBeIdentified": "What should be identified?",
     "shouldUseWebcam": "Should a webcam be recorded?",
     "banSensor": "Do not use",
@@ -2096,16 +2109,16 @@
     "inviteGestureSetSubject": "Sharing of a gesture set",
     "uninviteGestureSetSubject": "Sharing of a gesture set withdrawn",
     "inviteGestureSetTitle": "A gesture set has been shared with you",
-    "inviteGestureSetText": "another interaction designer shared a gesture set with you. This gesture set is displayed in your gesture set overview as long as it is approved. You can access the overview via this <a href='https://gesturenote.de/gestures-catalog.php#sets'>link</a>.",
+    "inviteGestureSetText": "shared a gesture set with you. This gesture set is displayed in your gesture set overview as long as it is approved. You can access the overview via this <a href='https://gesturenote.de/gestures-catalog.php#sets'>link</a>.",
     "uninviteGestureSetTitle": "A gesture set is no longer shared with you",
-    "uninviteGestureSetText": "another interaction designer has withdrawn the sharing of a gesture set. This gesture set no longer appears in your gesture set overview and you no longer have access to it.",
+    "uninviteGestureSetText": "has withdrawn the sharing of a gesture set. This gesture set no longer appears in your gesture set overview and you no longer have access to it.",
     "inviteGestureSetGreetings": "Yours sincerely",
     "inviteGestureSubject": "Sharing of a gesture",
     "uninviteGestureSubject": "Sharing of a gesture withdrawn",
     "inviteGestureTitle": "A gesture has been shared with you",
-    "inviteGestureText": "another interaction designer has shared a gesture with you. This gesture will be displayed in your gesture catalog as long as it is approved. You can access the overview via this <a href='https://gesturenote.de/gestures-catalog.php'>link</a>.",
+    "inviteGestureText": "has shared a gesture with you. This gesture will be displayed in your gesture catalog as long as it is approved. You can access the overview via this <a href='https://gesturenote.de/gestures-catalog.php'>link</a>.",
     "uninviteGestureTitle": "Sharing of a gesture withdrawn",
-    "uninviteGestureText": "another interaction designer has withdrawn your sharing for a gesture. This gesture no longer appears in your gesture catalog and you no longer have access to it.",
+    "uninviteGestureText": "has withdrawn your sharing for a gesture. This gesture no longer appears in your gesture catalog and you no longer have access to it.",
     "inviteGestureGreetings": "Yours sincerely",
     "scale": "Scale",
     "url": "URL",
@@ -2322,6 +2335,7 @@
     "recordedGestures": "Recorded gestures",
     "gesturePreview": "Gesture",
     "gestureSetPreview": "Gesture set",
+    "mandatory": "Mandatory",
     "gestureName": "Gesture name",
     "gestureNameQuality": "Quality of the gesture name",
     "gestureNameQualities": {
@@ -2410,8 +2424,8 @@
         },
         "previewTrimmingGesture": {
             "headline": "Ansehen und Schneiden einer Geste",
-            "descriptionPreview": "Sie sehen eine Vorschau der aufgezeichneten Geste. Der Balken unter der Vorschau zeigt die Abspielposition des Videos. Diese kann zu einer bestimmten Stelle mit einem Klick bewegt werden. Halten Sie die Maustaste gedrückt und ziehen Sie die Maus für eine feinere Justierung der Abspielposition.",
-            "descriptionTrimming": "Um einen bestimmten Bereich im Video zu markieren, klicken Sie auf <span class='font-bold'><i class='fa fa-crop'></i> Geste schneiden</span>. Stellen Sie die beiden Kontrollelemente auf den gewünschten Start- und Endpunkt einer Gesteein. Es wird nur der markierte Bereich der jeweiligen Vorschau gespeichert."
+            "descriptionPreview": "Sie sehen eine Vorschau der aufgezeichneten Geste. Der Balken unter der Vorschau zeigt an, welcher Bereich der aufgezeichneten Geste gespeichert wird. Der grüne Bereich zeigt an, was von dem Video gespeichert wird, der rote Bereich wird igoniert.",
+            "descriptionTrimming": "Um einen bestimmten Bereich im Video zu markieren, stellen Sie die beiden blauen runden Kontrollelemente auf den gewünschten Start- und Endpunkt einer Geste ein. Es wird nur der markierte Bereich der jeweiligen Vorschau gespeichert."
         },
         "describeAndSave": {
             "headline": "Beschreiben und Speichern einer Geste",
@@ -2537,7 +2551,7 @@
             "readAloudText": "Read text to the subject",
             "readAloudScenario": "Read the scenario",
             "readAloudTask": "Read the task",
-            "downloadAsCSV":"Download als CSV file"
+            "downloadAsCSV": "Download als CSV file"
         },
         "studyCreate": {
             "title": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Es können mehrere Studien mit dem gleichen Titel angelegt werden, z.B. einmal für eine <em>Ermittlung</em> und einmal für eine <em>Evaluierung</em>.",
@@ -2666,7 +2680,9 @@
             "valuesNotInverted": "Gesture not inverted",
             "valuesInverted": "Gesture inverted",
             "participantPretest": "This survey is a pretest",
-            "bypassFirewall": "If problems arise during connection setup, this may be due to an active firewall."
+            "bypassFirewall": "If problems arise during connection setup, this may be due to an active firewall.",
+            "offerHelp": "Offer help",
+            "showAssessmentControls": "Assess task"
         }
     },
     "gestureStyleguides": {

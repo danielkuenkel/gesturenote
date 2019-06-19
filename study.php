@@ -200,7 +200,11 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
 
-                <div id="invited-users" style="margin-top: 60px">
+                <hr>
+
+                <button class="btn btn-default btn-shadow btn-edit-study" data-start-edit-at='generalData'><i class="fa fa-pencil"></i> <?php echo $lang->editThisData ?></button>
+
+                <div id="invited-users" style="margin-top: 80px">
                     <h3 class="address"><?php echo $lang->sharedStudies ?></h3>
 
                     <!--<div class="row">-->
@@ -260,6 +264,10 @@ if (login_check($mysqli) == true) {
                     <div class="list-container"></div>
                 </div>
 
+                <hr>
+
+                <button class="btn btn-default btn-shadow btn-edit-study" data-start-edit-at='catalogs'><i class="fa fa-pencil"></i> <?php echo $lang->editThisData ?></button>
+
             </div>
 
             <div role="tabpanel" class="tab-pane" id="study-phase-steps">
@@ -268,6 +276,10 @@ if (login_check($mysqli) == true) {
                     <div class="alert-space alert-no-phase-data"></div>
                     <div id="phase-steps-container" style=""></div>
                 </div>
+
+                <hr>
+
+                <button class="btn btn-default btn-shadow btn-edit-study" data-start-edit-at='phases'><i class="fa fa-pencil"></i> <?php echo $lang->editThisData ?></button>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="study-participants">
@@ -1150,7 +1162,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 if (tutorialAutomaticClicked === false || (tutorialAutomaticClicked === true && (showStudyTutorial === 1 || showExtractionTutorial === 1))) {
-                    console.log('tab introduction clicked', activeTab, $('#tab-pane-study').find('.active'));
+//                    console.log('tab introduction clicked', activeTab, $('#tab-pane-study').find('.active'));
                     var helpContext = 'study';
                     var helpKey = 'introductionStudy';
 

@@ -830,27 +830,28 @@ PeerConnection.prototype.hideRemoteStream = function () {
 };
 
 PeerConnection.prototype.showRecordIndicator = function () {
-    var currentOptions = this.options;
+//    var currentOptions = this.options;
 
-    var stream = $(currentOptions.callerElement);
-    var indicator = $(stream).find('.record-stream-indicator').removeClass('hidden');
-    TweenMax.to(indicator, 1, {opacity: 1, onComplete: function () {
-            TweenMax.to(indicator, 1, {opacity: .2, yoyo: true, repeat: -1});
-        }});
+//    var stream = $(currentOptions.callerElement);
+//    var indicator = $(stream).find('.record-stream-indicator').removeClass('hidden');
+//    TweenMax.to(indicator, 1, {opacity: 1, onComplete: function () {
+//            TweenMax.to(indicator, 1, {opacity: .2, yoyo: true, repeat: -1});
+//        }});
 
     showRecordIndicator();
 };
 
 PeerConnection.prototype.hideRecordInidicator = function () {
-    var currentOptions = this.options;
-
-    var stream = $(currentOptions.callerElement);
-    var indicator = $(stream).find('.record-stream-indicator');
-    TweenMax.to(indicator, .3, {opacity: 0, onComplete: function () {
-            $(indicator).addClass('hidden');
-        }});
-
-    $(connection).trigger('hideRecordIndicator');
+//    var currentOptions = this.options;
+//
+//    var stream = $(currentOptions.callerElement);
+//    var indicator = $(stream).find('.record-stream-indicator');
+//    TweenMax.to(indicator, .3, {opacity: 0, onComplete: function () {
+//            $(indicator).addClass('hidden');
+//        }});
+    
+    hideRecordIndicator();
+//    $(connection).trigger('hideRecordIndicator');
 };
 
 

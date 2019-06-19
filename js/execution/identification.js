@@ -588,7 +588,7 @@ Identification.prototype.renderModeratorView = function () {
             $(peerConnection).unbind(MESSAGE_ALL_RECORDER_READY).bind(MESSAGE_ALL_RECORDER_READY, function (event) {
                 event.preventDefault();
                 console.log('ALL RECORDER READY');
-                identificationSensorInitialized = true;
+//                identificationSensorInitialized = true;
                 $(container).find('#btn-start-gesture-recording').removeClass('disabled');
                 $(container).find('#waiting-for-sensor').addClass('hidden');
 
@@ -602,7 +602,7 @@ Identification.prototype.renderModeratorView = function () {
             $(peerConnection).unbind(MESSAGE_RECORDER_LOST).bind(MESSAGE_RECORDER_LOST, function (event) {
                 event.preventDefault();
                 console.log('RECORDER LOST');
-                identificationSensorInitialized = false;
+//                identificationSensorInitialized = false;
                 $(container).find('#btn-start-gesture-recording').addClass('disabled');
                 $(container).find('#waiting-for-sensor').removeClass('hidden');
 

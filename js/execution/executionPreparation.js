@@ -75,6 +75,38 @@ ExecutionPreparation.prototype.renderModeratorView = function () {
             $(container).find('#preparation-call-screen').removeClass('hidden');
             clearAlerts(container);
             appendAlert(container, ALERT_WELCOME_PARTICIPANT_HINT);
+
+            // render streaming preview
+            if (!webcamPreview) {
+                var source = getSourceContainer(currentView);
+                var target = $(container).find('#preparation-video-caller');
+                var callerElement = $(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder').css({position: ''});
+                $(callerElement).find('#btn-toggle-rtc-fixed').remove();
+                $(target).empty().prepend(callerElement);
+
+                // init mouse events and pidoco tracking, for live execution the peer connection class handles this
+                var tween = new TweenMax($(callerElement).find('#stream-controls'), .3, {opacity: 1.0, paused: true});
+                $(callerElement).on('mouseenter', function (event) {
+                    event.preventDefault();
+                    tween.play();
+                });
+
+                $(callerElement).on('mouseleave', function (event) {
+                    event.preventDefault();
+                    tween.reverse();
+                });
+
+                var query = getQueryParams(document.location.search);
+                var options = {
+                    parent: callerElement,
+                    videoSource: query.vSource ? query.vSource : null,
+                    audioSource: query.aSource ? query.aSource : null,
+                    allowConfig: true
+                };
+
+                var instance = new WebcamRecorder(options);
+                webcamPreview = instance;
+            }
         });
 
         $(container).find('#btn-preparation-close-call').unbind('click').bind('click', function (event) {
@@ -86,6 +118,7 @@ ExecutionPreparation.prototype.renderModeratorView = function () {
 
         $(container).find('#btn-preparation-enter-study').unbind('click').bind('click', function (event) {
             event.preventDefault();
+            resetWebcamPreview();
             nextStep();
         });
     }
@@ -164,6 +197,38 @@ ExecutionPreparation.prototype.renderTesterView = function () {
                     $(container).find('#preparation-check-rtc-status').addClass('hidden');
                     $(container).find('#preparation-video-caller-container').removeClass('hidden');
                 }});
+
+            // render streaming preview
+            if (!webcamPreview) {
+                var source = getSourceContainer(currentView);
+                var target = $(container).find('#preparation-video-caller');
+                var callerElement = $(source).find('#tester-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder').css({position: ''});
+                $(callerElement).find('#btn-toggle-rtc-fixed').remove();
+                $(target).empty().prepend(callerElement);
+
+                // init mouse events and pidoco tracking, for live execution the peer connection class handles this
+                var tween = new TweenMax($(callerElement).find('#stream-controls'), .3, {opacity: 1.0, paused: true});
+                $(callerElement).on('mouseenter', function (event) {
+                    event.preventDefault();
+                    tween.play();
+                });
+
+                $(callerElement).on('mouseleave', function (event) {
+                    event.preventDefault();
+                    tween.reverse();
+                });
+
+                var query = getQueryParams(document.location.search);
+                var options = {
+                    parent: callerElement,
+                    videoSource: query.vSource ? query.vSource : null,
+                    audioSource: query.aSource ? query.aSource : null,
+                    allowConfig: true
+                };
+
+                var instance = new WebcamRecorder(options);
+                webcamPreview = instance;
+            }
         });
     }
 

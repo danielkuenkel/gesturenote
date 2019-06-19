@@ -175,8 +175,8 @@ GestureTraining.prototype.renderModeratorView = function () {
         resetToStartScene();
         renderTrainingData(true);
         initShowGestureButton();
-        wobble([container.find('#training')]);
-        $(container).find('#btn-repeat-training').addClass('disabled');
+        wobble([container.find('#btn-show-gesture, #btn-quit-gesture-preview')]);
+//        $(container).find('#btn-repeat-training').addClass('disabled');
     }
 
     function renderStateShowGesture() {
@@ -250,15 +250,17 @@ GestureTraining.prototype.renderModeratorView = function () {
         console.log('render moderator state: ', currentPhaseState);
 
         if ($(container).find('#training').hasClass('hidden')) {
-            $(container).find('#training').removeClass('hidden');
+            $(container).find('#training').removeClass('hidden'); 
             renderTrainingData(true);
         }
+        $(container).find('#next-training-controls').removeClass('hidden');
         initShowGestureButton();
 
         $(container).find('.btn-trigger-scene').removeClass('disabled');
         $(container).find('.btn-trigger-feedback').removeClass('disabled');
         $(container).find('#btn-show-gesture').removeClass('hidden');
-        wobble(container.find('#transition-scenes'));
+        wobble(container.find('#transition-scenes, #training-info'));
+//        wobble(container.find('#training-info'));
 
         if (currentTrainingIndex < data.training.length - 1) {
             $(container).find('#btn-next-gesture').removeClass('hidden');
@@ -448,12 +450,12 @@ GestureTraining.prototype.renderModeratorView = function () {
     }
 
     function renderTrainingControls(disableButtons) {
-var trainingData = data.training[currentTrainingIndex];
+        var trainingData = data.training[currentTrainingIndex];
         $(container).find('#training .headline').text(translation.gesture + ' ' + (currentTrainingIndex + 1) + ' ' + translation.of + ' ' + data.training.length);
-        $(container).find('#repeats .text').text(trainingData.repeats - currentTrainingRepeatCount - 1);
+        $(container).find('#repeats .text').text(trainingData.repeats);
 //        console.log('render training controls', currentWOZScene, currentTransitionSceneIndex);
 
-        
+
 
         var hasFeedback = trainingData.feedbackId !== 'none';
         var transitionScenes = trainingData.transitionScenes;

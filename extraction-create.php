@@ -614,7 +614,7 @@ if (login_check($mysqli) == true) {
 
             setTimeout(function () {
                 var leftFlex = 51;
-  
+
                 cacheButtonTimeline.add("tween", 0)
                         .to(cacheButton, .3, {left: +parseInt($(cacheButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
 
@@ -672,6 +672,13 @@ if (login_check($mysqli) == true) {
                     studyEditable = false;
                     editableStudyId = null;
                     init();
+
+                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function () {
+                        var leftFlex = 51;
+                        TweenMax.to(cacheButton, .3, {x: +parseInt($(cacheButton).outerWidth()) - leftFlex, ease: Quad.easeInOut, yoyo: true, repeat: 1});
+                        TweenMax.to(saveStudyButton, .3, {x: +parseInt($(saveStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut, yoyo: true, repeat: 1, delay: .1});
+                    });
+                    loadHTMLintoModal('custom-modal', 'externals/modal-first-init-study.php', 'modal-md');
                 }
 
                 animateBreadcrump();
@@ -680,7 +687,8 @@ if (login_check($mysqli) == true) {
             function init() {
                 checkSessionStorage();
 
-                var status = window.location.hash.substr(1);
+                var query = getQueryParams(document.location.search);
+                var status = query.startEditAt;
                 var statusNavMatch = getStatusNavMatch(status);
                 if (status !== '' && statusNavMatch !== null) {
                     $('#create-tab-navigation').find('#tab-' + statusNavMatch + ' a').click();
@@ -692,6 +700,12 @@ if (login_check($mysqli) == true) {
                 console.log(tutorials);
                 if (tutorials && tutorials.studyExtractionCreation && parseInt(tutorials.studyExtractionCreation) === 1) {
                     $('#tab-introduction a').click();
+                }
+
+                var study = getLocalItem(STUDY);
+                if (studyEditable === false || !study) {
+                    $('.btn-join-conversation').remove();
+                    $('.btn-leave-conversation').remove();
                 }
 
                 showPageContent();
@@ -1038,7 +1052,8 @@ if (login_check($mysqli) == true) {
                 TweenMax.from(activeTabContent, .2, {opacity: 0, y: -20, clearProps: 'all'});
                 TweenMax.from($('#btn-group-submit'), .3, {y: -20});
                 $("html, body").animate({scrollTop: 0}, 100);
-                window.location.hash = $(event.target).attr('href');
+                setParam(window.location.href, 'startEditAt', new String($(event.target).attr('href')).replace('#', ''));
+//                window.location.hash = $(event.target).attr('href');
             });
 
             $('#tab-introduction a').on('click', function (event) {

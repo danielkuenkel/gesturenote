@@ -8,7 +8,6 @@ var singleGUSGesture = null;
 var screenSharingTester = null;
 var Tester = {
     renderView: function renderView() {
-
         if (syncPhaseStep) {
             appendAlert($('#viewTester'), ALERT_GENERAL_PLEASE_WAIT);
             Tester.initializePeerConnection();
@@ -111,7 +110,7 @@ var Tester = {
     },
     renderNoDataView: function renderNoDataView() {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
-        $('#viewTester #phase-content').append(alert);
+        $('#viewTester #phase-content').empty().append(alert);
         appendAlert(alert, ALERT_NO_PHASE_DATA);
     },
     initializePeerConnection: function initializePeerConnection() {
@@ -230,14 +229,45 @@ var Tester = {
                 Tester.appendRTCLiveStream();
             }
         } else {
+            if (previewModeEnabled === true) {
+                resetWebcamPreview();
+            }
             $('html, body').find('#web-rtc-placeholder').addClass('hidden');
         }
     },
     appendRTCPreviewStream: function appendRTCPreviewStream() {
-        var source = getSourceContainer(currentView);
-        var target = $('#viewTester').find('.pinnedRTC');
-        var callerElement = $(source).find('#tester-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
-        $(target).empty().prepend(callerElement);
+        console.log('append rtc preview stream');
+        resetWebcamPreview();
+        if (!webcamPreview) {
+            var source = getSourceContainer(currentView);
+            var target = $('#viewTester').find('.pinnedRTC');
+            var callerElement = $(source).find('#tester-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
+            $(target).empty().prepend(callerElement);
+
+            // init mouse events and pidoco tracking, for live execution the peer connection class handles this
+            var tween = new TweenMax($(callerElement).find('#stream-controls'), .3, {opacity: 1.0, paused: true});
+            $(callerElement).on('mouseenter', function (event) {
+                event.preventDefault();
+                tween.play();
+            });
+
+            $(callerElement).on('mouseleave', function (event) {
+                event.preventDefault();
+                tween.reverse();
+            });
+
+            var query = getQueryParams(document.location.search);
+            var options = {
+                parent: callerElement,
+                videoSource: query.vSource ? query.vSource : null,
+                audioSource: query.aSource ? query.aSource : null,
+                allowConfig: true
+            };
+
+            var instance = new WebcamRecorder(options);
+            webcamPreview = instance;
+        }
+
         pinRTC();
         updateRTCHeight($('#viewTester #column-left').width(), true);
 
@@ -248,44 +278,21 @@ var Tester = {
         } else {
             hideRecordIndicator();
         }
-
-        // init mouse events and pidoco tracking, for live execution the peer connection class handles this
-        var tween = new TweenMax($(callerElement).find('.stream-controls'), .3, {opacity: 1.0, paused: true});
-        $(callerElement).on('mouseenter', function (event) {
-            event.preventDefault();
-            tween.play();
-        });
-
-        $(callerElement).on('mouseleave', function (event) {
-            event.preventDefault();
-            tween.reverse();
-        });
     },
     appendRTCLiveStream: function appendRTCLiveStream() {
         var currentPhase = getCurrentPhase();
         var target = $('#viewTester').find('#pinnedRTC');
         var updateRTCHeightBool = false;
-//        switch (currentPhase.format) {
-//            case SCENARIO:
-//            case IDENTIFICATION:
-//            case EXPLORATION:
-//            case GESTURE_TRAINING:
-//            case INTERVIEW:
-//                target = $('#viewTester').find('#fixed-rtc-preview');
-//                console.log('set fixed width for fixed rtc', target,$(target).find('#video-caller'));
-//                break;
-//            default:
+
         pinRTC();
         updateRTCHeightBool = true;
         updateRTCHeight($('#viewTester #column-left').width());
-//                break;
-//        }
 
         console.log('append rtc live stream', target, iceTransports);
         var options = getPhaseStepOptions(currentPhase.format);
         var query = getQueryParams(document.location.search);
         var mainElement = $('#video-caller');
-        
+
         var callerOptions = {
             target: target,
             callerElement: mainElement,

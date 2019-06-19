@@ -21,7 +21,6 @@ var Moderator = {
             console.log('currentPhase', currentPhase);
             console.log('currentPhase data', currentPhaseData);
 
-
             if (previewModeEnabled === false) {
                 setLocalItem(currentPhase.id + '.tempSaveData', {});
                 getGMT(function (timestamp) {
@@ -31,7 +30,6 @@ var Moderator = {
                 });
             }
 
-//            Moderator.initializePeerConnection();
             if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
 
                 var item = null;
@@ -95,7 +93,6 @@ var Moderator = {
                     if (!syncPhaseStep || currentPhase.format === THANKS) {
                         $('#viewModerator #phase-content').empty().append(item);
                     }
-//                    initObserverAnnotationHandling();
                 } else {
                     Moderator.renderNoDataView();
                 }
@@ -114,6 +111,7 @@ var Moderator = {
             removeAlert($('#viewModerator'), ALERT_GENERAL_PLEASE_WAIT);
             $('#viewModerator').find('#phase-content').removeClass('hidden');
             $('#viewModerator').find('#pinnedRTC').css({opacity: 1});
+            
             pinRTC();
             updateRTCHeight($('#viewModerator #column-left').width(), true);
 
@@ -137,8 +135,13 @@ var Moderator = {
     },
     renderNoDataView: function renderNoDataView() {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
-        $('#viewModerator #phase-content').append(alert);
+        $('#viewModerator #phase-content').empty().append(alert);
         appendAlert(alert, ALERT_NO_PHASE_DATA);
+
+        $(alert).find('#btn-next-step').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            nextStep();
+        });
     },
     initializePeerConnection: function initializePeerConnection() {
         if (!peerConnection && !previewModeEnabled) {
@@ -280,7 +283,6 @@ var Moderator = {
         // check preview or live mode, and check if webRTC is needed
         $('#animatableRTC').addClass('hidden');
         initPopover();
-//        console.log(isWebRTCNeededForPhaseStep(getCurrentPhase()));
         if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
             if (previewModeEnabled === true) {
                 Moderator.appendRTCPreviewStream();
@@ -289,44 +291,61 @@ var Moderator = {
             }
         } else {
             // hide rtc
+            if (previewModeEnabled === true) {
+                resetWebcamPreview();
+            }
             $('html, body').find('#web-rtc-placeholder').addClass('hidden');
         }
     },
     appendRTCPreviewStream: function appendRTCPreviewStream() {
-        var source = getSourceContainer(currentView);
-        var target = $('#viewModerator').find('.pinnedRTC');
-        var callerElement = $(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
-        $(target).empty().prepend(callerElement);
+        resetWebcamPreview();
+        if (!webcamPreview) {
+            var source = getSourceContainer(currentView);
+            var target = $('#viewModerator').find('.pinnedRTC');
+            var callerElement = $(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
+            $(target).empty().prepend(callerElement);
+
+            // init mouse events and pidoco tracking, for live execution the peer connection class handles this
+            var tween = new TweenMax($(callerElement).find('#stream-controls'), .3, {opacity: 1.0, paused: true});
+            $(callerElement).on('mouseenter', function (event) {
+                event.preventDefault();
+                tween.play();
+            });
+
+            $(callerElement).on('mouseleave', function (event) {
+                event.preventDefault();
+                tween.reverse();
+            });
+
+            var query = getQueryParams(document.location.search);
+            var options = {
+                parent: callerElement,
+                videoSource: query.vSource ? query.vSource : null,
+                audioSource: query.aSource ? query.aSource : null,
+                allowConfig: true
+            };
+
+            var instance = new WebcamRecorder(options);
+            webcamPreview = instance;
+        }
+        
         pinRTC();
         updateRTCHeight($('#viewModerator #column-left').width(), true);
 
         var currentPhase = getCurrentPhase();
         var options = getPhaseStepOptions(currentPhase.format);
-//        console.log('options: ', options);
         if (options.moderator.recordStream === 'yes') {
             showRecordIndicator();
         } else {
             hideRecordIndicator();
         }
-
-        // init mouse events and pidoco tracking, for live execution the peer connection class handles this
-        var tween = new TweenMax($(callerElement).find('.stream-controls'), .3, {opacity: 1.0, paused: true});
-        $(callerElement).on('mouseenter', function (event) {
-            event.preventDefault();
-            tween.play();
-        });
-
-        $(callerElement).on('mouseleave', function (event) {
-            event.preventDefault();
-            tween.reverse();
-        });
     },
     appendRTCLiveStream: function appendRTCLiveStream() {
         var currentPhase = getCurrentPhase();
         var options = getPhaseStepOptions(currentPhase.format);
         var query = getQueryParams(document.location.search);
         var mainElement = $('#video-caller');
-//        console.log('append rtc live stream', iceTransports);
+        console.log('append rtc live stream', iceTransports);
 
         var callerOptions = {
             target: $('#viewModerator').find('#pinnedRTC'),
@@ -573,8 +592,6 @@ function checkSingleScene(data) {
 
     sceneIds = unique(sceneIds);
 
-    console.log('check single scene: ', sceneIds.length);
-
     if (sceneIds.length === 1) {
         return {single: true, pidoco: getSceneById(sceneIds[0]).type === SCENE_PIDOCO};
     }
@@ -666,15 +683,3 @@ function getWOZTransitionFeedbackItem(source, feedback, transitionMode, time, di
 
     return btn;
 }
-
-//function initObserverAnnotationHandling() {
-//    if (!previewModeEnabled && peerConnection && peerConnection.isObserverConnected()) {
-//        $(peerConnection).unbind(MESSAGE_OBSERVER_ANNOTATION).bind(MESSAGE_OBSERVER_ANNOTATION, function (event, payload) {
-//            event.preventDefault();
-//            var currentPhase = getCurrentPhase();
-//            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-//            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_OBSERVER_ANNOTATION, annotationId: payload.annotationColor, time: payload.timestamp});
-//            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-//        });
-//    }
-//}

@@ -12,20 +12,20 @@ include '../includes/language.php';
             <div class="col-xs-12 col-sm-6 text-center">
                 <div class="panel panel-default btn-shadow btn-panel" id="btn-create-expert-based-study">
                     <div class="panel-heading">
-                        <span class="title-text">Expertenbasierte Studie</span>
+                        <span class="title-text"><?php echo $lang->expertBasedStudyCreationHead ?></span>
                     </div>
                     <div class="panel-body" style="padding: 15px">
-                        Dies umfasst einen Teilbereich des Gesten-Design-Prozesses. Damit kann eine expertenbasierte Gesten-Extraktion durchgeführt werden.
+                        <?php echo $lang->expertBasedStudyCreation ?>
                     </div>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6 text-center">
                 <div class="panel panel-default btn-shadow btn-panel" id="btn-create-user-centered-study">
                     <div class="panel-heading">
-                        <span class="title-text">Nutzerzentrierte Studie</span>
+                        <span class="title-text"><?php echo $lang->userCenteredStudyCreationHead ?></span>
                     </div>
                     <div class="panel-body" style="padding: 15px">
-                        Dies umfasst den gesamten Gesten-Design-Prozess. Damit können z.B. Gesten mit potentiellen Endanwendern ermittelt werden.
+                        <?php echo $lang->userCenteredStudyCreation ?>
                     </div>
                 </div>
             </div>

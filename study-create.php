@@ -767,7 +767,6 @@ if (login_check($mysqli) == true) {
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 if (query.studyId && query.h === hash) {
-//                    $('#btn-clear-data').remove();
                     studyEditable = true;
                     editableStudyId = query.studyId;
                     $('#btn-study').parent().removeClass('hidden');
@@ -796,6 +795,14 @@ if (login_check($mysqli) == true) {
                     studyEditable = false;
                     editableStudyId = null;
                     init();
+
+                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function () {
+                        var leftFlex = 51;
+                        TweenMax.to(previewStudyButton, .3, {x: +parseInt($(previewStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut, yoyo: true, repeat: 1});
+                        TweenMax.to(cacheButton, .3, {x: +parseInt($(cacheButton).outerWidth()) - leftFlex, ease: Quad.easeInOut, yoyo: true, repeat: 1, delay: .1});
+                        TweenMax.to(saveStudyButton, .3, {x: +parseInt($(saveStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut, yoyo: true, repeat: 1, delay: .2});
+                    });
+                    loadHTMLintoModal('custom-modal', 'externals/modal-first-init-study.php', 'modal-md');
                 }
 
                 animateBreadcrump();
@@ -870,7 +877,8 @@ if (login_check($mysqli) == true) {
                 updateScheduleInfo();
                 checkSessionStorage();
 
-                var status = window.location.hash.substr(1);
+                var query = getQueryParams(document.location.search);
+                var status = query.startEditAt;
                 var statusNavMatch = getStatusNavMatch(status);
                 if (status !== '' && statusNavMatch !== null) {
                     $('#create-tab-navigation').find('#tab-' + statusNavMatch + ' a').click();
@@ -1311,7 +1319,8 @@ if (login_check($mysqli) == true) {
                 TweenMax.from(activeTabContent, .2, {opacity: 0, y: -20, clearProps: 'all'});
                 TweenMax.from($('#btn-group-submit'), .3, {y: -20});
                 $("html, body").animate({scrollTop: 0}, 100);
-                window.location.hash = $(event.target).attr('href');
+                setParam(window.location.href, 'startEditAt', new String($(event.target).attr('href')).replace('#', ''));
+//                window.location.hash = $(event.target).attr('href');
             });
 
             $('#tab-introduction a').on('click', function (event) {

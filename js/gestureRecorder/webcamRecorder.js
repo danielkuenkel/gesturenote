@@ -36,20 +36,22 @@ function WebcamRecorder(options) {
         var audioSource = null;
 
         var videoSources = [];
-//        var audioSources = [];
+        var audioSources = [];
         for (var i = 0; i < deviceInfos.length; i++) {
             if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
                 videoSources.push(deviceInfos[i]);
+            } else if (deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
+                audioSources.push(deviceInfos[i]);
             }
-//            else if (deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
-////                audioSources.push(deviceInfos[i]);
-//            }
         }
 
         for (var i = 0; i < deviceInfos.length; i++) {
             if (!videoSource && deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
                 console.log('standard video input device:', deviceInfos[i]);
                 videoSource = deviceInfos[i].deviceId;
+            } else if (!audioSource && deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
+                console.log('standard audio input device:', deviceInfos[i]);
+                audioSource = deviceInfos[i].deviceId;
             }
 
             if (videoSource) {
@@ -64,6 +66,7 @@ function WebcamRecorder(options) {
         if (webcamRecorder.options && webcamRecorder.options.allowConfig && webcamRecorder.options.allowConfig === true) {
             var configPanel = $(webcamRecorder.options.parent).find('#rtc-config-panel');
             renderAssembledVideoSources($(configPanel).find('#video-input-select'), videoSources, videoSource);
+            renderAssembledAudioSources($(configPanel).find('#audio-input-select'), audioSources, audioSource);
         }
 
         options.sources = {video: videoSource, audio: audioSource};
@@ -95,7 +98,16 @@ function WebcamRecorder(options) {
 }
 
 function onError(error) {
-    console.log(error);
+    console.error(error);
+    if (error.message) {
+        var alertsContainer = $(webcamRecorder.options.parent).find('#alerts-container');
+        var message = new String(error.message).split(' ').join('').toLowerCase();
+        switch (message) {
+            case 'permissiondenied':
+                appendAlert(alertsContainer, ALERT_RTC_PERMISSION_DENIED);
+                break;
+        }
+    }
 }
 
 function onSuccess(stream) {
@@ -165,7 +177,7 @@ function onSuccess(stream) {
 
             if (!$(this).hasClass('disabled')) {
                 $(this).popover('hide');
-                $(this).css({filter: 'blur(2px)'});
+                $(this).parent().css({filter: 'blur(2px)'});
 
                 if ($(configPanel).hasClass('hidden')) {
                     $(video).css({filter: 'blur(2px)'});
@@ -178,7 +190,7 @@ function onSuccess(stream) {
         $(configPanel).find('#btn-close-config').unbind('click').bind('click', function (event) {
             event.preventDefault();
             $(video).css({filter: ''});
-            $(webcamRecorder.options.parent).find('#btn-config-rtc').css({filter: ''});
+            $(webcamRecorder.options.parent).find('#btn-config-rtc').parent().css({filter: ''});
             $(configPanel).addClass('hidden');
         });
 
@@ -190,6 +202,18 @@ function onSuccess(stream) {
             }
 
             webcamRecorder.options.videoSource = activeId;
+            var options = webcamRecorder.options;
+            $(webcamRecorder).trigger('renegotiate', [options]);
+        });
+
+        $(configPanel).find('#audio-input-select').unbind('change').bind('change', function (event, activeId) {
+            event.preventDefault();
+
+            if (window.history.replaceState) {
+                setParam(window.location.href, 'aSource', activeId);
+            }
+
+            webcamRecorder.options.audioSource = activeId;
             var options = webcamRecorder.options;
             $(webcamRecorder).trigger('renegotiate', [options]);
         });
@@ -404,7 +428,7 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
     } catch (error) {
         console.log(error);
     }
-    
+
     console.log(cropSlider);
     $(cropSlider).slider({
         min: 0,
@@ -413,8 +437,8 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
         precision: 3,
         value: [webcamRecorder.crops.left, webcamRecorder.crops.right]
     });
-    
-    
+
+
     $(cropSlider).unbind('change').bind('change', function (event) {
         updateCropping(event.value.newValue);
     });

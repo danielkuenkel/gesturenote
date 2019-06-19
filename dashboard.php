@@ -242,7 +242,7 @@ if (login_check($mysqli) == true) {
 
             setTimeout(function () {
                 var leftFlex = 51;
-                
+
                 createStudyButtonTimeline.add("tween", 0)
                         .to(createStudyButton, .3, {left: +parseInt($(createStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
 
@@ -303,13 +303,12 @@ if (login_check($mysqli) == true) {
                     $(item).css({opacity: 1});
                     TweenMax.from(item, .2, {opacity: 0, delay: i * 0.05, scaleX: 0.5, scaleY: 0.5});
                 }
-            }
 
-//            $('#btn-create-study').click(function (event) {
-//                event.preventDefault();
-//                event.stopPropagation();
-//                gotoCreateStudy();
-//            });
+                var leftFlex = 51;
+                TweenMax.to(createStudyButton, .4, {x: +parseInt($(createStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut, yoyo: true, repeat: 1, delay: .5});
+                TweenMax.to(recordGestureButton, .4, {x: +parseInt($(recordGestureButton).outerWidth()) - leftFlex, ease: Quad.easeInOut, yoyo: true, repeat: 1, delay: .6});
+                TweenMax.to(gestureSetsButton, .4, {x: +parseInt($(gestureSetsButton).outerWidth()) - leftFlex, ease: Quad.easeInOut, yoyo: true, repeat: 1, delay: .7});
+            }
 
             function renderMasonryTest() {
                 var $container = $('#dashboard-items-container');

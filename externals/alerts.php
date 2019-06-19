@@ -121,4 +121,5 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-gestures-trimmed" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noGesturesTrimmed->text ?></span></div>
     <div class="alert alert-info"    id="drag-and-drop-hint" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->dragAndDropHint->text ?></span></div>
     <div class="alert alert-warning" id="invalid-agate-format" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->invalidAgateFormat->text ?></span></div>
+    <div class="alert alert-warning" id="rtc-permission-denied" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->rtcPermissionDenied->text ?></span></div>
 </div>

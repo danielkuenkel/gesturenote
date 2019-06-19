@@ -413,7 +413,11 @@ function getGestureSetById(id) {
 }
 
 function setStudyData(data) {
+    var preview = getLocalItem('preview');
     clearLocalItems();
+    if (preview) {
+        setLocalItem('preview', preview);
+    }
 
     var setData;
     if (data.studyData) {

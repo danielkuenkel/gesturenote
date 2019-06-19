@@ -52,12 +52,6 @@ include '../includes/language.php';
                         <?php echo $lang->gestureRecorderManual->describeAndSave->gestureDescription ?>
                     </p>
                     <p>
-                        <?php echo $lang->gestureRecorderManual->describeAndSave->graphicsDescription ?>
-                    </p>
-                    <p>
-                        <?php echo $lang->gestureRecorderManual->describeAndSave->saveDescription ?>
-                    </p>
-                    <p>
                         <?php echo $lang->gestureRecorderManual->describeAndSave->worstResultDescription ?>
                     </p>
                 </div>
@@ -374,7 +368,7 @@ include '../includes/language.php';
                             <div class="alert-space alert-missing-fields"></div>
 
                             <div class="form-group" style="margin-top: 10px">
-                                <label><?php echo $lang->gestureName ?> <sup>*</sup></label>
+                                <label><?php echo $lang->gestureName ?> <sup style="text-transform: uppercase"><?php echo $lang->mandatory ?></sup></label>
                                 <input type="text" class="form-control" id="gestureName" required>
                             </div>
 
@@ -970,7 +964,7 @@ include '../includes/language.php';
                             <div class="alert-space alert-missing-fields"></div>
 
                             <div class="form-group" style="margin-top: 10px">
-                                <label><?php echo $lang->gestureName ?> <sup>*</sup></label>
+                                <label><?php echo $lang->gestureName ?> <sup style="text-transform: uppercase"><?php echo $lang->mandatory ?></sup></label>
                                 <input type="text" class="form-control" id="gestureName" required>
                             </div>
 

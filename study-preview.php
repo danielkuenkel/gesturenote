@@ -52,13 +52,13 @@ if (login_check($mysqli) == true) {
         <script src="js/gesture.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/joint-selection.js"></script>
-        
+
         <!-- phase step formats -->
         <script src="js/execution/study-execution.js"></script>
         <script src="js/execution/study-execution-tester.js"></script>
         <script src="js/execution/study-execution-tester-save.js"></script>
         <script src="js/execution/study-execution-moderator.js"></script>
-        
+
         <script src="js/execution/executionPreparation.js"></script>
         <script src="js/execution/exploration.js"></script>
         <script src="js/execution/focus-group-interview.js"></script>
@@ -120,6 +120,8 @@ if (login_check($mysqli) == true) {
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default" id="btnViewModerator"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->evaluator ?></span><span class="hidden-md hidden-lg">M</span></button>
                         <button type="button" class="btn btn-default" id="btnViewTester"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->tester ?></span><span class="hidden-md hidden-lg">T</span></button>
+                        <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
+                        <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
                     </div>
                     <input class="form-control item-input-text option-phase-steps text-center show-dropdown" tabindex="-1" type="text" value=""/>
                     <div class="input-group-btn phaseStepsSelect select" role="group">
@@ -137,8 +139,7 @@ if (login_check($mysqli) == true) {
                                    top: 4px;"></i>
                             </span>
                         </button>
-                        <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
-                        <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
+                        
                         <!--<button type="button" class="btn btn-default" id="toggle-dark-mode"><i class="fa fa-moon-o"></i></button>-->
                         <button role="button" class="btn btn-default" id="btn-introduction"><i class="fa fa-support"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->help ?></span></button>
                         <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="fa fa-close"></i><span class="hidden-sm hidden-xs"> <?php echo $lang->close ?></span></button>
@@ -160,7 +161,7 @@ if (login_check($mysqli) == true) {
                 </div>
             </div>
         </div>
-        
+
 
         <!-- modals -->
         <div id="custom-modal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -207,8 +208,12 @@ if (login_check($mysqli) == true) {
             <div style="width: 300px; border-radius: 8px" id="video-caller-container" class="shadow">
                 <div class="embed-responsive embed-responsive-4by3" id="video-caller">
 
-                    <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee; display: flex; justify-content: center; align-items: center;">
+                    <div class="embed-responsive-item" id="rtc-loading-indicator" style="border-radius: 8px; background-color: #eee; display: flex; justify-content: center; align-items: center;">
                         <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+                    </div>
+                    
+                    <div class="embed-responsive-item" id="alerts-container">
+                        <div class="alert-space alert-rtc-permission-denied"></div>
                     </div>
 
                     <div id="remoteVideo" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 8px;"></div>
@@ -325,6 +330,8 @@ if (login_check($mysqli) == true) {
                 var scrollTop = $(document).scrollTop();
                 var newHeight = 3 / 4 * updateWidth - scrollTop;
                 var newWidth = 4 / 3 * newHeight;
+                console.log('update rtc height', newHeight, newWidth);
+                
                 if (newWidth > DRAGGABLE_MIN_WIDTH) {
                     $(view + ' #web-rtc-placeholder').css({height: newHeight + 'px', width: newWidth + 'px'});
                 }
@@ -441,6 +448,7 @@ if (login_check($mysqli) == true) {
             $('#btnViewModerator').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('active') && !$(this).hasClass('disabled')) {
+                    resetWebcamPreview();
                     showModeratorView();
                     renderPhaseStep();
                 }
@@ -449,10 +457,19 @@ if (login_check($mysqli) == true) {
             $('#btnViewTester').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('active')) {
+                    resetWebcamPreview();
                     showTesterView();
                     renderPhaseStep();
                 }
             });
+
+
+            function resetWebcamPreview() {
+                if (webcamPreview && webcamPreview !== null) {
+                    webcamPreview.destroy();
+                    webcamPreview = null;
+                }
+            }
 
 
             function showModeratorView() {
@@ -476,15 +493,10 @@ if (login_check($mysqli) == true) {
             }
 
             function renderPhaseStep() {
-                console.log('render phase step', currentView);
+                console.log('render phase step for: ', currentView);
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-
-//                console.log(currentPhaseStepIndex);
-//                if (currentPhaseStepIndex === undefined) {
-//                    window.location.hash = 'preparation';
-//                } else {
+                
                 window.location.hash = getCurrentPhase().id;
-//                }
 
                 if (window.history.replaceState) {
                     setParam(window.location.href, 'view', currentView);
