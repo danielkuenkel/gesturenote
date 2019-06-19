@@ -17,7 +17,6 @@ function initOverlayContent(format, id) {
 function initOverlayContentByFormat(format) {
     var formatClone = $('#overlays-item-container').find('#' + format).clone().removeAttr('id');
     $('#overlay-content-placeholder').empty().append(formatClone);
-//    console.log(format, formatClone);
     $(window).unbind('scroll resize');
     initOverlayContentFunctionalitiesByFormat(format, formatClone);
 }
@@ -2913,12 +2912,12 @@ var currentFilterList;
 function initCatalogGesturesOverlay(formatClone) {
     $(formatClone).find('#overlay-title').text(translation.studyCatalogs.gestures);
     initDynamicAffixScrolling(formatClone);
+
     getGestureSets(function (result) {
         if (result.status === RESULT_SUCCESS) {
             setLocalItem(GESTURE_SETS, result.gestureSets);
             getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {
-//                    setLocalItem(GESTURE_CATALOG, result.gestures);
                     $(formatClone).find('#gesture-catalogs-nav-tab a[href="#study-gesture-set"]').tab('show');
                     getWholeStudyGestures();
                     updateNavBadges();
@@ -2926,6 +2925,18 @@ function initCatalogGesturesOverlay(formatClone) {
             });
         }
     });
+
+    function showContentLoader() {
+        console.warn('show content loader');
+        $(currentFilterList).closest('.tab-pane').find('#item-view').addClass('hidden');
+        $(currentFilterList).closest('.tab-pane').find('.tab-pane-loading-indicator').removeClass('hidden');
+    }
+
+    function hideContentLoader() {
+        console.warn('hide content loader');
+        $(currentFilterList).closest('.tab-pane').find('#item-view').removeClass('hidden');
+        $(currentFilterList).closest('.tab-pane').find('.tab-pane-loading-indicator').addClass('hidden');
+    }
 
     function renderData(data, animation) {
         var currentActiveTab = getCurrentActiveTab();
@@ -2970,6 +2981,7 @@ function initCatalogGesturesOverlay(formatClone) {
         initPopover();
         initTooltips();
         updateNavBadges();
+        hideContentLoader();
     }
 
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
@@ -2992,7 +3004,7 @@ function initCatalogGesturesOverlay(formatClone) {
         $(formatClone).find('.search-input').val('');
         $('#custom-modal').unbind('gestureSetsUpdated');
         resetRecorder();
-//        console.log($(event.target).attr('href'))
+
         switch ($(event.target).attr('href')) {
             case '#study-gesture-set':
                 getWholeStudyGestures();
@@ -3086,6 +3098,8 @@ function initCatalogGesturesOverlay(formatClone) {
         currentFilterList = $(formatClone).find('#study-gesture-set #gesture-list-container');
         currentFilterList.empty();
         originalFilterData = assembledGestures();
+        showContentLoader();
+
         if (originalFilterData && originalFilterData.length > 0) {
             $(formatClone).find('#study-gesture-set #filter-controls').removeClass('hidden');
             clearAlerts($(formatClone).find('#study-gesture-set'));
@@ -3135,6 +3149,7 @@ function initCatalogGesturesOverlay(formatClone) {
             $(formatClone).find('#study-gesture-set #pager-bottom .pagination').addClass('hidden');
             $(formatClone).find('#study-gesture-set #filter-controls').addClass('hidden');
             appendAlert($(formatClone).find('#study-gesture-set'), ALERT_NO_STUDY_GESTURES_ASSEMBLED);
+            hideContentLoader();
         }
 
         $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
@@ -3148,6 +3163,8 @@ function initCatalogGesturesOverlay(formatClone) {
     function getWholeGestureCatalog() {
         currentFilterList = $(formatClone).find('#gesture-catalog #gesture-list-container');
         currentFilterList.empty();
+        showContentLoader();
+
         getGestureCatalog(function (result) {
             if (result.status === RESULT_SUCCESS) {
                 originalFilterData = result.gestures;
@@ -3217,6 +3234,7 @@ function initCatalogGesturesOverlay(formatClone) {
     function getWholeGestureSets() {
         currentFilterList = $(formatClone).find('#gesture-sets #gesture-sets-container');
         currentFilterList.empty();
+        showContentLoader();
 
         getGestureSets(function (result) {
             if (result.status === RESULT_SUCCESS) {
@@ -3373,7 +3391,7 @@ function initCatalogTriggerOverlay(formatClone) {
             var id = $(element).attr('data-id');
             var title = $(element).find('.option').val();
             if (id === undefined) {
-               id = chance.natural();
+                id = chance.natural();
             }
             if (title.trim() !== "") {
                 trigger.push({id: id, type: TYPE_TRIGGER, title: title}); //new Trigger(triggerId, TYPE_TRIGGER, $(elements[i]).find('.option').val()));

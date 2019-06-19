@@ -137,7 +137,11 @@ if (login_check($mysqli) == true) {
             <div class="tab-content">
 
                 <div role="tabpanel" class="tab-pane" id="gesture-catalog">
-                    <div id="item-view">
+                    <div class="tab-pane-loading-indicator text-center">
+                        <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+                    </div>
+
+                    <div id="item-view" class="hidden">
                         <div>
                             <div class="form-group form-group-no-margin">
                                 <div class="input-group">
@@ -241,7 +245,11 @@ if (login_check($mysqli) == true) {
 
                     <hr>
 
-                    <div id="item-view">
+                    <div class="tab-pane-loading-indicator text-center">
+                        <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+                    </div>
+
+                    <div id="item-view" class="hidden">
 
                         <div>
                             <div class="form-group form-group-no-margin">
@@ -440,7 +448,6 @@ if (login_check($mysqli) == true) {
                 }
 
                 var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
-                console.log(tutorials);
                 if (tutorials && tutorials.gestureCatalog && parseInt(tutorials.gestureCatalog) === 1) {
                     $('#btn-introduction').click();
                 }
@@ -510,12 +517,12 @@ if (login_check($mysqli) == true) {
             }
 
             $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
-//                console.log('catched render data');
+                console.log('catched render data');
                 event.preventDefault();
                 renderData(data);
             });
 
-            initPopover(300);
+            initPopover();
             firstInit = false;
 
             $('#custom-modal').unbind('gesture-deleted').bind('gesture-deleted', function () {
@@ -526,6 +533,9 @@ if (login_check($mysqli) == true) {
                     renderData(currentFilterData);
                 }
             });
+
+            $(currentFilterList).parent().removeClass('hidden');
+            $(currentFilterList).closest('.tab-pane').find('.tab-pane-loading-indicator').addClass('hidden');
         }
 
         $('.filter').unbind('change').bind('change', function (event) {
@@ -584,8 +594,6 @@ if (login_check($mysqli) == true) {
                 gestureRecorder = null;
             }
 
-//            console.log('show tab', $(event.target).attr('href'));
-
             switch ($(event.target).attr('href')) {
                 case '#gesture-catalog':
                     getWholeGestureCatalog();
@@ -612,6 +620,7 @@ if (login_check($mysqli) == true) {
         function getWholeGestureCatalog() {
             currentFilterList = $('#gesture-catalog').find('#gesture-list-container');
             currentFilterList.empty();
+            showContentLoader();
 
 //            console.log('get whole gesture catalog');
 
@@ -691,6 +700,7 @@ if (login_check($mysqli) == true) {
         function getWholeGestureSets() {
             currentFilterList = $('#gesture-sets').find('#gesture-sets-container');
             currentFilterList.empty();
+            showContentLoader();
 
             getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {
@@ -821,6 +831,11 @@ if (login_check($mysqli) == true) {
             $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialGestureCatalog'] ?>));
             loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
         });
+
+        function showContentLoader() {
+            $(currentFilterList).parent().addClass('hidden');
+            $(currentFilterList).closest('.tab-pane').find('.tab-pane-loading-indicator').removeClass('hidden');
+        }
     </script>
 
 </body>
