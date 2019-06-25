@@ -311,7 +311,7 @@ if (login_check($mysqli) == true) {
                     <div class="" id="gestures-catalog">
                         <div style="display: inline">
                             <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->studyGestures ?> 
-                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogGestures ?>"></i>
+                                <i class="fa fa-info-circle btn-show-info" for="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogGestures ?>"></i>
                             </h4>
                             <div class="btn-group">
                                 <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-gestures">
@@ -329,7 +329,7 @@ if (login_check($mysqli) == true) {
                     <div class="" id="trigger-catalog" style="margin-top: 40px">
                         <div style="display: inline">
                             <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->triggers ?> 
-                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogTrigger ?>"></i>
+                                <i class="fa fa-info-circle btn-show-info" for="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogTrigger ?>"></i>
                             </h4>
                             <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-trigger">
                                 <i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editCatalog ?></span>
@@ -343,7 +343,7 @@ if (login_check($mysqli) == true) {
                     <div class="" id="scenes-catalog" style="margin-top: 40px">
                         <div style="display: inline;">
                             <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->scenes ?> 
-                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogScenes ?>"></i>
+                                <i class="fa fa-info-circle btn-show-info" for="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogScenes ?>"></i>
                             </h4>
                             <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-scenes">
                                 <i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editCatalog ?></span>
@@ -357,7 +357,7 @@ if (login_check($mysqli) == true) {
                     <div class="" id="feedback-catalog" style="margin-top: 40px">
                         <div style="display: inline">
                             <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->feedbacks ?> 
-                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogFeedback ?>"></i>
+                                <i class="fa fa-info-circle btn-show-info" for="" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogFeedback ?>"></i>
                             </h4>
                             <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-feedback">
                                 <i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editCatalog ?></span>
@@ -1041,11 +1041,13 @@ if (login_check($mysqli) == true) {
 
             $('#studyTitle').unbind('input').bind('input', function (event) {
                 event.preventDefault();
+                saveGeneralData();
                 checkNavbarButtons();
             });
 
             $('#studyDescription').unbind('input').bind('input', function (event) {
                 event.preventDefault();
+                saveGeneralData();
                 checkNavbarButtons();
             });
 

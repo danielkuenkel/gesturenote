@@ -94,52 +94,6 @@ function renderData(data, hash) {
     }
 
     initPopover();
-//    if (studyData.phases && studyData.phases.length > 0 &&
-//            (studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
-//            (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
-//
-//        // url copy clipboard view
-//        var origin = window.location.origin;
-//        if (origin.includes('localhost')) {
-//            origin += '/gesturenote';
-//        }
-//
-//        var absoluteStaticStudyUrl = origin + '/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
-//        var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
-//        $('#copy-to-clipboard #static-study-url').val(absoluteStaticStudyUrl);
-
-    // prepare study
-//        console.log(now > dateFrom, now < dateTo, now, dateFrom, dateTo);
-//        if (now > dateFrom && now < dateTo) {
-//            $('#copy-to-clipboard #static-study-url').removeClass('readonly');
-//            $('#copy-to-clipboard #static-study-url').click(function () {
-//                $('#copy-to-clipboard #static-study-url').select();
-//            });
-//
-//            if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
-//                if (studyData.phases && studyData.phases.length > 2) {
-//                    $('.btn-open-static-execution-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
-//                        event.preventDefault();
-//                        if (!$(this).hasClass('disabled')) {
-//                            goto(relativeStaticStudyUrl);
-//                        }
-//                    });
-//                } else {
-//                    $('.btn-open-static-execution-url').addClass('disabled');
-//                    $('.btn-open-static-execution-url').attr('data-content', translation.staticStudyURLNoPhasesteps).data('bs.popover').setContent();
-//                }
-//            } else {
-//                $('.btn-open-static-execution-url').addClass('disabled');
-//                $('.btn-open-static-execution-url').attr('data-content', translation.staticStudyURLOnlyModerated).data('bs.popover').setContent();
-//            }
-//        } else {
-//            $('.btn-open-static-execution-url').addClass('disabled');
-//            $('.btn-open-static-execution-url').attr('data-content', translation.staticStudyURLCheck).data('bs.popover').setContent();
-//        }
-//    } else {
-//        $('.btn-open-static-execution-url').addClass('disabled');
-//        $('.btn-open-static-execution-url').attr('data-content', translation.staticStudyURLCheck).data('bs.popover').setContent();
-//    }
 
     $('.btn-edit-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
@@ -154,7 +108,7 @@ function renderData(data, hash) {
                     startEditAt = 'phases';
                     break;
             }
-            
+
             goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources() + '&startEditAt=' + startEditAt);
         }
     });
@@ -200,8 +154,6 @@ function renderData(data, hash) {
         $('#invited-users').remove();
         $('.btn-delete-study').remove();
         $('.btn-edit-study').remove();
-//        $('#fixed-study-owner-controls').find('.btn-preview-study').css({borderBottomLeftRadius: '0px'});
-//        $('#fixed-study-owner-controls').find('.btn-open-static-execution-url').css({borderBottomLeftRadius: '0px', borderBottomRightRadius: '8px'});
         $('#fixed-study-owner-controls').find('.btn-join-conversation').css({borderBottomLeftRadius: '0px', borderBottomRightRadius: '8px'});
         $('#fixed-study-owner-controls').find('.btn-leave-conversation').css({borderBottomLeftRadius: '0px', borderBottomRightRadius: '8px'});
     }
@@ -325,7 +277,7 @@ function renderData(data, hash) {
         // phase view
         if (studyData.phases && studyData.phases.length > 0) {
             var step = document.createElement('ol');
-            $(step).css({paddingLeft: '15px'});
+            $(step).css({paddingLeft: '15px', display:'inline-block'});
             $('#phase-steps-container').empty().append(step);
             for (var i = 0; i < studyData.phases.length; i++) {
                 var text = document.createElement('li');
@@ -346,7 +298,6 @@ function renderData(data, hash) {
 
     function renderExtraction(type) {
         classificationType = type;
-//        console.log(data, studyData, studyData.generalData.method);
         getExtractionData({studyId: data.id, method: studyData.generalData.method, surveyType: studyData.generalData.surveyType}, function (result) {
             var shouldRender = false;
             if (result.status === RESULT_SUCCESS) {

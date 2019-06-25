@@ -5611,6 +5611,16 @@
             "id": "invalid-agate-format",
             "type": "warning",
             "text": "Invalid format for the downloaded CSV file. The AGATe Tool could calculate agreement rates not correctly."
+        },
+        "rtcPermissionDenied": {
+            "id": "rtc-permission-denied",
+            "type": "warning",
+            "text": "Access to the webcam and microphone not shared. Make sure GestureNote has permission for the webcam and microphone. Reload the page after approval."
+        },
+        "reinitializeGestureClassification": {
+            "id": "reinitialize-gesture-classification",
+            "type": "warning",
+            "text": "If the selection is accepted for the gesture, the classification will be reset. The classification needs to be redone for this gesture."
         }
     },
     "introductionGestureNoteGeneral": [

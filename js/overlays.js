@@ -602,11 +602,11 @@ function renderAssembledTriggerItems(container, triggerIds, preselect) {
             });
         }
 
-        if (triggerIds) {
-            if (triggerIds.length > 0) {
-                for (var i = 0; i < triggerIds.length; i++) {
+        if (triggerIds && triggerIds.length > 0) {
+            for (var i = 0; i < triggerIds.length; i++) {
+                setTimeout(function () {
                     $(container).find('#' + triggerIds[i] + ' .btn-add-trigger-to-gesture').click();
-                }
+                }, 500);
             }
         } else {
             if (preselect && preselect === true) {

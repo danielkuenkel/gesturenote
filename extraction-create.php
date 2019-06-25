@@ -426,7 +426,7 @@ if (login_check($mysqli) == true) {
                 </div>
                 <!--</div>-->
                 <!--<div class="col-xs-12 col-md-6">-->
-                <div class="form-group">
+                <div class="">
                     <label><?php echo $lang->gestures ?></label>
                     <div id="assembled-study-gestures" class="row"></div>
                     <!--                    <div class="input-group">
@@ -443,7 +443,7 @@ if (login_check($mysqli) == true) {
                 <!--<div class="form-group">-->
                 <!--<label><?php echo $lang->scenes ?></label>-->
 
-                <div class="row">
+<!--                <div class="row">
                     <div class="col-sm-11">
                         <div class="form-group form-group-no-margin" id="scenes">
                             <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationScenesForTrigger ?>"></i></label>
@@ -457,7 +457,7 @@ if (login_check($mysqli) == true) {
                         </div>
                     </div>
 
-                </div>
+                </div>-->
 
 
                 <!--</div>-->
@@ -800,21 +800,22 @@ if (login_check($mysqli) == true) {
                     // render mapping data for trigger mapping
                     renderAssembledTriggers($(clone));
 
-                    var assembledScenes = getLocalItem(ASSEMBLED_SCENES);
-                    if (assembledScenes && assembledScenes.length > 0) {
-                        renderAssembledScenes();
-                        initAddTransitionSceneButton(clone);
-
-                        $(clone).find('.transition-scenes-option-container').unbind('listItemAdded change');
-                    } else {
-                        // append alert
-                    }
+//                    var assembledScenes = getLocalItem(ASSEMBLED_SCENES);
+//                    if (assembledScenes && assembledScenes.length > 0) {
+//                        renderAssembledScenes();
+//                        initAddTransitionSceneButton(clone);
+//
+//                        $(clone).find('.transition-scenes-option-container').unbind('listItemAdded change');
+//                    } else {
+//                        // append alert
+//                    }
 
                     var assembledGestureSet = getLocalItem(ASSEMBLED_GESTURE_SET);
                     if (assembledGestureSet && assembledGestureSet.length > 0) {
                         $(clone).find('#assembled-study-gestures').empty();
                         for (var i = 0; i < assembledGestureSet.length; i++) {
                             var gesture = getGestureById(assembledGestureSet[i]);
+                            console.log('assembled gesture sets', data);
                             var thumbnail = getCreateExtractionMappingGestureListThumbnail(gesture, data && data.gestureIds ? data.gestureIds : null, 'mapping-gesture-catalog-thumbnail', 'col-xs-6 col-md-4 col-lg-3');
                             $(clone).find('#assembled-study-gestures').append(thumbnail);
                         }
@@ -838,14 +839,16 @@ if (login_check($mysqli) == true) {
                             }
                             checkCurrentListState($(clone).find('.transition-scenes-option-container'));
                         }
+                    } else {
+                        
                     }
                 } else if (format === 'gesture-mapping') {
                     // render mapping data for gesture mapping
                     renderAssembledGestures($(clone));
-
+                    
+                    renderAssembledTriggerItems(clone.find('#assembled-trigger-container'), data && data.triggerIds ? data.triggerIds : null, true);
                     if (data) {
                         $(clone).find('.gestureSelect #' + data.gestureId).click();
-                        renderAssembledTriggerItems(clone.find('#assembled-trigger-container'), data.triggerIds, true);
                     }
                 }
 
@@ -1140,6 +1143,16 @@ if (login_check($mysqli) == true) {
                     $(this).popover('hide');
                     downloadGestureSetAsExchangeable($('#gestures-catalog').find('#gestures-list-container .gesture-thumbnail'), translation.exchangeableGestureSet);
                 }
+            });
+
+            $('#studyTitle').unbind('input').bind('input', function (event) {
+                event.preventDefault();
+                saveGeneralData();
+            });
+
+            $('#studyDescription').unbind('input').bind('input', function (event) {
+                event.preventDefault();
+                saveGeneralData();
             });
         </script>
 

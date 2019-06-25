@@ -3500,6 +3500,10 @@ function getCreateExtractionMappingGestureListThumbnail(data, assembledGestures,
                 initPopover();
             }
         }
+    } else {
+        setTimeout(function () {
+            $(clone).find('.btn-tag-as-mapping-gesture').click();
+        }, 200);
     }
 
     return clone;

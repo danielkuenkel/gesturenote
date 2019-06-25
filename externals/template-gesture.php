@@ -115,6 +115,9 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
                     </div>
                 </div>
+                <div class="weighting-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->extractionContent->weightingInfo ?>" style="display: flex; position: absolute; padding: 4px 7px; background-color: rgba(255,255,255,1); border-bottom-right-radius: 10px; border-top-left-radius: 6px; font-size: 8pt;">
+                    <div class="weighting-text"></div>
+                </div>
                 <div class="gesture-info-symbols">
                     <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
                         <span class="gesture-info-symbol-text text-sensor">
@@ -165,6 +168,9 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
                         <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
                     </div>
+                </div>
+                <div class="weighting-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->extractionContent->weightingInfo ?>" style="display: flex; position: absolute; padding: 4px 7px; background-color: rgba(255,255,255,1); border-bottom-right-radius: 10px; border-top-left-radius: 6px; font-size: 8pt;">
+                    <div class="weighting-text"></div>
                 </div>
                 <div class="gesture-info-symbols">
                     <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
@@ -374,7 +380,7 @@ include '../includes/language.php';
             </div>
         </div>
     </div>
-    
+
     <div class="root" id="mapping-gesture-catalog-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
             <div class="embed-responsive embed-responsive-4by3">

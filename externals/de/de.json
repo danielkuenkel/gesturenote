@@ -542,9 +542,20 @@
         "classifyTriggerQuestion": "Wie sollen die Interaktionsaufgaben klassifiziert werden? Nach",
         "startClassification": "Klassifizierung jetzt starten",
         "compareGestureQuestion": "Enspricht die Geste auf der linken Seite der auf der rechten Seite?",
+        "secondCompareGestureQuestion": "Wie stark ähnelt die Geste auf der linken Seite der auf der rechten Seite?",
+        "leftGestures": "Noch {x} Geste(n)",
+        "leftTrigger": "Noch {x} Interaktionsaufgabe(n)",
+        "weightingInfo": "Dieser Wert gibt an, wie stark diese Geste der Stellvertretergeste ähnelt.<br/><br/>4: Sehr starke Ähnlichkeit<br/>3: Starke Ähnlichkeit<br/>2: Bedingte Ähnlichkeit",
+        "clickableWeightingInfo": "Dieser Wert gibt an, wie stark diese Geste der Stellvertretergeste ähnelt. Klicken Sie hier, um die Gewichtung zu ändern.",
         "compareTriggerQuestion": "Enspricht die Interaktionsaufgabe auf der linken Seite der auf der rechten Seite?",
         "checklistGestureInfo": "Um eine zusätzliche Bewertung der klassifizierten Gesten durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Geste beantwortet werden.",
-        "checklistTriggerInfo": "Um eine zusätzliche Bewertung der klassifizierten Interaktionsaufgaben durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Funktionalität beantwortet werden."
+        "checklistTriggerInfo": "Um eine zusätzliche Bewertung der klassifizierten Interaktionsaufgaben durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Funktionalität beantwortet werden.",
+        "weightingLowModalHeadline": "Gewichtung zu niedrig",
+        "weightingLowModalText": "Um eine Geste als Stellvertretergeste für eine Klasse zu übernehmen, muss sie eine Gewichtung von 4 aufweisen. Diese Geste hat eine Gewichtung von <span class='gesture-weighting'></span>.",
+        "editWeightingModalHeadline": "Gewichtung der Geste ändern",
+        "editWeightingModalText": "Um eine Geste als Stellvertretergeste für eine Klasse zu übernehmen, muss sie eine Gewichtung von 4 aufweisen. Diese Geste hat eine Gewichtung von <span class='gesture-weighting'></span>.",
+        "resetGestureClassificationQuestion": "Sind sie sicher, dass die Klassifizierung für diese Geste zurückgesetzt werden soll?",
+        "weighted": "gewichtet"
     },
     "whatGesturesWhereElicited": "Welche Arten von Gesten liegen insgesamt vor?",
     "whatGesturesWhereElicitedForTrigger": "Welche Arten von Gesten liegen für diese Interaktionsaufgabe vor?",
@@ -2687,6 +2698,18 @@
             "bypassFirewall": "Kommt es während des Verbindungsaufbaus zu Problemen, liegt dies ggf. an einer aktiven Firewall.",
             "offerHelp": "Hilfe anbieten",
             "showAssessmentControls": "Aufgabe beurteilen"
+        },
+        "extraction": {
+            "titleNotAtAll": "0 - Garnicht",
+            "titleLittle": "1 - Wenig",
+            "titleConditioned": "2 - Bedingt",
+            "titleStrong": "3 - Stark",
+            "titleVeryStrong": "4 - Sehr stark",
+            "notAtAll": "Die beiden Gesten ähneln sich überhaupt nicht.",
+            "little": "Die beiden Gesten ähneln sich zwar, aber nicht so stark, dass sie als ähnlich eingeordnet werden können.",
+            "contitioned": "Die beiden Gesten können als ähnlich angesehen werden, z.B. wenn eine Person eine Zoom-Geste mit den Fingern einer Hand und eine andere Person eine Zoomgeste mit beiden Händen vorführt. Die Gesten unterliegen dem gleichen mentalen Modell der Nutzer für Zoomen: Dem Außereinanderdriften von Körperteilen.",
+            "strong": "Die beiden Gesten sind sich sehr ähnlich, wurden jedoch etwas anders ausgeführt, z.B. schneller, langsamer oder mit einem etwas anderen Bewegungsablauf im Vergleich zur anderen Geste.",
+            "veryStrong": "Die beiden Gesten stimmen sehr genau überein."
         }
     },
     "gestureStyleguides": {
@@ -5602,6 +5625,11 @@
             "id": "rtc-permission-denied",
             "type": "warning",
             "text": "Zugriff auf Webcam und Mikrofon nicht freigeben. Stellen Sie sicher, dass Webcam und Mikrofon für GestureNote freigegeben sind. Laden Sie die Seite nach Freigabe neu."
+        },
+        "reinitializeGestureClassification": {
+            "id": "reinitialize-gesture-classification",
+            "type": "warning",
+            "text": "Wird die Auswahl für die Geste übernommen, wird die Klassifizierung dafür zurückgesetzt. Die Klassifizierung muss für diese Geste neu durchgeführt werden."
         }
     },
     "introductionGestureNoteGeneral": [
