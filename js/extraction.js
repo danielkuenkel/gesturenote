@@ -716,6 +716,7 @@ function renderClassifiedGestures(target, type) {
 }
 
 function updateGestureAssignmentInfos(container, type, updateId, assignment) {
+    var mainGesturePresent = false;
     var target = $(container).find('[data-main-gesture-id=' + updateId + ']');
     $(target).attr('data-main-gesture-id', assignment.mainGestureId);
 
@@ -739,9 +740,8 @@ function updateGestureAssignmentInfos(container, type, updateId, assignment) {
             }
 
             var involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-6 col-md-4 col-lg-4', ELICITED_GESTURES);
-//            console.log('weighting', assignment.gestures[k].weighting);
             $(involvedGesture).attr('data-weighting', assignment.gestures[k].weighting).find('.weighting-text').text(assignment.gestures[k].weighting);
-            if (parseInt(gesture.id) === parseInt(assignment.mainGestureId)) {
+            if (parseInt(gesture.id) === parseInt(assignment.mainGestureId) && mainGesturePresent === false) {
                 $(involvedGesture).find('.weighting-info').addClass('hidden');
             }
 
@@ -773,9 +773,14 @@ function updateGestureAssignmentInfos(container, type, updateId, assignment) {
                     $(involvedGesture).find('.weighting-info').unbind('click');
                 }
             } else if (type === POTENTIAL_GESTURES && parseInt(assignment.mainGestureId) === parseInt(gesture.id)) {
-                involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-12 col-md-5', ELICITED_GESTURES);
-                $(target).find('#potential-parameters-container').prepend(involvedGesture);
-                $(involvedGesture).find('.weighting-info').remove();
+                if (mainGesturePresent === true) {
+                    $(target).find('#gestures-list-container').append(involvedGesture);
+                } else {
+                    mainGesturePresent = true;
+                    involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-12 col-md-5', ELICITED_GESTURES);
+                    $(target).find('#potential-parameters-container').prepend(involvedGesture);
+                    $(involvedGesture).find('.weighting-info').remove();
+                }
             }
 
         } // else the participant data is marked as pretest
@@ -1191,6 +1196,9 @@ function renderPotentialGestures() {
 function renderGestureSets() {
     var formatClone = $('#content-btn-gesture-sets');
     currentFilterList = $(formatClone).find('#gesture-sets-container').empty();
+
+    $('#content-btn-gesture-sets').find('#item-view').addClass('hidden');
+    $('#content-btn-gesture-sets').find('.tab-pane-loading-indicator').removeClass('hidden');
 
     getGestureSets(function (result) {
         if (result.status === RESULT_SUCCESS) {

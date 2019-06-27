@@ -1090,41 +1090,47 @@ function initializeTimeline(content) {
 
             timeline.on('itemover', function (event) {
                 var annotation = getAnnotationById(event.item);
+                console.log('item over', annotation);
                 if (annotation) {
                     var item = $(event.event.srcElement);
                     if (!$(event.event.srcElement).hasClass('vis-item')) {
                         item = $(item).closest('.vis-item');
                     }
 
-                    if (annotation.action === ACTION_NOTE) {
-                        var content = getAnnotationPopoverContent(annotation);
-                        $(item).attr('data-html', 'true');
-                        $(item).attr('data-toggle', 'popover');
-                        $(item).attr('data-placement', 'auto');
-                        $(item).attr('data-content', content.content);
-                        $(item).attr('title', content.title);
-                        $(item).popover('show');
-                        $(item).attr('aria-hidden', 'true');
-                        $(item).attr('aria-describedby', '');
-                    } else if (annotation.action === ACTION_RENDER_SCENE) {
-                        var scene = getSceneById(annotation.scene);
-                        renderScenePopoverPreview(scene, function () {
-                            var popover = $('#popover-scene');
-                            var top = $(item).offset().top - popover.height() - 2;
-                            var left = $(item).offset().left + parseInt(((item.width() - popover.width()) / 2));
-                            popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
-                            TweenMax.to(popover, .3, {autoAlpha: 1});
-                        });
-                    } else if (annotation.action === ACTION_START_PERFORM_GESTURE) {
-                        var gesture = getGestureById(annotation.gestureId);
-                        renderGesturePopoverPreview(gesture, function () {
-                            var popover = $('#popover-gesture');
-                            var top = $(item).offset().top - popover.height() - 2;
-                            var left = $(item).offset().left + parseInt(((item.width() - popover.width()) / 2));
-                            popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
-                            playThroughThumbnails(popover.find('.previewGesture'));
-                            TweenMax.to(popover, .3, {autoAlpha: 1});
-                        });
+                    switch (annotation.action) {
+                        case ACTION_NOTE:
+                        case ACTION_START_TASK:
+                            var content = getAnnotationPopoverContent(annotation);
+                            $(item).attr('data-html', 'true');
+                            $(item).attr('data-toggle', 'popover');
+                            $(item).attr('data-placement', 'auto');
+                            $(item).attr('data-content', content.content);
+                            $(item).attr('title', content.title);
+                            $(item).popover('show');
+                            $(item).attr('aria-hidden', 'true');
+                            $(item).attr('aria-describedby', '');
+                            break;
+                        case ACTION_RENDER_SCENE:
+                            var scene = getSceneById(annotation.scene);
+                            renderScenePopoverPreview(scene, function () {
+                                var popover = $('#popover-scene');
+                                var top = $(item).offset().top - popover.height() - 2;
+                                var left = $(item).offset().left + parseInt(((item.width() - popover.width()) / 2));
+                                popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                                TweenMax.to(popover, .3, {autoAlpha: 1});
+                            });
+                            break;
+                        case ACTION_START_PERFORM_GESTURE:
+                            var gesture = getGestureById(annotation.gestureId);
+                            renderGesturePopoverPreview(gesture, function () {
+                                var popover = $('#popover-gesture');
+                                var top = $(item).offset().top - popover.height() - 2;
+                                var left = $(item).offset().left + parseInt(((item.width() - popover.width()) / 2));
+                                popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                                playThroughThumbnails(popover.find('.previewGesture'));
+                                TweenMax.to(popover, .3, {autoAlpha: 1});
+                            });
+                            break;
                     }
                 }
             });
@@ -1256,11 +1262,11 @@ function getVisDataSet() {
                     break;
                 case ACTION_START_PERFORM_GESTURE:
                     var gesture = getGestureById(annotations[i].gestureId);
-                    var trigger = getTriggerById(annotations[i].triggerId);
-                    if (gesture && trigger) {
+//                    var trigger = getTriggerById(annotations[i].triggerId);
+//                    if (gesture && trigger) {
                         contentText = '<i class="fa fa-ellipsis-v"></i> ' + translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
                         originalContent = contentText;
-                    }
+//                    }
                     break;
                 case ACTION_START_GESTURE_TRAINING:
 //                case ACTION_START_PERFORM_GESTURE:
@@ -1287,7 +1293,7 @@ function getVisDataSet() {
                     break;
                 case ACTION_START_TASK:
                     var task = getTaskById(annotations[i].taskId);
-                    contentText = translation.task + ': ' + task.title;
+                    contentText = '<i class="fa fa-ellipsis-v"></i> ' + translation.task + ': ' + task.title;
                     originalContent = contentText;
                     break;
                 case ACTION_ASSESSMENT:
@@ -2088,7 +2094,7 @@ RTCResultsPlayer.prototype.saveUpdatedPhaseResults = function (source, callback)
             });
             break;
     }
-}
+};
 
 function getAnnotationPopoverContent(annotation) {
     var content = '';
@@ -2098,6 +2104,20 @@ function getAnnotationPopoverContent(annotation) {
         case ACTION_NOTE:
             title = translation.note;
             content = annotation.content;
+            break;
+        case ACTION_START_TASK:
+            title = translation.task;
+
+            var tasks = timelineData.phaseData.tasks;
+            if (tasks && tasks.length > 0) {
+                for (var i = 0; i < tasks.length; i++) {
+                    if (parseInt(tasks[i].id) === parseInt(annotation.taskId)) {
+                        title += ': ' + tasks[i].title;
+                        content = tasks[i].task;
+                        break;
+                    }
+                }
+            }
             break;
     }
 

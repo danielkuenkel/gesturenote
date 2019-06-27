@@ -164,8 +164,6 @@ if (login_check($mysqli) == true) {
                         <li role="presentation" id="trigger-extraction" class="disabled"><a href="#study-trigger-extraction" aria-controls="study-trigger-extraction" role="tab" data-toggle="tab"><?php echo $lang->trigger ?></a></li>
                     </ul>
                 </li>
-                <!--                <li role="presentation" id="gesture-extraction"><a href="#study-gesture-extraction" aria-controls="study-gesture-extraction" role="tab" data-toggle="tab">Gesten</a></li>
-                                <li role="presentation" id="trigger-extraction"><a href="#study-trigger-extraction" aria-controls="study-trigger-extraction" role="tab" data-toggle="tab">Interaktionsaufgaben</a></li>-->
                 <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>
             </ul>
         </div>
@@ -392,7 +390,6 @@ if (login_check($mysqli) == true) {
                                 <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-left"></div></div></div>
                                 <div class="col-xs-4 col-sm-4 text-center" id="match-controls">
 
-                                    <!--<label class="text"><?php echo $lang->extractionContent->compareGestureQuestion ?></label>-->
                                     <div class="btn-group btn-group-justified hidden" role="group">
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-danger btn-shadow" id="btn-gesture-no"><i class="fa fa-thumbs-down"></i> <span class="btn-text"><?php echo $lang->no ?></span></button>
@@ -401,7 +398,6 @@ if (login_check($mysqli) == true) {
                                             <button type="button" class="btn btn-success btn-shadow" id="btn-gesture-yes"><i class="fa fa-thumbs-up"></i> <span class="btn-text"><?php echo $lang->yes ?></span></button>
                                         </div>
                                     </div>
-                                    <!--<div class="text" style="text-transform: uppercase; font-size: 10pt; padding-top: 20px; padding-bottom: 10px;"><?php echo $lang->or ?></div>-->
                                     <div style="">
                                         <div id="classification-switch" style="">
                                             <label class="text"><?php echo $lang->extractionContent->secondCompareGestureQuestion ?></label> 
@@ -463,7 +459,6 @@ if (login_check($mysqli) == true) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--<button type="button" class="btn btn-success btn-block btn-shadow" id="btn-commit-checklist" style="margin-top: 10px"><i class="fa fa-check"></i> <span class="btn-text"><?php echo $lang->applySelection ?></span></button>-->
                                     </div>
 
                                     <hr>

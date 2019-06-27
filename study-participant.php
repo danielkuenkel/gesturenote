@@ -858,6 +858,12 @@ if (login_check($mysqli) == true) {
                         setLocalItem('transcription', []);
                         $(notes).find('#transcription-controls').removeClass('hidden');
 
+                        var recognitionTimeline = new TimelineMax({paused: true, repeat: -1, repeatDelay: .4});
+                        recognitionTimeline.add("start", 0)
+                                .to($(notes).find('#mic-listening-indicator').children()[0], .3, {scale: 1.3, yoyo: true, repeat: 1, ease: Quad.easeInOut}, "start")
+                                .to($(notes).find('#mic-listening-indicator').children()[1], .3, {scale: 1.3, yoyo: true, repeat: 1, ease: Quad.easeInOut, delay: .1}, "start")
+                                .to($(notes).find('#mic-listening-indicator').children()[2], .3, {scale: 1.3, yoyo: true, repeat: 1, ease: Quad.easeInOut, delay: .2}, "start");
+
                         var recognition = new webkitSpeechRecognition();
                         recognition.continuous = false;
                         recognition.interimResults = false;
@@ -891,6 +897,8 @@ if (login_check($mysqli) == true) {
                                 recognition.start();
                                 $(notes).find('#btn-start-speech-recognition').addClass('hidden');
                                 $(notes).find('#btn-stop-speech-recognition').removeClass('hidden');
+                                TweenMax.to($(notes).find('#mic-listening-indicator'), .3, {opacity: 1});
+                                recognitionTimeline.play();
                             }
                         });
 
@@ -899,6 +907,9 @@ if (login_check($mysqli) == true) {
                             recognition.stop();
                             $(notes).find('#btn-start-speech-recognition').removeClass('hidden');
                             $(notes).find('#btn-stop-speech-recognition').addClass('hidden');
+                            TweenMax.to($(notes).find('#mic-listening-indicator'), .3, {opacity: 0, onComplete: function () {
+                                    recognitionTimeline.stop();
+                                }});
                         });
                     }
                 }

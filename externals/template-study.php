@@ -189,15 +189,19 @@ include '../includes/language.php';
         <textarea class="form-control" id="notes-input" rows="5"></textarea>
 
         <div class="hidden" id="transcription-controls" style="margin-top: 10px">
-            <label style="margin-right: 4px">Notiz ins Mikrofon sprechen:</label>
-            <button class="btn btn-default btn-shadow" id="btn-start-speech-recognition"><i class="fa fa-microphone"></i></button>
-            <button class="btn btn-default btn-shadow hidden" id="btn-stop-speech-recognition"><i class="fa fa-microphone-slash"></i></button>
+            <label style="margin-right: 4px"><?php echo $lang->talkToMic ?>:</label>
+            <button class="btn btn-default btn-shadow" id="btn-start-speech-recognition" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->activateMic ?>"><i class="fa fa-microphone"></i></button>
+            <button class="btn btn-default btn-shadow hidden" id="btn-stop-speech-recognition" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deactivateMic ?>"><i class="fa fa-microphone-slash"></i></button>
+            <div id="mic-listening-indicator" style="display: inline; margin-left: 10px; font-size: 8pt; opacity: 0">
+                <i class="fa fa-circle"></i>
+                <i class="fa fa-circle" style="margin-left: 3px"></i>
+                <i class="fa fa-circle" style="margin-left: 3px"></i>
+            </div>
         </div>
     </div>
 
     <div class="root" id="letterOfAcceptance">
         <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
-        <!--<hr>-->
         <span class="label label-success hidden" id="letter-accepted"><i class="fa fa-check"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceAccepted ?></span></span>
         <span class="label label-danger hidden" id="letter-not-accepted"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceNotAccepted ?></span></span>
         <p id="letter-text" class="text" style="margin-top: 15px; white-space:pre-wrap;"></p>
@@ -205,7 +209,6 @@ include '../includes/language.php';
 
     <div class="root" id="thanks">
         <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
-        <!--<hr>-->
         <p id="thanks-text" class="text"></p>
     </div>
 
@@ -214,7 +217,6 @@ include '../includes/language.php';
         <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
 
         <h3 style=""><?php echo $lang->gesturesCatalog->elicitedGestures ?></h3>
         <hr>
@@ -1468,7 +1470,7 @@ include '../includes/language.php';
     <div id="guessability-table">
         <div style="margin-top: -5px"><span style="margin-right: 5px"><?php echo $lang->potentialGesturesOverviewTable ?></span> <button class="btn btn-default btn-xs btn-shadow" id="btn-download-csv"  data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->downloadAsCSV ?>"><i class="fa fa-download"></i> <span><?php echo $lang->downloadAsCSV ?></span></button></div>
         <!--<div class="alert-space alert-invalid-agate-format" style="margin-top: 10px"></div>-->
-        
+
         <table class="table table-bordered table-sm text" style="margin-top: 10px">
             <thead>
                 <tr class="table-head-row">

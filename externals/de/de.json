@@ -751,6 +751,9 @@
     "note": "Notiz",
     "notes": "Notizen",
     "annotatedNotes": "Annotierte Notizen",
+    "talkToMic": "Mikrofon aktivieren und Notiz hineinsprechen",
+    "activateMic": "Mikrofon aktivieren",
+    "deactivateMic": "Mikrofon deaktivieren",
     "execution": "Dauer",
     "recognitionTime": "Zeitfenster",
     "hideTimeline": "Zeitleiste ausblenden",
@@ -5424,7 +5427,7 @@
         "selectParticipantHint": {
             "id": "select-participant-hint",
             "type": "warning",
-            "text": "Probanden warten darauf, dass Sie sich begrüßen. Sie können immer nur einen Probanden befragen. Wählen Sie dazu aus der Liste den Proband aus, mit dem Sie die Befragung durchführen möchten."
+            "text": "Probanden warten darauf, dass Sie sie begrüßen. Sie können immer nur einen Probanden befragen. Wählen Sie dazu aus der Liste den Proband aus, mit dem Sie die Befragung durchführen möchten."
         },
         "welcomeParticipantHint": {
             "id": "welcome-participant-hint",
