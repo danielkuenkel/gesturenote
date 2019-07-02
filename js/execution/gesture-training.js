@@ -176,7 +176,6 @@ GestureTraining.prototype.renderModeratorView = function () {
         renderTrainingData(true);
         initShowGestureButton();
         wobble([container.find('#btn-show-gesture, #btn-quit-gesture-preview')]);
-//        $(container).find('#btn-repeat-training').addClass('disabled');
     }
 
     function renderStateShowGesture() {
@@ -221,10 +220,11 @@ GestureTraining.prototype.renderModeratorView = function () {
             $(quitGesturePreviewButton).removeClass('hidden');
         }
 
-        $(container).find('#btn-quit-gesture-preview').unbind('click').bind('click', function (event) {
+        $(quitGesturePreviewButton).unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 var button = $(this);
+                $(button).popover('hide');
                 lockButton(button, true);
 
                 if (!previewModeEnabled && peerConnection) {
@@ -259,7 +259,6 @@ GestureTraining.prototype.renderModeratorView = function () {
         $(container).find('.btn-trigger-scene').removeClass('disabled');
         $(container).find('.btn-trigger-feedback').removeClass('disabled');
         $(container).find('#btn-show-gesture').removeClass('hidden');
-        wobble(container.find('#transition-scenes, #training-info'));
 //        wobble(container.find('#training-info'));
 
         if (currentTrainingIndex < data.training.length - 1) {
@@ -421,6 +420,8 @@ GestureTraining.prototype.renderModeratorView = function () {
             if (!$(this).hasClass('disabled')) {
                 var button = $(this);
                 lockButton(button, true, 'fa-eye');
+                wobble(container.find('#transition-scenes, #training-info'));
+                $(button).popover('hide');
                 currentPhaseState = 'showGesture';
                 renderCurrentPhaseState();
             }
@@ -842,6 +843,10 @@ GestureTraining.prototype.renderTesterView = function () {
                 renderCurrentPhaseState();
             });
         }
+        
+        if (areThereScenes(data.training) === false) {
+            appendAlert(container, ALERT_PLEASE_WAIT);
+        }
     }
 
     function renderStateShowGesture() {
@@ -873,6 +878,10 @@ GestureTraining.prototype.renderTesterView = function () {
             });
         } else {
             checkFeedback();
+        }
+        
+        if (areThereScenes(data.training) === false) {
+            appendAlert(container, ALERT_PLEASE_WAIT);
         }
     }
 

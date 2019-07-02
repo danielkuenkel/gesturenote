@@ -173,7 +173,7 @@ include '../includes/language.php';
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="">
-                            <button class="btn btn-default btn-radio" name="primary" id="observer">
+                            <button class="btn btn-default btn-radio disabled" name="primary" id="observer">
                                 <span id="icons" style="margin-right: 6px">
                                     <i class="fa fa-circle-thin" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
@@ -183,7 +183,7 @@ include '../includes/language.php';
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="">
-                            <button class="btn btn-default btn-radio" name="primary" id="wizard">
+                            <button class="btn btn-default btn-radio disabled" name="primary" id="wizard">
                                 <span id="icons" style="margin-right: 6px">
                                     <i class="fa fa-circle-thin" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
@@ -753,7 +753,7 @@ include '../includes/language.php';
         <div class="col-md-6 col-lg-7" id="column-right" style="margin-bottom: 15px">
             <div id="general" class="hidden">
                 <h3 class="headline" style="margin-top: 0"></h3>    
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
 
                 <div style="margin-top: 6px">
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-training" style=""><?php echo $lang->startNow ?></button>
@@ -779,8 +779,8 @@ include '../includes/language.php';
         <div class="col-xs-5 col-sm-6 col-md-4">
             <div id="thumbnail-container" class="row"></div>
             <div class="" style="margin-top: 0px">
-                <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-show-gesture" style=""><i class="fa fa-eye hidden"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
-                <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-quit-gesture-preview" style=""><i class="fa"></i> <span class="btn-text"><?php echo $lang->quitGesturePreview ?></span></button>
+                <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-show-gesture" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->trainingShowGesture ?>"><span class="btn-text"><?php echo $lang->request ?></span></button>
+                <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-quit-gesture-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->trainingHideGesture ?>"><i class="fa"></i> <span class="btn-text"><?php echo $lang->quitGesturePreview ?></span></button>
             </div>
 
         </div>
@@ -832,7 +832,7 @@ include '../includes/language.php';
         <div class="col-md-7" id="column-right" style="margin-bottom: 15px">
             <div class="" id="general" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"></h3>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-show-overview" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
@@ -857,7 +857,7 @@ include '../includes/language.php';
             <div class="row" id="thumbnail-container"></div>
 
             <div class="" id="gesture-slide-controls" style="margin-top: 0px">
-                <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="trigger-slide"><i class="fa"></i> <span class="btn-text"><?php echo $lang->request ?></span></button>
+                <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="trigger-slide" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->slideshowAskGesture ?>"><i class="fa"></i> <span class="btn-text"><?php echo $lang->request ?></span></button>
                 <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-restart-slideshow"><i class="fa fa-check" aria-hidden="true"></i> <span>Neu starten</span></button>
             </div>
 
@@ -887,7 +887,7 @@ include '../includes/language.php';
 
             <div id="general" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"></h3>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
@@ -934,7 +934,7 @@ include '../includes/language.php';
 
             <div id="general" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"></h3>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-stress-test" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
@@ -1025,7 +1025,7 @@ include '../includes/language.php';
                 <h3 class="headline" style="margin-top: 0px"><?php echo $lang->general ?></h3>
                 <div class="">
                     <div class="alert-space alert-no-more-tasks"></div>
-                    <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudScenario ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                    <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudScenario ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                     <!--<div id="description"><span class="address"></span>: <span class="text font-bold"></span></div>-->
                     <div>
                         <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype"><?php echo $lang->openPrototype ?></button>
@@ -1040,17 +1040,20 @@ include '../includes/language.php';
                     <h3 id="task-headline" style="margin-top: 0"><?php echo $lang->task ?> </h3>
                     <!--<div style="padding-bottom: 0">-->
                     <div class="alert-space alert-no-phase-data"></div>
-                    <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudTask ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="task"></span></div>
+                    <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudTask ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="task"></span></div>
                     <!--<div id="task"><span class="text font-bold"></span></div>-->
 
                     <!--</div>-->
                     <button class="btn btn-success btn-shadow btn-block" id="btn-read-out-task"><i class="fa fa-check"></i> Aufgabe vorgelesen</button>
                 </div>
                 <div class="hidden" id="woz-controls">
-                    <h3><?php echo $lang->wozControlElements ?> <button class="btn btn-xs btn-default pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button></h3>
+                    <h3><?php echo $lang->wozControlElements ?> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->whichGestureWasDemonstrated ?>"></i>
+                        <button class="btn btn-xs btn-default pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button>
+                    </h3>
                     <div class="" style="padding-bottom: 0">
                         <div id="wozExperiment" style="margin-bottom: 20px;">
-                            <div style="margin-bottom: 10px" class="text"><?php echo $lang->whichGestureWasDemonstrated ?></div>
+                            <div style="margin-bottom: 10px" class="text"><?php // echo $lang->whichGestureWasDemonstrated  ?></div>
                             <div class="alert-space alert-no-phase-data"></div>
                             <div class="row woz-container"></div>
                             <!--<button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found" style="margin-top: 20px"><?php echo $lang->anotherGestureWasDemonstrated ?></button>-->
@@ -1222,7 +1225,7 @@ include '../includes/language.php';
                     <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
                     <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
                 </div>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <div style="margin-top: 6px">
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-identification"><?php echo $lang->startNow ?></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" ><?php echo $lang->openPrototype ?></button>
@@ -1348,7 +1351,7 @@ include '../includes/language.php';
                     <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
                     <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
                 </div>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-exploration" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
@@ -1584,7 +1587,7 @@ include '../includes/language.php';
                     <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
                     <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
                 </div>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-focus-group" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
@@ -2245,10 +2248,13 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="" id="woz-controls">
-                    <h3><?php echo $lang->wozControlElements ?> <button class="btn btn-xs btn-default pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button></h3>
+                    <h3><?php echo $lang->wozControlElements ?> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->whichGestureWasDemonstrated ?>"></i>
+                        <button class="btn btn-xs btn-default pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button>
+                    </h3>
                     <div class="" style="padding-bottom: 0">
                         <div id="wozExperiment" style="margin-bottom: 20px;">
-                            <div style="margin-bottom: 10px" class="text"><?php echo $lang->whichGestureWasDemonstrated ?></div>
+                            <!--<div style="margin-bottom: 10px" class="text"><?php echo $lang->whichGestureWasDemonstrated ?></div>-->
                             <div class="alert-space alert-no-phase-data"></div>
                             <div class="row woz-container"></div>
                             <!--<button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found" style="margin-top: 20px"><?php echo $lang->anotherGestureWasDemonstrated ?></button>-->

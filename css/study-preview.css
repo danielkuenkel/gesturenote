@@ -225,7 +225,7 @@ and open the template in the editor.
 }*/
 
 .dark .read-aloud-icon {
-    background-color: #ffffff;
+    /*background-color: #ffffff;*/
     color: dimgrey;
 }
 .dark .read-aloud-text {

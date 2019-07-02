@@ -512,7 +512,7 @@ include '../includes/language.php';
             </div>
             <span class="panel-heading-text"></span>
             <div class="btn-group pull-right hole-set-control-buttons">
-                <button class="btn btn-sm btn-default btn-shadow" id="btn-mark-hole-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addAllGesturesToStudyGestureSet ?>"><i class="fa fa-plus"></i></button>
+                <button class="btn btn-sm btn-default btn-shadow" id="btn-mark-hole-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addAllGesturesToStudyGestureSet ?>"><i class="fa fa-plus-square"></i></button>
                 <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
                 <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-exchangeable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsExchangeable ?>"><i class="fa fa-file-archive-o"></i></button>
             </div>

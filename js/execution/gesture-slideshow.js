@@ -114,6 +114,7 @@ GestureSlideshow.prototype.renderModeratorView = function () {
     function renderStateGestureSlideshowStarted() {
         console.log('render moderator state: ', currentPhaseState);
 
+        $(container).find('#trigger-slide').attr('data-content', translation.tooltips.execution.slideshowAskGesture);
 
         if (peerConnection) {
             peerConnection.sendMessage(MESSAGE_START_GESTURE_SLIDESHOW);
@@ -125,6 +126,8 @@ GestureSlideshow.prototype.renderModeratorView = function () {
         $(container).find('#trigger-slide').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
+                $(this).popover('hide');
+
                 currentPhaseState = 'askGesture';
                 renderCurrentPhaseState();
 
@@ -144,6 +147,10 @@ GestureSlideshow.prototype.renderModeratorView = function () {
         var triggerButton = $(container).find('#slide #trigger-slide');
         lockButton(triggerButton, true);
         $(triggerButton).addClass('disabled');
+
+        $(container).find('#trigger-slide').popover('destroy')
+//        $(container).find('#trigger-slide').data('bs.popover').setContent();
+//        initPopover();
 
         if (peerConnection) {
             $(peerConnection).unbind(MESSAGE_REACTIVATE_CONTROLS).bind(MESSAGE_REACTIVATE_CONTROLS, function (event, payload) {
@@ -526,7 +533,7 @@ GestureSlideshow.prototype.renderObserverView = function () {
     if (!data.slideshow || data.slideshow.length === 0) {
         return false;
     }
-    
+
     if (!previewModeEnabled) {
         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
         tempData.annotations = new Array();

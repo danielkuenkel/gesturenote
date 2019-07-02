@@ -1460,25 +1460,27 @@ canvas {
 }
 .read-aloud-icon {
     position: relative;
-    background-color: #696969;
-    color: white;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 3px;
+    /*background-color: #696969;*/
+    /*color: white;*/
+    /*font-weight: bold;*/
+    /*border-radius: 50%;*/
+    /*width: 25px;*/
+    /*height: 25px;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
     float: left;
     cursor: pointer;
+    font-size: 16pt;
+    padding-right: 10px; 
 }
 .read-aloud-text {
     overflow:hidden; 
-    padding-left: 10px; 
     display:block;
     color: black;
     padding-top: 3px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 /*

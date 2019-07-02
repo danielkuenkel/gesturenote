@@ -136,10 +136,12 @@ UserTest.prototype.renderModeratorView = function () {
 
     function renderStateUsertestStarted() {
         console.log('render moderator state: ', currentPhaseState);
+
         $(container).find('#general').addClass('hidden');
         $(container).find('#scenario-controls').removeClass('hidden');
         $(container).find('#woz-controls').addClass('hidden');
         $(container).find('#fixed-user-test-controls').addClass('hidden');
+        $(container).find('#task-controls .read-aloud-icon').removeClass('hidden');
 
         // task assessment section
         renderTaskAssessment();
@@ -203,13 +205,14 @@ UserTest.prototype.renderModeratorView = function () {
         if (checkedScenes.single === true && checkedScenes.pidoco && checkedScenes.pidoco === true) {
             $(container).find('#btn-reset-scenes').remove();
         }
-        
+
         $(container).find('#btn-read-out-task').removeClass('hidden');
         $(container).find('#btn-read-out-task').unbind('click').bind('click', function (event) {
             event.preventDefault();
             $(this).addClass('hidden');
             $(container).find('#fixed-user-test-controls').removeClass('hidden');
             $(container).find('#woz-controls').removeClass('hidden');
+            $(container).find('#task-controls .read-aloud-icon').addClass('hidden');
             wobble([container.find('#woz-controls')]);
         });
 

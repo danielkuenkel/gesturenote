@@ -3771,7 +3771,7 @@ function getGestureSetPanel(data, type, layout) {
         $(this).popover('hide');
         if ($(this).hasClass('marked')) {
             $(this).removeClass('marked');
-            $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
+            $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
             $(this).attr('data-content', translation.addAllGesturesToStudyGestureSet).data('bs.popover').setContent();
             var assembledGestures = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture.assembled');
             for (var i = 0; i < assembledGestures.length; i++) {
@@ -3782,7 +3782,7 @@ function getGestureSetPanel(data, type, layout) {
             }
         } else {
             $(this).addClass('marked');
-            $(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
+            $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
             $(this).attr('data-content', translation.removeAllGesturesFromStudyGestureSet).data('bs.popover').setContent();
             var unassembledGestures = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture:not(.assembled)');
             $(unassembledGestures).click();
@@ -3999,8 +3999,6 @@ function initGestureSetSimulation(panel, data) {
 }
 
 function initAssembledGestureSetList(panel, data, type, layout) {
-    console.log(data);
-
     if (data.gestures !== null) {
         clearAlerts(panel);
         for (var j = 0; j < data.gestures.length; j++) {
@@ -4011,10 +4009,12 @@ function initAssembledGestureSetList(panel, data, type, layout) {
                 $(panel).find('#gestures-list-container').append(gestureThumbnail);
             }
         }
+
         var assembledGesturesLength = $(panel).find('#gestures-list-container .gesture-thumbnail.assembled').length;
         if (assembledGesturesLength === $(panel).find('#gestures-list-container .gesture-thumbnail').length) {
             $(panel).find('#btn-mark-hole-set').addClass('marked');
-            $(panel).find('#btn-mark-hole-set').find('.fa').removeClass('fa-plus').addClass('fa-minus');
+            $(panel).find('#btn-mark-hole-set').find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
+            $(panel).find('#btn-mark-hole-set').attr('data-content', translation.removeAllGesturesFromStudyGestureSet);
         }
 
     } else {

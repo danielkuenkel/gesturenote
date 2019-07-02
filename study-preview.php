@@ -120,14 +120,16 @@ if (login_check($mysqli) == true) {
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default" id="btnViewModerator"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->evaluator ?></span><span class="hidden-md hidden-lg">M</span></button>
                         <button type="button" class="btn btn-default" id="btnViewTester"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->tester ?></span><span class="hidden-md hidden-lg">T</span></button>
-                        <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
-                        <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
                     </div>
                     <input class="form-control item-input-text option-phase-steps text-center show-dropdown" tabindex="-1" type="text" value=""/>
                     <div class="input-group-btn phaseStepsSelect select" role="group">
                         <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option" role="menu">
                         </ul>
+
+                        <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
+                        <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
+
                         <button type="button" class="btn btn-default btn-join-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->joinConversation ?></span> <i class="fa fa-group"></i></button>
                         <button type="button" class="btn btn-default btn-leave-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->leaveConversation ?></span> 
                             <span>
@@ -139,8 +141,7 @@ if (login_check($mysqli) == true) {
                                    top: 4px;"></i>
                             </span>
                         </button>
-                        
-                        <!--<button type="button" class="btn btn-default" id="toggle-dark-mode"><i class="fa fa-moon-o"></i></button>-->
+
                         <button role="button" class="btn btn-default" id="btn-introduction"><i class="fa fa-support"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->help ?></span></button>
                         <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="fa fa-close"></i><span class="hidden-sm hidden-xs"> <?php echo $lang->close ?></span></button>
                     </div>
@@ -211,7 +212,7 @@ if (login_check($mysqli) == true) {
                     <div class="embed-responsive-item" id="rtc-loading-indicator" style="border-radius: 8px; background-color: #eee; display: flex; justify-content: center; align-items: center;">
                         <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
                     </div>
-                    
+
                     <div class="embed-responsive-item" id="alerts-container">
                         <div class="alert-space alert-rtc-permission-denied"></div>
                     </div>
@@ -331,7 +332,7 @@ if (login_check($mysqli) == true) {
                 var newHeight = 3 / 4 * updateWidth - scrollTop;
                 var newWidth = 4 / 3 * newHeight;
                 console.log('update rtc height', newHeight, newWidth);
-                
+
                 if (newWidth > DRAGGABLE_MIN_WIDTH) {
                     $(view + ' #web-rtc-placeholder').css({height: newHeight + 'px', width: newWidth + 'px'});
                 }
@@ -495,7 +496,7 @@ if (login_check($mysqli) == true) {
             function renderPhaseStep() {
                 console.log('render phase step for: ', currentView);
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-                
+
                 window.location.hash = getCurrentPhase().id;
 
                 if (window.history.replaceState) {
