@@ -22,8 +22,6 @@ and open the template in the editor.
 }
 
 .previewGesture {
-    /*    -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;*/
     border-radius: 8px;
     overflow: hidden; 
     width: 100%; 
@@ -53,15 +51,12 @@ and open the template in the editor.
     max-height: 100%;
     width: 100%;
 
-    /*border-radius: 4px;*/
-
     user-drag: none; 
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-    /*border-radius: 4px*/
 }
 
 .gestureImage.roundedTop {
@@ -125,15 +120,8 @@ and open the template in the editor.
     cursor: pointer;
 }
 
-.gesture-thumbnail:hover {
-    /*border-color: #b3b3b3;*/
-}
-
 .gesture-thumbnail.assembled {
     border-color: #337ab7;
-}
-.gesture-thumbnail.assembled:hover {
-    /*border-color: #385380;*/
 }
 
 .gesture-thumbnail .caption {
@@ -289,45 +277,40 @@ and open the template in the editor.
 /*
 * gesture recorder slider
 */
-#playback-webcam-slider-controls .slider-track, #playback-leap-slider-controls .slider-track {
+#playback-webcam-slider-controls {
     border-radius: 0px 0px 8px 8px;
 }
-#playback-webcam-slider-controls .slider-track-low, #playback-leap-slider-controls .slider-track-low {
+
+#webcam-playback-slider-container .slider-selection {
+    /*opacity: .5;*/
+    background-color: #0480BE;
+}
+#webcam-playback-slider-container .slider-track-low {
+    border-radius: 0px 0px 0px 8px;
+    background-color: transparent;
+}
+#webcam-playback-slider-container .slider-track-high {
+    border-radius: 0px 0px 8px 0px;
+    background-color: transparent;
+}
+
+
+#leap-crop-slider-container .slider-selection, #playback-webcam-crop-slider-controls .slider-selection {
+    opacity: .5;
+    background-color: #5cb85c;
+    background-image: none;
+}
+#leap-crop-slider-container .slider-track-low, #playback-webcam-crop-slider-controls .slider-track-low {
     border-radius: 0px 0px 0px 8px;
     background-color: #d9534f;
     opacity: .5;
 }
-#playback-webcam-slider-controls .slider-track-high, #playback-leap-slider-controls .slider-track-high {
+#leap-crop-slider-container .slider-track-high, #playback-webcam-crop-slider-controls .slider-track-high {
     border-radius: 0px 0px 8px 0px;
     background-color: #d9534f;
     opacity: .5;
 }
-#playback-webcam-slider-controls .slider-selection, #playback-leap-slider-controls .slider-selection {
-    background: none;
-    box-shadow: none;
-}
-#playback-webcam-crop-slider-controls .slider-selection, #playback-leap-crop-slider-controls .slider-selection {
-    opacity: .5;
-    background-color: #5cb85c
-}
-#playback-webcam-slider-controls .slider-rangeHighlight.isGesture, #playback-leap-slider-controls .slider-rangeHighlight.isGesture {
-    border-radius: 0px 0px 8px 8px;
-    background: #0480BE;
-    opacity: .2;
-}
 
-/*#control-continuous-slider.disabled, #control-continuous-slider[disabled] {
-    opacity: .65;
-}
-
-#control-continuous-slider.disabled .slider-track, #control-continuous-slider[disabled] .slider-track {
-    cursor: not-allowed;
-    pointer-events: none;
-}*/
-
-#control-continuous-slider .slider {
-    /*height:100%;*/
-}
 #control-continuous-slider .slider-handle {
     left: 50%;
     height: 34px;
@@ -338,13 +321,9 @@ and open the template in the editor.
     border: none;
 }
 #control-continuous-slider .slider-track {
-    /*margin-top: -41px;*/
-    /*border-radius: 0px 0px 8px 8px;*/
-    height:34px;
+    height: 34px;
 }
 #control-continuous-slider .slider-selection {
-    /*background: #5cb85c;*/
-    /*border-radius: 0px 0px 8px 8px;*/
     display: none;
 }
 
@@ -525,18 +504,16 @@ and open the template in the editor.
     color:black;
 }
 
-/*.custom-nav-pills>li+li:before {
-    color: #777777;
-    content: "\276F\00a0";
-    margin-top: 2px;
-}*/
 
-/*.gesture-recorder-with-introductions .recorder-content {
-    padding: 0px 15px 15px 15px; 
-    background-color: #f9f9f9; 
-    border-bottom-left-radius: 8px; 
-    border-bottom-right-radius: 8px
-}*/
+.weighting-info {
+    display: flex; 
+    position: absolute; 
+    padding: 4px 7px; 
+    background-color: rgba(255,255,255,1); 
+    border-bottom-right-radius: 10px; 
+    border-top-left-radius: 6px; 
+    font-size: 8pt;
+}
 
 .dark #playback-webcam-slider-controls .slider-track-low, .dark #playback-leap-slider-controls .slider-track-low {
     opacity: 1;
@@ -577,8 +554,7 @@ and open the template in the editor.
 .dark .btn-add-gesture-to-scene>.fa:hover,
 .dark .btn-tag-as-main-gesture>.fa:hover, 
 .dark .btn-delete-from-classification>.fa:hover, 
-.dark .btn-edit-gesture-set>.fa:hover /*
-.btn-delete-exchangeable-gesture>.fa:hover */
+.dark .btn-edit-gesture-set>.fa:hover 
 {
     color: white !important;
 }
@@ -597,5 +573,10 @@ and open the template in the editor.
 }
 
 .dark .gesture-tagged .fa {
+    color: #0480be;
+}
+
+.dark .weighting-info {
+    background-color: #545454; 
     color: white;
 }

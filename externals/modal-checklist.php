@@ -28,38 +28,42 @@ include '../includes/language.php';
 <div class="modal-body" id="objective-question">
     <h4><?php echo $lang->fitnessOfGesture ?></h4>
 
-    <div id="switch" style="margin-top: 10px">
-        <label class="text"><?php echo $lang->objectiveExtractionChecklistQuestion ?></label> 
-        <div class="switch root">
-            <div class="btn-group" style="margin: 0">
-                <button class="btn btn-default btn-radio" name="primary" id="well">
-                    <span id="icons" style="margin-right: 6px">
-                        <i class="fa fa-circle-thin" id="normal"></i>
-                        <i class="fa fa-circle hidden" id="over"></i>
-                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                    </span>
-                    <span class="option-text"><?php echo $lang->yes ?></span>
-                </button>
-            </div>
-            <div class="btn-group" style="margin: 0">
-                <button class="btn btn-default btn-radio" name="primary" id="less-well">
-                    <span id="icons" style="margin-right: 6px">
-                        <i class="fa fa-circle-thin" id="normal"></i>
-                        <i class="fa fa-circle hidden" id="over"></i>
-                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                    </span>
-                    <span class="option-text"><?php echo $lang->no ?></span>
-                </button>
-            </div>
-            <div class="btn-group" style="margin: 0">
-                <button class="btn btn-default btn-radio" name="primary" id="even">
-                    <span id="icons" style="margin-right: 6px">
-                        <i class="fa fa-circle-thin" id="normal"></i>
-                        <i class="fa fa-circle hidden" id="over"></i>
-                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                    </span>
-                    <span class="option-text"><?php echo $lang->dontKnow ?></span>
-                </button>
+    <div class="panel panel-default panel-shadow root">
+        <div class="panel-body">
+            <div id="switch" style="">
+                <label class="text"><?php echo $lang->objectiveExtractionChecklistQuestion ?></label> 
+                <div class="switch root">
+                    <div class="btn-group" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="well">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="less-well">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="even">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->dontKnow ?></span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -77,10 +81,17 @@ include '../includes/language.php';
 
     function renderData() {
         for (var k = 0; k < currentAssignment.gestures.length; k++) {
-            var gesture = getGestureById(currentAssignment.gestures[k], ELICITED_GESTURES);
+            var gesture = getGestureById(currentAssignment.gestures[k].id, ELICITED_GESTURES);
             var involvedGesture = getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-6 col-md-4 col-lg-3');
-            $('#gesture-details').find('#gestures-list-container').append(involvedGesture);
+            $(involvedGesture).attr('data-weighting', currentAssignment.gestures[k].weighting).find('.weighting-text').text(currentAssignment.gestures[k].weighting);
+            if (parseInt(gesture.id) !== parseInt(currentAssignment.mainGestureId)) {
+                $(involvedGesture).find('.weighting-info').removeClass('hidden');
+                $('#gesture-details').find('#gestures-list-container').append(involvedGesture);
+            } else {
+                $('#gesture-details').find('#gestures-list-container').prepend(involvedGesture);
+            }
         }
+        initPopover();
 
         var classification = getLocalItem(CLASSIFICATION_GESTURES);
         var items = getAssembledItems(classification.checklist.items);

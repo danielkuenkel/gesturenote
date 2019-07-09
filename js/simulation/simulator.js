@@ -132,7 +132,6 @@ function getGestureSimulationSetPanel(data, type, layout) {
 var showMouseSimulationPad = false;
 var currentMouseSimulationGesture = null;
 function updateGestureSimluationThumbnail(gestureId, container, simulationMode, valueType, wozMode) {
-    console.log(gestureId);
     var gesture = getGestureById(gestureId);
     if (!gesture) {
         return false;
@@ -1154,17 +1153,22 @@ function cleanUpRecordedSimulation(recordedData) {
     var tempData = null;
 
     if (recordedData && recordedData.track && recordedData.track.length > 0) {
-        tempData = recordedData;
-        tempData.track = [];
+        tempData = {
+            created: recordedData.created,
+            gestureSetId: recordedData.gestureSetId,
+            id: recordedData.id,
+            source: recordedData.source,
+            title: recordedData.title,
+            track: []
+        };
+
         for (var i = 0; i < recordedData.track.length; i++) {
             var gesture = getGestureById(recordedData.track[i].gestureId);
-            console.log(gesture);
             if (gesture) {
                 tempData.track.push(recordedData.track[i]);
             }
         }
-        
-        console.log(tempData, recordedData);
+
         return tempData;
     } else {
         return recordedData;

@@ -69,13 +69,11 @@ include '../includes/language.php';
                         deleteSimulationRecording({id: $(button).attr('id')}, function (result) {
                             unlockButton(button, true, 'fa-trash');
                             if (result.status === RESULT_SUCCESS) {
-                                console.log('checked', checked);
                                 if (checked === true) {
                                     removeLocalItem(RECORDED_SIMULATION);
                                     $('#main-tab-pane').find('#btn-gestureSet a').click();
                                     $('#main-tab-pane').find('#btn-player').addClass('disabled');
                                 }
-                                console.log('render data');
                                 renderData();
                             }
                         });
@@ -91,16 +89,16 @@ include '../includes/language.php';
         var modal = $('#custom-modal');
         var selectedRecording = getSimulationRecordingById($('#select-simulation-recording').find('.btn-option-checked').attr('id'));
         if (selectedRecording) {
-            setLocalItem(RECORDED_SIMULATION, {
+            var recordedData = {
                 id: selectedRecording.id,
                 title: selectedRecording.title,
                 created: selectedRecording.created,
                 gestureSetId: selectedRecording.gestureSetId,
                 source: selectedRecording.data.source || null,
                 track: selectedRecording.data.track
-            });
-            
-            $(modal).trigger('loadGestureSetSimulation');
+            };
+
+            $(modal).trigger('loadGestureSetSimulation', [recordedData]);
             $(modal).modal('hide');
         } else {
         }

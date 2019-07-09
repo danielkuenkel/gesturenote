@@ -218,11 +218,10 @@ include '../includes/language.php';
 
                     <!-- playback -->
                     <div class="root recorder-content hidden gr-playback" style="">
-                        <div id="toggle-gesture-playback-preview-source" class="hidden text-center">
+                        <div id="toggle-gesture-playback-preview-source" class="hidden text-center" style="margin-bottom: 10px">
                             <div class="btn-group btn-group-xs">
                                 <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
                                 <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
-                                <!--<button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="kinect" id="btn-kinect"><i class="fa fa-code"></i> <?php echo $lang->sensors->kinect->title ?></button>-->
                             </div>
                         </div>
 
@@ -232,30 +231,16 @@ include '../includes/language.php';
                                     <video class="playback-webcam-video mirroredHorizontally" preload="metadata" style="border-top-left-radius: 5px; border-top-right-radius: 5px"></video>
                                     <div class="controls-container embed-responsive-item">
                                         <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
-                                        <!--<div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>-->
                                     </div>
                                 </div>
 
                                 <div id="playback-webcam-slider-controls" style="margin-top: -10px">
-                                    <!--                            <div style="width: 100%;">
-                                                                    <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
-                                                                </div>-->
                                     <div id="playback-webcam-crop-slider-controls" class="hidden" style="width: 100%;">
                                         <input id="webcam-playback-crop-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <!--                            <div class="col-xs-6">
-                                                                    <div class="form-group">
-                                                                        <label style="">
-                                    <?php echo $lang->gestureRecorderNavigation->cut ?> 
-                                                                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->gestures->cut ?>"></i>
-                                                                        </label><br>
-                                                                        <div class="btn btn-default btn-shadow btn-block" id="btn-toggle-cropping"><i class="fa fa-scissors"></i> <?php echo $lang->cutGesture ?></div>
-                                                                    </div>
-                                                                </div>-->
-
                                     <div class="col-xs-6">
                                         <div class="form-group form-group-no-margin" id="keyframeSelect">
                                             <label style="">
@@ -288,15 +273,12 @@ include '../includes/language.php';
                                         <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                         <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
                                         <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
-                                        <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>
+                                        <!--<div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>-->
                                     </div>
                                 </div>
                                 <div id="playback-leap-slider-controls" style="margin-top: -10px">
-                                    <div style="width: 100%;">
-                                        <input id="leap-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
-                                    </div>
-                                    <div id="playback-leap-crop-slider-controls" class="hidden" style="width: 100%;">
-                                        <input id="leap-playback-crop-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                                    <div id="leap-crop-slider-container" class="hidden" style="width: 100%;">
+                                        <input id="leap-crop-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                                     </div>
                                 </div>
                             </div>
@@ -306,19 +288,14 @@ include '../includes/language.php';
                         <div class="alert-space alert-gesture-too-short"></div>
 
                         <div id="playpack-export" style="margin-top: 10px">
-                            <!--<div class="form-group">-->
-                            <!--<div class="btn-group-vertical btn-block">-->
-                                <!--<button class="btn btn-block btn-default btn-shadow btn-repeat-recording"><i class="fa fa-repeat" aria-hidden="true"></i> <?php echo $lang->recordNewGesture ?></button>-->
                             <button class="btn btn-block btn-success btn-shadow" id="btn-extract-gesture"><?php echo $lang->next ?> <i class="fa fa-arrow-right"></i></button>
-                            <!--</div>-->
-                            <!--</div>-->
                         </div>
 
                     </div>
 
                     <!-- save screen: form for data -->
                     <div class="root recorder-content hidden gr-save">
-                        <div id="toggle-gesture-playback-save-source" class="hidden text-center">
+                        <div id="toggle-gesture-playback-save-source" class="hidden text-center" style="margin-bottom: 10px">
                             <div class="btn-group btn-group-xs">
                                 <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
                                 <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
@@ -355,7 +332,7 @@ include '../includes/language.php';
                                 </div>
 
                                 <div id="playback-leap-slider-controls" style="margin-top: -10px">
-                                    <div style="width: 100%;">
+                                    <div id="leap-playback-slider-container" class="leap-playback-slider-container" style="width: 100%;">
                                         <input id="leap-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                                     </div>
                                 </div>
@@ -622,7 +599,7 @@ include '../includes/language.php';
                         <div class="alert-space alert-gesture-save-success"></div>
                         <div class="alert-space alert-general-error"></div>
 
-                        <div id="toggle-gesture-save-success-source" class="hidden text-center" style="margin-top: 10px">
+                        <div id="toggle-gesture-save-success-source" class="hidden text-center" style="margin-top: 10px; margin-bottom: 10px">
                             <div class="btn-group btn-group-xs">
                                 <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
                                 <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
@@ -659,7 +636,7 @@ include '../includes/language.php';
                                 </div>
 
                                 <div id="playback-leap-slider-controls" style="margin-top: -10px">
-                                    <div style="width: 100%;">
+                                    <div id="leap-playback-slider-container" class="leap-playback-slider-container"  style="width: 100%;">
                                         <input id="leap-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                                     </div>
                                 </div>
@@ -827,7 +804,7 @@ include '../includes/language.php';
 
                     <!-- playback -->
                     <div class="root recorder-content hidden gr-playback">
-                        <div id="toggle-gesture-playback-preview-source" class="hidden text-center">
+                        <div id="toggle-gesture-playback-preview-source" class="hidden text-center" style="margin-bottom: 10px">
                             <div class="btn-group btn-group-xs">
                                 <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
                                 <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
@@ -841,14 +818,14 @@ include '../includes/language.php';
                                     <video class="playback-webcam-video mirroredHorizontally" preload="metadata" style="border-top-left-radius: 5px; border-top-right-radius: 5px"></video>
                                     <div class="controls-container embed-responsive-item">
                                         <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
-                                        <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>
+                                        <!--<div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>-->
                                     </div>
                                 </div>
 
                                 <div id="playback-webcam-slider-controls" style="margin-top: -10px">
-                                    <div style="width: 100%;">
+<!--                                    <div style="width: 100%;">
                                         <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
-                                    </div>
+                                    </div>-->
                                     <div id="playback-webcam-crop-slider-controls" class="hidden" style="width: 100%;">
                                         <input id="webcam-playback-crop-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                                     </div>
@@ -882,15 +859,15 @@ include '../includes/language.php';
                                         <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                                         <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
                                         <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
-                                        <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>
+                                        <!--<div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>-->
                                     </div>
                                 </div>
                                 <div id="playback-leap-slider-controls" style="margin-top: -10px">
-                                    <div style="width: 100%;">
+<!--                                    <div style="width: 100%;">
                                         <input id="leap-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
-                                    </div>
-                                    <div id="playback-leap-crop-slider-controls" class="hidden" style="width: 100%;">
-                                        <input id="leap-playback-crop-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                                    </div>-->
+                                    <div id="leap-crop-slider-container" class="hidden" style="width: 100%;">
+                                        <input id="leap-crop-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                                     </div>
                                 </div>
                             </div>
@@ -949,7 +926,7 @@ include '../includes/language.php';
                                 </div>
 
                                 <div id="playback-leap-slider-controls" style="margin-top: -10px">
-                                    <div style="width: 100%;">
+                                    <div id="leap-playback-slider-container" class="leap-playback-slider-container" style="width: 100%;">
                                         <input id="leap-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                                     </div>
                                 </div>
@@ -1216,7 +1193,7 @@ include '../includes/language.php';
                         <div class="alert-space alert-gesture-save-success"></div>
                         <div class="alert-space alert-general-error"></div>
 
-                        <div id="toggle-gesture-save-success-source" class="hidden text-center" style="margin-top: 10px">
+                        <div id="toggle-gesture-save-success-source" class="hidden text-center" style="margin-top: 10px; margin-bottom: 10px">
                             <div class="btn-group btn-group-xs">
                                 <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="webcam" id="btn-webcam"><i class="fa fa-video-camera"></i> <?php echo $lang->sensors->webcam->title ?></button>
                                 <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><i class="fa fa-code"></i> <?php echo $lang->sensors->leap->title ?></button>
@@ -1253,7 +1230,7 @@ include '../includes/language.php';
                                 </div>
 
                                 <div id="playback-leap-slider-controls" style="margin-top: -10px">
-                                    <div style="width: 100%;">
+                                    <div id="leap-playback-slider-container" class="leap-playback-slider-container" style="width: 100%;">
                                         <input id="leap-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                                     </div>
                                 </div>
