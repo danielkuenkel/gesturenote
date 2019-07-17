@@ -711,7 +711,7 @@ UserTest.prototype.renderModeratorView = function () {
                     if (!$(this).hasClass('disabled')) {
                         triggeredHelp = event.data.helpData;
                         if (peerConnection) {
-                            $(peerConnection).unbind(MESSAGE_HELP_PRESENT).bind(MESSAGE_HELP_PRESET, function () {
+                            $(peerConnection).unbind(MESSAGE_HELP_PRESENT).bind(MESSAGE_HELP_PRESENT, function () {
 //                                console.log('HELP PRESENT');
                                 $(button).addClass('helpOffered');
                                 unlockButton(button, true, 'fa-life-ring');
@@ -748,12 +748,34 @@ UserTest.prototype.renderModeratorView = function () {
                 });
 
                 if (helpData[i].useGestureHelp === true || helpData[i].useGestureHelp === 'true') {
-                    var gesture = getGestureById(helpData[i].gestureId);
-                    item.find('.btn-popover-gesture-preview').removeClass('hidden');
-                    item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+                    item.find('#offer-help').attr('data-content', translation.tooltips.execution.offerHelpTextGesture);
+                    item.find('#btn-gesture-preview').removeClass('hidden');
+
+                    $(item).find('#btn-gesture-preview').unbind('mouseenter').bind('mouseenter', {gestureId: helpData[i].gestureId}, function (event) {
+                        event.preventDefault();
+
+                        var gesture = getGestureById(event.data.gestureId);
+                        var popoverAnker = $(this);
+
+                        renderGesturePopoverPreview(gesture, function () {
+                            var popover = $('#popover-gesture');
+                            var top = $(popoverAnker).offset().top - popover.height() - 2;
+                            var left = $(popoverAnker).offset().left + parseInt(((popoverAnker.width() - popover.width()) / 2)) + 10;
+                            popover.css({left: left, top: top});
+                            playThroughThumbnails(popover.find('.previewGesture'));
+                            TweenMax.to(popover, .3, {autoAlpha: 1});
+                        });
+                    });
+
+                    $(item).find('#btn-gesture-preview').unbind('mouseleave').bind('mouseleave', function (event) {
+                        $(this).popover('hide');
+                        resetGesturePopover();
+                    });
                 } else {
-                    item.find('.btn-popover-gesture-preview').remove();
+                    item.find('#btn-gesture-preview').remove();
                 }
+                
+                initPopover();
             }
 
             setTimeout(function () {

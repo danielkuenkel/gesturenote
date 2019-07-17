@@ -486,7 +486,7 @@ $(document).on('mouseenter', '.select .option li', function (event) {
                     var popover = $('#popover-gesture');
                     var top = button.offset().top - popover.height() - 2;
                     var left = button.offset().left + parseInt(((button.width() - popover.width()) / 2));
-                    popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                    popover.css({left: left, top: top});
                     playThroughThumbnails(popover.find('.previewGesture'));
                     TweenMax.to(popover, .3, {autoAlpha: 1});
                 });
@@ -3556,16 +3556,14 @@ function getStudiesCatalogListThumbnail(target, data) {
                 $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
 
                 if (now > dateFrom && now < dateTo) {
-//                console.log(dateFrom, dateTo.getTime(), now);
                     var left = getTimeLeftForTimestamp(dateTo, 1);
-//                var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
                     var statusText = $(clone).find('.study-started').removeClass('hidden').find('.status-text');
                     progress = (now - dateFrom) / (dateTo.getTime() - dateFrom) * 100;//daysExpired / totalDays * 100;
                     $(statusText).text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
                     $(clone).find('.progress-bar').addClass('progress-bar-success');
-                    $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
+                    $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(0);
+                    $(clone).find('#participant-count').attr('data-content', '0 ' + translation.participations).data('bs.popover').setContent();
                     var hourglass = $(clone).find('.study-started .fa');
-//                console.log(statusText);
                     TweenMax.to(hourglass, 2, {rotation: '360', repeat: -1, ease: Quad.easeInOut});
                     TweenMax.to($(statusText), 1, {delay: 0, css: {marginLeft: '8'}, yoyo: true, repeat: -1, ease: Quad.easeIn});
                 } else if (now < dateFrom) {
@@ -3584,14 +3582,13 @@ function getStudiesCatalogListThumbnail(target, data) {
                 if (parseInt(data.participants) > 0) {
                     $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(data.participants);
                     $(clone).find('#participant-count').attr('data-content', data.participants + ' ' + (parseInt(data.participants) === 1 ? translation.participation : translation.participations)).data('bs.popover').setContent();
-
-                    $(clone).find('#participant-count').unbind('click').bind('click', {studyId: data.id}, function (event) {
-                        event.stopImmediatePropagation();
-                        event.preventDefault();
-                        $(clone).trigger('gotoStudyParticipants', [{studyId: event.data.studyId}]);
-                        console.log('goto trigger');
-                    });
                 }
+
+                $(clone).find('#participant-count').unbind('click').bind('click', {studyId: data.id}, function (event) {
+                    event.stopImmediatePropagation();
+                    event.preventDefault();
+                    $(clone).trigger('gotoStudyParticipants', [{studyId: event.data.studyId}]);
+                });
 
                 if (data.isOwner === false) {
                     $(clone).find('#shared-study').removeClass('hidden');

@@ -1035,6 +1035,7 @@ include '../includes/language.php';
 
                 </div>
             </div>
+
             <div class="hidden" id="scenario-controls">
                 <div id="task-controls">
                     <h3 id="task-headline" style="margin-top: 0"><?php echo $lang->task ?> </h3>
@@ -1053,7 +1054,7 @@ include '../includes/language.php';
                     </h3>
                     <div class="" style="padding-bottom: 0">
                         <div id="wozExperiment" style="margin-bottom: 20px;">
-                            <div style="margin-bottom: 10px" class="text"><?php // echo $lang->whichGestureWasDemonstrated  ?></div>
+                            <div style="margin-bottom: 10px" class="text"><?php // echo $lang->whichGestureWasDemonstrated   ?></div>
                             <div class="alert-space alert-no-phase-data"></div>
                             <div class="row woz-container"></div>
                             <!--<button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found" style="margin-top: 20px"><?php echo $lang->anotherGestureWasDemonstrated ?></button>-->
@@ -1198,8 +1199,8 @@ include '../includes/language.php';
     <div id="helpItem" style="margin-bottom: 16px;">
         <div class="help-title"></div>
         <div class="btn-group" style="margin-top: 10px;">
-            <button type="button" class="btn btn-info btn-shadow" id="offer-help"><i class="fa fa-life-ring"></i> <?php echo $lang->offerHelp ?></button>
-            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+            <button type="button" class="btn btn-info btn-shadow" id="offer-help" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->offerHelpText ?>"><i class="fa fa-life-ring"></i> <?php echo $lang->offerHelp ?></button>
+            <button type="button" class="btn btn-default btn-shadow hidden" id="btn-gesture-preview"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->gesture ?></span></button>
         </div>
     </div>
 
@@ -2887,13 +2888,30 @@ include '../includes/language.php';
     <!-- moderated gesture slideshow items -->
 
     <div id="gestureSlideshowOverviewItemModerated" class="col-xs-6 col-sm-4 col-md-6 col-lg-4 root">
-        <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+        <div data-sensor-source="webcam" id="webcam-preview" class="autoplay">
+            <div class="root embed-responsive embed-responsive-4by3">
+                <div id="" class="webcam-image-container"></div>
+                <div class="controls-container embed-responsive-item">
+                    <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                    <!--<div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>-->
+                </div>
+            </div>
+
+            <div id="webcam-playback-slider-controls" class="hidden" style="margin-top: -11px" data-visible="true">
+                <div id="webcam-playback-slider-container" class="webcam-playback-slider-container" style="width: 100%;">
+                    <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                </div>
+            </div>
+        </div>
+<!--        <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3">
+
+        </div>
         <div class="text-center gestureControls">
             <div class="btn-group">
                 <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
                 <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
             </div>
-        </div>
+        </div>-->
     </div>
 
     <!--    <div id="gestureSlideshowItemModerated" class="text-center">

@@ -14,7 +14,7 @@ include '../includes/language.php';
         <div data-sensor-source="webcam" id="webcam-preview" class="autoplay hidden" style="margin-top: 15px">
             <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
                 <div id="" class="webcam-image-container"></div>
-                <div class="controls-container embed-responsive-item">
+                <div class="controls-container embed-responsive-item" style="opacity: 0">
                     <div class="hidden-control text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                 </div>
             </div>

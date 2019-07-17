@@ -5,7 +5,7 @@ include '../includes/language.php';
 <div id="overlays-item-container" class="hidden">
 
     <div id="letterOfAcceptance">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -45,7 +45,7 @@ include '../includes/language.php';
     </div>
 
     <div id="thanks">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -82,7 +82,7 @@ include '../includes/language.php';
 
 
     <div id="questionnaire">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -181,7 +181,7 @@ include '../includes/language.php';
     </div>
 
     <div id="interview">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -282,7 +282,7 @@ include '../includes/language.php';
 
 
     <div id="gus">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -369,7 +369,7 @@ include '../includes/language.php';
     </div>
 
     <div id="questionnaireGestures">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -421,7 +421,7 @@ include '../includes/language.php';
     </div>
 
     <div id="sus">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -466,7 +466,7 @@ include '../includes/language.php';
     </div>
 
     <div id="ueq">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -528,7 +528,7 @@ include '../includes/language.php';
 
 
     <div id="gestureTraining">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -688,7 +688,7 @@ include '../includes/language.php';
     </div>
 
     <div id="scenario">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -897,7 +897,7 @@ include '../includes/language.php';
     </div>
 
     <div id="gestureSlideshow">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -1058,7 +1058,7 @@ include '../includes/language.php';
     </div>
 
     <div id="triggerSlideshow">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -1216,7 +1216,7 @@ include '../includes/language.php';
     </div>
 
     <div id="physicalStressTest">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -1693,7 +1693,7 @@ include '../includes/language.php';
 
 
     <div id="identification">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -1916,7 +1916,7 @@ include '../includes/language.php';
 
 
     <div id="exploration">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -2197,7 +2197,7 @@ include '../includes/language.php';
 
 
     <div id="focusGroupInterview">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -2443,7 +2443,7 @@ include '../includes/language.php';
 
 
     <div id="catalog-gestures">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
@@ -2794,7 +2794,7 @@ include '../includes/language.php';
 
 
     <div id="catalog-trigger">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
@@ -2839,7 +2839,7 @@ include '../includes/language.php';
     </div>
 
     <div id="catalog-feedback">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
@@ -2891,7 +2891,7 @@ include '../includes/language.php';
     </div>
 
     <div id="catalog-scenes">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>

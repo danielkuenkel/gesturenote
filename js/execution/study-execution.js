@@ -779,7 +779,7 @@ function attachSimulationRecording(data) {
 
 function checkScreensharingHelp() {
     var prewiew = getLocalItem('preview');
-    if (!prewiew || (prewiew && !prewiew.helpScreensharingTriggered) || (prewiew && prewiew.helpScreensharingTriggered && prewiew.helpScreensharingTriggered === false)) {
+    if (previewModeEnabled === true && (!prewiew || (prewiew && !prewiew.helpScreensharingTriggered) || (prewiew && prewiew.helpScreensharingTriggered && prewiew.helpScreensharingTriggered === false))) {
         loadHTMLintoModal('custom-modal', 'externals/modal-help-screen-sharing.php', 'modal-lg');
         setLocalItem('preview', {helpScreensharingTriggered: true});
     }

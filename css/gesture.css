@@ -73,11 +73,13 @@ and open the template in the editor.
 }
 
 #popover-gesture {
-    z-index: 1000;
+    z-index: 10001;
     border-radius: 8px;
+    position: absolute;
     -webkit-box-shadow: rgba(0,0,0,0.8) 0px 5px 10px;
     -moz-box-shadow: rgba(0,0,0,0.8) 0 5px 10px;
     box-shadow: 0px 5px 10px rgba(0,0,0, .3);
+    pointer-events: none;
 }
 
 .gesture-progress{

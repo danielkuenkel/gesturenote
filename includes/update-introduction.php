@@ -15,7 +15,7 @@ if (isset($_SESSION['user_id'], $_POST['dontShowIntroduction'], $_POST['context'
     $sessionTutorials = $_SESSION['tutorials'];
     $updateContext = $_POST['context'];
 
-    if (!empty($sessionTutorials)) {
+    if (!empty($sessionTutorials) && isset($sessionTutorials->$updateContext)) {
         $sessionTutorials->$updateContext = $dontShowIntroduction;
     } else {
         $sessionTutorials = array($updateContext => $dontShowIntroduction);

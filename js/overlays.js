@@ -134,6 +134,8 @@ function initQuestionnaireOverlay(id, formatClone) {
         appendAlert($(formatClone), ALERT_NO_DATA_QUESTIONNAIRE);
         $(formatClone).find('#list-container').css({marginBottom: '120px'});
     }
+    
+    console.log('over questionnaire:', formatClone, id);
 
     function renderData(data) {
         for (var i = 0; i < data.length; i++) {

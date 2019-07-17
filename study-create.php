@@ -959,7 +959,7 @@ if (login_check($mysqli) == true) {
                 clone.find('.phase-step-format').text(title);
 
                 if (format === THANKS || format === LETTER_OF_ACCEPTANCE) {
-                    clone.find('.btn-delete, .btn-up, .btn-down').remove();
+                    clone.find('.btn-delete, .btn-up, .btn-down, .fa').remove();
                 } else {
                     clone.find('.btn-delete').bind("click", {format: format, id: id}, function (event) {
                         event.preventDefault();
