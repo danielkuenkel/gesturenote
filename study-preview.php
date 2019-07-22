@@ -354,6 +354,20 @@ if (login_check($mysqli) == true) {
                 var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
                 if (tutorials && tutorials.studyPreview && parseInt(tutorials.studyPreview) === 1) {
                     $('#btn-introduction').click();
+                } else {
+                    $('#custom-modal').unbind('showHelp').bind('showHelp', function (event) {
+                        event.preventDefault();
+                        $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                            event.preventDefault();
+                            $(this).unbind('hidden.bs.modal');
+                            $('#custom-modal').attr('data-help-items-key', 'introductionPreviewStudy');
+                            $('#custom-modal').attr('data-help-context', 'studyPreview');
+                            $('#custom-modal').attr('data-help-show-tutorial', <?php echo $_SESSION['tutorialStudyPreview'] ?>);
+                            loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
+                        });
+                        $('#custom-modal').modal('hide');
+                    });
+                    loadHTMLintoModal('custom-modal', 'externals/modal-study-preview-introduction.php', 'modal-lg');
                 }
 
                 previewModeEnabled = true;

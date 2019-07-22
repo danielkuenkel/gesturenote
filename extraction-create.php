@@ -32,8 +32,6 @@ if (login_check($mysqli) == true) {
         <script src="js/chance.min.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
-        <!--<script src="js/color-thief/color-thief.js"></script>--> 
-        <!--<script src="js/randomColor/randomColor.js"></script>-->
         <script src="js/jszip/jszip.min.js"></script>
         <script src="js/jszip/jszip-utils.min.js"></script>
 

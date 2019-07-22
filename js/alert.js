@@ -114,6 +114,7 @@ var ALERT_GESTURE_SET_TITLE_TOO_SHORT = 'gesture-set-title-too-short';
 var ALERT_EMPTY_GESTURE_SET = 'empty-gesture-set';
 var ALERT_NOT_ASSIGNED_TO_GESTURE_SET = 'not-assigned-to-gesture-set';
 var ALERT_SET_MISSING_GESTURES = 'set-missing-gestures';
+var ALERT_NO_MORE_WOZ_STATES = 'no-more-woz-states';
 
 var ALERT_PREVIEW_DUMMY = 'preview-dummy';
 var ALERT_SCRIPT_INPUT_ERROR = 'script-input-error';

@@ -100,13 +100,13 @@ if (login_check($mysqli) == true) {
         <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0;">
             <div class="btn-group-vertical left-controls">
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->studyPreview ?>" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-edit-study" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->editStudy ?> <i class="fa fa-pencil" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-open-static-execution-url hidden" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->staticStudyURLExecute ?> <i class="fa fa-street-view" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-open-static-execution-url hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->studyExecution ?>" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->staticStudyURLExecute ?> <i class="fa fa-street-view" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
@@ -296,7 +296,10 @@ if (login_check($mysqli) == true) {
                     <div style="margin-top: 50px">
                         <h3 class="address" style="margin-top: 0px"><?php echo $lang->executionEvaluator ?></h3>
                         <p class="text"><?php echo $lang->studyURLDescriptionEvaluator ?></p>
-                        <button class="btn btn-default btn-shadow btn-open-static-execution-url" type="button"><i class="fa fa-street-view" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-shadow btn-preview-study" type="button" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->studyPreview ?>"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->studyPreview ?></span></button>
+                            <button class="btn btn-default btn-shadow btn-open-static-execution-url" type="button" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->studyExecution ?>"><i class="fa fa-street-view" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
+                        </div>
                     </div>
 
                 </div>

@@ -130,84 +130,88 @@ if (login_check($mysqli) == true) {
 
             <div style="margin-top: 30px">
                 <h3><?php echo $lang->breadcrump->studies ?></h3>
-                <!--<hr>-->
             </div>
 
-            <div class="form-group form-group-no-margin" style="margin-top: 20px">
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
-                    <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
-                    <div class="input-group-btn select" id="filter" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="all" class="selected"><a href="#"><?php echo $lang->filter->all ?></a></li>
-                            <li id="elicitation"><a href="#"><?php echo $lang->filter->elicitation ?></a></li>
-                            <li id="extraction"><a href="#"><?php echo $lang->filter->extraction ?></a></li>
-                            <li id="evaluation"><a href="#"><?php echo $lang->filter->evaluation ?></a></li>
-                            <li id="unmoderated"><a href="#"><?php echo $lang->filter->unmoderated ?></a></li>
-                            <li id="moderated"><a href="#"><?php echo $lang->filter->moderated ?></a></li>
-                            <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
-                            <li id="sharedWithYou"><a href="#"><?php echo $lang->filter->sharedWithYou ?></a></li>
-                            <li id="private"><a href="#"><?php echo $lang->filter->private ?></a></li>
-                        </ul>
+            <div id="filter-controls">
+                <div class="form-group form-group-no-margin" style="margin-top: 20px">
+                    <div class="input-group">
+                        <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
+                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
+                        <div class="input-group-btn select" id="filter" role="group">
+                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="all" class="selected"><a href="#"><?php echo $lang->filter->all ?></a></li>
+                                <li id="elicitation"><a href="#"><?php echo $lang->filter->elicitation ?></a></li>
+                                <li id="extraction"><a href="#"><?php echo $lang->filter->extraction ?></a></li>
+                                <li id="evaluation"><a href="#"><?php echo $lang->filter->evaluation ?></a></li>
+                                <li id="unmoderated"><a href="#"><?php echo $lang->filter->unmoderated ?></a></li>
+                                <li id="moderated"><a href="#"><?php echo $lang->filter->moderated ?></a></li>
+                                <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
+                                <li id="sharedWithYou"><a href="#"><?php echo $lang->filter->sharedWithYou ?></a></li>
+                                <li id="private"><a href="#"><?php echo $lang->filter->private ?></a></li>
+                            </ul>
+                        </div>
+                        <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
+                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
+                        <div class="input-group-btn select" id="sort" role="group">
+                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="newest"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="oldest"><a href="#"><?php echo $lang->sorting->DESC ?></a></li>
+                                <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
-                    <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
-                    <div class="input-group-btn select" id="sort" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="newest"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="oldest"><a href="#"><?php echo $lang->sorting->DESC ?></a></li>
-                            <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
-                        </ul>
+                </div>
+
+                <div class="form-group form-group-margin-top">
+                    <div class="input-group">
+                        <span class="input-group-addon"><?php echo $lang->search->name ?></span>
+                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
+                        <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
+                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="12"/>
+                        <div class="input-group-btn select" id="resultsCountSelect" role="group">
+                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_12"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="results_3"><a href="#">3</a></li>
+                                <li id="results_6"><a href="#">6</a></li>
+                                <li id="results_12" class="selected"><a href="#">12</a></li>
+                                <li id="results_48"><a href="#">48</a></li>
+                                <li id="results_96"><a href="#">96</a></li>
+                            </ul>
+                        </div>
                     </div>
+                </div>
+
+                <div class="text-center custom-pagination" id="pager-top">
+                    <nav>
+                        <ul class="pagination pagination-custom hidden" data-clipping="7">
+                            <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                            <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                            <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                            <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="container-root row root" id="list-container" style="margin-top: 10px;"></div>
+
+                <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+                    <nav>
+                        <ul class="pagination pagination-custom hidden" data-clipping="7">
+                            <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                            <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                            <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                            <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
 
-            <div class="form-group form-group-margin-top">
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->search->name ?></span>
-                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
-                    <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
-                    <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="12"/>
-                    <div class="input-group-btn select" id="resultsCountSelect" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_12"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="results_3"><a href="#">3</a></li>
-                            <li id="results_6"><a href="#">6</a></li>
-                            <li id="results_12" class="selected"><a href="#">12</a></li>
-                            <li id="results_48"><a href="#">48</a></li>
-                            <li id="results_96"><a href="#">96</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center custom-pagination" id="pager-top">
-                <nav>
-                    <ul class="pagination pagination-custom hidden" data-clipping="7">
-                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                    </ul>
-                </nav>
-            </div>
-
-            <div class="container-root row root" id="list-container" style="margin-top: 10px;"></div>
-
-            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
-                <nav>
-                    <ul class="pagination pagination-custom hidden" data-clipping="7">
-                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                    </ul>
-                </nav>
-            </div>
 
             <div class="alert-space alert-no-search-results"></div>
             <div class="alert-space alert-no-studies"></div>
+
+            <button type="button" class="btn btn-success hidden btn-block btn-shadow btn-create-study" id="btn-main-create-study" style="margin-top: 20px"><i class="fa fa-plus"></i> <?php echo $lang->createNewStudy ?></button>
 
             <div style="margin-top: 35px;" class="text-center">
                 <span class="text"><?php echo $lang->studyColors->whatDoTheColorsMean ?></span>
@@ -251,7 +255,7 @@ if (login_check($mysqli) == true) {
                     event.preventDefault();
                     createStudyButtonTimeline.play();
                 });
-                
+
                 $(createStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
                     event.preventDefault();
                     createStudyButtonTimeline.reverse();
@@ -301,6 +305,12 @@ if (login_check($mysqli) == true) {
 //                            $('#sort #newest').click();
                         } else {
                             appendAlert($('#item-view'), ALERT_NO_STUDIES);
+                            $('.mainContent').find('#filter-controls').addClass('hidden');
+                            $('.mainContent').removeClass('hidden');
+                            $('.mainContent').find('#btn-main-create-study').removeClass('hidden');
+                            TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                                    $('#loading-indicator').remove();
+                                }});
                         }
 
                         animateBreadcrump();

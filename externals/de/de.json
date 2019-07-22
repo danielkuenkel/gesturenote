@@ -52,7 +52,7 @@
     "helpHeadlines": {
         "createStudy": "Planung von Gesten-Design-Studien",
         "studyPreview": "Durchführung von Gesten-Design-Studien",
-        "study": "Studie & Durchührungen",
+        "study": "Studie & Durchführungen",
         "extraction": "Extraktion",
         "participant": "Analyse von Gesten-Design-Studien",
         "gestureCatalog": "Gesten",
@@ -407,9 +407,9 @@
     },
     "participant": "Proband",
     "participants": "Probanden",
-    "participation": "Durchührung",
-    "participations": "Durchührungen",
-    "noParticipations": "Keine Durchührungen",
+    "participation": "Durchführung",
+    "participations": "Durchführungen",
+    "noParticipations": "Keine Durchführungen",
     "waitingParticipants": "Wartende Probanden",
     "bypassFirewall": "Firewall umgehen?",
     "editStudy": "Studie bearbeiten",
@@ -428,6 +428,15 @@
         "<p>Der Auswahldialog erscheint nicht in der Studien-Vorschau, sondern nur während einer Durchführung. Zudem wird während der Durchführung das freigegebene Fenster bei den Videostreams, d.h. beim Video des Probanden, eingeblendet.</p>",
         "<p>Schließen Sie auf keinen Fall das UI-Fenster! Falls doch, laden Sie die Seite neu.</p>"
     ],
+    "helpStudyPreview": {
+        "title": "Was ist die Studien-Vorschau?",
+        "content": [
+            "<div class='image-with-caption text-center'><img class='img-image' style='max-width:1000px; width:100%' src='img/de/introduction/study-preview/introduction.png' /><div class='image-caption'>Screenshot der Vorbereitung einer Durchführung.</div></div>",
+            "<p>Mit der Studien-Vorschau können Sie die Befragung eines Probanden einüben. Die Dauer ist abhängig vom jeweiligen Leitfaden. Gehen Sie die einzelnen Leitfadenschritte durch. Sie können auch zu einem bestimmten Schritt per Dropdown springen (siehe <span style='color: red; font-weight: bold'>2</span>).</p>",
+            "<p>Die Studien-Vorschau ist interaktiv. D. h., dass Sie die einzelnen Leitfadenschritte entweder aus Sicht des Moderators oder des Probanden steuern (siehe <span style='color: red; font-weight: bold'>1</span>). Sie bekommen dadurch ein Gefühl für die Durchführung und was Sie dem Probanden evtl. noch begleitend mitteilen müssen. Einen Fragebogen kann der Moderator z.B. erst abschließen, wenn der Proband auf „Fertig“ geklickt hat. Oder ein Proband sieht erst den Prototypen, wenn dieser mit Hilfe eines Screen-Sharing initiiert wurde. Schalten Sie also immer zwischen Moderator und Proband hin und her.</p>",
+            "<p>Neben der, nur in der Vorschau verfügbaren Kontrollleiste (Weiter, Zurück, Hilfe, Schließen, etc.), werden die eigentlichen Inhalte und interaktiven Elemente zur Steuerung einer Befragung im Bereich <span style='color: red; font-weight: bold'>3</span> von GestureNote zur Verfügung gestellt.</p>"
+        ]
+    },
     "chooseVideoInput": "Video",
     "chooseAudioInput": "Mikrofon",
     "executeStudy": "Befragung starten",
@@ -448,6 +457,8 @@
     "insertTrainingDescription": "Trainingsbeschreibung einfügen",
     "trainingElements": "Trainingselemente",
     "addTrainingElement": "Trainingselement hinzufügen",
+    "readTraining": "Mit dieser Geste kann die Funktion <span style='text-decoration: underline;'>{x}</span> ausgelöst werden. Mache sie bitte <span style='text-decoration: underline;'>{xx} Mal</span> vor.",
+    "readSlideshowOverview": "Alle Gesten sind noch einmal aufgelistet. Schaue sie Dir noch einmal alle an.",
     "observationForm": "Beobachtungsbogen",
     "focusGroupForm": "Leitfragen",
     "studyDescription": "Studien-Beschreibung",
@@ -1777,7 +1788,7 @@
     },
     "wozControlElements": "Steuerelemente",
     "wozExperiment": "Wizard-of-Oz-Experiment",
-    "previewHoleQuestionnaire": "Vorschau des gesamten Fragebogens",
+    "previewHoleQuestionnaire": "Vorschau des Fragebogens",
     "thanksInput": "Verabschiedung einfügen",
     "thanksHeadline": "Danke für die Teilnahme",
     "thanksWait": "Bitte warten! Die Daten werden nun gespeichert. Bitte nicht dieses Fenster, bzw. den Browser schließen oder neu laden. Wenn die Daten gespeichert sind, erscheint eine Meldung.",
@@ -2707,7 +2718,9 @@
             "slideshowAskGesture": "Nach dem Klick wird die Interaktionsaufgabe als Text beim Probanden eingeblendet. Der Proband soll dafür die korrekte Geste demonstrieren.",
             "slideshowAskTrigger": "Nach dem Klick wird ein Fragebogen beim Probanden eingeblendet. Der Proband soll für die Geste die korrekte Interaktionsaufgabe wählen.",
             "offerHelpText": "Nach dem Klick wird bei Ihrem Probanden der hinterlegte Hilfetext eingeblendet. Sie können diesen auch noch einmal vorlesen.",
-            "offerHelpTextGesture": "Nach dem Klick wird bei Ihrem Probanden der hinterlegte Hilfetext eingeblendet. Sie können diesen auch noch einmal vorlesen. Zusätzlich wird die angegebene Geste beim Probanden eingeblendet."
+            "offerHelpTextGesture": "Nach dem Klick wird bei Ihrem Probanden der hinterlegte Hilfetext eingeblendet. Sie können diesen auch noch einmal vorlesen. Zusätzlich wird die angegebene Geste beim Probanden eingeblendet.",
+            "studyPreview": "Üben Sie die angelegte Studie mit der interaktiven Studien-Vorschau ein.",
+            "studyExecution": "Führen Sie eine Befragung mit echten Probanden durch."
         },
         "extraction": {
             "titleNotAtAll": "0 - Garnicht",
@@ -5546,6 +5559,11 @@
             "type": "warning",
             "text": "Es wurden Gesten gelöscht, die diesem Set zugewiesen wurden."
         },
+        "noMoreWozStates": {
+            "id": "no-more-woz-states",
+            "type": "warning",
+            "text": "Es sind keine weiteren UI-Übergänge vorhanden. Beurteilen Sie die Aufgabe!"
+        },
         "previewDummy": {
             "id": "preview-dummy",
             "type": "warning",
@@ -5887,14 +5905,17 @@
             "popover": "Allgemeines",
             "description": 
                     [
-                        "<p>Die Studien-Vorschau dient dazu, sich als Moderator mit dem Leitfaden und der Durchführung einer Studie vertraut zu machen. Es ist wichtig, dass vorab die Workflows der einzelnen Methoden verinnerlicht sind, damit es bei einer Befragung nicht zu Problemen oder Verzögerungen kommt. Des Weiteren kann man so sehen, wie die hinterlegten Studien-Daten für die Befragung visualisiert sind. GestureNote stellt aus diesem Grund die interaktive Vorschau zur Verfügung.</p>",
+                        "<div class='image-with-caption text-center'><img class='img-image' style='max-width:1000px; width:100%' src='img/de/introduction/study-preview/introduction.png' /><div class='image-caption'>Screenshot der Vorbereitung einer Durchführung.</div></div>",
+                        "<p>Mit der Studien-Vorschau können Sie die Befragung eines Probanden einüben. Die Dauer ist abhängig vom jeweiligen Leitfaden. Gehen Sie die einzelnen Leitfadenschritte durch. Sie können auch zu einem bestimmten Schritt per Dropdown springen (siehe <span style='color: red; font-weight: bold'>2</span>).</p>",
+                        "<p>Die Studien-Vorschau ist interaktiv. D. h., dass Sie die einzelnen Leitfadenschritte entweder aus Sicht des Moderators oder des Probanden steuern (siehe <span style='color: red; font-weight: bold'>1</span>). Sie bekommen dadurch ein Gefühl für die Durchführung und was Sie dem Probanden evtl. noch begleitend mitteilen müssen. Einen Fragebogen kann der Moderator z.B. erst abschließen, wenn der Proband auf „Fertig“ geklickt hat. Oder ein Proband sieht erst den Prototypen, wenn dieser mit Hilfe eines Screen-Sharing initiiert wurde. Schalten Sie also immer zwischen Moderator und Proband hin und her.</p>",
+                        "<p>Neben der, nur in der Vorschau verfügbaren Kontrollleiste (Weiter, Zurück, Hilfe, Schließen, etc.), werden die eigentlichen Inhalte und interaktiven Elemente zur Steuerung einer Befragung im Bereich <span style='color: red; font-weight: bold'>3</span> von GestureNote zur Verfügung gestellt.</p>",
                         "<h4>Ablauf einer Durchführung</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='svg-image' style='max-width:300px' src='img/de/introduction/study-preview/execution.svg' /><div class='image-caption'>Ablauf nach Aufruf einer Befragungs-URL. Workflow in GestureNote.</div></div>",
                         "<p>GestureNote unterstützt aktuell moderierte Befragungen. Bei einer moderierten Befragung wird eine Web-Echtzeitkommunikation mit Hilfe von WebRTC zwischen Moderator, Proband und ggf. weiteren Teilnehmern (Wizard, Beobachter) aufgebaut. Die Probanden gelangen beim Aufruf der Befragungs-URL zuerst auf eine Übersichtsseite, auf der allgemeine Informationen bereitgestellt werden. Der Moderator wählt aus einer Liste der wartenden Teilnehmer einen Probanden aus. Es wird eine erste Verbindung zwischen Moderator und Proband hergestellt. Der Moderator kann den Probanden begrüßen und diesen über die Studie aufklären. Klickt der Moderator dann auf <em>Befragung starten</em>, gelangen beide Teilnehmer zur eigentlichen Durchführungsseite. Die Verbindung wird dabei kurz unterbrochen und es findet eine Weiterleitung statt.</p>",
                         "<p>Die Durchführungsseite wird dabei hier von der Vorschau repräsentiert. Die Vorschau stellt also nicht den kompletten Workflow einer Durchführung dar, sondern nur den hinterlegten Leitfaden.</p>",
                         "<h4>Vorschau vs. Durchführung</h4><hr>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-preview/carousel-01-04.png' style='max-width:428px' /><div class='image-caption'>Rollenauswahl und Verbindungsaufbau einer echten Durchführung.</div></div>",
-                        "<p>Die Durchführungsseite ist das Äquivalent zur Studien-Vorschau, mit dem Unterschied, dass in der Vorschau zwischen den beiden Rollen (Moderator, Tester) gewechselt werden kann. Bei der richtigen Durchführung können noch weitere Rollen von anderen Interaktionsdesignern eingenommen werden: Wizard oder Beobachter (siehe obere Abbildung). Jede Rolle (Moderator, Proband, Wizard oder Beobachter) darf nur einmal besetzt werden. Ein Moderator leitet jede Durchführung. Ein Beobachter kann bei jeder Durchührung teilnehmen, ein Wizard jedoch nur, falls mindestens ein Wizard-of-Oz-Experiment für eine Evaluierung angelegt wurde. Ein Wizard steuert das Wizard-of-Oz-Experiment. Ein Beobachter füllt Beobachtungsleitfäden aus und annotiert wichtige Ereignisse während einer Durchührung.</p>",
+                        "<p>Die Durchführungsseite ist das Äquivalent zur Studien-Vorschau, mit dem Unterschied, dass in der Vorschau zwischen den beiden Rollen (Moderator, Tester) gewechselt werden kann. Bei der richtigen Durchführung können noch weitere Rollen von anderen Interaktionsdesignern eingenommen werden: Wizard oder Beobachter (siehe obere Abbildung). Jede Rolle (Moderator, Proband, Wizard oder Beobachter) darf nur einmal besetzt werden. Ein Moderator leitet jede Durchführung. Ein Beobachter kann bei jeder Durchführung teilnehmen, ein Wizard jedoch nur, falls mindestens ein Wizard-of-Oz-Experiment für eine Evaluierung angelegt wurde. Ein Wizard steuert das Wizard-of-Oz-Experiment. Ein Beobachter füllt Beobachtungsleitfäden aus und annotiert wichtige Ereignisse während einer Durchführung.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-preview/carousel-01-02.png' style='max-width:992px' /><div class='image-caption'>Steuerleiste für Studien-Vorschau.</div></div>",
                         "<p>Ein weiterer Unterschied betrifft die oberere Navigationsleiste. Mit dieser kann in der Vorschau frei zwischen den einzelnen Leitfadenschritten gewählt werden. In der eigentlichen Durchführung ist diese Leiste nicht vorhanden. Der Abbrechen-Button und die Fortschrittsanzeige sind hingegen in der Vorschau wie auch in der Durchführung vorhanden.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study-preview/carousel-01-03.jpg' style='max-width:791px'/><div class='image-caption'>Unteschiede Studien-Vorschau (links) - Studien-Durchführung (rechts). Links nur ein Platzhalter, rechts Livestreams von den Beteiligten.</div></div>",
@@ -5916,10 +5937,10 @@
                         "<p>Der WebRTC Stream und der Beobachtungsleitfaden ist immer auf der linken Seite zu finden. Die hinterlegten Texte für eine Methodeneinführung und die Steuerelemente sind immer auf der rechten Seite zu finden.</p>",
                         "<h4>Screen-Sharing</h4><hr>",
                         "<p>Einige Methoden nutzen Screen-Sharing, um hinterlegte UIs beim Probanden anzuzeigen.</p>",
-                        "<p><ul><li>Ermittlung mit UIs</li><li>Exploration mit UIs</li><li>Gesten-Training</li><li>Wizard-of-Oz-Experiment</li></ul></p>",
+                        "<p><ul><li>Ermittlung mit UIs</li><li>Exploration mit UIs</li><li>Gesten-Training mit UIs</li><li>Wizard-of-Oz-Experiment</li></ul></p>",
                         "<span>Abgesehen von den Methoden und deren unterschiedlichem Workflow, ist das Initiieren und Beenden eines Screen-Sharings immer gleich.</span>",
                         "<div class='image-with-caption text-center'><img class='img-image' style='max-width:741px' src='img/de/introduction/study-preview/carousel-02-01.png' /><div class='image-caption'>Dialog für das Starten des Screen-Sharings. Auswahl des UI-Fensters über den Reiter <em>Anwendungsfenster</em>.</div></div>",
-                        "<p>Klicken Sie als erstes auf den Button <button class='btn btn-success btn-xs'>UI öffnen</button>. Es öffnet sich ein seperates Browserfenster in dem das UI angezeigt wird. Dieses Fenster soll dem Probanden übertragen werden, weshalb dieses nicht geschlossen werden sollte. Klicken Sie anschließend in GestureNote auf <button class='btn btn-success btn-xs'>Screen-Sharing starten</button>. Es öffnet sich nun ein Dialog (siehe oben), in dem Sie das zu übertragende Browserfenster unter dem Reiter Anwendungsfenster auswählen können. Bestätigen Sie die Auswahl mit einem Klick auf Teilen. Das UI wird nun zum Probanden übertragen. Ändert sich das UI (z.B. während eines WOZ-Experiments), sieht dies somit auch der Proband. Sie können das Browserfenster verschieben, ohne dass dies einen Einfluss auf die Darstellung beim Probanden hat. Ändern Sie die Größe des Fensters, wird die Ansicht beim Probanden passend skaliert (scale-to-fit). Am Ende eines Leitfadenschritts (z.B. eines WOZ-Experiments) können Sie das Screen-Sharing mit einem Klick auf <button class='btn btn-success btn-xs'>Screen-Sharing beenden</button> beenden. Das seperate Fenster in dem das UI angezeigt und zum Probanden übertragen wurde, schließt sich daraufhin.</p>",
+                        "<p>Klicken Sie als erstes auf den Button <button class='btn btn-success btn-xs'>UI öffnen</button>. Es öffnet sich ein seperates Browserfenster in dem das UI angezeigt wird. Dieses Fenster soll dem Probanden übertragen werden, weshalb dieses nicht geschlossen werden sollte. Klicken Sie anschließend in GestureNote auf <button class='btn btn-success btn-xs'>Screen-Sharing starten</button>. Es öffnet sich nun ein Dialog (siehe oben), in dem Sie das zu übertragende Browserfenster unter dem Reiter Anwendungsfenster auswählen können. Bestätigen Sie die Auswahl mit einem Klick auf Teilen. Das UI wird nun zum Probanden übertragen. Ändert sich das UI (z.B. während eines WOZ-Experiments), sieht dies somit auch der Proband. Sie können das Browserfenster verschieben, ohne dass dies einen Einfluss auf die Darstellung beim Probanden hat. Ändern Sie die Größe des Fensters, wird die Ansicht beim Probanden passend skaliert (scale-to-fit). Am Ende eines Leitfadenschritts (z.B. eines WOZ-Experiments) wird das Screen-Sharing von GestureNote automatisch beenden.</p>",
                         "<h4>Fragebögen & Interviews</h4><hr>",
                         "<p>Alle Fragebögen, sei es ein benutzerdefinierter oder (teil-)standardisierter (GUS, SUS, UEQ), basieren auf denselben Funktionalitäten. Der Proband beantwortet die Fragen auf seinem Gerät. Die Antworten werden in Echtzeit zum Moderator übertragen, d.h. Sie sehen immer an welcher Stelle im Fragebogen sich ein Proband befindet und welche Antworten er gewählt hat, bzw. gerade einträgt. So können so nochmal nachhaken, falls es bei einer Frage Schwierigkeiten gibt. Bei einem Interview liest der Moderator die Fragen vor und gibt die Antworten des Probanden in das Formular ein.</p>",
                         "<p>Sie können für eigene Fragebögen Filterfragen anlegen. Wurden Filterfragen angelegt, werden diese Infos entweder neben den einzelnen Auswahloptionen oder für die ganze Frage eingeblendet (wenn z.B. die Antwort/Auswahl egal ist, oder bei einer Summenfrage alle Antwortmöglichkeiten >= 2 sind). Scrollen Sie mit der Maus über das Symbol <b><i class='fa fa-info-circle'></i> Filter</b>, um die Informationen abzurufen. Sind Filterfragen vorhanden, werden die einzelnen Fragen beim Probanden sequentiell eingeblendet. Ohne Filterfragen werden alle Fragen eines Fragebogens gezeigt.</p>",
@@ -6068,10 +6089,10 @@
             "description": [
                 "Hier können alle erhobenen Studien-Daten von einer Befragung für die einzelnen Leitfadenformate abgerufen werden. Klicken Sie auf den gewünschten Leitfadenabschnitt, um die erhobenen Daten zu sichten. Ein schneller Wechsel zu einem vorherigen oder nachfolgenden Teilnehmer ist ebenfalls möglich.",
                 "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/participant/carousel-01-01.jpg' style='max-width:338px' /><div class='image-caption'>Die einzelnen Leitfadenschritte (links) und Navigationsleiste am Fensterrand (rechts).</div></div>",
-                "<p>Neben der Information, ob eine Studie erfolgreich durchgeführt wurde, ist die Gesamtdauer der Befragung hinterlegt. Eine Dauer der einzelnen Leitfadenabschnitte wird ebenfalls angezeigt (rechts neben dem Leitfadentitel). Mit der Navigationsleiste kann schnell zwischen einzelnen Durchührungen gewechselt, eine Konversation gestartet oder eine Durchührung mit all ihren erhobenen Daten gelöscht werden.</p>",
-                "<p>Zusätzlich kann eine Durchührung als Pretest markiert werden. Falls z.B. erhobene Daten aus einer Gesten-Ermittlung nicht einer Extraktion angezeigt werden sollen. Dies sollte jedoch vor einer Extraktion geschehen, damit die Daten dort nicht korrumpiert werden.</p>",
+                "<p>Neben der Information, ob eine Studie erfolgreich durchgeführt wurde, ist die Gesamtdauer der Befragung hinterlegt. Eine Dauer der einzelnen Leitfadenabschnitte wird ebenfalls angezeigt (rechts neben dem Leitfadentitel). Mit der Navigationsleiste kann schnell zwischen einzelnen Durchführungen gewechselt, eine Konversation gestartet oder eine Durchführung mit all ihren erhobenen Daten gelöscht werden.</p>",
+                "<p>Zusätzlich kann eine Durchführung als Pretest markiert werden. Falls z.B. erhobene Daten aus einer Gesten-Ermittlung nicht einer Extraktion angezeigt werden sollen. Dies sollte jedoch vor einer Extraktion geschehen, damit die Daten dort nicht korrumpiert werden.</p>",
                 "<h4>Videovorschau</h4><hr>",
-                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/participant/carousel-01-02.png' style='max-width:852px' /><div class='image-caption'>Videovorschau einer Gesten-Ermittlung für eine Durchührung.</div></div>",
+                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/participant/carousel-01-02.png' style='max-width:852px' /><div class='image-caption'>Videovorschau einer Gesten-Ermittlung für eine Durchführung.</div></div>",
                 "<p>Während der Durchführung einer Studie werden Videodaten aufgezeichnet. Diese Videodaten (Proband, Moderator und UI) können für die einzelnen Leitfadenschritte abgerufen werden. Je nach Methode (Gesten-Training, Physischer Belastungstest, WOZ-Experiment, etc.) varriiert die Anzeige der Videodaten (z.B. nur Proband und Moderator, nur Proband oder, Proband, Moderator und UI). Die Vorschau besteht maximal aus drei Videos, eines für den Probanden, eines fü den Moderator und eines für das UI. Die Ansicht kann auf die jeweiligen Bedürfnisse des Betrachters mit Hilfe von drei verfügbaren Modi angepasst werden. Im Modus <em>Videos untereinander</em> mit dem Symbol <i class='fa fa-align-justify'></i> wird das aufgezeichnete UI groß und die Videos von Proband und Moderator kleiner darunter eingeblendet. Im Modus <em>Videos nebeneinander</em> mit dem Symbol <i class='fa fa-align-justify fa-rotate-90'></i> werden die Videos von Moderator und Proband neben dem UI angezeigt. Im Modus <em>Videos überlappen</em> mit dem Symbol <i class='fa fa-window-restore'></i> werden die Videos überlappend mit Transparenz angezeigt. Fahren Sie mit der Maus ein Video, um das dieses besser zu erkennen.</p>",
                 "<table class='table table-bordered' style='max-width:100%; font-size:10pt; margin-bottom:10px'><thead><tr><th>Methode</th><th class='text-center'>Moderiert</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>-</td></tr><tr><td>Interview</td><td class='text-center'>Proband, Moderator</td></tr><tr><td>GUS</td><td class='text-center'>-</td></tr><tr><td>SUS</td><td class='text-center'>-</td></tr><tr><td>UEQ</td><td class='text-center'>-</td></tr><tr><td>Ermittlung</td><td class='text-center'>Proband, Moderator, UI (falls hinterlegt)</td></tr><tr><td>Exploration</td><td class='text-center'>Proband, Moderator, UI (falls hinterlegt)</td></tr><tr><td>Gesten-Training</td><td class='text-center'>Proband, Moderator, UI (falls hinterlegt)</td></tr><tr><td>WOZ-Experiment</td><td class='text-center'>Proband, Moderator, UI</td></tr><tr><td>Gesten erraten</td><td class='text-center'>Proband</td></tr><tr><td>Interaktionsaufgaben erraten</td><td class='text-center'>-</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>Proband</td></tr></tbody></table>",
                 "<div class='text-center table-caption'>Welche Videodaten stehen für ein Leitfadenschritt zur Verfügung?</div>",
@@ -6236,7 +6257,7 @@
                     [
                         "<p>Für jede Geste und jedes Gesten-Set gibt es die Möglichkeit, im Infofester eine Konversation zu starten, bzw. einer bereits gestarteten Konversation beizutreten. Klicken Sie dazu auf den Button <button class='btn btn-default btn-xs btn-shadow'>Konversation beitreten <i class='fa fa-group'></i></button>. Es öffnet sich ein Videochatfenster für die Übertragung der Webcam (Video und Audio). Dieses Fenster kann in seiner Größe verändert und Position angepasst werden.</p>",
                         "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/collaboration/carousel-02-01.jpg' style='max-width:1018px' /><div class='image-caption'>Konversationsfenster für eine Geste (rechts).</div></div>",
-                        "<p>In angelegten Studien können ebenfalls Konversationen gestartet werden. Die Teilnehmer eines Videochats können sich in der Studie, einzelnen Durchührungen, in der Bearbeitung oder der Vorschau für eine befinden. Es kann sich z.B. ein Konversations-Teilnehmer in der Vorschau einer Studie befinden und ein anderer die Studie bearbeiten. Bei Gesten und Gesten-Sets können sich mehrere Teilnehmer über eine Geste oder ein Gesten-Set unterhalten, und der Eigentümer bearbeitet währenddessen die Geste oder das Gesten-Set.</p>",
+                        "<p>In angelegten Studien können ebenfalls Konversationen gestartet werden. Die Teilnehmer eines Videochats können sich in der Studie, einzelnen Durchführungen, in der Bearbeitung oder der Vorschau für eine befinden. Es kann sich z.B. ein Konversations-Teilnehmer in der Vorschau einer Studie befinden und ein anderer die Studie bearbeiten. Bei Gesten und Gesten-Sets können sich mehrere Teilnehmer über eine Geste oder ein Gesten-Set unterhalten, und der Eigentümer bearbeitet währenddessen die Geste oder das Gesten-Set.</p>",
                         "<p>Ein weiterer Anwendungsfall könnte die Auswertung von erhobenen Daten betreffen. Ein Interaktionsdesigner kümmert sich um die Gesten-Extraktion und ein weiterer sichtet die erhobenen Daten. Dabei sind beide über den Videochat miteinander verbunden und können sich austauschen.</p>",
                         "<p>Es sind maximal 4 Teilnehmer pro Konversation möglich.</p>"
                     ]

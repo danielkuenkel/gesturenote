@@ -104,6 +104,7 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-data-ueq-questionnaire" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noDataUEQQuestionnaire->text ?></span></div>
     <div class="alert alert-warning" id="not-assigned-to-gesture-set" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->notAssignedToGestureSet->text ?></span></div>
     <div class="alert alert-warning" id="set-missing-gestures" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->setMissingGestures->text ?></span></div>
+    <div class="alert alert-warning" id="no-more-woz-states" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noMoreWozStates->text ?></span></div>
     <div class="alert alert-warning" id="preview-dummy" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->previewDummy->text ?></span></div>
     <div class="alert alert-warning" id="no-more-tasks" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noMoreTasks->text ?></span></div>
     <div class="alert alert-warning" id="no-annotations" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noAnnotations->text ?></span></div>

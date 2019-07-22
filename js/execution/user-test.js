@@ -137,6 +137,7 @@ UserTest.prototype.renderModeratorView = function () {
     function renderStateUsertestStarted() {
         console.log('render moderator state: ', currentPhaseState);
 
+        clearAlerts($(container).find('#wozExperiment'));
         $(container).find('#general').addClass('hidden');
         $(container).find('#scenario-controls').removeClass('hidden');
         $(container).find('#woz-controls').addClass('hidden');
@@ -258,6 +259,7 @@ UserTest.prototype.renderModeratorView = function () {
     function renderStateNoTasksLeft() {
         console.log('render moderator state: ', currentPhaseState);
 
+        clearAlerts($(container).find('#wozExperiment'));
         $(container).find('#scenario-controls').addClass('hidden');
         if (peerConnection) {
             peerConnection.stopShareScreen(true);
@@ -355,10 +357,10 @@ UserTest.prototype.renderModeratorView = function () {
                     timeline.play();
                 });
 
-                $(assessmentContainer).unbind('mouseleave').bind('mouseleave', function (event) {
-                    event.preventDefault();
-                    timeline.reverse();
-                });
+//                $(assessmentContainer).unbind('mouseleave').bind('mouseleave', function (event) {
+//                    event.preventDefault();
+//                    timeline.reverse();
+//                });
 
                 $(assessmentContainer).find('#btn-close-assessment-controls').unbind('click').bind('click', function (event) {
                     event.preventDefault();
@@ -503,7 +505,7 @@ UserTest.prototype.renderModeratorView = function () {
                 } else {
                     // if scene has no follow scene and is not a pidoco prototype: delete items
                     $(container).find('.woz-container').empty();
-                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_MORE_WOZ_STATES);
                     $(container).find('#btn-show-assessment-controls').click();
                     renderHelp();
                 }
@@ -680,7 +682,7 @@ UserTest.prototype.renderModeratorView = function () {
                     }
                 } else {
                     $(container).find('#btn-show-assessment-controls').click();
-                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_MORE_WOZ_STATES);
                 }
             }
         } else {
@@ -774,7 +776,7 @@ UserTest.prototype.renderModeratorView = function () {
                 } else {
                     item.find('#btn-gesture-preview').remove();
                 }
-                
+
                 initPopover();
             }
 
@@ -797,10 +799,10 @@ UserTest.prototype.renderModeratorView = function () {
                     timeline.play();
                 });
 
-                $(helpContainer).unbind('mouseleave').bind('mouseleave', function (event) {
-                    event.preventDefault();
-                    timeline.reverse();
-                });
+//                $(helpContainer).unbind('mouseleave').bind('mouseleave', function (event) {
+//                    event.preventDefault();
+//                    timeline.reverse();
+//                });
 
                 $(helpContainer).find('#btn-close-help-controls').unbind('click').bind('click', function (event) {
                     event.preventDefault();

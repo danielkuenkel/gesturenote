@@ -48,6 +48,7 @@ include '../includes/language.php';
         renderGesturePreview(container.find('#webcam-preview'), gesture);
 
         if (!previewModeEnabled && peerConnection) {
+            $('#custom-modal').find('#modal-footer').remove();
             peerConnection.sendMessage(MESSAGE_GESTURE_INFO_PRESENT);
             $(peerConnection).unbind(MESSAGE_CLOSE_GESTURE_INFO).bind(MESSAGE_CLOSE_GESTURE_INFO, function (event, payload) {
                 $('#custom-modal').modal('hide');

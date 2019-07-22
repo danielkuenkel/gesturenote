@@ -785,9 +785,10 @@ include '../includes/language.php';
 
         </div>
         <div class="col-xs-7 col-sm-6 col-md-8">
-            <div id="training-info">
-                <div id="trigger"><span class="address"><?php echo $lang->trigger ?>:</span> <span class="text"></span></div>
-                <div id="repeats" style="margin-top: -6px"><span class="address"><?php echo $lang->repeats ?>:</span> <span class="text"></span></div>
+            <div id="training-info" class="hidden">
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="training-description"></span></div>
+<!--                <div id="trigger"><span class="address"><?php echo $lang->trigger ?>:</span> <span class="text"></span></div>
+                <div id="repeats" style="margin-top: -6px"><span class="address"><?php echo $lang->repeats ?>:</span> <span class="text"></span></div>-->
             </div>
             <div id="transition-scenes" style="margin-top: 10px">
                 <div class="bs-example hidden" id="start-scene">
@@ -838,6 +839,7 @@ include '../includes/language.php';
 
             <div id="slides" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"><?php echo $lang->overview ?></h3>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id=""><?php echo $lang->readSlideshowOverview ?></span></div>
                 <div class="row slide-container"></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
@@ -864,8 +866,8 @@ include '../includes/language.php';
         </div>
         <div class="col-xs-6 col-lg-8" style="margin-bottom: 10px;">
             <div class="triggerContainer">
-                <div><?php echo $lang->gestureInquired ?>: <span id="searched" style="color: #303030"></span></div>
                 <div><?php echo $lang->triggerShown ?>: <span id="given" style="color: #303030"></span></div>
+                <div><?php echo $lang->gestureInquired ?>: <span id="searched" style="color: #303030"></span></div>
                 <div><?php echo $lang->answerPeriod ?>: <span id="responseTime" style="color: #303030"></span></div>
             </div>
         </div>
@@ -1011,13 +1013,13 @@ include '../includes/language.php';
         <div id="assessment-controls-container" class="text-center">
             <h4 style="margin: 0"><?php echo $lang->taskAssessment ?></h4>
             <div class="option-container" style="margin-top: 10px"></div>
-            <!--<button class="btn btn-shadow" id="btn-close-assessment-controls" style="width: 100%"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>-->
+            <button class="btn btn-shadow" id="btn-close-assessment-controls" style="width: 100%"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
         </div>
 
         <div id="help-controls-container" class="hidden">
             <h4 style="margin: 0" class="text-center"><?php echo $lang->offerHelp ?></h4>
             <div class="option-container" style="margin-top: 10px"></div>
-            <!--<button class="btn btn-shadow" id="btn-close-help-controls" style="width: 100%"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>-->
+            <button class="btn btn-shadow" id="btn-close-help-controls" style="width: 100%"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
         </div>
 
         <div class="col-sm-6 col-md-7" id="column-right">
@@ -1054,8 +1056,9 @@ include '../includes/language.php';
                     </h3>
                     <div class="" style="padding-bottom: 0">
                         <div id="wozExperiment" style="margin-bottom: 20px;">
-                            <div style="margin-bottom: 10px" class="text"><?php // echo $lang->whichGestureWasDemonstrated   ?></div>
+                            <div style="margin-bottom: 10px" class="text"><?php // echo $lang->whichGestureWasDemonstrated    ?></div>
                             <div class="alert-space alert-no-phase-data"></div>
+                            <div class="alert-space alert-no-more-woz-states"></div>
                             <div class="row woz-container"></div>
                             <!--<button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found" style="margin-top: 20px"><?php echo $lang->anotherGestureWasDemonstrated ?></button>-->
                         </div>
@@ -2903,15 +2906,15 @@ include '../includes/language.php';
                 </div>
             </div>
         </div>
-<!--        <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3">
-
-        </div>
-        <div class="text-center gestureControls">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-            </div>
-        </div>-->
+        <!--        <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3">
+        
+                </div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                    </div>
+                </div>-->
     </div>
 
     <!--    <div id="gestureSlideshowItemModerated" class="text-center">

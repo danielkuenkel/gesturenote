@@ -1764,7 +1764,7 @@
     },
     "wozControlElements": "Controls",
     "wozExperiment": "Wizard-of-Oz-Experiment",
-    "previewHoleQuestionnaire": "Preview of the entire questionnaire",
+    "previewHoleQuestionnaire": "Preview of the questionnaire",
     "thanksInput": "Insert thanks text",
     "thanksHeadline": "Thank you for participating",
     "thanksWait": "Please wait! The data will now be saved. Please do not close this window or the browser or reload. When the data is saved, a message appears.",
@@ -5529,6 +5529,11 @@
             "id": "set-missing-gestures",
             "type": "warning",
             "text": "Gestures that have been assigned to this set have been deleted."
+        },
+        "noMoreWozStates": {
+            "id": "no-more-woz-states",
+            "type": "warning",
+            "text": "There are no other UI transitions. Evaluate the user task!"
         },
         "previewDummy": {
             "id": "preview-dummy",
