@@ -702,7 +702,7 @@ function filterHelpDataForCurrentTask(data, taskId, sceneId) {
     if (data && data.length > 0) {
         var array = new Array();
         for (var i = 0; i < data.length; i++) {
-            if (parseInt(taskId) === parseInt(data[i].taskId) && parseInt(data[i].sceneId) === parseInt(sceneId)) {
+            if (parseInt(taskId) === parseInt(data[i].taskId)) {
                 array.push(data[i]);
             }
         }

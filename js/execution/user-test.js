@@ -57,6 +57,9 @@ UserTest.prototype.renderModeratorView = function () {
             case 'usertestStarted':
                 renderStateUsertestStarted();
                 break;
+            case 'solveTask':
+                renderStateSolveTask();
+                break;
             case 'noTasksLeft':
                 renderStateNoTasksLeft();
                 break;
@@ -100,6 +103,7 @@ UserTest.prototype.renderModeratorView = function () {
 
     function renderStatePrototypeOpened() {
         console.log('render moderator state: ', currentPhaseState);
+
         $(container).find('#general').removeClass('hidden');
         $(container).find('#btn-start-scenario').addClass('hidden');
 
@@ -143,6 +147,138 @@ UserTest.prototype.renderModeratorView = function () {
         $(container).find('#woz-controls').addClass('hidden');
         $(container).find('#fixed-user-test-controls').addClass('hidden');
         $(container).find('#task-controls .read-aloud-icon').removeClass('hidden');
+        $(container).find('#assessment-controls-container').addClass('hidden');
+        $(container).find('#help-controls-container').addClass('hidden');
+
+//         task assessment section
+//        renderTaskAssessment();
+
+//        currentSimulationState = STATE_SIMULATOR_RECORD;
+
+        if (data.tasks && data.tasks.length > 0) {
+            $(container).find('#scenario-controls #task').text(currentScenarioTask.task);
+            $(container).find('#scenario-controls #task-headline').text(translation.task + ' ' + (currentScenarioTaskIndex + 1) + ' ' + translation.of + ' ' + data.tasks.length);
+        }
+
+//        //woz section
+//        if (!previewModeEnabled) {
+//            if (peerConnection && peerConnection.isWizardConnected()) {
+//                $(container).find('#btn-reset-scenes').remove();
+//                $(container).find('#woz-controls').remove();
+//
+//                $(peerConnection).unbind(MESSAGE_UPDATE_SCENARIO).bind(MESSAGE_UPDATE_SCENARIO, function (event, payload) {
+//                    event.preventDefault();
+//
+//                    currentScenarioTaskIndex = payload.currentScenarioTaskIndex;
+//                    currentScenarioTask = data.tasks[currentScenarioTaskIndex];
+//                    currentWOZScene = getSceneById(currentScenarioTask.woz[0].transitionScenes[0].sceneId);
+//
+//                    renderHelp();
+//                });
+//
+//                $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
+//                    $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING);
+//                    currentPhaseState = 'usertestDone';
+//                    renderCurrentPhaseState();
+//                });
+//            } else {
+//                renderWOZ();
+//
+//                $(peerConnection).unbind(MESSAGE_LEAP_GESTURE_RECOGNIZED).bind(MESSAGE_LEAP_GESTURE_RECOGNIZED, function (event, payload) {
+//                    event.preventDefault();
+//                    checkRecognizedGesture(payload);
+//                });
+//            }
+//        } else {
+//            renderWOZ();
+//
+//            if (recognizeLeapGestures(data)) {
+//                leapRecognizer = null;
+//                leapRecognizer = new LeapStandardRecognizer(null);
+//
+//                // handle recognized gestures for preview mode
+//                if (previewModeEnabled) {
+//                    $(leapRecognizer).unbind(EVENT_LEAP_GESTURE).bind(EVENT_LEAP_GESTURE, function (event, payload) {
+//                        event.preventDefault();
+//                        checkRecognizedGesture(payload);
+//                    });
+//                }
+//            }
+//        }
+
+//        // help section
+//        renderHelp();
+//
+//        if (checkedScenes.single === true && checkedScenes.pidoco && checkedScenes.pidoco === true) {
+//            $(container).find('#btn-reset-scenes').remove();
+//        }
+
+        $(container).find('#btn-read-out-task').removeClass('hidden');
+        $(container).find('#btn-read-out-task').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            currentPhaseState = 'solveTask';
+            renderCurrentPhaseState();
+//            $(this).addClass('hidden');
+//            $(container).find('#fixed-user-test-controls').removeClass('hidden');
+//            $(container).find('#woz-controls').removeClass('hidden');
+//            $(container).find('#task-controls .read-aloud-icon').addClass('hidden');
+//            wobble([container.find('#woz-controls')]);
+        });
+
+        wobble([container.find('#task-controls')]);
+
+
+//        $(container).find('#btn-reset-scenes').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//
+//            currentWOZScene = getSceneById(data.scene);
+//            currentScenarioTask = data.tasks[0];
+//            currentScenarioTaskIndex = 0;
+//
+//            renderWOZ();
+//            renderHelp();
+//
+//            if (prototypeWindow) {
+//                if (!previewModeEnabled) {
+//                    getGMT(function (timestamp) {
+//                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
+//                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                    });
+//                }
+//
+//                openPrototypeScene(currentWOZScene, checkedScenes.single);
+//            }
+//        });
+//
+//        if (!previewModeEnabled && peerConnection) {
+//            getGMT(function (timestamp) {
+//                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                if (!peerConnection.isWizardConnected()) {
+//                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+//                }
+//                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
+//                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//            });
+//        }
+    }
+
+    function renderStateSolveTask() {
+        console.log('render moderator state: ', currentPhaseState);
+
+        clearAlerts($(container).find('#wozExperiment'));
+        $(container).find('#general').addClass('hidden');
+        $(container).find('#scenario-controls').removeClass('hidden');
+//        $(container).find('#woz-controls').addClass('hidden');
+//        $(container).find('#fixed-user-test-controls').addClass('hidden');
+//        $(container).find('#task-controls .read-aloud-icon').removeClass('hidden');
+
+        $(container).find('#btn-read-out-task').addClass('hidden');
+        $(container).find('#fixed-user-test-controls').removeClass('hidden');
+        $(container).find('#woz-controls').removeClass('hidden');
+        $(container).find('#task-controls .read-aloud-icon').addClass('hidden');
+        wobble([container.find('#woz-controls')]);
 
         // task assessment section
         renderTaskAssessment();
@@ -206,19 +342,6 @@ UserTest.prototype.renderModeratorView = function () {
         if (checkedScenes.single === true && checkedScenes.pidoco && checkedScenes.pidoco === true) {
             $(container).find('#btn-reset-scenes').remove();
         }
-
-        $(container).find('#btn-read-out-task').removeClass('hidden');
-        $(container).find('#btn-read-out-task').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            $(this).addClass('hidden');
-            $(container).find('#fixed-user-test-controls').removeClass('hidden');
-            $(container).find('#woz-controls').removeClass('hidden');
-            $(container).find('#task-controls .read-aloud-icon').addClass('hidden');
-            wobble([container.find('#woz-controls')]);
-        });
-
-        wobble([container.find('#task-controls')]);
-
 
         $(container).find('#btn-reset-scenes').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -336,11 +459,13 @@ UserTest.prototype.renderModeratorView = function () {
                 $(assessmentContainer).find('.option-container').append(assessmentButton);
             }
 
+            var timeline = null;
+
             setTimeout(function () {
                 $(assessmentContainer).css({right: '-' + $(assessmentContainer).outerWidth() + 'px'});
                 console.log($(assessmentContainer).outerWidth())
 
-                var timeline = new TimelineMax({paused: true, onStart: function () {
+                timeline = new TimelineMax({paused: true, onStart: function () {
                         $(assessmentContainer).removeClass('hidden');
                         TweenMax.to(fixedUserTestControlButtons, .1, {opacity: 0, x: +20});
                     }, onReverseComplete: function () {
@@ -379,8 +504,6 @@ UserTest.prototype.renderModeratorView = function () {
 
                             if (!previewModeEnabled && peerConnection && peerConnection.isWizardConnected()) {
                                 peerConnection.sendMessage(MESSAGE_UPDATE_SCENARIO, {currentScenarioTaskIndex: currentScenarioTaskIndex});
-//                                currentPhaseState = 'usertestStarted';
-//                                renderCurrentPhaseState();
                             } else {
                                 if (prototypeWindow && prototypeWindow.closed !== true) {
                                     if (!previewModeEnabled) {
@@ -394,12 +517,11 @@ UserTest.prototype.renderModeratorView = function () {
 
                                     openPrototypeScene(currentWOZScene, checkedScenes.single);
                                 }
-//                                renderWOZ();
                             }
 
+                            timeline.reverse();
                             currentPhaseState = 'usertestStarted';
                             renderCurrentPhaseState();
-//                            renderHelp();
                         } else {
                             currentPhaseState = 'noTasksLeft';
                             if (!previewModeEnabled && peerConnection && peerConnection.isWizardConnected()) {
@@ -695,6 +817,8 @@ UserTest.prototype.renderModeratorView = function () {
         $(container).find('.help-container').empty();
         removeAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
 
+        console.log('helpData', helpData);
+
         if (helpData && helpData.length > 0) {
             $(container).find('#btn-show-help-controls').removeClass('disabled');
             var helpContainer = $(container).find('#help-controls-container').removeClass('hidden');
@@ -704,48 +828,80 @@ UserTest.prototype.renderModeratorView = function () {
                 var item = $(source).find('#helpItem').clone();
                 item.removeAttr('id');
                 item.find('.help-title').text((i + 1) + ". " + helpData[i].option);
+                item.find('#offer-help').attr('data-offer-gesture-help', helpData[i].useGestureHelp && (helpData[i].useGestureHelp === 'true' || helpData[i].useGestureHelp === true) ? true : false);
                 $(helpContainer).find('.option-container').append(item);
 
                 item.find('#offer-help').unbind('click').bind('click', {helpData: helpData[i]}, function (event) {
                     event.preventDefault();
                     var button = $(this);
 
-                    if (!$(this).hasClass('disabled')) {
+                    if (!$(button).hasClass('disabled')) {
                         triggeredHelp = event.data.helpData;
-                        if (peerConnection) {
-                            $(peerConnection).unbind(MESSAGE_HELP_PRESENT).bind(MESSAGE_HELP_PRESENT, function () {
-//                                console.log('HELP PRESENT');
-                                $(button).addClass('helpOffered');
-                                unlockButton(button, true, 'fa-life-ring');
-                                $(button).removeClass('btn-info').addClass('btn-danger');
-                                $(button).find('.fa').removeClass('fa-life-ring').addClass('fa-close');
-                                $(button).text(translation.closeHelp);
-                            });
+                        lockButton(button, true, 'fa-life-ring');
 
-                            $(peerConnection).unbind(MESSAGE_HELP_CLOSED).bind(MESSAGE_HELP_CLOSED, function () {
-//                                console.log('HELP CLOSED');
-                                $(button).removeClass('helpOffered');
-                                unlockButton(button, true, 'fa-close');
-                                $(button).removeClass('btn-danger').addClass('btn-info');
-                                $(button).find('.fa').removeClass('fa-close').addClass('fa-life-ring');
-                                $(button).text(translation.offerHelp);
-                            });
+                        if ($(button).hasClass('helpOffered')) {
+                            lockButton(button, true, 'fa-close');
 
-                            if ($(button).hasClass('helpOffered')) {
+                            if (peerConnection) {
+                                $(peerConnection).unbind(MESSAGE_HELP_CLOSED).bind(MESSAGE_HELP_CLOSED, function () {
+                                    $(peerConnection).unbind(MESSAGE_HELP_CLOSED);
+                                    setHelpClosedState();
+                                });
                                 peerConnection.sendMessage(MESSAGE_CLOSE_HELP);
-                                lockButton(button, true, 'fa-close');
                             } else {
+                                setHelpClosedState();
+                            }
+                        } else {
+                            lockButton(button, true, 'fa-life-ring');
+
+                            if (peerConnection) {
+                                $(peerConnection).unbind(MESSAGE_HELP_PRESENT).bind(MESSAGE_HELP_PRESENT, function () {
+                                    $(peerConnection).unbind(MESSAGE_HELP_PRESENT);
+                                    setHelpOfferedState();
+                                });
                                 peerConnection.sendMessage(MESSAGE_TRIGGER_HELP, {help: triggeredHelp});
-                                lockButton(button, true, 'fa-life-ring');
 
                                 getGMT(function (timestamp) {
                                     var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                                     tempData.annotations.push({id: tempData.annotations.length, action: ACTION_REQUEST_HELP, time: timestamp});
                                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                                 });
+                            } else {
+                                setHelpOfferedState();
                             }
                         }
-                    } else {
+                    }
+
+
+                    function setHelpOfferedState() {
+                        // reset all offer help buttons
+                        var buttons = $(button).closest('.option-container').find('.helpOffered');
+                        $(buttons).removeClass('helpOffered');
+                        unlockButton(buttons, true, 'fa-close');
+                        $(buttons).find('.fa').removeClass('fa-close').addClass('fa-life-ring');
+                        $(buttons).find('.btn-text').text(translation.offerHelp);
+                        
+                        // set button to help offered
+                        $(button).addClass('helpOffered');
+                        unlockButton(button, true, 'fa-life-ring');
+                        $(button).find('.fa').removeClass('fa-life-ring').addClass('fa-close');
+                        $(button).find('.btn-text').text(translation.closeHelp);
+                        $(button).attr('data-content', translation.tooltips.execution.unofferHelpText).popover('hide').data('bs.popover').setContent();
+                    }
+
+                    function setHelpClosedState() {
+                        console.log('triggered help', triggeredHelp);
+                        if ($(button).attr('data-offer-gesture-help') === 'true') {
+                            $(button).attr('data-content', translation.tooltips.execution.offerHelpTextGesture).popover('hide').data('bs.popover').setContent();
+                        } else {
+                            $(button).attr('data-content', translation.tooltips.execution.offerHelpText).popover('hide').data('bs.popover').setContent();
+                        }
+
+                        triggeredHelp = null;
+                        $(button).removeClass('helpOffered');
+                        unlockButton(button, true, 'fa-close');
+                        $(button).find('.fa').removeClass('fa-close').addClass('fa-life-ring');
+                        $(button).find('.btn-text').text(translation.offerHelp);
                     }
                 });
 
@@ -785,9 +941,11 @@ UserTest.prototype.renderModeratorView = function () {
 
                 $(helpContainer).css({right: '-' + $(helpContainer).outerWidth() + 'px'});
                 var timeline = new TimelineMax({paused: true, onStart: function () {
+                        $(helpContainer).removeClass('hidden');
                         TweenMax.to(fixedUserTestControlButtons, .1, {opacity: 0, x: +20});
                     }, onReverseComplete: function () {
                         TweenMax.to(fixedUserTestControlButtons, .1, {opacity: 1, x: 0});
+                        $(helpContainer).addClass('hidden');
                     }});
 
                 timeline.add("tween", 0)
@@ -796,7 +954,9 @@ UserTest.prototype.renderModeratorView = function () {
                 var showTaskAssessmentsButton = $(fixedUserTestControlButtons).find('#btn-show-help-controls');
                 $(showTaskAssessmentsButton).unbind('click').bind('click', function (event) {
                     event.preventDefault();
-                    timeline.play();
+                    if (!$(this).hasClass('disabled')) {
+                        timeline.play();
+                    }
                 });
 
 //                $(helpContainer).unbind('mouseleave').bind('mouseleave', function (event) {
@@ -810,7 +970,9 @@ UserTest.prototype.renderModeratorView = function () {
                 });
             }, 500);
         } else {
-            appendAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
+            console.log('no help data');
+            $(container).find('#btn-show-help-controls').addClass('disabled');
+//            appendAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
         }
     }
 
@@ -874,6 +1036,7 @@ UserTest.prototype.renderTesterView = function () {
                 renderStatePrototypeOpened();
                 break;
             case 'usertestStarted':
+            case 'solveTask':
                 renderStateUsertestStarted();
                 break;
             case 'noTasksLeft':
@@ -1036,6 +1199,7 @@ UserTest.prototype.renderObserverView = function () {
                 renderStatePrototypeOpened();
                 break;
             case 'usertestStarted':
+            case 'solveTask':
                 renderStateUsertestStarted();
                 break;
             case 'noTasksLeft':
@@ -1148,6 +1312,7 @@ UserTest.prototype.renderWizardView = function () {
                 renderStatePrototypeOpened();
                 break;
             case 'usertestStarted':
+            case 'solveTask':
                 renderStateUsertestStarted();
                 break;
             case 'noTasksLeft':
@@ -1281,6 +1446,7 @@ UserTest.prototype.renderWizardView = function () {
 
     function renderStateNoTasksLeft() {
         console.log('render wizard state: ', currentPhaseState);
+
         $(container).find('#scenario-controls').addClass('hidden');
         if (peerConnection) {
             peerConnection.stopShareScreen(true);
@@ -1294,31 +1460,6 @@ UserTest.prototype.renderWizardView = function () {
 
         currentPhaseState = 'usertestDone';
         renderCurrentPhaseState();
-
-//        
-//        
-//        $(container).find('#scenario-controls').addClass('hidden');
-//        appendAlert(container, ALERT_QUIT_SCREENSHARING);
-//
-//        $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
-//        $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
-//            event.preventDefault();
-//            if (!$(this).hasClass('disabled')) {
-//                if (peerConnection) {
-//                    peerConnection.stopShareScreen(true);
-//                    peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
-//                }
-//                $(this).addClass('hidden');
-//
-//                if (prototypeWindow) {
-//                    prototypeWindow.close();
-//                    prototypeWindow = null;
-//                }
-//            }
-//
-//            currentPhaseState = 'usertestDone';
-//            renderCurrentPhaseState();
-//        });
     }
 
     function renderStateUsertestDone() {

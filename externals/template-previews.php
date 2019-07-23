@@ -1056,7 +1056,7 @@ include '../includes/language.php';
                     </h3>
                     <div class="" style="padding-bottom: 0">
                         <div id="wozExperiment" style="margin-bottom: 20px;">
-                            <div style="margin-bottom: 10px" class="text"><?php // echo $lang->whichGestureWasDemonstrated    ?></div>
+                            <div style="margin-bottom: 10px" class="text"><?php // echo $lang->whichGestureWasDemonstrated     ?></div>
                             <div class="alert-space alert-no-phase-data"></div>
                             <div class="alert-space alert-no-more-woz-states"></div>
                             <div class="row woz-container"></div>
@@ -1202,7 +1202,8 @@ include '../includes/language.php';
     <div id="helpItem" style="margin-bottom: 16px;">
         <div class="help-title"></div>
         <div class="btn-group" style="margin-top: 10px;">
-            <button type="button" class="btn btn-info btn-shadow" id="offer-help" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->offerHelpText ?>"><i class="fa fa-life-ring"></i> <?php echo $lang->offerHelp ?></button>
+            <button type="button" class="btn btn-default btn-shadow" id="offer-help" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->offerHelpText ?>"><i class="fa fa-life-ring"></i> <span class="btn-text"><?php echo $lang->offerHelp ?></span></button>
+            <!--<button type="button" class="btn btn-default btn-shadow hidden" id="unoffer-help" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->unofferHelpText ?>"><i class="fa fa-life-ring"></i> <?php echo $lang->closeHelp ?></button>-->
             <button type="button" class="btn btn-default btn-shadow hidden" id="btn-gesture-preview"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->gesture ?></span></button>
         </div>
     </div>

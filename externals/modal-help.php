@@ -3,7 +3,7 @@ include '../includes/language.php';
 ?>
 
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
     <h4 class="modal-title"><?php echo $lang->help ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
@@ -28,7 +28,7 @@ include '../includes/language.php';
     </div>
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow" id="btn-more-help"><?php echo $lang->moreHelp ?></button>
+    <!--<button type="button" class="btn btn-default btn-shadow" id="btn-more-help"><?php echo $lang->moreHelp ?></button>-->
     <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
 </div>
 
@@ -38,14 +38,19 @@ include '../includes/language.php';
 
         renderHelpItem();
 
-        if (triggeredHelp) {
-            $('#btn-more-help').addClass('hidden');
-        } else {
-            $('#btn-more-help').click(function (event) {
-                event.preventDefault();
-                currentHelpIndex++;
-                renderHelpItem();
-            });
+//        if (triggeredHelp) {
+//            $('#btn-more-help').addClass('hidden');
+//        } else {
+//            $('#btn-more-help').click(function (event) {
+//                event.preventDefault();
+//                currentHelpIndex++;
+//                renderHelpItem();
+//            });
+//        }
+
+        if (!previewModeEnabled && peerConnection) {
+            peerConnection.sendMessage(MESSAGE_HELP_PRESENT);
+            $('#custom-modal').find('#modal-footer').remove();
         }
 
         $('#modal-body').closest('.modal').on('hidden.bs.modal', function () {
@@ -54,9 +59,10 @@ include '../includes/language.php';
             }
             triggeredHelp = null;
         });
-        
-        if(!previewModeEnabled && peerConnection) {
-            $(peerConnection).unbind(MESSAGE_CLOSE_HELP).bind(MESSAGE_CLOSE_HELP, function() {
+
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_CLOSE_HELP).bind(MESSAGE_CLOSE_HELP, function () {
+                $(peerConnection).unbind(MESSAGE_CLOSE_HELP);
                 $('#modal-body').closest('.modal').modal('hide');
             });
         }

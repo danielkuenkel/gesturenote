@@ -1684,7 +1684,7 @@ include '../includes/language.php';
             <div class="alert-space alert-no-scenes-assembled"></div>
 
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <div class="form-group">
                         <label><?php echo $lang->task ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpTask ?>"></i></label>
                         <div class="alert-space alert-assembled-task-removed"></div>
@@ -1697,7 +1697,7 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+<!--                <div class="col-sm-6">
                     <div class="form-group">
                         <label><?php echo $lang->scene ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpScene ?>"></i></label>
                         <div class="alert-space alert-assembled-scene-removed"></div>
@@ -1709,7 +1709,7 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
 
             <div class="form-group">

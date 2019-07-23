@@ -1419,12 +1419,12 @@ function initScenarioOverlay(id, formatClone) {
                     appendAlert(clone, ALERT_ASSEMBLED_TASK_REMOVED);
                 }
 
-                var scene = getSceneById(helpItems[i].sceneId);
-                if (scene) {
-                    $(clone).find('.sceneSelect #' + scene.id).click();
-                } else {
-                    appendAlert(clone, ALERT_ASSEMBLED_SCENE_REMOVED);
-                }
+//                var scene = getSceneById(helpItems[i].sceneId);
+//                if (scene) {
+//                    $(clone).find('.sceneSelect #' + scene.id).click();
+//                } else {
+//                    appendAlert(clone, ALERT_ASSEMBLED_SCENE_REMOVED);
+//                }
 
                 initGestureHelpSwitchChange(clone);
                 if (helpItems[i].useGestureHelp === true || helpItems[i].useGestureHelp === 'true') {
@@ -1590,12 +1590,12 @@ function initScenarioOverlay(id, formatClone) {
             var item = helpItems[i];
             var help = new Object();
             help.taskId = $(item).find('.taskSelect .chosen').attr('id');
-            help.sceneId = $(item).find('.sceneSelect .chosen').attr('id');
+//            help.sceneId = $(item).find('.sceneSelect .chosen').attr('id');
             help.option = $(item).find('.option-text').val().trim();
             var showGesture = $(item).find('.useGestureHelpSwitch .btn-option-checked').attr('id') === 'yes' ? true : false;
             help.useGestureHelp = showGesture;
             help.gestureId = showGesture === true ? $(item).find('.gestureSelect .chosen').attr('id') : null;
-            if (help.taskId && getSceneById(help.sceneId) && help.option !== "") {
+            if (help.taskId && help.option !== "") {
                 scenarioHelp.push(help);
             }
         }

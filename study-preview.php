@@ -388,6 +388,10 @@ if (login_check($mysqli) == true) {
 
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
+                        if (prototypeWindow) {
+                            prototypeWindow.close();
+                            prototypeWindow = null;
+                        }
                         goto("study-create.php?edit=true&studyId=" + query.studyId + "&joinedConv=" + joinedRoom + getWebRTCSources());
                     });
                 } else if (query.studyId && query.h === hash) {
