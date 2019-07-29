@@ -5991,8 +5991,8 @@
             "text": "Alle Sessions auf einen Blick.",
             "popover": "Sessions",
             "description": [
-                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study/carousel-04-01.jpg' style='max-width:722px' /><div class='image-caption'>URL zum Akquirieren von Probanden.</div></div>",
-                "<p>Um Probanden zu akquirieren, teilen Sie die Befragungs-URL z.B. über E-Mails oder soziale Netzwerke. Des Weiteren werden die hinterlegten Informationen zur Studie eingeblendet. Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Befragungs-URL. Oder kopieren Sie die Befragungs-URL in das Adressfeld Ihres Browsers.</p>",
+                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study/carousel-04-01.png' style='max-width:663px' /><div class='image-caption'>URL zum Akquirieren von Probanden.</div></div>",
+                "<p>Um Probanden zu akquirieren, teilen Sie die Befragungs-URL z.B. über E-Mails oder soziale Netzwerke. Um eine Befragung durchzuführen, klicken Sie auf den Button rechts neben der Befragungs-URL. Oder kopieren Sie die Befragungs-URL in das Adressfeld Ihres Browsers.</p>",
                 "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study/carousel-04-02.png' style='max-width:814px' /><div class='image-caption'>Übersicht und Statistik über alle durchgeführten Befragungen.</div></div>",
                 "<p>Falls bereits Probanden an einer Studie teilgenommen haben, werden diese hier angezeigt. Um die erhobenen Daten zu sichten, klicken Sie auf eine Teilnahme. Darüber hinaus wird für jede Teilnahme der Erfolg und die Durchführungsdauer angzeigt (falls erfolgreich).</p>",
                 "<p>Im Falle eines Abbruchs liegen nur die erhobenen Daten bis zum Zeitpunkt des Abbruchs vor. Möglicherweise gab es Probleme mit der Technik, oder der Proband/Moderator musste die Befragung abbrechen.</p>"
