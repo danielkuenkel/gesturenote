@@ -63,10 +63,23 @@ if (login_check($mysqli) == true) {
         </div>
 
         <div class="container mainContent hidden" style="margin-top: 0px">
-            <h3 style="margin-top:0px">2018</h3>
+            <h3 style="margin-top:0px">2019</h3>
             <hr>
             <div class="row">
                 <div class="col-xs-12">
+                    Beiträge angenommen, Update folgt.
+                </div>
+            </div>
+            <h3 style="margin-top:50px">2018</h3>
+            <hr>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div><span><?php echo $lang->title ?>:</span> <span class="text">Mögliche Fallen bei der benutzerzentrierten Ermittlung von 3D Gesten</span></div>
+                    <div><span><?php echo $lang->authors ?>:</span> <span class="text">Isabella Cadoni, Birgit Bomsdorf</span></div>
+                    <div><span><?php echo $lang->In ?>:</span> <span class="text">Dachselt, R. & Weber, G. (Hrsg.), Mensch und Computer 2018 - Tagungsband. Bonn: Gesellschaft für Informatik e.V.</span></div>
+                    <a target="blank" href="https://dl.gi.de/handle/20.500.12116/16663"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF</a>
+                </div>
+                <div class="col-xs-12" style="margin-top: 20px">
                     <div><span><?php echo $lang->title ?>:</span> <span class="text">Definition of Gesture Interactions based on Temporal Relations</span></div>
                     <div><span><?php echo $lang->authors ?>:</span> <span class="text">Dominik Rupprecht, Daniel Künkel, Rainer Blum, Birgit Bomsdorf</span></div>
                     <div><span><?php echo $lang->In ?>:</span> <span class="text">2nd International Conference on Human Computer Interaction Theory and Applications, Januar 2018, Funchal, Portugal</span></div>

@@ -184,9 +184,28 @@ include_once 'includes/functions.php';
                     <p><?php echo $lang->infosContent->useCases->useCase01->section01 ?></p>
                     <p><?php echo $lang->infosContent->useCases->useCase01->section02 ?></p>
                     <p><?php echo $lang->infosContent->useCases->useCase01->section03 ?></p>
-                    <p><?php echo $lang->infosContent->useCases->useCase01->section04 ?></p>
-                    <p><?php echo $lang->infosContent->useCases->useCase01->section05 ?></p>
-                    <p><?php echo $lang->infosContent->useCases->useCase01->section06 ?></p>
+                </div>
+            </div>
+            
+            <div class="row text" id="" style="margin-top: 30px">
+                <div class="col-md-4">
+                    <h4 class="text-center font-italic" style="margin: 0"><?php echo $lang->infosContent->useCases->useCase02->title ?></h4>
+                </div>
+                <div class="col-md-8">
+                    <p><?php echo $lang->infosContent->useCases->useCase02->section01 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase02->section02 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase02->section03 ?></p>
+                </div>
+            </div>
+            
+            <div class="row text" id="" style="margin-top: 30px">
+                <div class="col-md-4">
+                    <h4 class="text-center font-italic" style="margin: 0"><?php echo $lang->infosContent->useCases->useCase03->title ?></h4>
+                </div>
+                <div class="col-md-8">
+                    <p><?php echo $lang->infosContent->useCases->useCase03->section01 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase03->section02 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase03->section03 ?></p>
                 </div>
             </div>
 

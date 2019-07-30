@@ -138,7 +138,7 @@ include_once 'includes/functions.php';
                         $(contentHeadlineNumber).css({marginRight: '10px'}).text((i + 1) + '.' + (j + 1));
                         $(contentHeadline).attr('id', allHelp[i].id + '-' + allHelp[i].content[j].tabId);
                         $(contentHeadline).attr('data-headline-format', 'h2');
-                        $(contentHeadline).text(allHelp[i].content[j].title).css({marginTop: '60px'});
+                        $(contentHeadline).text(allHelp[i].content[j].title).css({marginTop: '40px'});
                         $(contentHeadline).prepend(contentHeadlineNumber);
                         $(helpItem).append(contentHeadline);
 
@@ -146,11 +146,11 @@ include_once 'includes/functions.php';
                         $(link).attr('href', '#' + allHelp[i].id + '-' + allHelp[i].content[j].tabId).addClass('smooth-goto ellipsis').text((i + 1) + '.' + (j + 1) + ' ' + allHelp[i].content[j].title);
                         $('#link-list').append(document.createElement('br')).append(link);
 
-                        var helpItemImage = document.createElement('img');
-                        $(helpItemImage).attr('src', allHelp[i].content[j].imgSrc).addClass('img-image');
-                        $(helpItemImage).css({marginBottom: '30px', width: '100%'});
-                        $(helpItemImage).addClass('image-border-rounded');
-                        $(helpItem).append(helpItemImage);
+//                        var helpItemImage = document.createElement('img');
+//                        $(helpItemImage).attr('src', allHelp[i].content[j].imgSrc).addClass('img-image');
+//                        $(helpItemImage).css({marginBottom: '30px', width: '100%'});
+//                        $(helpItemImage).addClass('image-border-rounded');
+//                        $(helpItem).append(helpItemImage);
 
                         var helpContent = document.createElement('div');
                         $(helpContent).html(allHelp[i].content[j].description);
@@ -168,7 +168,7 @@ include_once 'includes/functions.php';
                             $(link).attr('href', '#' + allHelp[i].id + '-' + allHelp[i].content[j].tabId + '-' + idNumber).addClass('smooth-goto ellipsis').text(number + ' ' + $(headlines[k]).text());
                             $('#link-list').append(document.createElement('br')).append(link);
 
-                            $(headlines[k]).css({marginTop: '40px'});
+                            $(headlines[k]).css({marginTop: '30px'});
                             var headlineNumber = document.createElement('span');
 
                             $(headlineNumber).text(number);

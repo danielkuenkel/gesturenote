@@ -45,10 +45,10 @@ $(document).on('click', '.btn-pause-gesture', function (event) {
     event.preventDefault();
     event.stopPropagation();
 //    if (!$(this).hasClass('active')) {
-        event.stopImmediatePropagation();
-        resetPlayButton($(this));
-        clearTimer();
-        resetThumbnails($(this).closest('.root').find('.previewGesture'));
+    event.stopImmediatePropagation();
+    resetPlayButton($(this));
+    clearTimer();
+    resetThumbnails($(this).closest('.root').find('.previewGesture'));
 //    }
 });
 
@@ -103,6 +103,16 @@ $(document).on('mouseenter', '.mousePlayable', function (event) {
 $(document).on('mouseleave', '.mousePlayable', function (event) {
     event.preventDefault();
     $(this).parent().find('.btn-pause-gesture').click();
+});
+
+$(document).on('mouseenter', '.gesture-thumbnail', function (event) {
+    event.preventDefault();
+    TweenMax.to($(this), .15, {scale: 1.05, ease: Quad.easeIn});
+});
+
+$(document).on('mouseleave', '.gesture-thumbnail', function (event) {
+    event.preventDefault();
+    TweenMax.to($(this), .2, {scale: 1, ease: Quad.easeOut, clearProps: 'all'});
 });
 
 $(document).on('click', '.btn-popover-gesture-preview', function (event) {

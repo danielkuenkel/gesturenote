@@ -637,7 +637,7 @@ if (login_check($mysqli) == true) {
             var editableStudyId = null;
             var studyEditable = false;
             function onAllExternalsLoadedSuccessfully() {
-                renderSubPageElements();
+                renderSubPageElements(true, true);
                 checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 var query = getQueryParams(document.location.search);
@@ -856,8 +856,7 @@ if (login_check($mysqli) == true) {
             $('.breadcrumb li a').click(function (event) {
                 var button = $(this);
                 event.stopImmediatePropagation();
-                var clickedId = $(button).attr('id');
-                jumpToId = clickedId;
+                jumpToId = $(button).attr('id');
                 loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
 
                 $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
@@ -878,8 +877,7 @@ if (login_check($mysqli) == true) {
             $('body').on('click', '.main-burger-menu li a', function (event) {
                 var button = $(this);
                 event.stopImmediatePropagation();
-                var clickedId = $(button).parent().attr('data-id');
-                jumpToId = clickedId;
+                jumpToId = $(button).parent().attr('data-id');
                 loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
 
                 $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {

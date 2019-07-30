@@ -283,7 +283,8 @@ function unique(origArr) {
     return newArr;
 }
 
-function renderSubPageElements(hasTopNavbar, hasNoImprint) {
+function renderSubPageElements(hasTopNavbar, isStudyCreatePage) {
+    console.warn('isStudyCreatePage', isStudyCreatePage);
     var header = $('#header-footer-container').find('#sub-page-header').clone().removeAttr('id');
     header.insertBefore($('body').find('#breadcrumb'));
     header.find('#btn-sign-out').on('click', function (event) {
@@ -294,8 +295,29 @@ function renderSubPageElements(hasTopNavbar, hasNoImprint) {
 
     header.find('#logo').on('click', function (event) {
         event.preventDefault();
-        gotoIndex();
+        if (isStudyCreatePage && isStudyCreatePage === true) {
+            jumpToId = 'btn-dashboard';
+
+            loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
+
+            $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
+                if (editableStudyId === null) {
+                    clearSceneImages();
+                    clearSounds();
+                }
+
+                clearLocalItems();
+                checkJumpId();
+            });
+
+            $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
+                $('#fixed-study-edit-controls').find('.btn-save-study').click();
+            });
+        } else {
+            gotoIndex();
+        }
     });
+
 
     if (hasTopNavbar === false) {
         header.find('#main-navigation-dropdown').addClass('hidden');
@@ -757,7 +779,7 @@ function onTweenDeleteComplete(element, parent, button) {
         var timeline = new TimelineMax({onComplete: afterTweenNextElements, paused: true});
         for (var i = 0; i < nextAll.length; i++) {
             timeline.add("start", 0)
-                    .from(nextAll[i], .1, {y: +nextOffset, delay: i * .05, clearProps: 'all'}, "start");
+                    .from(nextAll[i], .1, {y: +nextOffset, delay: i * .05, clearProps: 'y'}, "start");
         }
         timeline.play();
     } else {
@@ -820,8 +842,8 @@ function moveElement(direction, which, save) {
             var heightElement = element.outerHeight(true);
             var timeline = new TimelineMax({onComplete: onMoveUpComplete, onCompleteParams: [element, brother, save]});
             timeline.add("start", 0)
-                    .to(element, .2, {y: -offset, clearProps: 'all'}, "start")
-                    .to(brother, .2, {y: heightBrother === heightElement ? offset : heightElement, clearProps: 'all'}, "start");
+                    .to(element, .2, {y: -offset, clearProps: 'y'}, "start")
+                    .to(brother, .2, {y: heightBrother === heightElement ? offset : heightElement, clearProps: 'y'}, "start");
             break;
         case "down":
             brother = $(which).closest('.root').next();
@@ -833,8 +855,8 @@ function moveElement(direction, which, save) {
             var heightElement = element.outerHeight(true);
             var timeline = new TimelineMax({onComplete: onMoveDownComplete, onCompleteParams: [element, brother, save]});
             timeline.add("start", 0)
-                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION, {y: heightBrother === heightElement ? offset : heightBrother, clearProps: 'all'}, "start")
-                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION, {y: -offset, clearProps: 'all'}, "start");
+                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION, {y: heightBrother === heightElement ? offset : heightBrother, clearProps: 'y'}, "start")
+                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION, {y: -offset, clearProps: 'y'}, "start");
             break;
     }
 }

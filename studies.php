@@ -364,6 +364,16 @@ if (login_check($mysqli) == true) {
                                 goto("extraction-study.php?studyId=" + event.data.studyId + "&h=" + hash + '&joinedConv=false');
                             });
                         }
+
+                        $(clone).find('.panel').unbind('mouseenter').bind('mouseenter', function (event) {
+                            event.preventDefault();
+                            TweenMax.to($(this), .15, {scale: 1.05, ease: Quad.easeIn});
+                        });
+
+                        $(clone).find('.panel').unbind('mouseleave').bind('mouseleave', function (event) {
+                            event.preventDefault();
+                            TweenMax.to($(this), .2, {scale: 1, ease: Quad.easeOut, clearProps: 'all'});
+                        });
                     }
                 } else {
                     appendAlert($('#item-view'), ALERT_NO_STUDIES);

@@ -277,7 +277,7 @@ function renderData(data, hash) {
         // phase view
         if (studyData.phases && studyData.phases.length > 0) {
             var step = document.createElement('ol');
-            $(step).css({paddingLeft: '15px', display:'inline-block'});
+            $(step).css({paddingLeft: '15px', display: 'inline-block'});
             $('#phase-steps-container').empty().append(step);
             for (var i = 0; i < studyData.phases.length; i++) {
                 var text = document.createElement('li');
@@ -568,6 +568,16 @@ function renderStudyParticipants(data, hash) {
             event.preventDefault();
             clearLocalItems();
             goto('study-participant.php?studyId=' + event.data.studyId + '&participantId=' + event.data.participantId + '&h=' + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+        });
+
+        $(item).find('.panel').unbind('mouseenter').bind('mouseenter', function (event) {
+            event.preventDefault();
+            TweenMax.to($(this), .15, {scale: 1.05, ease: Quad.easeIn});
+        });
+
+        $(item).find('.panel').unbind('mouseleave').bind('mouseleave', function (event) {
+            event.preventDefault();
+            TweenMax.to($(this), .2, {scale: 1, ease: Quad.easeOut, clearProps: 'all'});
         });
     }
 

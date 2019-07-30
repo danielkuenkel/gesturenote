@@ -1017,10 +1017,10 @@ if (login_check($mysqli) == true) {
             var editStudyButton = $('#fixed-study-owner-controls .btn-edit-study');
             var editButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(editStudyButton).css({borderBottomRightRadius: '8px'});
-                    $(editStudyButton).addClass('btn-primary');
+                    $(editStudyButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(editStudyButton).css({borderBottomRightRadius: '0px'});
-                    $(editStudyButton).removeClass('btn-primary');
+                    $(editStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             editButtonTimeline.add("cacheStudy", 0)
@@ -1040,10 +1040,10 @@ if (login_check($mysqli) == true) {
             var executionButton = $('#fixed-study-owner-controls .btn-open-static-execution-url');
             var executionUrlButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(executionButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(executionButton).addClass('btn-primary');
+                    $(executionButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(executionButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
-                    $(executionButton).removeClass('btn-primary');
+                    $(executionButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             executionUrlButtonTimeline.add("saveStudy", 0)
@@ -1064,7 +1064,7 @@ if (login_check($mysqli) == true) {
             var joinConversationButton = $('#fixed-study-owner-controls .btn-join-conversation');
             var conversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(joinConversationButton).addClass('btn-primary');
+                    $(joinConversationButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     var study = getLocalItem(STUDY);
                     if (study.isOwner && study.isOwner === true) {
@@ -1072,7 +1072,7 @@ if (login_check($mysqli) == true) {
                     } else {
                         $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
                     }
-                    $(joinConversationButton).removeClass('btn-primary');
+                    $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             conversationButtonTimeline.add("saveStudy", 0)
@@ -1092,7 +1092,7 @@ if (login_check($mysqli) == true) {
             var leaveConversationButton = $('#fixed-study-owner-controls .btn-leave-conversation');
             var leaveConversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(leaveConversationButton).addClass('btn-danger');
+                    $(leaveConversationButton).removeClass('btn-default').addClass('btn-danger');
                 }, onReverseComplete: function () {
                     var study = getLocalItem(STUDY);
                     if (study.isOwner && study.isOwner === true) {
@@ -1100,7 +1100,7 @@ if (login_check($mysqli) == true) {
                     } else {
                         $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
                     }
-                    $(leaveConversationButton).removeClass('btn-danger');
+                    $(leaveConversationButton).removeClass('btn-danger').addClass('btn-default');
                 }});
 
             leaveConversationButtonTimeline.add("saveStudy", 0)
@@ -1133,10 +1133,10 @@ if (login_check($mysqli) == true) {
             var deleteStudyButton = $('#fixed-study-owner-controls .btn-delete-study');
             var deleteButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(deleteStudyButton).css({borderTopRightRadius: '8px'});
-                    $(deleteStudyButton).addClass('btn-danger');
+                    $(deleteStudyButton).removeClass('btn-default').addClass('btn-danger');
                 }, onReverseComplete: function () {
                     $(deleteStudyButton).css({borderTopRightRadius: '0px'});
-                    $(deleteStudyButton).removeClass('btn-danger');
+                    $(deleteStudyButton).removeClass('btn-danger').addClass('btn-default');
                 }});
             deleteButtonTimeline.add("saveStudy", 0)
                     .to(deleteStudyButton, .3, {left: +131, ease: Quad.easeInOut}, "saveStudy");

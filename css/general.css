@@ -1550,8 +1550,8 @@ canvas {
 }
 
 
-.dark .btn-radio.active.focus, .dark .btn-radio.active:focus, .dark .btn-radio.focus, .dark .btn-radio:active.focus, .dark .btn-radio:active:focus, .dark .btn-radio:focus,
-.dark .btn-checkbox.active.focus, .dark .btn-checkbox.active:focus, .dark .btn-checkbox.focus, .dark .btn-checkbox:active.focus, .dark .btn-checkbox:active:focus, .dark .btn-checkbox:focus{
+.dark .btn-radio.active.focus, .dark .btn-radio.active:focus, .dark .btn-radio.focus, .dark .btn-radio:active.focus, .dark .btn-radio:active:focus, .dark .btn-radio:focus, .dark .btn-radio:hover, 
+.dark .btn-checkbox.active.focus, .dark .btn-checkbox.active:focus, .dark .btn-checkbox.focus, .dark .btn-checkbox:active.focus, .dark .btn-checkbox:active:focus, .dark .btn-checkbox:focus, .dark .btn-checkbox:hover{
     background-color: #3e3d3d !important;
     color: white;
     border-color: #464646;
@@ -1559,6 +1559,14 @@ canvas {
 
 .dark .btn-radio, .dark .btn-checkbox {
     background-color: rgba(0,0,0,0) !important;
+}
+
+.dark .btn-checkbox.disabled:hover,
+.dark .btn-checkbox[disabled]:hover,
+.dark .btn-radio.disabled:hover,
+.dark .btn-radio[disabled]:hover {
+    background-color: #3e3d3d !important;
+    color: #fff !important;
 }
 
 .dark .btn-option-checked {
@@ -1912,4 +1920,9 @@ ul.dropdown-menu-center {
 
 .dark .cognitive-relationships-list-container > :nth-child(even) { 
     background-color: #6f6f6f;
+}
+
+.dark .btns-control-overlay-top {
+    box-shadow: 0px 0px 13px 9px rgba(105,105,105,1);
+    background-color: #696969;
 }

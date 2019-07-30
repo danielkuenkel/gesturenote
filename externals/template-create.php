@@ -5,7 +5,7 @@ include '../includes/language.php';
 <div id="form-item-container" class="hidden">
 
     <div class="col-sm-11 root" id="filter-option-item">
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px; background-color: #fbead121">
             <div class="panel-heading panel-heading-warning">
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -55,7 +55,7 @@ include '../includes/language.php';
     </div>
 
     <div class="col-sm-11 root" id="ranking-filter-option-item">
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px; background-color: #fbead121">
             <div class="panel-heading panel-heading-warning">
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -120,7 +120,7 @@ include '../includes/language.php';
     </div>
 
     <div class="col-sm-11 root" id="sum-filter-option-item">
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px; background-color: #fbead121">
             <div class="panel-heading panel-heading-warning">
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -210,7 +210,7 @@ include '../includes/language.php';
     </div>
 
     <div class="col-sm-11 root" id="counter-filter-option-item">
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px; background-color: #fbead121">
             <div class="panel-heading panel-heading-warning">
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -835,7 +835,7 @@ include '../includes/language.php';
     </div>
 
     <div class="col-sm-11 root" id="groupingQuestionItem">
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px; background-color: #d3ecd31a">
             <div class="panel-heading panel-heading-success">
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -1395,7 +1395,7 @@ include '../includes/language.php';
 
     <div class="col-sm-11 root" id="ratingItem">
 
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 10px;">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 10px; background-color: #d3ecd31a">
             <div class="panel-heading panel-heading-success">
                 <div class="btn-group btn-group-sm" style="margin-right: 10px">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -1880,7 +1880,7 @@ include '../includes/language.php';
     </div>
 
     <div class="col-xs-12 col-sm-11 root" id="wozExperimentItem">
-        <div class="panel panel-default panel-shadow">
+        <div class="panel panel-default panel-shadow" style="background-color: #d3ecd31a">
             <div class="panel-heading panel-heading-expandable panel-heading-success">
                 <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                     <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -2150,7 +2150,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default panel-shadow root" id="woz-transition-scene-option">
+    <div class="panel panel-default panel-shadow root" id="woz-transition-scene-option" style="background-color: #b1cfe91f">
         <div class="panel-heading panel-heading-primary">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -2228,7 +2228,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default panel-shadow root" id="training-woz-transition-scene-option">
+    <div class="panel panel-default panel-shadow root" id="training-woz-transition-scene-option" style="background-color: #b1cfe91f">
         <div class="panel-heading panel-heading-primary">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -3090,7 +3090,7 @@ include '../includes/language.php';
         </div> 
     </div>
 
-    <div class="panel panel-default panel-shadow root" id="transition-scene-option">
+    <div class="panel panel-default panel-shadow root" id="transition-scene-option" style="background-color: #b1cfe91f">
         <div class="panel-heading panel-heading-primary">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>

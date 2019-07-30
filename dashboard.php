@@ -302,6 +302,16 @@ if (login_check($mysqli) == true) {
                     var item = $(items[i]);
                     $(item).css({opacity: 1});
                     TweenMax.from(item, .2, {opacity: 0, delay: i * 0.05, scaleX: 0.5, scaleY: 0.5});
+
+                    $(item).find('.panel').unbind('mouseenter').bind('mouseenter', function (event) {
+                        event.preventDefault();
+                        TweenMax.to($(this), .15, {scale: 1.05, ease: Quad.easeIn});
+                    });
+
+                    $(item).find('.panel').unbind('mouseleave').bind('mouseleave', function (event) {
+                        event.preventDefault();
+                        TweenMax.to($(this), .2, {scale: 1, ease: Quad.easeOut, clearProps: 'all'});
+                    });
                 }
 
                 var leftFlex = 51;
