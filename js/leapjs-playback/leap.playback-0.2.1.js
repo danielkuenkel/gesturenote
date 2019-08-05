@@ -1136,7 +1136,7 @@
         },
 
         save: function (format) {
-            var filename = hex_sha512(new Date().getTime() + '_' + this.metadata.frameRate);
+            var filename = sha512(new Date().getTime() + '_' + this.metadata.frameRate);
             if (format === 'json') {
 
                 saveAs(new Blob([this.export('json')], {

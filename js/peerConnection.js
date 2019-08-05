@@ -905,7 +905,7 @@ PeerConnection.prototype.initRecording = function (startRecording) {
 
                     var currentPhase = getCurrentPhase();
                     getGMT(function (timestamp) {
-                        var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
+                        var filename = sha512(timestamp + "" + chance.natural()) + '.webm';
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.endRecordingTime = timestamp;
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -1002,7 +1002,7 @@ PeerConnection.prototype.initScreenRecording = function () {
 
                 getGMT(function (timestamp) {
                     console.log('Save screen recording');
-                    var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
+                    var filename = sha512(timestamp + "" + chance.natural()) + '.webm';
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                     tempData.endScreenRecordingTime = timestamp;
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -1077,7 +1077,7 @@ PeerConnection.prototype.takeSnapshot = function (upload, callback) {
                 if (dominantColor && (dominantColor[0] + dominantColor[1] + dominantColor[2]) > 0) {
 
                     if (upload && upload === true) {
-                        var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.jpg';
+                        var filename = sha512(new Date().getTime() + "" + chance.natural()) + '.jpg';
                         var snapshotUploadQueue = new UploadQueue();
                         $(snapshotUploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
                             var url = snapshotUploadQueue.getUploadURLs()[0];

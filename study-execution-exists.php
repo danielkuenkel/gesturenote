@@ -30,7 +30,7 @@ include './includes/language.php';
         <script type="text/JavaScript" src="js/checkForms.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 

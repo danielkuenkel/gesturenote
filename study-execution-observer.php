@@ -51,7 +51,7 @@ if ($h && $token && $studyId) {
         <script src="js/websocket.js"></script>
 
         <script src="js/chance.min.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/constants.js"></script>

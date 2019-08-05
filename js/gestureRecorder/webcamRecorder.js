@@ -536,7 +536,7 @@ WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
             });
 
             // create gif from gesture images and upload it
-            var filename = hex_sha512(new Date().getTime() + "" + i) + ".gif";
+            var filename = sha512(new Date().getTime() + "" + i) + ".gif";
             createGIF(webcamSaveGestureData.images, filename, false, function (blob) {
                 gifUploadQueue.upload([blob], filename);
             });
@@ -551,7 +551,7 @@ WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
         console.log('attach saved data', webcamSaveGestureData)
         if (webcamSaveGestureData.blobs && webcamSaveGestureData.blobs.length > 0) {
             for (var i = 0; i < webcamSaveGestureData.blobs.length; i++) {
-                var filename = hex_sha512(new Date().getTime() + "" + i) + ".jpg";
+                var filename = sha512(new Date().getTime() + "" + i) + ".jpg";
                 uploadQueue.upload([webcamSaveGestureData.blobs[i]], filename);
             }
         } else {
@@ -569,7 +569,7 @@ WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
                     });
 
                     // create gif from gesture images and upload it
-                    var filename = hex_sha512(new Date().getTime() + "" + i) + ".gif";
+                    var filename = sha512(new Date().getTime() + "" + i) + ".gif";
                     createGIF(webcamSaveGestureData.images, filename, false, function (blob) {
                         gifUploadQueue.upload([blob], filename);
                     });

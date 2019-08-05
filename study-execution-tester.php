@@ -57,7 +57,7 @@ if ($h && $token && $studyId) {
 
         <script src="js/chance.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/refreshSession.js"></script>

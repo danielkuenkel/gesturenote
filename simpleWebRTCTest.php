@@ -19,7 +19,7 @@ include_once 'includes/functions.php';
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
         <script src="js/chance.min.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
 
         <script src="js/peerConnection.js"></script>
         <script src="js/andyet/simplewebrtc.bundle.js"></script>
@@ -400,7 +400,7 @@ include_once 'includes/functions.php';
                     enableWebcamStream: true,
                     enableDataChannels: true,
                     autoRequestMedia: true,
-                    roomId: hex_sha512(window.location),
+                    roomId: sha512(window.location),
 //                    iceTransports: iceTransports !== '' ? iceTransports : null,
                     nick: ignoreRole === 'yes' ? chance.natural() : selectedRole,
                     ignoreRole: ignoreRole || 'yes',

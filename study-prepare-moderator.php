@@ -54,7 +54,7 @@ if ($h && $token && $studyId) {
         <script src="js/checkForms.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/execution/study-execution.js"></script>
 
         <!-- streaming -->
@@ -590,7 +590,7 @@ if ($h && $token && $studyId) {
 
             function returnToStudyDetails() {
                 var query = getQueryParams(document.location.search);
-                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 goto("study.php?studyId=" + query.studyId + "&h=" + hash + '#participants');
             }
 

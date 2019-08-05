@@ -37,7 +37,7 @@ if (login_check($mysqli) == true) {
         <script src="js/websocket.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/refreshSession.js"></script>
@@ -372,7 +372,7 @@ if (login_check($mysqli) == true) {
 
                 previewModeEnabled = true;
                 var query = getQueryParams(document.location.search);
-                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 var status = window.location.hash.substr(1);
                 var statusAddressMatch = statusAddressMatchIndex(status);
                 currentView = query.view && query.view === 'moderator' ? VIEW_MODERATOR : VIEW_TESTER;
@@ -411,7 +411,7 @@ if (login_check($mysqli) == true) {
 
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
-                        var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                        var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                         goto("study.php?studyId=" + query.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
                     });
                 } else {

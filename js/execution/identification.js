@@ -1081,7 +1081,7 @@ Identification.prototype.renderTesterView = function () {
                         });
 
                         // upload leap motion data as compressed lz file
-                        var filename = hex_sha512(new Date().getTime().toString()) + ".lz";
+                        var filename = sha512(new Date().getTime().toString()) + ".lz";
                         uploadQueue.upload([recordedData[i].compressedData], filename);
                         break;
                     }

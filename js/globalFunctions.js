@@ -4775,7 +4775,7 @@ $(document).on('click', '.btn-download-as-gif', function (event) {
             for (var i = 0; i < gestureImages.length; i++) {
                 imageArray.push($(gestureImages[i]).attr('src'));
             }
-            var title = hex_sha512(new Date().toDateString());
+            var title = sha512(new Date().toDateString());
             createGIF(imageArray, title, true, function () {
                 unlockButton(button, true, 'fa-file-image-o');
             });

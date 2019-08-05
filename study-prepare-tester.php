@@ -66,7 +66,7 @@ if ($h && $token && $studyId) {
         <script src="js/checkForms.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/execution/study-execution.js"></script>
 
@@ -298,7 +298,7 @@ if ($h && $token && $studyId) {
                 if (data.studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
                     $('#btn-enter-study').addClass('hidden');
 
-                    var rtcToken = hex_sha512(new Date().getTime() + " " + chance.natural());
+                    var rtcToken = sha512(new Date().getTime() + " " + chance.natural());
                     var study = getLocalItem(STUDY);
 
                     appendAlert($('#study-participation'), ALERT_INSERT_NAME);

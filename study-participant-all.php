@@ -40,7 +40,7 @@ if (login_check($mysqli) == true) {
 
         <script src="js/chance.min.js"></script>
         <script src="js/refreshSession.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
@@ -94,8 +94,8 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
 
-        <div class="hidden-xs hidden-sm study-participant-controls" id="fixed-study-participant-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 10001; opacity: 0;">
-            <div class="btn-group-vertical left-controls">
+        <div class="hidden-xs hidden-sm study-participant-controls" id="fixed-study-participant-controls" style="position: fixed; top: 50%; z-index: 10001; opacity: 0;">
+            <div class="btn-group-vertical left-controls" style="transform: translateY(-50%);">
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px; border-bottom-right-radius: 8px; border-top-right-radius: 8px"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
                 </div>
@@ -319,7 +319,7 @@ if (login_check($mysqli) == true) {
                 checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 var query = getQueryParams(document.location.search);
-                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
 
                 var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
                 if (tutorials && tutorials.participant && parseInt(tutorials.participant) === 1) {
@@ -2314,7 +2314,7 @@ if (login_check($mysqli) == true) {
 
                     var query = getQueryParams(document.location.search);
                     var status = getWindowStatusHash();
-                    var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                    var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                     clearLocalItems();
                     goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + userId + '&h=' + hash + "&joinedConv=" + joinedRoom + getWebRTCSources() + '#' + status);
                 });

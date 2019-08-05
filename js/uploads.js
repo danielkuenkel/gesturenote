@@ -62,7 +62,7 @@ $(document).on('change', '.imageUpload', function (event) {
             });
 
             for (var i = 0; i < uploadFiles.length; i++) {
-                var filename = new String(hex_sha512(new Date().getTime() + "" + i)).substring(0, 92) + ".jpg";
+                var filename = new String(sha512(new Date().getTime() + "" + i)).substring(0, 92) + ".jpg";
                 if (uploadFiles[i].size <= 8000000) {
                     uploadQueue.upload([uploadFiles[i]], filename);
 
@@ -170,7 +170,7 @@ $(document).on('change', '.soundUpload', function (event) {
             });
 
             for (var i = 0; i < uploadFiles.length; i++) {
-                var filename = new String(hex_sha512(new Date().getTime() + "" + i)).substring(0, 92) + ".mp3";
+                var filename = new String(sha512(new Date().getTime() + "" + i)).substring(0, 92) + ".mp3";
                 if (uploadFiles[i].size <= 8000000) {
                     uploadQueue.upload([uploadFiles[i]], filename);
 

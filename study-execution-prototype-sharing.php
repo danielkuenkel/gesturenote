@@ -20,7 +20,7 @@ include 'includes/language.php';
         <script src="js/resumable/resumable.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
 
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">

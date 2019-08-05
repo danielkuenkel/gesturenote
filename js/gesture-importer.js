@@ -290,14 +290,14 @@ function uploadExchangeableImages(gesture) {
             });
 
             // create gif from gesture images and upload it
-            var filename = hex_sha512(new Date().getTime() + "" + i) + ".gif";
+            var filename = sha512(new Date().getTime() + "" + i) + ".gif";
             createGIF(gesture.images, filename, false, function (blob) {
                 gifUploadQueue.upload([blob], filename);
             });
         });
 
         for (var i = 0; i < gesture.blobs.length; i++) {
-            var filename = hex_sha512(new Date().getTime() + "" + i) + ".jpg";
+            var filename = sha512(new Date().getTime() + "" + i) + ".jpg";
             uploadQueue.upload([gesture.blobs[i]], filename);
         }
     } else {
