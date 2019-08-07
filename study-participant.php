@@ -1416,7 +1416,8 @@ if (login_check($mysqli) == true) {
                 if (resultsData.annotations && resultsData.annotations.length > 0) {
                     var count = 0;
                     for (var j = 0; j < resultsData.annotations.length; j++) {
-                        if (resultsData.annotations[j].action === ACTION_NO_GESTURE_FIT_FOUND && parseInt(resultsData.annotations[j].gestureId) === parseInt(gesture.id)) {
+                        if ((resultsData.annotations[j].action === ACTION_NO_GESTURE_FIT_FOUND || resultsData.annotations[j].action === ACTION_NO_GESTURE_DEMONSTRATED) &&
+                                parseInt(resultsData.annotations[j].gestureId) === parseInt(gesture.id)) {
                             count++;
                         }
                     }

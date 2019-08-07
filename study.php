@@ -1190,6 +1190,7 @@ if (login_check($mysqli) == true) {
                             setStudyData(result);
 
                             var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                            console.log('tutorials', tutorials);
                             if (tutorials && tutorials.study && parseInt(tutorials.study) === 1) {
                                 showStudyTutorial = parseInt(tutorials.study);
                             }

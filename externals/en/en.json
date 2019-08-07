@@ -5065,7 +5065,7 @@
         "resetPasswordError": {
             "id": "reset-password-error",
             "type": "danger",
-            "text": "An error has occurred during the password reset. Please check your entries."
+            "text": "Either you have already successfully reset your password, or the email address you entered is incorrect. Please check your input."
         },
         "loginFailed": {
             "id": "login-failed",

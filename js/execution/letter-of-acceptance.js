@@ -47,6 +47,9 @@ LetterOfAcceptance.prototype.renderTesterView = function () {
     $(container).find('.letter-text').html(data);
     $(container).find('#letter-agreed').unbind('click').bind('click', function (event) {
         event.preventDefault();
+        lockButton($(this), true, 'fa-check');
+        lockButton($(container).find('#letter-decline'));
+        
         if (!previewModeEnabled && peerConnection) {
             peerConnection.takeSnapshot(true, function () {
                 console.log('snapshot taken and uploaded, now to next step');
@@ -64,6 +67,9 @@ LetterOfAcceptance.prototype.renderTesterView = function () {
 
     $(container).find('#letter-decline').unbind('click').bind('click', function (event) {
         event.preventDefault();
+        lockButton($(this), true, 'fa-close');
+        lockButton($(container).find('#letter-agreed'));
+        
         if (!previewModeEnabled) {
             var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
             tempData.accepted = 'no';

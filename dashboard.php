@@ -301,7 +301,7 @@ if (login_check($mysqli) == true) {
                 for (var i = 0; i < items.length; i++) {
                     var item = $(items[i]);
                     $(item).css({opacity: 1});
-                    TweenMax.from(item, .2, {opacity: 0, delay: i * 0.05, scaleX: 0.5, scaleY: 0.5});
+                    TweenMax.from(item, .2, {opacity: 0, delay: i * .05, scale: .5});
 
                     $(item).find('.panel').unbind('mouseenter').bind('mouseenter', function (event) {
                         event.preventDefault();

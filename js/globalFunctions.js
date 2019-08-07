@@ -4783,7 +4783,6 @@ $(document).on('click', '.btn-download-as-gif', function (event) {
     }
 });
 
-
 // create gif from gesture images
 function createGIF(images, title, downloadGIF, callback) {
     gifshot.createGIF({
@@ -4809,6 +4808,24 @@ function createGIF(images, title, downloadGIF, callback) {
     });
 }
 
+$(document).on('click', '.btn-download-as-zip', function (event) {
+    event.preventDefault();
+    var zip = new JSZip();
+    var gesture = getGestureById($(this).attr('data-gesture-id'));
+    var previews = [];
+
+    for (var j = 0; j < gesture.images.length; j++) {
+        previews.push(gesture.id + "/" + (j + 1) + ".jpg");
+        zip.file(previews[j], urlToPromise(gesture.images[j]), {
+            binary: true
+        });
+    }
+
+    zip.generateAsync({type: "blob"})
+            .then(function (content) {
+                saveAs(content, translation.gesture + '_' + gesture.id + '.zip');
+            });
+});
 
 $(document).on('click', '.btn-tag-as-preview', function (event) {
     event.preventDefault();

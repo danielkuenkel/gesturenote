@@ -134,7 +134,7 @@ function initQuestionnaireOverlay(id, formatClone) {
         appendAlert($(formatClone), ALERT_NO_DATA_QUESTIONNAIRE);
         $(formatClone).find('#list-container').css({marginBottom: '120px'});
     }
-    
+
     console.log('over questionnaire:', formatClone, id);
 
     function renderData(data) {
@@ -2944,14 +2944,23 @@ function initCatalogGesturesOverlay(formatClone) {
         var currentActiveTab = getCurrentActiveTab();
         currentFilterData = data;
         $(currentFilterList).empty();
-        var index = getCurrentPaginationIndex();
-        var listCount = parseInt($(currentPaginationData.filter.countSelect).find('.chosen').attr('id').split('_')[1]);
-        var viewFromIndex = index * listCount;
-        var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
+
+//        var listCount = parseInt($(currentPaginationData.filter.countSelect).find('.chosen').attr('id').split('_')[1]);
+        var viewFromIndex = 0;
+        var viewToIndex = currentFilterData.length;
+
+        if ($(currentActiveTab).attr('id') !== 'study-gesture-set') {
+            var index = getCurrentPaginationIndex();
+            var listCount = parseInt($(currentPaginationData.filter.countSelect).find('.chosen').attr('id').split('_')[1]);
+            viewFromIndex = index * listCount;
+            viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
+        }
+
         var count = 0;
 
         if (currentFilterData.length > 0) {
             clearAlerts($(currentActiveTab).find('#item-view'));
+
             for (var i = viewFromIndex; i < viewToIndex; i++) {
                 var clone;
                 switch ($(currentActiveTab).attr('id')) {
@@ -3105,47 +3114,50 @@ function initCatalogGesturesOverlay(formatClone) {
         if (originalFilterData && originalFilterData.length > 0) {
             $(formatClone).find('#study-gesture-set #filter-controls').removeClass('hidden');
             clearAlerts($(formatClone).find('#study-gesture-set'));
-            var data = {
-                pager: {
-                    top: $(formatClone).find('#study-gesture-set #pager-top .pagination'),
-                    bottom: $(formatClone).find('#study-gesture-set #pager-bottom .pagination'),
-                    dataLength: originalFilterData.length,
-                    maxElements: parseInt($(formatClone).find('#study-gesture-set #resultsCountSelect .chosen').attr('id').split('_')[1])
-                },
-                filter: {
-                    countSelect: $(formatClone).find('#study-gesture-set #resultsCountSelect'),
-                    filter: $(formatClone).find('#study-gesture-set #filter'),
-                    sort: $(formatClone).find('#study-gesture-set #sort')
-                }
-            };
 
-            initPagination(data);
-            $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble) {
-//                console.log('study gestures changed', gestureId);
-                TweenMax.to($(event.target).closest('.root'), .2, {scale: 0, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: function () {
-                        reassembleGesture(gestureId);
-                        updateCatalogButtons();
-                        updateNavBadges();
-                        originalFilterData = assembledGestures();
-                        if (originalFilterData && originalFilterData.length > 0) {
-                            currentFilterData = sort();
-                            updatePaginationItems();
-                            renderData(originalFilterData);
-                            $(formatClone).find('.tagged-symbol').addClass('hidden');
-                            $(formatClone).find('#study-gesture-set #filter-controls').removeClass('hidden');
-                        } else {
-                            currentFilterList.empty();
-                            $(formatClone).find('#study-gesture-set #pager-top .pagination').addClass('hidden');
-                            $(formatClone).find('#study-gesture-set #pager-bottom .pagination').addClass('hidden');
-                            $(formatClone).find('#study-gesture-set #filter-controls').addClass('hidden');
-                            appendAlert($(formatClone).find('#study-gesture-set'), ALERT_NO_STUDY_GESTURES_ASSEMBLED);
-                        }
-                    }
-                });
-            });
+//            var data = {
+//                pager: {
+//                    top: $(formatClone).find('#study-gesture-set #pager-top .pagination'),
+//                    bottom: $(formatClone).find('#study-gesture-set #pager-bottom .pagination'),
+//                    dataLength: originalFilterData.length,
+//                    maxElements: parseInt($(formatClone).find('#study-gesture-set #resultsCountSelect .chosen').attr('id').split('_')[1])
+//                },
+//                filter: {
+//                    countSelect: $(formatClone).find('#study-gesture-set #resultsCountSelect'),
+//                    filter: $(formatClone).find('#study-gesture-set #filter'),
+//                    sort: $(formatClone).find('#study-gesture-set #sort')
+//                }
+//            };
+//            initPagination(data);
 
-            $(formatClone).find('#study-gesture-set #sort #newest').removeClass('selected');
-            $(formatClone).find('#study-gesture-set #sort #newest').click();
+            renderData(originalFilterData);
+            $(formatClone).find('.tagged-symbol').addClass('hidden');
+
+//            $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble) {
+//                TweenMax.to($(event.target).closest('.root'), .2, {scale: 0, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: function () {
+//                        reassembleGesture(gestureId);
+//                        updateCatalogButtons();
+//                        updateNavBadges();
+//                        originalFilterData = assembledGestures();
+//                        if (originalFilterData && originalFilterData.length > 0) {
+//                            currentFilterData = sort();
+//                            updatePaginationItems();
+//                            renderData(originalFilterData);
+//                            $(formatClone).find('.tagged-symbol').addClass('hidden');
+//                            $(formatClone).find('#study-gesture-set #filter-controls').removeClass('hidden');
+//                        } else {
+//                            currentFilterList.empty();
+//                            $(formatClone).find('#study-gesture-set #pager-top .pagination').addClass('hidden');
+//                            $(formatClone).find('#study-gesture-set #pager-bottom .pagination').addClass('hidden');
+//                            $(formatClone).find('#study-gesture-set #filter-controls').addClass('hidden');
+//                            appendAlert($(formatClone).find('#study-gesture-set'), ALERT_NO_STUDY_GESTURES_ASSEMBLED);
+//                        }
+//                    }
+//                });
+//            });
+//
+//            $(formatClone).find('#study-gesture-set #sort #newest').removeClass('selected');
+//            $(formatClone).find('#study-gesture-set #sort #newest').click();
         } else {
             $(formatClone).find('#study-gesture-set #pager-top .pagination').addClass('hidden');
             $(formatClone).find('#study-gesture-set #pager-bottom .pagination').addClass('hidden');
@@ -3154,10 +3166,10 @@ function initCatalogGesturesOverlay(formatClone) {
             hideContentLoader();
         }
 
-        $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
-            renderData(data);
-            $(formatClone).find('.tagged-symbol').addClass('hidden');
-        });
+//        $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
+//            renderData(data);
+//            $(formatClone).find('.tagged-symbol').addClass('hidden');
+//        });
 
         $(formatClone).find('.tagged-symbol').addClass('hidden');
     }

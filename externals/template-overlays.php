@@ -2477,7 +2477,7 @@ include '../includes/language.php';
                         <div id="item-view" class="hidden">
                             <div class="alert-space alert-no-study-gestures-assembled"></div>
 
-                            <div id="filter-controls" class="hidden">
+<!--                            <div id="filter-controls" class="hidden">
                                 <div class="form-group form-group-no-margin">
                                     <div class="input-group">
                                         <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
@@ -2526,9 +2526,9 @@ include '../includes/language.php';
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
 
-                            <div class="text-center custom-pagination" id="pager-top">
+<!--                            <div class="text-center custom-pagination" id="pager-top">
                                 <nav>
                                     <ul class="pagination pagination-custom" data-clipping="7">
                                         <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
@@ -2537,14 +2537,14 @@ include '../includes/language.php';
                                         <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
                                     </ul>
                                 </nav>
-                            </div>
+                            </div>-->
 
 
                             <div class="container-root row root" id="gesture-list-container" style="margin-top: 10px;"></div>
 
                             <div class="alert-space alert-no-search-results"></div>
 
-                            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+<!--                            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
                                 <nav>
                                     <ul class="pagination pagination-custom" data-clipping="7">
                                         <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
@@ -2553,7 +2553,7 @@ include '../includes/language.php';
                                         <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
                                     </ul>
                                 </nav>
-                            </div>
+                            </div>-->
 
                         </div>
                     </div>

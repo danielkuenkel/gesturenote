@@ -785,8 +785,15 @@ UserTest.prototype.renderModeratorView = function () {
                                     $(button).addClass('disabled');
                                     var gesture = getGestureById($(this).attr('data-gesture-id'));
                                     var triggerId = $(this).closest('.root').attr('data-trigger-id');
-                                    commitSimulationData({gestureId: gesture.id, triggerId: triggerId, continuousValueType: 'none'});
-                                    checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+
+                                    getGMT(function (timestamp) {
+                                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, triggerId: triggerId, time: timestamp});
+                                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+
+                                        commitSimulationData({gestureId: gesture.id, triggerId: triggerId, continuousValueType: 'none'});
+                                        checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+                                    });
                                 }
                             });
 
@@ -813,11 +820,14 @@ UserTest.prototype.renderModeratorView = function () {
     }
 
     function renderHelp() {
+        if (peerConnection) {
+            peerConnection.sendMessage(MESSAGE_CLOSE_HELP);
+            triggeredHelp = null;
+        }
+
         var helpData = filterHelpDataForCurrentTask(data.help, currentScenarioTask.id, currentWOZScene.id);
         $(container).find('.help-container').empty();
         removeAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
-
-        console.log('helpData', helpData);
 
         if (helpData && helpData.length > 0) {
             $(container).find('#btn-show-help-controls').removeClass('disabled');
@@ -872,7 +882,6 @@ UserTest.prototype.renderModeratorView = function () {
                         }
                     }
 
-
                     function setHelpOfferedState() {
                         // reset all offer help buttons
                         var buttons = $(button).closest('.option-container').find('.helpOffered');
@@ -880,7 +889,7 @@ UserTest.prototype.renderModeratorView = function () {
                         unlockButton(buttons, true, 'fa-close');
                         $(buttons).find('.fa').removeClass('fa-close').addClass('fa-life-ring');
                         $(buttons).find('.btn-text').text(translation.offerHelp);
-                        
+
                         // set button to help offered
                         $(button).addClass('helpOffered');
                         unlockButton(button, true, 'fa-life-ring');
@@ -951,8 +960,8 @@ UserTest.prototype.renderModeratorView = function () {
                 timeline.add("tween", 0)
                         .to(helpContainer, .1, {right: '0px', opacity: 1, ease: Quad.easeInOut});
 
-                var showTaskAssessmentsButton = $(fixedUserTestControlButtons).find('#btn-show-help-controls');
-                $(showTaskAssessmentsButton).unbind('click').bind('click', function (event) {
+                var showHelpButton = $(fixedUserTestControlButtons).find('#btn-show-help-controls');
+                $(showHelpButton).unbind('click').bind('click', function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
                         timeline.play();
@@ -967,12 +976,12 @@ UserTest.prototype.renderModeratorView = function () {
                 $(helpContainer).find('#btn-close-help-controls').unbind('click').bind('click', function (event) {
                     event.preventDefault();
                     timeline.reverse();
+                    peerConnection.sendMessage(MESSAGE_CLOSE_HELP);
                 });
             }, 500);
         } else {
             console.log('no help data');
             $(container).find('#btn-show-help-controls').addClass('disabled');
-//            appendAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
         }
     }
 

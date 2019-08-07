@@ -59,7 +59,7 @@ if (!$h) {
         <div class="container mainContent" style="margin-top: 0px">
             <div class="row" id="password-reset">
                 <div class="col-md-7">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default panel-shadow">
                         <div class="panel-heading">
                             <h2 class="panel-title"><?php echo $lang->updatePassword ?></h2>
                         </div>
@@ -79,12 +79,11 @@ if (!$h) {
                                         <input type="email" class="form-control" name="email" id="email" placeholder="">
                                     </div>
 
-                                    <div class="alert-space alert-password-short"></div>
-                                    <div class="alert-space alert-password-invalid"></div>
-                                    <div class="alert-space alert-passwords-not-matching"></div>
-
                                     <div class="form-group">
                                         <label for="password"><?php echo $lang->newPassword ?></label>
+                                        <div class="alert-space alert-password-short"></div>
+                                        <div class="alert-space alert-password-invalid"></div>
+                                        <div class="alert-space alert-passwords-not-matching"></div>
                                         <input type="password" class="form-control" name="password" id="password" placeholder="">
                                     </div>
                                     <div class="form-group">
@@ -167,6 +166,11 @@ if (!$h) {
                     }
                 });
             }
+
+            $('#reset-password-form').unbind('input').bind('input', function (event) {
+                event.preventDefault();
+                clearAlerts($(this));
+            });
 
             $('#btn-goto-login').on('click', function (event) {
                 gotoIndex();

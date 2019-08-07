@@ -171,10 +171,8 @@ GestureSlideshow.prototype.renderModeratorView = function () {
             $('#custom-modal').unbind('noGestureFitFound');
             $('#custom-modal').modal('hide');
 
-            if (payload.action === ACTION_NO_GESTURE_FIT_FOUND) {
-                slidesRestartCount++;
-                currentSlideIndex = 0;
-            }
+            slidesRestartCount++;
+            currentSlideIndex = 0;
 
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_NO_GESTURE_FIT_FOUND, {annotationData: {action: payload.action, gestureId: payload.correctGestureId, triggerId: payload.triggerId, selectedGestureId: null}, slidesRestartCount: slidesRestartCount, currentSlideIndex: currentSlideIndex});
@@ -363,7 +361,7 @@ GestureSlideshow.prototype.renderTesterView = function () {
             $(container).find('#slideshowContainer').append(item);
             var gesture = getGestureById(data.slideshow[i].gestureId);
             renderGesturePreview(item.find('#webcam-preview'), gesture);
-            
+
 //            renderGestureImages($(item).find('#webcam-preview'), gesture.images, gesture.previewImage, null);
         }
 //        $(container).find('.btn-download-as-gif').remove();

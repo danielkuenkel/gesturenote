@@ -2608,8 +2608,8 @@ include '../includes/language.php';
             <h3 class="headline" style="margin-top: 0" ><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
             <div class="letter-text text" style="white-space:pre-wrap;"></div>
             <div style="margin-top: 20px">
-                <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><?php echo $lang->letterOfAcceptanceAccept ?></button>
-                <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><?php echo $lang->letterOfAcceptanceNotAccept ?></button>
+                <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><i class="fa fa-check"></i> <?php echo $lang->letterOfAcceptanceAccept ?></button>
+                <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><i class="fa fa-close"></i> <?php echo $lang->letterOfAcceptanceNotAccept ?></button>
             </div>
         </div>
     </div>
@@ -2619,8 +2619,8 @@ include '../includes/language.php';
         <h3 class="headline" style="margin-top: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
         <div class="letter-text" style="white-space:pre-wrap;"></div>
         <div style="margin-top: 20px">
-            <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><?php echo $lang->letterOfAcceptanceAccept ?></button>
-            <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><?php echo $lang->letterOfAcceptanceNotAccept ?></button>
+            <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><i class="fa fa-check"></i> <?php echo $lang->letterOfAcceptanceAccept ?></button>
+            <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><i class="fa fa-close"></i> <?php echo $lang->letterOfAcceptanceNotAccept ?></button>
         </div>
     </div>
 

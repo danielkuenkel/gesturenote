@@ -2309,6 +2309,7 @@
     "downloadAsPidocoJSON": "Als Pidoco-Gestenset herunterladen",
     "downloadAsExchangeable": "Als ProGesture-Datei herunterladen",
     "downloadAsCompressed": "Als komprimierte Datei herunterladen",
+    "downloadImagesAsZIP": "Alle Bilder als komprimierte Datei herunterladen",
     "downloadAsCSV": "Herunterladen",
     "simulatorGestureSet": "Simulation starten",
     "simulateGesture": "Geste ausführen",
@@ -4319,8 +4320,8 @@
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
-                "justification": "no",
-                "justificationFor": "unselected",
+                "justification": "yes",
+                "justificationFor": "selectOne",
                 "optionSource": "gestures",
                 "optionalAnswer": "no"
             },
@@ -5099,7 +5100,7 @@
         "resetPasswordError": {
             "id": "reset-password-error",
             "type": "danger",
-            "text": "Es ist ein Fehler beim Passwort-Reset aufgetreten. Bitte überprüfen Sie ihre Eingaben."
+            "text": "Entweder haben Sie Ihr Passwort bereits erfolgreich zurückgesetzt, oder die E-Mail-Adresse ist falsch eingegeben. Bitte überprüfen Sie ihre Eingaben."
         },
         "loginFailed": {
             "id": "login-failed",

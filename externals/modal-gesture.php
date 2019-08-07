@@ -29,7 +29,8 @@ include '../includes/language.php';
                                     <div id="" class="webcam-image-container"></div>
                                     <div class="controls-container embed-responsive-item">
                                         <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
-                                        <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
+                                        <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
+                                        <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-zip" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadImagesAsZIP ?>"><i class="fa fa-file-zip-o"></i></div>
                                     </div>
                                 </div>
 
@@ -593,6 +594,7 @@ include '../includes/language.php';
         container.find('#doubleSidedUse .text').text(translation[gesture.doubleSidedUse]);
         container.find('#btn-edit-gesture .btn-text').text(translation.edit);
         container.find('#tab-gesture-general .btn-download-as-gif').attr('data-gesture-id', gesture.id);
+        container.find('#tab-gesture-general .btn-download-as-zip').attr('data-gesture-id', gesture.id);
 
         if (gesture.images && gesture.images.length > 0) {
             renderGesturePreview(container.find('#gesture-general-info-container #webcam-preview'), gesture);
