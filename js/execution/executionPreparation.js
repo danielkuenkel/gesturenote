@@ -55,6 +55,7 @@ ExecutionPreparation.prototype.renderModeratorView = function () {
         $(container).find('.preparation-study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + ": ");
         $(container).find('.preparation-study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + translation.from + ' ' + (totalDays === 1 ? new Date(dateFrom).toLocaleDateString() : new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString()));
         $(container).find('.preparation-study-plan').removeClass('hidden');
+        appendAlert(container, ALERT_SELECT_ROLE_HINT);
 
         $(container).find('#btn-preparation-check-rtc').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -62,6 +63,8 @@ ExecutionPreparation.prototype.renderModeratorView = function () {
             setTimeout(function () {
                 $(container).find('#preparation-check-rtc-status').addClass('hidden');
                 $(container).find('#preparation-participation-queue').removeClass('hidden');
+                clearAlerts(container);
+                appendAlert(container, ALERT_SELECT_PARTICIPANT_HINT);
             }, 2000);
         });
 
@@ -70,6 +73,40 @@ ExecutionPreparation.prototype.renderModeratorView = function () {
             $(container).find('#preparation-participation-queue').addClass('hidden');
             $(container).find('#preparation-role-selection-container').addClass('hidden');
             $(container).find('#preparation-call-screen').removeClass('hidden');
+            clearAlerts(container);
+            appendAlert(container, ALERT_WELCOME_PARTICIPANT_HINT);
+
+            // render streaming preview
+            if (!webcamPreview) {
+                var source = getSourceContainer(currentView);
+                var target = $(container).find('#preparation-video-caller');
+                var callerElement = $(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder').css({position: ''});
+                $(callerElement).find('#btn-toggle-rtc-fixed').remove();
+                $(target).empty().prepend(callerElement);
+
+                // init mouse events and pidoco tracking, for live execution the peer connection class handles this
+                var tween = new TweenMax($(callerElement).find('#stream-controls'), .3, {opacity: 1.0, paused: true});
+                $(callerElement).on('mouseenter', function (event) {
+                    event.preventDefault();
+                    tween.play();
+                });
+
+                $(callerElement).on('mouseleave', function (event) {
+                    event.preventDefault();
+                    tween.reverse();
+                });
+
+                var query = getQueryParams(document.location.search);
+                var options = {
+                    parent: callerElement,
+                    videoSource: query.vSource ? query.vSource : null,
+                    audioSource: query.aSource ? query.aSource : null,
+                    allowConfig: true
+                };
+
+                var instance = new WebcamRecorder(options);
+                webcamPreview = instance;
+            }
         });
 
         $(container).find('#btn-preparation-close-call').unbind('click').bind('click', function (event) {
@@ -81,6 +118,7 @@ ExecutionPreparation.prototype.renderModeratorView = function () {
 
         $(container).find('#btn-preparation-enter-study').unbind('click').bind('click', function (event) {
             event.preventDefault();
+            resetWebcamPreview();
             nextStep();
         });
     }
@@ -159,6 +197,38 @@ ExecutionPreparation.prototype.renderTesterView = function () {
                     $(container).find('#preparation-check-rtc-status').addClass('hidden');
                     $(container).find('#preparation-video-caller-container').removeClass('hidden');
                 }});
+
+            // render streaming preview
+            if (!webcamPreview) {
+                var source = getSourceContainer(currentView);
+                var target = $(container).find('#preparation-video-caller');
+                var callerElement = $(source).find('#tester-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder').css({position: ''});
+                $(callerElement).find('#btn-toggle-rtc-fixed').remove();
+                $(target).empty().prepend(callerElement);
+
+                // init mouse events and pidoco tracking, for live execution the peer connection class handles this
+                var tween = new TweenMax($(callerElement).find('#stream-controls'), .3, {opacity: 1.0, paused: true});
+                $(callerElement).on('mouseenter', function (event) {
+                    event.preventDefault();
+                    tween.play();
+                });
+
+                $(callerElement).on('mouseleave', function (event) {
+                    event.preventDefault();
+                    tween.reverse();
+                });
+
+                var query = getQueryParams(document.location.search);
+                var options = {
+                    parent: callerElement,
+                    videoSource: query.vSource ? query.vSource : null,
+                    audioSource: query.aSource ? query.aSource : null,
+                    allowConfig: true
+                };
+
+                var instance = new WebcamRecorder(options);
+                webcamPreview = instance;
+            }
         });
     }
 

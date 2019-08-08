@@ -7,18 +7,20 @@ include_once './language.php';
 include_once 'db_connect.php';
 include_once 'psl-config.php';
 
-if (isset($_SESSION['user_id'], $_POST['setId'], $_POST['email'])) {
+if (isset($_SESSION['user_id'], $_POST['setId'], $_POST['title'], $_POST['email'])) {
     $sessionUserId = $_SESSION['user_id'];
     $sessionUserMail = $_SESSION['email'];
 
     $shareId = $_POST['setId'];
     $inviteMail = $_POST['email'];
+    $sharedGestureSetTitle = $_POST['title'];
 
     if ($sessionUserMail === $inviteMail) {
         echo json_encode(array('status' => 'notInviteYourself'));
         exit();
     }
 
+//    if ($select_stmt = $mysqli->prepare("SELECT gesture_sets_shared.*, gesture_sets.title FROM gesture_sets_shared LEFT JOIN gesture_sets ON gesture_sets_shared.set_id = gesture_sets.id WHERE gesture_sets_shared.set_id = '$shareId' && gesture_sets_shared.email = '$inviteMail' LIMIT 1")) {
     if ($select_stmt = $mysqli->prepare("SELECT * FROM gesture_sets_shared WHERE gesture_sets_shared.set_id = '$shareId' && gesture_sets_shared.email = '$inviteMail' LIMIT 1")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
@@ -27,11 +29,19 @@ if (isset($_SESSION['user_id'], $_POST['setId'], $_POST['email'])) {
             $select_stmt->store_result();
             $select_stmt->bind_result($sharedStudyRowId, $sharedSetId, $sharedStudyOwner, $invitedUserMail, $sharedSetEditable, $userInvited);
             $select_stmt->fetch();
+            
+//            echo 'test' . $title;
+//            exit();
+
+//            while ($select_stmt->fetch()) {
+//                $sharedGestureSetTitle = $title;
+//            }
 
             if ($select_stmt->num_rows === 1) {
-                echo json_encode(array('status' => 'userAlreadyInvited'));
+                echo json_encode(array('status' => 'userAlreadyInvited', 'title' => $sharedGestureSetTitle));
                 exit();
             } else {
+//                
                 if ($insert_stmt = $mysqli->prepare("INSERT INTO gesture_sets_shared (set_id, owner_id, email) VALUES ('$shareId','$sessionUserId','$inviteMail')")) {
                     if (!$insert_stmt->execute()) {
                         echo json_encode(array('status' => 'insertError'));
@@ -70,7 +80,8 @@ if (isset($_SESSION['user_id'], $_POST['setId'], $_POST['email'])) {
                                     </head>
                                     <body>
                                         <p>' . $lang->hello . ' ' . $invitedForename . ' ' . $invitedSurname . ',</p>
-                                        <p>' . $lang->inviteGestureSetText . '</p>
+                                        <p>' . $_SESSION['forename'] . ' ' . $_SESSION['surname'] . ' ' . $lang->inviteGestureSetText . '</p>
+                                        <p>' . $lang->titleOfGestureSet . ': ' . $sharedGestureSetTitle . '</p>
                                         <p>' . $lang->mailGreetings . ',</p>
                                         <p>' . $lang->gestureNoteTeam . '</p>
                                     </body>
@@ -86,7 +97,7 @@ if (isset($_SESSION['user_id'], $_POST['setId'], $_POST['email'])) {
 
                                 mail($to, $subject, $message, $header);
 
-                                echo json_encode(array('status' => 'success', 'invitedUsers' => $invitedUsers));
+                                echo json_encode(array('status' => 'success', 'invitedUsers' => $invitedUsers, 'title' => $sharedGestureSetTitle));
                                 exit();
                             }
                         } else {

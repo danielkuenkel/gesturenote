@@ -97,6 +97,9 @@ var ALERT_SEARCH_PARTICIPATION_REQUESTS = 'search-participation-requests';
 var ALERT_STUDY_OVER_RANGE = 'study-over-range';
 var ALERT_STUDY_UNDER_RANGE = 'study-under-range';
 var ALERT_DUPLICATED_ROLE_DETECTED = 'duplicated-role-detected';
+var ALERT_SELECT_ROLE_HINT = 'select-role-hint';
+var ALERT_SELECT_PARTICIPANT_HINT = 'select-participant-hint';
+var ALERT_WELCOME_PARTICIPANT_HINT = 'welcome-participant-hint';
 
 var ALERT_PLEASE_WAIT = 'please-wait';
 var ALERT_GENERAL_PLEASE_WAIT = 'general-please-wait';
@@ -111,6 +114,7 @@ var ALERT_GESTURE_SET_TITLE_TOO_SHORT = 'gesture-set-title-too-short';
 var ALERT_EMPTY_GESTURE_SET = 'empty-gesture-set';
 var ALERT_NOT_ASSIGNED_TO_GESTURE_SET = 'not-assigned-to-gesture-set';
 var ALERT_SET_MISSING_GESTURES = 'set-missing-gestures';
+var ALERT_NO_MORE_WOZ_STATES = 'no-more-woz-states';
 
 var ALERT_PREVIEW_DUMMY = 'preview-dummy';
 var ALERT_SCRIPT_INPUT_ERROR = 'script-input-error';
@@ -129,18 +133,26 @@ var ALERT_SHARE_GESTURE_SET_TO_YOURSELF = 'share-gesture-set-to-yourself';
 var ALERT_GESTURE_NOT_SHARED = 'gesture-not-shared';
 var ALERT_SHARE_GESTURE_TO_YOURSELF = 'share-gesture-to-yourself';
 
+var ALERT_REINITIALIZE_GESTURE_CLASSIFICATION = 'reinitialize-gesture-classification';
+
 // exchangeable file hints
 var ALERT_NO_EXCHANGEABLE_FILE_SELECTED = 'no-exchangeable-file-selected';
 var ALERT_EXCHANGEABLE_GESTURES_IMPORTED_SUCCESS = 'exchangeable-gestures-imported-success';
 
+var ALERT_INVALID_AGATE_FORMAT = 'invalid-agate-format';
+
 // progesture alerts
 var ALERT_NO_GESTURE_SET_MAPPINGS = 'no-gesture-set-mappings';
+var ALERT_DRAG_AND_DROP_HINT = 'drag-and-drop-hint';
+
+// rtc alerts
+var ALERT_RTC_PERMISSION_DENIED = 'rtc-permission-denied';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);
     if (children.length === 0) {
         var alert = $('#alert-container').find('#' + alertType).clone();
-//        console.log('append alert:', alertType, 'target:', target);
+        console.log('append alert:', alertType, 'target:', target);
         $(target).find('.alert-' + alert.attr('id')).append(alert);
     }
 }

@@ -29,7 +29,8 @@ include '../includes/language.php';
                                     <div id="" class="webcam-image-container"></div>
                                     <div class="controls-container embed-responsive-item">
                                         <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
-                                        <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
+                                        <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
+                                        <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-zip" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadImagesAsZIP ?>"><i class="fa fa-file-zip-o"></i></div>
                                     </div>
                                 </div>
 
@@ -177,11 +178,16 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="row hidden" id="gesture-edit-general-info-container">
-                <div class="col-xs-12 col-md-8 col-md-offset-2">
-                    <div class="recorder-content" id="update-gesture-recorder-content"></div>
-                    <button type="button" class="btn btn-default btn-shadow btn-block" id="btn-cancel-edit-gesture" style="margin-top: 10px"><i class="fa fa-close"></i> <?php echo $lang->gesturePreviewable ?></button>
-                </div>
+            <!--            <div class="row hidden" id="gesture-edit-general-info-container">
+                            <div class="col-xs-12 col-md-8 col-md-offset-2">
+                                <div class="recorder-content" id="update-gesture-recorder-content"></div>
+                                <button type="button" class="btn btn-default btn-shadow btn-block" id="btn-cancel-edit-gesture" style="margin-top: 10px"><i class="fa fa-close"></i> <?php echo $lang->gesturePreviewable ?></button>
+                            </div>
+                        </div>-->
+            <div class="hidden" id="gesture-edit-general-info-container">
+                <!--<div class="col-xs-12 col-md-8 col-md-offset-2">-->
+                <div class="recorder-content" id="update-gesture-recorder-content"></div>
+                <!--</div>-->
             </div>
         </div>
 
@@ -210,6 +216,7 @@ include '../includes/language.php';
                         <label class="text"><?php echo $lang->assignToGestureSet ?></label>
 
                         <div id="existing-sets-container">
+                            <div id="gesture-set-loading-indicator" class="hidden"><i class="fa fa-circle-o-notch fa-2x fa-spin"></i></div>
                             <div class="option-container root"></div>
                         </div>
                         <div class="alert-space alert-no-gesture-sets-for-study"></div>
@@ -268,6 +275,7 @@ include '../includes/language.php';
 </div>
 
 <div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-default btn-shadow hidden" id="btn-cancel-edit-gesture" style="float: left"><i class="fa fa-close"></i> <?php echo $lang->gesturePreviewable ?></button>
     <button type="button" class="btn btn-shadow btn-danger pull-left gesture-owner-controls" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteGesture ?></span></button>
     <div class="" style="display: inline-block; margin-right: 12px">
         <button type="button" class="btn btn-default btn-shadow btn-join-conversation"><span class=""><?php echo $lang->joinConversation ?></span> <i class="fa fa-group"></i></button>
@@ -586,9 +594,7 @@ include '../includes/language.php';
         container.find('#doubleSidedUse .text').text(translation[gesture.doubleSidedUse]);
         container.find('#btn-edit-gesture .btn-text').text(translation.edit);
         container.find('#tab-gesture-general .btn-download-as-gif').attr('data-gesture-id', gesture.id);
-
-
-
+        container.find('#tab-gesture-general .btn-download-as-zip').attr('data-gesture-id', gesture.id);
 
         if (gesture.images && gesture.images.length > 0) {
             renderGesturePreview(container.find('#gesture-general-info-container #webcam-preview'), gesture);
@@ -604,10 +610,12 @@ include '../includes/language.php';
         updateGestureRating();
         updateGestureLikes();
 
+        var modal = $('#custom-modal');
         $('#modal-body #btn-edit-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            var modal = $('#custom-modal');
+
             $(modal).find('.gesture-owner-controls').addClass('hidden');
+            $(modal).find('#gesture-info-nav-tab').addClass('hidden');
 
             var playbackButtons = $(modal).find('#gesture-general-info-container .btn-toggle-playback');
             for (var i = 0; i < playbackButtons.length; i++) {
@@ -621,11 +629,13 @@ include '../includes/language.php';
                 leapMotionPreview = null;
             }
 
+            $(modal).find('#btn-cancel-edit-gesture').removeClass('hidden');
             $(modal).find('#gesture-general-info-container').addClass('hidden');
             $(modal).find('#gesture-edit-general-info-container').removeClass('hidden');
             $(modal).find('#gesture-edit-general-info-container #update-gesture-recorder-content').empty();
 
-            var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
+            var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-with-introductions').clone().removeAttr('id');
+//            var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-without-introductions').clone().removeAttr('id');
             $(modal).find('#gesture-edit-general-info-container #update-gesture-recorder-content').append(recorder);
 
             var initRecorders = [];
@@ -654,7 +664,7 @@ include '../includes/language.php';
                 updateGestureId: gesture.id,
                 checkType: true,
                 checkInteractionType: true,
-                showIntroduction: false,
+                showIntroduction: true,
                 startState: startState,
                 usedStates: [GR_STATE_PRE_INITIALIZE, GR_STATE_INITIALIZE, GR_STATE_RECORD, 'recordingStopped', GR_STATE_PLAYBACK, GR_STATE_SAVE],
                 record: [
@@ -709,14 +719,15 @@ include '../includes/language.php';
                 gestureUpdateRecorder = null;
                 renderSensorData();
 
-                $(modal).trigger('gestureUpdated');
+                $(modal).find('#gesture-info-nav-tab').removeClass('hidden');
+                $(modal).find('#btn-cancel-edit-gesture').addClass('hidden');
+                $(modal).trigger('gestureUpdated', [currentPreviewGesture.gesture]);
             });
         });
 
-        $('#modal-body #btn-cancel-edit-gesture').unbind('click').bind('click', function (event) {
+        $(modal).find('#btn-cancel-edit-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            var modal = $('#custom-modal');
-
+            $(this).addClass('hidden');
             $(modal).find('.gesture-owner-controls').removeClass('hidden');
             $(modal).find('#gesture-general-info-container').removeClass('hidden');
             $(modal).find('#gesture-edit-general-info-container').addClass('hidden');
@@ -728,9 +739,7 @@ include '../includes/language.php';
             renderSensorData();
         });
 
-        var modal = $('#custom-modal');
         if ($(thumbnail).hasClass('deleteable')) {
-
             $(modal).find('#btn-delete-gesture').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 var button = $(this);
@@ -997,17 +1006,19 @@ include '../includes/language.php';
      * gesture set adding and attached rendering
      */
     function renderAttachedGestureSets(preselect, id) {
+        $('#existing-sets-container').find('#gesture-set-loading-indicator').removeClass('hidden');
         getGestureSets(function (result) {
             if (result.status === RESULT_SUCCESS) {
                 setLocalItem(GESTURE_SETS, result.gestureSets);
                 renderModalGestureSets(preselect, id);
+                $('#existing-sets-container').find('#gesture-set-loading-indicator').addClass('hidden');
             }
         });
     }
 
     function renderModalGestureSets(preselect, id) {
         var sets = getLocalItem(GESTURE_SETS);
-//        console.log('render attached gesture sets', sets);
+
         if (sets && sets !== null && sets !== '' && sets.length > 0) {
             var container = $('#add-to-gesture-set #existing-sets-container');
             container.find('.option-container').empty();
@@ -1270,7 +1281,7 @@ include '../includes/language.php';
                         return false;
                     }
 
-                    shareGestureForUser({gestureId: currentPreviewGesture.gesture.id, email: email.val().trim()}, function (result) {
+                    shareGestureForUser({gestureId: currentPreviewGesture.gesture.id, title: currentPreviewGesture.gesture.title, email: email.val().trim()}, function (result) {
                         unlockButton(button, true, 'fa-paper-plane');
                         if (result.status === RESULT_SUCCESS) {
                             updateGestureById(GESTURE_CATALOG, currentPreviewGesture.gesture.id, {invitedUsers: result.invitedUsers});
@@ -1303,7 +1314,7 @@ include '../includes/language.php';
                 var button = $(this);
                 if (!$(button).hasClass('disabled')) {
                     lockButton(button, true, 'fa-trash');
-                    unshareGestureForUser({gestureId: currentPreviewGesture.gesture.id, id: $(this).attr('data-invite-id'), email: $(this).attr('data-invite-mail')}, function (result) {
+                    unshareGestureForUser({gestureId: currentPreviewGesture.gesture.id, id: $(this).attr('data-invite-id'), title: currentPreviewGesture.gesture.title, email: $(this).attr('data-invite-mail')}, function (result) {
                         unlockButton(button, true, 'fa-trash');
                         if (result.status === RESULT_SUCCESS) {
                             updateGestureById(GESTURE_CATALOG, currentPreviewGesture.gesture.id, {invitedUsers: result.invitedUsers});

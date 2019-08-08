@@ -40,7 +40,7 @@ if (login_check($mysqli) == true) {
 
         <script src="js/chance.min.js"></script>
         <script src="js/refreshSession.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
@@ -55,7 +55,7 @@ if (login_check($mysqli) == true) {
         <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/rtc-result-player.js"></script>
-        <script src="js/study-execution.js"></script>
+        <!--<script src="js/study-execution.js"></script>-->
         <script src="js/upload-queue.js"></script>
 
         <!-- leap and plugins -->
@@ -94,8 +94,8 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
 
-        <div class="hidden-xs hidden-sm study-participant-controls" id="fixed-study-participant-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 10001; opacity: 0; left:-327px">
-            <div class="btn-group-vertical">
+        <div class="hidden-xs hidden-sm study-participant-controls" id="fixed-study-participant-controls" style="position: fixed; top: 50%; z-index: 10001; opacity: 0;">
+            <div class="btn-group-vertical left-controls" style="transform: translateY(-50%);">
                 <!--                <div>
                                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
                                 </div>
@@ -132,6 +132,10 @@ if (login_check($mysqli) == true) {
         </div>
     </div>
 
+    <div id="loading-indicator" class="window-sized-loading text-center">
+        <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+    </div>
+
     <!-- Container (Breadcrump) -->
     <div class="container" id="breadcrumb" style="">
         <div class="row">
@@ -157,21 +161,13 @@ if (login_check($mysqli) == true) {
 
 
     <!-- main content -->
-    <div class="container mainContent" style="margin-top: 0px; padding-bottom: 0px" id="general-view">
+    <div class="container mainContent hidden" style="margin-top: 0px; padding-bottom: 0px" id="general-view">
         <div>
             <h2 id="main-headline" style="margin-top: 0; display: inline"></h2>
             <a role="button" class="pull-right" id="btn-introduction" style=" clear: both;"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
         </div>
 
         <hr>
-
-        <!--        <nav>
-                    <ul class="pager"style="margin-bottom: 2px">
-                        <li class="btn-sm btn-prev-participant disabled pull-left" style="padding: 0"><a href="#"><span aria-hidden="true">&larr;</span> <?php echo $lang->previousParticipant ?></a></li>
-                        <li class="btn-sm btn-next-participant disabled pull-right" style="padding: 0"><a href="#"><?php echo $lang->nextParticipant ?> <span aria-hidden="true">&rarr;</span></a></li>
-                    </ul>
-                </nav>-->
-
     </div>
 
     <div class="container" id="phase-results" style="margin-bottom: 0px;">
@@ -321,7 +317,6 @@ if (login_check($mysqli) == true) {
 
     <script>
         var resultsPlayer = null;
-
         $(document).ready(function () {
             checkDomain();
             keepSessionAlive();
@@ -339,12 +334,13 @@ if (login_check($mysqli) == true) {
 
         function onAllExternalsLoadedSuccessfully() {
             renderSubPageElements();
+            checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
             var query = getQueryParams(document.location.search);
-            var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+            var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
 
-            var showTutorial = parseInt(<?php echo $_SESSION['tutorialParticipant'] ?>);
-            if (showTutorial === 1) {
+            var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+            if (tutorials && tutorials.participant && parseInt(tutorials.participant) === 1) {
                 $('#btn-introduction').click();
             }
 
@@ -373,17 +369,13 @@ if (login_check($mysqli) == true) {
                 });
             }
 
-            animateBreadcrump();
-        }
+            $('.mainContent').removeClass('hidden');
+            TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                    $('#loading-indicator').remove();
+                }});
+            TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
 
-        function getParticipantStatusHash() {
-            var status = window.location.hash.substr(1);
-            var statusAddressMatch = statusAddressMatchIndex(status);
-            var statusHash = '';
-            if (status !== '' && statusAddressMatch !== null) {
-                statusHash = statusAddressMatch.id;
-            }
-            return statusHash;
+            animateBreadcrump();
         }
 
         function renderData(data) {
@@ -403,6 +395,10 @@ if (login_check($mysqli) == true) {
             // general data view
             $('#execution-date').text(convertSQLTimestampToDate(resultData.created).toLocaleString());
             $('#main-headline').text(studyData.generalData.title);
+
+            if (results.snapshot) {
+                $('#participant-image').removeClass('hidden').attr('src', results.snapshot);
+            }
 
             if (results.aborted === 'no' && results.studySuccessfull === 'yes') {
                 $('#phase-results').find('#execution-success').removeClass('hidden');
@@ -442,12 +438,6 @@ if (login_check($mysqli) == true) {
 
                         for (var i = 0; i < result.studyResults.length; i++) {
                             if (query.participantId === result.studyResults[i].userId) {
-
-                                if (result.studyResults[i].data && result.studyResults[i].data.snapshot) {
-                                    $('#participant-image').removeClass('hidden').attr('src', result.studyResults[i].data.snapshot);
-//                                    console.log('snapshot', );
-                                }
-
                                 if (i === 0) {
                                     disablePrevButton = true;
                                     nextParticipantId = result.studyResults[i + 1].userId;
@@ -469,7 +459,7 @@ if (login_check($mysqli) == true) {
                             $('#pageBody').find('.btn-prev-participant').addClass('disabled');
                             $('#pageBody').find('.btn-next-participant').bind('click', function (event) {
                                 event.preventDefault();
-                                var status = getParticipantStatusHash();
+                                var status = getWindowStatusHash();
                                 clearLocalItems();
                                 goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
@@ -477,21 +467,21 @@ if (login_check($mysqli) == true) {
                             $('#pageBody').find('.btn-next-participant').addClass('disabled');
                             $('#pageBody').find('.btn-prev-participant').bind('click', function (event) {
                                 event.preventDefault();
-                                var status = getParticipantStatusHash();
+                                var status = getWindowStatusHash();
                                 clearLocalItems();
                                 goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
                         } else {
                             $('#pageBody').find('.btn-next-participant').bind('click', function (event) {
                                 event.preventDefault();
-                                var status = getParticipantStatusHash();
+                                var status = getWindowStatusHash();
                                 clearLocalItems();
                                 goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + nextParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
 
                             $('#pageBody').find('.btn-prev-participant').bind('click', function (event) {
                                 event.preventDefault();
-                                var status = getParticipantStatusHash();
+                                var status = getWindowStatusHash();
                                 clearLocalItems();
                                 goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + prevParticipantId + '&h=' + query.h + '&joinedConv=' + joinedRoom + getWebRTCSources() + '#' + status);
                             });
@@ -548,7 +538,6 @@ if (login_check($mysqli) == true) {
                         $(navigationBarContent).removeClass('affix');
                         $(navigationBarContent).css({width: '', top: ''});
                     } else {
-//                            $(navigationBarContent).addClass('affix');
                         $(navigationBarContent).css({width: rowWidth + 'px'});
                     }
                 }).resize();
@@ -572,18 +561,13 @@ if (login_check($mysqli) == true) {
                             var top = 46 - scrollOffset - 35;
                             $(navigationBarContent).addClass('affix');
                             $(navigationBarContent).css({top: top + 'px'});
-//                            if (scrollOffset > 0) {
-//                                $('#pager-bottom').addClass('hidden');
-//                            }
                         } else {
                             $(navigationBarContent).removeClass('affix');
                             $(navigationBarContent).css({top: ''});
-//                            $('#pager-bottom').removeClass('hidden');
                         }
                     } else {
                         $(navigationBarContent).removeClass('affix');
                         $(navigationBarContent).css({top: ''});
-//                        $('#pager-bottom').removeClass('hidden');
                     }
                 });
 
@@ -596,7 +580,6 @@ if (login_check($mysqli) == true) {
                         loadHTMLintoModal('custom-modal', 'externals/modal-delete-study-result.php', 'modal-md');
                         var study = getLocalItem(STUDY);
                         var tester = getLocalItem(STUDY_RESULTS);
-//                            console.log(study, tester);
 
                         $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
                             deleteStudyResult({studyId: study.id, testerId: tester.userId}, function (result) {
@@ -628,14 +611,11 @@ if (login_check($mysqli) == true) {
             var prevParticipantButton = $('#fixed-study-participant-controls .btn-prev-participant');
             var prevParticipantButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(prevParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(prevParticipantButton).addClass('btn-primary');
+                    $(prevParticipantButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(prevParticipantButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '8px'});
-                    $(prevParticipantButton).removeClass('btn-primary');
+                    $(prevParticipantButton).removeClass('btn-primary').addClass('btn-default');
                 }});
-
-            prevParticipantButtonTimeline.add("saveStudy", 0)
-                    .to(prevParticipantButton, .3, {left: +194, ease: Quad.easeInOut}, "saveStudy");
 
             $(prevParticipantButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -652,14 +632,11 @@ if (login_check($mysqli) == true) {
             var nextParticipantButton = $('#fixed-study-participant-controls .btn-next-participant');
             var nextParticipantButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(nextParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(nextParticipantButton).addClass('btn-primary');
+                    $(nextParticipantButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(nextParticipantButton).css({borderRadius: '0px'});
-                    $(nextParticipantButton).removeClass('btn-primary');
+                    $(nextParticipantButton).removeClass('btn-primary').addClass('btn-default');
                 }});
-
-            nextParticipantButtonTimeline.add("saveStudy", 0)
-                    .to(nextParticipantButton, .3, {left: +181, ease: Quad.easeInOut}, "saveStudy");
 
             $(nextParticipantButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -672,18 +649,14 @@ if (login_check($mysqli) == true) {
             });
 
 
-
             var showAllResultsButton = $('#fixed-study-participant-controls .btn-show-all-participant-results');
             var showAllResultsButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(showAllResultsButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(showAllResultsButton).addClass('btn-primary');
+                    $(showAllResultsButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(showAllResultsButton).css({borderRadius: '0px'});
-                    $(showAllResultsButton).removeClass('btn-primary');
+                    $(showAllResultsButton).removeClass('btn-primary').addClass('btn-default');
                 }});
-
-            showAllResultsButtonTimeline.add("saveStudy", 0)
-                    .to(showAllResultsButton, .3, {left: +326, ease: Quad.easeInOut}, "saveStudy");
 
             $(showAllResultsButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -697,10 +670,10 @@ if (login_check($mysqli) == true) {
 
             $('.btn-show-all-participant-results').unbind('click').bind('click', function (event) {
                 event.preventDefault();
-                clearLocalItems();
                 var query = getQueryParams(document.location.search);
-                var status = getParticipantStatusHash();
-                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                var status = getWindowStatusHash();
+                var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                clearLocalItems();
                 goto('study-participant-all.php?studyId=' + query.studyId + '&h=' + hash + "&joinedConv=" + joinedRoom + getWebRTCSources() + '#' + status);
             });
 
@@ -708,19 +681,16 @@ if (login_check($mysqli) == true) {
             var joinConversationButton = $('#fixed-study-participant-controls .btn-join-conversation');
             var conversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(joinConversationButton).addClass('btn-primary');
+                    $(joinConversationButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     if (study.isOwner === 'false' || study.isOwner === false) {
                         $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
-                        $(joinConversationButton).removeClass('btn-primary');
+                        $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                     } else {
                         $(joinConversationButton).css({borderRadius: '0px'});
-                        $(joinConversationButton).removeClass('btn-primary');
+                        $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                     }
                 }});
-
-            conversationButtonTimeline.add("saveStudy", 0)
-                    .to(joinConversationButton, .3, {left: +202, ease: Quad.easeInOut}, "saveStudy");
 
             $(joinConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -736,18 +706,15 @@ if (login_check($mysqli) == true) {
             var leaveConversationButton = $('#fixed-study-participant-controls .btn-leave-conversation');
             var leaveConversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(leaveConversationButton).addClass('btn-danger');
+                    $(leaveConversationButton).removeClass('btn-default').addClass('btn-danger');
                 }, onReverseComplete: function () {
                     if (study.isOwner === 'false' || study.isOwner === false) {
                         $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
                     } else {
                         $(leaveConversationButton).css({borderRadius: '0px'});
                     }
-                    $(leaveConversationButton).removeClass('btn-danger');
+                    $(leaveConversationButton).removeClass('btn-danger').addClass('btn-default');
                 }});
-
-            leaveConversationButtonTimeline.add("saveStudy", 0)
-                    .to(leaveConversationButton, .3, {left: +203, ease: Quad.easeInOut}, "saveStudy");
 
             $(leaveConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -786,13 +753,11 @@ if (login_check($mysqli) == true) {
             var deleteResultButton = $('#fixed-study-participant-controls .btn-delete-result');
             var deleteButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(deleteResultButton).css({borderTopRightRadius: '8px'});
-                    $(deleteResultButton).addClass('btn-danger');
+                    $(deleteResultButton).removeClass('btn-default').addClass('btn-danger');
                 }, onReverseComplete: function () {
                     $(deleteResultButton).css({borderTopRightRadius: '0px'});
-                    $(deleteResultButton).removeClass('btn-danger');
+                    $(deleteResultButton).removeClass('btn-danger').addClass('btn-default');
                 }});
-            deleteButtonTimeline.add("saveStudy", 0)
-                    .to(deleteResultButton, .3, {left: +146, ease: Quad.easeInOut}, "saveStudy");
 
             $(deleteResultButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -803,6 +768,31 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 deleteButtonTimeline.reverse();
             });
+
+
+            setTimeout(function () {
+                var leftFlex = 51;
+
+                prevParticipantButtonTimeline.add("tween", 0)
+                        .to(prevParticipantButton, .3, {left: +parseInt($(prevParticipantButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                nextParticipantButtonTimeline.add("tween", 0)
+                        .to(nextParticipantButton, .3, {left: +parseInt($(nextParticipantButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                showAllResultsButtonTimeline.add("tween", 0)
+                        .to(showAllResultsButton, .3, {left: +parseInt($(showAllResultsButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                conversationButtonTimeline.add("tween", 0)
+                        .to(joinConversationButton, .3, {left: +parseInt($(joinConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                $(leaveConversationButton).removeClass('hidden');
+                leaveConversationButtonTimeline.add("tween", 0)
+                        .to(leaveConversationButton, .3, {left: +parseInt($(leaveConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(leaveConversationButton).addClass('hidden');
+
+                deleteButtonTimeline.add("tween", 0)
+                        .to(deleteResultButton, .3, {left: +parseInt($(deleteResultButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+            }, 200);
         }
 
         $(document).on('click', '#phase-results-nav button', function (event) {
@@ -820,7 +810,7 @@ if (login_check($mysqli) == true) {
 
         function renderStudyPhaseResult(phaseId) {
             var phaseData = getLocalItem(phaseId + '.data');
-            var testerResults = getLocalItem(phaseId + '.results');
+            var testerResults = getLocalItem(phaseId + '.tester');
             var evaluatorResults = getLocalItem(phaseId + '.evaluator');
             var wizardResults = getLocalItem(phaseId + '.wizard');
             var observerResults = getLocalItem(phaseId + '.observer');
@@ -832,8 +822,6 @@ if (login_check($mysqli) == true) {
             console.log('EVALUATOR DATA: ', evaluatorResults);
             console.log('WIZARD DATA: ', wizardResults);
             console.log('OBSERVER DATA: ', observerResults);
-//            console.log('OBSERVER LOG: ', (phaseData !== null && testerResults !== null));
-//            console.log('OBSERVER LOG: ', phaseData !== null && testerResults !== null && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults !== null && evaluatorResults.startTime !== undefined) || testerResults.startTime !== undefined)) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults.startTime)));
 
             if (phaseData !== null && testerResults !== null && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults && evaluatorResults.startTime) || testerResults.startTime)) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults.startTime))) {
                 var content = $('#template-study-container').find('#' + testerResults.format).clone().removeAttr('id');
@@ -841,7 +829,6 @@ if (login_check($mysqli) == true) {
                 $('#phase-result').empty().append(content);
 
                 var executionTime = study.surveyType === TYPE_SURVEY_MODERATED && evaluatorResults !== null ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
-//                console.log(executionTime);
                 if (!isEmpty(executionTime) && testerResults.format !== THANKS) {
                     var badge = document.createElement('span');
                     $(badge).addClass('badge pull-right');
@@ -870,6 +857,12 @@ if (login_check($mysqli) == true) {
                     } else {
                         setLocalItem('transcription', []);
                         $(notes).find('#transcription-controls').removeClass('hidden');
+
+                        var recognitionTimeline = new TimelineMax({paused: true, repeat: -1, repeatDelay: .4});
+                        recognitionTimeline.add("start", 0)
+                                .to($(notes).find('#mic-listening-indicator').children()[0], .3, {scale: 1.3, yoyo: true, repeat: 1, ease: Quad.easeInOut}, "start")
+                                .to($(notes).find('#mic-listening-indicator').children()[1], .3, {scale: 1.3, yoyo: true, repeat: 1, ease: Quad.easeInOut, delay: .1}, "start")
+                                .to($(notes).find('#mic-listening-indicator').children()[2], .3, {scale: 1.3, yoyo: true, repeat: 1, ease: Quad.easeInOut, delay: .2}, "start");
 
                         var recognition = new webkitSpeechRecognition();
                         recognition.continuous = false;
@@ -904,6 +897,8 @@ if (login_check($mysqli) == true) {
                                 recognition.start();
                                 $(notes).find('#btn-start-speech-recognition').addClass('hidden');
                                 $(notes).find('#btn-stop-speech-recognition').removeClass('hidden');
+                                TweenMax.to($(notes).find('#mic-listening-indicator'), .3, {opacity: 1});
+                                recognitionTimeline.play();
                             }
                         });
 
@@ -912,6 +907,9 @@ if (login_check($mysqli) == true) {
                             recognition.stop();
                             $(notes).find('#btn-start-speech-recognition').removeClass('hidden');
                             $(notes).find('#btn-stop-speech-recognition').addClass('hidden');
+                            TweenMax.to($(notes).find('#mic-listening-indicator'), .3, {opacity: 0, onComplete: function () {
+                                    recognitionTimeline.stop();
+                                }});
                         });
                     }
                 }
@@ -939,8 +937,7 @@ if (login_check($mysqli) == true) {
                     switchDataRendering();
                 }
 
-                $(content).css({y: 0, opacity: 1});
-                TweenMax.from(content, .2, {opacity: 0, y: -60});
+                TweenMax.from(content, .3, {opacity: 0, y: -20});
 
                 function switchDataRendering() {
                     switch (testerResults.format) {
@@ -982,7 +979,7 @@ if (login_check($mysqli) == true) {
                             renderPhysicalStressTest(content, phaseData, testerResults);
                             break;
                         case SCENARIO:
-                            renderScenario(content, phaseData, testerResults);
+                            renderScenario(content, phaseData, testerResults, evaluatorResults, wizardResults);
                             break;
                         case IDENTIFICATION:
                             renderIdentification(content, phaseData, testerResults);
@@ -1007,7 +1004,7 @@ if (login_check($mysqli) == true) {
             var phaseId = $('#phase-results-nav').find('.active').attr('id');
 
             if (phaseId) {
-                var phaseResults = getLocalItem(phaseId + '.results');
+                var phaseResults = getLocalItem(phaseId + '.tester');
                 if (phaseResults && translation.formats[phaseResults.format].notes === 'yes') {
                     var note = $('#phase-result').find('#notes-input').val();
                     setLocalItem(phaseId + '.notes', note);
@@ -1091,9 +1088,7 @@ if (login_check($mysqli) == true) {
                 $(content).find('#sus-grade .address').text(translation.grade);
                 $(content).find('#sus-grade .text').text(fittedScore.susGrade);
                 $(content).find('#sus-grade .tail').text(translation.received);
-//                $(content).find('#sus-acceptability .address').text(translation.systemIs);
                 $(content).find('#sus-acceptability .text').text(fittedScore.susAcceptability);
-//                $(content).find('#sus-acceptability .tail').text(translation.rated);
                 renderSUSProgress($(content), translation.susScores, count);
             } else {
                 $(content).find('#sus-score-results').remove();
@@ -1102,7 +1097,6 @@ if (login_check($mysqli) == true) {
         }
 
         function renderSUSProgress(container, susQuartiles, score) {
-//                <div class="progress-bar progress-bar-danger" style="width: 35%; background-color: #003399 !important;">
             var currentWidth = 0.0;
             var oldWidth = 0.0;
             var targetWidth = $(container).find('#sus-score-progress').width();
@@ -1113,7 +1107,6 @@ if (login_check($mysqli) == true) {
 
                 var progressBar = document.createElement('div');
                 $(progressBar).addClass('progress-bar');
-//                $(progressBar).css('background-color', susQuartiles[i].color);
                 $(progressBar).css({width: currentWidth + '%', backgroundColor: susQuartiles[i].color, boxShadow: 'none'});
                 $(container).find('#sus-score-progress').append(progressBar);
 
@@ -1189,8 +1182,6 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-//            console.log('scales', scales);
-
             var qualities = {
                 attractiveness: {sum: 0.0, max: 0, presentMax: 1},
                 pragmaticQuality: {sum: 0.0, max: 0, presentMax: 3},
@@ -1222,8 +1213,6 @@ if (login_check($mysqli) == true) {
                     $(content).find('.ueq-scales-statistics .' + key + ' .text').text(translation.noDataCollected);
                 }
             }
-
-//            console.log('qualities', qualities);
 
             var timeline = null;
             var firstOffsetY = -4;
@@ -1308,7 +1297,6 @@ if (login_check($mysqli) == true) {
                 $(content).find('#trigger .address').text(translation.trigger + ':');
                 $(content).find('#trigger .text').text(trigger.title);
 
-
                 var feedback = getFeedbackById(studyData.feedbackId);
                 if (feedback) {
                     $(content).find('#feedback .address').text(translation.feedback + ':');
@@ -1332,7 +1320,6 @@ if (login_check($mysqli) == true) {
                     $(label).prepend(icon);
                     content.find('#feedback .text').prepend(label);
                 }
-
             } else {
 //                    $(content).find('#gesturePreview').addClass('hidden');
             }
@@ -1340,8 +1327,6 @@ if (login_check($mysqli) == true) {
 
 
         function renderGestureTraining(container, studyData, testerResults, evaluatorResults) {
-//                console.log('visData: ', studyData.training, evaluatorResults);
-
             var startTrainingTimes = new Array;
             for (var j = 0; j < evaluatorResults.annotations.length; j++) {
                 if (evaluatorResults.annotations[j].action === ACTION_START_GESTURE_TRAINING) {
@@ -1354,21 +1339,12 @@ if (login_check($mysqli) == true) {
                 var trigger = getTriggerById(studyData.training[i].triggerId);
                 var feedback = getFeedbackById(studyData.training[i].feedbackId);
 
-                //                    console.log(gesture);
-
                 var item = $('#template-study-container').find('#training-gesture-item').clone().removeAttr('id');
                 container.find('#gestures-container').append(item);
-//                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-//                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-//                    $(item).find('#gesture .text').text(gesture.title);
                 $(item).find('#trigger .address').text(translation.trigger + ': ');
                 $(item).find('#trigger .text').text(trigger.title);
                 $(item).find('#repeats .address').text(translation.repeats + ': ');
                 $(item).find('#repeats .text').text(studyData.training[i].repeats);
-//                    $(item).find('#recognition-time .address').text(translation.recognitionTime + ': ');
-//                    var recognitionSeconds = parseInt(studyData.training[i].recognitionTime);
-//                    $(item).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
-
                 $(item).find('#feedback .address').text(translation.feedback + ': ');
 
                 var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
@@ -1387,7 +1363,6 @@ if (login_check($mysqli) == true) {
                     $(item).find('#feedback .text').text(translation.none);
                 }
 
-//                    console.log('start training times', startTrainingTimes);
                 if (evaluatorResults.annotations && evaluatorResults.annotations.length) {
                     var trainingStart, trainingEnd = null;
                     for (var j = 0; j < startTrainingTimes.length; j++) {
@@ -1405,12 +1380,7 @@ if (login_check($mysqli) == true) {
                     if (trainingStart && trainingEnd) {
                         var execution = getTimeBetweenTimestamps(trainingStart, trainingEnd);
                         $(item).find('#training-time .address').text(translation.execution + ': ');
-//                            if (testerResults && testerResults.training && testerResults.training[i].gestureTrainingStart && testerResults.training[i].gestureTrainingEnd) {
-//                                var executionTime = getTimeBetweenTimestamps(testerResults.training[i].gestureTrainingStart, testerResults.training[i].gestureTrainingEnd);
                         $(item).find('#training-time .text').text(getTimeString(execution, false, true));
-//                            } else {
-//                                $(item).find('#training-time .text').text('-');
-//                            }
                     } else {
                         $(item).find('#training-time').remove();
                     }
@@ -1420,32 +1390,21 @@ if (login_check($mysqli) == true) {
             }
 
             renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
-//                addObservationsDropdown(container);
         }
 
 
         function renderGestureSlideshow(container, studyData, resultsData, evaluatorResults) {
-//                console.log(studyData, resultsData, evaluatorResults);
-
             $(container).find('#restarts .address').text(parseInt(resultsData.restarts) === 1 ? translation.restart : translation.restarts);
             $(container).find('#restarts .text').text(resultsData.restarts);
 
             for (var i = 0; i < studyData.slideshow.length; i++) {
                 var gesture = getGestureById(studyData.slideshow[i].gestureId);
                 var trigger = getTriggerById(studyData.slideshow[i].triggerId);
-                //                    var feedback = getFeedbackById(studyData.slideshow[i].feedbackId);
-//                    console.log('gesture for gesture slideshow', gesture, item);
-
 
                 var item = $('#template-study-container').find('#slideshow-gesture-item').clone().removeAttr('id');
                 container.find('#gestures-container').append(item);
-//                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-//                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-//                    $(item).find('#gesture .text').text(gesture.title);
                 $(item).find('#trigger .address').text(translation.trigger + ': ');
                 $(item).find('#trigger .text').text(trigger.title);
-//                    $(item).find('#repeats .address').text(translation.repeats + ': ');
-                //                    $(item).find('#repeats .text').text(studyData.training[i].repeats);
                 $(item).find('#recognition-time .address').text(translation.recognitionTime + ': ');
                 var recognitionSeconds = parseInt(studyData.slideshow[i].recognitionTime);
                 $(item).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
@@ -1457,8 +1416,8 @@ if (login_check($mysqli) == true) {
                 if (resultsData.annotations && resultsData.annotations.length > 0) {
                     var count = 0;
                     for (var j = 0; j < resultsData.annotations.length; j++) {
-//                            console.log(resultsData.annotations[j]);
-                        if (resultsData.annotations[j].action === ACTION_NO_GESTURE_FIT_FOUND && parseInt(resultsData.annotations[j].gestureId) === parseInt(gesture.id)) {
+                        if ((resultsData.annotations[j].action === ACTION_NO_GESTURE_FIT_FOUND || resultsData.annotations[j].action === ACTION_NO_GESTURE_DEMONSTRATED) &&
+                                parseInt(resultsData.annotations[j].gestureId) === parseInt(gesture.id)) {
                             count++;
                         }
                     }
@@ -1479,16 +1438,12 @@ if (login_check($mysqli) == true) {
         }
 
         function renderTriggerSlideshow(container, studyData, resultsData) {
-//            console.log(studyData, resultsData);
             var globalFaults = 0;
             for (var i = 0; i < studyData.slideshow.length; i++) {
                 var gesture = getGestureById(studyData.slideshow[i].gestureId);
                 var trigger = getTriggerById(studyData.slideshow[i].triggerId);
                 var item = $('#template-study-container').find('#slideshow-trigger-item').clone().removeAttr('id');
                 container.find('#gestures-container').append(item);
-//                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-//                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-//                    $(item).find('#gesture .text').text(gesture.title);
                 $(item).find('#trigger .address').text(translation.trigger + ': ');
                 $(item).find('#trigger .text').text(trigger.title);
                 $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
@@ -1531,20 +1486,16 @@ if (login_check($mysqli) == true) {
             }
 
             if (globalFaults === -1) {
-//                console.log('selection fault');
                 $(container).find('#score #no-fault-score').removeClass('hidden');
             } else {
                 $(container).find('#score #fault-score').removeClass('hidden');
                 var faultScore = globalFaults / studyData.slideshow.length;
-//                console.log('globalFaults: ' + globalFaults + ' fault: ' + fault + ', score: ' + faultScore);
                 var faultPercentage = (1 - faultScore) * 100;
                 $(container).find('#score .text').text(faultPercentage + '%');
             }
         }
 
-
         function renderPhysicalStressTest(container, studyData, resultsData) {
-//                console.log(studyData, resultsData);
             for (var i = 0; i < studyData.stressTestItems.length; i++) {
                 var item = $('#template-study-container').find('#physicalStressTest-item').clone().removeAttr('id');
                 container.find('#gestures-container').append(item);
@@ -1561,44 +1512,53 @@ if (login_check($mysqli) == true) {
                 $(item).find('#trigger .text').text(trigger.title);
                 $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
 
-
                 // check if answers are there
                 if (resultsData && resultsData.answers && !$.isEmptyObject(resultsData.answers)) {
 
                     // single questions joint section
                     var singleStressGraphicsRating = studyData.singleStressGraphicsRating;
-                    if (singleStressGraphicsRating !== 'none') {
+                    if (singleStressGraphicsRating && singleStressGraphicsRating !== 'none') {
                         var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
                         $(jointAnswers).insertAfter($(item).find('#headline-single-questions'));
                         if (singleStressGraphicsRating === 'hands') {
                             $(jointAnswers).find('#joint-answers-body').remove();
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'single');
+                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, studyData.stressTestItems[i].id, 'single');
                         } else if (singleStressGraphicsRating === 'body') {
                             $(jointAnswers).find('#joint-answers-hands').remove();
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'single');
+                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, studyData.stressTestItems[i].id, 'single');
                         } else {
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'single');
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'single');
+                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, studyData.stressTestItems[i].id, 'single');
+                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, studyData.stressTestItems[i].id, 'single');
                         }
+                    } else {
+                        $(item).find('#single-stress-answers').remove();
                     }
 
                     // sequence questions joint section
                     var sequenceStressGraphicsRating = studyData.sequenceStressGraphicsRating;
-                    if (sequenceStressGraphicsRating !== 'none') {
+                    if (sequenceStressGraphicsRating && sequenceStressGraphicsRating !== 'none') {
                         var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
                         $(jointAnswers).insertAfter($(item).find('#headline-sequence-questions'));
 
                         if (sequenceStressGraphicsRating === 'hands') {
                             $(jointAnswers).find('#joint-answers-body').remove();
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'sequence');
+                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, studyData.stressTestItems[i].id, 'sequence');
                         } else if (sequenceStressGraphicsRating === 'body') {
                             $(jointAnswers).find('#joint-answers-hands').remove();
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'sequence');
+                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, studyData.stressTestItems[i].id, 'sequence');
                         } else {
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'sequence');
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'sequence');
+                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, studyData.stressTestItems[i].id, 'sequence');
+                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, studyData.stressTestItems[i].id, 'sequence');
                         }
+                    } else {
+                        $(item).find('#sequence-stress-answers').remove();
                     }
+
+                    if (singleStressGraphicsRating && singleStressGraphicsRating !== 'none' && sequenceStressGraphicsRating && sequenceStressGraphicsRating !== 'none') {
+                        $(item).find('#sequence-stress-answers').css({marginTop: '40px'});
+                    }
+
+                    console.log(singleStressGraphicsRating, sequenceStressGraphicsRating)
 
                     // single answers section
                     var singleStressQuestionnaire = studyData.singleStressQuestions;
@@ -1615,7 +1575,6 @@ if (login_check($mysqli) == true) {
                         }
 
                         if (questions.length > 0 && results.answers.length > 0) {
-//                                console.log(results, questions);
                             renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results, false, true);
                         }
                     }
@@ -1635,6 +1594,7 @@ if (login_check($mysqli) == true) {
                         }
 
                         if (questions.length > 0 && results.answers.length > 0) {
+                            console.log('render questionnaire answers', questions, results);
                             renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions, results, false, true);
                         }
                     }
@@ -1644,7 +1604,7 @@ if (login_check($mysqli) == true) {
             renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
         }
 
-        function renderScenario(container, studyData, resultsData) {
+        function renderScenario(container, studyData, resultsData, evaluatorResults, wizardResults) {
             renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             if (resultsPlayer) {
                 var annotations = resultsPlayer.player.annotations();
@@ -1753,6 +1713,20 @@ if (login_check($mysqli) == true) {
                 $(container).find('#from-evaluator').text(fromModerator > 0 ? fromModerator : '-');
                 $(container).find('#from-observer').text(fromObserver > 0 ? fromObserver : '-');
                 $(container).find('#from-wizard').text(fromWizard > 0 ? fromWizard : '-');
+
+                if (evaluatorResults && evaluatorResults.recordedGestureSimulation) {
+                    $(container).find('#btn-start-simulation').removeClass('disabled');
+                    $(container).find('#btn-start-simulation').unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        goto('simulator.php?tab=player&gestureSetId=' + evaluatorResults.recordedGestureSimulation.data.gestureSetId + '&recordingId=' + evaluatorResults.recordedGestureSimulation.id, true);
+                    });
+                } else if (wizardResults && wizardResults.recordedGestureSimulation) {
+                    $(container).find('#btn-start-simulation').removeClass('disabled');
+                    $(container).find('#btn-start-simulation').unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        goto('simulator.php?tab=player&gestureSetId=' + wizardResults.recordedGestureSimulation.data.gestureSetId + '&recordingId=' + wizardResults.recordedGestureSimulation.id, true);
+                    });
+                }
             }
         }
 
@@ -1791,11 +1765,13 @@ if (login_check($mysqli) == true) {
                         var gestureCount = 0;
                         for (var j = 0; j < gestureTriggerPairs.length; j++) {
                             if (parseInt(gestureTriggerPairs[j].triggerId) === parseInt(trigger[i].id)) {
-                                gestureCount++;
                                 var gesture = getGestureById(gestureTriggerPairs[j].id);
-                                var item = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-4 col-md-4 col-lg-4');
-                                $(gestureList).append(item);
-                                $(badge).text(gestureCount > 1 ? gestureCount + ' ' + translation.gestures : gestureCount + ' ' + translation.gesture);
+                                if (gesture) {
+                                    gestureCount++;
+                                    var item = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-4 col-md-4 col-lg-4');
+                                    $(gestureList).append(item);
+                                    $(badge).text(gestureCount > 1 ? gestureCount + ' ' + translation.gestures : gestureCount + ' ' + translation.gesture);
+                                }
                             }
                         }
 
@@ -1849,13 +1825,16 @@ if (login_check($mysqli) == true) {
                         }
                     }
                 } else {
-//                    console.log('no triggers there');
                 }
             }
 
             $(resultsPlayer.player).unbind('dataUpdated').bind('dataUpdated', function (event) {
                 event.preventDefault();
-                renderIdentification(container, studyData, phaseResults);
+
+                var selectedId = $('#phase-results-nav .active').attr('id');
+                var testerResults = getLocalItem(selectedId + '.tester');
+                console.log('updated, testerResults:', testerResults);
+                renderIdentification(container, studyData, testerResults);
             });
 
             renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
@@ -1952,7 +1931,6 @@ if (login_check($mysqli) == true) {
             });
         }
 
-
         $('#btn-introduction').on('click', function (event) {
             event.preventDefault();
             $('#custom-modal').attr('data-help-items-key', 'introductionParticipant');
@@ -1968,13 +1946,11 @@ if (login_check($mysqli) == true) {
                 var evaluatorId = $(this).attr('data-evaluator-id') || null;
                 var executionPhase = $(this).find('.btn-option-checked').attr('id');
 
-//                console.log('pretest selection changed', participantId, evaluatorId, executionPhase);
                 updateExecutionPhase(evaluatorId ? {participantId: participantId, evaluatorId: evaluatorId, executionPhase: executionPhase} : {participantId: participantId, executionPhase: executionPhase}, function (result) {
 
                 });
             }
         });
-
     </script>
 </body>
 </html>

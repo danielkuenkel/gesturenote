@@ -22,8 +22,6 @@ and open the template in the editor.
 }
 
 .previewGesture {
-    /*    -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;*/
     border-radius: 8px;
     overflow: hidden; 
     width: 100%; 
@@ -53,15 +51,12 @@ and open the template in the editor.
     max-height: 100%;
     width: 100%;
 
-    /*border-radius: 4px;*/
-
     user-drag: none; 
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-    /*border-radius: 4px*/
 }
 
 .gestureImage.roundedTop {
@@ -78,11 +73,13 @@ and open the template in the editor.
 }
 
 #popover-gesture {
-    z-index: 1000;
+    z-index: 10001;
     border-radius: 8px;
+    position: absolute;
     -webkit-box-shadow: rgba(0,0,0,0.8) 0px 5px 10px;
     -moz-box-shadow: rgba(0,0,0,0.8) 0 5px 10px;
     box-shadow: 0px 5px 10px rgba(0,0,0, .3);
+    pointer-events: none;
 }
 
 .gesture-progress{
@@ -125,15 +122,8 @@ and open the template in the editor.
     cursor: pointer;
 }
 
-.gesture-thumbnail:hover {
-    /*border-color: #b3b3b3;*/
-}
-
 .gesture-thumbnail.assembled {
-    border-color: #0480be;
-}
-.gesture-thumbnail.assembled:hover {
-    /*border-color: #385380;*/
+    border-color: #337ab7;
 }
 
 .gesture-thumbnail .caption {
@@ -214,7 +204,6 @@ and open the template in the editor.
 .btn-comment-set:hover,
 .btn-comment-set>.fa:hover,
 .btn-show-set-info:hover,
-.gesture-is-in-set>.fa:hover,
 .btn-tag-as-favorite-gesture>.fa:hover, 
 .btn-tag-as-mapping-gesture>.fa:hover, 
 .btn-add-gesture-to-scene>.fa:hover,
@@ -290,48 +279,54 @@ and open the template in the editor.
 /*
 * gesture recorder slider
 */
-#playback-webcam-slider-controls .slider-track, #playback-leap-slider-controls .slider-track {
-    border-radius: 0px 0px 4px 4px;
-}
-#playback-webcam-slider-controls .slider-selection, #playback-leap-slider-controls .slider-selection {
-    background: none;
-    box-shadow: none;
-}
-#playback-webcam-crop-slider-controls .slider-selection, #playback-leap-crop-slider-controls .slider-selection {
-    background: #0480BE;
-    opacity: .2;
-}
-#playback-webcam-slider-controls .slider-rangeHighlight.isGesture, #playback-leap-slider-controls .slider-rangeHighlight.isGesture {
-    border-radius: 0px 0px 4px 4px;
-    background: #0480BE;
-    opacity: .2;
+#playback-webcam-slider-controls {
+    border-radius: 0px 0px 8px 8px;
 }
 
-/*#control-continuous-slider.disabled, #control-continuous-slider[disabled] {
-    opacity: .65;
+#webcam-playback-slider-container .slider-selection {
+    /*opacity: .5;*/
+    background-color: #0480BE;
+}
+#webcam-playback-slider-container .slider-track-low {
+    border-radius: 0px 0px 0px 8px;
+    background-color: transparent;
+}
+#webcam-playback-slider-container .slider-track-high {
+    border-radius: 0px 0px 8px 0px;
+    background-color: transparent;
 }
 
-#control-continuous-slider.disabled .slider-track, #control-continuous-slider[disabled] .slider-track {
-    cursor: not-allowed;
-    pointer-events: none;
-}*/
 
-#control-continuous-slider .slider {
-    /*height:100%;*/
+#leap-crop-slider-container .slider-selection, #playback-webcam-crop-slider-controls .slider-selection {
+    opacity: .5;
+    background-color: #5cb85c;
+    background-image: none;
 }
+#leap-crop-slider-container .slider-track-low, #playback-webcam-crop-slider-controls .slider-track-low {
+    border-radius: 0px 0px 0px 8px;
+    background-color: #d9534f;
+    opacity: .5;
+}
+#leap-crop-slider-container .slider-track-high, #playback-webcam-crop-slider-controls .slider-track-high {
+    border-radius: 0px 0px 8px 0px;
+    background-color: #d9534f;
+    opacity: .5;
+}
+
 #control-continuous-slider .slider-handle {
-    opacity: 0;
-    width:0;
-    height:0;
+    left: 50%;
+    height: 34px;
+    border-radius: 8px;
+    top: 5px;
+    background-image: none;
+    box-shadow: none;
+    border: none;
 }
 #control-continuous-slider .slider-track {
-    /*margin-top: -41px;*/
-    border-radius: 0px 0px 8px 8px;
-    height:34px;
+    height: 34px;
 }
 #control-continuous-slider .slider-selection {
-    background: #5cb85c;
-    border-radius: 0px 0px 8px 8px;
+    display: none;
 }
 
 .control-continuous-slider-status {
@@ -409,13 +404,13 @@ and open the template in the editor.
     padding: 6px;
     background-color: rgba(255,255,255,1);
     border-bottom-left-radius: 10px;
-    border-top-right-radius: 4px;
+    border-top-right-radius: 6px;
 }
 
 .gesture-info-symbols.small {
     padding: 4px;
     border-bottom-left-radius: 6px;
-    border-top-right-radius: 4px;
+    border-top-right-radius: 6px;
 }
 
 .gesture-info-symbol {
@@ -497,4 +492,93 @@ and open the template in the editor.
     line-height: 0pt;
     margin-right: 1px;
     text-transform: uppercase;
+}
+
+.custom-nav-pills .fa {
+    font-size: 14pt;
+}
+
+.custom-nav-pills>li.active>a, 
+.custom-nav-pills>li.active>a:focus, 
+.custom-nav-pills>li.active>a:hover {
+    background-color: white;
+    font-weight: bold;
+    color:black;
+}
+
+
+.weighting-info {
+    display: flex; 
+    position: absolute; 
+    padding: 4px 7px; 
+    background-color: rgba(255,255,255,1); 
+    border-bottom-right-radius: 10px; 
+    border-top-left-radius: 6px; 
+    font-size: 8pt;
+}
+
+.dark #playback-webcam-slider-controls .slider-track-low, .dark #playback-leap-slider-controls .slider-track-low {
+    opacity: 1;
+}
+
+.dark #playback-webcam-slider-controls .slider-selection, .dark #playback-leap-slider-controls .slider-selection {
+    opacity: 1;
+}
+
+.dark #playback-webcam-slider-controls .slider-track-high, .dark #playback-leap-slider-controls .slider-track-high {
+    opacity: 1;
+}
+
+.dark .btn-rate:hover,
+.dark .btn-like:hover,
+.dark .btn-share:hover,
+.dark .btn-comment:hover,
+.dark .btn-edit-gesture-set:hover,
+.dark .btn-show-gesture-info:hover,
+.dark .btn-tag-as-favorite-gesture:hover,
+.dark .btn-tag-as-mapping-gesture:hover,
+.dark .btn-add-gesture-to-scene:hover,
+.dark .btn-delete-exchangeable-gesture:hover,
+.dark .gesture-set-shared>.fa:hover,
+.dark .gesture-liked>.fa:hover,
+.dark .gesture-set-liked>.fa:hover,
+.dark .gesture-rated>.fa:hover,
+.dark .gesture-is-in-set>.fa:hover
+.dark .btn-like-set:hover,
+.dark .btn-like-set>.fa:hover,
+.dark .btn-share-set:hover,
+.dark .btn-share-set>.fa:hover,
+.dark .btn-comment-set:hover,
+.dark .btn-comment-set>.fa:hover,
+.dark .btn-show-set-info:hover,
+.dark .btn-tag-as-favorite-gesture>.fa:hover, 
+.dark .btn-tag-as-mapping-gesture>.fa:hover, 
+.dark .btn-add-gesture-to-scene>.fa:hover,
+.dark .btn-tag-as-main-gesture>.fa:hover, 
+.dark .btn-delete-from-classification>.fa:hover, 
+.dark .btn-edit-gesture-set>.fa:hover 
+{
+    color: white !important;
+}
+
+.dark .btn-like .amount, .dark .btn-comment .amount, .dark .btn-rate .amount, .dark .btn-share .amount, .dark .btn-edit-gesture-set .amount,
+.dark .btn-like-set .amount, .dark .btn-comment-set .amount, .dark .btn-share-set .amount {
+    color: white;
+}
+
+.dark .gesture-is-in-set .fa {
+    color: white;
+}
+
+.dark .gesture-shared, .dark .gesture-set-shared {
+    color: white;
+}
+
+.dark .gesture-tagged .fa {
+    color: #0480be;
+}
+
+.dark .weighting-info {
+    background-color: #545454; 
+    color: white;
 }

@@ -51,18 +51,25 @@ include_once 'includes/functions.php';
             </div>
         </div>
 
-        <div class="container mainContent" style="margin-top: 0px">
-            <div class="row">
-                <div class="col-md-5 col-lg-4" id="link-list" style="margin-bottom: 30px">
-                    <!--<a href="#createStudy" class="smooth-goto">1. Gesten-Design-Studien</a>-->
-                </div>
-                <div class="col-md-7 col-lg-8" id="help-description">
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
 
-                </div>
+
+        <!--        <div class="container">
+                    <div class="text"><?php echo $lang->infosContent->general->content ?></div>
+                </div>-->
+        
+        <!--<div id="help-background-gradient" style="position: fixed; width: 100vw; height: 100vh; background-image: linear-gradient(white, #);"></div>-->
+
+        <div class="container mainContent hidden" style="margin-top: 0px">
+            <div class="row">
+                <div class="col-md-5 col-lg-4" id="link-list" style="margin-bottom: 30px"></div>
+                <div class="col-md-7 col-lg-8" id="help-description"></div>
             </div>
         </div>
 
-        <div class="hidden-sm hidden-xs" id="dynamic-link-list" style="position: fixed; top:20px; width: 100%; opacity:0">
+        <div class="hidden-sm hidden-xs hidden" id="dynamic-link-list" style="position: fixed; top:20px; width: 100%; opacity:0">
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 col-lg-4" id="dynamic-link-list-items"></div>
@@ -87,8 +94,10 @@ include_once 'includes/functions.php';
                 var loggedIn = parseInt('<?php echo login_check($mysqli) ?>') === 1;
                 renderSubPageElements(loggedIn);
                 animateBreadcrump();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 var allHelp = [];
+                allHelp.push({id: 'gestureNoteGeneral', content: translation.introductionGestureNoteGeneral});
                 allHelp.push({id: 'gesturesGestureSets', content: translation.introductionGestureCatalog});
                 allHelp.push({id: 'createStudy', content: translation.introductionCreateStudy});
                 allHelp.push({id: 'study', content: translation.introductionStudy});
@@ -129,20 +138,19 @@ include_once 'includes/functions.php';
                         $(contentHeadlineNumber).css({marginRight: '10px'}).text((i + 1) + '.' + (j + 1));
                         $(contentHeadline).attr('id', allHelp[i].id + '-' + allHelp[i].content[j].tabId);
                         $(contentHeadline).attr('data-headline-format', 'h2');
-                        $(contentHeadline).text(allHelp[i].content[j].title).css({marginTop: '60px'});
+                        $(contentHeadline).text(allHelp[i].content[j].title).css({marginTop: '40px'});
                         $(contentHeadline).prepend(contentHeadlineNumber);
                         $(helpItem).append(contentHeadline);
-//                        $(helpItem).append(document.createElement('hr'));
 
                         var link = document.createElement('a');
                         $(link).attr('href', '#' + allHelp[i].id + '-' + allHelp[i].content[j].tabId).addClass('smooth-goto ellipsis').text((i + 1) + '.' + (j + 1) + ' ' + allHelp[i].content[j].title);
                         $('#link-list').append(document.createElement('br')).append(link);
 
-                        var helpItemImage = document.createElement('img');
-                        $(helpItemImage).attr('src', allHelp[i].content[j].imgSrc).addClass('img-image');
-                        $(helpItemImage).css({marginBottom: '30px', width: '100%'});
-                        $(helpItemImage).addClass('image-border-rounded');
-                        $(helpItem).append(helpItemImage);
+//                        var helpItemImage = document.createElement('img');
+//                        $(helpItemImage).attr('src', allHelp[i].content[j].imgSrc).addClass('img-image');
+//                        $(helpItemImage).css({marginBottom: '30px', width: '100%'});
+//                        $(helpItemImage).addClass('image-border-rounded');
+//                        $(helpItem).append(helpItemImage);
 
                         var helpContent = document.createElement('div');
                         $(helpContent).html(allHelp[i].content[j].description);
@@ -160,7 +168,7 @@ include_once 'includes/functions.php';
                             $(link).attr('href', '#' + allHelp[i].id + '-' + allHelp[i].content[j].tabId + '-' + idNumber).addClass('smooth-goto ellipsis').text(number + ' ' + $(headlines[k]).text());
                             $('#link-list').append(document.createElement('br')).append(link);
 
-                            $(headlines[k]).css({marginTop: '40px'});
+                            $(headlines[k]).css({marginTop: '30px'});
                             var headlineNumber = document.createElement('span');
 
                             $(headlineNumber).text(number);
@@ -171,16 +179,13 @@ include_once 'includes/functions.php';
                     }
                 }
 
-//                var query = getQueryParams(document.location.search);
-//                if (query && query.section) {
-//                    $('html').addClass('hidden');
-////                    
-////                    var scrollTop = $('#help-description').find('#' + query.section).offset().top;
-//                    console.log('scroll to', query.section);
-//                    setTimeout(function () {
-//                        $('html').removeClass('hidden').animate({scrollTop: query.section}, 0);
-//                    }, 1000);
-//                }
+                $('.mainContent').removeClass('hidden');
+                $('#dynamic-link-list').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
+                TweenMax.from($('#dynamic-link-list'), .3, {delay: .3, opacity: 0});
             }
 
             $(document).on('click', '.smooth-goto', function () {
@@ -245,8 +250,8 @@ include_once 'includes/functions.php';
                         var link = document.createElement(renderItems[i].active && renderItems[i].active === true ? 'span' : 'a');
                         $(link).html($(renderItems[i].item).html());
                         if (renderItems[i].active && renderItems[i].active === true) {
-                            $(link).css({fontWeight: 'bold', color: 'black'});
-                            var sectionId = $(renderItems[i].item).attr('id');
+                            $(link).addClass('active');
+//                            var sectionId = $(renderItems[i].item).attr('id');
 //                            scrollTimeout = setTimeout(function () {
 //                                setParam(window.location.href, 'section', $('html, body').scrollTop());
 //                            }, 300);

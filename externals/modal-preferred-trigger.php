@@ -39,7 +39,7 @@ include '../includes/language.php';
             renderGesturePreview(container.find('#webcam-preview'), gesture);
         }
 
-        var data = [{id: chance.natural(), dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: translation.askPreferredTriggerForGesture, parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}}];
+        var data = [{id: gesture.id, dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: translation.askPreferredTriggerForGesture, parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}}];
         if (getCurrentPhase().format === EXPLORATION) {
             var triggerOptions = [];
             for (var i = 0; i < currentPhaseData.exploration[currentExplorationIndex].trigger.length; i++) {

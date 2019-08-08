@@ -51,6 +51,7 @@ function renderCatalogOverview() {
     var studyScenes = getLocalItem(ASSEMBLED_SCENES);
     $('#scenes-catalog').find('.list-container').empty();
     if (studyScenes && studyScenes.length > 0) {
+         $('#scenes-catalog').find('.list-container').removeClass('hidden');
         clearAlerts($('#scenes-catalog'));
         renderStudyScenes(studyScenes);
     } else {
@@ -72,13 +73,12 @@ function renderStudyGestures(gestures, animate) {
         for (var i = 0; i < gestures.length; i++) {
             var gesture = getGestureById(gestures[i]);
             var clone = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-4 col-lg-3');
-
+            $(clone).find('.tagged-symbol').addClass('hidden');
             $('#gestures-catalog').find('#gestures-list-container').append(clone);
+            
             if (animate && animate === true) {
                 TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
             }
-
-
         }
     } else {
         appendAlert($('#gestures-catalog'), ALERT_NO_PHASE_DATA);
@@ -116,7 +116,7 @@ function renderStudyScenes(scenes) {
         item.find('#' + scenes[i].type).removeClass('hidden');
         $('#scenes-catalog').find('.list-container').append(item);
         TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-        
+
         $(item).find('.text').unbind('mouseenter').bind('mouseenter', {sceneId: scenes[i].id}, function (event) {
             console.log('mouse enter');
             var button = $(this);
@@ -133,7 +133,7 @@ function renderStudyScenes(scenes) {
             event.preventDefault();
             resetScenePopover();
         });
-        
+
         $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
             event.preventDefault();
             currentSceneId = event.data.sceneId;
@@ -175,14 +175,14 @@ function saveMapping() {
             for (var j = 0; j < assembledGestures.length; j++) {
                 gestureIds.push($(assembledGestures[j]).closest('.root').attr('id'));
             }
-            
+
             var sceneIds = [];
 
             var selectedScenes = $(item).find('#scenes .sceneSelect');
-                        console.log(selectedScenes)
+            console.log(selectedScenes)
             for (var j = 0; j < selectedScenes.length; j++) {
                 var sceneId = $(selectedScenes[j]).find('.chosen').attr('id');
-                if(sceneId !== 'unselected') {
+                if (sceneId !== 'unselected') {
                     sceneIds.push(sceneId);
                 }
             }

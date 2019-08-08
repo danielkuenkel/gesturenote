@@ -4,8 +4,13 @@
  * and open the template in the editor.
  */
 
-function goto(url) {
-    window.location.href = url;
+function goto(url, openNewWindow) {
+    if (openNewWindow) {
+        var win = window.open(url, '_blank');
+        win.focus();
+    } else {
+        window.location.href = url;
+    }
 }
 
 $(document).ready(function () {

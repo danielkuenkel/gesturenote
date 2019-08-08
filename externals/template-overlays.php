@@ -5,7 +5,7 @@ include '../includes/language.php';
 <div id="overlays-item-container" class="hidden">
 
     <div id="letterOfAcceptance">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -45,7 +45,7 @@ include '../includes/language.php';
     </div>
 
     <div id="thanks">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -82,7 +82,7 @@ include '../includes/language.php';
 
 
     <div id="questionnaire">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -181,7 +181,7 @@ include '../includes/language.php';
     </div>
 
     <div id="interview">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -282,7 +282,7 @@ include '../includes/language.php';
 
 
     <div id="gus">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -369,7 +369,7 @@ include '../includes/language.php';
     </div>
 
     <div id="questionnaireGestures">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -421,7 +421,7 @@ include '../includes/language.php';
     </div>
 
     <div id="sus">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -466,7 +466,7 @@ include '../includes/language.php';
     </div>
 
     <div id="ueq">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -528,7 +528,7 @@ include '../includes/language.php';
 
 
     <div id="gestureTraining">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -597,7 +597,7 @@ include '../includes/language.php';
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
         </div>
-        
+
         <hr style="margin-top: 10px">
 
         <div class="row" id="observations">
@@ -688,7 +688,7 @@ include '../includes/language.php';
     </div>
 
     <div id="scenario">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -728,7 +728,7 @@ include '../includes/language.php';
                     <div class="form-group" id="start-scene-select">
                         <label><?php echo $lang->stateCharts->inputState ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioStartScene ?>"></i></label>
                         <div class="input-group"> 
-                            <input class="form-control item-input-text show-dropdown option-scene readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <input class="form-control item-input-text show-dropdown option-scene" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select sceneSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -747,7 +747,7 @@ include '../includes/language.php';
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->tasks ?></h3>
         </div>
-        
+
         <hr style="margin-top: 10px">
 
         <div class="row" id="tasks-container" style="margin-bottom: 30px;">
@@ -897,7 +897,7 @@ include '../includes/language.php';
     </div>
 
     <div id="gestureSlideshow">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -1058,7 +1058,7 @@ include '../includes/language.php';
     </div>
 
     <div id="triggerSlideshow">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -1106,7 +1106,7 @@ include '../includes/language.php';
         <h3 style="margin-top: 20px;"><?php echo $lang->elements ?></h3>
 
         <hr style="margin-top: 10px">
-        
+
         <div class="row" id="slideshow" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-gestures-assembled"></div>
@@ -1127,10 +1127,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>-->
+            <!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+                            <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                            <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                        </div>-->
         </div>
         <!--        <div class="row">
                     <div class="col-md-11">-->
@@ -1216,7 +1216,7 @@ include '../includes/language.php';
     </div>
 
     <div id="physicalStressTest">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -1308,10 +1308,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->questionsAfterEveryGesture ?></h3>
-<!--            <div class="btn-group" id="useSingleStressQuestionsSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>-->
+            <!--            <div class="btn-group" id="useSingleStressQuestionsSwitch" style="margin-top: -9px; margin-left: 10px">
+                            <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                            <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                        </div>-->
         </div>
         <!--        <div class="row">
                     <div class="col-md-11">-->
@@ -1442,10 +1442,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->questionsAfterGestureSequence ?></h3>
-<!--            <div class="btn-group" id="useSequenceStressQuestionsSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>-->
+            <!--            <div class="btn-group" id="useSequenceStressQuestionsSwitch" style="margin-top: -9px; margin-left: 10px">
+                            <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                            <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                        </div>-->
         </div>
         <!--        <div class="row">
                     <div class="col-md-11">-->
@@ -1577,10 +1577,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>-->
+            <!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+                            <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                            <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                        </div>-->
         </div>
         <!--        <div class="row">
                     <div class="col-md-11">-->
@@ -1693,7 +1693,7 @@ include '../includes/language.php';
 
 
     <div id="identification">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -1826,10 +1826,10 @@ include '../includes/language.php';
 
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
-<!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>-->
+            <!--            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+                            <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                            <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                        </div>-->
         </div>
         <!--        <div class="row">
                     <div class="col-md-11">-->
@@ -1916,7 +1916,7 @@ include '../includes/language.php';
 
 
     <div id="exploration">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -2073,37 +2073,37 @@ include '../includes/language.php';
         <div style="display: inline;">
             <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
 
-<!--            <div class="form-group root" id="useObservationsSwitch">
-                <div class="btn-group" id="radio" style="margin: 0">
-                    <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
-                        <span id="icons" style="margin-right: 6px">
-                            <i class="fa fa-circle-thin hidden" id="normal"></i>
-                            <i class="fa fa-circle hidden" id="over"></i>
-                            <i class="fa fa-check-circle" id="checked"></i>
-                        </span>
-                        <span class="option-text"><?php echo $lang->no ?></span>
-                    </button>
-                </div>
-                <div class="btn-group" id="radio" style="margin: 0">
-                    <button class="btn btn-default btn-radio" name="primary" id="yes">
-                        <span id="icons" style="margin-right: 6px">
-                            <i class="fa fa-circle-thin" id="normal"></i>
-                            <i class="fa fa-circle hidden" id="over"></i>
-                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                        </span>
-                        <span class="option-text"><?php echo $lang->yes ?></span>
-                    </button>
-                </div>
-            </div>-->
+            <!--            <div class="form-group root" id="useObservationsSwitch">
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->no ?></span>
+                                </button>
+                            </div>
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->yes ?></span>
+                                </button>
+                            </div>
+                        </div>-->
 
 
 
 
-<!--
-            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>-->
+            <!--
+                        <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+                            <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                            <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                        </div>-->
         </div>
         <!--        <div class="row">
                     <div class="col-md-11">-->
@@ -2197,7 +2197,7 @@ include '../includes/language.php';
 
 
     <div id="focusGroupInterview">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
         </div>
@@ -2443,7 +2443,7 @@ include '../includes/language.php';
 
 
     <div id="catalog-gestures">
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right btns-control-overlay-top">
             <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
             <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
@@ -2468,15 +2468,20 @@ include '../includes/language.php';
                 </ul>
 
                 <div class="tab-content" style="margin-top: 10px">
+
                     <div role="tabpanel" class="tab-pane active" id="tab-study-gesture-set">
-                        <div id="item-view">
+                        <div class="tab-pane-loading-indicator text-center">
+                            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+                        </div>
+
+                        <div id="item-view" class="hidden">
                             <div class="alert-space alert-no-study-gestures-assembled"></div>
 
-                            <div id="filter-controls">
+<!--                            <div id="filter-controls" class="hidden">
                                 <div class="form-group form-group-no-margin">
                                     <div class="input-group">
                                         <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
-                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
+                                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
                                         <div class="input-group-btn select filter" id="filter" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2489,7 +2494,7 @@ include '../includes/language.php';
                                             </ul>
                                         </div>
                                         <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
-                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
+                                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                         <div class="input-group-btn select sort" id="sort" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2521,9 +2526,9 @@ include '../includes/language.php';
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
 
-                            <div class="text-center custom-pagination" id="pager-top">
+<!--                            <div class="text-center custom-pagination" id="pager-top">
                                 <nav>
                                     <ul class="pagination pagination-custom" data-clipping="7">
                                         <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
@@ -2532,14 +2537,14 @@ include '../includes/language.php';
                                         <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
                                     </ul>
                                 </nav>
-                            </div>
+                            </div>-->
 
 
                             <div class="container-root row root" id="gesture-list-container" style="margin-top: 10px;"></div>
 
                             <div class="alert-space alert-no-search-results"></div>
 
-                            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+<!--                            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
                                 <nav>
                                     <ul class="pagination pagination-custom" data-clipping="7">
                                         <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
@@ -2548,18 +2553,22 @@ include '../includes/language.php';
                                         <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
                                     </ul>
                                 </nav>
-                            </div>
+                            </div>-->
 
                         </div>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="tab-gesture-catalog">
+                        <div class="tab-pane-loading-indicator text-center">
+                            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+                        </div>
+
                         <div id="item-view">
                             <div>
                                 <div class="form-group form-group-no-margin">
                                     <div class="input-group">
                                         <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
-                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
+                                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
                                         <div class="input-group-btn select filter" id="filter" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2576,7 +2585,7 @@ include '../includes/language.php';
                                             </ul>
                                         </div>
                                         <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
-                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
+                                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                         <div class="input-group-btn select sort" id="sort" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2656,13 +2665,17 @@ include '../includes/language.php';
 
                         <hr>
 
+                        <div class="tab-pane-loading-indicator text-center">
+                            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+                        </div>
+
                         <div id="item-view">
 
                             <div>
                                 <div class="form-group form-group-no-margin">
                                     <div class="input-group">
                                         <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
-                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
+                                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
                                         <div class="input-group-btn select filter" id="filter" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2677,7 +2690,7 @@ include '../includes/language.php';
                                             </ul>
                                         </div>
                                         <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
-                                        <input class="form-control item-input- text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
+                                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                         <div class="input-group-btn select sort" id="sort" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -2781,9 +2794,9 @@ include '../includes/language.php';
 
 
     <div id="catalog-trigger">
-        <div class="btn-group pull-right">
-            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
-            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right btns-control-overlay-top">
+            <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
         <br/>
 
@@ -2820,15 +2833,15 @@ include '../includes/language.php';
 
         <br/>
         <div class="btn-group pull-right">
-            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
-            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+            <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
     </div>
 
     <div id="catalog-feedback">
-        <div class="btn-group pull-right">
-            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
-            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right btns-control-overlay-top">
+            <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
         <br/>
 
@@ -2872,15 +2885,15 @@ include '../includes/language.php';
 
         <br/>
         <div class="btn-group pull-right">
-            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
-            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+            <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
     </div>
 
     <div id="catalog-scenes">
-        <div class="btn-group pull-right">
-            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
-            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+        <div class="btn-group pull-right btns-control-overlay-top">
+            <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
         <br/>
 
@@ -2936,8 +2949,8 @@ include '../includes/language.php';
 
         <br/>
         <div class="btn-group pull-right">
-            <div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>
-            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->acceptAndClose ?> <i class="fa fa-close"></i></div>
+            <!--<div class="btn btn-default btn-shadow btn-cancel-overlay"><?php echo $lang->cancel ?></i></div>-->
+            <div class="btn btn-default btn-shadow btn-close-overlay"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
         </div>
     </div>
 

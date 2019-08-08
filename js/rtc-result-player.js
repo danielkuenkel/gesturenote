@@ -25,6 +25,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
     var videosLoadedSuccessfully = 0;
 
 
+
     if (getBrowser() !== 'Safari') {
         resultsPlayer = $('#template-study-container').find('#rtc-video-result').clone().removeAttr('id');
         var playButton = $(resultsPlayer).find('#btn-play-pause');
@@ -359,6 +360,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
 
                 $(this).popover('hide');
                 $(this).addClass('hidden');
+                $(resultsPlayer.domElement).find('#toggle-side-by-side').click();
                 $(resultsPlayer.domElement).find('#btn-lock-unlock-gap-input').addClass('disabled');
                 $(resultsPlayer.domElement).find('#results-timeline').addClass('hidden');
                 $(resultsPlayer.domElement).find('#timeline-content').addClass('hidden');
@@ -465,7 +467,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                 var selectedTriggerId = $(resultsPlayer.domElement).find('#select-annotation-for-gesture .chosen').attr('id');
                 $(resultsPlayer.domElement).find('#recorded-data-selection');
                 if (selectedTriggerId !== 'unselected') {
-                    var tempData = getLocalItem(timelineData.phaseResults.id + '.results');
+                    var tempData = getLocalItem(timelineData.phaseResults.id + '.tester');
                     renderAssembledSensorData($(resultsPlayer.domElement).find('#recorded-data-selection'), selectedTriggerId, tempData.recordedData);
                 }
             }
@@ -591,7 +593,6 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
 
                         $('#custom-modal').unbind('gestureSaved').bind('gestureSaved', function (event, gesture) {
                             event.preventDefault();
-                            console.log('gesture saved successfully', gesture);
 
                             var selectedAnnotation = $(resultsPlayer.domElement).find('#select-annotation-for-gesture .chosen').attr('id');
                             var trigger = getTriggerById(selectedAnnotation);
@@ -617,7 +618,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                             var currentTime = parseFloat(mainVideo.currentTime).toFixed(3) * 1000;
                             var annotationTime = (parseFloat(startTime) + parseFloat(currentTime));
                             var annotation = {id: chance.natural(), action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, triggerId: trigger.id, time: annotationTime};
-                            console.log(annotation, startTime, currentTime, annotationTime);
+//                            console.log(annotation, startTime, currentTime, annotationTime);
 
                             addAnnotation(annotation, content, function () {
                                 var visData = getVisDataSet(timelineData);
@@ -642,9 +643,11 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                             };
                         }
 
+                        var selectedAnnotation = $(resultsPlayer.domElement).find('#select-annotation-for-gesture .chosen').attr('id');
+                        var trigger = getTriggerById(selectedAnnotation);
                         loadHTMLintoModal('custom-modal', 'externals/modal-gesture-recorder.php', 'modal-lg');
                         var query = getQueryParams(document.location.search);
-                        currentSaveGesture = {source: GESTURE_CATALOG, gesture: {images: shotsArray, blobs: blobsArray, previewImage: 0, sensorData: sensorData}, userId: query.participantId, gestureSource: 'tester'};
+                        currentSaveGesture = {source: GESTURE_CATALOG, gesture: {images: shotsArray, blobs: blobsArray, previewImage: 0, sensorData: sensorData}, userId: query.participantId, gestureSource: 'tester', trigger: trigger};
                     }
                 }, 'image/jpeg', 0.8);
             }
@@ -716,7 +719,12 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                     $(resultsPlayer.domElement).find('#loader').addClass('hidden');
 
                     if (!secondVideo) {
-                        $(mainVideo).parent().removeClass('col-xs-6').addClass('col-xs-12');
+                        $(resultsPlayer.domElement).find('#webcam-video-container').removeClass('col-xs-3').addClass('col-xs-12');
+                        $(resultsPlayer.domElement).find('#seek-bar-container').removeClass('col-xs-10 col-sm-7 col-lg-7 col-lg-11').addClass('col-lg-9');
+                    } else if (secondVideo && !screenShareVideoHolder) {
+                        $(resultsPlayer.domElement).find('#webcam-video-container').removeClass('col-xs-3').addClass('col-xs-12');
+                        $(resultsPlayer.domElement).find('#tester-video-container').removeClass('col-xs-12').addClass('col-xs-6');
+                        $(resultsPlayer.domElement).find('#moderator-video-container').removeClass('col-xs-12').addClass('col-xs-6').css({marginTop: ''});
                     }
 
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
@@ -933,7 +941,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                         });
                     }
 
-                    timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, resultSource: 'evaluator', executionTime: executionTime, duration: getTimeBetweenTimestamps(evaluatorResults.startRecordingTime || evaluatorResults.startTime, evaluatorResults.endRecordingTime || evaluatorResults.endTime), checkedVideos: checkedVideos} : {phaseData: phaseData, phaseResults: testerResults, resultSource: 'results', executionTime: executionTime, duration: getTimeBetweenTimestamps(testerResults.startRecordingTime || testerResults.startTime, testerResults.endRecordingTime || testerResults.endTime), checkedVideos: checkedVideos};
+                    timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, resultSource: 'evaluator', executionTime: executionTime, duration: getTimeBetweenTimestamps(evaluatorResults.startRecordingTime || evaluatorResults.startTime, evaluatorResults.endRecordingTime || evaluatorResults.endTime), checkedVideos: checkedVideos} : {phaseData: phaseData, phaseResults: testerResults, resultSource: 'tester', executionTime: executionTime, duration: getTimeBetweenTimestamps(testerResults.startRecordingTime || testerResults.startTime, testerResults.endRecordingTime || testerResults.endTime), checkedVideos: checkedVideos};
                     initializeTimeline(content);
                     initializeAnnotationHandling(content);
                 } else {
@@ -1023,6 +1031,7 @@ function initializeTimeline(content) {
     if (timelineData) {
         // Create a Timeline
         var data = getVisDataSet();
+//        console.log('initialize timeline', data);
 
         currentVisData = data;
         $(player).trigger('initialized');
@@ -1081,41 +1090,47 @@ function initializeTimeline(content) {
 
             timeline.on('itemover', function (event) {
                 var annotation = getAnnotationById(event.item);
+                console.log('item over', annotation);
                 if (annotation) {
                     var item = $(event.event.srcElement);
                     if (!$(event.event.srcElement).hasClass('vis-item')) {
                         item = $(item).closest('.vis-item');
                     }
 
-                    if (annotation.action === ACTION_NOTE) {
-                        var content = getAnnotationPopoverContent(annotation);
-                        $(item).attr('data-html', 'true');
-                        $(item).attr('data-toggle', 'popover');
-                        $(item).attr('data-placement', 'auto');
-                        $(item).attr('data-content', content.content);
-                        $(item).attr('title', content.title);
-                        $(item).popover('show');
-                        $(item).attr('aria-hidden', 'true');
-                        $(item).attr('aria-describedby', '');
-                    } else if (annotation.action === ACTION_RENDER_SCENE) {
-                        var scene = getSceneById(annotation.scene);
-                        renderScenePopoverPreview(scene, function () {
-                            var popover = $('#popover-scene');
-                            var top = $(item).offset().top - popover.height() - 2;
-                            var left = $(item).offset().left + parseInt(((item.width() - popover.width()) / 2));
-                            popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
-                            TweenMax.to(popover, .3, {autoAlpha: 1});
-                        });
-                    } else if (annotation.action === ACTION_START_PERFORM_GESTURE) {
-                        var gesture = getGestureById(annotation.gestureId);
-                        renderGesturePopoverPreview(gesture, function () {
-                            var popover = $('#popover-gesture');
-                            var top = $(item).offset().top - popover.height() - 2;
-                            var left = $(item).offset().left + parseInt(((item.width() - popover.width()) / 2));
-                            popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
-                            playThroughThumbnails(popover.find('.previewGesture'));
-                            TweenMax.to(popover, .3, {autoAlpha: 1});
-                        });
+                    switch (annotation.action) {
+                        case ACTION_NOTE:
+                        case ACTION_START_TASK:
+                            var content = getAnnotationPopoverContent(annotation);
+                            $(item).attr('data-html', 'true');
+                            $(item).attr('data-toggle', 'popover');
+                            $(item).attr('data-placement', 'auto');
+                            $(item).attr('data-content', content.content);
+                            $(item).attr('title', content.title);
+                            $(item).popover('show');
+                            $(item).attr('aria-hidden', 'true');
+                            $(item).attr('aria-describedby', '');
+                            break;
+                        case ACTION_RENDER_SCENE:
+                            var scene = getSceneById(annotation.scene);
+                            renderScenePopoverPreview(scene, function () {
+                                var popover = $('#popover-scene');
+                                var top = $(item).offset().top - popover.height() - 2;
+                                var left = $(item).offset().left + parseInt(((item.width() - popover.width()) / 2));
+                                popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                                TweenMax.to(popover, .3, {autoAlpha: 1});
+                            });
+                            break;
+                        case ACTION_START_PERFORM_GESTURE:
+                            var gesture = getGestureById(annotation.gestureId);
+                            renderGesturePopoverPreview(gesture, function () {
+                                var popover = $('#popover-gesture');
+                                var top = $(item).offset().top - popover.height() - 2;
+                                var left = $(item).offset().left + parseInt(((item.width() - popover.width()) / 2));
+                                popover.css({left: left, top: top});
+                                playThroughThumbnails(popover.find('.previewGesture'));
+                                TweenMax.to(popover, .3, {autoAlpha: 1});
+                            });
+                            break;
                     }
                 }
             });
@@ -1247,9 +1262,11 @@ function getVisDataSet() {
                     break;
                 case ACTION_START_PERFORM_GESTURE:
                     var gesture = getGestureById(annotations[i].gestureId);
-                    var trigger = getTriggerById(annotations[i].triggerId);
+//                    var trigger = getTriggerById(annotations[i].triggerId);
+//                    if (gesture && trigger) {
                     contentText = '<i class="fa fa-ellipsis-v"></i> ' + translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
                     originalContent = contentText;
+//                    }
                     break;
                 case ACTION_START_GESTURE_TRAINING:
 //                case ACTION_START_PERFORM_GESTURE:
@@ -1276,7 +1293,7 @@ function getVisDataSet() {
                     break;
                 case ACTION_START_TASK:
                     var task = getTaskById(annotations[i].taskId);
-                    contentText = translation.task + ': ' + task.title;
+                    contentText = '<i class="fa fa-ellipsis-v"></i> ' + translation.task + ': ' + task.title;
                     originalContent = contentText;
                     break;
                 case ACTION_ASSESSMENT:
@@ -1455,38 +1472,54 @@ function renderListData(visData, content) {
                     $(linkListItem).find('.link-list-item-title').unbind('mouseenter').bind('mouseenter', function (event) {
                         var item = $(this).closest('.link-list-item');
                         var action = $(item).attr('data-action');
-                        if (action === ACTION_NOTE) {
-                            $(this).attr('data-html', 'true');
-                            $(this).attr('data-toggle', 'popover');
-                            $(this).attr('data-placement', 'auto');
-                            $(this).attr('data-content', $(item).attr('data-content'));
-                            $(this).attr('title', translation.note);
-                            $(this).popover('show');
-                            $(this).attr('aria-hidden', 'true');
-                            $(this).attr('aria-describedby', '');
-                        } else if (action === ACTION_RENDER_SCENE) {
-                            var annotation = getAnnotationById($(item).find('.btn-edit-annotation').attr('data-id'));
-                            var scene = getSceneById(annotation.scene);
-                            var popoverAnker = $(this);
-                            renderScenePopoverPreview(scene, function () {
-                                var popover = $('#popover-scene');
-                                var top = $(popoverAnker).offset().top - popover.height() - 2;
-                                var left = $(popoverAnker).offset().left + parseInt(((popoverAnker.width() - popover.width()) / 2));
-                                popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
-                                TweenMax.to(popover, .3, {autoAlpha: 1});
-                            });
-                        } else if (action === ACTION_START_PERFORM_GESTURE) {
-                            var annotation = getAnnotationById($(item).find('.btn-edit-annotation').attr('data-id'));
-                            var gesture = getGestureById(annotation.gestureId);
-                            var popoverAnker = $(this);
-                            renderGesturePopoverPreview(gesture, function () {
-                                var popover = $('#popover-gesture');
-                                var top = $(popoverAnker).offset().top - popover.height() - 2;
-                                var left = $(popoverAnker).offset().left + parseInt(((popoverAnker.width() - popover.width()) / 2));
-                                popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
-                                playThroughThumbnails(popover.find('.previewGesture'));
-                                TweenMax.to(popover, .3, {autoAlpha: 1});
-                            });
+                        switch (action) {
+                            case ACTION_NOTE:
+                                $(this).attr('data-html', 'true');
+                                $(this).attr('data-toggle', 'popover');
+                                $(this).attr('data-placement', 'auto');
+                                $(this).attr('data-content', $(item).attr('data-content'));
+                                $(this).attr('title', translation.note);
+                                $(this).popover('show');
+                                $(this).attr('aria-hidden', 'true');
+                                $(this).attr('aria-describedby', '');
+                                break;
+                            case ACTION_START_TASK:
+                                var annotation = getAnnotationById($(item).find('.btn-edit-annotation').attr('data-id'));
+                                var content = getAnnotationPopoverContent(annotation);
+                                $(this).attr('data-html', 'true');
+                                $(this).attr('data-toggle', 'popover');
+                                $(this).attr('data-placement', 'auto');
+                                $(this).attr('data-content', content.content);
+                                $(this).attr('title', content.title);
+                                $(this).popover('show');
+                                $(this).attr('aria-hidden', 'true');
+                                $(this).attr('aria-describedby', '');
+                                break;
+                            case ACTION_RENDER_SCENE:
+                                var annotation = getAnnotationById($(item).find('.btn-edit-annotation').attr('data-id'));
+                                var scene = getSceneById(annotation.scene);
+                                var popoverAnker = $(this);
+                                renderScenePopoverPreview(scene, function () {
+                                    var popover = $('#popover-scene');
+                                    var top = $(popoverAnker).offset().top - popover.height() - 2;
+                                    var left = $(popoverAnker).offset().left + parseInt(((popoverAnker.width() - popover.width()) / 2));
+                                    popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                                    TweenMax.to(popover, .3, {autoAlpha: 1});
+                                });
+                                break;
+                            case ACTION_START_PERFORM_GESTURE:
+                                var annotation = getAnnotationById($(item).find('.btn-edit-annotation').attr('data-id'));
+                                var gesture = getGestureById(annotation.gestureId);
+                                var popoverAnker = $(this);
+                                renderGesturePopoverPreview(gesture, function () {
+                                    var popover = $('#popover-gesture');
+                                    var top = $(popoverAnker).offset().top - popover.height() - 2;
+                                    var left = $(popoverAnker).offset().left + parseInt(((popoverAnker.width() - popover.width()) / 2));
+                                    popover.css({left: left, top: top});
+                                    playThroughThumbnails(popover.find('.previewGesture'));
+                                    TweenMax.to(popover, .3, {autoAlpha: 1});
+                                });
+                                break;
                         }
                     });
 
@@ -1856,7 +1889,7 @@ function initializeAnnotationHandling(content) {
             var annotationTime = (parseFloat(startTime) + parseFloat(currentTime));
 
 
-            console.log($(content).find('#add-annotation-container #add-annotation-type-select .chosen').attr('id'));
+//            console.log($(content).find('#add-annotation-container #add-annotation-type-select .chosen').attr('id'));
             switch ($(content).find('#add-annotation-container #add-annotation-type-select .chosen').attr('id')) {
                 case 'annotation':
                     var annotationLabel = $(content).find('.annotation-title-input').val().trim();
@@ -1952,6 +1985,11 @@ function addAnnotation(annotation, content, callback) {
         tempData.annotations = [annotation];
     }
 
+//    console.log('tempData', tempData);
+
+    timelineData.phaseResults = tempData;
+    setLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource, tempData);
+
     if (firstInitializeTimeline) {
         initializeTimeline(timelineData, content);
         updateTimeline(timelineData.checkedVideos.mainVideo[0].currentTime, content);
@@ -1961,8 +1999,6 @@ function addAnnotation(annotation, content, callback) {
         }
     }
 
-    timelineData.phaseResults = tempData;
-    setLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource, tempData);
     player.saveUpdatedPhaseResults(timelineData.resultSource, function () {
         // render timeline and other elements
         if (callback) {
@@ -2049,6 +2085,7 @@ RTCResultsPlayer.prototype.saveUpdatedPhaseResults = function (source, callback)
             });
             break;
         case VIEW_TESTER:
+            saveData.snapshot = generalStudyResults.snapshot;
             saveExecutionTester({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData}, function (result) {
                 console.log('saved execution tester', result);
                 if (callback) {
@@ -2073,7 +2110,7 @@ RTCResultsPlayer.prototype.saveUpdatedPhaseResults = function (source, callback)
             });
             break;
     }
-}
+};
 
 function getAnnotationPopoverContent(annotation) {
     var content = '';
@@ -2083,6 +2120,20 @@ function getAnnotationPopoverContent(annotation) {
         case ACTION_NOTE:
             title = translation.note;
             content = annotation.content;
+            break;
+        case ACTION_START_TASK:
+            title = translation.task;
+
+            var tasks = timelineData.phaseData.tasks;
+            if (tasks && tasks.length > 0) {
+                for (var i = 0; i < tasks.length; i++) {
+                    if (parseInt(tasks[i].id) === parseInt(annotation.taskId)) {
+                        title += ': ' + tasks[i].title;
+                        content = tasks[i].task;
+                        break;
+                    }
+                }
+            }
             break;
     }
 

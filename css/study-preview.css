@@ -33,12 +33,12 @@ and open the template in the editor.
 
 #preview-bar-top {
     z-index: 501;
-    background-color: #303030;
+    background-color: #303030 !important;
 }
 
 .web-rtc-placeholder {
     border-radius: 8px;
-    border: 1px solid #eeeeee;
+    /*border: 1px solid #eeeeee;*/
 }
 .web-rtc-placeholder img {
     pointer-events: none;
@@ -136,6 +136,42 @@ and open the template in the editor.
     align-self: center;
 }
 
+#assessment-controls-container {
+    background-color: white; 
+    padding: 15px 15px 10px 15px; 
+    box-shadow: 0px 0px 10px rgba(0,0,0,.4); 
+    display: inline-block; 
+    right: 0px; 
+    position: fixed; 
+    z-index: 1; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    border-radius: 8px 0px 0px 8px;
+    opacity: 0;
+}
+
+#help-controls-container {
+    background-color: white; 
+    padding: 15px 15px 10px 15px; 
+    box-shadow: 0px 0px 10px rgba(0,0,0,.4); 
+    display: inline-block; 
+    right: 0px; 
+    position: fixed; 
+    z-index: 1; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    border-radius: 8px 0px 0px 8px;
+    opacity: 0;
+} 
+
+#fixed-user-test-controls {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0px;
+    z-index: 1;
+}
+
 .hint {
     z-index: 1000;
     text-align: center;
@@ -187,3 +223,15 @@ and open the template in the editor.
 .btn-ban-sensor:hover {
     color: #d9534f;
 }*/
+
+.dark .read-aloud-icon {
+    /*background-color: #ffffff;*/
+    color: dimgrey;
+}
+.dark .read-aloud-text {
+    color: white;
+}
+
+.dark .fa-upload {
+    color: white !important;
+}

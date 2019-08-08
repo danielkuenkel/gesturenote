@@ -53,7 +53,7 @@ if (login_check($mysqli) == true) {
         <script src="js/globalFunctions.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/dimensions.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/extraction-study.js"></script>
         <script src="js/extraction.js"></script>
@@ -391,8 +391,7 @@ if (login_check($mysqli) == true) {
                                 <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-left"></div></div></div>
                                 <div class="col-xs-4 col-sm-4 text-center" id="match-controls">
 
-                                    <p class="text"><?php echo $lang->extractionContent->compareGestureQuestion ?></p>
-                                    <div class="btn-group btn-group-justified" role="group">
+                                    <div class="btn-group btn-group-justified hidden" role="group">
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-danger btn-shadow" id="btn-gesture-no"><i class="fa fa-thumbs-down"></i> <span class="btn-text"><?php echo $lang->no ?></span></button>
                                         </div>
@@ -400,6 +399,71 @@ if (login_check($mysqli) == true) {
                                             <button type="button" class="btn btn-success btn-shadow" id="btn-gesture-yes"><i class="fa fa-thumbs-up"></i> <span class="btn-text"><?php echo $lang->yes ?></span></button>
                                         </div>
                                     </div>
+                                    <div style="">
+                                        <div id="classification-switch" style="">
+                                            <label class="text"><?php echo $lang->extractionContent->secondCompareGestureQuestion ?></label> 
+                                            <div class="switch root" style="display: inline-block">
+                                                <div class="btn-group" style="margin: 0; display: flex">
+                                                    <button class="btn btn-default btn-radio" name="primary" id="notAtAll">
+                                                        <span id="icons" style="margin-right: 6px">
+                                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                                            <i class="fa fa-circle hidden" id="over"></i>
+                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                        </span>
+                                                        <span class="option-text"><?php echo $lang->tooltips->extraction->titleNotAtAll ?></span>
+                                                        <i class="fa fa-info-circle btn-show-info" style="top: -4px; position: relative; margin-left: 7px;" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->extraction->notAtAll ?>"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group" style="margin: 0; margin-top: 3px; display: flex">
+                                                    <button class="btn btn-default btn-radio" name="primary" id="little">
+                                                        <span id="icons" style="margin-right: 6px">
+                                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                                            <i class="fa fa-circle hidden" id="over"></i>
+                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                        </span>
+                                                        <span class="option-text"><?php echo $lang->tooltips->extraction->titleLittle ?></span>
+                                                        <i class="fa fa-info-circle btn-show-info" style="top: -4px; position: relative; margin-left: 7px;" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->extraction->little ?>"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group" style="margin: 0; margin-top: 3px; display: flex">
+                                                    <button class="btn btn-default btn-radio" name="primary" id="conditioned">
+                                                        <span id="icons" style="margin-right: 6px">
+                                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                                            <i class="fa fa-circle hidden" id="over"></i>
+                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                        </span>
+                                                        <span class="option-text"><?php echo $lang->tooltips->extraction->titleConditioned ?></span>
+                                                        <i class="fa fa-info-circle btn-show-info" style="top: -4px; position: relative; margin-left: 7px;" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->extraction->contitioned ?>"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group" style="margin: 0; margin-top: 3px; display: flex">
+                                                    <button class="btn btn-default btn-radio" name="primary" id="strong">
+                                                        <span id="icons" style="margin-right: 6px">
+                                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                                            <i class="fa fa-circle hidden" id="over"></i>
+                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                        </span>
+                                                        <span class="option-text"><?php echo $lang->tooltips->extraction->titleStrong ?></span>
+                                                        <i class="fa fa-info-circle btn-show-info" style="top: -4px; position: relative; margin-left: 7px;" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->extraction->strong ?>"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group" style="margin: 0; margin-top: 3px; display: flex">
+                                                    <button class="btn btn-default btn-radio" name="primary" id="veryStrong">
+                                                        <span id="icons" style="margin-right: 6px">
+                                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                                            <i class="fa fa-circle hidden" id="over"></i>
+                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                        </span>
+                                                        <span class="option-text"><?php echo $lang->tooltips->extraction->titleVeryStrong ?></span>
+                                                        <i class="fa fa-info-circle btn-show-info" style="top: -4px; position: relative; margin-left: 7px;" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->extraction->veryStrong ?>"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
                                     <button type="button" class="btn btn-default disabled btn-block btn-shadow" id="btn-redo" style="margin-top:10px"><i class="fa fa-undo" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->redo ?></span></button>
                                 </div>
                                 <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-right"></div></div></div>
@@ -520,6 +584,10 @@ if (login_check($mysqli) == true) {
                             </div>
 
                             <hr>
+
+                            <div class="tab-pane-loading-indicator text-center">
+                                <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+                            </div>
 
                             <div id="item-view">
 
@@ -949,10 +1017,10 @@ if (login_check($mysqli) == true) {
             var editStudyButton = $('#fixed-study-owner-controls .btn-edit-study');
             var editButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(editStudyButton).css({borderBottomRightRadius: '8px'});
-                    $(editStudyButton).addClass('btn-primary');
+                    $(editStudyButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(editStudyButton).css({borderBottomRightRadius: '0px'});
-                    $(editStudyButton).removeClass('btn-primary');
+                    $(editStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             editButtonTimeline.add("cacheStudy", 0)
@@ -972,10 +1040,10 @@ if (login_check($mysqli) == true) {
             var executionButton = $('#fixed-study-owner-controls .btn-open-static-execution-url');
             var executionUrlButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(executionButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(executionButton).addClass('btn-primary');
+                    $(executionButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(executionButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
-                    $(executionButton).removeClass('btn-primary');
+                    $(executionButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             executionUrlButtonTimeline.add("saveStudy", 0)
@@ -996,7 +1064,7 @@ if (login_check($mysqli) == true) {
             var joinConversationButton = $('#fixed-study-owner-controls .btn-join-conversation');
             var conversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(joinConversationButton).addClass('btn-primary');
+                    $(joinConversationButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     var study = getLocalItem(STUDY);
                     if (study.isOwner && study.isOwner === true) {
@@ -1004,7 +1072,7 @@ if (login_check($mysqli) == true) {
                     } else {
                         $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
                     }
-                    $(joinConversationButton).removeClass('btn-primary');
+                    $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                 }});
 
             conversationButtonTimeline.add("saveStudy", 0)
@@ -1024,7 +1092,7 @@ if (login_check($mysqli) == true) {
             var leaveConversationButton = $('#fixed-study-owner-controls .btn-leave-conversation');
             var leaveConversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(leaveConversationButton).addClass('btn-danger');
+                    $(leaveConversationButton).removeClass('btn-default').addClass('btn-danger');
                 }, onReverseComplete: function () {
                     var study = getLocalItem(STUDY);
                     if (study.isOwner && study.isOwner === true) {
@@ -1032,7 +1100,7 @@ if (login_check($mysqli) == true) {
                     } else {
                         $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
                     }
-                    $(leaveConversationButton).removeClass('btn-danger');
+                    $(leaveConversationButton).removeClass('btn-danger').addClass('btn-default');
                 }});
 
             leaveConversationButtonTimeline.add("saveStudy", 0)
@@ -1065,10 +1133,10 @@ if (login_check($mysqli) == true) {
             var deleteStudyButton = $('#fixed-study-owner-controls .btn-delete-study');
             var deleteButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(deleteStudyButton).css({borderTopRightRadius: '8px'});
-                    $(deleteStudyButton).addClass('btn-danger');
+                    $(deleteStudyButton).removeClass('btn-default').addClass('btn-danger');
                 }, onReverseComplete: function () {
                     $(deleteStudyButton).css({borderTopRightRadius: '0px'});
-                    $(deleteStudyButton).removeClass('btn-danger');
+                    $(deleteStudyButton).removeClass('btn-danger').addClass('btn-default');
                 }});
             deleteButtonTimeline.add("saveStudy", 0)
                     .to(deleteStudyButton, .3, {left: +131, ease: Quad.easeInOut}, "saveStudy");
@@ -1091,6 +1159,7 @@ if (login_check($mysqli) == true) {
             var tutorialAutomaticClicked = false;
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 fixedOwnerControlsTween = new TimelineMax({paused: true});
                 fixedOwnerControlsTween.add("parallel", .3)
@@ -1099,7 +1168,7 @@ if (login_check($mysqli) == true) {
 
 
                 var query = getQueryParams(document.location.search);
-                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 if (query.studyId && query.h === hash) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {

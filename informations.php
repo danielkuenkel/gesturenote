@@ -49,11 +49,15 @@ include_once 'includes/functions.php';
             </div>
         </div>
 
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
 
         <!-- Container (Landing Section) -->
-        <div class="container mainContent" style="margin-top: 0px">
+        <div class="container mainContent hidden" style="margin-top: 0px">
             <div class='text' id="help-description"><?php echo $lang->infosContent->general->content ?></div>
-            
+
             <div class="row" style="margin-top: 120px">
                 <div class="col-md-5 col-md-push-7 text-center text" style="margin-bottom: 30px">
                     <i class="fa fa-pencil fa-5x"></i> 
@@ -112,7 +116,7 @@ include_once 'includes/functions.php';
             </div>
 
 
-            <div class="row" style="margin-top: 30px">
+            <div class="row informations-subline" style="margin-top: 30px">
                 <div class="col-md-12 text-center">
                     <em style="font-size: 14pt"><?php echo $lang->Usercentered ?></em>
                     <p><?php echo $lang->infosContent->features->usercentered->subline ?></p>
@@ -139,7 +143,7 @@ include_once 'includes/functions.php';
             </div>
 
 
-            <div class="row" style="margin-top: 60px">
+            <div class="row informations-subline" style="margin-top: 60px">
                 <div class="col-md-12 text-center">
                     <em style="font-size: 14pt"><?php echo $lang->Expertbased ?></em>
                     <p><?php echo $lang->infosContent->features->expertbased->subline ?></p>
@@ -165,6 +169,46 @@ include_once 'includes/functions.php';
                 </div>
             </div>
 
+            <div class="row" style="margin-top: 120px">
+                <div class="col-md-12 text-center">
+                    <h2 class="uppercase font-bold"><?php echo $lang->infosContent->useCases->title ?></h2>
+                    <p class="font-bold text"><?php echo $lang->infosContent->useCases->subline ?></p>
+                </div>
+            </div>
+            
+            <div class="row text" id="" style="margin-top: 30px">
+                <div class="col-md-4">
+                    <h4 class="text-center font-italic" style="margin: 0"><?php echo $lang->infosContent->useCases->useCase01->title ?></h4>
+                </div>
+                <div class="col-md-8">
+                    <p><?php echo $lang->infosContent->useCases->useCase01->section01 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase01->section02 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase01->section03 ?></p>
+                </div>
+            </div>
+            
+            <div class="row text" id="" style="margin-top: 30px">
+                <div class="col-md-4">
+                    <h4 class="text-center font-italic" style="margin: 0"><?php echo $lang->infosContent->useCases->useCase02->title ?></h4>
+                </div>
+                <div class="col-md-8">
+                    <p><?php echo $lang->infosContent->useCases->useCase02->section01 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase02->section02 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase02->section03 ?></p>
+                </div>
+            </div>
+            
+            <div class="row text" id="" style="margin-top: 30px">
+                <div class="col-md-4">
+                    <h4 class="text-center font-italic" style="margin: 0"><?php echo $lang->infosContent->useCases->useCase03->title ?></h4>
+                </div>
+                <div class="col-md-8">
+                    <p><?php echo $lang->infosContent->useCases->useCase03->section01 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase03->section02 ?></p>
+                    <p><?php echo $lang->infosContent->useCases->useCase03->section03 ?></p>
+                </div>
+            </div>
+
             <script>
                 $(document).ready(function () {
                     checkDomain();
@@ -179,7 +223,8 @@ include_once 'includes/functions.php';
                     var loggedIn = parseInt('<?php echo login_check($mysqli) ?>') === 1;
                     renderSubPageElements(loggedIn);
                     animateBreadcrump();
-                    
+                    checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
+
                     if (loggedIn === false) {
                         $('#btn-dashboard').parent().remove();
                     }
@@ -189,6 +234,12 @@ include_once 'includes/functions.php';
                         var video = $(this)[0];
                         video.paused ? video.play() : video.pause();
                     });
+
+                    $('.mainContent').removeClass('hidden');
+                    TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                            $('#loading-indicator').remove();
+                        }});
+                    TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
                 }
             </script>
 

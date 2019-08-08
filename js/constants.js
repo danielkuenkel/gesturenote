@@ -324,6 +324,7 @@ var APOLLO_URL = 'wss://progesture.org:61624';
 var APOLLO_LOGIN = 'admin';
 var APOLLO_PASSWORD = 'password';
 var APOLLO_DESTINATION = '/topic/gestures';
+var APOLLO_DESTINATION_SIMULATION = '/topic/model.simulation.out';
 
 var PIDOCO_TYPE_MOUSE_SIMULATION = 'simulateMouse';
 
@@ -356,3 +357,13 @@ var AGREEMENT_MARGINS = [
 ];
 
 var GESTURE_GET_MOUSE_POSITION_SPEED = 50;
+
+var SIMULATION_RECORDING = 'simulationRecording';
+var RECORDED_SIMULATION = 'recordedSimulation';
+var SIMULATION_BACKWARD_ITEMS = 2;
+var SIMULATION_FORWARD_ITEMS = 3;
+
+var CONTINUOUS_VALUE_TYPE_NONE = 'none';
+var CONTINUOUS_VALUE_TYPE_PERCENT = 'percent';
+var CONTINUOUS_VALUE_TYPE_MOUSE_SIMULATION = 'mouseSimulation';
+var CONTINUOUS_VALUE_TYPE_POSITION = 'position';

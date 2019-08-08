@@ -8,12 +8,13 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 
 session_start();
-if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['id'], $_POST['email'])) {
+if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['id'], $_POST['title'], $_POST['email'])) {
     $sessionUserId = $_SESSION['user_id'];
 
     $inviteId = $_POST['id'];
     $inviteMail = $_POST['email'];
     $shareId = $_POST['gestureId'];
+    $sharedGestureTitle = $_POST['title'];
 
     if ($delete_stmt = $mysqli->prepare("DELETE FROM gestures_shared WHERE id = '$inviteId'")) {
         if (!$delete_stmt->execute()) {
@@ -47,7 +48,8 @@ if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['id'], $_POST['email
                                     </head>
                                     <body>
                                         <p">' . $lang->hello . ',</p>
-                                        <p>' . $lang->uninviteGestureText . '</p>
+                                        <p>' . $_SESSION['forename'] . ' ' . $_SESSION['surname'] . ' ' . $lang->uninviteGestureText . '</p>
+                                        <p>' . $lang->titleOfGesture . ': ' . $sharedGestureTitle . '</p>
                                         <p>' . $lang->mailGreetings . ',</p>
                                         <p>' . $lang->gestureNoteTeam . '</p>
                                     </body>

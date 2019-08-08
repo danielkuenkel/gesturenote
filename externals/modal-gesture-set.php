@@ -787,7 +787,7 @@ include '../includes/language.php';
                     return false;
                 }
 
-                shareGestureSetForUser({setId: currentPreviewGestureSet.set.id, email: email.val().trim()}, function (result) {
+                shareGestureSetForUser({setId: currentPreviewGestureSet.set.id, title: currentPreviewGestureSet.set.title, email: email.val().trim()}, function (result) {
                     unlockButton(button, true, 'fa-paper-plane');
                     if (result.status === RESULT_SUCCESS) {
 //                        var inviteAmount = result.invitedUsers && result.invitedUsers.length > 0 ? result.invitedUsers.length : 0;
@@ -815,7 +815,7 @@ include '../includes/language.php';
             var button = $(this);
             if (!$(button).hasClass('disabled')) {
                 lockButton(button, true, 'fa-trash');
-                unshareGestureSetForUser({setId: currentPreviewGestureSet.set.id, id: $(this).attr('data-invite-id'), email: $(this).attr('data-invite-mail')}, function (result) {
+                unshareGestureSetForUser({setId: currentPreviewGestureSet.set.id, id: $(this).attr('data-invite-id'), title: currentPreviewGestureSet.set.title, email: $(this).attr('data-invite-mail')}, function (result) {
                     unlockButton(button, true, 'fa-trash');
                     if (result.status === RESULT_SUCCESS) {
                         updateGestureSetById(GESTURE_SETS, currentPreviewGestureSet.set.id, {invitedUsers: result.invitedUsers});

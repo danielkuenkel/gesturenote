@@ -27,7 +27,7 @@ if (login_check($mysqli) == true) {
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
 
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
@@ -111,17 +111,20 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="container">
-            <a role="button" class="pull-right" id="btn-introduction"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
+        <div id="navigation-container" style="opacity: 0">
+            <div class="container">
+                <a role="button" class="pull-right" id="btn-introduction"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
+            </div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-pills" id="gesture-catalogs-nav-tab" style="display: flex; justify-content: center;">
+                <li role="presentation" id="tab-catalog"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->allGestures ?></a></li>
+                <li role="presentation" id="tab-sets"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill"><i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo $lang->gestureSets ?></a></li>
+                <li role="presentation" id="tab-recorder"><a href="#gesture-recorder" aria-controls="gesture-recorder" role="tab" data-toggle="pill"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGestures ?></a></li>
+                <li role="presentation" id="tab-import"><a href="#gesture-importer" aria-controls="gesture-importer" role="tab" data-toggle="pill"><i class="fa fa-file-zip-o" aria-hidden="true"></i> <?php echo $lang->gestureImporter ?></a></li>
+            </ul> 
         </div>
 
-        <!-- Nav tabs -->
-        <ul class="nav nav-pills" id="gesture-catalogs-nav-tab" style="display: flex; justify-content: center;">
-            <li role="presentation" id="tab-catalog"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->allGestures ?></a></li>
-            <li role="presentation" id="tab-sets"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill"><i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo $lang->gestureSets ?></a></li>
-            <li role="presentation" id="tab-recorder"><a href="#gesture-recorder" aria-controls="gesture-recorder" role="tab" data-toggle="pill"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGestures ?></a></li>
-            <li role="presentation" id="tab-import"><a href="#gesture-importer" aria-controls="gesture-importer" role="tab" data-toggle="pill"><i class="fa fa-file-zip-o" aria-hidden="true"></i> <?php echo $lang->gestureImporter ?></a></li>
-        </ul> 
 
         <div id="loading-indicator" class="window-sized-loading text-center">
             <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
@@ -134,7 +137,11 @@ if (login_check($mysqli) == true) {
             <div class="tab-content">
 
                 <div role="tabpanel" class="tab-pane" id="gesture-catalog">
-                    <div id="item-view">
+                    <div class="tab-pane-loading-indicator text-center">
+                        <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+                    </div>
+
+                    <div id="item-view" class="hidden">
                         <div>
                             <div class="form-group form-group-no-margin">
                                 <div class="input-group">
@@ -238,7 +245,11 @@ if (login_check($mysqli) == true) {
 
                     <hr>
 
-                    <div id="item-view">
+                    <div class="tab-pane-loading-indicator text-center">
+                        <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+                    </div>
+
+                    <div id="item-view" class="hidden">
 
                         <div>
                             <div class="form-group form-group-no-margin">
@@ -423,6 +434,7 @@ if (login_check($mysqli) == true) {
         function onAllExternalsLoadedSuccessfully() {
             renderSubPageElements();
             animateBreadcrump();
+            checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
             getGestureSets(function (setResults) {
                 setLocalItem(GESTURE_SETS, setResults.gestureSets);
@@ -435,8 +447,8 @@ if (login_check($mysqli) == true) {
                     $('#gesture-catalogs-nav-tab').children().first().find('a').click();
                 }
 
-                var showTutorial = parseInt(<?php echo $_SESSION['tutorialGestureCatalog'] ?>);
-                if (showTutorial === 1) {
+                var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                if (tutorials && tutorials.gestureCatalog && parseInt(tutorials.gestureCatalog) === 1) {
                     $('#btn-introduction').click();
                 }
             });
@@ -458,6 +470,7 @@ if (login_check($mysqli) == true) {
                     $('#loading-indicator').remove();
                 }});
             TweenMax.from($('#gesture-catalog-content'), .3, {delay: .3, opacity: 0});
+            TweenMax.to($('#navigation-container'), .3, {delay: .3, opacity: 1});
         }
 
         var currentFilterList;
@@ -504,12 +517,12 @@ if (login_check($mysqli) == true) {
             }
 
             $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
-//                console.log('catched render data');
+                console.log('catched render data');
                 event.preventDefault();
                 renderData(data);
             });
 
-            initPopover(300);
+            initPopover();
             firstInit = false;
 
             $('#custom-modal').unbind('gesture-deleted').bind('gesture-deleted', function () {
@@ -520,6 +533,9 @@ if (login_check($mysqli) == true) {
                     renderData(currentFilterData);
                 }
             });
+
+            $(currentFilterList).parent().removeClass('hidden');
+            $(currentFilterList).closest('.tab-pane').find('.tab-pane-loading-indicator').addClass('hidden');
         }
 
         $('.filter').unbind('change').bind('change', function (event) {
@@ -578,8 +594,6 @@ if (login_check($mysqli) == true) {
                 gestureRecorder = null;
             }
 
-//            console.log('show tab', $(event.target).attr('href'));
-
             switch ($(event.target).attr('href')) {
                 case '#gesture-catalog':
                     getWholeGestureCatalog();
@@ -606,6 +620,7 @@ if (login_check($mysqli) == true) {
         function getWholeGestureCatalog() {
             currentFilterList = $('#gesture-catalog').find('#gesture-list-container');
             currentFilterList.empty();
+            showContentLoader();
 
 //            console.log('get whole gesture catalog');
 
@@ -685,6 +700,7 @@ if (login_check($mysqli) == true) {
         function getWholeGestureSets() {
             currentFilterList = $('#gesture-sets').find('#gesture-sets-container');
             currentFilterList.empty();
+            showContentLoader();
 
             getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {
@@ -815,6 +831,11 @@ if (login_check($mysqli) == true) {
             $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialGestureCatalog'] ?>));
             loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
         });
+
+        function showContentLoader() {
+            $(currentFilterList).parent().addClass('hidden');
+            $(currentFilterList).closest('.tab-pane').find('.tab-pane-loading-indicator').removeClass('hidden');
+        }
     </script>
 
 </body>

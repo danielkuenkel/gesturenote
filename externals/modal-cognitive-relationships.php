@@ -7,8 +7,8 @@ include '../includes/language.php';
     <h4 class="modal-title"><?php echo $lang->cognitiveRelationsForGesture ?></h4>
 </div>
 
-<div id="modal-body" class="modal-body">
-    <div id="list-container"></div>
+<div class="modal-body" id="modal-body">
+    <div id="list-container" class="cognitive-relationships-list-container"></div>
 </div>
 
 <hr style="margin: 0">
@@ -16,38 +16,42 @@ include '../includes/language.php';
 <div class="modal-body" id="objective-question">
     <h4><?php echo $lang->fitnessOfGesture ?></h4>
 
-    <div id="switch" style="margin-top: 10px">
-        <label class="text"><?php echo $lang->objectiveCognitiveRelationshipQuestion ?></label> 
-        <div class="switch root">
-            <div class="btn-group" style="margin: 0">
-                <button class="btn btn-default btn-radio" name="primary" id="well">
-                    <span id="icons" style="margin-right: 6px">
-                        <i class="fa fa-circle-thin" id="normal"></i>
-                        <i class="fa fa-circle hidden" id="over"></i>
-                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                    </span>
-                    <span class="option-text"><?php echo $lang->yes ?></span>
-                </button>
-            </div>
-            <div class="btn-group" style="margin: 0">
-                <button class="btn btn-default btn-radio" name="primary" id="less-well">
-                    <span id="icons" style="margin-right: 6px">
-                        <i class="fa fa-circle-thin" id="normal"></i>
-                        <i class="fa fa-circle hidden" id="over"></i>
-                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                    </span>
-                    <span class="option-text"><?php echo $lang->no ?></span>
-                </button>
-            </div>
-            <div class="btn-group" style="margin: 0">
-                <button class="btn btn-default btn-radio" name="primary" id="even">
-                    <span id="icons" style="margin-right: 6px">
-                        <i class="fa fa-circle-thin" id="normal"></i>
-                        <i class="fa fa-circle hidden" id="over"></i>
-                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                    </span>
-                    <span class="option-text"><?php echo $lang->dontKnow ?></span>
-                </button>
+    <div class="panel panel-default panel-shadow root">
+        <div class="panel-body">
+            <div id="switch" style="">
+                <label class="text"><?php echo $lang->objectiveCognitiveRelationshipQuestion ?></label> 
+                <div class="switch root">
+                    <div class="btn-group" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="well">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="less-well">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="even">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->dontKnow ?></span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -67,10 +71,18 @@ include '../includes/language.php';
         for (var k = 0; k < currentAssignment.gestures.length; k++) {
             var row = document.createElement('div');
             $(row).addClass('row');
-            $('#modal-body').find('#list-container').append(row);
 
-            var gesture = getGestureById(currentAssignment.gestures[k], ELICITED_GESTURES);
+
+            var gesture = getGestureById(currentAssignment.gestures[k].id, ELICITED_GESTURES);
             var gesturePreview = getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-5 col-md-4 col-lg-3');
+            $(gesturePreview).attr('data-weighting', currentAssignment.gestures[k].weighting).find('.weighting-text').text(currentAssignment.gestures[k].weighting);
+            if (parseInt(gesture.id) !== parseInt(currentAssignment.mainGestureId)) {
+                $(gesturePreview).find('.weighting-info').removeClass('hidden');
+                $('#modal-body').find('#list-container').append(row);
+            } else {
+                $('#modal-body').find('#list-container').prepend(row);
+            }
+
             $(row).append(gesturePreview);
 
             var details = document.createElement('div');
@@ -106,9 +118,9 @@ include '../includes/language.php';
                 $(relationshipText).text(translation.noAssociation);
             }
 
-            if (k > 0) {
-                $(row).css({marginTop: '16px'});
-            }
+//            if (k > 0) {
+            $(row).css({paddingTop: '16px'});
+//            }
         }
 
         if (currentAssignment.cognitiveRelationship && currentAssignment.cognitiveRelationship.objectiveAnswer) {

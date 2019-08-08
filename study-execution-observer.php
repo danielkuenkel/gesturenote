@@ -51,7 +51,7 @@ if ($h && $token && $studyId) {
         <script src="js/websocket.js"></script>
 
         <script src="js/chance.min.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/constants.js"></script>
@@ -66,10 +66,10 @@ if ($h && $token && $studyId) {
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/study-execution.js"></script>
-        <script src="js/study-execution-observer.js"></script>
-        <script src="js/study-execution-observer-save.js"></script>
         <script src="js/upload-queue.js"></script>
+        <script src="js/execution/study-execution.js"></script>
+        <script src="js/execution/study-execution-observer.js"></script>
+        <script src="js/execution/study-execution-observer-save.js"></script>
 
         <!-- phase step formats -->
         <script src="js/execution/exploration.js"></script>

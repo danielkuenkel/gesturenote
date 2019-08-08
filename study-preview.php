@@ -37,7 +37,7 @@ if (login_check($mysqli) == true) {
         <script src="js/websocket.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/refreshSession.js"></script>
@@ -52,12 +52,13 @@ if (login_check($mysqli) == true) {
         <script src="js/gesture.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/study-execution.js"></script>
-        <script src="js/study-execution-tester.js"></script>
-        <script src="js/study-execution-tester-save.js"></script>
-        <script src="js/study-execution-moderator.js"></script>
 
         <!-- phase step formats -->
+        <script src="js/execution/study-execution.js"></script>
+        <script src="js/execution/study-execution-tester.js"></script>
+        <script src="js/execution/study-execution-tester-save.js"></script>
+        <script src="js/execution/study-execution-moderator.js"></script>
+
         <script src="js/execution/executionPreparation.js"></script>
         <script src="js/execution/exploration.js"></script>
         <script src="js/execution/focus-group-interview.js"></script>
@@ -97,6 +98,10 @@ if (login_check($mysqli) == true) {
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
+
+        <!-- simulator specific -->
+        <link rel="stylesheet" href="css/simulator.css">
+        <script src="js/simulation/simulator.js"></script>
     </head>
     <body style="padding-bottom: 0px">
 
@@ -106,51 +111,58 @@ if (login_check($mysqli) == true) {
         <div id="template-previews"></div>
         <div id="template-study"></div>
         <div id="template-gesture-recorder"></div>
+        <div id="template-simulator"></div>
 
-        <div id="preview-bar-top" style="padding: 10px; position: fixed; width: 100%">
+        <div id="study-preview-top-bar" style="opacity: 0">
+            <div id="preview-bar-top" class="" style="padding: 10px; position: fixed; width: 100%">
 
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default" id="btnViewModerator"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->evaluator ?></span><span class="hidden-md hidden-lg">M</span></button>
-                    <button type="button" class="btn btn-default" id="btnViewTester"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->tester ?></span><span class="hidden-md hidden-lg">T</span></button>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default" id="btnViewModerator"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->evaluator ?></span><span class="hidden-md hidden-lg">M</span></button>
+                        <button type="button" class="btn btn-default" id="btnViewTester"><span class="hidden-sm hidden-xs"><?php echo $lang->userTypes->tester ?></span><span class="hidden-md hidden-lg">T</span></button>
+                    </div>
+                    <input class="form-control item-input-text option-phase-steps text-center show-dropdown" tabindex="-1" type="text" value=""/>
+                    <div class="input-group-btn phaseStepsSelect select" role="group">
+                        <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option" role="menu">
+                        </ul>
+
+                        <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
+                        <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
+
+                        <button type="button" class="btn btn-default btn-join-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->joinConversation ?></span> <i class="fa fa-group"></i></button>
+                        <button type="button" class="btn btn-default btn-leave-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->leaveConversation ?></span> 
+                            <span>
+                                <i class="fa fa-group"></i>
+                                <i class="fa fa-ban" style="
+                                   font-size: 9pt;
+                                   position: absolute;
+                                   right: 5px;
+                                   top: 4px;"></i>
+                            </span>
+                        </button>
+
+                        <button role="button" class="btn btn-default" id="btn-introduction"><i class="fa fa-support"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->help ?></span></button>
+                        <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="fa fa-close"></i><span class="hidden-sm hidden-xs"> <?php echo $lang->close ?></span></button>
+                    </div>
                 </div>
-                <input class="form-control item-input-text option-phase-steps text-center show-dropdown" tabindex="-1" type="text" value=""/>
-                <div class="input-group-btn phaseStepsSelect select" role="group">
-                    <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                    <ul class="dropdown-menu option" role="menu">
-                    </ul>
-                    <button type="button" class="btn btn-default btn-join-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->joinConversation ?></span> <i class="fa fa-group"></i></button>
-                    <button type="button" class="btn btn-default btn-leave-conversation hidden"><span class="hidden-sm hidden-xs"><?php echo $lang->leaveConversation ?></span> 
-                        <span>
-                            <i class="fa fa-group"></i>
-                            <i class="fa fa-ban" style="
-                               font-size: 9pt;
-                               position: absolute;
-                               right: 5px;
-                               top: 4px;"></i>
-                        </span>
-                    </button>
-                    <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
-                    <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
-                    <button role="button" class="btn btn-default" id="btn-introduction"><i class="fa fa-support"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->help ?></span></button>
-                    <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="fa fa-close"></i><span class="hidden-sm hidden-xs"> <?php echo $lang->close ?></span></button>
+            </div>
+
+            <div style="position: fixed; top: 53px; width: 100%; z-index: 500">
+                <button class="btn-cancel btn btn-danger btn-block" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
+            </div>
+
+
+            <!-- progress bar -->
+            <div id="progressTop">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
+                        0%
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div style="position: fixed; top: 53px; width: 100%; z-index: 500">
-            <button class="btn-cancel btn btn-danger btn-block" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
-        </div>
-
-
-        <!-- progress bar -->
-        <div id="progressTop">
-            <div class="progress">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
-                    0%
-                </div>
-            </div>
-        </div>
 
         <!-- modals -->
         <div id="custom-modal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -169,8 +181,13 @@ if (login_check($mysqli) == true) {
         <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 99; top: 150px; left:100px; display: block">
         </div>
 
+
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
         <!-- main content -->
-        <div class="mainContent" id="mainContent" style="padding-top: 124px; padding-bottom: 0px">
+        <div class="mainContent" id="mainContent hidden" style="padding-top: 124px; padding-bottom: 0px">
             <div id="viewTester" class="hidden" style="padding-left: 15px; padding-right: 15px;">
                 <div class="pinnedRTC" style="position: fixed; z-index: 99"></div>
                 <div id="phase-content"></div>
@@ -192,8 +209,12 @@ if (login_check($mysqli) == true) {
             <div style="width: 300px; border-radius: 8px" id="video-caller-container" class="shadow">
                 <div class="embed-responsive embed-responsive-4by3" id="video-caller">
 
-                    <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee; display: flex; justify-content: center; align-items: center;">
+                    <div class="embed-responsive-item" id="rtc-loading-indicator" style="border-radius: 8px; background-color: #eee; display: flex; justify-content: center; align-items: center;">
                         <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+                    </div>
+
+                    <div class="embed-responsive-item" id="alerts-container">
+                        <div class="alert-space alert-rtc-permission-denied"></div>
                     </div>
 
                     <div id="remoteVideo" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 8px;"></div>
@@ -273,6 +294,7 @@ if (login_check($mysqli) == true) {
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
+                    externals.push(['#template-simulator', PATH_EXTERNALS + 'template-simulator.php']);
                     loadExternals(externals);
                 });
             });
@@ -309,6 +331,8 @@ if (login_check($mysqli) == true) {
                 var scrollTop = $(document).scrollTop();
                 var newHeight = 3 / 4 * updateWidth - scrollTop;
                 var newWidth = 4 / 3 * newHeight;
+                console.log('update rtc height', newHeight, newWidth);
+
                 if (newWidth > DRAGGABLE_MIN_WIDTH) {
                     $(view + ' #web-rtc-placeholder').css({height: newHeight + 'px', width: newWidth + 'px'});
                 }
@@ -326,14 +350,29 @@ if (login_check($mysqli) == true) {
 
             // render data if all templates where loaded
             function onAllExternalsLoadedSuccessfully() {
-                var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyPreview'] ?>);
-                if (showTutorial === 1) {
+//                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
+                var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                if (tutorials && tutorials.studyPreview && parseInt(tutorials.studyPreview) === 1) {
                     $('#btn-introduction').click();
+                } else {
+                    $('#custom-modal').unbind('showHelp').bind('showHelp', function (event) {
+                        event.preventDefault();
+                        $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                            event.preventDefault();
+                            $(this).unbind('hidden.bs.modal');
+                            $('#custom-modal').attr('data-help-items-key', 'introductionPreviewStudy');
+                            $('#custom-modal').attr('data-help-context', 'studyPreview');
+                            $('#custom-modal').attr('data-help-show-tutorial', <?php echo $_SESSION['tutorialStudyPreview'] ?>);
+                            loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
+                        });
+                        $('#custom-modal').modal('hide');
+                    });
+                    loadHTMLintoModal('custom-modal', 'externals/modal-study-preview-introduction.php', 'modal-lg');
                 }
 
                 previewModeEnabled = true;
                 var query = getQueryParams(document.location.search);
-                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 var status = window.location.hash.substr(1);
                 var statusAddressMatch = statusAddressMatchIndex(status);
                 currentView = query.view && query.view === 'moderator' ? VIEW_MODERATOR : VIEW_TESTER;
@@ -343,11 +382,16 @@ if (login_check($mysqli) == true) {
                 }
 
                 if (query.studyId && query.edit && (query.edit === true || query.edit === "true")) {
+                    attachStudyPreparationContent();
                     checkStorage();
                     checkCollaborativeConversation();
 
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
+                        if (prototypeWindow) {
+                            prototypeWindow.close();
+                            prototypeWindow = null;
+                        }
                         goto("study-create.php?edit=true&studyId=" + query.studyId + "&joinedConv=" + joinedRoom + getWebRTCSources());
                     });
                 } else if (query.studyId && query.h === hash) {
@@ -355,18 +399,7 @@ if (login_check($mysqli) == true) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             setStudyData(result);
-
-                            var preparationData = {id: STUDY_EXECUTION_PREPARATION, format: STUDY_EXECUTION_PREPARATION, title: translation.studyExecutionPreparation};
-                            var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
-                            if (phaseSteps && phaseSteps.length > 0) {
-                                phaseSteps.unshift(preparationData);
-                            } else {
-                                phaseSteps = [preparationData];
-                            }
-                            setLocalItem(STUDY_PHASE_STEPS, phaseSteps);
-
-                            var study = getLocalItem(STUDY);
-                            setLocalItem(STUDY_EXECUTION_PREPARATION + '.data', {title: study.title, description: study.description, dateFrom: study.dateFrom, dateTo: study.dateTo, phase: study.phase, surveyType: study.surveyType});
+                            attachStudyPreparationContent();
                             checkStorage();
                         }
                     });
@@ -378,7 +411,7 @@ if (login_check($mysqli) == true) {
 
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
-                        var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                        var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                         goto("study.php?studyId=" + query.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
                     });
                 } else {
@@ -391,6 +424,29 @@ if (login_check($mysqli) == true) {
                     $('.btn-join-conversation').remove();
                     $('.btn-leave-conversation').remove();
                 }
+
+                $('.mainContent').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
+                TweenMax.to($('#study-preview-top-bar'), .4, {opacity: 1});
+            }
+
+            function attachStudyPreparationContent() {
+                var preparationData = {id: STUDY_EXECUTION_PREPARATION, format: STUDY_EXECUTION_PREPARATION, title: translation.studyExecutionPreparation};
+                var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+                if (phaseSteps && phaseSteps.length > 0) {
+                    if (phaseSteps[0].format !== STUDY_EXECUTION_PREPARATION) {
+                        phaseSteps.unshift(preparationData);
+
+                        var study = getLocalItem(STUDY);
+                        setLocalItem(STUDY_EXECUTION_PREPARATION + '.data', {title: study.title, description: study.description, dateFrom: study.dateFrom, dateTo: study.dateTo, phase: study.phase, surveyType: study.surveyType});
+                    }
+                } else {
+                    phaseSteps = [preparationData];
+                }
+                setLocalItem(STUDY_PHASE_STEPS, phaseSteps);
             }
 
             $('.previous').on('click', function (event) {
@@ -411,6 +467,7 @@ if (login_check($mysqli) == true) {
             $('#btnViewModerator').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('active') && !$(this).hasClass('disabled')) {
+                    resetWebcamPreview();
                     showModeratorView();
                     renderPhaseStep();
                 }
@@ -419,10 +476,20 @@ if (login_check($mysqli) == true) {
             $('#btnViewTester').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('active')) {
+                    resetWebcamPreview();
                     showTesterView();
                     renderPhaseStep();
                 }
             });
+
+
+            function resetWebcamPreview() {
+                if (webcamPreview && webcamPreview !== null) {
+                    webcamPreview.destroy();
+                    webcamPreview = null;
+                }
+            }
+
 
             function showModeratorView() {
                 console.log('show moderator view');
@@ -445,15 +512,10 @@ if (login_check($mysqli) == true) {
             }
 
             function renderPhaseStep() {
-                console.log('render phase step', currentView);
+                console.log('render phase step for: ', currentView);
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
 
-//                console.log(currentPhaseStepIndex);
-//                if (currentPhaseStepIndex === undefined) {
-//                    window.location.hash = 'preparation';
-//                } else {
                 window.location.hash = getCurrentPhase().id;
-//                }
 
                 if (window.history.replaceState) {
                     setParam(window.location.href, 'view', currentView);

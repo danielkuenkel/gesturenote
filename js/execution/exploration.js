@@ -107,6 +107,7 @@ Exploration.prototype.renderModeratorView = function () {
                 currentPhaseState = 'prototypeOpened';
                 renderCurrentPhaseState();
             });
+//            $(container).find('#btn-open-prototype').click();
         } else {
             // without screen sharing
             $(container).find('#btn-open-prototype').remove();
@@ -160,6 +161,7 @@ Exploration.prototype.renderModeratorView = function () {
                 }
             }
         });
+        $(container).find('#btn-start-screen-sharing').click();
     }
 
     function renderStateExplorationStarted() {
@@ -227,7 +229,7 @@ Exploration.prototype.renderModeratorView = function () {
     function renderStateAskResponsePreferredGestures() {
         console.log('render moderator state: ', currentPhaseState);
 
-        clearAlerts($(container).find('#identified-getures'));
+        clearAlerts(container);
         $(container).find('#slides').addClass('hidden');
         $(container).find('#identified-gestures').removeClass('hidden');
 
@@ -318,7 +320,7 @@ Exploration.prototype.renderModeratorView = function () {
         $(container).find('#identified-trigger').removeClass('hidden');
         $(container).find('#identified-trigger #answer-container').removeClass('hidden');
         $(container).find('#btn-request-trigger').addClass('hidden');
-        
+
         var gesture = getGestureById(data.exploration[currentExplorationIndex].gestureId);
         $(container).find('#identified-trigger #thumbnail-container').empty().append(getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-12'));
 
@@ -819,6 +821,8 @@ Exploration.prototype.renderModeratorView = function () {
 //                    $(transitionItem).find('.scene-description').removeClass('hidden');
                 }
             }
+        } else {
+            $(item).find('.scenes-container').remove();
         }
     }
 

@@ -15,11 +15,6 @@ include '../includes/language.php';
 <script>
     $(document).ready(function () {
         var currentPhaseData = getCurrentPhaseData();
-//        var gesture = getGestureById(currentPhaseData.identification[currentIdentificationIndex].gestureId);
-//        if (gesture) {
-//            renderGestureImages($('#custom-modal').find('.previewGesture'), gesture.images, gesture.previewImage, function () {
-//            });
-//        }
         var trigger = getTriggerById(currentPhaseData.exploration[currentExplorationIndex].triggerId);
         var gestures = currentPhaseData.exploration[currentExplorationIndex].gestures;
         var options = [];
@@ -30,7 +25,7 @@ include '../includes/language.php';
 
         var question = translation.askPreferredGesturesForTrigger;
         question = question.replace('{trigger}', trigger.title);
-        var data = [{id: chance.natural(), dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: question, parameters: {multiselect: 'yes', optionSource: 'gestures', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes', options: options}}];
+        var data = [{id: trigger.id, dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: question, parameters: {multiselect: 'yes', optionSource: 'gestures', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes', options: options}}];
         renderQuestionnaire($('#custom-modal'), data);
 
         $('#custom-modal').find('.question-container').unbind('change').bind('change', function (event) {

@@ -43,7 +43,7 @@ if (login_check($mysqli) == true) {
         <script src="js/goto-evaluator.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/masonry/masonry.min.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -73,11 +73,11 @@ if (login_check($mysqli) == true) {
                         <div class="label label-default hidden" id="participant-count" data-toggle="popover" data-trigger="hover" data-placement="auto"><i class="fa fa-users"></i> <span class="label-text"></span></div>
                         <div class="label label-default hidden" id="shared-study" data-toggle="popover" data-trigger="hover" title="<?php echo $lang->studySharedWith ?>" data-placement="auto"><i class="fa fa-share-alt"></i> <span class="label-text"></span></div>
                     </div>
-                    
+
                     <div id="study-description" style="line-height: 14pt; font-size: 11pt; margin-top: 10px">
-                        
+
                     </div>
-                    
+
                     <div id="study-plan" class="hidden" style="margin-top: 3px">
                         <div id="study-range-days" style="margin-bottom: -6px"><span class="address"></span> <span class="text"></span></div>
                         <div class="hidden study-no-plan text"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="status-text"></span></div>
@@ -110,100 +110,108 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-studies-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left: -186px">
-            <div class="btn-group-vertical">
+        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-studies-controls" style="position: fixed; top: 50%; z-index: 100; opacity: 0;">
+            <div class="btn-group-vertical left-controls" style="right: -44px; transform: translateY(-50%)">
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-create-study" id="btn-create-study" style="float: right; position: relative; border-bottom-left-radius: 0px; border-top-left-radius: 0px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;"><?php echo $lang->createNewStudy ?> <i class="fa fa-plus" style="margin-left: 10px"></i> </button>
                 </div>
             </div>
         </div>
 
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent" style="margin-top: 0px; padding-top: 0px" id="item-view">
+        <div class="container mainContent hidden" style="margin-top: 0px; padding-top: 0px" id="item-view">
 
             <button type="button" class="btn btn-success hidden-md hidden-lg btn-block btn-shadow btn-create-study" style="margin-top: 20px"><i class="fa fa-plus"></i> <?php echo $lang->createNewStudy ?></button>
 
             <div style="margin-top: 30px">
                 <h3><?php echo $lang->breadcrump->studies ?></h3>
-                <!--<hr>-->
             </div>
 
-            <div class="form-group form-group-no-margin" style="margin-top: 20px">
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
-                    <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
-                    <div class="input-group-btn select" id="filter" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="all" class="selected"><a href="#"><?php echo $lang->filter->all ?></a></li>
-                            <li id="elicitation"><a href="#"><?php echo $lang->filter->elicitation ?></a></li>
-                            <li id="extraction"><a href="#"><?php echo $lang->filter->extraction ?></a></li>
-                            <li id="evaluation"><a href="#"><?php echo $lang->filter->evaluation ?></a></li>
-                            <li id="unmoderated"><a href="#"><?php echo $lang->filter->unmoderated ?></a></li>
-                            <li id="moderated"><a href="#"><?php echo $lang->filter->moderated ?></a></li>
-                            <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
-                            <li id="sharedWithYou"><a href="#"><?php echo $lang->filter->sharedWithYou ?></a></li>
-                            <li id="private"><a href="#"><?php echo $lang->filter->private ?></a></li>
-                        </ul>
+            <div id="filter-controls">
+                <div class="form-group form-group-no-margin" style="margin-top: 20px">
+                    <div class="input-group">
+                        <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
+                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
+                        <div class="input-group-btn select" id="filter" role="group">
+                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="all" class="selected"><a href="#"><?php echo $lang->filter->all ?></a></li>
+                                <li id="elicitation"><a href="#"><?php echo $lang->filter->elicitation ?></a></li>
+                                <li id="extraction"><a href="#"><?php echo $lang->filter->extraction ?></a></li>
+                                <li id="evaluation"><a href="#"><?php echo $lang->filter->evaluation ?></a></li>
+                                <li id="unmoderated"><a href="#"><?php echo $lang->filter->unmoderated ?></a></li>
+                                <li id="moderated"><a href="#"><?php echo $lang->filter->moderated ?></a></li>
+                                <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
+                                <li id="sharedWithYou"><a href="#"><?php echo $lang->filter->sharedWithYou ?></a></li>
+                                <li id="private"><a href="#"><?php echo $lang->filter->private ?></a></li>
+                            </ul>
+                        </div>
+                        <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
+                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
+                        <div class="input-group-btn select" id="sort" role="group">
+                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="newest"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="oldest"><a href="#"><?php echo $lang->sorting->DESC ?></a></li>
+                                <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
-                    <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
-                    <div class="input-group-btn select" id="sort" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="newest"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="oldest"><a href="#"><?php echo $lang->sorting->DESC ?></a></li>
-                            <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
-                        </ul>
+                </div>
+
+                <div class="form-group form-group-margin-top">
+                    <div class="input-group">
+                        <span class="input-group-addon"><?php echo $lang->search->name ?></span>
+                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
+                        <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
+                        <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="12"/>
+                        <div class="input-group-btn select" id="resultsCountSelect" role="group">
+                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_12"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="results_3"><a href="#">3</a></li>
+                                <li id="results_6"><a href="#">6</a></li>
+                                <li id="results_12" class="selected"><a href="#">12</a></li>
+                                <li id="results_48"><a href="#">48</a></li>
+                                <li id="results_96"><a href="#">96</a></li>
+                            </ul>
+                        </div>
                     </div>
+                </div>
+
+                <div class="text-center custom-pagination" id="pager-top">
+                    <nav>
+                        <ul class="pagination pagination-custom hidden" data-clipping="7">
+                            <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                            <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                            <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                            <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="container-root row root" id="list-container" style="margin-top: 10px;"></div>
+
+                <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+                    <nav>
+                        <ul class="pagination pagination-custom hidden" data-clipping="7">
+                            <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                            <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                            <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                            <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
 
-            <div class="form-group form-group-margin-top">
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->search->name ?></span>
-                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
-                    <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
-                    <input class="form-control item-input-text text-center show-dropdown" tabindex="-1" type="text" value="12"/>
-                    <div class="input-group-btn select" id="resultsCountSelect" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_12"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="results_3"><a href="#">3</a></li>
-                            <li id="results_6"><a href="#">6</a></li>
-                            <li id="results_12" class="selected"><a href="#">12</a></li>
-                            <li id="results_48"><a href="#">48</a></li>
-                            <li id="results_96"><a href="#">96</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center custom-pagination" id="pager-top">
-                <nav>
-                    <ul class="pagination pagination-custom hidden" data-clipping="7">
-                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                    </ul>
-                </nav>
-            </div>
-
-            <div class="container-root row root" id="list-container" style="margin-top: 10px;"></div>
-
-            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
-                <nav>
-                    <ul class="pagination pagination-custom hidden" data-clipping="7">
-                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                    </ul>
-                </nav>
-            </div>
 
             <div class="alert-space alert-no-search-results"></div>
             <div class="alert-space alert-no-studies"></div>
+
+            <button type="button" class="btn btn-success hidden btn-block btn-shadow btn-create-study" id="btn-main-create-study" style="margin-top: 20px"><i class="fa fa-plus"></i> <?php echo $lang->createNewStudy ?></button>
 
             <div style="margin-top: 35px;" class="text-center">
                 <span class="text"><?php echo $lang->studyColors->whatDoTheColorsMean ?></span>
@@ -237,32 +245,37 @@ if (login_check($mysqli) == true) {
                 });
 
                 var createStudyButton = $('#fixed-studies-controls #btn-create-study');
-                var timeline = new TimelineMax({paused: true, onStart: function () {
-                        $(createStudyButton).addClass('btn-primary');
+                var createStudyButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                        $(createStudyButton).removeClass('btn-default').addClass('btn-primary');
                     }, onReverseComplete: function () {
-                        $(createStudyButton).removeClass('btn-primary');
+                        $(createStudyButton).removeClass('btn-primary').addClass('btn-default');
                     }});
-
-                timeline.add("createStudy", 0)
-                        .to(createStudyButton, .3, {left: +186, ease: Quad.easeInOut}, "createStudy");
 
                 $(createStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                     event.preventDefault();
-                    timeline.play();
+                    createStudyButtonTimeline.play();
                 });
+
                 $(createStudyButton).unbind('mouseleave').bind('mouseleave', function (event) {
                     event.preventDefault();
-                    timeline.reverse();
+                    createStudyButtonTimeline.reverse();
                 });
+
+                setTimeout(function () {
+                    var leftFlex = 46;
+
+                    createStudyButtonTimeline.add("tween", 0)
+                            .to(createStudyButton, .3, {left: +parseInt($(createStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                }, 200);
             });
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 getStudiesCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         if (result.studies && result.studies.length > 0) {
-                            console.log(result.studies)
                             originalFilterData = sortByKey(result.studies, 'created');
 
                             var data = {
@@ -279,12 +292,25 @@ if (login_check($mysqli) == true) {
                                 }
                             };
 
-                            initPagination(data);
-                            currentFilterData = sort();
-                            renderData(currentFilterData, true);
+                            $('.mainContent').removeClass('hidden');
+                            TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                                    $('#loading-indicator').remove();
+                                    initPagination(data);
+                                    currentFilterData = sort();
+                                    renderData(currentFilterData, true);
+                                }});
+                            TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
+
+
 //                            $('#sort #newest').click();
                         } else {
                             appendAlert($('#item-view'), ALERT_NO_STUDIES);
+                            $('.mainContent').find('#filter-controls').addClass('hidden');
+                            $('.mainContent').removeClass('hidden');
+                            $('.mainContent').find('#btn-main-create-study').removeClass('hidden');
+                            TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                                    $('#loading-indicator').remove();
+                                }});
                         }
 
                         animateBreadcrump();
@@ -322,22 +348,32 @@ if (login_check($mysqli) == true) {
                         if (currentFilterData[i].data.generalData.method === 'userCentered') {
                             $(clone).unbind('gotoStudyParticipants').bind('gotoStudyParticipants', function (event, payload) {
                                 event.preventDefault();
-                                var hash = hex_sha512(parseInt(payload.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                var hash = sha512(parseInt(payload.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                                 goto("study.php?studyId=" + payload.studyId + "&h=" + hash + '&joinedConv=false#participants');
                             });
 
                             $(clone).find('.panel').click({studyId: currentFilterData[i].id}, function (event) {
                                 event.preventDefault();
-                                var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                var hash = sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                                 goto("study.php?studyId=" + event.data.studyId + "&h=" + hash + '&joinedConv=false');
                             });
                         } else if (currentFilterData[i].data.generalData.method === 'expertBased') {
                             $(clone).find('.panel').click({studyId: currentFilterData[i].id}, function (event) {
                                 event.preventDefault();
-                                var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                var hash = sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                                 goto("extraction-study.php?studyId=" + event.data.studyId + "&h=" + hash + '&joinedConv=false');
                             });
                         }
+
+                        $(clone).find('.panel').unbind('mouseenter').bind('mouseenter', function (event) {
+                            event.preventDefault();
+                            TweenMax.to($(this), .15, {scale: 1.05, ease: Quad.easeIn});
+                        });
+
+                        $(clone).find('.panel').unbind('mouseleave').bind('mouseleave', function (event) {
+                            event.preventDefault();
+                            TweenMax.to($(this), .2, {scale: 1, ease: Quad.easeOut, clearProps: 'all'});
+                        });
                     }
                 } else {
                     appendAlert($('#item-view'), ALERT_NO_STUDIES);
@@ -357,6 +393,7 @@ if (login_check($mysqli) == true) {
                     percentPosition: true,
                     transitionDuration: 0
                 });
+
                 $container.masonry('layout');
                 firstInit = false;
             }

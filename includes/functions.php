@@ -33,7 +33,7 @@ function login($email, $password, $mysqli) {
         $stmt->store_result();
 
         // get variables from result.
-        $stmt->bind_result($user_id, $forename, $surname, $email, $db_password, $birthday, $gender, $usertype, $created, $passwordReset, $tutorialStudyCreation, $tutorialStudyPreview, $tutorialStudy, $tutorialExtraction, $tutorialParticipant, $tutorialGestureCatalog);
+        $stmt->bind_result($user_id, $forename, $surname, $email, $db_password, $birthday, $gender, $usertype, $created, $passwordReset, $tutorials);
         $stmt->fetch();
 
         if ($stmt->num_rows == 1) {
@@ -62,12 +62,16 @@ function login($email, $password, $mysqli) {
                     $_SESSION['email'] = $email;
                     $_SESSION['login_string'] = hash('sha512', $db_password . $user_browser);
                     $_SESSION['usertype'] = $usertype;
-                    $_SESSION['tutorialStudyCreation'] = $tutorialStudyCreation;
-                    $_SESSION['tutorialStudyPreview'] = $tutorialStudyPreview;
-                    $_SESSION['tutorialStudy'] = $tutorialStudy;
-                    $_SESSION['tutorialExtraction'] = $tutorialExtraction;
-                    $_SESSION['tutorialParticipant'] = $tutorialParticipant;
-                    $_SESSION['tutorialGestureCatalog'] = $tutorialGestureCatalog;
+
+                    $parsedTutorials = json_decode($tutorials);
+                    $_SESSION['tutorials'] = $parsedTutorials;
+//                    $_SESSION['tutorialStudyCreation'] = $tutorialStudyCreation;
+//                    $_SESSION['tutorialExtractionStudyCreation'] = $tutorialExtractionStudyCreation;
+//                    $_SESSION['tutorialStudyPreview'] = $tutorialStudyPreview;
+//                    $_SESSION['tutorialStudy'] = $tutorialStudy;
+//                    $_SESSION['tutorialExtraction'] = $tutorialExtraction;
+//                    $_SESSION['tutorialParticipant'] = $tutorialParticipant;
+//                    $_SESSION['tutorialGestureCatalog'] = $tutorialGestureCatalog;
 
                     echo json_encode(array('status' => 'success', 'userId' => $user_id, 'forename' => $forename, 'surname' => $surname, 'userType' => $usertype));
                     exit();
@@ -258,6 +262,15 @@ function checkCookiesAccepted() {
         echo print_r($_SESSION['cookiesAccepted']);
     } else {
         $_SESSION['cookiesAccepted'] = '0';
+        echo '0';
+    }
+}
+
+function checkDarkMode() {
+    if (isset($_SESSION['darkmode'])) {
+        echo print_r($_SESSION['darkmode']);
+    } else {
+        $_SESSION['darkmode'] = '0';
         echo '0';
     }
 }

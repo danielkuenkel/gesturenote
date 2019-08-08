@@ -13,7 +13,7 @@ if ($h && $studyId) {
             if ($_SESSION['usertype'] == 'guest') {
                 header('Location: study-prepare-tester.php?studyId=' . $studyId . '&token=' . $h . '&h=' . $hash);
             } else if ($_SESSION['usertype'] == 'evaluator') {
-                header('Location: study-prepare-evaluator.php?studyId=' . $studyId . '&token=' . $h . '&h=' . $hash);
+                header('Location: study-prepare-moderator.php?studyId=' . $studyId . '&token=' . $h . '&h=' . $hash);
             }
         }
     }
@@ -51,7 +51,7 @@ if ($h && $studyId) {
         <script src="js/checkForms.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -168,9 +168,9 @@ if ($h && $studyId) {
 
                 $('#login-form').on('loginSuccess', function (event, result) {
                     event.preventDefault();
-                    var hash = hex_sha512(parseInt(query.studyId) + result.userId + result.forename + result.surname);
+                    var hash = sha512(parseInt(query.studyId) + result.userId + result.forename + result.surname);
                     if (result.userType === 'evaluator') {
-                        goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
+                        goto('study-prepare-moderator.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
                     }
                 });
 
@@ -185,7 +185,7 @@ if ($h && $studyId) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         console.log(result);
                         if (result.status === RESULT_SUCCESS) {
-                            var hash = hex_sha512(parseInt(query.studyId) + 'guest');
+                            var hash = sha512(parseInt(query.studyId) + 'guest');
                             var testerUrl = origin + '/study-prepare-tester.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash;
                             var moderatorUrl = origin + '/study-prepare.php?studyId=' + query.studyId + '&h=' + query.h;
 

@@ -28,6 +28,11 @@ function createOriginPhases() {
 
         setLocalItem(phases[0].id + '.data', translation.placeholderLetterOfAcceptance);
         setLocalItem(phases[1].id + '.data', translation.placeholderThanks);
+    } else if (phaseSteps && phaseSteps.length > 0) {
+        if (phaseSteps[0].format === STUDY_EXECUTION_PREPARATION) {
+            phaseSteps.shift();
+        }
+        setLocalItem(STUDY_PHASE_STEPS, phaseSteps);
     }
 }
 
@@ -99,7 +104,7 @@ function renderSessionStorageData() {
 //            $('#to-date-picker').data("DateTimePicker").date(new Date(study.dateTo));
 //        }
 
-        
+
 //        $('#from-To-datepicker .input-daterange input').each(function () {
 //            if ($(this).attr('id') === 'start' && study.dateFrom !== null && study.dateFrom !== "0" && study.dateFrom !== "") {
 //                var dateFrom = new Date(study.dateFrom * 1000);
@@ -116,73 +121,73 @@ function renderSessionStorageData() {
 }
 
 //var currentSelectedAgeRange = null;
-function renderAgeRanges() {
-    var study = getLocalItem(STUDY);
-    var studyPanel = getLocalItem(STUDY_PANEL);
-    var selectedGender = $('#genderSwitch').find('.btn-option-checked').attr('id');
-    var ranges = calculateAgeRangeForGender(studyPanel.raw, selectedGender);
-
-    if (study) {
-        if (study.ageRange && study.ageRange !== undefined && studyPanel) {
-            ranges.min = parseInt(study.ageRange.min);
-            ranges.max = parseInt(study.ageRange.max);
-//            $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [Math.max(studyPanel.min, parseInt(ranges[0])), Math.min(studyPanel.max, parseInt(ranges[1]))], tooltip: 'hide'});
-        } else {
-
-//            $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [parseInt(ranges[0]), parseInt(ranges[1])], tooltip: 'hide'});
-        }
-    } else if (studyPanel) {
-        ranges.min = parseInt(studyPanel.min);
-        ranges.max = parseInt(studyPanel.max);
-//        $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [parseInt(ranges[0]), parseInt(ranges[1])], tooltip: 'hide'});
-    }
-
-    var slider = new Slider('#ageSlider .custom-range-slider', {
-        formatter: function (value) {
-            return 'Current value: ' + value;
-        },
-        tooltip: 'hide',
-        min: studyPanel.min,
-        max: studyPanel.max,
-        range: true,
-        value: [Math.max(studyPanel.min, ranges.min || studyPanel.min), Math.min(studyPanel.max, ranges.max || studyPanel.max)]
-    });
-    $('#ageSlider #age-label .age-text').text('(' + translation.atLeastShort + " " + studyPanel.min + ' / ' + translation.maximalShort + ' ' + studyPanel.max + ' ' + translation.years + ')');
-
-//    $('#ageSlider .slider-to').text(translation.to + " " + ' ' + translation.maximal + ' ' + studyPanel.max);
-
-    $('#ageSlider').unbind('slide').bind('slide', function (slideEvt) {
-        currentSelectedAgeRange = {min: parseInt(slideEvt.value[0]), max: parseInt(slideEvt.value[1])};
-        updateSelectionText(currentSelectedAgeRange, $('#genderSwitch').find('.btn-option-checked').attr('id'));
-    });
-    $('#ageSlider').on('mouseup', function (event) {
-        console.log('age slider clicked');
-    });
-
-    $('#genderSwitch').on('change', function () {
-        var selectedGender = $('#genderSwitch').find('.btn-option-checked').attr('id');
-        var ageRange = calculateAgeRangeForGender(studyPanel.raw, selectedGender);
-        slider.setAttribute('min', ageRange.min);
-        slider.setAttribute('max', ageRange.max);
-        slider.refresh();
-        $('#ageSlider #age-label .age-text').text('(' + translation.atLeastShort + " " + ageRange.min + ' / ' + translation.maximalShort + ' ' + ageRange.max + ' ' + translation.years + ')');
-
-        var savedRange = getLocalItem(STUDY).ageRange;
-//        console.log(slider.getAttribute('min'), slider.getAttribute('max'));
-
-//        $('#ageSlider .slider-from').text(translation.of + ' ' + translation.atLeast + " " + ageRange.min);
-//        $('#ageSlider .slider-to').text(translation.to + " " + ' ' + translation.maximal + ' ' + ageRange.max);
-        currentSelectedAgeRange = {min: Math.max(ageRange.min, savedRange.min), max: Math.min(ageRange.max, savedRange.max)};
-//        currentSelectedAgeRange = {min: ageRange.min, max: ageRange.max};
-        slider.setAttribute('value', [currentSelectedAgeRange.min, currentSelectedAgeRange.max]);
-        slider.refresh();
-        updateSelectionText(currentSelectedAgeRange, selectedGender);
-        saveGeneralData();
-    });
-
-    currentSelectedAgeRange = ranges;
-    updateSelectionText(currentSelectedAgeRange, $('#genderSwitch').find('.btn-option-checked').attr('id'));
-}
+//function renderAgeRanges() {
+//    var study = getLocalItem(STUDY);
+//    var studyPanel = getLocalItem(STUDY_PANEL);
+//    var selectedGender = $('#genderSwitch').find('.btn-option-checked').attr('id');
+//    var ranges = calculateAgeRangeForGender(studyPanel.raw, selectedGender);
+//
+//    if (study) {
+//        if (study.ageRange && study.ageRange !== undefined && studyPanel) {
+//            ranges.min = parseInt(study.ageRange.min);
+//            ranges.max = parseInt(study.ageRange.max);
+////            $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [Math.max(studyPanel.min, parseInt(ranges[0])), Math.min(studyPanel.max, parseInt(ranges[1]))], tooltip: 'hide'});
+//        } else {
+//
+////            $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [parseInt(ranges[0]), parseInt(ranges[1])], tooltip: 'hide'});
+//        }
+//    } else if (studyPanel) {
+//        ranges.min = parseInt(studyPanel.min);
+//        ranges.max = parseInt(studyPanel.max);
+////        $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [parseInt(ranges[0]), parseInt(ranges[1])], tooltip: 'hide'});
+//    }
+//
+//    var slider = new Slider('#ageSlider .custom-range-slider', {
+//        formatter: function (value) {
+//            return 'Current value: ' + value;
+//        },
+//        tooltip: 'hide',
+//        min: studyPanel.min,
+//        max: studyPanel.max,
+//        range: true,
+//        value: [Math.max(studyPanel.min, ranges.min || studyPanel.min), Math.min(studyPanel.max, ranges.max || studyPanel.max)]
+//    });
+//    $('#ageSlider #age-label .age-text').text('(' + translation.atLeastShort + " " + studyPanel.min + ' / ' + translation.maximalShort + ' ' + studyPanel.max + ' ' + translation.years + ')');
+//
+////    $('#ageSlider .slider-to').text(translation.to + " " + ' ' + translation.maximal + ' ' + studyPanel.max);
+//
+//    $('#ageSlider').unbind('slide').bind('slide', function (slideEvt) {
+//        currentSelectedAgeRange = {min: parseInt(slideEvt.value[0]), max: parseInt(slideEvt.value[1])};
+//        updateSelectionText(currentSelectedAgeRange, $('#genderSwitch').find('.btn-option-checked').attr('id'));
+//    });
+//    $('#ageSlider').on('mouseup', function (event) {
+//        console.log('age slider clicked');
+//    });
+//
+//    $('#genderSwitch').on('change', function () {
+//        var selectedGender = $('#genderSwitch').find('.btn-option-checked').attr('id');
+//        var ageRange = calculateAgeRangeForGender(studyPanel.raw, selectedGender);
+//        slider.setAttribute('min', ageRange.min);
+//        slider.setAttribute('max', ageRange.max);
+//        slider.refresh();
+//        $('#ageSlider #age-label .age-text').text('(' + translation.atLeastShort + " " + ageRange.min + ' / ' + translation.maximalShort + ' ' + ageRange.max + ' ' + translation.years + ')');
+//
+//        var savedRange = getLocalItem(STUDY).ageRange;
+////        console.log(slider.getAttribute('min'), slider.getAttribute('max'));
+//
+////        $('#ageSlider .slider-from').text(translation.of + ' ' + translation.atLeast + " " + ageRange.min);
+////        $('#ageSlider .slider-to').text(translation.to + " " + ' ' + translation.maximal + ' ' + ageRange.max);
+//        currentSelectedAgeRange = {min: Math.max(ageRange.min, savedRange.min), max: Math.min(ageRange.max, savedRange.max)};
+////        currentSelectedAgeRange = {min: ageRange.min, max: ageRange.max};
+//        slider.setAttribute('value', [currentSelectedAgeRange.min, currentSelectedAgeRange.max]);
+//        slider.refresh();
+//        updateSelectionText(currentSelectedAgeRange, selectedGender);
+//        saveGeneralData();
+//    });
+//
+//    currentSelectedAgeRange = ranges;
+//    updateSelectionText(currentSelectedAgeRange, $('#genderSwitch').find('.btn-option-checked').attr('id'));
+//}
 
 function updateSelectionText(range, gender) {
 //    console.log(range, gender);
@@ -295,6 +300,7 @@ function renderCatalogOverview() {
 }
 
 function renderStudyGestures(gestures, animate) {
+//    console.log('render study gestures', gestures);
     $('#gestures-catalog').find('#gestures-list-container').empty();
     if (gestures && gestures.length > 0) {
         $('#gestures-catalog').find('#btn-download-as-json').removeClass('disabled');
@@ -302,13 +308,12 @@ function renderStudyGestures(gestures, animate) {
         for (var i = 0; i < gestures.length; i++) {
             var gesture = getGestureById(gestures[i]);
             var clone = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-4 col-lg-3');
-
+            $(clone).find('.tagged-symbol').addClass('hidden');
             $('#gestures-catalog').find('#gestures-list-container').append(clone);
+
             if (animate && animate === true) {
                 TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
             }
-            
-            
         }
     } else {
         appendAlert($('#gestures-catalog'), ALERT_NO_PHASE_DATA);
@@ -324,6 +329,32 @@ function renderStudyGestures(gestures, animate) {
             }
         });
     });
+
+
+    // save study gesture set in database
+    var study = getLocalItem(STUDY);
+    console.log('save gesture set in DB', study, gestures);
+    if (gestures && gestures.length > 0) {
+        if (study && study.savedStudyGestureSet) {
+            var ownerId = currentSessionUserId;
+            if (study.ownerId) {
+                ownerId = study.ownerId;
+            }
+
+            updateGestureSet({setId: study.savedStudyGestureSet.id, title: study.title, gestures: gestures, ownerId: ownerId}, function (result) {
+                if (result.status === RESULT_SUCCESS) {
+
+                }
+            });
+        } else {
+            saveGestureSet({title: study.title, gestures: gestures}, function (result) {
+                if (result.status === RESULT_SUCCESS) {
+                    study.savedStudyGestureSet = {id: result.id, ownerId: result.ownerId};
+                    setLocalItem(STUDY, study);
+                }
+            });
+        }
+    }
 
     initPopover();
     initTooltips();
@@ -353,34 +384,36 @@ function renderStudyFeedback(feedback) {
 
 function renderStudyScenes(scenes) {
     for (var i = 0; i < scenes.length; i++) {
-        var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
-        item.find('.text').text(scenes[i].title);
-        item.find('.label-text').text(translation.sceneTypes[scenes[i].type]);
-        item.find('#' + scenes[i].type).removeClass('hidden');
-        $('#scenes-catalog').find('.list-container').append(item);
-        TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-        
-        $(item).find('.text').unbind('mouseenter').bind('mouseenter', {sceneId: scenes[i].id}, function (event) {
-            var button = $(this);
-            var scene = getSceneById(event.data.sceneId);
-            renderScenePopoverPreview(scene, function (popover) {
-                var top = $(button).offset().top - popover.height() - 2;
-                var left = $(button).offset().left + parseInt(((button.width() - popover.width()) / 2));
-                popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
-                TweenMax.to(popover, .3, {autoAlpha: 1});
-            });
-        });
+        if (scenes[i].parameters && scenes[i].parameters.url) {
+            var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
+            item.find('.text').text(scenes[i].title);
+            item.find('.label-text').text(translation.sceneTypes[scenes[i].type]);
+            item.find('#' + scenes[i].type).removeClass('hidden');
+            $('#scenes-catalog').find('.list-container').append(item);
+            TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
 
-        $(item).find('.text').unbind('mouseleave').bind('mouseleave', function (event) {
-            event.preventDefault();
-            resetScenePopover();
-        });
-        
-        $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
-            event.preventDefault();
-            currentSceneId = event.data.sceneId;
-            loadHTMLintoModal('custom-modal', 'externals/modal-scene.php', 'modal-lg');
-        });
+            $(item).find('.text').unbind('mouseenter').bind('mouseenter', {sceneId: scenes[i].id}, function (event) {
+                var button = $(this);
+                var scene = getSceneById(event.data.sceneId);
+                renderScenePopoverPreview(scene, function (popover) {
+                    var top = $(button).offset().top - popover.height() - 2;
+                    var left = $(button).offset().left + parseInt(((button.width() - popover.width()) / 2));
+                    popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                    TweenMax.to(popover, .3, {autoAlpha: 1});
+                });
+            });
+
+            $(item).find('.text').unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                resetScenePopover();
+            });
+
+            $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
+                event.preventDefault();
+                currentSceneId = event.data.sceneId;
+                loadHTMLintoModal('custom-modal', 'externals/modal-scene.php', 'modal-lg');
+            });
+        }
     }
 }
 
@@ -472,7 +505,12 @@ function updateCatalogButtons() {
 }
 
 function saveGeneralData() {
-    var study = new Object();
+    var study = getLocalItem(STUDY);
+    if (!study) {
+        study = {};
+    }
+
+//    var study = new Object();
     study.title = $('#studyTitle').val();
     study.description = $('#studyDescription').val();
     study.phase = $('#phaseSelect .btn-option-checked').attr('id');

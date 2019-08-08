@@ -181,7 +181,7 @@ function renderData(data, hash) {
                 if (mappingForTriggers[i].sceneIds && mappingForTriggers[i].sceneIds.length) {
                     for (var j = 0; j < mappingForTriggers[i].sceneIds.length; j++) {
                         var scene = getSceneById(mappingForTriggers[i].sceneIds[j]);
-                        var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id').css({marginTop:'-10px'});
+                        var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id').css({marginTop: '-10px'});
                         item.find('.text').text(scene.title);
                         item.find('.label-text').text(translation.sceneTypes[scene.type]);
                         item.find('#' + scene.type).removeClass('hidden');
@@ -214,7 +214,7 @@ function renderData(data, hash) {
                 TweenMax.from(mappingItem, .2, {delay: i * .03, opacity: 0, y: '-20px'});
             }
         } else {
-            appendAlert(container, ALERT_NO_PHASE_DATA);
+            appendAlert(container.closest('#trigger-mappings'), ALERT_NO_PHASE_DATA);
         }
 
         container = $('#extraction-mapping').find('#gesture-mapping-container');
@@ -240,16 +240,18 @@ function renderData(data, hash) {
                 TweenMax.from(mappingItem, .2, {delay: i * .03, opacity: 0, y: '-20px'});
             }
         } else {
-            appendAlert(container, ALERT_NO_PHASE_DATA);
+            appendAlert(container.closest('#gesture-mappings'), ALERT_NO_PHASE_DATA);
         }
     }
 
     function getMappingForTriggers() {
         var mapping = getLocalItem('extractionMapping');
         var array = [];
-        for (var i = 0; i < mapping.length; i++) {
-            if (mapping[i].format === 'trigger-mapping') {
-                array.push(mapping[i]);
+        if (mapping && mapping.length > 0) {
+            for (var i = 0; i < mapping.length; i++) {
+                if (mapping[i].format === 'trigger-mapping') {
+                    array.push(mapping[i]);
+                }
             }
         }
         return array;
@@ -258,9 +260,11 @@ function renderData(data, hash) {
     function getMappingForGestures() {
         var mapping = getLocalItem('extractionMapping');
         var array = [];
-        for (var i = 0; i < mapping.length; i++) {
-            if (mapping[i].format === 'gesture-mapping') {
-                array.push(mapping[i]);
+        if (mapping && mapping.length > 0) {
+            for (var i = 0; i < mapping.length; i++) {
+                if (mapping[i].format === 'gesture-mapping') {
+                    array.push(mapping[i]);
+                }
             }
         }
         return array;

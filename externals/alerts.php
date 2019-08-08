@@ -81,6 +81,9 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="study-over-range" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->studyOverRange->text ?></span></div>
     <div class="alert alert-warning" id="study-under-range" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->studyUnderRange->text ?></span></div>
     <div class="alert alert-warning" id="duplicated-role-detected" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->duplicatedRoleDetected->text ?></span></div>
+    <div class="alert alert-warning" id="select-role-hint" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->selectRoleHint->text ?></span></div>
+    <div class="alert alert-warning" id="select-participant-hint" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->selectParticipantHint->text ?></span></div>
+    <div class="alert alert-warning" id="welcome-participant-hint" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->welcomeParticipantHint->text ?></span></div>
     <div class="alert alert-warning" id="please-wait" role="alert"><i class="fa fa-circle-o-notch fa-spin"></i> <span class="alert-text"><?php echo $lang->alerts->pleaseWait->text ?></span></div>
     <div class="alert alert-warning" id="general-please-wait" role="alert"><i class="fa fa-circle-o-notch fa-spin"></i> <span class="alert-text"><?php echo $lang->alerts->generalPleaseWait->text ?></span></div>
     <div class="alert alert-warning" id="no-recorded-gestures" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noRecordedGestures->text ?></span></div>
@@ -101,6 +104,7 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-data-ueq-questionnaire" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noDataUEQQuestionnaire->text ?></span></div>
     <div class="alert alert-warning" id="not-assigned-to-gesture-set" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->notAssignedToGestureSet->text ?></span></div>
     <div class="alert alert-warning" id="set-missing-gestures" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->setMissingGestures->text ?></span></div>
+    <div class="alert alert-warning" id="no-more-woz-states" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noMoreWozStates->text ?></span></div>
     <div class="alert alert-warning" id="preview-dummy" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->previewDummy->text ?></span></div>
     <div class="alert alert-warning" id="no-more-tasks" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noMoreTasks->text ?></span></div>
     <div class="alert alert-warning" id="no-annotations" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noAnnotations->text ?></span></div>
@@ -116,4 +120,8 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-gesture-set-mappings" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noGestureSetMappings->text ?></span></div>
     <div class="alert alert-danger"  id="script-input-error" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->scriptInputError->text ?></span></div>
     <div class="alert alert-warning" id="no-gestures-trimmed" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->noGesturesTrimmed->text ?></span></div>
+    <div class="alert alert-info"    id="drag-and-drop-hint" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->dragAndDropHint->text ?></span></div>
+    <div class="alert alert-warning" id="invalid-agate-format" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->invalidAgateFormat->text ?></span></div>
+    <div class="alert alert-warning" id="rtc-permission-denied" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->rtcPermissionDenied->text ?></span></div>
+    <div class="alert alert-warning" id="reinitialize-gesture-classification" role="alert"><i class="fa fa-exclamation-triangle"></i> <span class="alert-text"><?php echo $lang->alerts->reinitializeGestureClassification->text ?></span></div>
 </div>

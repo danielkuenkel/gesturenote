@@ -5,7 +5,7 @@ include '../includes/language.php';
 <div id="form-item-container" class="hidden">
 
     <div class="col-sm-11 root" id="filter-option-item">
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px; background-color: #fbead121">
             <div class="panel-heading panel-heading-warning">
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -55,7 +55,7 @@ include '../includes/language.php';
     </div>
 
     <div class="col-sm-11 root" id="ranking-filter-option-item">
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px; background-color: #fbead121">
             <div class="panel-heading panel-heading-warning">
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -120,7 +120,7 @@ include '../includes/language.php';
     </div>
 
     <div class="col-sm-11 root" id="sum-filter-option-item">
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px; background-color: #fbead121">
             <div class="panel-heading panel-heading-warning">
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -210,7 +210,7 @@ include '../includes/language.php';
     </div>
 
     <div class="col-sm-11 root" id="counter-filter-option-item">
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px; background-color: #fbead121">
             <div class="panel-heading panel-heading-warning">
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -294,9 +294,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->openQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -328,9 +328,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->openQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body hide-when-unused">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -354,9 +354,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->dichotomousQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body">
 
@@ -452,9 +452,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->alternativeQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body hide-when-unused">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -682,9 +682,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->counter->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body">
             <div class="form-group form-group-no-margin">
@@ -745,9 +745,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -835,7 +835,7 @@ include '../includes/language.php';
     </div>
 
     <div class="col-sm-11 root" id="groupingQuestionItem">
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 8px; background-color: #d3ecd31a">
             <div class="panel-heading panel-heading-success">
                 <div class="btn-group btn-group-sm">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -928,9 +928,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body hide-when-unused">
 
@@ -1118,9 +1118,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body">
 
@@ -1317,9 +1317,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->rating->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -1395,7 +1395,7 @@ include '../includes/language.php';
 
     <div class="col-sm-11 root" id="ratingItem">
 
-        <div class="panel panel-default panel-shadow" style="margin-bottom: 10px;">
+        <div class="panel panel-default panel-shadow" style="margin-bottom: 10px; background-color: #d3ecd31a">
             <div class="panel-heading panel-heading-success">
                 <div class="btn-group btn-group-sm" style="margin-right: 10px">
                     <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -1484,9 +1484,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->matrix->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -1518,9 +1518,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->sumQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -1619,9 +1619,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->ranking->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -1684,7 +1684,7 @@ include '../includes/language.php';
             <div class="alert-space alert-no-scenes-assembled"></div>
 
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <div class="form-group">
                         <label><?php echo $lang->task ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpTask ?>"></i></label>
                         <div class="alert-space alert-assembled-task-removed"></div>
@@ -1697,7 +1697,7 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+<!--                <div class="col-sm-6">
                     <div class="form-group">
                         <label><?php echo $lang->scene ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpScene ?>"></i></label>
                         <div class="alert-space alert-assembled-scene-removed"></div>
@@ -1709,7 +1709,7 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
 
             <div class="form-group">
@@ -1880,15 +1880,19 @@ include '../includes/language.php';
     </div>
 
     <div class="col-xs-12 col-sm-11 root" id="wozExperimentItem">
-        <div class="panel panel-default panel-shadow">
-            <div class="panel-heading panel-heading-success">
+        <div class="panel panel-default panel-shadow" style="background-color: #d3ecd31a">
+            <div class="panel-heading panel-heading-expandable panel-heading-success">
                 <div class="btn-group btn-group-sm btn-group-root" style="margin-right: 10px">
                     <button class="btn btn-default btn-shadow btn-up scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
                     <button class="btn btn-default btn-shadow btn-down scroll-after-move" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveDown ?>"><i class="fa fa-arrow-down"></i></button>
                     <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
                 </div>
+                <span><?php echo $lang->wozElement ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+                <div class="btn-group btn-group-sm pull-right">
+                    <button class="btn btn-default btn-shadow btn-expand" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+                </div>
             </div>
-            <div class="panel-body" style="margin-bottom: 0px">
+            <div class="panel-body panel-body-expandable hidden" style="margin-bottom: 0px">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -1906,9 +1910,6 @@ include '../includes/language.php';
 
                     <div class="col-sm-12">
                         <div class="panel panel-default">
-                            <!--                            <div class="custom-panel-headline">
-                                                            Geste
-                                                        </div>-->
                             <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -1965,9 +1966,6 @@ include '../includes/language.php';
 
                     <div class="col-sm-12">
                         <div class="panel panel-default">
-                            <!--                            <div class="custom-panel-headline">
-                                                            Geste
-                                                        </div>-->
                             <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -2040,102 +2038,99 @@ include '../includes/language.php';
 
                 </div>
 
-                <!--                <div class="row">
-                
-                                    <div class="col-sm-12">
-                                        <div class="panel panel-default">
-                                            <div class="custom-panel-headline">
-                                                Event-Bus
-                                            </div>
-                                            <div class="panel-body" style="padding-top: 5px; padding-bottom: 0px">
-                                                <div class="row">
-                
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group use-event-bus" style="">
-                                                            <label><?php echo $lang->useEventBus ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->useEventBus ?>"></i></label>
-                                                            <div class="root">
-                                                                <div class="btn-group" id="radio" style="margin: 0">
-                                                                    <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->no ?></span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="btn-group" id="radio" style="margin: 0">
-                                                                    <button class="btn btn-default btn-radio" name="primary" id="yes">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->yes ?></span>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group continuous-value-type hidden" style="">
-                                                            <label><?php echo $lang->continuousValueTypeLabel ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i></label>
-                                                            <div class="root">
-                                                                <div class="btn-group" id="radio" style="margin: 0; display: flex">
-                                                                    <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="none">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->none ?></span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                                                    <button class="btn btn-default btn-radio" name="primary" id="manipulationPercent">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->continuousValueType->manipulationPercent ?></span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                                                    <button class="btn btn-default btn-radio" name="primary" id="manipulationMouse">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->continuousValueType->manipulationMouse ?></span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                                                    <button class="btn btn-default btn-radio" name="primary" id="mouseSimulation">
-                                                                        <span id="icons" style="margin-right: 6px">
-                                                                            <i class="fa fa-circle-thin" id="normal"></i>
-                                                                            <i class="fa fa-circle hidden" id="over"></i>
-                                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                                        </span>
-                                                                        <span class="option-text"><?php echo $lang->continuousValueType->mouseSimulation ?></span>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                
-                                                </div>
-                                            </div>
+                <div class="panel panel-default event-bus-settings hidden">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-no-margin use-event-bus" style="">
+                                    <label><?php echo $lang->useEventBus ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->useEventBus ?>"></i></label>
+                                    <div class="root">
+                                        <div class="btn-group" id="radio" style="margin: 0">
+                                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->no ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" id="radio" style="margin: 0">
+                                            <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->yes ?></span>
+                                            </button>
                                         </div>
                                     </div>
-                                </div>-->
+                                </div>
+                            </div>
 
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-no-margin continuous-value-type hidden" style="">
+                                    <label><?php echo $lang->continuousValueTypeLabel ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i></label>
+                                    <div class="root">
+                                        <div class="btn-group" id="radio" style="margin: 0; display: flex">
+                                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="automatically">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->Automatically ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                            <button class="btn btn-default btn-radio" name="primary" id="none">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->none ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                            <button class="btn btn-default btn-radio" name="primary" id="percent">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->continuousValueType->percent ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                            <button class="btn btn-default btn-radio" name="primary" id="position">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->continuousValueType->position ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                            <button class="btn btn-default btn-radio" name="primary" id="mouseSimulation">
+                                                <span id="icons" style="margin-right: 6px">
+                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                </span>
+                                                <span class="option-text"><?php echo $lang->continuousValueType->mouseSimulation ?></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                <!--                <div class="row">
-                
-                                </div>-->
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="row">
                     <div class="col-sm-11">
@@ -2155,7 +2150,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default panel-shadow root" id="woz-transition-scene-option">
+    <div class="panel panel-default panel-shadow root" id="woz-transition-scene-option" style="background-color: #b1cfe91f">
         <div class="panel-heading panel-heading-primary">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -2230,90 +2225,10 @@ include '../includes/language.php';
                 </div>    
             </div>
 
-            <div class="row event-bus-settings hidden" style="margin-top: 10px">
-
-                <div class="col-sm-6">
-                    <div class="form-group form-group-no-margin use-event-bus" style="">
-                        <label><?php echo $lang->useEventBus ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->useEventBus ?>"></i></label>
-                        <div class="root">
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->no ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio" name="primary" id="yes">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->yes ?></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6">
-                    <div class="form-group form-group-no-margin continuous-value-type hidden" style="">
-                        <label><?php echo $lang->continuousValueTypeLabel ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i></label>
-                        <div class="root">
-                            <div class="btn-group" id="radio" style="margin: 0; display: flex">
-                                <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="none">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->none ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                <button class="btn btn-default btn-radio" name="primary" id="percent">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->continuousValueType->percent ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                <button class="btn btn-default btn-radio" name="primary" id="position">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->continuousValueType->position ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
-                                <button class="btn btn-default btn-radio" name="primary" id="mouseSimulation">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->continuousValueType->mouseSimulation ?></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
         </div>
     </div>
 
-    <div class="panel panel-default panel-shadow root" id="training-woz-transition-scene-option">
+    <div class="panel panel-default panel-shadow root" id="training-woz-transition-scene-option" style="background-color: #b1cfe91f">
         <div class="panel-heading panel-heading-primary">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -2779,6 +2694,99 @@ include '../includes/language.php';
 
             </div>
 
+            <div class="panel panel-default event-bus-settings hidden">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-no-margin use-event-bus" style="">
+                                <label><?php echo $lang->useEventBus ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->useEventBus ?>"></i></label>
+                                <div class="root">
+                                    <div class="btn-group" id="radio" style="margin: 0">
+                                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->no ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" id="radio" style="margin: 0">
+                                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->yes ?></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-no-margin continuous-value-type hidden" style="">
+                                <label><?php echo $lang->continuousValueTypeLabel ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->continuousValueType ?>"></i></label>
+                                <div class="root">
+                                    <div class="btn-group" id="radio" style="margin: 0; display: flex">
+                                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="automatically">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->Automatically ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                        <button class="btn btn-default btn-radio" name="primary" id="none">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->none ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                        <button class="btn btn-default btn-radio" name="primary" id="percent">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->continuousValueType->percent ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                        <button class="btn btn-default btn-radio" name="primary" id="position">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->continuousValueType->position ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" id="radio" style="margin: 0; margin-top: 4px; display: flex">
+                                        <button class="btn btn-default btn-radio" name="primary" id="mouseSimulation">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->continuousValueType->mouseSimulation ?></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="form-group col-sm-11" id="scenes" style="margin-top: 15px">
                     <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingScenes ?>"></i></label>
@@ -3082,7 +3090,7 @@ include '../includes/language.php';
         </div> 
     </div>
 
-    <div class="panel panel-default panel-shadow root" id="transition-scene-option">
+    <div class="panel panel-default panel-shadow root" id="transition-scene-option" style="background-color: #b1cfe91f">
         <div class="panel-heading panel-heading-primary">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->moveUp ?>"><i class="fa fa-arrow-up"></i></button>
@@ -3193,18 +3201,21 @@ include '../includes/language.php';
                 </div>
 
                 <form enctype="multipart/form-data" id="upload-image-form" class="hidden">
-                    <input class="imageUpload hidden" name="image" type="file" accept="image/jpeg, image/gif, image/png" />
+                    <input class="imageUpload hidden" name="image" type="file" accept="image/jpeg, image/gif, image/png" multiple />
                 </form>
             </div>
             <div class="alert-space alert-image-to-large" style="margin-top: 10px"></div>
 
             <div class="imageArea hidden" style="margin-top: 10px; width: 400px; height: auto; position: relative;">
-                <div class="btn-group"style="position: absolute; margin: 10px;">
+                <div class="btn-group btn-group-sm"style="position: absolute; margin: 10px;">
                     <button class="btn btn-danger btn-shadow btn-delete-image"><span class="fa fa-trash"></span> <?php echo $lang->deleteImage ?></button>
+                </div>
+
+                <div class="btn-group btn-group-sm"style="position: absolute; margin: 10px; right: 0px;">
                     <button class="btn btn-default btn-shadow btn-decrease-image"><i class="fa fa-minus"></i></button>
                     <button class="btn btn-default btn-shadow btn-increase-image"><i class="fa fa-plus"></i></button>
                 </div>
-                <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
+                <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 8px;" />
             </div>
 
             <div id="image-loading-indicator" class="hidden" style="margin-top: 10px">
@@ -3303,9 +3314,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->rating->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body hide-when-unused">
             <div>
@@ -3339,9 +3350,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->dichotomousQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body hide-when-unused">
 
@@ -3442,9 +3453,9 @@ include '../includes/language.php';
                 <!--<button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>-->
             </div>
             <span><?php echo $lang->questionFormats->ueqItem->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group btn-group-sm pull-right">
+<!--            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-sm btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>
+            </div>-->
         </div>
         <div class="panel-body">
 
@@ -3455,7 +3466,7 @@ include '../includes/language.php';
             <form class="form-inline" style="margin-top: 10px">
                 <div class="form-group form-group-no-margin opposites" style="margin-right: 20px; margin-bottom: 10px">
                     <label style="margin: 0"><?php echo $lang->opposites ?></label>
-                    <div><span class="left"></span> - <span class="right"></span></div>
+                    <div style="height:34px"><span class="left"></span> - <span class="right"></span></div>
                 </div>
 
                 <div class="form-group root negative" style="margin-bottom: 10px">
@@ -3556,7 +3567,7 @@ include '../includes/language.php';
                 </div>
 
                 <form enctype="multipart/form-data" id="upload-sound-form" method="post" class="hidden">
-                    <input class="soundUpload hidden" name="sound" type="file" accept="audio/mp3" />
+                    <input class="soundUpload hidden" name="sound" type="file" accept="audio/mp3" multiple />
                 </form>
 
                 <div class="alert-space alert-sound-to-large" style="margin-top: 10px"></div>

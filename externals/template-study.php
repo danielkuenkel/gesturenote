@@ -56,7 +56,7 @@ include '../includes/language.php';
         <div class="panel panel-default btn-shadow btn-panel">
             <div class="panel-body">
                 <div class="embed-responsive embed-responsive-4by3" style="border-top-left-radius: 8px; border-top-right-radius: 8px">
-                    <div class="embed-responsive-item participant-snapshot" style="position: absolute; background-color: #eee; display: flex; justify-content: center; align-items: center;">
+                    <div class="embed-responsive-item participant-snapshot-background" style="position: absolute; background-color: #eee; display: flex; justify-content: center; align-items: center;">
                         <i class="fa fa-user fa-3x"></i>
                     </div>
                     <div class="embed-responsive-item participant-snapshot" style="position: absolute">
@@ -88,7 +88,7 @@ include '../includes/language.php';
 
 
     <div id="popover-scene-preview" style="position: absolute; opacity: 0; width: 400px;"></div>
-    
+
     <div id="popover-image-preview" style="position: absolute; opacity: 0; width: 200px;"></div>
 
     <div id="popover-web">
@@ -189,15 +189,19 @@ include '../includes/language.php';
         <textarea class="form-control" id="notes-input" rows="5"></textarea>
 
         <div class="hidden" id="transcription-controls" style="margin-top: 10px">
-            <label style="margin-right: 4px">Notiz ins Mikrofon sprechen:</label>
-            <button class="btn btn-default btn-shadow" id="btn-start-speech-recognition"><i class="fa fa-microphone"></i></button>
-            <button class="btn btn-default btn-shadow hidden" id="btn-stop-speech-recognition"><i class="fa fa-microphone-slash"></i></button>
+            <label style="margin-right: 4px"><?php echo $lang->talkToMic ?>:</label>
+            <button class="btn btn-default btn-shadow" id="btn-start-speech-recognition" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->activateMic ?>"><i class="fa fa-microphone"></i></button>
+            <button class="btn btn-default btn-shadow hidden" id="btn-stop-speech-recognition" data-html="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->deactivateMic ?>"><i class="fa fa-microphone-slash"></i></button>
+            <div id="mic-listening-indicator" style="display: inline; margin-left: 10px; font-size: 8pt; opacity: 0">
+                <i class="fa fa-circle"></i>
+                <i class="fa fa-circle" style="margin-left: 3px"></i>
+                <i class="fa fa-circle" style="margin-left: 3px"></i>
+            </div>
         </div>
     </div>
 
     <div class="root" id="letterOfAcceptance">
         <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
-        <!--<hr>-->
         <span class="label label-success hidden" id="letter-accepted"><i class="fa fa-check"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceAccepted ?></span></span>
         <span class="label label-danger hidden" id="letter-not-accepted"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceNotAccepted ?></span></span>
         <p id="letter-text" class="text" style="margin-top: 15px; white-space:pre-wrap;"></p>
@@ -205,7 +209,6 @@ include '../includes/language.php';
 
     <div class="root" id="thanks">
         <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
-        <!--<hr>-->
         <p id="thanks-text" class="text"></p>
     </div>
 
@@ -214,7 +217,6 @@ include '../includes/language.php';
         <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
 
         <h3 style=""><?php echo $lang->gesturesCatalog->elicitedGestures ?></h3>
         <hr>
@@ -415,6 +417,7 @@ include '../includes/language.php';
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="answer text"></div>
+            <div id="missed-answers" class="hidden"></div>
             <div class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></div>
             <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
@@ -431,6 +434,7 @@ include '../includes/language.php';
         <hr style="margin: 0">
         <div class="panel-body">
             <span class="answer text"></span>
+            <div id="missed-answers" class="hidden"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
         </div>
     </div>
@@ -464,7 +468,7 @@ include '../includes/language.php';
     </div>
 
     <span id="dichotomous-question-item">
-        <div><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+        <div><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px"><span class="count-label">0</span>x</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
         <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
     </span>
 
@@ -507,7 +511,7 @@ include '../includes/language.php';
             <div class="hidden" id="optionalanswer-content" data-id="optionalAnswer" style="margin-top: 15px">
                 <hr style="margin-bottom: 5px">
                 <div><span class="label label-warning hidden" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span></div>
-                <span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="option-text address" style="padding: 7px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
+                <span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px"><span class="count-label">0</span>x</span><span class="option-text address" style="padding: 7px; margin-right: 6px; display: inline-block"><?php echo $lang->ownAnswers ?></span> 
                 <span class="filter-option" style="margin-left: 5px"></span><br/>
                 <span class="text"></span>
             </div>
@@ -517,7 +521,7 @@ include '../includes/language.php';
     </div>
 
     <span id="grouping-question-item">
-        <div><span class="badge count-badge hidden" style="margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+        <div><span class="badge count-badge hidden" style="margin-top: -4px"><span class="count-label">0</span>x</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
         <div>
             <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
@@ -607,7 +611,7 @@ include '../includes/language.php';
         <div id="scale-container"></div>
     </div>
 
-    <div id="rating-scale-item"><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px">0</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
+    <div id="rating-scale-item"><span class="badge count-badge hidden" style="margin-right: 5px; margin-top: -4px"><span class="count-label">0</span>x</span><span class="text option-text" style="padding: 7px; margin-right: 6px; display: inline-block"></span><span class="filter-option" style="margin-left: 5px"></span></div>
     <!--<span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>-->
 
     <div class="panel panel-default panel-shadow" id="matrix" style="margin-bottom: 5px;">
@@ -999,7 +1003,7 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-7 col-sm-7 col-lg-7" id="seek-bar-container">
+                    <div class="col-xs-7 col-sm-6 col-lg-7" id="seek-bar-container">
                         <div class="hidden" id="video-trim-marker">
                             <div class="video-trim-marker-start hidden"></div>
                             <div class="video-trim-marker-end hidden"></div>
@@ -1283,20 +1287,17 @@ include '../includes/language.php';
         <h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>
         <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-webm-unsupported"></div>
-        <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
         <div id="summary-container">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="text text-center" id="score">
                         <div id="fault-score" class="hidden">
                             <div class="text" style="font-size: 90pt; line-height: 80pt"></div>
-                            <div class="address" style="font-size: 20pt"><?php echo $lang->assignedCorrectly ?></div>
+                            <div class="address" style="font-size: 20pt"><?php echo $lang->AssignedCorrectly ?></div>
                         </div>
                         <div id="no-fault-score" class="hidden">
                             <p><?php echo $lang->noTriggerScoreCalculationPossible ?></p>
                         </div>
-                        <!--<div class="address" style="font-size: 20pt"></div>-->
-                        <!--<div class="text" style="font-size: 90pt; line-height: 80pt"></div>-->
                     </div>
                 </div>
                 <div class="col-sm-6 text-center">
@@ -1310,18 +1311,10 @@ include '../includes/language.php';
 
     <div class="row" id="slideshow-trigger-item" style="margin-bottom: 30px">
         <div class="col-sm-5 col-lg-4 root">
-            <!--            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-                        <div class="text-center gestureControls hidden">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                            </div>
-                        </div>-->
             <div class="row gesture-container"></div>
         </div>
 
         <div class="col-sm-7 col-lg-8">
-            <!--<div id="gesture"><span class="address"></span> <span class="text"></span></div>-->
             <div id="trigger"><span class="address"></span> <span class="text"></span></div>
             <div id="feedback"><span class="address"></span> <span class="content"></span></div>
             <div id="selection"><span class="address"></span> 
@@ -1340,7 +1333,6 @@ include '../includes/language.php';
         <hr id="horizontalLine" class="hidden">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
         <h3 id="headline-summary"><?php echo $lang->summary ?></h3>
         <hr>
         <span class="label label-default hidden" id="repeats"><span class="address"></span> <span class="text"></span></span> 
@@ -1356,23 +1348,15 @@ include '../includes/language.php';
 
     <div class="row" id="physicalStressTest-item" style="margin-bottom: 100px">
         <div class="col-sm-5 col-lg-4 root">
-            <!--            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-                        <div class="text-center gestureControls hidden">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
-                            </div>
-                        </div>-->
             <div class="gesture-container row"></div>
         </div>
 
         <div class="col-sm-7 col-lg-8">
-            <!--<div id="gesture"><span class="address"></span> <span class="text"></span></div>-->
             <div id="single-stress-answers">
                 <h4 id="headline-single-questions" style="margin-top: 0px"><?php echo $lang->singleAnswers ?></h4>
                 <div class="question-container"></div>
             </div>
-            <div id="sequence-stress-answers" style="margin-top: 40px">
+            <div id="sequence-stress-answers">
                 <h4 id="headline-sequence-questions" style="margin-top: 0px"><?php echo $lang->multipleAnswers ?></h4>
                 <div class="question-container"></div>
             </div>
@@ -1440,7 +1424,7 @@ include '../includes/language.php';
             </div>
 
             <div style="margin-top: 20px">
-                <div class="btn btn-default btn-block btn-shadow disabled" id="btn-start-simulation"><?php echo $lang->simulatorGestureSet ?></div>
+                <div class="btn btn-default btn-block btn-shadow disabled" id="btn-start-simulation"><i class="fa fa-sign-language"></i> <?php echo $lang->simulatorGestureSet ?></div>
             </div>
 
         </div>
@@ -1474,7 +1458,7 @@ include '../includes/language.php';
 
     <div id="exploration-answer-item-for-trigger">
         <div class="list-container row" id="gestures-list-container">
-            <div class="col-xs-12 col-sm-6 col-md-8 col-lg-9 question-container"></div>
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 question-container"></div>
         </div>
     </div>
 
@@ -1484,8 +1468,10 @@ include '../includes/language.php';
 
 
     <div id="guessability-table">
-        <div style="margin-top: -5px"><?php echo $lang->potentialGesturesOverviewTable ?></div>
-        <table class="table table-bordered table-sm text">
+        <div style="margin-top: -5px"><span style="margin-right: 5px"><?php echo $lang->potentialGesturesOverviewTable ?></span> <button class="btn btn-default btn-xs btn-shadow" id="btn-download-csv"  data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->downloadAsCSV ?>"><i class="fa fa-download"></i> <span><?php echo $lang->downloadAsCSV ?></span></button></div>
+        <!--<div class="alert-space alert-invalid-agate-format" style="margin-top: 10px"></div>-->
+
+        <table class="table table-bordered table-sm text" style="margin-top: 10px">
             <thead>
                 <tr class="table-head-row">
                     <th scope="col" class="basic"><?php echo $lang->trigger ?></th>
@@ -1930,6 +1916,11 @@ include '../includes/language.php';
         <div class="question-container" style="margin-top: 20px;"></div>
     </div>
 
+    <div class="root" id="interview">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <div class="question-container" style="margin-top: 20px;"></div>
+    </div>
+
     <div class="root" id="gus">
         <h3 id="headline" style="margin-top: 0"></h3>
         <!--<hr>-->
@@ -2065,7 +2056,7 @@ include '../includes/language.php';
             <div class="list-container row" id="gestures-list-container"></div>
         </div>
 
-        <div id="observations">
+        <div id="observations" style="margin-top: 10px">
             <h4 id="headline-observations"><?php echo $lang->observations ?></h4>
             <div class="question-container"  id="observations-container"></div>
         </div>
@@ -2093,7 +2084,7 @@ include '../includes/language.php';
             <div class="list-container" id="trigger-list-container"></div>
         </div>
 
-        <div id="observations">
+        <div id="observations" style="margin-top: 10px">
             <h4 id="headline-observations"><?php echo $lang->observations ?></h4>
             <div class="question-container"  id="observations-container"></div>
         </div>
@@ -2113,8 +2104,98 @@ include '../includes/language.php';
 
 
 
+
+
+    <div class="root" id="exploration">
+        <div id="summary">
+            <h3 id="" style="margin-top: 0; margin-bottom: 20px"><?php echo $lang->summary ?></h3>
+            <hr/>
+            <div class="alert-space alert-no-phase-data"></div>
+            <div id="summary-item-container">
+                <div class="question-container"></div>
+            </div>
+        </div>
+        <div id="exploration-item-container"></div>
+    </div>
+
+
+    <div id="exploration-trigger-item">
+        <h3 id="headline-participant" style="display: table-cell"></h3>
+        <div class="btn btn-sm btn-default btn-shadow" id="btn-open-participant-results" style="float:right; margin-top: -25px"><i class="fa fa-eye"></i> <span><?php echo $lang->openParticipantResults ?></span></div>
+        <hr>
+
+        <div id="">
+            <h4><?php echo $lang->favoriteTrigger ?></h4>
+            <div id="item-view"></div>
+        </div>
+
+        <div id="observations">
+            <h4 id="headline-observations"><?php echo $lang->observations ?></h4>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
+
+        <div id="annotated-notes" style="margin-top: 30px">
+            <h4 id="headline-annotated-notes"><?php echo $lang->annotatedNotes ?></h4>
+            <div id="annotated-notes-container"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+
+        <div id="notes" style="margin-top: 30px">
+            <h4 id="headline-notes"><?php echo $lang->notes ?></h4>
+            <div id="note-container" class="text"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+    <!--    <div id="exploration-trigger-summary-item">
+            
+        </div>
+        
+    
+        <div id="exploration-answer-item-for-trigger">
+            <div class="list-container row" id="gestures-list-container">
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 question-container"></div>
+            </div>
+        </div>-->
+
+
+    <div id="exploration-gesture-item">
+        <h3 id="headline-participant" style="display: table-cell"></h3>
+        <div class="btn btn-sm btn-default btn-shadow" id="btn-open-participant-results" style="float:right; margin-top: -25px"><i class="fa fa-eye"></i> <span><?php echo $lang->openParticipantResults ?></span></div>
+        <hr>
+
+        <div id="">
+            <h4><?php echo $lang->favoriteGestures ?></h4>
+            <div id="item-view"></div>
+        </div>
+
+        <div id="observations" style="margin-top: 30px">
+            <h4 id="headline-observations"><?php echo $lang->observations ?></h4>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
+
+        <div id="annotated-notes" style="margin-top: 30px">
+            <h4 id="headline-annotated-notes"><?php echo $lang->annotatedNotes ?></h4>
+            <div id="annotated-notes-container"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+
+        <div id="notes" style="margin-top: 30px">
+            <h4 id="headline-notes"><?php echo $lang->notes ?></h4>
+            <div id="note-container" class="text"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+    <div id="exploration-answer-item-for-gesture">
+        <div class="question-container"></div>
+    </div>
+
+
+
+
+
     <div id="scenario">
-        <!--<h3 id="headline" style="margin-top: 0; margin-bottom: 20px"></h3>-->
         <div id="scenario-item-container"></div>
     </div>
 
@@ -2152,13 +2233,245 @@ include '../includes/language.php';
                         <div><span><?php echo $lang->fromWizard ?>:</span> <span class="text" id="from-wizard">-</span></div>
                     </div>
                 </div>
-<!--
-                <div style="margin-top: 20px">
-                    <div class="btn btn-default btn-block btn-shadow disabled" id="btn-start-simulation"><?php echo $lang->simulatorGestureSet ?></div>
-                </div>-->
 
             </div>
         </div>
+
+        <div id="observations" style="margin-top: 30px">
+            <h4 id="headline-observations"><?php echo $lang->observations ?></h4>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
+
+        <div id="annotated-notes" style="margin-top: 30px">
+            <h4 id="headline-annotated-notes"><?php echo $lang->annotatedNotes ?></h4>
+            <div id="annotated-notes-container"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+
+        <div id="notes" style="margin-top: 30px">
+            <h4 id="headline-notes"><?php echo $lang->notes ?></h4>
+            <div id="note-container" class="text"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="root" id="gestureTraining">
+        <div id="gesture-training-item-container"></div>
+
+<!--        <h3 id="headline-gestures"><?php echo $lang->gestures ?></h3>
+<hr>
+<div id="gestures-container"></div>-->
+        <!--        <div id="observations">
+                    <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
+                    <hr>
+                    <div class="question-container"  id="observations-container"></div>
+                </div>-->
+    </div>
+
+    <div class="" id="gesture-training-item" style="">
+        <h3 id="headline-participant" style="display: table-cell"></h3>
+        <div class="btn btn-sm btn-default btn-shadow" id="btn-open-participant-results" style="float:right; margin-top: -25px"><i class="fa fa-eye"></i> <span><?php echo $lang->openParticipantResults ?></span></div>
+        <hr>
+
+        <h4 id=""><?php echo $lang->gestures ?></h4>
+        <div id="traing-gestures-container" class=""></div>
+
+        <div id="observations" style="margin-top: 30px">
+            <h4 id="headline-observations"><?php echo $lang->observations ?></h4>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
+
+        <div id="annotated-notes" style="margin-top: 30px">
+            <h4 id="headline-annotated-notes"><?php echo $lang->annotatedNotes ?></h4>
+            <div id="annotated-notes-container"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+
+        <div id="notes" style="margin-top: 30px">
+            <h4 id="headline-notes"><?php echo $lang->notes ?></h4>
+            <div id="note-container" class="text"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="root" id="gestureSlideshow">
+        <h3 id="" style="margin-top: 0; margin-bottom: 20px"><?php echo $lang->summary ?></h3>
+        <hr/>
+        <div id="summary-item-container"></div>
+        <div id="gesture-slideshow-item-container"></div>
+    </div>
+
+
+    <div id="gesture-slideshow-item">
+        <h3 id="headline-participant" style="display: table-cell"></h3>
+        <div class="btn btn-sm btn-default btn-shadow" id="btn-open-participant-results" style="float:right; margin-top: -25px"><i class="fa fa-eye"></i> <span><?php echo $lang->openParticipantResults ?></span></div>
+        <hr>
+
+        <h4 id="headline-summary"><?php echo $lang->summary ?></h4>
+        <div id="summary-container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="text text-center" id="restarts">
+                        <div class="text" style="font-size: 120pt; line-height: 110pt"></div>
+                        <div class="address" style="font-size: 20pt"><?php echo $lang->restarts ?></div>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-center">
+                    <?php echo $lang->gestureSlideshowScoreInfo ?>
+                </div>
+            </div>
+
+            <div id="gestures-container" style="margin-top: 40px"></div>
+        </div>
+
+        <div id="observations" style="margin-top: 30px">
+            <h4 id="headline-observations"><?php echo $lang->observations ?></h4>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
+
+        <div id="annotated-notes" style="margin-top: 30px">
+            <h4 id="headline-annotated-notes"><?php echo $lang->annotatedNotes ?></h4>
+            <div id="annotated-notes-container"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+
+        <div id="notes" style="margin-top: 30px">
+            <h4 id="headline-notes"><?php echo $lang->notes ?></h4>
+            <div id="note-container" class="text"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="root" id="triggerSlideshow">
+        <h3 id="" style="margin-top: 0; margin-bottom: 20px"><?php echo $lang->summary ?></h3>
+        <hr/>
+        <div id="summary-item-container"></div>
+        <div id="trigger-slideshow-item-container"></div>
+    </div>
+
+    <div class="root" id="trigger-slideshow-item">
+        <h3 id="headline-participant" style="display: table-cell"></h3>
+        <div class="btn btn-sm btn-default btn-shadow" id="btn-open-participant-results" style="float:right; margin-top: -25px"><i class="fa fa-eye"></i> <span><?php echo $lang->openParticipantResults ?></span></div>
+        <hr>
+
+        <div id="summary-container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="text text-center" id="score">
+                        <div id="fault-score" class="hidden">
+                            <div class="text" style="font-size: 90pt; line-height: 80pt"></div>
+                            <div class="address" style="font-size: 20pt"><?php echo $lang->AssignedCorrectly ?></div>
+                        </div>
+                        <div id="no-fault-score" class="hidden">
+                            <p><?php echo $lang->noTriggerScoreCalculationPossible ?></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-center">
+                    <?php echo $lang->triggerScoreInfo ?>
+                </div>
+            </div>
+
+            <div id="gestures-container" style="margin-top: 40px"></div>
+        </div>
+
+        <div id="observations" style="margin-top: 30px">
+            <h4 id="headline-observations"><?php echo $lang->observations ?></h4>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
+
+        <div id="annotated-notes" style="margin-top: 30px">
+            <h4 id="headline-annotated-notes"><?php echo $lang->annotatedNotes ?></h4>
+            <div id="annotated-notes-container"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+
+        <div id="notes" style="margin-top: 30px">
+            <h4 id="headline-notes"><?php echo $lang->notes ?></h4>
+            <div id="note-container" class="text"></div>
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+    <div id="slideshow-summary-item" class="row">
+        <div class="col-sm-5 col-lg-4 root">
+            <div class="row gesture-container"></div>
+        </div>
+
+        <div class="col-sm-7 col-lg-8">
+            <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+            <div id="answered-correct"><span class="address"><?php echo $lang->answeredCorrect ?>:</span> <span class="content text"></span></div>
+            <div id="answered-wrong"><span class="address"><?php echo $lang->answeredWrong ?>:</span> <span class="content text"></span></div>
+            <div id="gesture-quota"><span class="address"><?php echo $lang->quota ?>:</span> <span class="content text"></span></div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="root" id="physicalStressTest">
+        <h3 id="" style="margin-top: 0; margin-bottom: 20px"><?php echo $lang->summary ?></h3>
+        <hr/>
+        <div id="summary-joints-container"></div>
+        <div id="summary-item-container"></div>
+        <div id="stress-test-item-container"></div>
+    </div>
+
+    <div id="stress-test-summary-joints-item">
+        <h3 id="headline-summary"></h3>
+        <hr/>
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <div class="row" id="gesture-thumbnail-container"></div>
+            </div>
+            <div class="col-xs-12 col-md-8">
+                <div id="single-answers"></div>
+                <div id="sequence-answers"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="stress-test-item">
+        <h3 id="headline-participant" style="display: table-cell"></h3>
+        <div class="btn btn-sm btn-default btn-shadow" id="btn-open-participant-results" style="float:right; margin-top: -25px"><i class="fa fa-eye"></i> <span><?php echo $lang->openParticipantResults ?></span></div>
+        <hr>
+
+        <div id="answers" style="margin-top: 30px">
+            <h4 id=""><?php echo $lang->answers ?></h4>
+            <div class=""  id="answers-container"></div>
+        </div>
+<!--        <h4 id="headline-summary"><?php echo $lang->summary ?></h4>
+        <div id="summary-container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="text text-center" id="restarts">
+                        <div class="text" style="font-size: 120pt; line-height: 110pt"></div>
+                        <div class="address" style="font-size: 20pt"><?php echo $lang->restarts ?></div>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-center">
+        <?php echo $lang->gestureSlideshowScoreInfo ?>
+                </div>
+            </div>
+
+            <div id="gestures-container" style="margin-top: 40px"></div>
+        </div>-->
 
         <div id="observations" style="margin-top: 30px">
             <h4 id="headline-observations"><?php echo $lang->observations ?></h4>

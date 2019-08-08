@@ -31,6 +31,26 @@ function checkCookies(cookiesAccepted) {
     }
 }
 
+function checkDarkMode(darkModeEnabled) {
+    if (darkModeEnabled === 11) {
+        $('body').addClass('dark');
+        $('body').find('.navbar-fixed-index #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
+        $('body').find('.sub-page-header #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
+        $('body').find('#preview-bar-top #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
+    }
+}
+
+function getWindowStatusHash() {
+    var status = window.location.hash.substr(1);
+    var statusAddressMatch = statusAddressMatchIndex(status);
+
+    var statusHash = '';
+    if (status !== '' && statusAddressMatch !== null) {
+        statusHash = statusAddressMatch.id;
+    }
+    return statusHash;
+}
+
 function setParam(uri, key, val) {
     var newurl = uri
             .replace(new RegExp("([?&]" + key + "(?=[=&#]|$)[^#&]*|(?=#|$))"), "&" + key + "=" + encodeURIComponent(val))
@@ -263,7 +283,8 @@ function unique(origArr) {
     return newArr;
 }
 
-function renderSubPageElements(hasTopNavbar, hasNoImprint) {
+function renderSubPageElements(hasTopNavbar, isStudyCreatePage) {
+    console.warn('isStudyCreatePage', isStudyCreatePage);
     var header = $('#header-footer-container').find('#sub-page-header').clone().removeAttr('id');
     header.insertBefore($('body').find('#breadcrumb'));
     header.find('#btn-sign-out').on('click', function (event) {
@@ -274,8 +295,29 @@ function renderSubPageElements(hasTopNavbar, hasNoImprint) {
 
     header.find('#logo').on('click', function (event) {
         event.preventDefault();
-        gotoIndex();
+        if (isStudyCreatePage && isStudyCreatePage === true) {
+            jumpToId = 'btn-dashboard';
+
+            loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
+
+            $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
+                if (editableStudyId === null) {
+                    clearSceneImages();
+                    clearSounds();
+                }
+
+                clearLocalItems();
+                checkJumpId();
+            });
+
+            $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
+                $('#fixed-study-edit-controls').find('.btn-save-study').click();
+            });
+        } else {
+            gotoIndex();
+        }
     });
+
 
     if (hasTopNavbar === false) {
         header.find('#main-navigation-dropdown').addClass('hidden');
@@ -307,7 +349,25 @@ function renderSubPageElements(hasTopNavbar, hasNoImprint) {
 
     updateLanguageIndicator($(header).find('#language-selection'));
     updateMainBurgerMenu($(header).find('.main-burger-menu'), $('body').find('#breadcrumb'));
+    initPopover();
+
+//    $(header).css({opacity: 0, position: 'relative', top: '-57px'});
+//    TweenMax.to(header, .4, {opacity: 1, top: 0, ease: Quad.easeInOut, delay: .2});
 }
+
+
+$(document).on('click', '#toggle-dark-mode', function (event) {
+    event.preventDefault();
+
+    toggleDarkmode({darkmode: $('body').hasClass('dark') ? '0' : '1'});
+    if ($('body').hasClass('dark')) {
+        $('body').removeClass('dark');
+        $(this).find('.fa').removeClass('fa-sun-o').addClass('fa-moon-o');
+    } else {
+        $('body').addClass('dark');
+        $(this).find('.fa').removeClass('fa-moon-o').addClass('fa-sun-o');
+    }
+});
 
 function updateMainBurgerMenu(target, breadcrump) {
     var activeId = $(breadcrump).find('.active').attr('data-id');
@@ -333,6 +393,9 @@ $(document).on('click', '.main-burger-menu li a', function (event) {
                 break;
             case 'btn-gesture-catalog':
                 gotoGesturesCatalog();
+                break;
+            case 'btn-simulator':
+                gotoSimulator();
                 break;
             case 'btn-news':
                 gotoNews();
@@ -445,7 +508,7 @@ $(document).on('mouseenter', '.select .option li', function (event) {
                     var popover = $('#popover-gesture');
                     var top = button.offset().top - popover.height() - 2;
                     var left = button.offset().left + parseInt(((button.width() - popover.width()) / 2));
-                    popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
+                    popover.css({left: left, top: top});
                     playThroughThumbnails(popover.find('.previewGesture'));
                     TweenMax.to(popover, .3, {autoAlpha: 1});
                 });
@@ -564,7 +627,6 @@ function renderImagePopoverPreview(imageUrl, callback) {
 
 function resetImagePopover() {
     var popover = $('#popover-image-elem');
-    console.log(popover);
     $(popover).remove();
 }
 
@@ -687,34 +749,56 @@ $(document).on('click', '.btn-delete', function (event) {
     $(this).popover('hide');
 
     if ($(element).attr('id') === SCENE_IMAGE) {
-        var url = ["../" + $(element).find('.imageAreaContent').attr('src')];
-        deleteSceneImage({image: url}, null);
+        var url = "../" + $(element).find('.imageAreaContent').attr('src');
+        var splitUrl = url.split('/');
+
+        if (splitUrl.length > 1 && splitUrl[1].trim() !== '') {
+            deleteFiles({files: [url]}, null);
+        }
     }
 
     if ($(element).attr('id') === TYPE_FEEDBACK_SOUND) {
         var url = ["../" + $(element).find('.audio-holder').attr('src')];
-        deleteSound({sound: url}, null);
+        var splitUrl = url.split('/');
+
+        if (splitUrl.length > 1 && splitUrl[1].trim() !== '') {
+            deleteFiles({files: [url]}, null);
+        }
     }
 
-    TweenMax.to(element, .3, {opacity: 0, clearProps: 'all', onComplete: onTweenDeleteComplete, onCompleteParams: [element, parent, $(this)]});
+    TweenMax.to(element, .15, {opacity: 0, clearProps: 'all', onComplete: onTweenDeleteComplete, onCompleteParams: [element, parent, $(this)]});
 });
 
 function onTweenDeleteComplete(element, parent, button) {
-    $(element).remove();
-    checkCurrentListState(parent);
+    var nextAll = $(element).nextAll();
+    var next = $(element).next();
+    if (next.length === 1) {
+        var nextOffset = $(next).offset().top - $(element).offset().top;
+        $(element).remove();
 
-//    if ($(button).hasClass('saveGeneralData')) {
-//        savePhases();
-//    }
-
-    var deleteId = $(button).closest('.root').attr('id');
-    updateBadges(parent, deleteId);
-
-    if (isNaN(deleteId)) {
-        deleteId = $(button).closest('.root').attr('name');
+        var timeline = new TimelineMax({onComplete: afterTweenNextElements, paused: true});
+        for (var i = 0; i < nextAll.length; i++) {
+            timeline.add("start", 0)
+                    .from(nextAll[i], .1, {y: +nextOffset, delay: i * .05, clearProps: 'y'}, "start");
+        }
+        timeline.play();
+    } else {
+        $(element).remove();
+        afterTweenNextElements();
     }
-//    $(parent).trigger('change');
-    $(parent).trigger('change', [{type: 'delete', id: deleteId}]);
+
+    function afterTweenNextElements() {
+        checkCurrentListState(parent);
+
+        var deleteId = $(button).closest('.root').attr('id');
+        updateBadges(parent, deleteId);
+
+        if (isNaN(deleteId)) {
+            deleteId = $(button).closest('.root').attr('name');
+        }
+
+        $(parent).trigger('change', [{type: 'delete', id: deleteId}]);
+    }
 }
 
 $(document).on('click', '.btn-up', function (event) {
@@ -758,8 +842,8 @@ function moveElement(direction, which, save) {
             var heightElement = element.outerHeight(true);
             var timeline = new TimelineMax({onComplete: onMoveUpComplete, onCompleteParams: [element, brother, save]});
             timeline.add("start", 0)
-                    .to(element, .2, {y: -offset, clearProps: 'all'}, "start")
-                    .to(brother, .2, {y: heightBrother === heightElement ? offset : heightElement, clearProps: 'all'}, "start");
+                    .to(element, .2, {y: -offset, clearProps: 'y'}, "start")
+                    .to(brother, .2, {y: heightBrother === heightElement ? offset : heightElement, clearProps: 'y'}, "start");
             break;
         case "down":
             brother = $(which).closest('.root').next();
@@ -771,8 +855,8 @@ function moveElement(direction, which, save) {
             var heightElement = element.outerHeight(true);
             var timeline = new TimelineMax({onComplete: onMoveDownComplete, onCompleteParams: [element, brother, save]});
             timeline.add("start", 0)
-                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION, {y: heightBrother === heightElement ? offset : heightBrother, clearProps: 'all'}, "start")
-                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION, {y: -offset, clearProps: 'all'}, "start");
+                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION, {y: heightBrother === heightElement ? offset : heightBrother, clearProps: 'y'}, "start")
+                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION, {y: -offset, clearProps: 'y'}, "start");
             break;
     }
 }
@@ -3438,6 +3522,10 @@ function getCreateExtractionMappingGestureListThumbnail(data, assembledGestures,
                 initPopover();
             }
         }
+    } else {
+        setTimeout(function () {
+            $(clone).find('.btn-tag-as-mapping-gesture').click();
+        }, 200);
     }
 
     return clone;
@@ -3490,16 +3578,14 @@ function getStudiesCatalogListThumbnail(target, data) {
                 $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
 
                 if (now > dateFrom && now < dateTo) {
-//                console.log(dateFrom, dateTo.getTime(), now);
                     var left = getTimeLeftForTimestamp(dateTo, 1);
-//                var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
                     var statusText = $(clone).find('.study-started').removeClass('hidden').find('.status-text');
                     progress = (now - dateFrom) / (dateTo.getTime() - dateFrom) * 100;//daysExpired / totalDays * 100;
                     $(statusText).text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
                     $(clone).find('.progress-bar').addClass('progress-bar-success');
-                    $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(translation.noParticipations);
+                    $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(0);
+                    $(clone).find('#participant-count').attr('data-content', '0 ' + translation.participations).data('bs.popover').setContent();
                     var hourglass = $(clone).find('.study-started .fa');
-//                console.log(statusText);
                     TweenMax.to(hourglass, 2, {rotation: '360', repeat: -1, ease: Quad.easeInOut});
                     TweenMax.to($(statusText), 1, {delay: 0, css: {marginLeft: '8'}, yoyo: true, repeat: -1, ease: Quad.easeIn});
                 } else if (now < dateFrom) {
@@ -3518,14 +3604,13 @@ function getStudiesCatalogListThumbnail(target, data) {
                 if (parseInt(data.participants) > 0) {
                     $(clone).find('#participant-count').removeClass('hidden').find('.label-text').text(data.participants);
                     $(clone).find('#participant-count').attr('data-content', data.participants + ' ' + (parseInt(data.participants) === 1 ? translation.participation : translation.participations)).data('bs.popover').setContent();
-
-                    $(clone).find('#participant-count').unbind('click').bind('click', {studyId: data.id}, function (event) {
-                        event.stopImmediatePropagation();
-                        event.preventDefault();
-                        $(clone).trigger('gotoStudyParticipants', [{studyId: event.data.studyId}]);
-                        console.log('goto trigger');
-                    });
                 }
+
+                $(clone).find('#participant-count').unbind('click').bind('click', {studyId: data.id}, function (event) {
+                    event.stopImmediatePropagation();
+                    event.preventDefault();
+                    $(clone).trigger('gotoStudyParticipants', [{studyId: event.data.studyId}]);
+                });
 
                 if (data.isOwner === false) {
                     $(clone).find('#shared-study').removeClass('hidden');
@@ -3574,7 +3659,7 @@ function getStudiesCatalogListThumbnail(target, data) {
         var descriptionText = data.data.generalData.description.length < 100 ? data.data.generalData.description : data.data.generalData.description.substring(0, 200) + ' …';
         $(clone).find('#study-description').text(descriptionText);
 
-        $(clone).find('#type-method').text(translation.methodType[data.data.generalData.method])
+        $(clone).find('#type-method').text(translation.methodType[data.data.generalData.method]);
         $(clone).find('#type-survey').text(translation.surveyType[data.data.generalData.surveyType]);
         $(clone).find('#type-phase').text(translation.phaseType[data.data.generalData.phase]);
     }
@@ -3705,7 +3790,7 @@ function getGestureSetPanel(data, type, layout) {
         $(this).popover('hide');
         if ($(this).hasClass('marked')) {
             $(this).removeClass('marked');
-            $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
+            $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
             $(this).attr('data-content', translation.addAllGesturesToStudyGestureSet).data('bs.popover').setContent();
             var assembledGestures = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture.assembled');
             for (var i = 0; i < assembledGestures.length; i++) {
@@ -3716,7 +3801,7 @@ function getGestureSetPanel(data, type, layout) {
             }
         } else {
             $(this).addClass('marked');
-            $(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
+            $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
             $(this).attr('data-content', translation.removeAllGesturesFromStudyGestureSet).data('bs.popover').setContent();
             var unassembledGestures = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture:not(.assembled)');
             $(unassembledGestures).click();
@@ -3896,7 +3981,7 @@ function initMoreInfoGestureSet(button, panel, data) {
 }
 
 function initStandardGestureSetList(panel, data, type, layout) {
-    console.log('initStandardGestureSetList', data);
+//    console.log('initStandardGestureSetList', data);
     if (data.gestures !== null && data.gestures.length > 0) {
         clearAlerts(panel);
         var missingGestures = 0;
@@ -3933,20 +4018,22 @@ function initGestureSetSimulation(panel, data) {
 }
 
 function initAssembledGestureSetList(panel, data, type, layout) {
-    console.log(data);
-
     if (data.gestures !== null) {
         clearAlerts(panel);
         for (var j = 0; j < data.gestures.length; j++) {
             var gesture = getGestureById(data.gestures[j]);
-            var isGestureAss = isGestureAssembled(gesture.id);
-            var gestureThumbnail = getCreateStudyGestureListThumbnail(gesture, type ? type : 'favorite-gesture-catalog-thumbnail', layout ? layout : 'col-xs-6 col-md-3', null, isGestureAss ? 'panel-info' : null);
-            $(panel).find('#gestures-list-container').append(gestureThumbnail);
+            if (gesture) {
+                var isGestureAss = isGestureAssembled(gesture.id);
+                var gestureThumbnail = getCreateStudyGestureListThumbnail(gesture, type ? type : 'favorite-gesture-catalog-thumbnail', layout ? layout : 'col-xs-6 col-md-3', null, isGestureAss ? 'panel-info' : null);
+                $(panel).find('#gestures-list-container').append(gestureThumbnail);
+            }
         }
+
         var assembledGesturesLength = $(panel).find('#gestures-list-container .gesture-thumbnail.assembled').length;
         if (assembledGesturesLength === $(panel).find('#gestures-list-container .gesture-thumbnail').length) {
             $(panel).find('#btn-mark-hole-set').addClass('marked');
-            $(panel).find('#btn-mark-hole-set').find('.fa').removeClass('fa-plus').addClass('fa-minus');
+            $(panel).find('#btn-mark-hole-set').find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
+            $(panel).find('#btn-mark-hole-set').attr('data-content', translation.removeAllGesturesFromStudyGestureSet);
         }
 
     } else {
@@ -4688,14 +4775,13 @@ $(document).on('click', '.btn-download-as-gif', function (event) {
             for (var i = 0; i < gestureImages.length; i++) {
                 imageArray.push($(gestureImages[i]).attr('src'));
             }
-            var title = hex_sha512(new Date().toDateString());
+            var title = sha512(new Date().toDateString());
             createGIF(imageArray, title, true, function () {
                 unlockButton(button, true, 'fa-file-image-o');
             });
         }
     }
 });
-
 
 // create gif from gesture images
 function createGIF(images, title, downloadGIF, callback) {
@@ -4722,6 +4808,24 @@ function createGIF(images, title, downloadGIF, callback) {
     });
 }
 
+$(document).on('click', '.btn-download-as-zip', function (event) {
+    event.preventDefault();
+    var zip = new JSZip();
+    var gesture = getGestureById($(this).attr('data-gesture-id'));
+    var previews = [];
+
+    for (var j = 0; j < gesture.images.length; j++) {
+        previews.push(gesture.id + "/" + (j + 1) + ".jpg");
+        zip.file(previews[j], urlToPromise(gesture.images[j]), {
+            binary: true
+        });
+    }
+
+    zip.generateAsync({type: "blob"})
+            .then(function (content) {
+                saveAs(content, translation.gesture + '_' + gesture.id + '.zip');
+            });
+});
 
 $(document).on('click', '.btn-tag-as-preview', function (event) {
     event.preventDefault();
@@ -4757,22 +4861,21 @@ $(document).on('click', '.btn-expand', function (event) {
     event.preventDefault();
 
     if (!$(this).hasClass('disabled')) {
-        var panel = $(this).closest('.panel');
+        var panel = $(this).closest('.root');
         var container = $(panel).parent();
+        $(this).popover('hide');
+//        console.log(panel, $(container).find('.panel-body-expandable'));
 
-//        console.log('click expand', panel, container);
-        $(panel).find('.btn-expand').popover('hide');
-
-        if ($(panel).find('.panel-body-expandable').hasClass('hidden')) {
+        if ($($(panel).find('.panel-body-expandable')[0]).hasClass('hidden')) {
             $(container).find('.panel-body-expandable').addClass('hidden');
             $(container).find('.btn-expand').attr('data-content', translation.expand).data('bs.popover').setContent();
             $(container).find('.btn-expand .fa').removeClass('fa-chevron-up').addClass('fa-chevron-down');
             $(container).find('.panel-heading-expandable').css({borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px'});
 
-            $(panel).find('.panel-body-expandable').removeClass('hidden');
-            $(panel).find('.btn-expand .fa').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-            $(panel).find('.panel-heading-expandable').css({borderBottomLeftRadius: '', borderBottomRightRadius: ''});
-            $(panel).find('.btn-expand').attr('data-content', translation.collapse).data('bs.popover').setContent();
+            $($(panel).find('.panel-body-expandable')[0]).removeClass('hidden');
+            $($(panel).find('.btn-expand')[0]).find('.fa').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+            $($(panel).find('.panel-heading-expandable')[0]).css({borderBottomLeftRadius: '', borderBottomRightRadius: ''});
+            $($(panel).find('.btn-expand')[0]).attr('data-content', translation.collapse).data('bs.popover').setContent();
 
             // scroll after expand
             setTimeout(function () {
@@ -4782,9 +4885,28 @@ $(document).on('click', '.btn-expand', function (event) {
             }, 300);
         } else {
             $(panel).find('.panel-body-expandable').addClass('hidden');
-            $(panel).find('.btn-expand .fa').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            $(panel).find('.btn-expand').find('.fa').removeClass('fa-chevron-up').addClass('fa-chevron-down');
             $(panel).find('.panel-heading-expandable').css({borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px'});
             $(panel).find('.btn-expand').attr('data-content', translation.expand).data('bs.popover').setContent();
         }
     }
 });
+
+previewModeEnabled = true;
+function getCurrentPhase() {
+    var phaseSteps = null;
+    if (!previewModeEnabled) {
+        phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+    } else {
+        phaseSteps = getContextualPhaseSteps();
+    }
+    return phaseSteps[currentPhaseStepIndex];
+}
+
+function getCurrentPhaseData() {
+    var currentPhase = getCurrentPhase();
+    if (currentPhase) {
+        return getLocalItem(currentPhase.id + '.data');
+    }
+    return null;
+}

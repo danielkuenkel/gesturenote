@@ -15,7 +15,7 @@ if (login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title><?php echo $lang->gestureNoteProfile ?></title>
+        <title><?php echo $lang->gestureNoteSimulator ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -26,12 +26,14 @@ if (login_check($mysqli) == true) {
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
+        <script src="js/lines/jquery.line.js"></script>
 
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="css/simulator.css">
+        <link rel="stylesheet" href="css/study.css">
 
         <script src="js/refreshSession.js"></script>
         <script src="js/storage.js"></script>
@@ -44,14 +46,35 @@ if (login_check($mysqli) == true) {
         <script src="js/goto-general.js"></script>
         <script src="js/goto-evaluator.js"></script>
         <script src="js/globalFunctions.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/checkForms.js"></script>
         <script src="js/gesture.js"></script>
         <script src="js/websocket.js"></script>
         <script src="js/stomp/stomp.js"></script>
+        <script src="js/simulation/simulator.js"></script>
+
+        <script src="js/joint-selection.js"></script>
+
+        <script src="js/upload-queue.js"></script>
+        <script src="js/chance.min.js"></script>
+        <script src="js/gifshot/gifshot.min.js"></script>
+        <script src="js/color-thief/color-thief.js"></script> 
         <script src="js/filesaver/FileSaver.min.js"></script>
-        <script src="js\joint-selection.js"></script>
-        <script src="js\collaborativeVideo.js"></script>
+        <script src="js/jszip/jszip.min.js"></script>
+        <script src="js/jszip/jszip-utils.min.js"></script>
+
+        <!-- leap and plugins -->
+        <script src="js/leapjs/leap-0.6.4.min.js"></script>
+        <script src="js/leapjs/leap-plugins-0.1.12.min.js"></script>
+        <script src="js/three/three.min.js"></script>
+        <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
+        <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
+
+        <!--gesture recorder--> 
+        <script src="js/gestureRecorder/gestureRecorder.js"></script>
+        <script src="js/gestureRecorder/webcamRecorder.js"></script>
+        <script src="js/gestureRecorder/leapRecorder.js"></script>
+        <script src="js/resumable/resumable.js"></script>
 
 
         <!-- bootstrap slider -->
@@ -63,10 +86,12 @@ if (login_check($mysqli) == true) {
         <!-- externals -->
         <div id="alerts"></div>
         <div id="template-general"></div>
+        <div id="template-gesture-recorder"></div>
+        <div id="template-gesture"></div>
         <div id="template-simulator"></div>
 
         <!-- Modal -->
-        <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div id="custom-modal" class="modal fade custom-modal" data-conv-allowed="false" data-backdrop="static" data-keyboard="false" role="dialog">
             <div class="modal-dialog root">
 
                 <!-- Modal content-->
@@ -75,6 +100,10 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
+
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
 
         <!-- Container (Breadcrump) -->
         <div class="container" id="breadcrumb"style="">
@@ -86,24 +115,141 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div id="loading-indicator" class="window-sized-loading text-center">
-            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
-        </div>
-
-        <!-- Container (Landing Section) -->
-        <div class="container mainContent" id="gesture-sets-content" style="margin-top: 0px">
-            <div class="input-group" id="gesture-sets-select">
-                <input class="form-control item-input-text option-gesture-sets show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                <div class="input-group-btn select select-gesture-sets" role="group">
-                    <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                    <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+        <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-quick-controls" style="position: fixed; top: 50%; z-index: 100; opacity: 0;">
+            <div class="btn-group-vertical left-controls" style="transform: translateY(-50%);">
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-record-simulation disabled" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->recordSimulation ?> <i class="fa fa-dot-circle-o" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-stop-record-simulation hidden" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->stopRecordSimulation ?>  <i class="fa fa-stop" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-pause-record-simulation hidden" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->pauseRecordSimulation ?>  <i class="fa fa-pause" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-resume-record-simulation hidden" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->resumeRecordSimulation ?>  <i class="fa fa-play" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-load-simulation-recording" style="position: relative; float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->loadSimulation ?> <i class="fa fa-folder-open" style="margin-left: 15px"></i></button>
                 </div>
             </div>
         </div>
 
-        <!-- Container (Landing Section) -->
-        <div class="container mainContent hidden" id="simulator-content" style="margin-top: 0px">
+
+
+
+        <!-- Container (gesture set simulator content) -->
+        <div class="container mainContent" id="" style="margin-top: 20px">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-pills" role="tablist" id="main-tab-pane" style="opacity:0; display: flex; justify-content: center;">
+                <li role="presentation" id="btn-gestureSet"><a href="#gestureSetContent" aria-controls="gestureSetsContent" role="tab" data-toggle="tab"><i class="fa fa-sign-language"></i> <?php echo $lang->breadcrump->simulator ?></a></li>
+                <li role="presentation" id="btn-player"><a href="#playerContent" aria-controls="playerContent" role="tab" data-toggle="tab"><i class="fa fa-play"></i> <?php echo $lang->simulationPlayer ?></a></li>
+                <li role="presentation" id="btn-mapping"><a href="#mappingContent" aria-controls="mappingContent" role="tab" data-toggle="tab"><i class="fa fa-sign-language"></i> <?php echo $lang->mapping ?></a></li>
+            </ul>
+
+
+            <!-- Tab panes -->
+            <div class="tab-content" style="margin-top: 20px">
+                <div role="tabpanel" class="tab-pane" id="gestureSetContent">
+                    <div class="" id="gesture-sets-content" style="">
+                        <div class="input-group" id="gesture-sets-select">
+                            <input class="form-control item-input-text option-gesture-sets show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <div class="input-group-btn select select-gesture-sets" role="group">
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                            </div>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default btn-shadow disabled" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
+                                <button class="btn btn-default btn-shadow disabled" id="btn-show-hide-video" data-preview-present="true" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showHideGestureVideo ?>"><i class="fa fa-compress"></i></button>
+                            </div>
+                        </div>
+                        <div class="input-group">
+
+                        </div>
+                    </div>
+
+                    <div class="mainContent" id="simulator-content" style=""></div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="playerContent">
+                    <div class="" id="simulation-player-content">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
+                                <div class="btn-group btn-group-justified">
+                                    <div class="btn-group">
+                                        <button class="btn btn-default btn-shadow" id="btn-play-simulation" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->playSimulation ?>"><i class="fa fa-play"></i></button>
+                                    </div>
+                                    <div class="btn-group hidden">
+                                        <button class="btn btn-default btn-shadow disabled" id="btn-pause-simulation" style="border-radius: 8px 0px 0px 8px;"  data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->pauseSimulation ?>"><i class="fa fa-pause"></i></button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button class="btn btn-default btn-shadow disabled" id="btn-prev-gesture" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->stepBackwardGesture ?>"><i class="fa fa-fast-backward"></i></button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button class="btn btn-default btn-shadow disabled" id="btn-step-backward-simulation" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->stepBackwardSimulation ?>"><i class="fa fa-step-backward"></i></button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button class="btn btn-default btn-shadow disabled" id="btn-step-forward-simulation" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->stepForwardSimulation ?>"><i class="fa fa-step-forward"></i></button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button class="btn btn-default btn-shadow disabled" id="btn-next-gesture" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->stepForwardGesture ?>"><i class="fa fa-fast-forward"></i></button>
+                                    </div>
+                                    <div class="btn-group select" id="update-time-select" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->chooseSimulationTimeout ?>">
+                                        <button type="button" class="btn btn-default btn-shadow dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu option">
+                                            <li id="standard" data-milliseconds="standard" class="selected"><a href="#">Standard</a></li>
+                                            <li id="seconds1" data-milliseconds="1000"><a href="#"><?php echo $lang->seconds1 ?></a></li>
+                                            <li id="seconds1-5" data-milliseconds="1500"><a href="#"><?php echo $lang->seconds15 ?></a></li>
+                                            <li id="seconds2" data-milliseconds="2000"><a href="#"><?php echo $lang->seconds2 ?></a></li>
+                                            <li id="seconds2-5" data-milliseconds="2500"><a href="#"><?php echo $lang->seconds25 ?></a></li>
+                                            <li id="seconds3" data-milliseconds="3000"><a href="#"><?php echo $lang->seconds3 ?></a></li>
+                                            <li id="seconds3-5" data-milliseconds="3500"><a href="#"><?php echo $lang->seconds35 ?></a></li>
+                                            <li id="seconds4" data-milliseconds="4000"><a href="#"><?php echo $lang->seconds4 ?></a></li>
+                                            <li id="seconds4-5" data-milliseconds="4500"><a href="#"><?php echo $lang->seconds45 ?></a></li>
+                                            <li id="seconds5" data-milliseconds="5000"><a href="#"><?php echo $lang->seconds5 ?></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+                                <div id="playback-slider-container" class="" style="margin-top: -10px">
+                                    <input id="playback-slider" style="width: 100%; height: 34px;" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" data-slider-tooltip="hide" />
+                                </div>
+                                <div id="seek-bar-meta-info-container" style="position: absolute; left: 15px; right: 15px; top:34px"></div>
+                            </div>
+                        </div>
+
+                        <div id="simulation-thumbnail-container" class="row" style="margin-top: 40px"></div>
+                        <div class="row" style="height: 60px">
+                            <div class="col-xs-12 text-center" id="current-time-code">
+                                <span class="time-code-current-time">00:00:00</span>
+                                <span> / </span>
+                                <span class="time-code-duration">00:00:00</span>
+                            </div>
+                            <div class="col-xs-12" style="">
+                                <div class="corner-background"></div>
+                                <div class="corner-left"></div>
+                                <div class="corner-center"></div>
+                                <div class="corner-right"></div>
+                            </div>
+
+                        </div>
+                        <div id="simulation-thumbnail-info-panel" style="margin-top: 35px"></div>
+
+                    </div>
+
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="mappingContent">
+
+                </div>
+            </div>
+
         </div>
+
 
         <script>
             $(document).ready(function () {
@@ -114,6 +260,8 @@ if (login_check($mysqli) == true) {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
+                    externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
+                    externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     externals.push(['#template-simulator', PATH_EXTERNALS + 'template-simulator.php']);
                     loadExternals(externals);
                 });
@@ -122,6 +270,13 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
                 animateBreadcrump();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
+
+                var fixedControlsTween = new TimelineMax({paused: true});
+                fixedControlsTween.add("parallel", .3)
+                        .to($('#fixed-quick-controls'), .2, {opacity: 1, ease: Quad.easeInOut}, 'parallel')
+                        .from($('#fixed-quick-controls'), .2, {x: -20, ease: Quad.easeInOut}, 'parallel');
+
                 getGestureCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         getGestureSets(function (result) {
@@ -132,199 +287,320 @@ if (login_check($mysqli) == true) {
 
                             var query = getQueryParams(document.location.search);
                             if (query.gestureSetId) {
+                                console.log('temp save recorded simulation');
+
                                 var gestureSetId = parseInt(query.gestureSetId);
-                                console.log('select prefered mappings for gesture set id:', gestureSetId);
+                                var recordedSimulation = getLocalItem(RECORDED_SIMULATION);
                                 $('#gesture-sets-select').find('#' + gestureSetId).click();
+                                if (recordedSimulation) {
+                                    setLocalItem(RECORDED_SIMULATION, cleanUpRecordedSimulation(recordedSimulation));
+                                }
+                            }
+
+                            if (query.recordingId) {
+                                getSimulationRecording({recordingId: query.recordingId}, function (result) {
+                                    if (result.status === RESULT_SUCCESS) {
+                                        setLocalItem(RECORDED_SIMULATION, cleanUpRecordedSimulation({id: result.id, gestureSetId: result.gestureSetId, title: result.title, track: result.data.track, created: result.created, source: result.data.source || null}));
+                                        $('#main-tab-pane').find('#btn-player').removeClass('disabled');
+                                        renderRecordedGestureSetSimulation();
+                                    }
+                                });
+                            }
+
+                            if (query.state) {
+                                currentSimulationState = query.state;
+                                switch (currentSimulationState) {
+                                    case STATE_SIMULATOR_RECORD:
+                                        $(recordSimulationButton).click();
+                                        break;
+                                    case STATE_SIMULATOR_PAUSE_RECORDING:
+                                        $(recordSimulationButton).click();
+                                        $(pauseRecordSimulationButton).click();
+                                        break;
+                                    case STATE_SIMULATOR_STOP_RECORDING:
+                                        saveSimulationRecording();
+                                        break;
+                                }
                             }
 
                             showPageContent();
                             initWebSocket();
+                            fixedControlsTween.play();
                         });
                     }
                 });
             }
 
             function showPageContent() {
-                $('#simulator-content').removeClass('hidden');
+                console.warn('show page content');
+
+                $('.mainContent').removeClass('hidden');
                 TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
                         $('#loading-indicator').remove();
                     }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
+
+                TweenMax.to($('#main-tab-pane'), .4, {opacity: 1});
+
+                $('#main-tab-pane a').on('click', function (event) {
+                    event.preventDefault();
+                    if ($(event.target).parent().hasClass('disabled')) {
+                        event.stopImmediatePropagation();
+                    }
+                });
+
+                $('#main-tab-pane a[data-toggle="tab"]').on('show.bs.tab', function (event) {
+                    $('#simulator-content, #simulation-thumbnail-container').empty();
+                    $(recordSimulationButton).addClass('disabled');
+
+                    switch ($(event.target).attr('href')) {
+                        case '#gestureSetContent':
+                            setParam(window.location.href, 'tab', 'gestureSet');
+                            $(recordSimulationButton).removeClass('disabled');
+                            renderGestureSetContent();
+                            break;
+                        case '#playerContent':
+                            setParam(window.location.href, 'tab', 'player');
+                            renderRecordedGestureSetSimulation();
+                            break;
+                        case '#mappingContent':
+                            setParam(window.location.href, 'tab', 'mapping');
+                            break;
+                    }
+                });
+
+                var query = getQueryParams(document.location.search);
+                if (query.tab) {
+                    var recordedSimulation = getLocalItem(RECORDED_SIMULATION);
+                    if (query.tab === 'player' && recordedSimulation) {
+                        setLocalItem(RECORDED_SIMULATION, cleanUpRecordedSimulation(recordedSimulation));
+                        $('#btn-player').removeClass('disabled');
+                        $('#main-tab-pane').find('#btn-' + query.tab + ' a').click();
+                    } else {
+                        $('#main-tab-pane').find('#btn-gestureSet a').click();
+                    }
+                } else {
+                    $('#main-tab-pane').find('#btn-gestureSet a').click();
+                }
             }
-
-
-            var isVideoShown = true;
-            var pauseGetPosition = false;
-            var staticContinuousTimer = null;
 
             $('#gesture-sets-select').unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                currentPreviewGestureSet = {set: getGestureSetById($(event.target).attr('id'))};
-                console.log(currentPreviewGestureSet);
-
-                currentGestureSet = $('#pageBody').find('#simulator-content');
-                currentGestureSet.empty();
-                var clone = getGestureCatalogGestureSetPanel(currentPreviewGestureSet.set);
-                currentGestureSet.append(clone);
-                initPopover();
-
-                $(clone).find('#btn-show-hide-video').unbind('click').bind('click', function (event) {
-                    event.preventDefault();
-                    if(isVideoShown){
-                        $(clone).find("#gestures-list-container .embed-responsive").hide();
-                        $(clone).find('#btn-show-hide-video').find('i').removeClass("fa-compress").addClass("fa-expand");
-                        isVideoShown = false;
-                    } else {
-                        $(clone).find("#gestures-list-container").find(".embed-responsive").show();
-                        $(clone).find('#btn-show-hide-video').find('i').removeClass("fa-expand").addClass("fa-compress");
-                        isVideoShown = true;
-                    }
-                });
+                removeLocalItem(SIMULATION_RECORDING);
+                removeLocalItem(RECORDED_SIMULATION);
+                $('#btn-player').addClass('disabled');
+                setParam(window.location.href, 'gestureSetId', $(event.target).attr('id'));
+                renderGestureSetContent();
+            });
 
 
-                for (var i = currentPreviewGestureSet.set.gestures.length - 1; i >= 0; i--) {
-                    var gesture = getGestureById(currentPreviewGestureSet.set.gestures[i]);
-                    if(gesture.interactionType === TYPE_GESTURE_DISCRETE)                     {
-                        $(clone).find('#'+gesture.id).find('.simulator-trigger').removeClass("hidden");
-                        $(clone).find('#'+gesture.id).find('.static-continuous-controls').remove();
-                    } else{
-                        if(gesture.continuousValueType === PERCENT){
-                            $(clone).find('#'+gesture.id).find('#control-continuous-slider').removeClass('hidden');
-                            $(clone).find('#'+gesture.id).find('.continuous-gesture-controls').removeClass('hidden');
-                            //$(clone).find('#'+gesture.id).find('#control-continuous-slider-status').removeClass('hidden');
-
-                            var continuousSlider = $(clone).find('#'+gesture.id).find('#control-continuous-slider #continuous-slider');
-
-                            var sliderOptions = {
-                                value: 50,
-                                min: 0,
-                                max: 100,
-                                enabled: true
-                            };
-
-                            $(continuousSlider).slider(sliderOptions);
-                            $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
-                                event.preventDefault();
-                                var inverted = $(this).hasClass('inverted');
-                                var percent = parseInt(event.value.newValue);
-                                var imagePercent = inverted ? (100 - percent) : percent;
-                                var gestureId = event.data.gesture.id;
-                                $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
-                                var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
-                                $(gestureImages).removeClass('active').addClass('hidden');
-                                $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
-                                sendContinuousPGGesture(gestureId, percent);
-                            });
-                        } else if (gesture.continuousValueType === "position"){
-                            $(clone).find('#'+gesture.id).find('.simulator-continuous-trigger').removeClass('hidden');
-                            $(clone).find('#'+gesture.id).find('#btn-trigger-continuous-gesture').unbind('click').bind('click', {gesture: gesture} , function(event) {
-                                event.preventDefault();
-                                loadHTMLintoModal('custom-modal', 'externals/modal-simPosition.php', 'modal-lg');
-                                $('#custom-modal').on('shown.bs.modal', function () {
-                                    $(this).find('#viewer_positionScreen_type').val(event.data.gesture.continuousValueType);
-                                    $(this).find('.root').attr('id', event.data.gesture.id);
-                                });
-                            });
-                        } else if (gesture.continuousValueType === "mouseSimulation"){
-                            $(clone).find('#'+gesture.id).find('.simulator-continuous-trigger').removeClass('hidden');
-                            $(clone).find('#'+gesture.id).find('#btn-trigger-continuous-gesture').unbind('click').bind('click', {gesture: gesture} , function(event) {
-                                event.preventDefault();
-                                loadHTMLintoModal('custom-modal', 'externals/modal-simPosition.php', 'modal-lg');
-                                $('#custom-modal').on('shown.bs.modal', function () {
-                                    $(this).find('#viewer_positionScreen_type').val(event.data.gesture.continuousValueType);
-                                    $(this).find('.root').attr('id', event.data.gesture.id);
-                                });
-                            });
-                        } else {
-                            $(clone).find('#'+gesture.id).find('.static-continuous-controls').removeClass('hidden');
-
-                            $(clone).find('#'+gesture.id).find('.btn-start-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-                                event.preventDefault();
-                                if (!$(this).hasClass('disabled')) {
-                                    $(this).addClass('disabled');
-                                    $(this).closest('.static-continuous-controls').find('.btn-stop-static-continuous-gesture').removeClass('disabled');
-                                    staticContinuousTimer = setInterval(function () {
-                                        sendPGGesture(event.data.gesture.id);
-                                    }, 500);
-                                }
-                            });
-
-                            $(clone).find('#'+gesture.id).find('.btn-stop-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-                                event.preventDefault();
-                                if (!$(this).hasClass('disabled')) {
-                                    $(this).addClass('disabled');
-                                    $(this).closest('.static-continuous-controls').find('.btn-start-static-continuous-gesture').removeClass('disabled');
-                                    if (staticContinuousTimer) {
-                                        clearInterval(staticContinuousTimer);
-                                    }
-                                }
-                            });
-                        }
-                    }
-                }
+            $('#custom-modal').unbind('gestureUpdated').bind('gestureUpdated', function (event, gesture) {
+                event.preventDefault();
+                var isInSimulationMode = $('#gestureSetContent').hasClass('active');
+                updateGestureSimluationThumbnail(gesture.id, $('#pageBody').find('#simulator-content'), isInSimulationMode);
+            });
 
 
-                $(clone).find('#btn-trigger-gesture').unbind('click').bind('click', function(event){
-                    event.preventDefault();
-                    var gestureId = $(this).closest('.root').attr('id');
-                    sendPGGesture(gestureId);
-                });
+            // fixed buttons tweening
 
-                $(document).on('click', '.positionArea', function(event) {
-                    var gesture = getGestureById($(this).closest('.root').attr('id'));
-                    var pos = getMousePosition(this);
-                    var positionType = $('#viewer_positionScreen_type').val();
-                    console.log(positionType);
-                    sendContinuousPGPosition($(this).closest('.root').prop('id'), positionType, pos.relPosX, pos.relPosY, true);
-                });
+            var recordSimulationButton = $('#fixed-quick-controls .btn-record-simulation');
+            var recordSimulationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(recordSimulationButton).css({borderBottomRightRadius: '8px'});
+                    $(recordSimulationButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(recordSimulationButton).css({borderBottomRightRadius: '0px'});
+                    $(recordSimulationButton).removeClass('btn-primary');
+                }});
 
-                $(document).on('mousemove', '.positionArea', function(event) {
-                    var gesture = getGestureById($(this).closest('.root').attr('id'));
-                    if (!pauseGetPosition) {
-                        var pos = getMousePosition(this);
-                        var positionType = $('#viewer_positionScreen_type').val();
-                        console.log(positionType);
-                        sendContinuousPGPosition($(this).closest('.root').prop('id'), positionType, pos.relPosX, pos.relPosY, false);
+            $(recordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                recordSimulationButtonTimeline.play();
+            });
 
-                    }
+            $(recordSimulationButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                recordSimulationButtonTimeline.reverse();
+            });
 
-                });
-
-                var getMousePosition = function(element) {
-                    var offset = $(element).offset();
-                    var width = $(element).width();
-                    var height = $(element).height();
-                    var posx = 0;
-                    var posy = 0;
-                    var relPosx = 0;
-                    var relPosy = 0;
-                    if (!event) var event = window.event;
-                    if (event.pageX || event.pageY) {
-                        posx = event.pageX;
-                        posy = event.pageY;
-                    } else if (event.clientX || event.clientY) {
-                        posx = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-                        posy = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-                    }
-
-
-                    posx = parseInt(posx - offset.left);
-                    posy = parseInt(posy - offset.top);
-
-                    relPosx = posx / width;
-                    relPosy = posy / height;
-
-                    var coor = "rel X coords: " + relPosx + ",<br/> rel Y coords: " + relPosy;
-                    $(".output").html(coor);
-                    pauseGetPosition = true;
-                    window.setTimeout(function() {
-                        pauseGetPosition = false
-                    }, GESTURE_GET_MOUSE_POSITION_SPEED);
-                    return {
-                        relPosX: relPosx,
-                        relPosY: relPosy
-                    };
+            $(recordSimulationButton).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('hidden') && !$(this).hasClass('disabled')) {
+                    $(this).addClass('hidden');
+//                    $('#fixed-quick-controls').css({left: '-208px'});
+                    $(stopRecordSimulationButton).removeClass('hidden');
+                    $(pauseRecordSimulationButton).removeClass('hidden');
+                    currentSimulationState = STATE_SIMULATOR_RECORD;
+                    setParam(window.location.href, 'state', currentSimulationState);
                 }
             });
+
+
+
+
+            var stopRecordSimulationButton = $('#fixed-quick-controls .btn-stop-record-simulation');
+            var stopRecordSimulationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(stopRecordSimulationButton).css({borderBottomRightRadius: '8px'});
+                    $(stopRecordSimulationButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(stopRecordSimulationButton).css({borderBottomRightRadius: '0px'});
+                    $(stopRecordSimulationButton).removeClass('btn-primary');
+                }});
+
+            $(stopRecordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                stopRecordSimulationButtonTimeline.play();
+            });
+
+            $(stopRecordSimulationButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                stopRecordSimulationButtonTimeline.reverse();
+            });
+
+            $(stopRecordSimulationButton).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('hidden')) {
+                    $(this).addClass('hidden');
+//                    $('#fixed-quick-controls').css({left: '-201px'});
+                    $(recordSimulationButton).removeClass('hidden');
+                    $(pauseRecordSimulationButton).addClass('hidden');
+                    $(resumeRecordSimulationButton).addClass('hidden');
+                    currentSimulationState = STATE_SIMULATOR_STOP_RECORDING;
+                    setParam(window.location.href, 'state', currentSimulationState);
+                    saveSimulationRecording();
+                }
+            });
+
+
+            var pauseRecordSimulationButton = $('#fixed-quick-controls .btn-pause-record-simulation');
+            var pauseRecordSimulationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(pauseRecordSimulationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+                    $(pauseRecordSimulationButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(pauseRecordSimulationButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
+                    $(pauseRecordSimulationButton).removeClass('btn-primary');
+                }});
+
+            $(pauseRecordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                pauseRecordSimulationButtonTimeline.play();
+            });
+
+            $(pauseRecordSimulationButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                pauseRecordSimulationButtonTimeline.reverse();
+            });
+
+            $(pauseRecordSimulationButton).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('hidden')) {
+                    $(this).addClass('hidden');
+//                    $('#fixed-quick-controls').css({left: '-211px'});
+                    $(resumeRecordSimulationButton).removeClass('hidden');
+                    currentSimulationState = STATE_SIMULATOR_PAUSE_RECORDING;
+                    setParam(window.location.href, 'state', currentSimulationState);
+                }
+            });
+
+
+
+
+            var resumeRecordSimulationButton = $('#fixed-quick-controls .btn-resume-record-simulation');
+            var resumeRecordSimulationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(resumeRecordSimulationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
+                    $(resumeRecordSimulationButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(resumeRecordSimulationButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
+                    $(resumeRecordSimulationButton).removeClass('btn-primary');
+                }});
+
+            $(resumeRecordSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                resumeRecordSimulationButtonTimeline.play();
+            });
+
+            $(resumeRecordSimulationButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                resumeRecordSimulationButtonTimeline.reverse();
+            });
+
+            $(resumeRecordSimulationButton).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('hidden')) {
+                    $(this).addClass('hidden');
+//                    $('#fixed-quick-controls').css({left: '-208px'});
+                    $(pauseRecordSimulationButton).removeClass('hidden');
+                    currentSimulationState = STATE_SIMULATOR_RECORD;
+                    setParam(window.location.href, 'state', currentSimulationState);
+                }
+            });
+
+
+
+            var loadSimulationButton = $('#fixed-quick-controls .btn-load-simulation-recording');
+            var loadSimulationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
+                    $(loadSimulationButton).css({borderTopRightRadius: '8px'});
+                    $(loadSimulationButton).addClass('btn-primary');
+                }, onReverseComplete: function () {
+                    $(loadSimulationButton).css({borderTopRightRadius: '0px'});
+                    $(loadSimulationButton).removeClass('btn-primary');
+                }});
+
+            $(loadSimulationButton).unbind('mouseenter').bind('mouseenter', function (event) {
+                event.preventDefault();
+                loadSimulationButtonTimeline.play();
+            });
+
+            $(loadSimulationButton).unbind('mouseleave').bind('mouseleave', function (event) {
+                event.preventDefault();
+                loadSimulationButtonTimeline.reverse();
+            });
+
+            $(loadSimulationButton).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    loadHTMLintoModal('custom-modal', 'externals/modal-load-simulation-recording.php');
+                    $('#custom-modal').unbind('loadGestureSetSimulation').bind('loadGestureSetSimulation', function (event, data) {
+                        event.preventDefault();
+                        setLocalItem(RECORDED_SIMULATION, cleanUpRecordedSimulation(data));
+                        
+                        $('#gestureSetContent').find('#gesture-sets-select #' + data.gestureSetId).click();
+                        $('#main-tab-pane').find('#btn-player').removeClass('disabled');
+
+                        if ($('#main-tab-pane').find('#btn-player').hasClass('active')) {
+                            renderRecordedGestureSetSimulation();
+                        } else {
+                            $('#main-tab-pane').find('#btn-player a').click();
+                        }
+                    });
+                }
+            });
+
+
+
+            setTimeout(function () {
+                var leftFlex = 51;
+
+                recordSimulationButtonTimeline.add("tween", 0)
+                        .to(recordSimulationButton, .3, {left: +parseInt($(recordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                $(stopRecordSimulationButton).removeClass('hidden').css({opacity: 0});
+                stopRecordSimulationButtonTimeline.add("tween", 0)
+                        .to(stopRecordSimulationButton, .3, {left: +parseInt($(stopRecordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(stopRecordSimulationButton).addClass('hidden').css({opacity: 1});
+
+                $(pauseRecordSimulationButton).removeClass('hidden').css({opacity: 0});
+                pauseRecordSimulationButtonTimeline.add("tween", 0)
+                        .to(pauseRecordSimulationButton, .3, {left: +parseInt($(pauseRecordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(pauseRecordSimulationButton).addClass('hidden').css({opacity: 1});
+
+                $(resumeRecordSimulationButton).removeClass('hidden').css({opacity: 0});
+                resumeRecordSimulationButtonTimeline.add("tween", 0)
+                        .to(resumeRecordSimulationButton, .3, {left: +parseInt($(resumeRecordSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(resumeRecordSimulationButton).addClass('hidden').css({opacity: 1});
+
+                loadSimulationButtonTimeline.add("tween", 0)
+                        .to(loadSimulationButton, .3, {left: +parseInt($(loadSimulationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+            }, 200);
         </script>
 
     </body>

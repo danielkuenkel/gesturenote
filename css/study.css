@@ -200,6 +200,23 @@ and open the template in the editor.
     border-color: #ec971f;
 }
 
+:root {
+    --chartTextColor: black;
+
+}
+:root {
+    --chartBorderColor: rgba(0,0,0,0);
+}
+.dark :root {
+    --chartTextColor: white;
+}
+/*.chartTextColor {
+    color: #d9534f;
+}
+.chartBorderColor {
+    border-color: #5cb85c;
+}*/
+
 .btn-tag-as-main-trigger {
     cursor: pointer;
 }
@@ -247,19 +264,19 @@ and open the template in the editor.
     color: #5a5a5a;
 }
 .link-list-item-url .link-list-item-title.item-primary-full {
-    color: #428bca;
+    color: #428bca !important;
 }
 .link-list-item-url .link-list-item-title.item-success-full {
-    color: #5cb85c;
+    color: #5cb85c !important;
 }
 .link-list-item-url .link-list-item-title.item-info-full {
-    color: #5bc0de;
+    color: #5bc0de !important;
 }
 .link-list-item-url .link-list-item-title.item-danger-full {
-    color: #d9534f;
+    color: #d9534f !important;
 }
 .link-list-item-url .link-list-item-title.item-warning-full {
-    color: #ec971f;
+    color: #ec971f !important;
 }
 /*.link-list-item-url .link-list-item-time {
     color: #428bca;
@@ -360,4 +377,41 @@ and open the template in the editor.
     position: absolute;
     transform: translateX(-1px);
     pointer-events: none;
+}
+
+.dark .btn-edit-annotation.disabled {
+    cursor: not-allowed;
+    font-size: 10pt;
+    color: rgba(255,255,255,.6);
+}
+.dark .btn-edit-annotation:hover {
+    color: white;
+}
+.dark .btn-edit-annotation.disabled:hover {
+    color: rgba(255,255,255,.6);
+}
+
+.dark .btn-cancel-edit-annotation:hover {
+    color: white;
+}
+
+.dark .item-advanced-primary-full {
+    border-color: #737373;
+}
+
+.dark #seek-bar-meta-info-container .item-advanced-primary-full {
+    background-color: #dcdcdc
+}
+
+.dark .participant-snapshot-background {
+    background-color: #464646 !important;
+    color: #797979;
+}
+
+.dark #accordance-amount {
+    color: rgba(255,255,255,.7) !important;
+}
+
+.dark .table-bordered {
+    
 }

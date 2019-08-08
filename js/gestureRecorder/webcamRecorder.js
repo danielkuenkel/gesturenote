@@ -20,13 +20,13 @@ function WebcamRecorder(options) {
             navigator.mozGetUserMedia;
 
 //    setTimeout(function () {
-        if (navigator.getUserMedia) {
-            navigator.mediaDevices.enumerateDevices()
-                    .then(gotDevices)
-                    .catch(errorCallback);
-        } else {
-            console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
-        }
+    if (navigator.getUserMedia) {
+        navigator.mediaDevices.enumerateDevices()
+                .then(gotDevices)
+                .catch(errorCallback);
+    } else {
+        console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
+    }
 //    }, 3000);
 
 
@@ -36,20 +36,22 @@ function WebcamRecorder(options) {
         var audioSource = null;
 
         var videoSources = [];
-//        var audioSources = [];
+        var audioSources = [];
         for (var i = 0; i < deviceInfos.length; i++) {
             if (deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
                 videoSources.push(deviceInfos[i]);
+            } else if (deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
+                audioSources.push(deviceInfos[i]);
             }
-//            else if (deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
-////                audioSources.push(deviceInfos[i]);
-//            }
         }
 
         for (var i = 0; i < deviceInfos.length; i++) {
             if (!videoSource && deviceInfos[i].kind === 'videoinput' && !deviceInfos[i].label.toLowerCase().includes('leap') && !deviceInfos[i].label.toLowerCase().includes('kinect')) {
                 console.log('standard video input device:', deviceInfos[i]);
                 videoSource = deviceInfos[i].deviceId;
+            } else if (!audioSource && deviceInfos[i].kind === 'audioinput' && !deviceInfos[i].label.toLowerCase().includes('xbox')) {
+                console.log('standard audio input device:', deviceInfos[i]);
+                audioSource = deviceInfos[i].deviceId;
             }
 
             if (videoSource) {
@@ -64,6 +66,7 @@ function WebcamRecorder(options) {
         if (webcamRecorder.options && webcamRecorder.options.allowConfig && webcamRecorder.options.allowConfig === true) {
             var configPanel = $(webcamRecorder.options.parent).find('#rtc-config-panel');
             renderAssembledVideoSources($(configPanel).find('#video-input-select'), videoSources, videoSource);
+            renderAssembledAudioSources($(configPanel).find('#audio-input-select'), audioSources, audioSource);
         }
 
         options.sources = {video: videoSource, audio: audioSource};
@@ -95,7 +98,16 @@ function WebcamRecorder(options) {
 }
 
 function onError(error) {
-    console.log(error);
+    console.error(error);
+    if (error.message) {
+        var alertsContainer = $(webcamRecorder.options.parent).find('#alerts-container');
+        var message = new String(error.message).split(' ').join('').toLowerCase();
+        switch (message) {
+            case 'permissiondenied':
+                appendAlert(alertsContainer, ALERT_RTC_PERMISSION_DENIED);
+                break;
+        }
+    }
 }
 
 function onSuccess(stream) {
@@ -165,7 +177,7 @@ function onSuccess(stream) {
 
             if (!$(this).hasClass('disabled')) {
                 $(this).popover('hide');
-                $(this).css({filter: 'blur(2px)'});
+                $(this).parent().css({filter: 'blur(2px)'});
 
                 if ($(configPanel).hasClass('hidden')) {
                     $(video).css({filter: 'blur(2px)'});
@@ -178,7 +190,7 @@ function onSuccess(stream) {
         $(configPanel).find('#btn-close-config').unbind('click').bind('click', function (event) {
             event.preventDefault();
             $(video).css({filter: ''});
-            $(webcamRecorder.options.parent).find('#btn-config-rtc').css({filter: ''});
+            $(webcamRecorder.options.parent).find('#btn-config-rtc').parent().css({filter: ''});
             $(configPanel).addClass('hidden');
         });
 
@@ -190,6 +202,18 @@ function onSuccess(stream) {
             }
 
             webcamRecorder.options.videoSource = activeId;
+            var options = webcamRecorder.options;
+            $(webcamRecorder).trigger('renegotiate', [options]);
+        });
+
+        $(configPanel).find('#audio-input-select').unbind('change').bind('change', function (event, activeId) {
+            event.preventDefault();
+
+            if (window.history.replaceState) {
+                setParam(window.location.href, 'aSource', activeId);
+            }
+
+            webcamRecorder.options.audioSource = activeId;
             var options = webcamRecorder.options;
             $(webcamRecorder).trigger('renegotiate', [options]);
         });
@@ -209,6 +233,7 @@ WebcamRecorder.prototype.record = function () {
 var stopRecordingCallback = null;
 WebcamRecorder.prototype.stopRecord = function (callback) {
     if (webcamRecorder.mediaRecorder) {
+        webcamRecorder.crops = null;
         webcamRecorder.mediaRecorder.stop();
 
         if (webcamRecorder.mediaStream) {
@@ -284,67 +309,30 @@ WebcamRecorder.prototype.stop = function (container) {
     }
 };
 
-WebcamRecorder.prototype.crops = {};
+WebcamRecorder.prototype.crops = null;
 WebcamRecorder.prototype.initializePlaybackControls = function () {
     console.log('initialize playback controls');
     webcamRecorder.resetPlaybackControls();
     var togglePlaybackButton = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .btn-toggle-playback');
     var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
-    var playbackSlider = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #webcam-playback-slider');
-    var toggleCroppingButton = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #btn-toggle-cropping');
+//    var playbackSlider = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #webcam-playback-slider');
+//    var toggleCroppingButton = $(webcamRecorder.options.parent).find('.gr-playback #btn-toggle-cropping');
     var cropSlider = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #webcam-playback-crop-slider');
-    webcamRecorder.crops = {left: 0, right: playbackVideo[0].duration};
 
-    function initPlaybackSlider(highlightRange) {
-        var sliderOptions = {
-            min: 0,
-            max: playbackVideo[0].duration,
-            step: 0.001,
-            precision: 3,
-            value: 0
-        };
-
-        if (highlightRange === true && (webcamRecorder.crops.left > 0 || webcamRecorder.crops.right < sliderOptions.max)) {
-            sliderOptions.rangeHighlights = [{start: webcamRecorder.crops.left, end: webcamRecorder.crops.right, class: "isGesture"}];
-        }
-
-        $(playbackSlider).unbind('change');
-        $(playbackSlider).slider(sliderOptions);
-        $(playbackSlider).slider('destroy');
-        $(playbackSlider).slider(sliderOptions);
-
-        $(playbackSlider).unbind('change').bind('change', function (event) {
-            $(playbackSlider).addClass('sliding');
-            event.preventDefault();
-            $(playbackSlider).addClass('sliding');
-            if ($(togglePlaybackButton).hasClass('playing')) {
-                $(togglePlaybackButton).click();
-            }
-            $(playbackVideo)[0].currentTime = event.value.newValue;
-        });
-
-        $(playbackVideo).unbind('timeupdate').bind('timeupdate', function () {
-            if (!$(playbackSlider).hasClass('sliding')) {
-                if (playbackVideo[0].currentTime < webcamRecorder.crops.left || playbackVideo[0].currentTime > webcamRecorder.crops.right) {
-                    playbackVideo[0].currentTime = webcamRecorder.crops.left;
-                }
-                $(playbackSlider).slider('setValue', $(playbackVideo)[0].currentTime);
-            }
-        });
+    if (!webcamRecorder.crops) {
+        webcamRecorder.crops = {left: 0, right: playbackVideo[0].duration};
     }
 
-    initPlaybackSlider();
+    $(playbackVideo).unbind('timeupdate').bind('timeupdate', function () {
+        if (playbackVideo[0].currentTime < webcamRecorder.crops.left || playbackVideo[0].currentTime > webcamRecorder.crops.right) {
+            playbackVideo[0].currentTime = webcamRecorder.crops.left;
+        }
+    });
 
     $(togglePlaybackButton).unbind('click').bind('click', function (event) {
         event.preventDefault();
 
-        if ($(toggleCroppingButton).hasClass('cropping')) {
-            $(toggleCroppingButton).click();
-            $(playbackSlider).slider('setValue', webcamRecorder.crops.left);
-        }
-
         if ($(togglePlaybackButton).hasClass('playing')) {
-
             $(togglePlaybackButton).removeClass('playing');
             $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
             playbackVideo[0].pause();
@@ -355,7 +343,7 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
             if (playbackVideo[0].currentTime < webcamRecorder.crops.left || playbackVideo[0].currentTime > webcamRecorder.crops.right) {
                 playbackVideo[0].currentTime = webcamRecorder.crops.left;
             }
-            $(playbackSlider).removeClass('sliding');
+
             playbackVideo[0].play();
         }
     });
@@ -364,47 +352,40 @@ WebcamRecorder.prototype.initializePlaybackControls = function () {
         $(togglePlaybackButton).click();
     }
 
-    if (toggleCroppingButton) {
+    $(cropSlider).parent().removeClass('hidden disabled');
 
-        $(toggleCroppingButton).unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                if ($(togglePlaybackButton).hasClass('playing')) {
-                    $(togglePlaybackButton).click();
-                }
-
-                if ($(this).hasClass('cropping')) {
-                    $(this).removeClass('cropping');
-
-                    $(playbackSlider).slider('destroy');
-                    $(playbackSlider).parent().removeClass('hidden');
-
-                    $(cropSlider).slider('destroy');
-                    $(cropSlider).parent().addClass('hidden');
-
-                    initPlaybackSlider(true);
-                    $(playbackSlider).slider('setValue', webcamRecorder.crops.left);
-                } else {
-                    $(this).addClass('cropping');
-                    $(playbackSlider).parent().addClass('hidden');
-                    $(cropSlider).parent().removeClass('hidden disabled');
-
-                    $(cropSlider).slider({
-                        min: 0,
-                        max: playbackVideo[0].duration,
-                        step: 0.001,
-                        precision: 3,
-                        value: [webcamRecorder.crops.left, webcamRecorder.crops.right]
-                    });
-
-                    $(cropSlider).unbind('change').bind('change', function (event) {
-                        updateCropping(event.value.newValue);
-                    });
-                }
-            }
-        });
+    try {
+        $(cropSlider).slider('destroy');
+    } catch (error) {
+        console.log(error);
     }
 
+    $(cropSlider).slider({
+        min: 0,
+        max: playbackVideo[0].duration,
+        step: 0.001,
+        precision: 3,
+        value: [webcamRecorder.crops.left, webcamRecorder.crops.right]
+    });
+
+
+    $(cropSlider).unbind('change').bind('change', function (event) {
+        updateCropping(event.value.newValue);
+    });
+
+    $(cropSlider).unbind('slideStart').bind('slideStart', function (event) {
+        if ($(togglePlaybackButton).hasClass('playing')) {
+            $(togglePlaybackButton).click();
+        }
+    });
+
+    $(cropSlider).unbind('slideStop').bind('slideStop', function (event) {
+        if (!$(togglePlaybackButton).hasClass('playing')) {
+            $(togglePlaybackButton).click();
+        }
+    });
+
+    $(playbackVideo)[0].currentTime = webcamRecorder.crops.left;
     function updateCropping(newValues) {
         if (webcamRecorder.crops.left !== newValues[0]) {
             webcamRecorder.crops.left = newValues[0];
@@ -440,7 +421,7 @@ WebcamRecorder.prototype.extract = function () {
     var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
 
     $(playbackVideo).removeAttr('loop');
-    $(playbackVideo).css({borderRadius: "4px"});
+    $(playbackVideo).css({borderRadius: "8px"});
 
     if ($(togglePlaybackButton).hasClass('playing')) {
         $(togglePlaybackButton).click();
@@ -518,7 +499,7 @@ WebcamRecorder.prototype.showSave = function () {
 
     var playbackVideo = $(playbackPreview).find('.playback-webcam-video');
     $(playbackVideo).attr('loop', 'loop');
-    $(playbackVideo).css({borderRadius: "4px 4px 0px 0px"});
+    $(playbackVideo).css({borderRadius: "8px 8px 0px 0px"});
 
     renderGesturePreview($(webcamRecorder.options.parent).find('.gr-save #webcam-save-preview'), webcamSaveGestureData);
 
@@ -555,7 +536,7 @@ WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
             });
 
             // create gif from gesture images and upload it
-            var filename = hex_sha512(new Date().getTime() + "" + i) + ".gif";
+            var filename = sha512(new Date().getTime() + "" + i) + ".gif";
             createGIF(webcamSaveGestureData.images, filename, false, function (blob) {
                 gifUploadQueue.upload([blob], filename);
             });
@@ -570,7 +551,7 @@ WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
         console.log('attach saved data', webcamSaveGestureData)
         if (webcamSaveGestureData.blobs && webcamSaveGestureData.blobs.length > 0) {
             for (var i = 0; i < webcamSaveGestureData.blobs.length; i++) {
-                var filename = hex_sha512(new Date().getTime() + "" + i) + ".jpg";
+                var filename = sha512(new Date().getTime() + "" + i) + ".jpg";
                 uploadQueue.upload([webcamSaveGestureData.blobs[i]], filename);
             }
         } else {
@@ -588,7 +569,7 @@ WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
                     });
 
                     // create gif from gesture images and upload it
-                    var filename = hex_sha512(new Date().getTime() + "" + i) + ".gif";
+                    var filename = sha512(new Date().getTime() + "" + i) + ".gif";
                     createGIF(webcamSaveGestureData.images, filename, false, function (blob) {
                         gifUploadQueue.upload([blob], filename);
                     });
@@ -632,7 +613,6 @@ WebcamRecorder.prototype.showSaveSuccess = function (saveData) {
 
 WebcamRecorder.prototype.destroy = function () {
     webcamSaveGestureData = null;
-
 
     if (webcamRecorder) {
         var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');

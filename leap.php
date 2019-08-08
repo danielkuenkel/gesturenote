@@ -28,7 +28,7 @@ session_start();
         <script src="js/goto-general.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/chance.min.js"></script>
 
         <!-- leap and plugins -->

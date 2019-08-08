@@ -51,7 +51,7 @@ if ($h && $token && $studyId) {
         <script src="js/websocket.js"></script>
 
         <script src="js/chance.min.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/constants.js"></script>
@@ -66,10 +66,11 @@ if ($h && $token && $studyId) {
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/study-execution.js"></script>
-        <script src="js/study-execution-wizard.js"></script>
-        <script src="js/study-execution-wizard-save.js"></script>
+
         <script src="js/upload-queue.js"></script>
+        <script src="js/execution/study-execution.js"></script>
+        <script src="js/execution/study-execution-wizard.js"></script>
+        <script src="js/execution/study-execution-wizard-save.js"></script>
 
         <!-- phase step formats -->
         <script src="js/execution/exploration.js"></script>
@@ -108,6 +109,10 @@ if ($h && $token && $studyId) {
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
+        
+        <!-- simulator specific -->
+        <link rel="stylesheet" href="css/simulator.css">
+        <script src="js/simulation/simulator.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -116,7 +121,8 @@ if ($h && $token && $studyId) {
         <div id="template-gesture"></div>
         <div id="template-previews"></div>
         <div id="template-study"></div>
-        <div id="template-gesture-recorder"></div>
+        <!--<div id="template-gesture-recorder"></div>-->
+        <div id="template-simulator"></div>
 
         <!--<div id="screenSharingTarget" class="hidden"></div>-->
 
@@ -207,6 +213,7 @@ if ($h && $token && $studyId) {
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
+                    externals.push(['#template-simulator', PATH_EXTERNALS + 'template-simulator.php']);
                     loadExternals(externals);
                 });
             });

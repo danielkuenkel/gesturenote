@@ -40,7 +40,7 @@ if (login_check($mysqli) == true) {
 
         <script src="js/chance.min.js"></script>
         <script src="js/refreshSession.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
@@ -55,7 +55,7 @@ if (login_check($mysqli) == true) {
         <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/rtc-result-player.js"></script>
-        <script src="js/study-execution.js"></script>
+        <!--<script src="js/study-execution.js"></script>-->
         <script src="js/upload-queue.js"></script>
 
         <!-- leap and plugins -->
@@ -94,8 +94,8 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
 
-        <div class="hidden-xs hidden-sm study-participant-controls" id="fixed-study-participant-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 10001; opacity: 0; left:-204px">
-            <div class="btn-group-vertical">
+        <div class="hidden-xs hidden-sm study-participant-controls" id="fixed-study-participant-controls" style="position: fixed; top: 50%; z-index: 10001; opacity: 0;">
+            <div class="btn-group-vertical left-controls" style="transform: translateY(-50%);">
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px; border-bottom-right-radius: 8px; border-top-right-radius: 8px"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
                 </div>
@@ -111,6 +111,10 @@ if (login_check($mysqli) == true) {
                         </span></button>
                 </div>
             </div>
+        </div>
+
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
         </div>
 
 
@@ -139,21 +143,13 @@ if (login_check($mysqli) == true) {
 
 
         <!-- main content -->
-        <div class="container mainContent" style="margin-top: 0px; padding-bottom: 0px" id="general-view">
+        <div class="container mainContent hidden" style="margin-top: 0px; padding-bottom: 0px" id="general-view">
             <div>
                 <h2 id="main-headline" style="margin-top: 0; display: inline"></h2>
                 <a role="button" class="pull-right" id="btn-introduction" style=" clear: both;"><i class="fa fa-support"></i> <?php echo $lang->help ?></a>
             </div>
 
             <hr>
-
-            <!--        <nav>
-                        <ul class="pager"style="margin-bottom: 2px">
-                            <li class="btn-sm btn-prev-participant disabled pull-left" style="padding: 0"><a href="#"><span aria-hidden="true">&larr;</span> <?php echo $lang->previousParticipant ?></a></li>
-                            <li class="btn-sm btn-next-participant disabled pull-right" style="padding: 0"><a href="#"><?php echo $lang->nextParticipant ?> <span aria-hidden="true">&rarr;</span></a></li>
-                        </ul>
-                    </nav>-->
-
         </div>
 
         <div class="container" id="phase-results" style="margin-bottom: 0px;">
@@ -320,12 +316,13 @@ if (login_check($mysqli) == true) {
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 var query = getQueryParams(document.location.search);
-                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
 
-                var showTutorial = parseInt(<?php echo $_SESSION['tutorialParticipant'] ?>);
-                if (showTutorial === 1) {
+                var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                if (tutorials && tutorials.participant && parseInt(tutorials.participant) === 1) {
                     $('#btn-introduction').click();
                 }
 
@@ -350,6 +347,12 @@ if (login_check($mysqli) == true) {
                         }
                     });
                 }
+
+                $('.mainContent').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
 
                 animateBreadcrump();
             }
@@ -435,67 +438,14 @@ if (login_check($mysqli) == true) {
                 }
 
 
-                //            var prevParticipantButton = $('#fixed-study-participant-controls .btn-prev-participant');
-                //            var prevParticipantButtonTimeline = new TimelineMax({paused: true, onStart: function () {
-                //                    $(prevParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                //                    $(prevParticipantButton).addClass('btn-primary');
-                //                }, onReverseComplete: function () {
-                //                    $(prevParticipantButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '8px'});
-                //                    $(prevParticipantButton).removeClass('btn-primary');
-                //                }});
-                //
-                //            prevParticipantButtonTimeline.add("saveStudy", 0)
-                //                    .to(prevParticipantButton, .3, {left: +194, ease: Quad.easeInOut}, "saveStudy");
-                //
-                //            $(prevParticipantButton).unbind('mouseenter').bind('mouseenter', function (event) {
-                //                event.preventDefault();
-                //                prevParticipantButtonTimeline.play();
-                //            });
-                //
-                //            $(prevParticipantButton).unbind('mouseleave').bind('mouseleave', function (event) {
-                //                event.preventDefault();
-                //                prevParticipantButtonTimeline.reverse();
-                //            });
-                //
-                //            var nextParticipantButton = $('#fixed-study-participant-controls .btn-next-participant');
-                //            var nextParticipantButtonTimeline = new TimelineMax({paused: true, onStart: function () {
-                //                    $(nextParticipantButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                //                    $(nextParticipantButton).addClass('btn-primary');
-                //                }, onReverseComplete: function () {
-                //                    $(nextParticipantButton).css({borderRadius: '0px'});
-                //                    $(nextParticipantButton).removeClass('btn-primary');
-                //                }});
-                //
-                //            nextParticipantButtonTimeline.add("saveStudy", 0)
-                //                    .to(nextParticipantButton, .3, {left: +181, ease: Quad.easeInOut}, "saveStudy");
-                //
-                //            $(nextParticipantButton).unbind('mouseenter').bind('mouseenter', function (event) {
-                //                event.preventDefault();
-                //                nextParticipantButtonTimeline.play();
-                //            });
-                //
-                //            $(nextParticipantButton).unbind('mouseleave').bind('mouseleave', function (event) {
-                //                event.preventDefault();
-                //                nextParticipantButtonTimeline.reverse();
-                //            });
-
 
                 var joinConversationButton = $('#fixed-study-participant-controls .btn-join-conversation');
                 var conversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                         $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                        $(joinConversationButton).addClass('btn-primary');
+                        $(joinConversationButton).removeClass('btn-default').addClass('btn-primary');
                     }, onReverseComplete: function () {
-                        //                    if (study.isOwner === 'false' || study.isOwner === false) {
-                        //                        $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
-                        //                        $(joinConversationButton).removeClass('btn-primary');
-                        //                    } else {
-                        //                    $(joinConversationButton).css({borderRadius: '0px'});
-                        $(joinConversationButton).removeClass('btn-primary');
-                        //                    }
+                        $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                     }});
-
-                conversationButtonTimeline.add("saveStudy", 0)
-                        .to(joinConversationButton, .3, {left: +202, ease: Quad.easeInOut}, "saveStudy");
 
                 $(joinConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                     event.preventDefault();
@@ -511,18 +461,10 @@ if (login_check($mysqli) == true) {
                 var leaveConversationButton = $('#fixed-study-participant-controls .btn-leave-conversation');
                 var leaveConversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                         $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                        $(leaveConversationButton).addClass('btn-danger');
+                        $(leaveConversationButton).removeClass('btn-default').addClass('btn-danger');
                     }, onReverseComplete: function () {
-                        //                    if (study.isOwner === 'false' || study.isOwner === false) {
-                        //                        $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
-                        //                    } else {
-                        //                    $(leaveConversationButton).css({borderRadius: '0px'});
-                        //                    }
-                        $(leaveConversationButton).removeClass('btn-danger');
+                        $(leaveConversationButton).removeClass('btn-danger').addClass('btn-default');
                     }});
-
-                leaveConversationButtonTimeline.add("saveStudy", 0)
-                        .to(leaveConversationButton, .3, {left: +203, ease: Quad.easeInOut}, "saveStudy");
 
                 $(leaveConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                     event.preventDefault();
@@ -533,13 +475,6 @@ if (login_check($mysqli) == true) {
                     event.preventDefault();
                     leaveConversationButtonTimeline.reverse();
                 });
-
-                //            if (study.isOwner === 'false' || study.isOwner === false) {
-                //                $(nextParticipantButton).css({borderRadius: '0px'});
-                //                $(joinConversationButton).css({borderBottomRightRadius: '8px'});
-                //                $(leaveConversationButton).css({borderBottomRightRadius: '8px'});
-                //            }
-
 
 
                 $('.btn-join-conversation').unbind('click').bind('click', function (event) {
@@ -552,6 +487,19 @@ if (login_check($mysqli) == true) {
                     event.preventDefault();
                     leaveCollaborativeVideoCaller();
                 });
+                
+                
+                setTimeout(function () {
+                    var leftFlex = 51;
+
+                    conversationButtonTimeline.add("tween", 0)
+                            .to(joinConversationButton, .3, {left: +parseInt($(joinConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                    
+                    $(leaveConversationButton).removeClass('hidden');
+                    leaveConversationButtonTimeline.add("tween", 0)
+                            .to(leaveConversationButton, .3, {left: +parseInt($(leaveConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                    $(leaveConversationButton).addClass('hidden');
+                }, 200);
 
                 TweenMax.to($('#fixed-study-participant-controls'), .3, {opacity: 1});
                 TweenMax.from($('#fixed-study-participant-controls'), .3, {x: -20, ease: Quad.easeInOut});
@@ -661,24 +609,11 @@ if (login_check($mysqli) == true) {
                 var phaseData = getLocalItem(phaseId + '.data');
                 var phaseStep = getPhaseById(phaseId);
                 var results = getResultsForPhaseId(phaseId);
-                //            var testerResults = results.tester;
-                //            var evaluatorResults = results.evaluator;
-                //            var wizardResults = results.wizard;
-                //            var observerResults = results.observer;
 
                 console.log('STUDY DATA: ', study);
                 console.log('PHASE STEP DATA: ', phaseStep);
                 console.log('PHASE DATA: ', phaseData);
                 console.log('RESULTS DATA: ', results);
-                //            console.log('TESTER DATA: ', testerResults);
-                //            console.log('EVALUATOR DATA: ', evaluatorResults);
-                //            console.log('WIZARD DATA: ', wizardResults);
-                //            console.log('OBSERVER DATA: ', observerResults);
-                //            console.log('OBSERVER LOG: ', (phaseData !== null && testerResults !== null));
-                //            console.log('OBSERVER LOG: ', phaseData !== null && testerResults !== null && ((study.surveyType === TYPE_SURVEY_MODERATED && ((evaluatorResults !== null && evaluatorResults.startTime !== undefined) || testerResults.startTime !== undefined)) || (study.surveyType === TYPE_SURVEY_UNMODERATED && testerResults.startTime)));
-
-                //            return null;
-
 
 
 
@@ -686,105 +621,6 @@ if (login_check($mysqli) == true) {
                     var content = $('#template-study-all-container').find('#' + phaseStep.format).clone().removeAttr('id');
                     $(content).find('#headline').text(translation.formats[phaseStep.format].text);
                     $('#phase-result').empty().append(content);
-
-                    //                var executionTime = study.surveyType === TYPE_SURVEY_MODERATED && evaluatorResults !== null ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
-                    //                console.log(executionTime);
-                    //                if (!isEmpty(executionTime) && phaseStep.format !== THANKS) {
-                    //                    var badge = document.createElement('span');
-                    //                    $(badge).addClass('badge pull-right');
-                    //                    $(badge).text(translation.lapse + ': ' + getTimeString(executionTime, true));
-                    //                    $(content).find('#headline').append(badge);
-                    //                }
-
-                    //                if (translation.formats[testerResults.format].notes === 'yes') {
-                    //                    var notesData = getLocalItem(phaseId + '.notes');
-                    //                    var notes = $('#template-study-container').find('#notes').clone();
-                    //                    $('#phase-result').append(notes);
-                    //                    TweenMax.from(notes, .2, {delay: .1, opacity: 0, y: -60});
-                    //
-                    //                    if (notesData) {
-                    //                        notes.find('#notes-input').val(notesData);
-                    //                    }
-                    //
-                    //                    notes.find('#notes-input').on('change', function (event) {
-                    //                        event.preventDefault();
-                    //                        cacheNotes();
-                    //                    });
-                    //
-                    //                    // test notes input via start/pause speech recognition
-                    //                    if (!('webkitSpeechRecognition' in window)) {
-                    //                        $(notes).find('#transcription-controls').remove();
-                    //                    } else {
-                    //                        setLocalItem('transcription', []);
-                    //                        $(notes).find('#transcription-controls').removeClass('hidden');
-                    //
-                    //                        var recognition = new webkitSpeechRecognition();
-                    //                        recognition.continuous = false;
-                    //                        recognition.interimResults = false;
-                    //
-                    //                        recognition.onstart = function () {
-                    //                            console.log('on start');
-                    //                        };
-                    //
-                    //                        recognition.onend = function () {
-                    //                            console.log('on end');
-                    //                            if (!$(notes).find('#btn-stop-speech-recognition').hasClass('hidden')) {
-                    //                                $(notes).find('#btn-start-speech-recognition').click();
-                    //                            }
-                    //                        };
-                    //
-                    //                        recognition.onresult = function (event) {
-                    //                            console.log('on result', event.results);
-                    //                            var note = notes.find('#notes-input').val();
-                    //                            notes.find('#notes-input').val(note + (note.trim() === '' ? event.results[0][0].transcript : ' ' + event.results[0][0].transcript));
-                    //                            getGMT(function (timestamp) {
-                    //                                var tempData = getLocalItem('transcription');
-                    //                                tempData.push({timestamp: timestamp, transcription: event.results[0][0].transcript});
-                    //                                setLocalItem('transcription', tempData);
-                    //                            });
-                    //                            cacheNotes();
-                    //                        };
-                    //
-                    //                        $(notes).find('#btn-start-speech-recognition').unbind('click').bind('click', function (event) {
-                    //                            event.preventDefault();
-                    //                            if (!$(this).hasClass('disabled')) {
-                    //                                recognition.start();
-                    //                                $(notes).find('#btn-start-speech-recognition').addClass('hidden');
-                    //                                $(notes).find('#btn-stop-speech-recognition').removeClass('hidden');
-                    //                            }
-                    //                        });
-                    //
-                    //                        $(notes).find('#btn-stop-speech-recognition').unbind('click').bind('click', function (event) {
-                    //                            event.preventDefault();
-                    //                            recognition.stop();
-                    //                            $(notes).find('#btn-start-speech-recognition').removeClass('hidden');
-                    //                            $(notes).find('#btn-stop-speech-recognition').addClass('hidden');
-                    //                        });
-                    //                    }
-                    //                }
-
-                    // check and add recorded stream data
-                    //                if (isWebRTCPlaybackNeededForPhaseStep(testerResults)) {
-                    //                    if (testerResults && testerResults.recordUrl && testerResults.recordUrl !== '') {
-                    //                        resultsPlayer = new RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseData, executionTime, content);
-                    //                        $(resultsPlayer.player).unbind('initialized').bind('initialized', function (event) {
-                    //                            event.preventDefault();
-                    //                            $(resultsPlayer.player).unbind('initialized');
-                    //                            initPopover();
-                    //                            switchDataRendering();
-                    //                        });
-                    //
-                    //                        if (getBrowser() !== 'Safari') {
-                    //                            $(content).find('#horizontalLine').after(resultsPlayer.domElement);
-                    //                        } else {
-                    //                            appendAlert(content, ALERT_WEBM_UNSUPPORTED);
-                    //                        }
-                    //                    } else {
-                    //                        appendAlert(content, ALERT_NO_RECORD);
-                    //                    }
-                    //                } else {
-                    //                    switchDataRendering();
-                    //                }
 
                     switchDataRendering();
 
@@ -801,11 +637,9 @@ if (login_check($mysqli) == true) {
                                 break;
                             case QUESTIONNAIRE:
                                 renderQuestionnaireResults(content, phaseData, results);
-                                //                            renderQuestionnaireAnswers(content, phaseData, testerResults, true);
                                 break;
                             case INTERVIEW:
                                 renderInterview(content, phaseData, results);
-                                //                            renderQuestionnaireAnswers(content, phaseData, evaluatorResults, true);
                                 break;
                             case SUS:
                                 renderSUS(content, phaseData, results);
@@ -818,7 +652,6 @@ if (login_check($mysqli) == true) {
                                 break;
                             case GUS_MULTIPLE_GESTURES:
                                 renderQuestionnaireResults(content, getAssembledItems(phaseData.gus), results);
-                                //                            renderQuestionnaireAnswers(content, , testerResults, true);
                                 break;
                             case GESTURE_TRAINING:
                                 renderGestureTraining(content, phaseData, results);
@@ -853,50 +686,6 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-            //        var saveTimer = null;
-            //        function cacheNotes(instantSave) {
-            //            var phaseId = $('#phase-results-nav').find('.active').attr('id');
-            //
-            //            if (phaseId) {
-            //                var phaseResults = getLocalItem(phaseId + '.results');
-            //                if (phaseResults && translation.formats[phaseResults.format].notes === 'yes') {
-            //                    var note = $('#phase-result').find('#notes-input').val();
-            //                    setLocalItem(phaseId + '.notes', note);
-            //
-            //                    var phases = getLocalItem(STUDY_PHASE_STEPS);
-            //                    var notesArray = new Array();
-            //                    for (var i = 0; i < phases.length; i++) {
-            //                        var phaseNote = getLocalItem(phases[i].id + '.notes');
-            //                        if (phaseNote) {
-            //                            notesArray.push({phaseId: phases[i].id, note: phaseNote});
-            //                        }
-            //                    }
-            //
-            //                    var study = getLocalItem(STUDY);
-            //                    var evaluatorData = getLocalItem(STUDY_DATA_EVALUATOR);
-            //                    clearTimeout(saveTimer);
-            //                    if (instantSave === true) {
-            //                        saveNotes({studyId: study.id, testerId: getLocalItem(STUDY_RESULTS).userId, evaluatorId: evaluatorData.evaluatorId, notes: notesArray});
-            //                    } else {
-            //                        saveTimer = setTimeout(function () {
-            //                            saveNotes({studyId: study.id, testerId: getLocalItem(STUDY_RESULTS).userId, evaluatorId: evaluatorData.evaluatorId, notes: notesArray});
-            //                        }, 1000);
-            //                    }
-            //                }
-            //            }
-            //        }
-
-            //        function renderStudyGestures(gestures) {
-            //            $('#study-gestures-catalog').removeClass('hidden');
-            //            $('#study-gestures-catalog .address').text(translation.studyCatalogs.gestures);
-            //
-            //            for (var i = 0; i < gestures.length; i++) {
-            //                var item = getGestureCatalogListThumbnail(gestures[i]);
-            //                $('#study-gestures-catalog .list-container').append(item);
-            //                TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-            //            }
-            //        }
-
             function renderLetterOfAcceptance(content, studyData, resultsData) {
                 if (resultsData.accepted === 'yes') {
                     $(content).find('#letter-accepted').removeClass('hidden');
@@ -910,21 +699,29 @@ if (login_check($mysqli) == true) {
                 $(content).find('#thanks-text').text(studyData);
             }
 
-            function renderQuestionnaireResults(content, phaseData, results) {
-                console.log('render questionnaire', results);
+            function renderQuestionnaireResults(content, phaseData, results, format) {
+//                console.log('render questionnaire', phaseData, results);
                 renderQuestionnaireAnswers(content, phaseData);
-                renderQuestionnaireStatistics(content, phaseData, results);
+                renderQuestionnaireStatistics(content, phaseData, results, format);
             }
 
-            function renderQuestionnaireStatistics(content, phaseData, results) {
+            function renderInterview(content, phaseData, results) {
+                renderQuestionnaireResults(content, phaseData, results, INTERVIEW);
+            }
+
+            function renderQuestionnaireStatistics(content, phaseData, results, format) {
                 var allAnswers = [];
+//                console.log('results', format, results);
                 for (var i = 0; i < phaseData.length; i++) {
 
                     allAnswers.push({id: phaseData[i].id, answers: []});
 
                     for (var j = 0; j < results.length; j++) {
-                        if (results[j].tester && results[j].tester.answers && results[j].tester.answers.length > 0) {
-                            var tempAnswers = getAnswerForQuestion(phaseData[i], results[j].tester.answers)
+                        if (format === INTERVIEW && results[j].evaluator && results[j].evaluator.results && results[j].evaluator.results.answers && results[j].evaluator.results.answers.length > 0) {
+                            var tempAnswers = getAnswerForQuestion(phaseData[i], results[j].evaluator.results.answers);
+                            allAnswers[i].answers = allAnswers[i].answers.concat(tempAnswers);
+                        } else if (results[j].tester && results[j].tester.answers && results[j].tester.answers.length > 0) {
+                            var tempAnswers = getAnswerForQuestion(phaseData[i], results[j].tester.answers);
                             allAnswers[i].answers = allAnswers[i].answers.concat(tempAnswers);
                         }
                     }
@@ -954,8 +751,8 @@ if (login_check($mysqli) == true) {
                                 case DICHOTOMOUS_QUESTION:
                                 case DICHOTOMOUS_QUESTION_GUS:
                                     var option = $(questionPanel).find('[data-id=' + allAnswers[i].answers[j].selectedSwitch + ']');
-                                    var currentCount = parseInt($(option).find('.count-badge').text());
-                                    $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                    var currentCount = parseInt($(option).find('.count-badge .count-label').text());
+                                    $(option).find('.count-badge .count-label').text(isNaN(currentCount) ? 1 : currentCount + 1);
                                     if (allAnswers[i].answers[j].justification !== '') {
                                         $(option).find('#justification-content').removeClass('hidden').find('.text').text($(option).find('#justification-content').find('.text').text() + allAnswers[i].answers[j].justification + '; ');
                                     }
@@ -965,12 +762,13 @@ if (login_check($mysqli) == true) {
                                 case GROUPING_QUESTION_GUS:
                                     if (allAnswers[i].answers[j] !== null) {
                                         var option = $(questionPanel).find('[data-id=' + allAnswers[i].answers[j].id + ']');
-                                        var currentCount = parseInt($(option).find('.count-badge').text());
-                                        $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
-                                        if (allAnswers[i].answers[j].id === 'optionalAnswer') {
-                                            $(option).find('#no-optional-answer').remove();
-                                            var currentTextContent = $(option).find('.text').text().trim();
-                                            $(option).find('.text').text(currentTextContent === '-' ? allAnswers[i].answers[j].content + '; ' : $(option).find('.text').text() + allAnswers[i].answers[j].content + '; ');
+                                        var currentCount = parseInt($(option).find('.count-badge .count-label').text());
+                                        $(option).find('.count-badge .count-label').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                        if (allAnswers[i].answers[j].id === 'optionalAnswer' && allAnswers[i].answers[j].content !== '') {
+                                            var optionAnswerContent = $(questionPanel).find('#optionalanswer-content');
+                                            $(optionAnswerContent).find('#no-optional-answer').remove();
+                                            var currentTextContent = $(optionAnswerContent).find('.text').text().trim();
+                                            $(optionAnswerContent).find('.text').text((currentTextContent === '-' || currentTextContent === '') ? allAnswers[i].answers[j].content + '; ' : currentTextContent + allAnswers[i].answers[j].content + '; ');
                                         }
 
                                         if (allAnswers[i].answers[j].justification !== '') {
@@ -982,16 +780,16 @@ if (login_check($mysqli) == true) {
                                     break;
                                 case RATING:
                                     var option = $(questionPanel).find('[data-id=' + allAnswers[i].answers[j].id + ']');
-                                    var currentCount = parseInt($(option).find('.count-badge').text());
-                                    $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                    var currentCount = parseInt($(option).find('.count-badge .count-label').text());
+                                    $(option).find('.count-badge .count-label').text(isNaN(currentCount) ? 1 : currentCount + 1);
                                     break;
                                 case MATRIX:
                                     var matrixItems = $(questionPanel).find('#matrix-item');
                                     for (var k = 0; k < allAnswers[i].answers[j].scales.length; k++) {
                                         var scaleKey = allAnswers[i].answers[j].scales[k].id;
                                         var option = $(questionPanel).find('.option-container #' + scaleKey);
-                                        var currentCount = parseInt($(option).find('.count-badge').text());
-                                        $(option).find('.count-badge').text(isNaN(currentCount) ? 1 : currentCount + 1);
+                                        var currentCount = parseInt($(option).find('.count-badge .count-label').text());
+                                        $(option).find('.count-badge .count-label').text(isNaN(currentCount) ? 1 : currentCount + 1);
                                         scalesMissing[$(option).closest('#matrix-item').attr('data-id')] = isNaN(parseInt(scalesMissing[$(option).closest('#matrix-item').attr('data-id')])) ? 1 : parseInt(scalesMissing[$(option).closest('#matrix-item').attr('data-id')]) + 1;
                                     }
 
@@ -1083,11 +881,7 @@ if (login_check($mysqli) == true) {
                         case OPEN_QUESTION_GUS:
                             var missedAnswers = document.createElement('div');
                             $(missedAnswers).text('Frage von ' + count + ' ' + (count === 1 ? translation.participant : translation.participants) + ' ' + translation.questionNotAnswered);
-                            if (append === true) {
-                                $(content).find('.answer').append(missedAnswers);
-                            } else {
-                                $(content).find('.answer').html(missedAnswers);
-                            }
+                            $(content).find('#missed-answers').removeClass('hidden').html(missedAnswers);
                             break;
                         case DICHOTOMOUS_QUESTION:
                             var missedAnswers = document.createElement('div');
@@ -1131,6 +925,7 @@ if (login_check($mysqli) == true) {
 
             function getAnswerForQuestion(questionData, answers) {
                 var tempAnswers = [];
+//                console.log('get answer for question', questionData, answers);
                 for (var i = 0; i < answers.length; i++) {
                     if (parseInt(answers[i].id) === parseInt(questionData.id)) {
                         switch (questionData.format) {
@@ -1192,9 +987,6 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-                //            if (tempAnswers && tempAnswers.length > 0) {
-                //                console.log('answers for ', questionData, tempAnswers);
-                //            }
                 return tempAnswers;
             }
 
@@ -1303,26 +1095,6 @@ if (login_check($mysqli) == true) {
             function renderUEQ(content, studyData, resultsData) {
                 renderQuestionnaireResults(content, studyData, resultsData);
 
-                //            return null;
-                // calculate the average sus score
-                //            var missingCount = 0;
-                //            var meanScores = [];
-                //            for (var i = 0; i < studyData.length; i++) {
-                //
-                //                var scores = $(content).find('[data-id=' + studyData[i].id + '] .score');
-                //                var mean = 0;
-                //                for (var j = 0; j < scores.length; j++) {
-                //                    var score = parseInt($(scores[j]).text());
-                //                    mean = (mean + score) / (j + 1);
-                //                }
-                //
-                //                meanScores.push({id: studyData[i].id, score: mean});
-                ////                console.log(scores);
-                //            }
-
-                //            console.log('answers mean', meanScores);
-                //            return null;
-
                 // calculate ueq scales
                 var ueqDimensions = translation.ueqDimensions;
                 var ueqScores = [];
@@ -1330,7 +1102,7 @@ if (login_check($mysqli) == true) {
                 // calculate sums for each dimension
                 for (var r = 0; r < resultsData.length; r++) {
                     var ueqAnswers = resultsData[r].tester.answers;
-                    console.log('calc ueq for', ueqAnswers);
+//                    console.log('calc ueq for', ueqAnswers);
 
                     var scales = {
                         attractiveness: {sum: 0, max: 0, present: false},
@@ -1350,14 +1122,12 @@ if (login_check($mysqli) == true) {
                                         var answerId = parseInt(ueqAnswers[k].id);
                                         var value = 0;
                                         if (ueqId === answerId) {
-                                            //                                    value = meanScores[k].score;
                                             if (studyData[j].parameters.negative === 'yes') {
                                                 value = 6 - parseInt(ueqAnswers[k].answer.selectedOption) - 3;
                                             } else {
                                                 value = parseInt(ueqAnswers[k].answer.selectedOption) - 3;
                                             }
-                                            console.log('value', key, value, ueqAnswers[k].answer.selectedOption);
-                                            //                                        value *= -1;
+
                                             scales[key].sum = scales[key].sum + value;
                                             scales[key].max++;
                                             scales[key].present = true;
@@ -1391,10 +1161,6 @@ if (login_check($mysqli) == true) {
                         }
                     }
                 }
-                console.log('ueq scores', ueqScores, scales);
-
-                //            return null;
-                //            console.log('scales', scales);
 
                 var qualities = {
                     attractiveness: {sum: 0.0, max: 0, presentMax: 1},
@@ -1499,7 +1265,7 @@ if (login_check($mysqli) == true) {
 
             var currentGUSData = null;
             function renderSingleGUS(content, studyData, resultsData) {
-                console.log('render single gus', resultsData);
+//                console.log('render single gus', resultsData);
                 currentGUSData = studyData;
                 renderQuestionnaireResults(content, getAssembledItems(studyData.gus), resultsData);
                 //            renderQuestionnaireAnswers(content, , resultsData, true);
@@ -1546,309 +1312,464 @@ if (login_check($mysqli) == true) {
             }
 
 
-            function renderGestureTraining(container, studyData, testerResults, evaluatorResults) {
-                //                console.log('visData: ', studyData.training, evaluatorResults);
+            function renderGestureTraining(content, studyData, results) {
+                if (results && results.length > 0) {
+                    for (var i = 0; i < results.length; i++) {
+                        var evaluatorResults = results[i].evaluator;
 
-                var startTrainingTimes = new Array;
-                for (var j = 0; j < evaluatorResults.annotations.length; j++) {
-                    if (evaluatorResults.annotations[j].action === ACTION_START_GESTURE_TRAINING) {
-                        startTrainingTimes.push(evaluatorResults.annotations[j]);
-                    }
-                }
+                        var item = $('#template-study-all-container').find('#gesture-training-item').clone().css({marginTop: i === 0 ? '0px' : '80px'});
+                        $(item).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
+                        renderTesterSnapshot($(item).find('#headline-participant'), results[i].tester);
+                        renderSingleResultsButton($(item).find('#btn-open-participant-results'), results[i].userId);
+                        $(content).find('#gesture-training-item-container').append(item);
 
-                for (var i = 0; i < studyData.training.length; i++) {
-                    var gesture = getGestureById(studyData.training[i].gestureId);
-                    var trigger = getTriggerById(studyData.training[i].triggerId);
-                    var feedback = getFeedbackById(studyData.training[i].feedbackId);
-
-                    //                    console.log(gesture);
-
-                    var item = $('#template-study-container').find('#training-gesture-item').clone().removeAttr('id');
-                    container.find('#gestures-container').append(item);
-                    //                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-                    //                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-                    //                    $(item).find('#gesture .text').text(gesture.title);
-                    $(item).find('#trigger .address').text(translation.trigger + ': ');
-                    $(item).find('#trigger .text').text(trigger.title);
-                    $(item).find('#repeats .address').text(translation.repeats + ': ');
-                    $(item).find('#repeats .text').text(studyData.training[i].repeats);
-                    //                    $(item).find('#recognition-time .address').text(translation.recognitionTime + ': ');
-                    //                    var recognitionSeconds = parseInt(studyData.training[i].recognitionTime);
-                    //                    $(item).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
-
-                    $(item).find('#feedback .address').text(translation.feedback + ': ');
-
-                    var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
-                    $(gestureThumbnail).removeClass('deleteable');
-                    $(item).find('.gesture-container').append(gestureThumbnail);
-
-                    if (feedback) {
-                        var feedbackItem = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
-                        feedbackItem.find('.text').text(feedback.title);
-                        feedbackItem.find('#' + feedback.type).removeClass('hidden');
-                        if (feedback.type === TYPE_FEEDBACK_SOUND) {
-                            feedbackItem.find('.audio-holder').attr('src', feedback.data);
-                        }
-                        $(item).find('#feedback .text').append(feedbackItem);
-                    } else {
-                        $(item).find('#feedback .text').text(translation.none);
-                    }
-
-                    //                    console.log('start training times', startTrainingTimes);
-                    if (evaluatorResults.annotations && evaluatorResults.annotations.length) {
-                        var trainingStart, trainingEnd = null;
-                        for (var j = 0; j < startTrainingTimes.length; j++) {
-                            if (parseInt(gesture.id) === parseInt(startTrainingTimes[j].gestureId)) {
-                                trainingStart = startTrainingTimes[j].time;
-                                if (j < startTrainingTimes.length - 1) {
-                                    trainingEnd = parseInt(startTrainingTimes[j + 1].time);
-                                    break;
-                                } else {
-                                    trainingEnd = parseInt(evaluatorResults.endTime);
+                        if (evaluatorResults && evaluatorResults.results) {
+                            var startTrainingTimes = new Array;
+                            for (var j = 0; j < evaluatorResults.results.annotations.length; j++) {
+                                if (evaluatorResults.results.annotations[j].action === ACTION_START_GESTURE_TRAINING) {
+                                    startTrainingTimes.push(evaluatorResults.results.annotations[j]);
                                 }
                             }
-                        }
 
-                        if (trainingStart && trainingEnd) {
-                            var execution = getTimeBetweenTimestamps(trainingStart, trainingEnd);
-                            $(item).find('#training-time .address').text(translation.execution + ': ');
-                            //                            if (testerResults && testerResults.training && testerResults.training[i].gestureTrainingStart && testerResults.training[i].gestureTrainingEnd) {
-                            //                                var executionTime = getTimeBetweenTimestamps(testerResults.training[i].gestureTrainingStart, testerResults.training[i].gestureTrainingEnd);
-                            $(item).find('#training-time .text').text(getTimeString(execution, false, true));
-                            //                            } else {
-                            //                                $(item).find('#training-time .text').text('-');
-                            //                            }
-                        } else {
-                            $(item).find('#training-time').remove();
-                        }
-                    } else {
-                        $(item).find('#training-time').remove();
-                    }
-                }
+                            for (var j = 0; j < studyData.training.length; j++) {
+                                var gesture = getGestureById(studyData.training[j].gestureId);
+                                var trigger = getTriggerById(studyData.training[j].triggerId);
+                                var feedback = getFeedbackById(studyData.training[j].feedbackId);
 
-                renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
-                //                addObservationsDropdown(container);
-            }
+                                var trainingGestureItem = $('#template-study-container').find('#training-gesture-item').clone().removeAttr('id');
+                                item.find('#traing-gestures-container').append(trainingGestureItem);
+                                $(trainingGestureItem).find('#trigger .address').text(translation.trigger + ': ');
+                                $(trainingGestureItem).find('#trigger .text').text(trigger.title);
+                                $(trainingGestureItem).find('#repeats .address').text(translation.repeats + ': ');
+                                $(trainingGestureItem).find('#repeats .text').text(studyData.training[j].repeats);
+                                $(trainingGestureItem).find('#feedback .address').text(translation.feedback + ': ');
 
+                                var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                                $(gestureThumbnail).removeClass('deleteable');
+                                $(trainingGestureItem).find('.gesture-container').append(gestureThumbnail);
 
-            function renderGestureSlideshow(container, studyData, resultsData, evaluatorResults) {
-                //                console.log(studyData, resultsData, evaluatorResults);
-
-                $(container).find('#restarts .address').text(parseInt(resultsData.restarts) === 1 ? translation.restart : translation.restarts);
-                $(container).find('#restarts .text').text(resultsData.restarts);
-
-                for (var i = 0; i < studyData.slideshow.length; i++) {
-                    var gesture = getGestureById(studyData.slideshow[i].gestureId);
-                    var trigger = getTriggerById(studyData.slideshow[i].triggerId);
-                    //                    var feedback = getFeedbackById(studyData.slideshow[i].feedbackId);
-                    //                    console.log('gesture for gesture slideshow', gesture, item);
-
-
-                    var item = $('#template-study-container').find('#slideshow-gesture-item').clone().removeAttr('id');
-                    container.find('#gestures-container').append(item);
-                    //                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-                    //                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-                    //                    $(item).find('#gesture .text').text(gesture.title);
-                    $(item).find('#trigger .address').text(translation.trigger + ': ');
-                    $(item).find('#trigger .text').text(trigger.title);
-                    //                    $(item).find('#repeats .address').text(translation.repeats + ': ');
-                    //                    $(item).find('#repeats .text').text(studyData.training[i].repeats);
-                    $(item).find('#recognition-time .address').text(translation.recognitionTime + ': ');
-                    var recognitionSeconds = parseInt(studyData.slideshow[i].recognitionTime);
-                    $(item).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
-
-                    var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
-                    $(gestureThumbnail).removeClass('deleteable');
-                    $(item).find('.gesture-container').append(gestureThumbnail);
-
-                    if (resultsData.annotations && resultsData.annotations.length > 0) {
-                        var count = 0;
-                        for (var j = 0; j < resultsData.annotations.length; j++) {
-                            //                            console.log(resultsData.annotations[j]);
-                            if (resultsData.annotations[j].action === ACTION_NO_GESTURE_FIT_FOUND && parseInt(resultsData.annotations[j].gestureId) === parseInt(gesture.id)) {
-                                count++;
-                            }
-                        }
-
-                        if (count > 0) {
-                            $(item).find('#fits-false .address').text(translation.fitsCorrect + ': ');
-                            $(item).find('#fits-false .text').text(count + ' ' + (count === 1 ? translation.fault : translation.faults));
-                            $(item).find('#fits-false').removeClass('hidden');
-                        } else {
-                            $(item).find('#fits-correct .address').text(translation.fitsCorrect + ': ');
-                            $(item).find('#fits-correct .text').text(translation.allFitsCorrect);
-                            $(item).find('#fits-correct').removeClass('hidden');
-                        }
-                    }
-                }
-
-                renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
-            }
-
-            function renderTriggerSlideshow(container, studyData, resultsData) {
-                //            console.log(studyData, resultsData);
-                var globalFaults = 0;
-                for (var i = 0; i < studyData.slideshow.length; i++) {
-                    var gesture = getGestureById(studyData.slideshow[i].gestureId);
-                    var trigger = getTriggerById(studyData.slideshow[i].triggerId);
-                    var item = $('#template-study-container').find('#slideshow-trigger-item').clone().removeAttr('id');
-                    container.find('#gestures-container').append(item);
-                    //                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
-                    //                    $(item).find('#gesture .address').text(translation.gesture + ': ');
-                    //                    $(item).find('#gesture .text').text(gesture.title);
-                    $(item).find('#trigger .address').text(translation.trigger + ': ');
-                    $(item).find('#trigger .text').text(trigger.title);
-                    $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
-
-                    var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
-                    $(gestureThumbnail).removeClass('deleteable');
-                    $(item).find('.gesture-container').append(gestureThumbnail);
-
-                    var fault = 0;
-                    var realTriggerId = parseInt(studyData.slideshow[i].triggerId);
-                    if (resultsData.selectedOptions && resultsData.selectedOptions.length > 0) {
-                        for (var j = 0; j < resultsData.selectedOptions.length; j++) {
-                            var option = resultsData.selectedOptions[j];
-                            if (parseInt(option.correctTriggerId) === realTriggerId) {
-                                var selectedOption = parseInt(resultsData.selectedOptions[j].selectedId);
-                                if (selectedOption === -1) {
-                                    fault = -1;
-                                    $(item).find('#selection .text').text(translation.none);
-                                    $(item).find('#no-answer').removeClass('hidden');
+                                if (feedback) {
+                                    var feedbackItem = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
+                                    feedbackItem.find('.text').text(feedback.title);
+                                    feedbackItem.find('#' + feedback.type).removeClass('hidden');
+                                    if (feedback.type === TYPE_FEEDBACK_SOUND) {
+                                        feedbackItem.find('.audio-holder').attr('src', feedback.data);
+                                    }
+                                    $(trainingGestureItem).find('#feedback .text').append(feedbackItem);
                                 } else {
-                                    $(item).find('#selection .text').text(getTriggerById(selectedOption).title);
-                                    if (selectedOption !== realTriggerId) {
-                                        globalFaults++;
-                                        //                                    $(item).find('#fits-false .address').text(translation.allocation + ': ');
-                                        $(item).find('#fits-false').removeClass('hidden');
+                                    $(trainingGestureItem).find('#feedback .text').text(translation.none);
+                                }
+
+                                if (evaluatorResults.results.annotations && evaluatorResults.results.annotations.length) {
+                                    var trainingStart, trainingEnd = null;
+                                    for (var k = 0; k < startTrainingTimes.length; k++) {
+                                        if (parseInt(gesture.id) === parseInt(startTrainingTimes[k].gestureId)) {
+                                            trainingStart = startTrainingTimes[k].time;
+                                            if (k < startTrainingTimes.length - 1) {
+                                                trainingEnd = parseInt(startTrainingTimes[k + 1].time);
+                                                break;
+                                            } else {
+                                                trainingEnd = parseInt(evaluatorResults.results.endTime);
+                                            }
+                                        }
+                                    }
+
+                                    if (trainingStart && trainingEnd) {
+                                        var execution = getTimeBetweenTimestamps(trainingStart, trainingEnd);
+                                        $(trainingGestureItem).find('#training-time .address').text(translation.execution + ': ');
+                                        $(trainingGestureItem).find('#training-time .text').text(getTimeString(execution, false, true));
                                     } else {
-                                        //                                    $(item).find('#fits-correct .address').text(translation.allocation + ': ');
-                                        $(item).find('#fits-correct').removeClass('hidden');
+                                        $(trainingGestureItem).find('#training-time').remove();
+                                    }
+                                } else {
+                                    $(trainingGestureItem).find('#training-time').remove();
+                                }
+                            }
+
+                            renderAnnotatedNotes($(item).find('#annotated-notes'), getAnnotatedNotes(evaluatorResults.results.annotations));
+                            renderNotes($(item).find('#notes'), evaluatorResults.notes);
+                        }
+
+                        renderObservation($(item).find('#observations'), studyData, evaluatorResults.observations);
+                    }
+                }
+            }
+
+
+            function renderGestureSlideshow(content, studyData, results) {
+//                console.log('render gesture slideshow', studyData, results);
+
+                if (results && results.length > 0) {
+                    var fits = [];
+                    for (var i = 0; i < results.length; i++) {
+                        var evaluatorResults = results[i].evaluator;
+                        var testerResults = results[i].tester;
+                        if (testerResults) {
+                            var item = $('#template-study-all-container').find('#gesture-slideshow-item').clone().css({marginTop: '80px'});
+                            $(item).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
+                            renderTesterSnapshot($(item).find('#headline-participant'), results[i].tester);
+                            renderSingleResultsButton($(item).find('#btn-open-participant-results'), results[i].userId);
+                            $(content).find('#gesture-slideshow-item-container').append(item);
+
+                            $(item).find('#restarts .address').text(parseInt(testerResults.restarts) === 1 ? translation.restart : translation.restarts);
+                            $(item).find('#restarts .text').text(testerResults.restarts);
+
+                            for (var j = 0; j < studyData.slideshow.length; j++) {
+                                var gesture = getGestureById(studyData.slideshow[j].gestureId);
+                                var trigger = getTriggerById(studyData.slideshow[j].triggerId);
+
+                                var gestureSlideshowItem = $('#template-study-container').find('#slideshow-gesture-item').clone().removeAttr('id');
+                                item.find('#gestures-container').append(gestureSlideshowItem);
+                                $(gestureSlideshowItem).find('#trigger .address').text(translation.trigger + ': ');
+                                $(gestureSlideshowItem).find('#trigger .text').text(trigger.title);
+                                $(gestureSlideshowItem).find('#recognition-time .address').text(translation.recognitionTime + ': ');
+                                var recognitionSeconds = parseInt(studyData.slideshow[j].recognitionTime);
+                                $(gestureSlideshowItem).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
+
+                                var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                                $(gestureThumbnail).removeClass('deleteable');
+                                $(gestureSlideshowItem).find('.gesture-container').append(gestureThumbnail);
+
+                                if (testerResults.annotations && testerResults.annotations.length > 0) {
+                                    var count = 0;
+                                    for (var k = 0; k < testerResults.annotations.length; k++) {
+                                        if (testerResults.annotations[k].action === ACTION_NO_GESTURE_FIT_FOUND && parseInt(testerResults.annotations[k].gestureId) === parseInt(gesture.id)) {
+                                            count++;
+                                        }
+                                    }
+
+                                    fits.push({gestureId: gesture.id, triggerId: trigger.id, errors: count});
+
+                                    if (count > 0) {
+                                        $(gestureSlideshowItem).find('#fits-false .address').text(translation.fitsCorrect + ': ');
+                                        $(gestureSlideshowItem).find('#fits-false .text').text(count + ' ' + (count === 1 ? translation.fault : translation.faults));
+                                        $(gestureSlideshowItem).find('#fits-false').removeClass('hidden');
+                                    } else {
+                                        $(gestureSlideshowItem).find('#fits-correct .address').text(translation.fitsCorrect + ': ');
+                                        $(gestureSlideshowItem).find('#fits-correct .text').text(translation.allFitsCorrect);
+                                        $(gestureSlideshowItem).find('#fits-correct').removeClass('hidden');
                                     }
                                 }
                             }
+
+                            renderAnnotatedNotes($(item).find('#annotated-notes'), getAnnotatedNotes(testerResults.annotations));
+                            renderNotes($(item).find('#notes'), evaluatorResults.notes);
                         }
 
-                        if (fault === -1) {
-                            globalFaults = -1;
+                        renderObservation($(item).find('#observations'), studyData, evaluatorResults.observations);
+                    }
+
+                    for (var i = 0; i < studyData.slideshow.length; i++) {
+                        var gesture = getGestureById(studyData.slideshow[i].gestureId);
+                        var trigger = getTriggerById(studyData.slideshow[i].triggerId);
+
+                        var summaryItem = $('#template-study-all-container').find('#slideshow-summary-item').clone();
+                        $(content).find('#summary-item-container').append(summaryItem);
+                        $(summaryItem).find('#trigger .address').text(translation.trigger + ': ');
+                        $(summaryItem).find('#trigger .text').text(trigger.title);
+
+                        var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                        $(gestureThumbnail).removeClass('deleteable');
+                        $(summaryItem).find('.gesture-container').append(gestureThumbnail);
+
+                        var errors = 0;
+                        for (var j = 0; j < fits.length; j++) {
+                            if (parseInt(gesture.id) === parseInt(fits[j].gestureId)) {
+                                errors = Math.max(errors, fits[j].errors);
+                            }
                         }
-                    } else {
-                        globalFaults = -1;
+
+                        $(summaryItem).find('#answered-correct').remove();
+                        $(summaryItem).find('#answered-wrong').remove();
+                        $(summaryItem).find('#gesture-quota .content').text(errors + ' ' + translation.faults + ', ' + ((studyData.slideshow.length - errors) / studyData.slideshow.length * 100) + '% ' + translation.assignedCorrectly);
                     }
                 }
+            }
 
-                if (globalFaults === -1) {
-                    //                console.log('selection fault');
-                    $(container).find('#score #no-fault-score').removeClass('hidden');
-                } else {
-                    $(container).find('#score #fault-score').removeClass('hidden');
-                    var faultScore = globalFaults / studyData.slideshow.length;
-                    //                console.log('globalFaults: ' + globalFaults + ' fault: ' + fault + ', score: ' + faultScore);
-                    var faultPercentage = (1 - faultScore) * 100;
-                    $(container).find('#score .text').text(faultPercentage + '%');
+            function renderTriggerSlideshow(content, studyData, results) {
+                if (results && results.length > 0) {
+                    var fits = [];
+                    for (var i = 0; i < results.length; i++) {
+                        var evaluatorResults = results[i].evaluator;
+                        var testerResults = results[i].tester;
+                        if (testerResults) {
+                            var item = $('#template-study-all-container').find('#trigger-slideshow-item').clone().css({marginTop: '80px'});
+                            $(item).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
+                            renderTesterSnapshot($(item).find('#headline-participant'), results[i].tester
+                                    );
+                            renderSingleResultsButton($(item).find('#btn-open-participant-results'), results[i].userId);
+                            $(content).find('#trigger-slideshow-item-container').append(item);
+
+
+                            var globalFaults = 0;
+                            for (var j = 0; j < studyData.slideshow.length; j++) {
+                                var gesture = getGestureById(studyData.slideshow[j].gestureId);
+                                var trigger = getTriggerById(studyData.slideshow[j].triggerId);
+                                var slideshowTriggerItem = $('#template-study-container').find('#slideshow-trigger-item').clone().removeAttr('id');
+                                $(item).find('#gestures-container').append(slideshowTriggerItem);
+                                $(slideshowTriggerItem).find('#trigger .address').text(translation.trigger + ': ');
+                                $(slideshowTriggerItem).find('#trigger .text').text(trigger.title);
+                                $(slideshowTriggerItem).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
+
+                                var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                                $(gestureThumbnail).removeClass('deleteable');
+                                $(slideshowTriggerItem).find('.gesture-container').append(gestureThumbnail);
+
+                                var fault = 0;
+                                if (testerResults.selectedOptions && testerResults.selectedOptions.length > 0) {
+                                    for (var k = 0; k < testerResults.selectedOptions.length; k++) {
+                                        var option = testerResults.selectedOptions[k];
+                                        if (parseInt(option.correctTriggerId) === parseInt(trigger.id)) {
+                                            var selectedOption = parseInt(testerResults.selectedOptions[k].selectedId);
+                                            if (selectedOption === -1) {
+                                                fault = -1;
+                                                $(slideshowTriggerItem).find('#selection .text').text(translation.none);
+                                                $(slideshowTriggerItem).find('#no-answer').removeClass('hidden');
+                                            } else {
+                                                $(slideshowTriggerItem).find('#selection .text').text(getTriggerById(selectedOption).title);
+                                                if (selectedOption !== parseInt(trigger.id)) {
+                                                    globalFaults++;
+                                                    $(slideshowTriggerItem).find('#fits-false').removeClass('hidden');
+                                                } else {
+                                                    $(slideshowTriggerItem).find('#fits-correct').removeClass('hidden');
+                                                }
+                                                fits.push({gestureId: gesture.id, triggerId: trigger.id, selectedTriggerId: selectedOption});
+                                            }
+                                        }
+                                    }
+
+                                    if (fault === -1) {
+                                        globalFaults = -1;
+                                    }
+                                } else {
+                                    globalFaults = -1;
+                                }
+                            }
+
+                            if (globalFaults === -1) {
+                                $(item).find('#score #no-fault-score').removeClass('hidden');
+                            } else {
+                                $(item).find('#score #fault-score').removeClass('hidden');
+                                var faultScore = globalFaults / studyData.slideshow.length;
+                                var faultPercentage = (1 - faultScore) * 100;
+                                $(item).find('#score .text').text(faultPercentage + '%');
+                            }
+
+                            renderAnnotatedNotes($(item).find('#annotated-notes'), getAnnotatedNotes(testerResults.annotations));
+                            renderNotes($(item).find('#notes'), evaluatorResults.notes);
+                        }
+
+                        renderObservation($(item).find('#observations'), studyData, evaluatorResults.observations);
+                    }
+
+                    for (var i = 0; i < studyData.slideshow.length; i++) {
+                        var gesture = getGestureById(studyData.slideshow[i].gestureId);
+                        var trigger = getTriggerById(studyData.slideshow[i].triggerId);
+
+                        var summaryItem = $('#template-study-all-container').find('#slideshow-summary-item').clone();
+                        $(content).find('#summary-item-container').append(summaryItem);
+                        $(summaryItem).find('#trigger .address').text(translation.trigger + ': ');
+                        $(summaryItem).find('#trigger .text').text(trigger.title);
+
+                        var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                        $(gestureThumbnail).removeClass('deleteable');
+                        $(summaryItem).find('.gesture-container').append(gestureThumbnail);
+
+                        var answeredCorrect = 0;
+                        for (var j = 0; j < fits.length; j++) {
+                            if (parseInt(gesture.id) === parseInt(fits[j].gestureId)) {
+                                if (parseInt(trigger.id) === parseInt(fits[j].selectedTriggerId)) {
+                                    answeredCorrect++;
+                                }
+                            }
+                        }
+
+                        var wrongAnswered = studyData.slideshow.length - answeredCorrect;
+                        $(summaryItem).find('#answered-correct .content').text(answeredCorrect === 1 ? answeredCorrect + ' ' + translation.participant : answeredCorrect + ' ' + translation.participants);
+                        $(summaryItem).find('#answered-wrong .content').text(wrongAnswered === 1 ? wrongAnswered + ' ' + translation.participant : wrongAnswered + ' ' + translation.participants);
+                        $(summaryItem).find('#gesture-quota .content').text((answeredCorrect / studyData.slideshow.length * 100) + '% ' + translation.assignedCorrectly);
+                    }
+//                    console.log('fits', fits);
                 }
             }
 
 
-            function renderPhysicalStressTest(container, studyData, resultsData) {
+            function renderPhysicalStressTest(content, studyData, results) {
                 //                console.log(studyData, resultsData);
-                for (var i = 0; i < studyData.stressTestItems.length; i++) {
-                    var item = $('#template-study-container').find('#physicalStressTest-item').clone().removeAttr('id');
-                    container.find('#gestures-container').append(item);
+                if (results && results.length > 0) {
+                    var summarizedAnswers = {singleAnswers: [], sequenceAnswers: []};
+//                    var summarizedAnswers = [];
+                    var singleStressGraphicsRating = studyData.singleStressGraphicsRating;
+                    var sequenceStressGraphicsRating = studyData.sequenceStressGraphicsRating;
 
-                    var gestures = studyData.stressTestItems[i].gestures;
-                    for (var g = 0; g < gestures.length; g++) {
-                        var gesture = getGestureById(gestures[g]);
-                        var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
-                        $(gestureThumbnail).removeClass('deleteable');
-                        $(item).find('.gesture-container').append(gestureThumbnail);
+                    for (var i = 0; i < results.length; i++) {
+                        var evaluatorResults = results[i].evaluator;
+                        var testerResults = results[i].tester;
+                        if (testerResults) {
+//                            summarizedAnswers.push(testerResults.answers);
+                            if (singleStressGraphicsRating !== 'none') {
+                                summarizedAnswers.singleAnswers = summarizedAnswers.singleAnswers.concat(testerResults.answers.singleAnswers);
+                            }
+//
+                            if (sequenceStressGraphicsRating !== 'none') {
+                                summarizedAnswers.sequenceAnswers = summarizedAnswers.sequenceAnswers.concat(testerResults.answers.sequenceAnswers);
+                            }
+
+                            var item = $('#template-study-all-container').find('#stress-test-item').clone().css({marginTop: '80px'});
+                            $(item).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
+                            renderTesterSnapshot($(item).find('#headline-participant'), results[i].tester);
+                            renderSingleResultsButton($(item).find('#btn-open-participant-results'), results[i].userId);
+                            $(content).find('#stress-test-item-container').append(item);
+
+                            for (var j = 0; j < studyData.stressTestItems.length; j++) {
+                                var physicalStressTestItem = $('#template-study-container').find('#physicalStressTest-item').clone().removeAttr('id');
+                                $(item).find('#answers-container').append(physicalStressTestItem);
+
+                                var gestures = studyData.stressTestItems[j].gestures;
+                                for (var g = 0; g < gestures.length; g++) {
+                                    var gesture = getGestureById(gestures[g]);
+                                    var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                                    $(gestureThumbnail).removeClass('deleteable');
+                                    $(physicalStressTestItem).find('.gesture-container').append(gestureThumbnail);
+                                }
+
+                                $(physicalStressTestItem).find('#trigger .address').text(translation.trigger + ': ');
+                                $(physicalStressTestItem).find('#trigger .text').text(trigger.title);
+                                $(physicalStressTestItem).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
+
+
+                                // check if answers are there
+                                if (testerResults.answers && !$.isEmptyObject(testerResults.answers)) {
+
+                                    // single questions joint section
+                                    if (singleStressGraphicsRating !== 'none') {
+                                        var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
+                                        $(jointAnswers).insertAfter($(physicalStressTestItem).find('#headline-single-questions'));
+                                        if (singleStressGraphicsRating === 'hands') {
+                                            $(jointAnswers).find('#joint-answers-body').remove();
+                                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), testerResults.answers, studyData.stressTestItems[j].id, 'single');
+                                        } else if (singleStressGraphicsRating === 'body') {
+                                            $(jointAnswers).find('#joint-answers-hands').remove();
+                                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), testerResults.answers, studyData.stressTestItems[j].id, 'single');
+                                        } else {
+                                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), testerResults.answers, studyData.stressTestItems[j].id, 'single');
+                                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), testerResults.answers, studyData.stressTestItems[j].id, 'single');
+                                        }
+                                    }
+
+                                    // sequence questions joint section
+                                    if (sequenceStressGraphicsRating !== 'none') {
+                                        var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
+                                        $(jointAnswers).insertAfter($(physicalStressTestItem).find('#headline-sequence-questions'));
+
+                                        if (sequenceStressGraphicsRating === 'hands') {
+                                            $(jointAnswers).find('#joint-answers-body').remove();
+                                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), testerResults.answers, studyData.stressTestItems[j].id, 'sequence');
+                                        } else if (sequenceStressGraphicsRating === 'body') {
+                                            $(jointAnswers).find('#joint-answers-hands').remove();
+                                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), testerResults.answers, studyData.stressTestItems[j].id, 'sequence');
+                                        } else {
+                                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), testerResults.answers, studyData.stressTestItems[j].id, 'sequence');
+                                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), testerResults.answers, studyData.stressTestItems[j].id, 'sequence');
+                                        }
+                                    }
+
+                                    // single answers section
+                                    var singleStressQuestionnaire = studyData.singleStressQuestions;
+                                    if (singleStressQuestionnaire && singleStressQuestionnaire.length > 0) {
+                                        var questionAnswers = {answers: []};
+                                        var questions = [];
+
+                                        for (var k = 0; k < testerResults.answers.singleAnswers.length; k++) {
+                                            if (parseInt(testerResults.answers.singleAnswers[k].stressTestIndex) === i) {
+                                                questionAnswers.answers = questionAnswers.answers.concat(testerResults.answers.singleAnswers[k].answers);
+                                                questions = questions.concat(singleStressQuestionnaire);
+                                            }
+                                        }
+
+//                                        console.log(questionAnswers, questions);
+                                        if (questions.length > 0 && questionAnswers.answers.length > 0) {
+                                            renderQuestionnaireAnswers($(physicalStressTestItem).find('#single-stress-answers'), questions, questionAnswers, false, true);
+                                        }
+                                    }
+
+                                    // sequence answers section
+                                    var sequenceStressQuestionnaire = studyData.sequenceStressQuestions;
+                                    if (sequenceStressQuestionnaire && sequenceStressQuestionnaire.length > 0) {
+                                        var questionAnswers = {answers: []};
+                                        var questions = [];
+
+                                        for (var k = 0; k < results.tester.answers.sequenceAnswers.length; k++) {
+                                            if (parseInt(testerResults.answers.sequenceAnswers[k].stressTestIndex) === i) {
+                                                questionAnswers.answers = questionAnswers.answers.concat(testerResults.answers.sequenceAnswers[k].answers);
+                                                questions = questions.concat(sequenceStressQuestionnaire);
+                                            }
+                                        }
+
+                                        if (questions.length > 0 && questionAnswers.answers.length > 0) {
+                                            renderQuestionnaireAnswers($(physicalStressTestItem).find('#sequence-stress-answers'), questions, questionAnswers, false, true);
+                                        }
+                                    }
+                                }
+                            }
+
+                            renderAnnotatedNotes($(item).find('#annotated-notes'), getAnnotatedNotes(testerResults.annotations));
+                            renderNotes($(item).find('#notes'), evaluatorResults.notes);
+                        }
+
+                        renderObservation($(item).find('#observations'), studyData, evaluatorResults.observations);
                     }
 
-                    $(item).find('#trigger .address').text(translation.trigger + ': ');
-                    $(item).find('#trigger .text').text(trigger.title);
-                    $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
 
+//                    console.log('summarizedAnswers', summarizedAnswers);
+//                    var jointAnswers = null;
+                    for (var j = 0; j < studyData.stressTestItems.length; j++) {
+                        // render body joints for summary section
+                        var summaryJointsItem = $('#template-study-all-container').find('#stress-test-summary-joints-item').clone().css({marginTop: j > 0 ? '80px' : '0px'});
+                        $(summaryJointsItem).find('#headline-summary').text(translation.gestureSequence + ' ' + (j + 1) + ' ' + translation.of + ' ' + studyData.stressTestItems.length);
+                        $(content).find('#summary-joints-container').append(summaryJointsItem);
 
-                    // check if answers are there
-                    if (resultsData && resultsData.answers && !$.isEmptyObject(resultsData.answers)) {
+                        var gestures = studyData.stressTestItems[j].gestures;
+                        for (var g = 0; g < gestures.length; g++) {
+                            var gesture = getGestureById(gestures[g]);
+                            var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12');
+                            $(gestureThumbnail).removeClass('deleteable');
+                            $(summaryJointsItem).find('#gesture-thumbnail-container').append(gestureThumbnail);
+                        }
 
-                        // single questions joint section
-                        var singleStressGraphicsRating = studyData.singleStressGraphicsRating;
                         if (singleStressGraphicsRating !== 'none') {
                             var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
-                            $(jointAnswers).insertAfter($(item).find('#headline-single-questions'));
+                            $(summaryJointsItem).find('#single-answers').append(jointAnswers);
+
                             if (singleStressGraphicsRating === 'hands') {
                                 $(jointAnswers).find('#joint-answers-body').remove();
-                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'single');
+                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), summarizedAnswers, studyData.stressTestItems[j].id, 'single');
                             } else if (singleStressGraphicsRating === 'body') {
                                 $(jointAnswers).find('#joint-answers-hands').remove();
-                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'single');
+                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), summarizedAnswers, studyData.stressTestItems[j].id, 'single');
                             } else {
-                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'single');
-                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'single');
+                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), summarizedAnswers, studyData.stressTestItems[j].id, 'single');
+                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), summarizedAnswers, studyData.stressTestItems[j].id, 'single');
                             }
                         }
 
-                        // sequence questions joint section
-                        var sequenceStressGraphicsRating = studyData.sequenceStressGraphicsRating;
                         if (sequenceStressGraphicsRating !== 'none') {
                             var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
-                            $(jointAnswers).insertAfter($(item).find('#headline-sequence-questions'));
+                            $(summaryJointsItem).find('#sequence-answers').append(jointAnswers);
 
                             if (sequenceStressGraphicsRating === 'hands') {
                                 $(jointAnswers).find('#joint-answers-body').remove();
-                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'sequence');
+                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), summarizedAnswers, studyData.stressTestItems[j].id, 'sequence', true);
                             } else if (sequenceStressGraphicsRating === 'body') {
                                 $(jointAnswers).find('#joint-answers-hands').remove();
-                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'sequence');
+                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), summarizedAnswers, studyData.stressTestItems[j].id, 'sequence', true);
                             } else {
-                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'sequence');
-                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'sequence');
-                            }
-                        }
-
-                        // single answers section
-                        var singleStressQuestionnaire = studyData.singleStressQuestions;
-                        if (singleStressQuestionnaire && singleStressQuestionnaire.length > 0) {
-                            var results = new Object();
-                            results.answers = new Array();
-                            var questions = new Array();
-
-                            for (var j = 0; j < resultsData.answers.singleAnswers.length; j++) {
-                                if (parseInt(resultsData.answers.singleAnswers[j].stressTestIndex) === i) {
-                                    results.answers = results.answers.concat(resultsData.answers.singleAnswers[j].answers);
-                                    questions = questions.concat(singleStressQuestionnaire);
-                                }
-                            }
-
-                            if (questions.length > 0 && results.answers.length > 0) {
-                                //                                console.log(results, questions);
-                                renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results, false, true);
-                            }
-                        }
-
-                        // sequence answers section
-                        var sequenceStressQuestionnaire = studyData.sequenceStressQuestions;
-                        if (sequenceStressQuestionnaire && sequenceStressQuestionnaire.length > 0) {
-                            var results = new Object();
-                            results.answers = new Array();
-                            var questions = new Array();
-
-                            for (var j = 0; j < resultsData.answers.sequenceAnswers.length; j++) {
-                                if (parseInt(resultsData.answers.sequenceAnswers[j].stressTestIndex) === i) {
-                                    results.answers = results.answers.concat(resultsData.answers.sequenceAnswers[j].answers);
-                                    questions = questions.concat(sequenceStressQuestionnaire);
-                                }
-                            }
-
-                            if (questions.length > 0 && results.answers.length > 0) {
-                                renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions, results, false, true);
+                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), summarizedAnswers, studyData.stressTestItems[j].id, 'sequence', true);
+                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), summarizedAnswers, studyData.stressTestItems[j].id, 'sequence', true);
                             }
                         }
                     }
                 }
-
-                renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 
             function renderScenario(content, studyData, results) {
@@ -1857,7 +1778,7 @@ if (login_check($mysqli) == true) {
                         var evaluatorResults = results[i].evaluator;
                         var identificationItem = $('#template-study-all-container').find('#scenario-item').clone().css({marginTop: i === 0 ? '0px' : '80px'});
                         $(identificationItem).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
-                        renderTesterSnapshot($(identificationItem).find('#headline-participant'), results[i].tester.snapshot);
+                        renderTesterSnapshot($(identificationItem).find('#headline-participant'), results[i].tester);
                         renderSingleResultsButton($(identificationItem).find('#btn-open-participant-results'), results[i].userId);
                         $(content).find('#scenario-item-container').append(identificationItem);
 
@@ -1898,20 +1819,11 @@ if (login_check($mysqli) == true) {
                             tempAnnotations.push(annotation);
                         }
                     }
-
-                    console.log('all annotations', tempAnnotations);
                     return tempAnnotations;
                 }
 
-
-                //            return null;
-                //            renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
-
                 function renderParticipantSummary(container, annotations, evaluatorAnnotations) {
-                    console.log(annotations);
                     if (annotations && annotations.length > 0) {
-                        //                    var annotations = resultsPlayer.player.annotations();
-
                         // task section
                         var success = 0;
                         var help = 0;
@@ -1985,21 +1897,11 @@ if (login_check($mysqli) == true) {
 
                             for (var i = 0; i < problemTaskIds.length; i++) {
                                 var taskStart = getAssessmentTaskStart(evaluatorAnnotations, problemTaskIds[i].time);
-                                //                            var seconds = getSeconds(getTimeBetweenTimestamps(resultsData.startRecordingTime || resultsData.startTime, taskStart.time), true);
                                 var linkListItem = $('#template-study-container').find('#link-list-item').clone().removeAttr('id');
-                                //                            $(linkListItem).find('.link-list-item-url').attr('data-jumpto', seconds);
                                 $(linkListItem).find('.btn-delete-annotation').remove();
                                 $(linkListItem).find('.btn-edit-annotation').remove();
-                                //                            $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)));
                                 $(linkListItem).find('.link-list-item-title').text(taskStart.task.title);
                                 $(container).find('#task-problems').append(linkListItem);
-
-                                //                            $(linkListItem).find('.link-list-item-url').on('click', function (event) {
-                                //                                event.preventDefault();
-                                //                                var jumpTo = parseFloat($(this).attr('data-jumpto'));
-                                //                                resultsPlayer.player.jumpTo(jumpTo);
-                                //                                $("html, body").animate({scrollTop: 0}, 300);
-                                //                            });
                             }
                         } else {
                             $(container).find('#task-problems').text(translation.noTaskProblems);
@@ -2015,7 +1917,6 @@ if (login_check($mysqli) == true) {
                 }
 
                 function getAssessmentTaskStart(annotations, annotationTime) {
-                    //                var tempData = getLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource);
                     for (var i = annotations.length - 1; i >= 0; i--) {
                         if (annotations[i].action === ACTION_START_TASK && parseFloat(annotationTime) > parseFloat(annotations[i].time).toFixed(3)) {
                             return {task: getTaskById(annotations[i].taskId), time: annotations[i].time};
@@ -2043,7 +1944,7 @@ if (login_check($mysqli) == true) {
                             var evaluatorResults = results[i].evaluator;
                             var identificationItem = $('#template-study-all-container').find('#identification-gesture-item').clone().css({marginTop: i === 0 ? '0px' : '80px'});
                             $(identificationItem).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
-                            renderTesterSnapshot($(identificationItem).find('#headline-participant'), results[i].tester.snapshot);
+                            renderTesterSnapshot($(identificationItem).find('#headline-participant'), results[i].tester);
                             renderSingleResultsButton($(identificationItem).find('#btn-open-participant-results'), results[i].userId);
                             $(content).find('#identification-item-container').append(identificationItem);
 
@@ -2057,10 +1958,12 @@ if (login_check($mysqli) == true) {
 
                                         for (var k = 0; k < evaluatorResults.results.gestures.length; k++) {
                                             if (parseInt(studyData.identification[j].triggerId) === parseInt(evaluatorResults.results.gestures[k].triggerId)) {
-                                                count++;
                                                 var gesture = getGestureById(evaluatorResults.results.gestures[k].id);
-                                                var thumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-4 col-md-4 col-lg-4');
-                                                $(identificationItem).find('#gestures-list-container').append(thumbnail);
+                                                if (gesture) {
+                                                    count++;
+                                                    var thumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-4 col-md-4 col-lg-4');
+                                                    $(identificationItem).find('#gestures-list-container').append(thumbnail);
+                                                }
                                             }
                                         }
 
@@ -2093,7 +1996,7 @@ if (login_check($mysqli) == true) {
                             var evaluatorResults = results[i].evaluator;
                             var identificationItem = $('#template-study-all-container').find('#identification-trigger-item').clone().css({marginTop: i === 0 ? '0px' : '80px'});
                             $(identificationItem).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
-                            renderTesterSnapshot($(identificationItem).find('#headline-participant'), results[i].tester.snapshot);
+                            renderTesterSnapshot($(identificationItem).find('#headline-participant'), results[i].tester);
                             renderSingleResultsButton($(identificationItem).find('#btn-open-participant-results'), results[i].userId);
                             $(content).find('#identification-item-container').append(identificationItem);
 
@@ -2101,9 +2004,6 @@ if (login_check($mysqli) == true) {
                                 if (evaluatorResults.results.trigger && evaluatorResults.results.trigger.length > 0) {
                                     for (var j = 0; j < studyData.identification.length; j++) {
                                         var count = 0;
-                                        //                                    var gestureHeadline = document.createElement('h5');
-                                        //                                    $(gestureHeadline).addClass('col-xs-12').text(getGestureById(studyData.identification[j].gestureId).title);
-                                        //                                    $(identificationItem).find('#trigger-list-container').append(gestureHeadline);
 
                                         for (var k = 0; k < evaluatorResults.results.trigger.length; k++) {
                                             if (parseInt(studyData.identification[j].gestureId) === parseInt(evaluatorResults.results.trigger[k].gestureId)) {
@@ -2143,7 +2043,140 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-            function renderExploration(container, phaseData, testerResults, evaluatorResults) {
+            function renderExploration(content, phaseData, results) {
+//                console.log(phaseData, results);
+                if (phaseData.explorationType === 'gestures') {
+                    if (results && results.length > 0 && phaseData.askPreferredGesture === "yes") {
+                        var allAnswers = {answers: [], questions: null};
+                        for (var i = 0; i < results.length; i++) {
+                            var evaluatorResults = results[i].evaluator;
+                            var testerResults = results[i].tester;
+                            var explorationItem = $('#template-study-all-container').find('#exploration-gesture-item').clone().css({marginTop: '80px'});
+                            $(explorationItem).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
+                            renderTesterSnapshot($(explorationItem).find('#headline-participant'), results[i].tester);
+                            renderSingleResultsButton($(explorationItem).find('#btn-open-participant-results'), results[i].userId);
+                            $(content).find('#exploration-item-container').append(explorationItem);
+
+                            if (testerResults) {
+                                var answerItem = $('#template-study-container').find('#exploration-answer-item-for-gesture').clone().removeClass('id');
+                                $(explorationItem).find('#item-view').append(answerItem);
+
+                                var questionnaire = [];
+                                var answers = [];
+                                for (var j = 0; j < testerResults.answers.length; j++) {
+                                    var trigger = getTriggerById(testerResults.answers[j].triggerId);
+
+                                    var preferredGesture = testerResults.answers[j].preferredGestures[0];
+                                    answers.push(preferredGesture);
+
+                                    var questionText = translation.askPreferredGesturesForTrigger;
+                                    questionText = questionText.replace('{trigger}', trigger.title);
+
+                                    var gestures = phaseData.exploration[j].gestures;
+                                    var options = [];
+                                    for (var k = 0; k < gestures.length; k++) {
+                                        options.push(getGestureById(gestures[k]));
+                                    }
+                                    var question = {id: preferredGesture.id, dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: questionText, parameters: {multiselect: 'yes', optionSource: 'gestures', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes', options: options}};
+                                    questionnaire.push(question);
+                                }
+
+                                allAnswers.answers.push({tester: {answers: answers}});
+                                renderQuestionnaireAnswers($(answerItem), questionnaire, {answers: answers}, true, false);
+                                if (i === 0) {
+                                    allAnswers.questions = questionnaire;
+                                }
+                            }
+
+                            if (evaluatorResults && evaluatorResults.results) {
+                                renderAnnotatedNotes($(explorationItem).find('#annotated-notes'), getAnnotatedNotes(evaluatorResults.results.annotations));
+                                renderNotes($(explorationItem).find('#notes'), evaluatorResults.notes);
+                            }
+                            renderObservation($(explorationItem).find('#observations'), phaseData, evaluatorResults.observations);
+                        }
+
+                        // render summary questionnaire
+                        renderQuestionnaireResults(content.find('#summary'), allAnswers.questions, allAnswers.answers);
+                    } else {
+                        appendAlert($(content).find('#summary'), ALERT_NO_PHASE_DATA);
+                    }
+                } else if (phaseData.explorationType === 'trigger') {
+                    if (results && results.length > 0 && phaseData.askPreferredTrigger === "yes") {
+                        var allAnswers = {answers: [], questions: []};
+                        for (var i = 0; i < results.length; i++) {
+                            var evaluatorResults = results[i].evaluator;
+                            var testerResults = results[i].tester;
+                            var explorationItem = $('#template-study-all-container').find('#exploration-gesture-item').clone().css({marginTop: '80px'});
+                            $(explorationItem).find('#headline-participant').text(translation.participant + ' ' + (i + 1));
+                            renderTesterSnapshot($(explorationItem).find('#headline-participant'), results[i].tester);
+                            renderSingleResultsButton($(explorationItem).find('#btn-open-participant-results'), results[i].userId);
+                            $(content).find('#exploration-item-container').append(explorationItem);
+
+                            if (testerResults) {
+                                var questionnaire = [];
+                                var answers = [];
+                                for (var j = 0; j < testerResults.answers.length; j++) {
+                                    var gesture = getGestureById(testerResults.answers[j].gestureId);
+                                    var gestureItem = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-4 col-md-4 col-lg-3');
+
+                                    var answerItem = $('#template-study-container').find('#exploration-answer-item-for-trigger').clone().removeClass('id');
+                                    $(explorationItem).find('#item-view').append(answerItem);
+                                    $(answerItem).find('#gestures-list-container').prepend(gestureItem);
+
+                                    if (j > 0) {
+                                        $(answerItem).css({marginTop: '40px'});
+                                    }
+
+                                    var preferredTrigger = testerResults.answers[j].preferredTrigger[0];
+                                    var answer = preferredTrigger;
+                                    var questionnaire = [];
+                                    var question = {id: preferredTrigger.id, dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: translation.askPreferredTriggerForGesture, parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}};
+//                                    var triggerOptions = [];
+//                                    
+//                                    console.log(phaseData.exploration[i])
+//                                    for (var k = 0; k < phaseData.exploration[i].trigger.length; k++) {
+//                                        triggerOptions.push(getTriggerById(phaseData.exploration[i].trigger[k]));
+//                                    }
+
+                                    answers.push(answer);
+                                    questionnaire.push(question);
+                                    if (i === 0) {
+                                        allAnswers.questions.push(question);
+                                    }
+                                    renderQuestionnaireAnswers($(answerItem), questionnaire, {answers: [answer]}, true, false);
+                                }
+
+                                allAnswers.answers.push({tester: {answers: answers}});
+                            }
+
+                            if (evaluatorResults && evaluatorResults.results) {
+                                renderAnnotatedNotes($(explorationItem).find('#annotated-notes'), getAnnotatedNotes(evaluatorResults.results.annotations));
+                                renderNotes($(explorationItem).find('#notes'), evaluatorResults.notes);
+                            }
+                            renderObservation($(explorationItem).find('#observations'), phaseData, evaluatorResults.observations);
+                        }
+
+                        // render summary questionnaire
+                        $(content).find('#summary-item-container').empty();
+                        for (var j = 0; j < allAnswers.questions.length; j++) {
+                            var summaryItem = $('#template-study-container').find('#exploration-answer-item-for-trigger').clone();
+                            $(content).find('#summary-item-container').append(summaryItem);
+                            var gesture = getGestureById(testerResults.answers[j].gestureId);
+                            var gestureItem = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-4 col-md-4 col-lg-3');
+                            $(summaryItem).find('#gestures-list-container').prepend(gestureItem);
+                            renderQuestionnaireResults(summaryItem, [allAnswers.questions[j]], allAnswers.answers);
+                            if (j > 0) {
+                                $(summaryItem).css({marginTop: '40px'});
+                            }
+                        }
+                    } else {
+                        appendAlert($(content).find('#summary'), ALERT_NO_PHASE_DATA);
+                    }
+                }
+
+
+                return null;
+
                 if (testerResults.answers) {
                     $(container).find('#extraction-item-container').removeClass('hidden');
                     $(container).find('#headline-extraction-items').text(phaseData.explorationType === 'trigger' ? translation.favoriteTrigger : translation.favoriteGestures);
@@ -2206,6 +2239,7 @@ if (login_check($mysqli) == true) {
             }
 
             function renderObservation(target, studyData, observationResults) {
+                console.log('renderObservation', target, studyData, observationResults);
                 if (studyData.observations && studyData.observations.length > 0) {
                     renderQuestionnaireAnswers(target, studyData.observations, observationResults && observationResults.length > 0 ? {answers: observationResults[0].answers} : null);
 
@@ -2234,7 +2268,7 @@ if (login_check($mysqli) == true) {
                 if (annotations && annotations.length > 0) {
                     var tempAnnotations = [];
                     for (var i = 0; i < annotations.length; i++) {
-                        if (annotations[i].action === ACTION_NOTE) {
+                        if (annotations[i].action === ACTION_NOTE || annotations[i].action === ACTION_CUSTOM) {
                             tempAnnotations.push(annotations[i]);
                         }
                     }
@@ -2254,13 +2288,12 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-            function renderTesterSnapshot(target, snapshotUrl) {
-                //            console.log(snapshotUrl);
-                if (snapshotUrl) {
+            function renderTesterSnapshot(target, testerData) {
+                if (testerData && testerData.snapshot) {
                     $(target).css({cursor: 'pointer'});
                     $(target).unbind('mouseenter').bind('mouseenter', function (event) {
                         event.preventDefault();
-                        renderImagePopoverPreview(snapshotUrl, function (popover) {
+                        renderImagePopoverPreview(testerData.snapshot, function (popover) {
                             var top = $(target).offset().top - popover.height() - 2;
                             var left = $(target).offset().left + parseInt(((target.width() - popover.width()) / 2));
                             popover.css({left: left, top: top, zIndex: 10000, position: 'absolute'});
@@ -2278,10 +2311,12 @@ if (login_check($mysqli) == true) {
             function renderSingleResultsButton(button, userId) {
                 $(button).unbind('click').bind('click', function (event) {
                     event.preventDefault();
-                    clearLocalItems();
+
                     var query = getQueryParams(document.location.search);
-                    var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + userId + '&h=' + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+                    var status = getWindowStatusHash();
+                    var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                    clearLocalItems();
+                    goto('study-participant.php?studyId=' + query.studyId + '&participantId=' + userId + '&h=' + hash + "&joinedConv=" + joinedRoom + getWebRTCSources() + '#' + status);
                 });
             }
 
@@ -2309,7 +2344,8 @@ if (login_check($mysqli) == true) {
                 $('#custom-modal').attr('data-help-context', 'participant');
                 $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialParticipant'] ?>));
                 loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
-            });
+            }
+            );
 
             //        $('.pretest-select').unbind('change').bind('change', function (event) {
             //            event.preventDefault();

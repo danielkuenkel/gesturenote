@@ -57,7 +57,7 @@ if ($h && $token && $studyId) {
 
         <script src="js/chance.min.js"></script>
         <script src="js/color-thief/color-thief.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/refreshSession.js"></script>
@@ -71,10 +71,10 @@ if ($h && $token && $studyId) {
         <script src="js/gesture.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/study-execution.js"></script>
-        <script src="js/study-execution-tester.js"></script>
-        <script src="js/study-execution-tester-save.js"></script>
         <script src="js/upload-queue.js"></script>
+        <script src="js/execution/study-execution.js"></script>
+        <script src="js/execution/study-execution-tester.js"></script>
+        <script src="js/execution/study-execution-tester-save.js"></script>
 
         <!-- phase step formats -->
         <script src="js/execution/exploration.js"></script>

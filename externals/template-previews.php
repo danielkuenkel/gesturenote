@@ -5,23 +5,119 @@ include '../includes/language.php';
 <div id="item-container-moderator" class="hidden">
 
     <div id="moderator-web-rtc-placeholder" class="web-rtc-placeholder embed-responsive embed-responsive-4by3" style="position: absolute">
-        <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
-        <div class="btn-group stream-controls" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0; display:flex">
-            <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-            <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-            <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
-            <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
+        <!--<div class="root embed-responsive embed-responsive-4by3" style="background-color: #eeeeee; border-top-left-radius: 5px; border-top-right-radius: 5px">-->
+        <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
         </div>
-        <div class="hidden record-stream-indicator" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->recordingStream ?>"><i class="fa fa-video-camera"></i></div>
 
-        <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
+        <div class="embed-responsive-item" id="alerts-container" style="padding: 15px">
+            <div class="alert-space alert-rtc-permission-denied"></div>
+        </div>
+
+        <div class="embed-responsive-item">
+            <video class="recorder-webcam-video mirroredHorizontally" autoplay ></video>
+        </div>
+
+
+        <!--        <div id="remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 8px;"></div>
+                <div class="rtc-local-container embed-responsive-item">
+                    <video autoplay id="local-stream" class="rtc-stream" style="display:block;"></video>
+                </div>-->
+        <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
+            <button type="button" class="btn btn-sm stream-control disabled" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+            <button type="button" class="btn btn-sm stream-control disabled" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+            <button type="button" class="btn btn-sm stream-control disabled" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+            <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
+            <button type="button" class="btn btn-sm stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
+        </div>
+
+        <div class="record-stream-indicator" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->recordingStream ?>"><i class="fa fa-video-camera"></i></div>
+
+        <div id="stream-control-indicator">
+            <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
+                <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+            </div>
+            <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
+                <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+            </div>
+        </div>
+
+        <div id="rtc-config-panel" class="hidden" style="border-radius: 8px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+            <div class="form-group" id="video-input-select">
+                <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+
+                <div class="input-group">
+                    <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                    <div class="input-group-btn select select-video-input" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="audio-input-select">
+                <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
+
+                <div class="input-group">
+                    <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                    <div class="input-group-btn select select-audio-input" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
+        </div>
+
+        <!--            <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0);">
+                        <button type="button" class="btn btn-sm stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
+                    </div>
+        
+                    <div id="rtc-config-panel" class="hidden" style="border-top-left-radius: 4px; border-top-left-radius: 4px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+                        <div class="form-group" id="video-input-select">
+                            <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+        
+                            <div class="input-group">
+                                <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                <div class="input-group-btn select select-video-input" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
+                    </div>-->
+        <!--</div>-->
     </div>
+
+
+
+
+    <!--    <div id="moderator-web-rtc-placeholder" class="web-rtc-placeholder embed-responsive embed-responsive-4by3" style="position: absolute">
+            <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
+            <div class="btn-group stream-controls" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0; display:flex">
+                <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
+            </div>
+            <div class="hidden record-stream-indicator" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->recordingStream ?>"><i class="fa fa-video-camera"></i></div>
+    
+            <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
+        </div>-->
 
     <!-- alerts -->
     <div class="row root" id="no-phase-data">
         <div class="col-md-4" id="column-left"></div>
         <div class="col-md-8" id="column-right">
             <div class="alert-space alert-no-phase-data"></div>
+            <button class="btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -58,6 +154,7 @@ include '../includes/language.php';
 
                 <div id="preparation-role-selection-container" class="">
                     <h3><?php echo $lang->roleSelection ?></h3>
+                    <div class="alert-space alert-select-role-hint"></div>
                     <div class="alert-space alert-duplicated-role-detected"></div>
                     <div class="form-group root preparation-roleSelect">
                         <!--                            <label style="margin: 0">
@@ -76,7 +173,7 @@ include '../includes/language.php';
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="">
-                            <button class="btn btn-default btn-radio" name="primary" id="observer">
+                            <button class="btn btn-default btn-radio disabled" name="primary" id="observer">
                                 <span id="icons" style="margin-right: 6px">
                                     <i class="fa fa-circle-thin" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
@@ -86,7 +183,7 @@ include '../includes/language.php';
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="">
-                            <button class="btn btn-default btn-radio" name="primary" id="wizard">
+                            <button class="btn btn-default btn-radio disabled" name="primary" id="wizard">
                                 <span id="icons" style="margin-right: 6px">
                                     <i class="fa fa-circle-thin" id="normal"></i>
                                     <i class="fa fa-circle hidden" id="over"></i>
@@ -147,6 +244,7 @@ include '../includes/language.php';
 
                 <div id="preparation-participation-queue" class="hidden" style="margin-top: 40px">
                     <h3><?php echo $lang->waitingParticipants ?></h3>
+                    <div class="alert-space alert-select-participant-hint"></div>
 
                     <div class="form-group hidden root preparation-iceTransportsSelect">
                         <label style="margin: 0">
@@ -190,7 +288,10 @@ include '../includes/language.php';
                 </div>
 
                 <div id="preparation-call-screen" class="row hidden">
+
                     <div class="col-xs-12">
+                        <div class="alert-space alert-welcome-participant-hint"></div>
+
                         <div class="embed-responsive embed-responsive-4by3" id="preparation-video-caller">
                             <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto" style="border-radius:8px; border: 1px solid #eeeeee;"/>
                             <!--                            <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
@@ -405,7 +506,7 @@ include '../includes/language.php';
             <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>-->
             <span class="label label-default hidden" id="dimension"></span>
             <div><?php echo $lang->groupingOptions ?></div>
-            <div class="option-container"></div>
+            <div class="option-container" style="display: grid"></div>
         </div>
     </div>
 
@@ -652,7 +753,7 @@ include '../includes/language.php';
         <div class="col-md-6 col-lg-7" id="column-right" style="margin-bottom: 15px">
             <div id="general" class="hidden">
                 <h3 class="headline" style="margin-top: 0"></h3>    
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
 
                 <div style="margin-top: 6px">
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-training" style=""><?php echo $lang->startNow ?></button>
@@ -678,15 +779,16 @@ include '../includes/language.php';
         <div class="col-xs-5 col-sm-6 col-md-4">
             <div id="thumbnail-container" class="row"></div>
             <div class="" style="margin-top: 0px">
-                <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-show-gesture" style=""><i class="fa fa-eye hidden"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
-                <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-quit-gesture-preview" style=""><i class="fa"></i> <span class="btn-text"><?php echo $lang->quitGesturePreview ?></span></button>
+                <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-show-gesture" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->trainingShowGesture ?>"><span class="btn-text"><?php echo $lang->request ?></span></button>
+                <button type="button" class="btn btn-default btn-block btn-shadow hidden" id="btn-quit-gesture-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->trainingHideGesture ?>"><i class="fa"></i> <span class="btn-text"><?php echo $lang->quitGesturePreview ?></span></button>
             </div>
 
         </div>
         <div class="col-xs-7 col-sm-6 col-md-8">
-            <div id="training-info">
-                <div id="trigger"><span class="address"><?php echo $lang->trigger ?>:</span> <span class="text"></span></div>
-                <div id="repeats" style="margin-top: -6px"><span class="address"><?php echo $lang->repeats ?>:</span> <span class="text"></span></div>
+            <div id="training-info" class="hidden">
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="training-description"></span></div>
+<!--                <div id="trigger"><span class="address"><?php echo $lang->trigger ?>:</span> <span class="text"></span></div>
+                <div id="repeats" style="margin-top: -6px"><span class="address"><?php echo $lang->repeats ?>:</span> <span class="text"></span></div>-->
             </div>
             <div id="transition-scenes" style="margin-top: 10px">
                 <div class="bs-example hidden" id="start-scene">
@@ -707,9 +809,10 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-repeat-training"  style="margin-top: 10px"><span class="btn-text"><?php echo $lang->repeatTraining ?></span></button>
+            <!--<button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-repeat-training"  style="margin-top: 10px"><span class="btn-text"><?php echo $lang->repeatTraining ?></span></button>-->
         </div>
-        <div class="col-xs-12" style="margin-top: 10px">
+        <div class="col-xs-12 hidden" id="next-training-controls">
+            <hr>
             <button type="button" class="btn btn-success btn-shadow btn-block hidden" id="btn-next-gesture"><span class="btn-text"><?php echo $lang->nextGesture ?></span> <span aria-hidden="true">&rarr;</span></button>
             <button type="button" class="btn btn-success btn-shadow btn-block hidden" id="btn-no-more-training-items"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
@@ -730,12 +833,13 @@ include '../includes/language.php';
         <div class="col-md-7" id="column-right" style="margin-bottom: 15px">
             <div class="" id="general" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"></h3>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-show-overview" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
             <div id="slides" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"><?php echo $lang->overview ?></h3>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id=""><?php echo $lang->readSlideshowOverview ?></span></div>
                 <div class="row slide-container"></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
@@ -755,15 +859,15 @@ include '../includes/language.php';
             <div class="row" id="thumbnail-container"></div>
 
             <div class="" id="gesture-slide-controls" style="margin-top: 0px">
-                <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="trigger-slide"><i class="fa"></i> <span class="btn-text"><?php echo $lang->request ?></span></button>
+                <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="trigger-slide" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->slideshowAskGesture ?>"><i class="fa"></i> <span class="btn-text"><?php echo $lang->request ?></span></button>
                 <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-restart-slideshow"><i class="fa fa-check" aria-hidden="true"></i> <span>Neu starten</span></button>
             </div>
 
         </div>
         <div class="col-xs-6 col-lg-8" style="margin-bottom: 10px;">
             <div class="triggerContainer">
-                <div><?php echo $lang->gestureInquired ?>: <span id="searched" style="color: #303030"></span></div>
                 <div><?php echo $lang->triggerShown ?>: <span id="given" style="color: #303030"></span></div>
+                <div><?php echo $lang->gestureInquired ?>: <span id="searched" style="color: #303030"></span></div>
                 <div><?php echo $lang->answerPeriod ?>: <span id="responseTime" style="color: #303030"></span></div>
             </div>
         </div>
@@ -785,7 +889,7 @@ include '../includes/language.php';
 
             <div id="general" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"></h3>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
@@ -832,7 +936,7 @@ include '../includes/language.php';
 
             <div id="general" class="hidden">
                 <h3 class="headline" style="margin-top: 0px"></h3>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-stress-test" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
@@ -894,12 +998,36 @@ include '../includes/language.php';
             </div>
         </div>
 
+        <div id="fixed-user-test-controls" class="hidden">
+            <div class="btn-group-vertical">
+                <div>
+                    <button class="btn btn-lg btn-default btn-shadow" id="btn-show-assessment-controls"  data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->showAssessmentControls ?>" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px"><i class="fa fa-check"></i></button>
+                </div>
+                <div>
+                    <button class="btn btn-lg btn-default btn-shadow disabled" id="btn-show-help-controls" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->offerHelp ?>" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-top-left-radius: 0px"><i class="fa fa-support"></i></button>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="assessment-controls-container" class="text-center">
+            <h4 style="margin: 0"><?php echo $lang->taskAssessment ?></h4>
+            <div class="option-container" style="margin-top: 10px"></div>
+            <button class="btn btn-shadow" id="btn-close-assessment-controls" style="width: 100%"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
+        </div>
+
+        <div id="help-controls-container" class="hidden">
+            <h4 style="margin: 0" class="text-center"><?php echo $lang->offerHelp ?></h4>
+            <div class="option-container" style="margin-top: 10px"></div>
+            <button class="btn btn-shadow" id="btn-close-help-controls" style="width: 100%"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
+        </div>
+
         <div class="col-sm-6 col-md-7" id="column-right">
             <div class="hidden" id="general" style="margin-bottom: 20px">
                 <h3 class="headline" style="margin-top: 0px"><?php echo $lang->general ?></h3>
                 <div class="">
                     <div class="alert-space alert-no-more-tasks"></div>
-                    <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudScenario ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                    <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudScenario ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                     <!--<div id="description"><span class="address"></span>: <span class="text font-bold"></span></div>-->
                     <div>
                         <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype"><?php echo $lang->openPrototype ?></button>
@@ -909,34 +1037,40 @@ include '../includes/language.php';
 
                 </div>
             </div>
+
             <div class="hidden" id="scenario-controls">
-                <div class="" id="assessment-controls">
-                    <h3 class="headline" style="margin-top: 0"><?php echo $lang->task ?> </h3>
-                    <div class="" style="padding-bottom: 0">
-                        <div class="alert-space alert-no-phase-data"></div>
-                        <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudTask ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="task"></span></div>
-                        <!--<div id="task"><span class="text font-bold"></span></div>-->
-                        <div id="assessment-controls-container" style=""></div>
-                    </div>
+                <div id="task-controls">
+                    <h3 id="task-headline" style="margin-top: 0"><?php echo $lang->task ?> </h3>
+                    <!--<div style="padding-bottom: 0">-->
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudTask ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="task"></span></div>
+                    <!--<div id="task"><span class="text font-bold"></span></div>-->
+
+                    <!--</div>-->
+                    <button class="btn btn-success btn-shadow btn-block" id="btn-read-out-task"><i class="fa fa-check"></i> Aufgabe vorgelesen</button>
                 </div>
-                <div class="" id="woz-controls">
-                    <h3><?php echo $lang->wozControlElements ?> <button class="btn btn-xs btn-default pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button></h3>
+                <div class="hidden" id="woz-controls">
+                    <h3><?php echo $lang->wozControlElements ?> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->whichGestureWasDemonstrated ?>"></i>
+                        <button class="btn btn-xs btn-default pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button>
+                    </h3>
                     <div class="" style="padding-bottom: 0">
                         <div id="wozExperiment" style="margin-bottom: 20px;">
-                            <div style="margin-bottom: 10px" class="text"><?php echo $lang->whichGestureWasDemonstrated ?></div>
+                            <div style="margin-bottom: 10px" class="text"><?php // echo $lang->whichGestureWasDemonstrated     ?></div>
                             <div class="alert-space alert-no-phase-data"></div>
+                            <div class="alert-space alert-no-more-woz-states"></div>
                             <div class="row woz-container"></div>
                             <!--<button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found" style="margin-top: 20px"><?php echo $lang->anotherGestureWasDemonstrated ?></button>-->
                         </div>
                     </div>
                 </div>
-                <div class="" id="help-controls">
-                    <h3><?php echo $lang->help ?></h3>
-                    <div class="" style="padding-bottom: 0">
-                        <div class="alert-space alert-no-phase-data"></div>
-                        <div class="help-container"></div>
-                    </div>
-                </div>
+                <!--                <div class="" id="help-controls">
+                                    <h3><?php echo $lang->help ?></h3>
+                                    <div class="" style="padding-bottom: 0">
+                                        <div class="alert-space alert-no-phase-data"></div>
+                                        <div class="help-container"></div>
+                                    </div>
+                                </div>-->
             </div>
 
             <div id="scene-container" class="text-center hidden" style="position: absolute; right:15px; left:15px; border-radius:8px" allowtransparency></div>
@@ -983,14 +1117,14 @@ include '../includes/language.php';
                         <div class="btn-invert-slider-values" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->valuesNotInverted ?>"><i class="fa fa-exchange"></i></div>
                     </div>
 
-                    <div class="gesture-info-symbols small">
+                    <div class="gesture-info-symbols">
                         <span class="symbol-container-gesture-execution" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
-                            <span class="gesture-info-symbol-text text-gesture-execution small"></span>
-                            <div class="gesture-info-symbol symbol-gesture-execution small"></div>
+                            <span class="gesture-info-symbol-text text-gesture-execution"></span>
+                            <div class="gesture-info-symbol symbol-gesture-execution"></div>
                         </span>
                         <span class="symbol-container-gesture-interaction" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">
-                            <span class="gesture-info-symbol-text text-gesture-interaction small"></span>
-                            <div class="gesture-info-symbol symbol-gesture-interaction small"></div>
+                            <span class="gesture-info-symbol-text text-gesture-interaction"></span>
+                            <div class="gesture-info-symbol symbol-gesture-interaction"></div>
                         </span>
                     </div>
                 </div>
@@ -1068,8 +1202,9 @@ include '../includes/language.php';
     <div id="helpItem" style="margin-bottom: 16px;">
         <div class="help-title"></div>
         <div class="btn-group" style="margin-top: 10px;">
-            <button type="button" class="btn btn-info btn-shadow" id="offer-help"><i class="fa fa-life-ring"></i> <?php echo $lang->offerHelp ?></button>
-            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+            <button type="button" class="btn btn-default btn-shadow" id="offer-help" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->offerHelpText ?>"><i class="fa fa-life-ring"></i> <span class="btn-text"><?php echo $lang->offerHelp ?></span></button>
+            <!--<button type="button" class="btn btn-default btn-shadow hidden" id="unoffer-help" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->unofferHelpText ?>"><i class="fa fa-life-ring"></i> <?php echo $lang->closeHelp ?></button>-->
+            <button type="button" class="btn btn-default btn-shadow hidden" id="btn-gesture-preview"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->gesture ?></span></button>
         </div>
     </div>
 
@@ -1095,7 +1230,7 @@ include '../includes/language.php';
                     <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
                     <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
                 </div>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <div style="margin-top: 6px">
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-identification"><?php echo $lang->startNow ?></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" ><?php echo $lang->openPrototype ?></button>
@@ -1221,7 +1356,7 @@ include '../includes/language.php';
                     <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
                     <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
                 </div>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-exploration" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
@@ -1457,7 +1592,7 @@ include '../includes/language.php';
                     <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesAreElicited ?></span> 
                     <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerAreElicited ?></span>
                 </div>
-                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-bullhorn"></i></span> <span class="read-aloud-text" id="description"></span></div>
+                <div class="text read-aloud"><span class="read-aloud-icon" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->readAloudText ?>"><i class="fa fa-info-circle text btn-show-info"></i></span> <span class="read-aloud-text" id="description"></span></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-focus-group" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
@@ -1526,7 +1661,7 @@ include '../includes/language.php';
     <div id="image">
         <span><?php echo $lang->title ?>: </span><span class="title"></span><br/>
         <span><?php echo $lang->type ?>: </span><div class="label label-default type"><i class="fa fa-image"></i> <span class="label-text"></span></div><br/><br/>
-        <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
+        <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 8px;" />
     </div>
 
     <div id="videoEmbed">
@@ -2118,10 +2253,13 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="" id="woz-controls">
-                    <h3><?php echo $lang->wozControlElements ?> <button class="btn btn-xs btn-default pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button></h3>
+                    <h3><?php echo $lang->wozControlElements ?> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->whichGestureWasDemonstrated ?>"></i>
+                        <button class="btn btn-xs btn-default pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button>
+                    </h3>
                     <div class="" style="padding-bottom: 0">
                         <div id="wozExperiment" style="margin-bottom: 20px;">
-                            <div style="margin-bottom: 10px" class="text"><?php echo $lang->whichGestureWasDemonstrated ?></div>
+                            <!--<div style="margin-bottom: 10px" class="text"><?php echo $lang->whichGestureWasDemonstrated ?></div>-->
                             <div class="alert-space alert-no-phase-data"></div>
                             <div class="row woz-container"></div>
                             <!--<button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found" style="margin-top: 20px"><?php echo $lang->anotherGestureWasDemonstrated ?></button>-->
@@ -2174,9 +2312,15 @@ include '../includes/language.php';
 <div id="item-container-tester" class="hidden">
 
     <!-- alerts -->
-    <div class="container root" id="no-phase-data" style="margin-top: 80px;">
-        <div class="alert-space alert-no-phase-data"></div>
+    <div class="row root" id="no-phase-data">
+        <div class="col-md-4" id="column-left"></div>
+        <div class="col-md-8" id="column-right">
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
     </div>
+    <!--    <div class="container root" id="no-phase-data" style="margin-top: 80px;">
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>-->
 
 
     <!-- rtc preview -->
@@ -2185,18 +2329,111 @@ include '../includes/language.php';
         </div>-->
 
     <div id="tester-web-rtc-placeholder" class="web-rtc-placeholder embed-responsive embed-responsive-4by3" style="position: absolute">
-        <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
-        <div class="btn-group stream-controls" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0; display:flex">
-            <button type="button" class="btn btn-sm stream-control" id="btn-hide-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->hideStream ?>"><i class="fa fa-close"></i> </button>
-            <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-            <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-            <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
-            <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
+        <!--<div class="root embed-responsive embed-responsive-4by3" style="background-color: #eeeeee; border-top-left-radius: 5px; border-top-right-radius: 5px">-->
+        <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
         </div>
-        <div class="record-stream-indicator hidden" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->recordingStream ?>"><i class="fa fa-video-camera"></i></div>
 
-        <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
+        <div class="embed-responsive-item" id="alerts-container" style="padding: 15px">
+            <div class="alert-space alert-rtc-permission-denied"></div>
+        </div>
+
+        <div class="embed-responsive-item">
+            <video class="recorder-webcam-video mirroredHorizontally" autoplay ></video>
+        </div>
+
+
+        <!--        <div id="remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 8px;"></div>
+                <div class="rtc-local-container embed-responsive-item">
+                    <video autoplay id="local-stream" class="rtc-stream" style="display:block;"></video>
+                </div>-->
+        <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
+            <button type="button" class="btn btn-sm stream-control disabled" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+            <button type="button" class="btn btn-sm stream-control disabled" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+            <button type="button" class="btn btn-sm stream-control disabled" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+            <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
+            <button type="button" class="btn btn-sm stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
+        </div>
+
+        <div class="record-stream-indicator" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->recordingStream ?>"><i class="fa fa-video-camera"></i></div>
+
+        <div id="stream-control-indicator">
+            <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
+                <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+            </div>
+            <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
+                <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+            </div>
+        </div>
+
+        <div id="rtc-config-panel" class="hidden" style="border-radius: 8px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+            <div class="form-group" id="video-input-select">
+                <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+
+                <div class="input-group">
+                    <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                    <div class="input-group-btn select select-video-input" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="audio-input-select">
+                <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
+
+                <div class="input-group">
+                    <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                    <div class="input-group-btn select select-audio-input" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
+        </div>
+
+        <!--            <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0);">
+                        <button type="button" class="btn btn-sm stream-control" id="btn-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
+                    </div>
+        
+                    <div id="rtc-config-panel" class="hidden" style="border-top-left-radius: 4px; border-top-left-radius: 4px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+                        <div class="form-group" id="video-input-select">
+                            <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+        
+                            <div class="input-group">
+                                <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                <div class="input-group-btn select select-video-input" role="group">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
+                    </div>-->
+        <!--</div>-->
+
     </div>
+
+    <!--    <div id="tester-web-rtc-placeholder" class="web-rtc-placeholder embed-responsive embed-responsive-4by3" style="position: absolute">
+            <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
+            <div class="btn-group stream-controls" id="stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0; display:flex">
+                <button type="button" class="btn btn-sm stream-control" id="btn-hide-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->hideStream ?>"><i class="fa fa-close"></i> </button>
+                <button type="button" class="btn btn-sm stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                <button type="button" class="btn btn-sm stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                <button type="button" class="btn btn-sm stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                <button type="button" class="btn btn-sm stream-control pinned" id="btn-toggle-rtc-fixed" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->dragRTC ?>"><i class="fa fa-window-restore"></i> </button>
+            </div>
+            <div class="record-stream-indicator hidden" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->recordingStream ?>"><i class="fa fa-video-camera"></i></div>
+    
+            <img class="hidden" src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
+        </div>-->
 
 
 
@@ -2288,58 +2525,58 @@ include '../includes/language.php';
                                     <div class="embed-responsive embed-responsive-4by3" id="preparation-video-caller">
                                         <img class="embed-responsive-item" src="img/web-rtc-placeholder.jpg" width="100%" height="auto" style="border-radius:8px; border: 1px solid #eeeeee;"/>
 
-<!--                                        <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
-                                            <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
-                                        </div>
-                                        <div id="preparation-remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 8px;"></div>
-                                        <div class="rtc-local-container embed-responsive-item">
-                                            <video autoplay id="preparation-local-stream" class="preparation-rtc-stream" style="display:block;"></video>
-                                        </div>
-                                        <div class="btn-group" id="preparation-stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
-                                            <button type="button" class="btn btn-sm stream-control" id="btn-preparation-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
-                                        </div>
-                                        <div id="preparation-stream-control-indicator">
-                                            <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
-                                                <i id="preparation-mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
-                                                <i id="preparation-pause-local-stream" class="hidden fa fa-pause"></i>
-                                            </div>
-                                            <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
-                                                <i id="preparation-mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
-                                                <i id="preparation-pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
-                                            </div>
-                                        </div>
-
-                                        <div id="preparation-rtc-config-panel" class="hidden" style="border-radius: 8px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
-                                            <div class="form-group" id="video-input-select">
-                                                <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
-
-                                                <div class="input-group">
-                                                    <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
-                                                    <div class="input-group-btn select select-video-input" role="group">
-                                                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group" id="audio-input-select">
-                                                <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
-
-                                                <div class="input-group">
-                                                    <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
-                                                    <div class="input-group-btn select select-audio-input" role="group">
-                                                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
-                                        </div>-->
+                                        <!--                                        <div class="embed-responsive-item" style="border-radius: 8px; background-color: #eee;display: flex; justify-content: center; align-items: center;">
+                                                                                    <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+                                                                                </div>
+                                                                                <div id="preparation-remote-stream" class="rtc-remote-container rtc-stream embed-responsive-item" style="border-radius: 8px;"></div>
+                                                                                <div class="rtc-local-container embed-responsive-item">
+                                                                                    <video autoplay id="preparation-local-stream" class="preparation-rtc-stream" style="display:block;"></video>
+                                                                                </div>
+                                                                                <div class="btn-group" id="preparation-stream-controls" style="position: absolute; bottom: 6px; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                                                                                    <button type="button" class="btn btn-sm stream-control" id="btn-preparation-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                                                                                    <button type="button" class="btn btn-sm stream-control" id="btn-preparation-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                                                                                    <button type="button" class="btn btn-sm stream-control" id="btn-preparation-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                                                                                    <button type="button" class="btn btn-sm stream-control" id="btn-preparation-config-rtc" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->configRTC ?>"><i class="fa fa-cog"></i> </button>
+                                                                                </div>
+                                                                                <div id="preparation-stream-control-indicator">
+                                                                                    <div style="position: absolute; top: 4px; display: block; left: 10px; opacity: 1; color: white">
+                                                                                        <i id="preparation-mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                                                                                        <i id="preparation-pause-local-stream" class="hidden fa fa-pause"></i>
+                                                                                    </div>
+                                                                                    <div style="position: absolute; top: 4px; display: block; right: 10px; opacity: 1; color: white">
+                                                                                        <i id="preparation-mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                                                                                        <i id="preparation-pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                                                                                    </div>
+                                                                                </div>
+                                        
+                                                                                <div id="preparation-rtc-config-panel" class="hidden" style="border-radius: 8px; background-color: rgba(0,0,0,.4); padding: 15px 15px 0px 15px; position: absolute; top:0px; bottom:0px; left: 0px; right: 0px">
+                                                                                    <div class="form-group" id="video-input-select">
+                                                                                        <label style="margin: 0; color: white"><?php echo $lang->chooseVideoInput ?></label><br>
+                                        
+                                                                                        <div class="input-group">
+                                                                                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                                                            <div class="input-group-btn select select-video-input" role="group">
+                                                                                                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                                                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group" id="audio-input-select">
+                                                                                        <label style="margin: 0; color: white"><?php echo $lang->chooseAudioInput ?></label><br>
+                                        
+                                                                                        <div class="input-group">
+                                                                                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value=""/>
+                                                                                            <div class="input-group-btn select select-audio-input" role="group">
+                                                                                                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                                                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                        
+                                                                                    <button class="btn btn-default btn-block btn-shadow" id="btn-close-config"><i class="fa fa-check"></i></button>
+                                                                                </div>-->
                                     </div>
 
                                     <div class="alert-space alert-waiting-for-moderator" style="margin-top: 10px"></div>
@@ -2371,8 +2608,8 @@ include '../includes/language.php';
             <h3 class="headline" style="margin-top: 0" ><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
             <div class="letter-text text" style="white-space:pre-wrap;"></div>
             <div style="margin-top: 20px">
-                <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><?php echo $lang->letterOfAcceptanceAccept ?></button>
-                <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><?php echo $lang->letterOfAcceptanceNotAccept ?></button>
+                <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><i class="fa fa-check"></i> <?php echo $lang->letterOfAcceptanceAccept ?></button>
+                <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><i class="fa fa-close"></i> <?php echo $lang->letterOfAcceptanceNotAccept ?></button>
             </div>
         </div>
     </div>
@@ -2382,8 +2619,8 @@ include '../includes/language.php';
         <h3 class="headline" style="margin-top: 0"><?php echo $lang->formats->letterOfAcceptance->text ?></h3>
         <div class="letter-text" style="white-space:pre-wrap;"></div>
         <div style="margin-top: 20px">
-            <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><?php echo $lang->letterOfAcceptanceAccept ?></button>
-            <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><?php echo $lang->letterOfAcceptanceNotAccept ?></button>
+            <button type="button" class="btn btn-success btn-shadow" id="letter-agreed"><i class="fa fa-check"></i> <?php echo $lang->letterOfAcceptanceAccept ?></button>
+            <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline"><i class="fa fa-close"></i> <?php echo $lang->letterOfAcceptanceNotAccept ?></button>
         </div>
     </div>
 
@@ -2655,13 +2892,30 @@ include '../includes/language.php';
     <!-- moderated gesture slideshow items -->
 
     <div id="gestureSlideshowOverviewItemModerated" class="col-xs-6 col-sm-4 col-md-6 col-lg-4 root">
-        <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-        <div class="text-center gestureControls">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
-                <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+        <div data-sensor-source="webcam" id="webcam-preview" class="autoplay">
+            <div class="root embed-responsive embed-responsive-4by3">
+                <div id="" class="webcam-image-container"></div>
+                <div class="controls-container embed-responsive-item">
+                    <div class="hidden-controls-container-btn text-center btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                    <!--<div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>-->
+                </div>
+            </div>
+
+            <div id="webcam-playback-slider-controls" class="hidden" style="margin-top: -11px" data-visible="true">
+                <div id="webcam-playback-slider-container" class="webcam-playback-slider-container" style="width: 100%;">
+                    <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                </div>
             </div>
         </div>
+        <!--        <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3">
+        
+                </div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default btn-pause-gesture"><i class="fa fa-stop"></i></button>
+                    </div>
+                </div>-->
     </div>
 
     <!--    <div id="gestureSlideshowItemModerated" class="text-center">
@@ -3219,11 +3473,9 @@ include '../includes/language.php';
             </div>
 
             <div class="hidden" id="study-share">
-                <hr>
                 <i class="fa fa-share" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
                 <p class="text" id="static-study-url"></p>
                 <p class="text"><?php echo $lang->thanksShare ?></p>
-                <hr>
             </div>
 
             <button type="button" class="btn btn-success btn-shadow pull-right hidden" id="btn-execution-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>

@@ -2,7 +2,6 @@
 include './includes/language.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +10,7 @@ include_once 'includes/functions.php';
         <title><?php echo $lang->gestureNoteImprint ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -19,11 +18,11 @@ include_once 'includes/functions.php';
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
-        
+
         <script src="js/constants.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/externals.js"></script>
@@ -52,8 +51,13 @@ include_once 'includes/functions.php';
         </div>
 
 
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
+
         <!-- Container (Landing Section) -->
-        <div class="container mainContent" style="margin-top: 0px">
+        <div class="container mainContent hidden" style="margin-top: 0px">
             <div class="">
                 <div class="page-header" style="margin-top: 0px">
                     <h2><?php echo $lang->imprintContent->mainHeadline ?></h2>
@@ -79,7 +83,7 @@ include_once 'includes/functions.php';
                     <h2><?php echo $lang->imprintContent->dataProtectionHeadline ?></h2>
                 </div>
                 <div class="info-text text">
-                    
+
                 </div>
             </div>
         </div>
@@ -95,16 +99,22 @@ include_once 'includes/functions.php';
             });
 
             function onAllExternalsLoadedSuccessfully() {
-
                 var loggedIn = parseInt('<?php echo login_check($mysqli) ?>') === 1;
                 renderSubPageElements(loggedIn);
                 animateBreadcrump();
-                
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
+
                 if (loggedIn === false) {
                     $('#btn-dashboard').parent().remove();
                 }
-                
+
                 $('#dataProtectionContent').find('.info-text').html(translation.imprintContent.dataProtectionContent);
+
+                $('.mainContent').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
             }
         </script>
 

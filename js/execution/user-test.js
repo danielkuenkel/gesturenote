@@ -1,6 +1,7 @@
 UserTest.prototype.options = null;
 
 function UserTest(options) {
+    removeLocalItem(SIMULATION_RECORDING);
     this.options = options ? options : {};
     this.options.currentPhase = getCurrentPhase();
     this.options.currentPhaseData = getCurrentPhaseData();
@@ -56,6 +57,9 @@ UserTest.prototype.renderModeratorView = function () {
             case 'usertestStarted':
                 renderStateUsertestStarted();
                 break;
+            case 'solveTask':
+                renderStateSolveTask();
+                break;
             case 'noTasksLeft':
                 renderStateNoTasksLeft();
                 break;
@@ -68,7 +72,7 @@ UserTest.prototype.renderModeratorView = function () {
     function renderStateInitialize() {
         console.log('render moderator state: ', currentPhaseState);
 
-        triggeredHelp, triggeredWoz, triggeredFeedback = null;
+        triggeredHelp, triggeredFeedback = null;
         currentWOZScene = getSceneById(data.scene);
         currentScenarioTask = data.tasks[0];
 
@@ -92,11 +96,14 @@ UserTest.prototype.renderModeratorView = function () {
                 currentPhaseState = 'prototypeOpened';
                 renderCurrentPhaseState();
             });
+
+            checkScreensharingHelp();
         }
     }
 
     function renderStatePrototypeOpened() {
         console.log('render moderator state: ', currentPhaseState);
+
         $(container).find('#general').removeClass('hidden');
         $(container).find('#btn-start-scenario').addClass('hidden');
 
@@ -133,22 +140,161 @@ UserTest.prototype.renderModeratorView = function () {
 
     function renderStateUsertestStarted() {
         console.log('render moderator state: ', currentPhaseState);
+
+        clearAlerts($(container).find('#wozExperiment'));
         $(container).find('#general').addClass('hidden');
         $(container).find('#scenario-controls').removeClass('hidden');
+        $(container).find('#woz-controls').addClass('hidden');
+        $(container).find('#fixed-user-test-controls').addClass('hidden');
+        $(container).find('#task-controls .read-aloud-icon').removeClass('hidden');
+        $(container).find('#assessment-controls-container').addClass('hidden');
+        $(container).find('#help-controls-container').addClass('hidden');
+
+//         task assessment section
+//        renderTaskAssessment();
+
+//        currentSimulationState = STATE_SIMULATOR_RECORD;
+
+        if (data.tasks && data.tasks.length > 0) {
+            $(container).find('#scenario-controls #task').text(currentScenarioTask.task);
+            $(container).find('#scenario-controls #task-headline').text(translation.task + ' ' + (currentScenarioTaskIndex + 1) + ' ' + translation.of + ' ' + data.tasks.length);
+        }
+
+//        //woz section
+//        if (!previewModeEnabled) {
+//            if (peerConnection && peerConnection.isWizardConnected()) {
+//                $(container).find('#btn-reset-scenes').remove();
+//                $(container).find('#woz-controls').remove();
+//
+//                $(peerConnection).unbind(MESSAGE_UPDATE_SCENARIO).bind(MESSAGE_UPDATE_SCENARIO, function (event, payload) {
+//                    event.preventDefault();
+//
+//                    currentScenarioTaskIndex = payload.currentScenarioTaskIndex;
+//                    currentScenarioTask = data.tasks[currentScenarioTaskIndex];
+//                    currentWOZScene = getSceneById(currentScenarioTask.woz[0].transitionScenes[0].sceneId);
+//
+//                    renderHelp();
+//                });
+//
+//                $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING).bind(MESSAGE_STOP_SCREEN_SHARING, function (event, payload) {
+//                    $(peerConnection).unbind(MESSAGE_STOP_SCREEN_SHARING);
+//                    currentPhaseState = 'usertestDone';
+//                    renderCurrentPhaseState();
+//                });
+//            } else {
+//                renderWOZ();
+//
+//                $(peerConnection).unbind(MESSAGE_LEAP_GESTURE_RECOGNIZED).bind(MESSAGE_LEAP_GESTURE_RECOGNIZED, function (event, payload) {
+//                    event.preventDefault();
+//                    checkRecognizedGesture(payload);
+//                });
+//            }
+//        } else {
+//            renderWOZ();
+//
+//            if (recognizeLeapGestures(data)) {
+//                leapRecognizer = null;
+//                leapRecognizer = new LeapStandardRecognizer(null);
+//
+//                // handle recognized gestures for preview mode
+//                if (previewModeEnabled) {
+//                    $(leapRecognizer).unbind(EVENT_LEAP_GESTURE).bind(EVENT_LEAP_GESTURE, function (event, payload) {
+//                        event.preventDefault();
+//                        checkRecognizedGesture(payload);
+//                    });
+//                }
+//            }
+//        }
+
+//        // help section
+//        renderHelp();
+//
+//        if (checkedScenes.single === true && checkedScenes.pidoco && checkedScenes.pidoco === true) {
+//            $(container).find('#btn-reset-scenes').remove();
+//        }
+
+        $(container).find('#btn-read-out-task').removeClass('hidden');
+        $(container).find('#btn-read-out-task').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            currentPhaseState = 'solveTask';
+            renderCurrentPhaseState();
+//            $(this).addClass('hidden');
+//            $(container).find('#fixed-user-test-controls').removeClass('hidden');
+//            $(container).find('#woz-controls').removeClass('hidden');
+//            $(container).find('#task-controls .read-aloud-icon').addClass('hidden');
+//            wobble([container.find('#woz-controls')]);
+        });
+
+        wobble([container.find('#task-controls')]);
+
+
+//        $(container).find('#btn-reset-scenes').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//
+//            currentWOZScene = getSceneById(data.scene);
+//            currentScenarioTask = data.tasks[0];
+//            currentScenarioTaskIndex = 0;
+//
+//            renderWOZ();
+//            renderHelp();
+//
+//            if (prototypeWindow) {
+//                if (!previewModeEnabled) {
+//                    getGMT(function (timestamp) {
+//                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
+//                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                    });
+//                }
+//
+//                openPrototypeScene(currentWOZScene, checkedScenes.single);
+//            }
+//        });
+//
+//        if (!previewModeEnabled && peerConnection) {
+//            getGMT(function (timestamp) {
+//                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                if (!peerConnection.isWizardConnected()) {
+//                    tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+//                }
+//                tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
+//                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//            });
+//        }
+    }
+
+    function renderStateSolveTask() {
+        console.log('render moderator state: ', currentPhaseState);
+
+        clearAlerts($(container).find('#wozExperiment'));
+        $(container).find('#general').addClass('hidden');
+        $(container).find('#scenario-controls').removeClass('hidden');
+//        $(container).find('#woz-controls').addClass('hidden');
+//        $(container).find('#fixed-user-test-controls').addClass('hidden');
+//        $(container).find('#task-controls .read-aloud-icon').removeClass('hidden');
+
+        $(container).find('#btn-read-out-task').addClass('hidden');
+        $(container).find('#fixed-user-test-controls').removeClass('hidden');
+        $(container).find('#woz-controls').removeClass('hidden');
+        $(container).find('#task-controls .read-aloud-icon').addClass('hidden');
+        wobble([container.find('#woz-controls')]);
 
         // task assessment section
         renderTaskAssessment();
+
+        currentSimulationState = STATE_SIMULATOR_RECORD;
+
+        if (data.tasks && data.tasks.length > 0) {
+            $(container).find('#scenario-controls #task').text(currentScenarioTask.task);
+            $(container).find('#scenario-controls #task-headline').text(translation.task + ' ' + (currentScenarioTaskIndex + 1) + ' ' + translation.of + ' ' + data.tasks.length);
+        }
 
         //woz section
         if (!previewModeEnabled) {
             if (peerConnection && peerConnection.isWizardConnected()) {
                 $(container).find('#btn-reset-scenes').remove();
                 $(container).find('#woz-controls').remove();
-
-                if (data.tasks && data.tasks.length > 0) {
-                    $(container).find('#assessment-controls #task').text(currentScenarioTask.task);
-                    $(container).find('#assessment-controls .headline').text(translation.task + ' ' + (currentScenarioTaskIndex + 1) + ' ' + translation.of + ' ' + data.tasks.length);
-                }
 
                 $(peerConnection).unbind(MESSAGE_UPDATE_SCENARIO).bind(MESSAGE_UPDATE_SCENARIO, function (event, payload) {
                     event.preventDefault();
@@ -193,15 +339,13 @@ UserTest.prototype.renderModeratorView = function () {
         // help section
         renderHelp();
 
-
         if (checkedScenes.single === true && checkedScenes.pidoco && checkedScenes.pidoco === true) {
             $(container).find('#btn-reset-scenes').remove();
         }
-        wobble([container.find('#scenario-controls')]);
 
         $(container).find('#btn-reset-scenes').unbind('click').bind('click', function (event) {
             event.preventDefault();
-//            if (!$(this).hasClass('disabled')) {
+
             currentWOZScene = getSceneById(data.scene);
             currentScenarioTask = data.tasks[0];
             currentScenarioTaskIndex = 0;
@@ -238,25 +382,17 @@ UserTest.prototype.renderModeratorView = function () {
     function renderStateNoTasksLeft() {
         console.log('render moderator state: ', currentPhaseState);
 
+        clearAlerts($(container).find('#wozExperiment'));
         $(container).find('#scenario-controls').addClass('hidden');
-//        appendAlert(container, ALERT_QUIT_SCREENSHARING);
-
-//        $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
-//        $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
-//            event.preventDefault();
-//            if (!$(this).hasClass('disabled')) {
         if (peerConnection) {
             peerConnection.stopShareScreen(true);
             peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
         }
-//        $(this).addClass('hidden');
 
         if (prototypeWindow) {
             prototypeWindow.close();
             prototypeWindow = null;
         }
-//            }
-//        });
 
         currentPhaseState = 'usertestDone';
         renderCurrentPhaseState();
@@ -265,19 +401,33 @@ UserTest.prototype.renderModeratorView = function () {
     function renderStateUsertestDone() {
         console.log('render moderator state: ', currentPhaseState);
 
-//        clearAlerts($(container).find('#column-right'));
-//        appendAlert(container, ALERT_PHASE_STEP_DONE);
+        // save recorded simulation data;
+        var commitData = getLocalItem(SIMULATION_RECORDING);
+        if (!previewModeEnabled && commitData && commitData.track && commitData.track.length > 0) {
+            var study = getLocalItem(STUDY);
+            commitData.source = 'studyExecution';
+            saveGestureSetSimulation({gestureSetId: study.savedStudyGestureSet.id, title: study.title.trim(), data: commitData}, function (result) {
+                if (result.status === RESULT_SUCCESS) {
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.recordedGestureSimulation = {id: result.id, data: getLocalItem(SIMULATION_RECORDING), source: 'studyExecution'};
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                }
 
-        $(container).find('#scene-container').addClass('hidden');
-        $(container).find('#btn-stop-screen-sharing').addClass('hidden');
-//        $(container).find('#btn-done-scenario').removeClass('hidden');
-//        $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
-//            event.preventDefault();
-        if (peerConnection) {
-            peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                removeLocalItem(SIMULATION_RECORDING);
+                gotoNextStep();
+            });
+        } else {
+            gotoNextStep();
         }
-        nextStep();
-//        });
+
+        function gotoNextStep() {
+            $(container).find('#scene-container').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').addClass('hidden');
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            }
+            nextStep();
+        }
     }
 
     return container;
@@ -291,10 +441,11 @@ UserTest.prototype.renderModeratorView = function () {
 
 
     // state independant functions
-
     function renderTaskAssessment() {
         if (!$.isEmptyObject(data.taskAssessments)) {
-            $(container).find('#assessment-controls-container').empty();
+            var assessmentContainer = $(container).find('#assessment-controls-container');
+            $(assessmentContainer).find('.option-container').empty();
+            var fixedUserTestControlButtons = $(container).find('#fixed-user-test-controls');
 
             for (var assessment in data.taskAssessments) {
                 var assessmentButton = document.createElement('button');
@@ -304,12 +455,46 @@ UserTest.prototype.renderModeratorView = function () {
                 $(assessmentButton).attr('data-color', data.taskAssessments[assessment].annotationColor);
                 $(assessmentButton).html("<span style='color: " + translation.annotationColors[data.taskAssessments[assessment].annotationColor].hex + "'>&#9679;</span> " + data.taskAssessments[assessment].title);
                 $(assessmentButton).addClass('btn btn-default btn-shadow btn-assessment');
-                $(assessmentButton).css({marginRight: '6px', marginBottom: '6px'});
-                $(container).find('#assessment-controls-container').append(assessmentButton);
+                $(assessmentButton).css({display: 'block', marginBottom: '5px', width: '100%'});
+                $(assessmentContainer).find('.option-container').append(assessmentButton);
             }
 
+            var timeline = null;
+
+            setTimeout(function () {
+                $(assessmentContainer).css({right: '-' + $(assessmentContainer).outerWidth() + 'px'});
+                console.log($(assessmentContainer).outerWidth())
+
+                timeline = new TimelineMax({paused: true, onStart: function () {
+                        $(assessmentContainer).removeClass('hidden');
+                        TweenMax.to(fixedUserTestControlButtons, .1, {opacity: 0, x: +20});
+                    }, onReverseComplete: function () {
+                        TweenMax.to(fixedUserTestControlButtons, .1, {opacity: 1, x: 0});
+                        $(assessmentContainer).addClass('hidden');
+                    }});
+
+                timeline.add("tween", 0)
+                        .to(assessmentContainer, .1, {right: '0px', opacity: 1, ease: Quad.easeInOut});
+
+                var showTaskAssessmentsButton = $(fixedUserTestControlButtons).find('#btn-show-assessment-controls');
+                $(showTaskAssessmentsButton).unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    timeline.play();
+                });
+
+//                $(assessmentContainer).unbind('mouseleave').bind('mouseleave', function (event) {
+//                    event.preventDefault();
+//                    timeline.reverse();
+//                });
+
+                $(assessmentContainer).find('#btn-close-assessment-controls').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    timeline.reverse();
+                });
+            }, 500);
+
+
             function checkAssessment(trigger) {
-//                console.log('CHECK ASSESSMENT:', currentScenarioTaskIndex, trigger);
                 switch (trigger) {
                     case 'nextTask':
                         if (currentScenarioTaskIndex < data.tasks.length - 1) {
@@ -319,8 +504,6 @@ UserTest.prototype.renderModeratorView = function () {
 
                             if (!previewModeEnabled && peerConnection && peerConnection.isWizardConnected()) {
                                 peerConnection.sendMessage(MESSAGE_UPDATE_SCENARIO, {currentScenarioTaskIndex: currentScenarioTaskIndex});
-                                currentPhaseState = 'usertestStarted';
-                                renderCurrentPhaseState();
                             } else {
                                 if (prototypeWindow && prototypeWindow.closed !== true) {
                                     if (!previewModeEnabled) {
@@ -331,14 +514,14 @@ UserTest.prototype.renderModeratorView = function () {
                                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                                         });
                                     }
-                                    openPrototypeScene(currentWOZScene, checkedScenes.single);
-//                                    prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
-                                }
 
-                                renderWOZ();
+                                    openPrototypeScene(currentWOZScene, checkedScenes.single);
+                                }
                             }
 
-                            renderHelp();
+                            timeline.reverse();
+                            currentPhaseState = 'usertestStarted';
+                            renderCurrentPhaseState();
                         } else {
                             currentPhaseState = 'noTasksLeft';
                             if (!previewModeEnabled && peerConnection && peerConnection.isWizardConnected()) {
@@ -362,11 +545,12 @@ UserTest.prototype.renderModeratorView = function () {
                 var trigger = $(this).attr('data-trigger');
                 var assessmentId = $(this).attr('data-assessment-id');
                 var annotationColor = $(this).attr('data-color');
+                var assessmentType = $(this).attr('data-assessment-type');
 
                 if (!previewModeEnabled) {
                     getGMT(function (timestamp) {
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ASSESSMENT, assessmentId: assessmentId, taskId: currentScenarioTask.id, annotationColor: annotationColor, time: timestamp});
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ASSESSMENT, assessmentId: assessmentId, taskId: currentScenarioTask.id, annotationColor: annotationColor, assessmentType: assessmentType, time: timestamp});
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                         checkAssessment(trigger);
                     });
@@ -375,13 +559,13 @@ UserTest.prototype.renderModeratorView = function () {
                 }
             });
         } else {
+            $(container).find('#btn-show-assessment-controls').addClass('disabled');
             appendAlert($(container).find('#assessment-controls'), ALERT_NO_PHASE_DATA);
         }
     }
 
     function renderWOZ() {
         function checkTransitionScenes(scenesContainer) {
-
             var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
             var leftFeedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback').not('.btn-primary');
             if (leftFeedbackButtons.length === 1) {
@@ -416,7 +600,6 @@ UserTest.prototype.renderModeratorView = function () {
                         $(feedbackButton).find('#waiting-indicator').addClass('hidden');
 
                         getGMT(function (timestamp) {
-//                            var currentPhase = getCurrentPhase();
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_FEEDBACK, feeback: feedback, time: timestamp});
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -424,7 +607,6 @@ UserTest.prototype.renderModeratorView = function () {
                     });
 
                     getGMT(function (timestamp) {
-//                        var currentPhase = getCurrentPhase();
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_FEEDBACK, feeback: feedback, time: timestamp});
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -440,12 +622,13 @@ UserTest.prototype.renderModeratorView = function () {
             if (transitionsLength === 1) {
                 // this scene has no follow scene, maybe a pidoco prototype
                 if (currentWOZScene.type === SCENE_PIDOCO) {
-                    var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
-                    sendGesture(gestureId);
+//                    var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
+//                    sendGesture(gestureId);
                 } else {
                     // if scene has no follow scene and is not a pidoco prototype: delete items
                     $(container).find('.woz-container').empty();
-                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_MORE_WOZ_STATES);
+                    $(container).find('#btn-show-assessment-controls').click();
                     renderHelp();
                 }
             } else if (transitionsLength > 2) {
@@ -486,7 +669,7 @@ UserTest.prototype.renderModeratorView = function () {
                 renderHelp();
             }
 
-            console.log('renderFollowScene:', currentWOZScene, prototypeWindow);
+
             if (prototypeWindow && prototypeWindow.closed !== true) {
                 if (!previewModeEnabled) {
                     getGMT(function (timestamp) {
@@ -505,16 +688,16 @@ UserTest.prototype.renderModeratorView = function () {
 
             if (currentScenarioTask.woz) {
                 var wozData = getWOZItemsForSceneId(currentScenarioTask.woz, currentWOZScene.id);
-//                console.log('woz data', wozData, currentWOZScene);
                 removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
                 $(container).find('.woz-container').empty();
-                if (wozData && wozData.length > 0) {
 
+                if (wozData && wozData.length > 0) {
                     for (var i = 0; i < wozData.length; i++) {
                         var transitionScenes = wozData[i].transitionScenes;
                         var item = $(source).find('#wozItemWithScenes').clone().removeAttr('id');
                         item.find('#btn-trigger-woz').attr('data-gesture-id', wozData[i].gestureId);
-                        $(container).find('.woz-container').append(item);
+                        $(item).attr('data-trigger-id', wozData[i].triggerId);
+                        $(item).attr('data-continuous-value-type', wozData[i].continuousValueType);
 
                         if (transitionScenes.length > 1) {
                             var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
@@ -553,7 +736,6 @@ UserTest.prototype.renderModeratorView = function () {
 
                         if (wozData[i].feedbackId !== 'none') {
                             $(item).find('#transition-feedback').removeClass('hidden');
-//                            $(item).find('#transition-feedback-header, #transition-feedback-container').removeClass('hidden');
                             var feedback = getFeedbackById(wozData[i].feedbackId);
                             var feedbackButton = getWOZTransitionFeedbackItem(source, feedback, wozData[i].feedbackTransitionMode, wozData[i].feedbackTransitionTime, !scenarioStartTriggered && !scenarioPrototypeOpened, false);
                             $(item).find('#transition-feedback-container').empty().append(feedbackButton);
@@ -561,56 +743,75 @@ UserTest.prototype.renderModeratorView = function () {
                         }
 
                         var gesture = getGestureById(wozData[i].gestureId);
-                        if (gesture) {
-                            renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
-                            $(item).find('.previewGesture').attr('id', gesture.id);
-                            checkGestureUI(item, wozData[i]);
-
-                            if (gesture.type && gesture.interactionType) {
-                                item.find('.symbol-gesture-execution').addClass(gesture.type);
-                                item.find('.symbol-container-gesture-execution').attr('data-content', translation.gestureTypes[gesture.type + 's'] + ' ' + translation.gestureType);
-                                item.find('.text-gesture-execution').text(translation.gestureTypes[gesture.type + 'Short']);
-                                item.find('.symbol-gesture-interaction').addClass(gesture.interactionType);
-                                item.find('.symbol-container-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[gesture.interactionType + 's'] + ' ' + translation.gestureInteraction);
-                                item.find('.text-gesture-interaction').text(translation.gestureInteractionTypes[gesture.interactionType + 'Short']);
-                            } else {
-                                item.find('.gesture-info-symbols').addClass('hidden');
+                        if (wozData[i].useEventBus === 'yes') {
+                            var gestureThumbnail = getGestureCatalogListThumbnail(gesture, 'gesture-simulation-catalog-thumbnail', 'col-xs-12 col-sm-6 col-md-4');
+                            $(gestureThumbnail).attr('data-trigger-id', wozData[i].triggerId);
+                            $(gestureThumbnail).attr('data-continuous-value-type', wozData[i].continuousValueType);
+                            $(container).find('.woz-container').append(gestureThumbnail);
+                            currentStudyExecutionGestureSetId = getLocalItem(STUDY).savedStudyGestureSet.id;
+                            checkGestureUI(gestureThumbnail, wozData[i]);
+                        } else {
+                            $(container).find('.woz-container').append(item);
+                            if (transitionScenes.length <= 2) {
+                                $(item).removeClass('col-xs-12 col-lg-12').addClass('col-xs-6 col-md-4');
+                                $(item).find('.transition-scenes').addClass('hidden').prev().removeClass('col-xs-5 col-sm-6 col-md-4').addClass('col-xs-12');
                             }
-                            initPopover();
 
-                            TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
+                            if (gesture) {
+                                renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+                                $(item).find('.previewGesture').attr('id', gesture.id);
+                                $(item).find('.previewGesture').addClass('btn-trigger-woz').attr('data-gesture-id', gesture.id);
+                                checkGestureUI(item, wozData[i]);
+
+                                if (gesture.type && gesture.interactionType) {
+                                    item.find('.symbol-gesture-execution').addClass(gesture.type);
+                                    item.find('.symbol-container-gesture-execution').attr('data-content', translation.gestureTypes[gesture.type + 's'] + ' ' + translation.gestureType);
+                                    item.find('.text-gesture-execution').text(translation.gestureTypes[gesture.type + 'Short']);
+                                    item.find('.symbol-gesture-interaction').addClass(gesture.interactionType);
+                                    item.find('.symbol-container-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[gesture.interactionType + 's'] + ' ' + translation.gestureInteraction);
+                                    item.find('.text-gesture-interaction').text(translation.gestureInteractionTypes[gesture.interactionType + 'Short']);
+                                } else {
+                                    item.find('.gesture-info-symbols').addClass('hidden');
+                                }
+                                initPopover();
+
+                                TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
+                            }
+
+                            item.find('#btn-trigger-woz, .btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
+                                event.preventDefault();
+                                var button = $(this);
+                                if (!$(button).hasClass('disabled')) {
+                                    $(button).addClass('disabled');
+                                    var gesture = getGestureById($(this).attr('data-gesture-id'));
+                                    var triggerId = $(this).closest('.root').attr('data-trigger-id');
+
+                                    getGMT(function (timestamp) {
+                                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, triggerId: triggerId, time: timestamp});
+                                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+
+                                        commitSimulationData({gestureId: gesture.id, triggerId: triggerId, continuousValueType: 'none'});
+                                        checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+                                    });
+                                }
+                            });
+
+                            item.find('.btn-trigger-scene, .btn-trigger-feedback').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
+                                event.preventDefault();
+                                if (!$(this).hasClass('disabled') && !$(this).hasClass('btn-primary')) {
+                                    var button = $(this);
+                                    $(button).closest('.root').find('#btn-trigger-woz').addClass('disabled');
+                                    checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+                                }
+                            });
                         }
 
-                        item.find('#btn-trigger-woz, .btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
-                            event.preventDefault();
-                            var button = $(this);
-                            if (!$(button).hasClass('disabled')) {
-                                $(button).addClass('disabled');
-                                checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
-                            }
-//                            else {
-//                                if (!scenarioStartTriggered) {
-//                                    $(document).scrollTop(0);
-//                                    wobble(container.find('#general'));
-//                                }
-//                            }
-                        });
-
-                        item.find('.btn-trigger-scene, .btn-trigger-feedback').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled') && !$(this).hasClass('btn-primary')) {
-                                var button = $(this);
-                                $(button).closest('.root').find('#btn-trigger-woz').addClass('disabled');
-                                checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
-                            }
-                        });
-
-//                        if (scenarioPrototypeOpened) {
                         $(item).find('.disabled').removeClass('disabled');
-//                        }
                     }
                 } else {
-                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+                    $(container).find('#btn-show-assessment-controls').click();
+                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_MORE_WOZ_STATES);
                 }
             }
         } else {
@@ -619,238 +820,179 @@ UserTest.prototype.renderModeratorView = function () {
     }
 
     function renderHelp() {
+        if (peerConnection) {
+            peerConnection.sendMessage(MESSAGE_CLOSE_HELP);
+            triggeredHelp = null;
+        }
+
         var helpData = filterHelpDataForCurrentTask(data.help, currentScenarioTask.id, currentWOZScene.id);
         $(container).find('.help-container').empty();
         removeAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
 
         if (helpData && helpData.length > 0) {
+            $(container).find('#btn-show-help-controls').removeClass('disabled');
+            var helpContainer = $(container).find('#help-controls-container').removeClass('hidden');
+            $(helpContainer).find('.option-container').empty();
 
             for (var i = 0; i < helpData.length; i++) {
                 var item = $(source).find('#helpItem').clone();
                 item.removeAttr('id');
                 item.find('.help-title').text((i + 1) + ". " + helpData[i].option);
-                $(container).find('.help-container').append(item);
+                item.find('#offer-help').attr('data-offer-gesture-help', helpData[i].useGestureHelp && (helpData[i].useGestureHelp === 'true' || helpData[i].useGestureHelp === true) ? true : false);
+                $(helpContainer).find('.option-container').append(item);
 
                 item.find('#offer-help').unbind('click').bind('click', {helpData: helpData[i]}, function (event) {
                     event.preventDefault();
                     var button = $(this);
 
-                    if (!$(this).hasClass('disabled')) {
+                    if (!$(button).hasClass('disabled')) {
                         triggeredHelp = event.data.helpData;
-                        if (peerConnection) {
-                            $(peerConnection).unbind(MESSAGE_HELP_PRESENT).bind(MESSAGE_HELP_PRESET, function () {
-//                                console.log('HELP PRESENT');
-                                $(button).addClass('helpOffered');
-                                unlockButton(button, true, 'fa-life-ring');
-                                $(button).removeClass('btn-info').addClass('btn-danger');
-                                $(button).find('.fa').removeClass('fa-life-ring').addClass('fa-close');
-                                $(button).text(translation.closeHelp);
-                            });
+                        lockButton(button, true, 'fa-life-ring');
 
-                            $(peerConnection).unbind(MESSAGE_HELP_CLOSED).bind(MESSAGE_HELP_CLOSED, function () {
-//                                console.log('HELP CLOSED');
-                                $(button).removeClass('helpOffered');
-                                unlockButton(button, true, 'fa-close');
-                                $(button).removeClass('btn-danger').addClass('btn-info');
-                                $(button).find('.fa').removeClass('fa-close').addClass('fa-life-ring');
-                                $(button).text(translation.offerHelp);
-                            });
+                        if ($(button).hasClass('helpOffered')) {
+                            lockButton(button, true, 'fa-close');
 
-                            if ($(button).hasClass('helpOffered')) {
+                            if (peerConnection) {
+                                $(peerConnection).unbind(MESSAGE_HELP_CLOSED).bind(MESSAGE_HELP_CLOSED, function () {
+                                    $(peerConnection).unbind(MESSAGE_HELP_CLOSED);
+                                    setHelpClosedState();
+                                });
                                 peerConnection.sendMessage(MESSAGE_CLOSE_HELP);
-                                lockButton(button, true, 'fa-close');
                             } else {
+                                setHelpClosedState();
+                            }
+                        } else {
+                            lockButton(button, true, 'fa-life-ring');
+
+                            if (peerConnection) {
+                                $(peerConnection).unbind(MESSAGE_HELP_PRESENT).bind(MESSAGE_HELP_PRESENT, function () {
+                                    $(peerConnection).unbind(MESSAGE_HELP_PRESENT);
+                                    setHelpOfferedState();
+                                });
                                 peerConnection.sendMessage(MESSAGE_TRIGGER_HELP, {help: triggeredHelp});
-                                lockButton(button, true, 'fa-life-ring');
 
                                 getGMT(function (timestamp) {
                                     var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                                     tempData.annotations.push({id: tempData.annotations.length, action: ACTION_REQUEST_HELP, time: timestamp});
                                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                                 });
+                            } else {
+                                setHelpOfferedState();
                             }
                         }
-                    } else {
-//                        if (!scenarioStartTriggered) {
-//                            $(document).scrollTop(0);
-//                            wobble(container.find('#general'));
-//                        }
+                    }
+
+                    function setHelpOfferedState() {
+                        // reset all offer help buttons
+                        var buttons = $(button).closest('.option-container').find('.helpOffered');
+                        $(buttons).removeClass('helpOffered');
+                        unlockButton(buttons, true, 'fa-close');
+                        $(buttons).find('.fa').removeClass('fa-close').addClass('fa-life-ring');
+                        $(buttons).find('.btn-text').text(translation.offerHelp);
+
+                        // set button to help offered
+                        $(button).addClass('helpOffered');
+                        unlockButton(button, true, 'fa-life-ring');
+                        $(button).find('.fa').removeClass('fa-life-ring').addClass('fa-close');
+                        $(button).find('.btn-text').text(translation.closeHelp);
+                        $(button).attr('data-content', translation.tooltips.execution.unofferHelpText).popover('hide').data('bs.popover').setContent();
+                    }
+
+                    function setHelpClosedState() {
+                        console.log('triggered help', triggeredHelp);
+                        if ($(button).attr('data-offer-gesture-help') === 'true') {
+                            $(button).attr('data-content', translation.tooltips.execution.offerHelpTextGesture).popover('hide').data('bs.popover').setContent();
+                        } else {
+                            $(button).attr('data-content', translation.tooltips.execution.offerHelpText).popover('hide').data('bs.popover').setContent();
+                        }
+
+                        triggeredHelp = null;
+                        $(button).removeClass('helpOffered');
+                        unlockButton(button, true, 'fa-close');
+                        $(button).find('.fa').removeClass('fa-close').addClass('fa-life-ring');
+                        $(button).find('.btn-text').text(translation.offerHelp);
                     }
                 });
+
                 if (helpData[i].useGestureHelp === true || helpData[i].useGestureHelp === 'true') {
-                    var gesture = getGestureById(helpData[i].gestureId);
-                    item.find('.btn-popover-gesture-preview').removeClass('hidden');
-                    item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+                    item.find('#offer-help').attr('data-content', translation.tooltips.execution.offerHelpTextGesture);
+                    item.find('#btn-gesture-preview').removeClass('hidden');
+
+                    $(item).find('#btn-gesture-preview').unbind('mouseenter').bind('mouseenter', {gestureId: helpData[i].gestureId}, function (event) {
+                        event.preventDefault();
+
+                        var gesture = getGestureById(event.data.gestureId);
+                        var popoverAnker = $(this);
+
+                        renderGesturePopoverPreview(gesture, function () {
+                            var popover = $('#popover-gesture');
+                            var top = $(popoverAnker).offset().top - popover.height() - 2;
+                            var left = $(popoverAnker).offset().left + parseInt(((popoverAnker.width() - popover.width()) / 2)) + 10;
+                            popover.css({left: left, top: top});
+                            playThroughThumbnails(popover.find('.previewGesture'));
+                            TweenMax.to(popover, .3, {autoAlpha: 1});
+                        });
+                    });
+
+                    $(item).find('#btn-gesture-preview').unbind('mouseleave').bind('mouseleave', function (event) {
+                        $(this).popover('hide');
+                        resetGesturePopover();
+                    });
                 } else {
-                    item.find('.btn-popover-gesture-preview').remove();
+                    item.find('#btn-gesture-preview').remove();
                 }
 
-//                if (scenarioPrototypeOpened && scenarioStartTriggered) {
-//                    item.find('#offer-help').removeClass('disabled');
-//                }
+                initPopover();
             }
+
+            setTimeout(function () {
+                var fixedUserTestControlButtons = $(container).find('#fixed-user-test-controls');
+
+                $(helpContainer).css({right: '-' + $(helpContainer).outerWidth() + 'px'});
+                var timeline = new TimelineMax({paused: true, onStart: function () {
+                        $(helpContainer).removeClass('hidden');
+                        TweenMax.to(fixedUserTestControlButtons, .1, {opacity: 0, x: +20});
+                    }, onReverseComplete: function () {
+                        TweenMax.to(fixedUserTestControlButtons, .1, {opacity: 1, x: 0});
+                        $(helpContainer).addClass('hidden');
+                    }});
+
+                timeline.add("tween", 0)
+                        .to(helpContainer, .1, {right: '0px', opacity: 1, ease: Quad.easeInOut});
+
+                var showHelpButton = $(fixedUserTestControlButtons).find('#btn-show-help-controls');
+                $(showHelpButton).unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
+                        timeline.play();
+                    }
+                });
+
+//                $(helpContainer).unbind('mouseleave').bind('mouseleave', function (event) {
+//                    event.preventDefault();
+//                    timeline.reverse();
+//                });
+
+                $(helpContainer).find('#btn-close-help-controls').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    timeline.reverse();
+                    peerConnection.sendMessage(MESSAGE_CLOSE_HELP);
+                });
+            }, 500);
         } else {
-            appendAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
+            console.log('no help data');
+            $(container).find('#btn-show-help-controls').addClass('disabled');
         }
     }
 
-//    function enableScenarioControls(container) {
-//        $(container).find('#general #description').closest('.read-aloud').remove();
-//        $(container).find('#general').addClass('hidden');
-//
-//        var wozItems = $(container).find('.woz-container .disabled');
-//        wozItems.removeClass('disabled');
-//
-//        var sliders = $(container).find('.woz-container #continuous-slider');
-//        $(sliders).slider('enable');
-//
-//        var helpItems = $(container).find('.help-container .disabled');
-//        helpItems.removeClass('disabled');
-//    }
-
     function checkGestureUI(item, wozData) {
-        var currentActiveBtn = $(item).find('.btn-primary').last();
-        var gesture = getGestureById($(item).find('.previewGesture').attr('id'));
-//        console.log('gesture', gesture, wozData, currentActiveBtn, $(currentActiveBtn).attr('data-transition-scene-id'));
-        if (gesture) {
-
-            // find current active transition id for this woz element
-            var activeTransitionScene = null;
-            for (var i = 0; i < wozData.transitionScenes.length; i++) {
-                if (parseInt(wozData.transitionScenes[i].sceneId) === parseInt($(currentActiveBtn).attr('data-transition-scene-id'))) {
-                    activeTransitionScene = wozData.transitionScenes[i];
-                }
-            }
-
-//            console.log('activeTransitionScene', activeTransitionScene);
-            var scene = getSceneById(activeTransitionScene.sceneId);
-
-            if (activeTransitionScene.useEventBus === 'yes' && scene.type === SCENE_PIDOCO) {
-
-                Moderator.initMousePositionFunctionalities();
-                console.log('show event bus specific controls');
-//            var sceneType = $(currentActiveBtn).attr('data-scene-type');
-//                console.log('sceneType', scene.type);
-
-                if (activeTransitionScene.continuousValueType === 'none') {
-                    if (gesture.type === TYPE_GESTURE_POSE && gesture.interactionType === TYPE_GESTURE_CONTINUOUS) {
-                        $(item).find('#btn-trigger-woz').remove();
-                        $(item).find('#control-continuous-slider').remove();
-                        $(item).find('.continuous-gesture-controls').remove();
-                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-                        $(item).find('.static-continuous-controls').removeClass('hidden');
-
-                        var staticContinuousTimer = null;
-                        $(item).find('.btn-start-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled')) {
-                                $(this).addClass('disabled');
-                                $(this).closest('.static-continuous-controls').find('.btn-stop-static-continuous-gesture').removeClass('disabled');
-                                staticContinuousTimer = setInterval(function () {
-                                    sendGesture(gesture.id);
-                                }, 500);
-                            }
-                        });
-
-                        $(item).find('.btn-stop-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled')) {
-                                $(this).addClass('disabled');
-                                $(this).closest('.static-continuous-controls').find('.btn-start-static-continuous-gesture').removeClass('disabled');
-                                if (staticContinuousTimer) {
-                                    clearInterval(staticContinuousTimer);
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    $(item).find('#btn-trigger-woz').remove();
-                    $(item).find('.static-continuous-controls').remove();
-
-                    if (activeTransitionScene.continuousValueType === 'percent') {
-                        $(item).find('#control-continuous-slider').removeClass('hidden');
-                        $(item).find('.continuous-gesture-controls').removeClass('hidden');
-                        $(item).find('#control-continuous-slider-status').removeClass('hidden');
-                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-
-                        var continuousSlider = $(item).find('#control-continuous-slider #continuous-slider');
-
-                        var sliderOptions = {
-                            value: 0,
-                            min: 0,
-                            max: 100,
-                            enabled: true
-                        };
-
-                        $(continuousSlider).slider(sliderOptions);
-                        $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
-                            event.preventDefault();
-                            var inverted = $(this).hasClass('inverted');
-                            var percent = parseInt(event.value.newValue);
-                            var imagePercent = inverted ? (100 - percent) : percent;
-                            var gestureId = event.data.gesture.id;
-                            $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
-                            var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
-                            $(gestureImages).removeClass('active').addClass('hidden');
-                            $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
-                            sendContinuousGesture(gestureId, percent);
-                        });
-
-                        var invertValuesButton = $(item).find('.btn-invert-slider-values');
-                        $(invertValuesButton).unbind('click').bind('click', {slider: continuousSlider}, function (event) {
-                            event.preventDefault();
-                            $(this).popover('hide');
-                            if ($(event.data.slider).hasClass('inverted')) {
-                                $(event.data.slider).removeClass('inverted');
-                                $(this).attr('data-content', translation.tooltips.execution.valuesNotInverted);
-                                TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#fff"});
-                            } else {
-                                $(event.data.slider).addClass('inverted');
-                                $(this).attr('data-content', translation.tooltips.execution.valuesInverted);
-                                TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#5bc0de"});
-                            }
-                        });
-
-                        if (wozData.invertValues === 'yes') {
-                            $(invertValuesButton).click();
-                        }
-
-                        initPopover();
-                    } else if (activeTransitionScene.continuousValueType === 'position') {
-                        $(item).find('#control-continuous-slider').remove();
-                        $(item).find('.continuous-gesture-controls').remove();
-                        var toggleButton = $(item).find('.btn-trigger-continuous-mouse-manipulation');
-                        var wozContainer = $(toggleButton).closest('.woz-container');
-                        $(toggleButton).removeClass('hidden');
-                        $(toggleButton).unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled')) {
-                                if ($(this).attr('data-activated') === 'true') {
-                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').attr('data-activated', false);
-                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').removeClass('btn-success');
-                                    continuousMouseManipluationGesture = null;
-                                } else {
-                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').attr('data-activated', false);
-                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').removeClass('btn-success');
-                                    $(this).attr('data-activated', true);
-                                    $(this).addClass('btn-success');
-                                    continuousMouseManipluationGesture = event.data.gestureId;
-                                }
-                            }
-                        });
-                    } else {
-                        $(item).find('#control-continuous-slider').remove();
-                        $(item).find('.continuous-gesture-controls').remove();
-                        $(item).find('.static-continuous-controls').remove();
-                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-                    }
-                }
-            } else {
-                $(item).find('#control-continuous-slider').remove();
-                $(item).find('.continuous-gesture-controls').remove();
-                $(item).find('.static-continuous-controls').remove();
-                $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-            }
+        if (currentWOZScene.type === SCENE_PIDOCO && wozData.useEventBus === 'yes') {
+            updateGestureSimluationThumbnail(wozData.gestureId, $(item).closest('.woz-container'), true, wozData.continuousValueType, true);
+        } else {
+            $(item).find('#control-continuous-slider').remove();
+            $(item).find('.continuous-gesture-controls').remove();
+            $(item).find('.static-continuous-controls').remove();
+            $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
         }
     }
 
@@ -903,6 +1045,7 @@ UserTest.prototype.renderTesterView = function () {
                 renderStatePrototypeOpened();
                 break;
             case 'usertestStarted':
+            case 'solveTask':
                 renderStateUsertestStarted();
                 break;
             case 'noTasksLeft':
@@ -986,7 +1129,7 @@ UserTest.prototype.renderTesterView = function () {
         if (previewModeEnabled && currentWOZScene) {
             // render scene manually
             var sceneItem = renderSceneItem(source, container, currentWOZScene.id);
-            console.log(sceneItem);
+//            console.log(sceneItem);
         }
     }
 
@@ -998,7 +1141,7 @@ UserTest.prototype.renderTesterView = function () {
 
     function checkFeedback() {
         if (triggeredFeedback) {
-            console.log(triggeredFeedback);
+//            console.log(triggeredFeedback);
             var hint = appendHint(source, $('body'), triggeredFeedback, TYPE_SURVEY_MODERATED);
             if (hint !== null) {
                 $(hint).on('hint.hidden', function () {
@@ -1065,6 +1208,7 @@ UserTest.prototype.renderObserverView = function () {
                 renderStatePrototypeOpened();
                 break;
             case 'usertestStarted':
+            case 'solveTask':
                 renderStateUsertestStarted();
                 break;
             case 'noTasksLeft':
@@ -1124,7 +1268,7 @@ UserTest.prototype.renderObserverView = function () {
         if (previewModeEnabled && currentWOZScene) {
             // render scene manually
             var sceneItem = renderSceneItem(source, container, currentWOZScene.id);
-            console.log(sceneItem);
+//            console.log(sceneItem);
         }
     }
 
@@ -1177,6 +1321,7 @@ UserTest.prototype.renderWizardView = function () {
                 renderStatePrototypeOpened();
                 break;
             case 'usertestStarted':
+            case 'solveTask':
                 renderStateUsertestStarted();
                 break;
             case 'noTasksLeft':
@@ -1191,7 +1336,7 @@ UserTest.prototype.renderWizardView = function () {
     function renderStateInitialize() {
         console.log('render wizard state: ', currentPhaseState);
 
-        triggeredHelp, triggeredWoz, triggeredFeedback = null;
+        triggeredHelp, triggeredFeedback = null;
         currentWOZScene = getSceneById(data.scene);
         currentScenarioTask = data.tasks[0];
 
@@ -1248,6 +1393,8 @@ UserTest.prototype.renderWizardView = function () {
         console.log('render wizard state: ', currentPhaseState);
         $(container).find('#general').addClass('hidden');
         $(container).find('#scenario-controls').removeClass('hidden');
+
+        currentSimulationState = STATE_SIMULATOR_RECORD;
 
         //woz section
         renderWOZ();
@@ -1308,57 +1455,58 @@ UserTest.prototype.renderWizardView = function () {
 
     function renderStateNoTasksLeft() {
         console.log('render wizard state: ', currentPhaseState);
+
         $(container).find('#scenario-controls').addClass('hidden');
-        appendAlert(container, ALERT_QUIT_SCREENSHARING);
+        if (peerConnection) {
+            peerConnection.stopShareScreen(true);
+            peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
+        }
 
-        $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
-        $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                if (peerConnection) {
-                    peerConnection.stopShareScreen(true);
-                    peerConnection.sendMessage(MESSAGE_STOP_SCREEN_SHARING);
-                }
-                $(this).addClass('hidden');
+        if (prototypeWindow) {
+            prototypeWindow.close();
+            prototypeWindow = null;
+        }
 
-                if (prototypeWindow) {
-                    prototypeWindow.close();
-                    prototypeWindow = null;
-                }
-            }
-
-            currentPhaseState = 'usertestDone';
-            renderCurrentPhaseState();
-        });
+        currentPhaseState = 'usertestDone';
+        renderCurrentPhaseState();
     }
 
     function renderStateUsertestDone() {
         console.log('render wizard state: ', currentPhaseState);
 
-        clearAlerts($(container).find('#column-right'));
-        appendAlert(container, ALERT_PHASE_STEP_DONE);
+        var commitData = getLocalItem(SIMULATION_RECORDING);
+        if (!previewModeEnabled && commitData && commitData.track && commitData.track.length > 0) {
+            var study = getLocalItem(STUDY);
+            commitData.source = 'studyExecution';
+            saveGestureSetSimulation({gestureSetId: study.savedStudyGestureSet.id, title: study.title.trim(), data: commitData}, function (result) {
+                if (result.status === RESULT_SUCCESS) {
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.recordedGestureSimulation = {id: result.id, data: getLocalItem(SIMULATION_RECORDING), source: 'studyExecution'};
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                }
 
-        $(container).find('#btn-done-scenario').removeClass('hidden');
-        $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
-            event.preventDefault();
+                removeLocalItem(SIMULATION_RECORDING);
+                gotoNextStep();
+            });
+        } else {
+            gotoNextStep();
+        }
+
+        function gotoNextStep() {
+            $(container).find('#scene-container').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').addClass('hidden');
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_NEXT_STEP);
             }
             nextStep();
-        });
+        }
     }
 
     return container;
 
+
+
     function renderWOZ() {
-
-        getGMT(function (timestamp) {
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
-//            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-        });
-
         function checkTransitionScenes(scenesContainer) {
             var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
             var leftFeedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback').not('.btn-primary');
@@ -1394,7 +1542,6 @@ UserTest.prototype.renderWizardView = function () {
                         $(feedbackButton).find('#waiting-indicator').addClass('hidden');
 
                         getGMT(function (timestamp) {
-                            var currentPhase = getCurrentPhase();
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_FEEDBACK, feeback: feedback, time: timestamp});
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -1402,7 +1549,6 @@ UserTest.prototype.renderWizardView = function () {
                     });
 
                     getGMT(function (timestamp) {
-                        var currentPhase = getCurrentPhase();
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_FEEDBACK, feeback: feedback, time: timestamp});
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -1418,16 +1564,13 @@ UserTest.prototype.renderWizardView = function () {
             if (transitionsLength === 1) {
                 // this scene has no follow scene, maybe a pidoco prototype
                 if (currentWOZScene.type === SCENE_PIDOCO) {
-                    var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
-                    sendGesture(gestureId);
+//                    var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
+//                    sendGesture(gestureId);
                 } else {
                     // if scene has no follow scene and is not a pidoco prototype: delete items
                     $(container).find('.woz-container').empty();
                     appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
-
-                    if (!previewModeEnabled && peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_UPDATE_SCENARIO, {currentScenarioTaskIndex: currentScenarioTaskIndex});
-                    }
+                    renderHelp();
                 }
             } else if (transitionsLength > 2) {
                 var leftSceneButtons = $(scenesContainer).find('#transition-scene-container').find('.btn-trigger-scene').not('.btn-primary');
@@ -1464,12 +1607,12 @@ UserTest.prototype.renderWizardView = function () {
 
             if (updateControls && updateControls === true) {
                 renderWOZ();
+                renderHelp();
             }
 
-            console.log('renderFollowScene:', currentWOZScene, prototypeWindow);
+
             if (prototypeWindow && prototypeWindow.closed !== true) {
                 if (!previewModeEnabled) {
-                    peerConnection.sendMessage(MESSAGE_UPDATE_SCENARIO, {currentScenarioTaskIndex: currentScenarioTaskIndex});
                     getGMT(function (timestamp) {
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
@@ -1482,19 +1625,20 @@ UserTest.prototype.renderWizardView = function () {
 
         if (data.tasks && data.tasks.length > 0) {
             $(container).find('#assessment-controls #task').text(currentScenarioTask.task);
-            $(container).find('#assessment-controls .headline').text(translation.task + ' ' + (currentScenarioTaskIndex + 1) + ' ' + translation.of + ' ' + data.tasks.length)
+            $(container).find('#assessment-controls .headline').text(translation.task + ' ' + (currentScenarioTaskIndex + 1) + ' ' + translation.of + ' ' + data.tasks.length);
 
             if (currentScenarioTask.woz) {
                 var wozData = getWOZItemsForSceneId(currentScenarioTask.woz, currentWOZScene.id);
-                console.log('woz data', wozData, currentWOZScene);
                 removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
                 $(container).find('.woz-container').empty();
-                if (wozData && wozData.length > 0) {
 
+                if (wozData && wozData.length > 0) {
                     for (var i = 0; i < wozData.length; i++) {
                         var transitionScenes = wozData[i].transitionScenes;
                         var item = $(getSourceContainer(VIEW_MODERATOR)).find('#wozItemWithScenes').clone().removeAttr('id');
-                        $(container).find('.woz-container').append(item);
+                        item.find('#btn-trigger-woz').attr('data-gesture-id', wozData[i].gestureId);
+                        $(item).attr('data-trigger-id', wozData[i].triggerId);
+                        $(item).attr('data-continuous-value-type', wozData[i].continuousValueType);
 
                         if (transitionScenes.length > 1) {
                             var startItem = getWOZTransitionItem(getSourceContainer(VIEW_MODERATOR), transitionScenes[0], false, true);
@@ -1533,7 +1677,6 @@ UserTest.prototype.renderWizardView = function () {
 
                         if (wozData[i].feedbackId !== 'none') {
                             $(item).find('#transition-feedback').removeClass('hidden');
-//                            $(item).find('#transition-feedback-header, #transition-feedback-container').removeClass('hidden');
                             var feedback = getFeedbackById(wozData[i].feedbackId);
                             var feedbackButton = getWOZTransitionFeedbackItem(getSourceContainer(VIEW_MODERATOR), feedback, wozData[i].feedbackTransitionMode, wozData[i].feedbackTransitionTime, !scenarioStartTriggered && !scenarioPrototypeOpened, false);
                             $(item).find('#transition-feedback-container').empty().append(feedbackButton);
@@ -1541,43 +1684,57 @@ UserTest.prototype.renderWizardView = function () {
                         }
 
                         var gesture = getGestureById(wozData[i].gestureId);
-                        if (gesture) {
-                            renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
-                            $(item).find('.previewGesture').attr('id', gesture.id);
-                            checkGestureUI(item, wozData[i]);
+                        if (wozData[i].useEventBus === 'yes') {
+                            var gestureThumbnail = getGestureCatalogListThumbnail(gesture, 'gesture-simulation-catalog-thumbnail', 'col-xs-12 col-sm-6 col-md-4');
+                            $(gestureThumbnail).attr('data-trigger-id', wozData[i].triggerId);
+                            $(gestureThumbnail).attr('data-continuous-value-type', wozData[i].continuousValueType);
+                            $(container).find('.woz-container').append(gestureThumbnail);
+                            currentStudyExecutionGestureSetId = getLocalItem(STUDY).savedStudyGestureSet.id;
+                            checkGestureUI(gestureThumbnail, wozData[i]);
+                        } else {
+                            $(container).find('.woz-container').append(item);
 
-                            if (gesture.type && gesture.interactionType) {
-                                item.find('.symbol-gesture-execution').addClass(gesture.type);
-                                item.find('.symbol-container-gesture-execution').attr('data-content', translation.gestureTypes[gesture.type + 's'] + ' ' + translation.gestureType);
-                                item.find('.text-gesture-execution').text(translation.gestureTypes[gesture.type + 'Short']);
-                                item.find('.symbol-gesture-interaction').addClass(gesture.interactionType);
-                                item.find('.symbol-container-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[gesture.interactionType + 's'] + ' ' + translation.gestureInteraction);
-                                item.find('.text-gesture-interaction').text(translation.gestureInteractionTypes[gesture.interactionType + 'Short']);
-                            } else {
-                                item.find('.gesture-info-symbols').addClass('hidden');
+                            if (gesture) {
+                                renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+                                $(item).find('.previewGesture').attr('id', gesture.id);
+                                checkGestureUI(item, wozData[i]);
+
+                                if (gesture.type && gesture.interactionType) {
+                                    item.find('.symbol-gesture-execution').addClass(gesture.type);
+                                    item.find('.symbol-container-gesture-execution').attr('data-content', translation.gestureTypes[gesture.type + 's'] + ' ' + translation.gestureType);
+                                    item.find('.text-gesture-execution').text(translation.gestureTypes[gesture.type + 'Short']);
+                                    item.find('.symbol-gesture-interaction').addClass(gesture.interactionType);
+                                    item.find('.symbol-container-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[gesture.interactionType + 's'] + ' ' + translation.gestureInteraction);
+                                    item.find('.text-gesture-interaction').text(translation.gestureInteractionTypes[gesture.interactionType + 'Short']);
+                                } else {
+                                    item.find('.gesture-info-symbols').addClass('hidden');
+                                }
+                                initPopover();
+
+                                TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
                             }
-                            initPopover();
 
-                            TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
-                        }
-
-                        item.find('#btn-trigger-woz, .btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
-                            event.preventDefault();
-                            var button = $(this);
-                            if (!$(button).hasClass('disabled')) {
-                                $(button).addClass('disabled');
-                                checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
-                            }
-                        });
-
-                        item.find('.btn-trigger-scene, .btn-trigger-feedback').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled') && !$(this).hasClass('btn-primary')) {
+                            item.find('#btn-trigger-woz, .btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
+                                event.preventDefault();
                                 var button = $(this);
-                                $(button).closest('.root').find('#btn-trigger-woz').addClass('disabled');
-                                checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
-                            }
-                        });
+                                if (!$(button).hasClass('disabled')) {
+                                    $(button).addClass('disabled');
+                                    var gesture = getGestureById($(this).attr('data-gesture-id'));
+                                    var triggerId = $(this).closest('.root').attr('data-trigger-id');
+                                    commitSimulationData({gestureId: gesture.id, triggerId: triggerId, continuousValueType: 'none'});
+                                    checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+                                }
+                            });
+
+                            item.find('.btn-trigger-scene, .btn-trigger-feedback').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
+                                event.preventDefault();
+                                if (!$(this).hasClass('disabled') && !$(this).hasClass('btn-primary')) {
+                                    var button = $(this);
+                                    $(button).closest('.root').find('#btn-trigger-woz').addClass('disabled');
+                                    checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+                                }
+                            });
+                        }
 
                         $(item).find('.disabled').removeClass('disabled');
                     }
@@ -1590,158 +1747,656 @@ UserTest.prototype.renderWizardView = function () {
         }
     }
 
+//    function renderWOZ() {
+//
+//        function checkTransitionScenes(scenesContainer) {
+//            var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
+//            var leftFeedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback').not('.btn-primary');
+//            if (leftFeedbackButtons.length === 1) {
+//                var feedbackButton = $(leftFeedbackButtons).first();
+//                $(feedbackButton).addClass('btn-primary');
+//
+//                var transitionMode = $(feedbackButton).attr('data-transition-mode');
+//                var feedback = getFeedbackById($(feedbackButton).attr('id'));
+//                triggeredFeedback = {id: feedback.id, transitionMode: transitionMode};
+//
+//                if (transitionMode === 'automatically') {
+//                    var transitionTime = parseFloat($(feedbackButton).attr('data-transition-time'));
+//                    var indicator = $(feedbackButton).find('#transition-indicator').removeClass('hidden');
+//                    triggeredFeedback.transitionTime = transitionTime;
+//
+//                    TweenMax.from(indicator, transitionTime, {width: '0px', ease: Linear.easeNone, onComplete: function () {
+//                            $(feedbackButton).find('#waiting-indicator').removeClass('hidden');
+//                            if (previewModeEnabled) {
+//                                checkTransitionScenes(scenesContainer);
+//                            }
+//                            TweenMax.to(indicator, .4, {opacity: 0});
+//                        }});
+//                } else {
+//                    $(feedbackButton).find('#waiting-indicator').removeClass('hidden');
+//                }
+//
+//                if (!previewModeEnabled && peerConnection) {
+//                    $(peerConnection).unbind(MESSAGE_FEEDBACK_HIDDEN).bind(MESSAGE_FEEDBACK_HIDDEN, function (event, payload) {
+//                        if (transitionMode === 'automatically') {
+//                            checkTransitionScenes(scenesContainer);
+//                        }
+//                        $(feedbackButton).find('#waiting-indicator').addClass('hidden');
+//
+//                        getGMT(function (timestamp) {
+//                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_FEEDBACK, feeback: feedback, time: timestamp});
+//                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                        });
+//                    });
+//
+//                    getGMT(function (timestamp) {
+//                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_FEEDBACK, feeback: feedback, time: timestamp});
+//                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                    });
+//
+//                    peerConnection.sendMessage(MESSAGE_TRIGGER_FEEDBACK, {triggeredFeedback: triggeredFeedback});
+//                }
+//                return false;
+//            }
+//
+//
+//            var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
+//            if (transitionsLength === 1) {
+//                // this scene has no follow scene, maybe a pidoco prototype
+//                if (currentWOZScene.type === SCENE_PIDOCO) {
+////                    var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
+////                    sendGesture(gestureId);
+//                } else {
+//                    // if scene has no follow scene and is not a pidoco prototype: delete items
+//                    $(container).find('.woz-container').empty();
+//                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+//                    renderHelp();
+//                }
+//            } else if (transitionsLength > 2) {
+//                var leftSceneButtons = $(scenesContainer).find('#transition-scene-container').find('.btn-trigger-scene').not('.btn-primary');
+//                if (leftSceneButtons.length > 0) {
+//                    var button = $(leftSceneButtons).first();
+//                    currentWOZScene = getSceneById($(button).attr('id'));
+//
+//                    if (transitionsLength - 2 === leftSceneButtons.length) {
+//                        $(button).addClass('btn-primary');
+//                        renderFollowScene(scenesContainer);
+//                    }
+//
+//                    var transitionMode = $(button).attr('data-transition-mode');
+//                    if (transitionMode === 'automatically') {
+//                        var transitionTime = parseFloat($(button).attr('data-transition-time'));
+//                        var indicator = $(button).find('#transition-indicator').removeClass('hidden');
+//                        TweenMax.from(indicator, transitionTime, {width: '0px', ease: Linear.easeNone, onComplete: function () {
+//                                checkTransitionScenes(scenesContainer);
+//                                TweenMax.to(indicator, .4, {opacity: 0});
+//                            }});
+//                    }
+//                } else {
+//                    currentWOZScene = getSceneById($(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').attr('id'));
+//                    renderFollowScene(scenesContainer, true);
+//                }
+//            } else if (transitionsLength === 2) {
+//                currentWOZScene = getSceneById($(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').attr('id'));
+//                renderFollowScene(scenesContainer, true);
+//            }
+//        }
+//
+//        function renderFollowScene(scenesContainer, updateControls) {
+//            $(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').addClass('btn-primary');
+//
+//            if (updateControls && updateControls === true) {
+//                renderWOZ();
+//                renderHelp();
+//            }
+//
+//
+//            if (prototypeWindow && prototypeWindow.closed !== true) {
+//                if (!previewModeEnabled) {
+//                    getGMT(function (timestamp) {
+//                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+//                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                    });
+//                }
+//                prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
+//            }
+//        }
+//
+//        if (data.tasks && data.tasks.length > 0) {
+//            $(container).find('#assessment-controls #task').text(currentScenarioTask.task);
+//            $(container).find('#assessment-controls .headline').text(translation.task + ' ' + (currentScenarioTaskIndex + 1) + ' ' + translation.of + ' ' + data.tasks.length);
+//
+//            if (currentScenarioTask.woz) {
+//                var wozData = getWOZItemsForSceneId(currentScenarioTask.woz, currentWOZScene.id);
+//                removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+//                $(container).find('.woz-container').empty();
+//
+//                if (wozData && wozData.length > 0) {
+//                    for (var i = 0; i < wozData.length; i++) {
+//                        var transitionScenes = wozData[i].transitionScenes;
+//                        var item = $(source).find('#wozItemWithScenes').clone().removeAttr('id');
+//                        item.find('#btn-trigger-woz').attr('data-gesture-id', wozData[i].gestureId);
+//                        $(item).attr('data-trigger-id', wozData[i].triggerId);
+//                        $(item).attr('data-continuous-value-type', wozData[i].continuousValueType);
+//
+//                        if (transitionScenes.length > 1) {
+//                            var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
+//                            $(item).find('#start-scene-container').append(startItem);
+//                            TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
+//
+//                            $(item).find('#follow-scenes').removeClass('hidden');
+//                            var followItem = getWOZTransitionItem(source, transitionScenes[transitionScenes.length - 1], true, false);
+//                            $(item).find('#follow-scene-container').append(followItem);
+//
+//                            if (transitionScenes.length > 2) {
+//                                $(item).find('#transition-scenes').removeClass('hidden');
+//                                for (var j = 1; j < transitionScenes.length - 1; j++) {
+//                                    var itemBetween = getWOZTransitionItem(source, transitionScenes[j], true, false);
+//                                    $(item).find('#transition-scene-container').append(itemBetween);
+//                                    if (j > 1) {
+//                                        $(itemBetween).css({marginTop: '6px'});
+//                                    }
+//
+//                                    if (j < transitionScenes.length - 2) {
+//                                        $(item).find('#transition-scene-container').append(document.createElement('br'));
+//                                    }
+//                                    TweenMax.from(itemBetween, .3, {y: '-10px', opacity: 0, delay: (i + 1) * .1});
+//                                }
+//                                TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: (transitionScenes.length * .1) - .1});
+//                            } else {
+//                                TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: .1});
+//                            }
+//                        } else {
+//                            // render only gesture item
+//                            var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
+//                            $(item).find('#start-scene').removeClass('hidden');
+//                            $(item).find('#start-scene-container').append(startItem);
+//                            TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
+//                        }
+//
+//                        if (wozData[i].feedbackId !== 'none') {
+//                            $(item).find('#transition-feedback').removeClass('hidden');
+//                            var feedback = getFeedbackById(wozData[i].feedbackId);
+//                            var feedbackButton = getWOZTransitionFeedbackItem(source, feedback, wozData[i].feedbackTransitionMode, wozData[i].feedbackTransitionTime, !scenarioStartTriggered && !scenarioPrototypeOpened, false);
+//                            $(item).find('#transition-feedback-container').empty().append(feedbackButton);
+//                            TweenMax.from(feedbackButton, .3, {y: '-10px', opacity: 0, delay: .1});
+//                        }
+//
+//                        var gesture = getGestureById(wozData[i].gestureId);
+//                        if (wozData[i].useEventBus === 'yes') {
+//                            var gestureThumbnail = getGestureCatalogListThumbnail(gesture, 'gesture-simulation-catalog-thumbnail', 'col-xs-12 col-sm-6 col-md-4');
+//                            $(gestureThumbnail).attr('data-trigger-id', wozData[i].triggerId);
+//                            $(gestureThumbnail).attr('data-continuous-value-type', wozData[i].continuousValueType);
+//                            $(container).find('.woz-container').append(gestureThumbnail);
+//                            currentStudyExecutionGestureSetId = getLocalItem(STUDY).savedStudyGestureSet.id;
+//                            checkGestureUI(gestureThumbnail, wozData[i]);
+//                        } else {
+//                            $(container).find('.woz-container').append(item);
+//
+//                            if (gesture) {
+//                                renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+//                                $(item).find('.previewGesture').attr('id', gesture.id);
+//                                checkGestureUI(item, wozData[i]);
+//
+//                                if (gesture.type && gesture.interactionType) {
+//                                    item.find('.symbol-gesture-execution').addClass(gesture.type);
+//                                    item.find('.symbol-container-gesture-execution').attr('data-content', translation.gestureTypes[gesture.type + 's'] + ' ' + translation.gestureType);
+//                                    item.find('.text-gesture-execution').text(translation.gestureTypes[gesture.type + 'Short']);
+//                                    item.find('.symbol-gesture-interaction').addClass(gesture.interactionType);
+//                                    item.find('.symbol-container-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[gesture.interactionType + 's'] + ' ' + translation.gestureInteraction);
+//                                    item.find('.text-gesture-interaction').text(translation.gestureInteractionTypes[gesture.interactionType + 'Short']);
+//                                } else {
+//                                    item.find('.gesture-info-symbols').addClass('hidden');
+//                                }
+//                                initPopover();
+//
+//                                TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
+//                            }
+//
+//                            item.find('#btn-trigger-woz, .btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
+//                                event.preventDefault();
+//                                var button = $(this);
+//                                if (!$(button).hasClass('disabled')) {
+//                                    $(button).addClass('disabled');
+//                                    var gesture = getGestureById($(this).attr('data-gesture-id'));
+//                                    var triggerId = $(this).closest('.root').attr('data-trigger-id');
+//                                    commitSimulationData({gestureId: gesture.id, triggerId: triggerId, continuousValueType: 'none'});
+//                                    checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+//                                }
+//                            });
+//
+//                            item.find('.btn-trigger-scene, .btn-trigger-feedback').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
+//                                event.preventDefault();
+//                                if (!$(this).hasClass('disabled') && !$(this).hasClass('btn-primary')) {
+//                                    var button = $(this);
+//                                    $(button).closest('.root').find('#btn-trigger-woz').addClass('disabled');
+//                                    checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+//                                }
+//                            });
+//                        }
+//
+//                        $(item).find('.disabled').removeClass('disabled');
+//                    }
+//                } else {
+//                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+//                }
+//            }
+//        } else {
+//            appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+//        }
+
+
+
+
+
+
+
+
+
+
+
+
+//        getGMT(function (timestamp) {
+//            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+////            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_TASK, taskId: currentScenarioTask.id, time: timestamp});
+//            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//        });
+//
+//        function checkTransitionScenes(scenesContainer) {
+//            var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
+//            var leftFeedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback').not('.btn-primary');
+//            if (leftFeedbackButtons.length === 1) {
+//                var feedbackButton = $(leftFeedbackButtons).first();
+//                $(feedbackButton).addClass('btn-primary');
+//
+//                var transitionMode = $(feedbackButton).attr('data-transition-mode');
+//                var feedback = getFeedbackById($(feedbackButton).attr('id'));
+//                triggeredFeedback = {id: feedback.id, transitionMode: transitionMode};
+//
+//                if (transitionMode === 'automatically') {
+//                    var transitionTime = parseFloat($(feedbackButton).attr('data-transition-time'));
+//                    var indicator = $(feedbackButton).find('#transition-indicator').removeClass('hidden');
+//                    triggeredFeedback.transitionTime = transitionTime;
+//
+//                    TweenMax.from(indicator, transitionTime, {width: '0px', ease: Linear.easeNone, onComplete: function () {
+//                            $(feedbackButton).find('#waiting-indicator').removeClass('hidden');
+//                            if (previewModeEnabled) {
+//                                checkTransitionScenes(scenesContainer);
+//                            }
+//                            TweenMax.to(indicator, .4, {opacity: 0});
+//                        }});
+//                } else {
+//                    $(feedbackButton).find('#waiting-indicator').removeClass('hidden');
+//                }
+//
+//                if (!previewModeEnabled && peerConnection) {
+//                    $(peerConnection).unbind(MESSAGE_FEEDBACK_HIDDEN).bind(MESSAGE_FEEDBACK_HIDDEN, function (event, payload) {
+//                        if (transitionMode === 'automatically') {
+//                            checkTransitionScenes(scenesContainer);
+//                        }
+//                        $(feedbackButton).find('#waiting-indicator').addClass('hidden');
+//
+//                        getGMT(function (timestamp) {
+//                            var currentPhase = getCurrentPhase();
+//                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_FEEDBACK, feeback: feedback, time: timestamp});
+//                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                        });
+//                    });
+//
+//                    getGMT(function (timestamp) {
+//                        var currentPhase = getCurrentPhase();
+//                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_FEEDBACK, feeback: feedback, time: timestamp});
+//                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                    });
+//
+//                    peerConnection.sendMessage(MESSAGE_TRIGGER_FEEDBACK, {triggeredFeedback: triggeredFeedback});
+//                }
+//                return false;
+//            }
+//
+//
+//            var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
+//            if (transitionsLength === 1) {
+//                // this scene has no follow scene, maybe a pidoco prototype
+//                if (currentWOZScene.type === SCENE_PIDOCO) {
+////                    var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
+////                    sendGesture(gestureId);
+//                } else {
+//                    // if scene has no follow scene and is not a pidoco prototype: delete items
+//                    $(container).find('.woz-container').empty();
+//                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+//
+//                    if (!previewModeEnabled && peerConnection) {
+//                        peerConnection.sendMessage(MESSAGE_UPDATE_SCENARIO, {currentScenarioTaskIndex: currentScenarioTaskIndex});
+//                    }
+//                }
+//            } else if (transitionsLength > 2) {
+//                var leftSceneButtons = $(scenesContainer).find('#transition-scene-container').find('.btn-trigger-scene').not('.btn-primary');
+//                if (leftSceneButtons.length > 0) {
+//                    var button = $(leftSceneButtons).first();
+//                    currentWOZScene = getSceneById($(button).attr('id'));
+//
+//                    if (transitionsLength - 2 === leftSceneButtons.length) {
+//                        $(button).addClass('btn-primary');
+//                        renderFollowScene(scenesContainer);
+//                    }
+//
+//                    var transitionMode = $(button).attr('data-transition-mode');
+//                    if (transitionMode === 'automatically') {
+//                        var transitionTime = parseFloat($(button).attr('data-transition-time'));
+//                        var indicator = $(button).find('#transition-indicator').removeClass('hidden');
+//                        TweenMax.from(indicator, transitionTime, {width: '0px', ease: Linear.easeNone, onComplete: function () {
+//                                checkTransitionScenes(scenesContainer);
+//                                TweenMax.to(indicator, .4, {opacity: 0});
+//                            }});
+//                    }
+//                } else {
+//                    currentWOZScene = getSceneById($(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').attr('id'));
+//                    renderFollowScene(scenesContainer, true);
+//                }
+//            } else if (transitionsLength === 2) {
+//                currentWOZScene = getSceneById($(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').attr('id'));
+//                renderFollowScene(scenesContainer, true);
+//            }
+//        }
+//
+//        function renderFollowScene(scenesContainer, updateControls) {
+//            $(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').addClass('btn-primary');
+//
+//            if (updateControls && updateControls === true) {
+//                renderWOZ();
+//            }
+//
+//            console.log('renderFollowScene:', currentWOZScene, prototypeWindow);
+//            if (prototypeWindow && prototypeWindow.closed !== true) {
+//                if (!previewModeEnabled) {
+//                    peerConnection.sendMessage(MESSAGE_UPDATE_SCENARIO, {currentScenarioTaskIndex: currentScenarioTaskIndex});
+//                    getGMT(function (timestamp) {
+//                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+//                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                    });
+//                }
+//                prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
+//            }
+//        }
+//
+//        if (data.tasks && data.tasks.length > 0) {
+//            $(container).find('#assessment-controls #task').text(currentScenarioTask.task);
+//            $(container).find('#assessment-controls .headline').text(translation.task + ' ' + (currentScenarioTaskIndex + 1) + ' ' + translation.of + ' ' + data.tasks.length)
+//
+//            if (currentScenarioTask.woz) {
+//                var wozData = getWOZItemsForSceneId(currentScenarioTask.woz, currentWOZScene.id);
+//                removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+//                $(container).find('.woz-container').empty();
+//                if (wozData && wozData.length > 0) {
+//
+//                    for (var i = 0; i < wozData.length; i++) {
+//                        var transitionScenes = wozData[i].transitionScenes;
+//                        var item = $(getSourceContainer(VIEW_MODERATOR)).find('#wozItemWithScenes').clone().removeAttr('id');
+//                        $(container).find('.woz-container').append(item);
+//
+//                        if (transitionScenes.length > 1) {
+//                            var startItem = getWOZTransitionItem(getSourceContainer(VIEW_MODERATOR), transitionScenes[0], false, true);
+//                            $(item).find('#start-scene-container').append(startItem);
+//                            TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
+//
+//                            $(item).find('#follow-scenes').removeClass('hidden');
+//                            var followItem = getWOZTransitionItem(getSourceContainer(VIEW_MODERATOR), transitionScenes[transitionScenes.length - 1], true, false);
+//                            $(item).find('#follow-scene-container').append(followItem);
+//
+//                            if (transitionScenes.length > 2) {
+//                                $(item).find('#transition-scenes').removeClass('hidden');
+//                                for (var j = 1; j < transitionScenes.length - 1; j++) {
+//                                    var itemBetween = getWOZTransitionItem(getSourceContainer(VIEW_MODERATOR), transitionScenes[j], true, false);
+//                                    $(item).find('#transition-scene-container').append(itemBetween);
+//                                    if (j > 1) {
+//                                        $(itemBetween).css({marginTop: '6px'});
+//                                    }
+//
+//                                    if (j < transitionScenes.length - 2) {
+//                                        $(item).find('#transition-scene-container').append(document.createElement('br'));
+//                                    }
+//                                    TweenMax.from(itemBetween, .3, {y: '-10px', opacity: 0, delay: (i + 1) * .1});
+//                                }
+//                                TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: (transitionScenes.length * .1) - .1});
+//                            } else {
+//                                TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: .1});
+//                            }
+//                        } else {
+//                            // render only gesture item
+//                            var startItem = getWOZTransitionItem(getSourceContainer(VIEW_MODERATOR), transitionScenes[0], false, true);
+//                            $(item).find('#start-scene').removeClass('hidden');
+//                            $(item).find('#start-scene-container').append(startItem);
+//                            TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
+//                        }
+//
+//                        if (wozData[i].feedbackId !== 'none') {
+//                            $(item).find('#transition-feedback').removeClass('hidden');
+//                            var feedback = getFeedbackById(wozData[i].feedbackId);
+//                            var feedbackButton = getWOZTransitionFeedbackItem(getSourceContainer(VIEW_MODERATOR), feedback, wozData[i].feedbackTransitionMode, wozData[i].feedbackTransitionTime, !scenarioStartTriggered && !scenarioPrototypeOpened, false);
+//                            $(item).find('#transition-feedback-container').empty().append(feedbackButton);
+//                            TweenMax.from(feedbackButton, .3, {y: '-10px', opacity: 0, delay: .1});
+//                        }
+//
+//                        var gesture = getGestureById(wozData[i].gestureId);
+//                        if (gesture) {
+//                            renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+//                            $(item).find('.previewGesture').attr('id', gesture.id);
+//                            checkGestureUI(item, wozData[i]);
+//
+//                            if (gesture.type && gesture.interactionType) {
+//                                item.find('.symbol-gesture-execution').addClass(gesture.type);
+//                                item.find('.symbol-container-gesture-execution').attr('data-content', translation.gestureTypes[gesture.type + 's'] + ' ' + translation.gestureType);
+//                                item.find('.text-gesture-execution').text(translation.gestureTypes[gesture.type + 'Short']);
+//                                item.find('.symbol-gesture-interaction').addClass(gesture.interactionType);
+//                                item.find('.symbol-container-gesture-interaction').attr('data-content', translation.gestureInteractionTypes[gesture.interactionType + 's'] + ' ' + translation.gestureInteraction);
+//                                item.find('.text-gesture-interaction').text(translation.gestureInteractionTypes[gesture.interactionType + 'Short']);
+//                            } else {
+//                                item.find('.gesture-info-symbols').addClass('hidden');
+//                            }
+//                            initPopover();
+//
+//                            TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
+//                        }
+//
+//                        item.find('#btn-trigger-woz, .btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
+//                            event.preventDefault();
+//                            var button = $(this);
+//                            if (!$(button).hasClass('disabled')) {
+//                                $(button).addClass('disabled');
+//                                checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+//                            }
+//                        });
+//
+//                        item.find('.btn-trigger-scene, .btn-trigger-feedback').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
+//                            event.preventDefault();
+//                            if (!$(this).hasClass('disabled') && !$(this).hasClass('btn-primary')) {
+//                                var button = $(this);
+//                                $(button).closest('.root').find('#btn-trigger-woz').addClass('disabled');
+//                                checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+//                            }
+//                        });
+//
+//                        $(item).find('.disabled').removeClass('disabled');
+//                    }
+//                } else {
+//                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+//                }
+//            }
+//        } else {
+//            appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+//        }
+//    }
+
+
+//    function checkGestureUI(item, wozData) {
+//        var currentActiveBtn = $(item).find('.btn-primary').last();
+//        var gesture = getGestureById($(item).find('.previewGesture').attr('id'));
+////        console.log('gesture', gesture, wozData, currentActiveBtn, $(currentActiveBtn).attr('data-transition-scene-id'));
+//        if (gesture) {
+//
+//            // find current active transition id for this woz element
+//            var activeTransitionScene = null;
+//            for (var i = 0; i < wozData.transitionScenes.length; i++) {
+//                if (parseInt(wozData.transitionScenes[i].sceneId) === parseInt($(currentActiveBtn).attr('data-transition-scene-id'))) {
+//                    activeTransitionScene = wozData.transitionScenes[i];
+//                }
+//            }
+//
+////            console.log('activeTransitionScene', activeTransitionScene);
+//            var scene = getSceneById(activeTransitionScene.sceneId);
+//
+//            if (activeTransitionScene.useEventBus === 'yes' && scene.type === SCENE_PIDOCO) {
+//
+//                Moderator.initMousePositionFunctionalities();
+//                console.log('show event bus specific controls');
+////            var sceneType = $(currentActiveBtn).attr('data-scene-type');
+////                console.log('sceneType', scene.type);
+//
+//                if (activeTransitionScene.continuousValueType === 'none') {
+//                    if (gesture.type === TYPE_GESTURE_POSE && gesture.interactionType === TYPE_GESTURE_CONTINUOUS) {
+//                        $(item).find('#btn-trigger-woz').remove();
+//                        $(item).find('#control-continuous-slider').remove();
+//                        $(item).find('.continuous-gesture-controls').remove();
+//                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
+//                        $(item).find('.static-continuous-controls').removeClass('hidden');
+//
+//                        var staticContinuousTimer = null;
+//                        $(item).find('.btn-start-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
+//                            event.preventDefault();
+//                            if (!$(this).hasClass('disabled')) {
+//                                $(this).addClass('disabled');
+//                                $(this).closest('.static-continuous-controls').find('.btn-stop-static-continuous-gesture').removeClass('disabled');
+//                                staticContinuousTimer = setInterval(function () {
+//                                    sendGesture(gesture.id);
+//                                }, 500);
+//                            }
+//                        });
+//
+//                        $(item).find('.btn-stop-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
+//                            event.preventDefault();
+//                            if (!$(this).hasClass('disabled')) {
+//                                $(this).addClass('disabled');
+//                                $(this).closest('.static-continuous-controls').find('.btn-start-static-continuous-gesture').removeClass('disabled');
+//                                if (staticContinuousTimer) {
+//                                    clearInterval(staticContinuousTimer);
+//                                }
+//                            }
+//                        });
+//                    }
+//                } else {
+//                    $(item).find('#btn-trigger-woz').remove();
+//                    $(item).find('.static-continuous-controls').remove();
+//
+//                    if (activeTransitionScene.continuousValueType === 'manipulationPercent') {
+//
+////                if (activeTransitionScene.continuousValueType === 'manipulationPercent') {
+//                        $(item).find('#control-continuous-slider').removeClass('hidden');
+//                        $(item).find('.continuous-gesture-controls').removeClass('hidden');
+//                        $(item).find('#control-continuous-slider-status').removeClass('hidden');
+//                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
+//
+//                        var continuousSlider = $(item).find('#control-continuous-slider #continuous-slider');
+//
+//                        var sliderOptions = {
+//                            value: 0,
+//                            min: 0,
+//                            max: 100,
+//                            enabled: scenarioStartTriggered
+//                        };
+//
+//                        $(continuousSlider).slider(sliderOptions);
+//                        $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
+//                            event.preventDefault();
+//                            var inverted = $(this).hasClass('inverted');
+//                            var percent = parseInt(event.value.newValue);
+//                            var imagePercent = inverted ? (100 - percent) : percent;
+//                            var gestureId = event.data.gesture.id;
+//                            $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
+//                            var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
+//                            $(gestureImages).removeClass('active').addClass('hidden');
+//                            $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
+//                            sendContinuousGesture(gestureId, percent);
+//                        });
+//
+//                        var invertValuesButton = $(item).find('.btn-invert-slider-values');
+//                        $(invertValuesButton).unbind('click').bind('click', {slider: continuousSlider}, function (event) {
+//                            event.preventDefault();
+//                            $(this).popover('hide');
+//                            if ($(event.data.slider).hasClass('inverted')) {
+//                                $(event.data.slider).removeClass('inverted');
+//                                $(this).attr('data-content', translation.tooltips.execution.valuesNotInverted);
+//                                TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#fff"});
+//                            } else {
+//                                $(event.data.slider).addClass('inverted');
+//                                $(this).attr('data-content', translation.tooltips.execution.valuesInverted);
+//                                TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#5bc0de"});
+//                            }
+//                        });
+//
+//                        if (wozData.invertValues === 'yes') {
+//                            $(invertValuesButton).click();
+//                        }
+//
+//                        initPopover();
+//                    } else if (activeTransitionScene.continuousValueType === 'manipulationMouse') {
+//                        $(item).find('#control-continuous-slider').remove();
+//                        $(item).find('.continuous-gesture-controls').remove();
+//                        var toggleButton = $(item).find('.btn-trigger-continuous-mouse-manipulation');
+//                        var wozContainer = $(toggleButton).closest('.woz-container');
+//                        $(toggleButton).removeClass('hidden');
+//                        $(toggleButton).unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
+//                            event.preventDefault();
+//                            if (!$(this).hasClass('disabled')) {
+//                                if ($(this).attr('data-activated') === 'true') {
+//                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').attr('data-activated', false);
+//                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').removeClass('btn-success');
+//                                    continuousMouseManipluationGesture = null;
+//                                } else {
+//                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').attr('data-activated', false);
+//                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').removeClass('btn-success');
+//                                    $(this).attr('data-activated', true);
+//                                    $(this).addClass('btn-success');
+//                                    continuousMouseManipluationGesture = event.data.gestureId;
+//                                }
+//                            }
+//                        });
+//                    } else {
+//                        $(item).find('#control-continuous-slider').remove();
+//                        $(item).find('.continuous-gesture-controls').remove();
+//                        $(item).find('.static-continuous-controls').remove();
+//                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
+//                    }
+//                }
+//
+//            } else {
+//                console.log('show standard controls');
+//
+//                $(item).find('#control-continuous-slider').remove();
+//                $(item).find('.continuous-gesture-controls').remove();
+//                $(item).find('.static-continuous-controls').remove();
+//                $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
+//            }
+//        }
+//    }
 
     function checkGestureUI(item, wozData) {
-        var currentActiveBtn = $(item).find('.btn-primary').last();
-        var gesture = getGestureById($(item).find('.previewGesture').attr('id'));
-//        console.log('gesture', gesture, wozData, currentActiveBtn, $(currentActiveBtn).attr('data-transition-scene-id'));
-        if (gesture) {
-
-            // find current active transition id for this woz element
-            var activeTransitionScene = null;
-            for (var i = 0; i < wozData.transitionScenes.length; i++) {
-                if (parseInt(wozData.transitionScenes[i].sceneId) === parseInt($(currentActiveBtn).attr('data-transition-scene-id'))) {
-                    activeTransitionScene = wozData.transitionScenes[i];
-                }
-            }
-
-//            console.log('activeTransitionScene', activeTransitionScene);
-            var scene = getSceneById(activeTransitionScene.sceneId);
-
-            if (activeTransitionScene.useEventBus === 'yes' && scene.type === SCENE_PIDOCO) {
-
-                Moderator.initMousePositionFunctionalities();
-                console.log('show event bus specific controls');
-//            var sceneType = $(currentActiveBtn).attr('data-scene-type');
-//                console.log('sceneType', scene.type);
-
-                if (activeTransitionScene.continuousValueType === 'none') {
-                    if (gesture.type === TYPE_GESTURE_POSE && gesture.interactionType === TYPE_GESTURE_CONTINUOUS) {
-                        $(item).find('#btn-trigger-woz').remove();
-                        $(item).find('#control-continuous-slider').remove();
-                        $(item).find('.continuous-gesture-controls').remove();
-                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-                        $(item).find('.static-continuous-controls').removeClass('hidden');
-
-                        var staticContinuousTimer = null;
-                        $(item).find('.btn-start-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled')) {
-                                $(this).addClass('disabled');
-                                $(this).closest('.static-continuous-controls').find('.btn-stop-static-continuous-gesture').removeClass('disabled');
-                                staticContinuousTimer = setInterval(function () {
-                                    sendGesture(gesture.id);
-                                }, 500);
-                            }
-                        });
-
-                        $(item).find('.btn-stop-static-continuous-gesture').unbind('click').bind('click', {gesture: gesture}, function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled')) {
-                                $(this).addClass('disabled');
-                                $(this).closest('.static-continuous-controls').find('.btn-start-static-continuous-gesture').removeClass('disabled');
-                                if (staticContinuousTimer) {
-                                    clearInterval(staticContinuousTimer);
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    $(item).find('#btn-trigger-woz').remove();
-                    $(item).find('.static-continuous-controls').remove();
-
-                    if (activeTransitionScene.continuousValueType === 'manipulationPercent') {
-
-//                if (activeTransitionScene.continuousValueType === 'manipulationPercent') {
-                        $(item).find('#control-continuous-slider').removeClass('hidden');
-                        $(item).find('.continuous-gesture-controls').removeClass('hidden');
-                        $(item).find('#control-continuous-slider-status').removeClass('hidden');
-                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-
-                        var continuousSlider = $(item).find('#control-continuous-slider #continuous-slider');
-
-                        var sliderOptions = {
-                            value: 0,
-                            min: 0,
-                            max: 100,
-                            enabled: scenarioStartTriggered
-                        };
-
-                        $(continuousSlider).slider(sliderOptions);
-                        $(continuousSlider).unbind('change').bind('change', {gesture: gesture}, function (event) {
-                            event.preventDefault();
-                            var inverted = $(this).hasClass('inverted');
-                            var percent = parseInt(event.value.newValue);
-                            var imagePercent = inverted ? (100 - percent) : percent;
-                            var gestureId = event.data.gesture.id;
-                            $(continuousSlider).closest('.root').find('.control-continuous-slider-status').text(percent + '%');
-                            var gestureImages = $(continuousSlider).closest('.root').find('.gestureImage');
-                            $(gestureImages).removeClass('active').addClass('hidden');
-                            $($(gestureImages)[Math.max(0, (Math.min(parseInt(gestureImages.length * imagePercent / 100), gestureImages.length - 1)))]).addClass('active').removeClass('hidden');
-                            sendContinuousGesture(gestureId, percent);
-                        });
-
-                        var invertValuesButton = $(item).find('.btn-invert-slider-values');
-                        $(invertValuesButton).unbind('click').bind('click', {slider: continuousSlider}, function (event) {
-                            event.preventDefault();
-                            $(this).popover('hide');
-                            if ($(event.data.slider).hasClass('inverted')) {
-                                $(event.data.slider).removeClass('inverted');
-                                $(this).attr('data-content', translation.tooltips.execution.valuesNotInverted);
-                                TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#fff"});
-                            } else {
-                                $(event.data.slider).addClass('inverted');
-                                $(this).attr('data-content', translation.tooltips.execution.valuesInverted);
-                                TweenMax.to($(this).find('.fa'), .4, {rotationY: '+=180', color: "#5bc0de"});
-                            }
-                        });
-
-                        if (wozData.invertValues === 'yes') {
-                            $(invertValuesButton).click();
-                        }
-
-                        initPopover();
-                    } else if (activeTransitionScene.continuousValueType === 'manipulationMouse') {
-                        $(item).find('#control-continuous-slider').remove();
-                        $(item).find('.continuous-gesture-controls').remove();
-                        var toggleButton = $(item).find('.btn-trigger-continuous-mouse-manipulation');
-                        var wozContainer = $(toggleButton).closest('.woz-container');
-                        $(toggleButton).removeClass('hidden');
-                        $(toggleButton).unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled')) {
-                                if ($(this).attr('data-activated') === 'true') {
-                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').attr('data-activated', false);
-                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').removeClass('btn-success');
-                                    continuousMouseManipluationGesture = null;
-                                } else {
-                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').attr('data-activated', false);
-                                    $(wozContainer).find('.btn-trigger-continuous-mouse-manipulation').removeClass('btn-success');
-                                    $(this).attr('data-activated', true);
-                                    $(this).addClass('btn-success');
-                                    continuousMouseManipluationGesture = event.data.gestureId;
-                                }
-                            }
-                        });
-                    } else {
-                        $(item).find('#control-continuous-slider').remove();
-                        $(item).find('.continuous-gesture-controls').remove();
-                        $(item).find('.static-continuous-controls').remove();
-                        $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-                    }
-                }
-
-            } else {
-                console.log('show standard controls');
-
-                $(item).find('#control-continuous-slider').remove();
-                $(item).find('.continuous-gesture-controls').remove();
-                $(item).find('.static-continuous-controls').remove();
-                $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
-            }
+        if (currentWOZScene.type === SCENE_PIDOCO && wozData.useEventBus === 'yes') {
+            updateGestureSimluationThumbnail(wozData.gestureId, $(item).closest('.woz-container'), true, wozData.continuousValueType, true);
+        } else {
+            $(item).find('#control-continuous-slider').remove();
+            $(item).find('.continuous-gesture-controls').remove();
+            $(item).find('.static-continuous-controls').remove();
+            $(item).find('.btn-trigger-continuous-mouse-manipulation').remove();
         }
     }
-
 
     function checkRecognizedGesture(data) {
         console.log('CHECK RECOGNIZED GESTURE', data, currentScenarioTask, currentWOZScene);

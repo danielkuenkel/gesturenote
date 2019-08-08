@@ -2,7 +2,6 @@
 include './includes/language.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +10,7 @@ include_once 'includes/functions.php';
         <title><?php echo $lang->gestureNoteNews ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- third party sources -->
         <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -19,7 +18,7 @@ include_once 'includes/functions.php';
         <script src="js/jquery/jquery.min.js"></script>
         <script src="js/bootstrap/js/bootstrap.min.js"></script>
         <script src="js/greensock/TweenMax.min.js"></script>
-        
+
         <!-- gesturenote specific sources -->
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
@@ -51,7 +50,11 @@ include_once 'includes/functions.php';
             </div>
         </div>
 
-        <div class="container mainContent" id="news-list" style="margin-top: 0px">
+        <div id="loading-indicator" class="window-sized-loading text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+        </div>
+
+        <div class="container mainContent hidden" id="news-list" style="margin-top: 0px">
         </div>
 
         <script>
@@ -68,7 +71,8 @@ include_once 'includes/functions.php';
                 var loggedIn = parseInt('<?php echo login_check($mysqli) ?>') === 1;
                 renderSubPageElements(loggedIn);
                 animateBreadcrump();
-                
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
+
                 if (loggedIn === false) {
                     $('#btn-dashboard').parent().remove();
                 }
@@ -106,6 +110,12 @@ include_once 'includes/functions.php';
                         $(newsItem).css({marginTop: '40px'});
                     }
                 }
+
+                $('.mainContent').removeClass('hidden');
+                TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
+                        $('#loading-indicator').remove();
+                    }});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
             }
         </script>
 

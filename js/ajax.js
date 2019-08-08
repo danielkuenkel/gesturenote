@@ -73,6 +73,23 @@ function acceptCookies(callback) {
     });
 }
 
+function toggleDarkmode(data, callback) {
+    $.ajax({
+        url: 'includes/toggle-darkmode.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function login(data, callback) {
     $.ajax({
         url: 'includes/process_login.php',
@@ -195,31 +212,8 @@ function updateUser(data, callback) {
 }
 
 function updateIntroduction(data, callback) {
-    var url = null;
-    switch (data.context) {
-        case 'studyCreation':
-            url = 'includes/update-introduction-study-creation.php';
-            break;
-        case 'studyPreview':
-            url = 'includes/update-introduction-study-preview.php';
-            break;
-        case 'study':
-            url = 'includes/update-introduction-study.php';
-            break;
-        case 'extraction':
-            url = 'includes/update-introduction-extraction.php';
-            break;
-        case 'participant':
-            url = 'includes/update-introduction-participant.php';
-            break;
-        case 'gestureCatalog':
-            url = 'includes/update-introduction-gesture-catalog.php';
-            break;
-    }
-
     $.ajax({
-
-        url: url,
+        url: 'includes/update-introduction.php',
         type: 'post',
         dataType: 'json',
         data: data,
@@ -234,7 +228,6 @@ function updateIntroduction(data, callback) {
         }
     });
 }
-
 
 
 /*
@@ -280,62 +273,18 @@ function submitRatingForGesture(data, callback) {
     });
 }
 
-/*
- * image upload
- */
-
-function uploadSceneImage(data, callback) {
-    $.ajax({
-        url: 'includes/upload-scene-image.php',
-        type: 'post',
-        processData: false,
-        contentType: false,
-        cache: false,
-        data: data,
-        async: true,
-        success: function (data) {
-            if (callback) {
-                callback(data);
-            }
-        },
-        error: function (xhr, desc, err) {
-            ajaxError(xhr, desc, err);
-        }
-    });
-}
-
-function deleteSceneImage(data, callback) {
-    $.ajax({
-        url: 'includes/delete-scene-image.php',
-        data: data,
-        type: 'post',
-        dataType: 'json',
-        async: true,
-        success: function (data) {
-            if (callback) {
-                callback(data);
-            }
-        },
-        error: function (xhr, desc, err) {
-            ajaxError(xhr, desc, err);
-        }
-    });
-}
 
 /*
- * sound upload
+ * delete files function
  */
 
-function uploadSound(data, callback) {
+function deleteFiles(data, callback) {
     $.ajax({
-        type: 'post',
-        url: 'includes/upload-sound.php',
-        processData: false,
-        contentType: false,
-        cache: false,
+        url: 'includes/delete-files.php',
         data: data,
-        async: true,
+        type: 'post',
         dataType: 'json',
+        async: true,
         success: function (data) {
             if (callback) {
                 callback(data);
@@ -347,23 +296,6 @@ function uploadSound(data, callback) {
     });
 }
 
-function deleteSound(data, callback) {
-    $.ajax({
-        url: 'includes/delete-sound.php',
-        data: data,
-        type: 'post',
-        dataType: 'json',
-        async: true,
-        success: function (data) {
-            if (callback) {
-                callback(data);
-            }
-        },
-        error: function (xhr, desc, err) {
-            ajaxError(xhr, desc, err);
-        }
-    });
-}
 
 /*
  * studies handling
@@ -661,23 +593,6 @@ function getGestureSets(callback) {
     });
 }
 
-//function getGestureSetsForStudyId(data, callback) {
-//    $.ajax({
-//        url: 'includes/get-gesture-sets-for-study-id.php',
-//        data: data,
-//        type: 'post',
-//        async: true,
-//        success: function (result) {
-//            if (callback) {
-//                callback(result);
-//            }
-//        },
-//        error: function (xhr, desc, err) {
-//            ajaxError(xhr, desc, err);
-//        }
-//    });
-//}
-
 function saveGestureSet(data, callback) {
     $.ajax({
         url: 'includes/save-gesture-set.php',
@@ -778,38 +693,6 @@ function getStudiesCatalog(callback) {
         }
     });
 }
-
-//function getStudiesCatalogForTester(callback) {
-//    $.ajax({
-//        url: 'includes/get-studies-tester.php',
-//        type: 'post',
-//        async: true,
-//        success: function (result) {
-//            if (callback) {
-//                callback(result);
-//            }
-//        },
-//        error: function (xhr, desc, err) {
-//            ajaxError(xhr, desc, err);
-//        }
-//    });
-//}
-
-//function getAgeRange(callback) {
-//    $.ajax({
-//        url: 'includes/get-age-range.php',
-//        type: 'post',
-//        async: true,
-//        success: function (result) {
-//            if (callback) {
-//                callback(result);
-//            }
-//        },
-//        error: function (xhr, desc, err) {
-//            ajaxError(xhr, desc, err);
-//        }
-//    });
-//}
 
 function getStudyById(data, callback) {
     $.ajax({
@@ -1017,7 +900,7 @@ function getGestureCatalog(callback) {
                         setLocalItem(GESTURE_CATALOG, result.sharedSetGestures);
                     }
                 }
-                
+
                 gestureCatalog = getLocalItem(GESTURE_CATALOG);
                 if (result.unsharedSetGestures && result.unsharedSetGestures.length > 0) {
                     if (gestureCatalog && gestureCatalog.length > 0) {
@@ -1736,6 +1619,79 @@ function getServerTime(callback) {
 function updateExecutionPhase(data, callback) {
     $.ajax({
         url: 'includes/update-execution-phase.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+
+function saveGestureSetSimulation(data, callback) {
+    $.ajax({
+        url: 'includes/save-gesture-set-simulation.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function getSimulationRecordings(data, callback) {
+    $.ajax({
+        url: 'includes/get-gesture-set-simulations.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function getSimulationRecording(data, callback) {
+    $.ajax({
+        url: 'includes/get-gesture-set-simulation.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function deleteSimulationRecording(data, callback) {
+    $.ajax({
+        url: 'includes/delete-gesture-set-simulation.php',
         data: data,
         type: 'post',
         dataType: 'json',

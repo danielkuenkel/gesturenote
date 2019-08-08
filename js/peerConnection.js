@@ -387,12 +387,21 @@ PeerConnection.prototype.initialize = function (options) {
                 }
             });
 
-            // local screen obtained
+            // local screen obtained, when screen is shared
             webrtc.on('localScreenAdded', function (video) {
                 console.log('local screen added', video);
                 if (options.target && options.remoteVideoElement) {
-                    $(video).addClass('hidden');
+                    $(video).addClass('mirroredHorizontally');
+                    $(video).css({borderRadius: '8px 0 8px 0', width: 'auto', height: '40%', top: '60%', float: 'left', opacity: .5});
                     $(options.target).find('#' + options.remoteVideoElement).append(video);
+                        
+                    $(video).unbind('mouseenter').bind('mouseenter', function () {
+                        TweenMax.to(video, .2, {opacity: 1});
+                    });
+
+                    $(video).unbind('mouseleave').bind('mouseleave', function () {
+                        TweenMax.to(video, 1, {opacity: .5});
+                    });
                 }
             });
 
@@ -821,27 +830,28 @@ PeerConnection.prototype.hideRemoteStream = function () {
 };
 
 PeerConnection.prototype.showRecordIndicator = function () {
-    var currentOptions = this.options;
+//    var currentOptions = this.options;
 
-    var stream = $(currentOptions.callerElement);
-    var indicator = $(stream).find('.record-stream-indicator').removeClass('hidden');
-    TweenMax.to(indicator, 1, {opacity: 1, onComplete: function () {
-            TweenMax.to(indicator, 1, {opacity: .2, yoyo: true, repeat: -1});
-        }});
+//    var stream = $(currentOptions.callerElement);
+//    var indicator = $(stream).find('.record-stream-indicator').removeClass('hidden');
+//    TweenMax.to(indicator, 1, {opacity: 1, onComplete: function () {
+//            TweenMax.to(indicator, 1, {opacity: .2, yoyo: true, repeat: -1});
+//        }});
 
     showRecordIndicator();
 };
 
 PeerConnection.prototype.hideRecordInidicator = function () {
-    var currentOptions = this.options;
-
-    var stream = $(currentOptions.callerElement);
-    var indicator = $(stream).find('.record-stream-indicator');
-    TweenMax.to(indicator, .3, {opacity: 0, onComplete: function () {
-            $(indicator).addClass('hidden');
-        }});
-
-    $(connection).trigger('hideRecordIndicator');
+//    var currentOptions = this.options;
+//
+//    var stream = $(currentOptions.callerElement);
+//    var indicator = $(stream).find('.record-stream-indicator');
+//    TweenMax.to(indicator, .3, {opacity: 0, onComplete: function () {
+//            $(indicator).addClass('hidden');
+//        }});
+    
+    hideRecordIndicator();
+//    $(connection).trigger('hideRecordIndicator');
 };
 
 
@@ -895,7 +905,7 @@ PeerConnection.prototype.initRecording = function (startRecording) {
 
                     var currentPhase = getCurrentPhase();
                     getGMT(function (timestamp) {
-                        var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
+                        var filename = sha512(timestamp + "" + chance.natural()) + '.webm';
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         tempData.endRecordingTime = timestamp;
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -992,7 +1002,7 @@ PeerConnection.prototype.initScreenRecording = function () {
 
                 getGMT(function (timestamp) {
                     console.log('Save screen recording');
-                    var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
+                    var filename = sha512(timestamp + "" + chance.natural()) + '.webm';
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                     tempData.endScreenRecordingTime = timestamp;
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -1041,11 +1051,12 @@ PeerConnection.prototype.stopScreenRecording = function (save, callback) {
 };
 
 var snapshotTimer = null;
-PeerConnection.prototype.takeSnapshot = function (upload) {
+PeerConnection.prototype.takeSnapshot = function (upload, callback) {
     var snapshotUrl = getLocalItem(STUDY).snapshot;
+    console.log('take snapshot', snapshotUrl);
 
     if (snapshotUrl && snapshotUrl !== '') {
-        return snapshotUrl;
+        checkSnapshotCallback();
     } else {
         clearTimeout(snapshotTimer);
         snapshotTimer = setTimeout(function () {
@@ -1066,21 +1077,31 @@ PeerConnection.prototype.takeSnapshot = function (upload) {
                 if (dominantColor && (dominantColor[0] + dominantColor[1] + dominantColor[2]) > 0) {
 
                     if (upload && upload === true) {
-                        var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.jpg';
+                        var filename = sha512(new Date().getTime() + "" + chance.natural()) + '.jpg';
                         var snapshotUploadQueue = new UploadQueue();
                         $(snapshotUploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
                             var url = snapshotUploadQueue.getUploadURLs()[0];
                             var study = getLocalItem(STUDY);
                             study.snapshot = url;
                             setLocalItem(STUDY, study);
+                            checkSnapshotCallback();
                         });
                         snapshotUploadQueue.upload([blob], filename);
+                    } else {
+                        checkSnapshotCallback();
                     }
                 } else {
                     console.log('black frame of snapshot detected');
+                    checkSnapshotCallback();
                 }
             }, 'image/jpeg', 0.8);
-        }, 10000);
+        }, 200);
+    }
+
+    function checkSnapshotCallback() {
+        if (callback) {
+            callback();
+        }
     }
 };
 

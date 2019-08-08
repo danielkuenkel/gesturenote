@@ -7,18 +7,19 @@ include_once './language.php';
 include_once 'db_connect.php';
 include_once 'psl-config.php';
 
-if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['email'])) {
+if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['title'], $_POST['email'])) {
     $sessionUserId = $_SESSION['user_id'];
     $sessionUserMail = $_SESSION['email'];
-
-    $shareId = $_POST['gestureId'];
+    $sessionForename = $shareId = $_POST['gestureId'];
     $inviteMail = $_POST['email'];
+    $sharedGestureTitle = $_POST['title'];
 
     if ($sessionUserMail === $inviteMail) {
         echo json_encode(array('status' => 'notInviteYourself'));
         exit();
     }
 
+//    if ($select_stmt = $mysqli->prepare("SELECT gestures_shared.id, gestures.title FROM gestures_shared LEFT JOIN gestures ON gestures_shared.gesture_id = gestures.id WHERE gestures_shared.gesture_id = '$shareId' && gestures_shared.email = '$inviteMail' LIMIT 1")) {
     if ($select_stmt = $mysqli->prepare("SELECT id FROM gestures_shared WHERE gesture_id = '$shareId' && email = '$inviteMail' LIMIT 1")) {
 //    if ($select_stmt = $mysqli->prepare("SELECT users.id, users.email, studies_shared.* FROM users LEFT JOIN studies_shared ON users.email = '$inviteMail' WHERE studies_shared.study_id = '$studyId' && studies_shared.email = '$inviteMail' LIMIT 1")) {
         if (!$select_stmt->execute()) {
@@ -71,7 +72,8 @@ if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['email'])) {
                                     </head>
                                     <body>
                                         <p>' . $lang->hello . ' ' . $invitedForename . ' ' . $invitedSurname . ',</p>
-                                        <p>' . $lang->inviteGestureText . '</p>
+                                        <p>' . $_SESSION['forename'] . ' ' . $_SESSION['surname'] . ' ' . $lang->inviteGestureText . '</p>
+                                        <p>' . $lang->titleOfGesture . ': ' . $sharedGestureTitle . '</p>
                                         <p>' . $lang->mailGreetings . ',</p>
                                         <p>' . $lang->gestureNoteTeam . '</p>
                                     </body>

@@ -36,6 +36,7 @@ $(document).on('click', '.btn-play-gesture', function (event) {
     event.stopImmediatePropagation();
     if (!$(this).hasClass('active')) {
         $(this).addClass('active');
+        $(this).parent().find('.btn-pause-gesture').removeClass('active');
         playThroughThumbnails($(this).closest('.root').find('.previewGesture'), 0);
     }
 });
@@ -43,10 +44,12 @@ $(document).on('click', '.btn-play-gesture', function (event) {
 $(document).on('click', '.btn-pause-gesture', function (event) {
     event.preventDefault();
     event.stopPropagation();
+//    if (!$(this).hasClass('active')) {
     event.stopImmediatePropagation();
     resetPlayButton($(this));
     clearTimer();
     resetThumbnails($(this).closest('.root').find('.previewGesture'));
+//    }
 });
 
 $(document).on('click', '.btn-step-forward-gesture', function (event) {
@@ -88,25 +91,28 @@ $(document).on('mousedown', '.btn-step-backward-gesture', function (event) {
     event.stopPropagation();
     clearTimer();
     mouseDownInterval = setInterval(function (container) {
-//        console.log(container);
         stepBackward(container);
     }, 200, $(this).closest('.root').find('.previewGesture'));
 });
 
 $(document).on('mouseenter', '.mousePlayable', function (event) {
     event.preventDefault();
-//    if ($(this).hasClass('mousePlayable')) {
-//        console.log('on mouse enter');
     $(this).parent().find('.btn-play-gesture').click();
-//    }
 });
 
 $(document).on('mouseleave', '.mousePlayable', function (event) {
     event.preventDefault();
-//    if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
-//        console.log('on mouse leave');
     $(this).parent().find('.btn-pause-gesture').click();
-//    }
+});
+
+$(document).on('mouseenter', '.gesture-thumbnail', function (event) {
+    event.preventDefault();
+    TweenMax.to($(this), .15, {scale: 1.05, ease: Quad.easeIn});
+});
+
+$(document).on('mouseleave', '.gesture-thumbnail', function (event) {
+    event.preventDefault();
+    TweenMax.to($(this), .2, {scale: 1, ease: Quad.easeOut, clearProps: 'all'});
 });
 
 $(document).on('click', '.btn-popover-gesture-preview', function (event) {
@@ -123,7 +129,7 @@ $(document).on('click', '.btn-popover-gesture-preview', function (event) {
             var popover = $('#popover-gesture');
             var top = btn.offset().top - (popover.height()) + 0;
             var left = btn.offset().left + (btn.width() / 2) - ((popover.width() - 27) / 2);
-            popover.css({left: left, top: top, zIndex: 10000});
+            popover.css({left: left, top: top});
             playThroughThumbnails(popover.find('.previewGesture'));
             TweenMax.to(popover, .2, {autoAlpha: 1});
             showCursor(btn, CURSOR_POINTER);
@@ -150,6 +156,7 @@ function resetGesturePopover() {
 
 function resetPlayButton(source) {
     $(source).closest('.root').find('.btn-play-gesture').removeClass('active');
+    $(source).closest('.root').find('.btn-pause-gesture').addClass('active');
 }
 
 var originalImageWidth = 0;
@@ -292,7 +299,7 @@ function renderGesturePreview(container, gesture, callback) {
 function renderGesturePopoverPreview(gesture, callback) {
     var popover = $('#popover-gesture-preview').clone();
     popover.attr('id', 'popover-gesture');
-    $('body').append(popover);
+    $('body').prepend(popover);
 
     if (gesture) {
         renderGestureImages($(popover).find('.previewGesture'), gesture.images, gesture.previewImage, function () {
@@ -340,7 +347,6 @@ function stepBackward(container) {
 }
 
 function resetThumbnails(container) {
-//    clearTimer();
     var previewIndex;
     var children = $(container).children();
     for (var i = 0; i < children.length; i++) {
@@ -354,7 +360,6 @@ function resetThumbnails(container) {
         }
     }
     $(container).trigger('imageChange', [parseInt(previewIndex)]);
-//    updateModalProgress(container);
 }
 
 function clearTimer() {

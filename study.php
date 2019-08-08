@@ -53,7 +53,7 @@ if (login_check($mysqli) == true) {
         <script src="js/globalFunctions.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/dimensions.js"></script>
-        <script src="js/sha512.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/study.js"></script>
         <script src="js/extraction.js"></script>
@@ -97,16 +97,16 @@ if (login_check($mysqli) == true) {
         <div id="template-study"></div>
         <div id="template-gesture-recorder"></div>
 
-        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 50%; transform: translateY(-50%); z-index: 100; opacity: 0; left:-306px">
-            <div class="btn-group-vertical">
+        <div class="hidden-xs hidden-sm study-owner-controls" id="fixed-study-owner-controls" style="position: fixed; top: 50%; z-index: 100; opacity: 0;">
+            <div class="btn-group-vertical left-controls" style="transform: translateY(-50%)">
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->studyPreview ?>" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-edit-study" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->editStudy ?> <i class="fa fa-pencil" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-open-static-execution-url hidden" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->staticStudyURLExecute ?> <i class="fa fa-street-view" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-open-static-execution-url hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->studyExecution ?>" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->staticStudyURLExecute ?> <i class="fa fa-street-view" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
@@ -150,7 +150,7 @@ if (login_check($mysqli) == true) {
         </div>
 
         <div class="container" style="margin-top: 20px">
-            <ul class="nav nav-tabs" role="tablist" id="tab-pane">
+            <ul class="nav nav-tabs" role="tablist" id="tab-pane-study" style="opacity: 0">
                 <li role="presentation" id="general"><a href="#general-infos" aria-controls="general-infos" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->general ?></a></li>
                 <li role="presentation" id="catalogs"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
                 <li role="presentation" id="phase-steps"><a href="#study-phase-steps" aria-controls="study-phase-steps" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->phases ?></a></li>
@@ -160,12 +160,10 @@ if (login_check($mysqli) == true) {
                         <?php echo $lang->phaseType->extraction ?> <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li role="presentation" id="gesture-extraction" class="disabled"><a href="#study-gesture-extraction" aria-controls="study-gesture-extraction" role="tab" data-toggle="tab">Gesten</a></li>
-                        <li role="presentation" id="trigger-extraction" class="disabled"><a href="#study-trigger-extraction" aria-controls="study-trigger-extraction" role="tab" data-toggle="tab">Interaktionsaufgaben</a></li>
+                        <li role="presentation" id="gesture-extraction" class="disabled"><a href="#study-gesture-extraction" aria-controls="study-gesture-extraction" role="tab" data-toggle="tab"><?php echo $lang->gestures ?></a></li>
+                        <li role="presentation" id="trigger-extraction" class="disabled"><a href="#study-trigger-extraction" aria-controls="study-trigger-extraction" role="tab" data-toggle="tab"><?php echo $lang->trigger ?></a></li>
                     </ul>
                 </li>
-                <!--                <li role="presentation" id="gesture-extraction"><a href="#study-gesture-extraction" aria-controls="study-gesture-extraction" role="tab" data-toggle="tab">Gesten</a></li>
-                                <li role="presentation" id="trigger-extraction"><a href="#study-trigger-extraction" aria-controls="study-trigger-extraction" role="tab" data-toggle="tab">Interaktionsaufgaben</a></li>-->
                 <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>
             </ul>
         </div>
@@ -200,13 +198,17 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
 
-                <div id="invited-users" style="margin-top: 60px">
+                <hr>
+
+                <button class="btn btn-default btn-shadow btn-edit-study" data-start-edit-at='generalData'><i class="fa fa-pencil"></i> <?php echo $lang->editThisData ?></button>
+
+                <div id="invited-users" style="margin-top: 80px">
                     <h3 class="address"><?php echo $lang->sharedStudies ?></h3>
 
                     <!--<div class="row">-->
 
                     <div class="">
-                        <label>Eingeladene Interaktions-Designer</label>
+                        <label><?php echo $lang->invitedInteractionDesigners ?></label>
                         <div class="alert-space alert-no-users-invited"></div>
                         <div id="shared-studies-list"></div>
                     </div>
@@ -260,6 +262,10 @@ if (login_check($mysqli) == true) {
                     <div class="list-container"></div>
                 </div>
 
+                <hr>
+
+                <button class="btn btn-default btn-shadow btn-edit-study" data-start-edit-at='catalogs'><i class="fa fa-pencil"></i> <?php echo $lang->editThisData ?></button>
+
             </div>
 
             <div role="tabpanel" class="tab-pane" id="study-phase-steps">
@@ -268,6 +274,10 @@ if (login_check($mysqli) == true) {
                     <div class="alert-space alert-no-phase-data"></div>
                     <div id="phase-steps-container" style=""></div>
                 </div>
+
+                <hr>
+
+                <button class="btn btn-default btn-shadow btn-edit-study" data-start-edit-at='phases'><i class="fa fa-pencil"></i> <?php echo $lang->editThisData ?></button>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="study-participants">
@@ -286,7 +296,10 @@ if (login_check($mysqli) == true) {
                     <div style="margin-top: 50px">
                         <h3 class="address" style="margin-top: 0px"><?php echo $lang->executionEvaluator ?></h3>
                         <p class="text"><?php echo $lang->studyURLDescriptionEvaluator ?></p>
-                        <button class="btn btn-default btn-shadow btn-open-static-execution-url" type="button"><i class="fa fa-street-view" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-shadow btn-preview-study" type="button" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->studyPreview ?>"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->studyPreview ?></span></button>
+                            <button class="btn btn-default btn-shadow btn-open-static-execution-url" type="button" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->studyExecution ?>"><i class="fa fa-street-view" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
+                        </div>
                     </div>
 
                 </div>
@@ -296,13 +309,13 @@ if (login_check($mysqli) == true) {
 
                 <div class="row" id="statistic-participants">
                     <div class="col-xs-12 text-center">
-                        <div style="border: 1px solid #eee; border-radius: 8px; padding: 15px">
+                        <div class="bordered-statics" style="border: 1px solid #eee; border-radius: 8px; padding: 15px">
                             <!--<div class="text text-center"><?php echo $lang->studyExecutionStatistic ?></div>-->
                             <canvas id="chart-participant-statistics" style="max-width:400px; margin: 0 auto"></canvas>
                             <div class="text text-center" style="font-size: 10pt">
                                 <span id="amount-participants-success"></span>, <span id="amount-participants-aborted"></span>, <span id="amount-participants-total"></span>
                             </div>
-                            <div class="btn btn-block btn-default btn-shadow" id="btn-show-all-participant-results" style="margin-top: 20px"><?php echo $lang->showAllParticipantResults ?></div>
+                            <div class="btn btn-block btn-default btn-shadow" id="btn-show-all-participant-results" style="margin-top: 20px"><i class="fa fa-bar-chart"></i> <?php echo $lang->showAllParticipantResults ?></div>
                         </div>
                     </div>
                 </div>
@@ -336,8 +349,10 @@ if (login_check($mysqli) == true) {
                         <div id="content-btn-all-gestures" class="hidden"></div>
 
                         <div id="content-btn-gesture-classification" class="hidden">
-                            <h4 style="margin-top: 0px"><span class="text"><?php echo $lang->extractionContent->classifyGestures ?></span> 
-                                <button type="button" class="btn btn-xs btn-default btn-shadow disabled" id="btn-reclassify-gestures" style="margin-left:5px"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->extractionContent->reclassify ?></span></button>
+                            <h4 style="margin-top: 0px"><span class="text">
+                                    <?php echo $lang->extractionContent->classifyGestures ?></span> 
+                                <button type="button" class="btn btn-xs btn-default btn-shadow disabled" id="btn-reclassify-gestures" style="margin-left: 5px; margin-top: -4px"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->extractionContent->reclassify ?></span></button>
+                                <span style="float: right" id="left-gestures-to-classify"></span>
                             </h4>
                             <div class="alert-space alert-no-more-gestures-for-classification" style="margin-top:20px"></div>
 
@@ -378,8 +393,7 @@ if (login_check($mysqli) == true) {
                                 <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-left"></div></div></div>
                                 <div class="col-xs-4 col-sm-4 text-center" id="match-controls">
 
-                                    <p class="text"><?php echo $lang->extractionContent->compareGestureQuestion ?></p>
-                                    <div class="btn-group btn-group-justified" role="group">
+                                    <div class="btn-group btn-group-justified hidden" role="group">
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-danger btn-shadow" id="btn-gesture-no"><i class="fa fa-thumbs-down"></i> <span class="btn-text"><?php echo $lang->no ?></span></button>
                                         </div>
@@ -387,6 +401,71 @@ if (login_check($mysqli) == true) {
                                             <button type="button" class="btn btn-success btn-shadow" id="btn-gesture-yes"><i class="fa fa-thumbs-up"></i> <span class="btn-text"><?php echo $lang->yes ?></span></button>
                                         </div>
                                     </div>
+                                    <div style="">
+                                        <div id="classification-switch" style="">
+                                            <label class="text"><?php echo $lang->extractionContent->secondCompareGestureQuestion ?></label> 
+                                            <div class="switch root" style="display: inline-block">
+                                                <div class="btn-group" style="margin: 0; display: flex">
+                                                    <button class="btn btn-default btn-radio" name="primary" id="notAtAll">
+                                                        <span id="icons" style="margin-right: 6px">
+                                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                                            <i class="fa fa-circle hidden" id="over"></i>
+                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                        </span>
+                                                        <span class="option-text"><?php echo $lang->tooltips->extraction->titleNotAtAll ?></span>
+                                                        <i class="fa fa-info-circle btn-show-info" style="top: -4px; position: relative; margin-left: 7px;" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->extraction->notAtAll ?>"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group" style="margin: 0; margin-top: 3px; display: flex">
+                                                    <button class="btn btn-default btn-radio" name="primary" id="little">
+                                                        <span id="icons" style="margin-right: 6px">
+                                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                                            <i class="fa fa-circle hidden" id="over"></i>
+                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                        </span>
+                                                        <span class="option-text"><?php echo $lang->tooltips->extraction->titleLittle ?></span>
+                                                        <i class="fa fa-info-circle btn-show-info" style="top: -4px; position: relative; margin-left: 7px;" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->extraction->little ?>"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group" style="margin: 0; margin-top: 3px; display: flex">
+                                                    <button class="btn btn-default btn-radio" name="primary" id="conditioned">
+                                                        <span id="icons" style="margin-right: 6px">
+                                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                                            <i class="fa fa-circle hidden" id="over"></i>
+                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                        </span>
+                                                        <span class="option-text"><?php echo $lang->tooltips->extraction->titleConditioned ?></span>
+                                                        <i class="fa fa-info-circle btn-show-info" style="top: -4px; position: relative; margin-left: 7px;" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->extraction->contitioned ?>"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group" style="margin: 0; margin-top: 3px; display: flex">
+                                                    <button class="btn btn-default btn-radio" name="primary" id="strong">
+                                                        <span id="icons" style="margin-right: 6px">
+                                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                                            <i class="fa fa-circle hidden" id="over"></i>
+                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                        </span>
+                                                        <span class="option-text"><?php echo $lang->tooltips->extraction->titleStrong ?></span>
+                                                        <i class="fa fa-info-circle btn-show-info" style="top: -4px; position: relative; margin-left: 7px;" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->extraction->strong ?>"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group" style="margin: 0; margin-top: 3px; display: flex">
+                                                    <button class="btn btn-default btn-radio" name="primary" id="veryStrong">
+                                                        <span id="icons" style="margin-right: 6px">
+                                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                                            <i class="fa fa-circle hidden" id="over"></i>
+                                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                        </span>
+                                                        <span class="option-text"><?php echo $lang->tooltips->extraction->titleVeryStrong ?></span>
+                                                        <i class="fa fa-info-circle btn-show-info" style="top: -4px; position: relative; margin-left: 7px;" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->extraction->veryStrong ?>"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
                                     <button type="button" class="btn btn-default disabled btn-block btn-shadow" id="btn-redo" style="margin-top:10px"><i class="fa fa-undo" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->redo ?></span></button>
                                 </div>
                                 <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-right"></div></div></div>
@@ -508,6 +587,10 @@ if (login_check($mysqli) == true) {
 
                             <hr>
 
+                            <div class="tab-pane-loading-indicator text-center">
+                                <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+                            </div>
+
                             <div id="item-view">
 
                                 <div>
@@ -623,8 +706,10 @@ if (login_check($mysqli) == true) {
                         <div id="content-btn-all-trigger" class="hidden"></div>
 
                         <div id="content-btn-trigger-classification" class="hidden">
-                            <h4 style="margin-top: 0px"><span class="text"><?php echo $lang->extractionContent->classifyTrigger ?></span> 
-                                <button type="button" class="btn btn-xs btn-default btn-shadow disabled" id="btn-reclassify-trigger" style="margin-left:5px"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->extractionContent->reclassify ?></span></button>
+                            <h4 style="margin-top: 0px">
+                                <span class="text"><?php echo $lang->extractionContent->classifyTrigger ?></span> 
+                                <button type="button" class="btn btn-xs btn-default btn-shadow disabled" id="btn-reclassify-trigger" style="margin-left: 5px; margin-top: -4px;"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->extractionContent->reclassify ?></span></button>
+                                <span style="float: right" id="left-trigger-to-classify"></span>
                             </h4>
                             <div class="alert-space alert-no-more-trigger-for-classification" style="margin-top:20px"></div>
 
@@ -913,14 +998,11 @@ if (login_check($mysqli) == true) {
             var previewStudyButton = $('#fixed-study-owner-controls .btn-preview-study');
             var previewButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(previewStudyButton).css({borderBottomRightRadius: '8px'});
-                    $(previewStudyButton).addClass('btn-primary');
+                    $(previewStudyButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(previewStudyButton).css({borderBottomRightRadius: '0px'});
-                    $(previewStudyButton).removeClass('btn-primary');
+                    $(previewStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
-
-            previewButtonTimeline.add("previewStudy", 0)
-                    .to(previewStudyButton, .3, {left: 305, ease: Quad.easeInOut}, "previewStudy");
 
             $(previewStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -936,14 +1018,11 @@ if (login_check($mysqli) == true) {
             var editStudyButton = $('#fixed-study-owner-controls .btn-edit-study');
             var editButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(editStudyButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(editStudyButton).addClass('btn-primary');
+                    $(editStudyButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(editStudyButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
-                    $(editStudyButton).removeClass('btn-primary');
+                    $(editStudyButton).removeClass('btn-primary').addClass('btn-default');
                 }});
-
-            editButtonTimeline.add("cacheStudy", 0)
-                    .to(editStudyButton, .3, {left: +156, ease: Quad.easeInOut}, "cacheStudy");
 
             $(editStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -959,14 +1038,11 @@ if (login_check($mysqli) == true) {
             var executionButton = $('#fixed-study-owner-controls .btn-open-static-execution-url');
             var executionUrlButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(executionButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(executionButton).addClass('btn-primary');
+                    $(executionButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     $(executionButton).css({borderBottomRightRadius: '0px', borderTopRightRadius: '0px'});
-                    $(executionButton).removeClass('btn-primary');
+                    $(executionButton).removeClass('btn-primary').addClass('btn-default');
                 }});
-
-            executionUrlButtonTimeline.add("saveStudy", 0)
-                    .to(executionButton, .3, {left: +200, ease: Quad.easeInOut}, "saveStudy");
 
             $(executionButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -983,7 +1059,7 @@ if (login_check($mysqli) == true) {
             var joinConversationButton = $('#fixed-study-owner-controls .btn-join-conversation');
             var conversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(joinConversationButton).addClass('btn-primary');
+                    $(joinConversationButton).removeClass('btn-default').addClass('btn-primary');
                 }, onReverseComplete: function () {
                     var study = getLocalItem(STUDY);
                     if (study.isOwner && study.isOwner === true) {
@@ -991,11 +1067,8 @@ if (login_check($mysqli) == true) {
                     } else {
                         $(joinConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '0px'});
                     }
-                    $(joinConversationButton).removeClass('btn-primary');
+                    $(joinConversationButton).removeClass('btn-primary').addClass('btn-default');
                 }});
-
-            conversationButtonTimeline.add("saveStudy", 0)
-                    .to(joinConversationButton, .3, {left: +202, ease: Quad.easeInOut}, "saveStudy");
 
             $(joinConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -1011,7 +1084,7 @@ if (login_check($mysqli) == true) {
             var leaveConversationButton = $('#fixed-study-owner-controls .btn-leave-conversation');
             var leaveConversationButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(leaveConversationButton).css({borderBottomRightRadius: '8px', borderTopRightRadius: '8px'});
-                    $(leaveConversationButton).addClass('btn-danger');
+                    $(leaveConversationButton).removeClass('btn-default').addClass('btn-danger');
                 }, onReverseComplete: function () {
                     var study = getLocalItem(STUDY);
                     if (study.isOwner && study.isOwner === true) {
@@ -1021,9 +1094,6 @@ if (login_check($mysqli) == true) {
                     }
                     $(leaveConversationButton).removeClass('btn-danger');
                 }});
-
-            leaveConversationButtonTimeline.add("saveStudy", 0)
-                    .to(leaveConversationButton, .3, {left: +203, ease: Quad.easeInOut}, "saveStudy");
 
             $(leaveConversationButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -1052,13 +1122,12 @@ if (login_check($mysqli) == true) {
             var deleteStudyButton = $('#fixed-study-owner-controls .btn-delete-study');
             var deleteButtonTimeline = new TimelineMax({paused: true, onStart: function () {
                     $(deleteStudyButton).css({borderTopRightRadius: '8px'});
-                    $(deleteStudyButton).addClass('btn-danger');
+                    $(deleteStudyButton).removeClass('btn-default').addClass('btn-danger');
                 }, onReverseComplete: function () {
                     $(deleteStudyButton).css({borderTopRightRadius: '0px'});
-                    $(deleteStudyButton).removeClass('btn-danger');
+                    $(deleteStudyButton).removeClass('btn-danger').addClass('btn-default');
                 }});
-            deleteButtonTimeline.add("saveStudy", 0)
-                    .to(deleteStudyButton, .3, {left: +131, ease: Quad.easeInOut}, "saveStudy");
+
 
             $(deleteStudyButton).unbind('mouseenter').bind('mouseenter', function (event) {
                 event.preventDefault();
@@ -1071,6 +1140,33 @@ if (login_check($mysqli) == true) {
             });
 
 
+            setTimeout(function () {
+                var leftFlex = 51;
+
+                previewButtonTimeline.add("tween", 0)
+                        .to(previewStudyButton, .3, {left: +parseInt($(previewStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                editButtonTimeline.add("tween", 0)
+                        .to(editStudyButton, .3, {left: +parseInt($(editStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                $(executionButton).removeClass('hidden').css({opacity: 0});
+                executionUrlButtonTimeline.add("tween", 0)
+                        .to(executionButton, .3, {left: +parseInt($(executionButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(executionButton).addClass('hidden').css({opacity: 1});
+
+                conversationButtonTimeline.add("tween", 0)
+                        .to(joinConversationButton, .3, {left: +parseInt($(joinConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+
+                $(leaveConversationButton).removeClass('hidden');
+                leaveConversationButtonTimeline.add("tween", 0)
+                        .to(leaveConversationButton, .3, {left: +parseInt($(leaveConversationButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+                $(leaveConversationButton).addClass('hidden');
+
+                deleteButtonTimeline.add("tween", 0)
+                        .to(deleteStudyButton, .3, {left: +parseInt($(deleteStudyButton).outerWidth()) - leftFlex, ease: Quad.easeInOut});
+            }, 200);
+
+
             // rendering
 
             var showStudyTutorial = 0;
@@ -1078,6 +1174,7 @@ if (login_check($mysqli) == true) {
             var tutorialAutomaticClicked = false;
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
 
                 fixedOwnerControlsTween = new TimelineMax({paused: true});
                 fixedOwnerControlsTween.add("parallel", .3)
@@ -1086,16 +1183,22 @@ if (login_check($mysqli) == true) {
 
 
                 var query = getQueryParams(document.location.search);
-                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                var hash = sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 if (query.studyId && query.h === hash) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             setStudyData(result);
-                            showStudyTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
-                            showExtractionTutorial = parseInt(<?php echo $_SESSION['tutorialExtraction'] ?>);
+
+                            var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                            console.log('tutorials', tutorials);
+                            if (tutorials && tutorials.study && parseInt(tutorials.study) === 1) {
+                                showStudyTutorial = parseInt(tutorials.study);
+                            }
+                            if (tutorials && tutorials.extraction && parseInt(tutorials.extraction) === 1) {
+                                showExtractionTutorial = parseInt(tutorials.extraction);
+                            }
 
                             getGestureSets(function (setResults) {
-//                                console.log(setResults);
                                 setLocalItem(GESTURE_SETS, setResults.gestureSets);
 
                                 renderData(result, hash);
@@ -1111,10 +1214,13 @@ if (login_check($mysqli) == true) {
             }
 
             function showPageContent() {
-                $('#main-content').removeClass('hidden');
+                $('.mainContent').removeClass('hidden');
                 TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
                         $('#loading-indicator').remove();
                     }});
+                TweenMax.to($('#tab-pane-study'), .3, {delay: .3, opacity: 1});
+                TweenMax.from($('.mainContent'), .3, {delay: .3, opacity: 0});
+
                 checkCollaborativeConversation();
             }
 
@@ -1122,7 +1228,7 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 var showTutorial = false;
 
-                var activeTab = $('#tab-pane').find('.active a').attr('href');
+                var activeTab = $($('#tab-pane-study').find('.active a').last()).attr('href');
                 if (activeTab !== '#gesture-extraction' && activeTab !== '#trigger-extraction') {
                     $('.study-owner-controls').removeClass('hidden');
                 } else {
@@ -1130,7 +1236,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 if (tutorialAutomaticClicked === false || (tutorialAutomaticClicked === true && (showStudyTutorial === 1 || showExtractionTutorial === 1))) {
-
+//                    console.log('tab introduction clicked', activeTab, $('#tab-pane-study').find('.active'));
                     var helpContext = 'study';
                     var helpKey = 'introductionStudy';
 
@@ -1152,7 +1258,8 @@ if (login_check($mysqli) == true) {
                                 $('#custom-modal').attr('data-start-tab-id', 'study-participants');
                                 showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
                                 break;
-                            case '#gesture-extraction':
+                            case '#study-trigger-extraction':
+                            case '#study-gesture-extraction':
                                 var activeExtractionTab = $('#gesture-extraction-navigation').find('.active').attr('id');
 
                                 switch (activeExtractionTab) {

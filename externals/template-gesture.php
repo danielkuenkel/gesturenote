@@ -115,6 +115,9 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
                     </div>
                 </div>
+                <div class="weighting-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->extractionContent->weightingInfo ?>">
+                    <div class="weighting-text"></div>
+                </div>
                 <div class="gesture-info-symbols">
                     <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
                         <span class="gesture-info-symbol-text text-sensor">
@@ -166,6 +169,9 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
                     </div>
                 </div>
+                <div class="weighting-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->extractionContent->weightingInfo ?>">
+                    <div class="weighting-text"></div>
+                </div>
                 <div class="gesture-info-symbols">
                     <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
                         <span class="gesture-info-symbol-text text-sensor">
@@ -214,6 +220,9 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
                         <button type="button" class="btn btn-default btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
                     </div>
+                </div>
+                <div class="weighting-info hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->extractionContent->weightingInfo ?>">
+                    <div class="weighting-text"></div>
                 </div>
                 <div class="gesture-info-symbols">
                     <span class="symbol-container-sensor hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="" style="display: flex; cursor: pointer; margin-right: 6px;">
@@ -374,7 +383,7 @@ include '../includes/language.php';
             </div>
         </div>
     </div>
-    
+
     <div class="root" id="mapping-gesture-catalog-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-gesture-shadow">
             <div class="embed-responsive embed-responsive-4by3">
@@ -506,7 +515,7 @@ include '../includes/language.php';
             </div>
             <span class="panel-heading-text"></span>
             <div class="btn-group pull-right hole-set-control-buttons">
-                <button class="btn btn-sm btn-default btn-shadow" id="btn-mark-hole-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addAllGesturesToStudyGestureSet ?>"><i class="fa fa-plus"></i></button>
+                <button class="btn btn-sm btn-default btn-shadow" id="btn-mark-hole-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addAllGesturesToStudyGestureSet ?>"><i class="fa fa-plus-square"></i></button>
                 <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsPidocoJSON ?>"><i class="fa fa-download"></i></button>
                 <button class="btn btn-sm btn-default btn-shadow" id="btn-download-as-exchangeable" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsExchangeable ?>"><i class="fa fa-file-archive-o"></i></button>
             </div>

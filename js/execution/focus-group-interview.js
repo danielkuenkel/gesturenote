@@ -154,6 +154,7 @@ FocusGroupInterview.prototype.renderModeratorView = function () {
             for (var i = 0; i < data.annotations.length; i++) {
                 var annotationButton = document.createElement('button');
                 $(annotationButton).attr('data-assessment-id', data.annotations[i].id);
+                $(annotationButton).attr('data-assessment-type', data.annotations[i].assessmentType);
                 $(annotationButton).html("<span style='color: " + data.annotations[i].annotationColor + "'>&#9679;</span> " + data.annotations[i].title);
                 $(annotationButton).addClass('btn btn-default btn-shadow btn-annotation');
                 $(annotationButton).css({marginRight: '6px', marginBottom: '6px'});
@@ -164,11 +165,12 @@ FocusGroupInterview.prototype.renderModeratorView = function () {
                 event.preventDefault();
                 var assessmentId = $(this).attr('data-assessment-id');
                 var annotationColor = $(this).attr('data-color');
+                var assessmentType = $(this).attr('data-assessment-type');
 
                 if (!previewModeEnabled) {
                     getGMT(function (timestamp) {
                         var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ASSESSMENT, assessmentId: assessmentId, taskId: currentScenarioTask.id, annotationColor: annotationColor, time: timestamp});
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_ASSESSMENT, assessmentId: assessmentId, taskId: currentScenarioTask.id, annotationColor: annotationColor, assessmentType: assessmentType, time: timestamp});
                         setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                     });
                 }
