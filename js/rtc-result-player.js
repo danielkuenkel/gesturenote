@@ -1127,7 +1127,7 @@ function initializeTimeline(content) {
                                 var top = $(item).offset().top - popover.height() - 2;
                                 var left = $(item).offset().left + parseInt(((item.width() - popover.width()) / 2));
                                 popover.css({left: left, top: top});
-                                playThroughThumbnails(popover.find('.previewGesture'));
+                                playThroughThumbnails(popover.find('#gesture-preview-container'));
                                 TweenMax.to(popover, .3, {autoAlpha: 1});
                             });
                             break;
@@ -1516,7 +1516,7 @@ function renderListData(visData, content) {
                                     var top = $(popoverAnker).offset().top - popover.height() - 2;
                                     var left = $(popoverAnker).offset().left + parseInt(((popoverAnker.width() - popover.width()) / 2));
                                     popover.css({left: left, top: top});
-                                    playThroughThumbnails(popover.find('.previewGesture'));
+                                    playThroughThumbnails(popover.find('#gesture-preview-container'));
                                     TweenMax.to(popover, .3, {autoAlpha: 1});
                                 });
                                 break;

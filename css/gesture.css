@@ -114,6 +114,10 @@ and open the template in the editor.
     border-bottom-right-radius: 0px;
 }
 
+.gesture-thumbnail .embed-responsive {
+    border-radius: 8px 8px 0px 0px;
+}
+
 .rudimentary-gesture-thumbnail .previewGesture {
     border-radius: 8px;
 }

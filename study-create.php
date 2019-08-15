@@ -1357,20 +1357,17 @@ if (login_check($mysqli) == true) {
                 addPhaseStep(chance.natural(), itemType, null, true, true, function () {
                     savePhases();
                 });
-
                 checkPreviewAvailability();
-
                 var tweenTargetOffset = $('#phaseStepList').find('.btn-group').last().offset();
                 var tweenElementOffset = $(event.target).offset();
                 var tweenOffset = {offsetY: tweenTargetOffset.top - tweenElementOffset.top, offsetX: tweenTargetOffset.left - tweenElementOffset.left};
                 var alphaY = tweenOffset.offsetY < 0 ? '' + tweenOffset.offsetY : '+' + tweenOffset.offsetY;
                 var alphaX = tweenOffset.offsetX < 0 ? '' + tweenOffset.offsetX : '+' + tweenOffset.offsetX;
-                TweenMax.to($(event.target), .3, {x: alphaX, y: alphaY, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: onMovePhaseStepComplete});
+                TweenMax.to($(event.target), .3, {x: alphaX, y: alphaY, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: function () {
+                        TweenMax.from($(event.target), .2, {scale: .5});
+                        $('#phaseStepList').trigger('listItemAdded');
+                    }});
             });
-
-            function onMovePhaseStepComplete() {
-                $('#phaseStepList').trigger('listItemAdded');
-            }
 
             $('#phaseStepList').unbind('listItemAdded').bind('listItemAdded', function (event) {
                 event.preventDefault();

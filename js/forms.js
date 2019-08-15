@@ -1862,7 +1862,7 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
                     var top = button.offset().top - popover.height() - 2;
                     var left = button.offset().left + parseInt(((button.width() - popover.width()) / 2));
                     popover.css({left: left, top: top});
-                    playThroughThumbnails(popover.find('.previewGesture'));
+                    playThroughThumbnails(popover.find('#gesture-preview-container'));
                     TweenMax.to(popover, .3, {autoAlpha: 1});
                 });
             });
@@ -2760,7 +2760,7 @@ function renderGroupingQuestionGUSInput(item, parameters) {
                             var top = element.offset().top - popover.height() - 2;
                             var left = element.offset().left + parseInt(((element.width() - popover.width()) / 2)) + 10;
                             popover.css({left: left, top: top});
-                            playThroughThumbnails(popover.find('.previewGesture'));
+                            playThroughThumbnails(popover.find('#gesture-preview-container'));
                             TweenMax.to(popover, .3, {autoAlpha: 1});
                         });
                     });
@@ -3010,7 +3010,7 @@ function renderAlternativeQuestionInput(item, data) {
                             var top = $(element).offset().top - popover.height() + 3;
                             var left = $(element).offset().left + parseInt((($(element).find('.btn-group').width() - popover.width()) / 2));
                             popover.css({left: left, top: top});
-                            playThroughThumbnails(popover.find('.previewGesture'));
+                            playThroughThumbnails(popover.find('#gesture-preview-container'));
                             TweenMax.to(popover, .3, {autoAlpha: 1});
                         });
                     });

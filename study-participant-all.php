@@ -1433,7 +1433,8 @@ if (login_check($mysqli) == true) {
                                 if (testerResults.annotations && testerResults.annotations.length > 0) {
                                     var count = 0;
                                     for (var k = 0; k < testerResults.annotations.length; k++) {
-                                        if (testerResults.annotations[k].action === ACTION_NO_GESTURE_FIT_FOUND && parseInt(testerResults.annotations[k].gestureId) === parseInt(gesture.id)) {
+                                        if ((testerResults.annotations[k].action === ACTION_NO_GESTURE_FIT_FOUND || testerResults.annotations[k].action === ACTION_NO_GESTURE_DEMONSTRATED) 
+                                                && parseInt(testerResults.annotations[k].gestureId) === parseInt(gesture.id)) {
                                             count++;
                                         }
                                     }
@@ -1481,7 +1482,7 @@ if (login_check($mysqli) == true) {
 
                         $(summaryItem).find('#answered-correct').remove();
                         $(summaryItem).find('#answered-wrong').remove();
-                        $(summaryItem).find('#gesture-quota .content').text(errors + ' ' + translation.faults + ', ' + ((studyData.slideshow.length - errors) / studyData.slideshow.length * 100) + '% ' + translation.assignedCorrectly);
+                        $(summaryItem).find('#gesture-quota .content').text(errors + ' ' + translation.faults + ', ' + (results.length / (results.length + errors) * 100).toFixed(2) + '% ' + translation.assignedCorrectly);
                     }
                 }
             }

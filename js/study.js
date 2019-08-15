@@ -573,11 +573,13 @@ function renderStudyParticipants(data, hash) {
         $(item).find('.panel').unbind('mouseenter').bind('mouseenter', function (event) {
             event.preventDefault();
             TweenMax.to($(this), .15, {scale: 1.05, ease: Quad.easeIn});
+            TweenMax.to($(this).find('.participant-snapshot'), .5, {scale: 1.05});
         });
 
         $(item).find('.panel').unbind('mouseleave').bind('mouseleave', function (event) {
             event.preventDefault();
             TweenMax.to($(this), .2, {scale: 1, ease: Quad.easeOut, clearProps: 'all'});
+            TweenMax.to($(this).find('.participant-snapshot'), .5, {scale: 1, clearProps: 'all'});
         });
     }
 

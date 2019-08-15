@@ -3713,6 +3713,7 @@ function tweenAndAppend(item, triggerElement, formatClone, container, itemType, 
     var alphaY = tweenOffset.offsetY < 0 ? '' + tweenOffset.offsetY : '+' + tweenOffset.offsetY;
     var alphaX = tweenOffset.offsetX < 0 ? '' + tweenOffset.offsetX : '+' + tweenOffset.offsetX;
     TweenMax.to($(triggerElement), .3, {x: alphaX, y: alphaY, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: function () {
+            TweenMax.from($(triggerElement), .2, {scale: .5});
             onMoveComplete(item, formatClone, container, itemType, fixDynamicAffixScrolling);
             if (callback) {
                 callback();

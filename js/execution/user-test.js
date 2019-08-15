@@ -929,7 +929,7 @@ UserTest.prototype.renderModeratorView = function () {
                             var top = $(popoverAnker).offset().top - popover.height() - 2;
                             var left = $(popoverAnker).offset().left + parseInt(((popoverAnker.width() - popover.width()) / 2)) + 10;
                             popover.css({left: left, top: top});
-                            playThroughThumbnails(popover.find('.previewGesture'));
+                            playThroughThumbnails(popover.find('#gesture-preview-container'));
                             TweenMax.to(popover, .3, {autoAlpha: 1});
                         });
                     });

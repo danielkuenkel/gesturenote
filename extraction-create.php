@@ -441,21 +441,21 @@ if (login_check($mysqli) == true) {
                 <!--<div class="form-group">-->
                 <!--<label><?php echo $lang->scenes ?></label>-->
 
-<!--                <div class="row">
-                    <div class="col-sm-11">
-                        <div class="form-group form-group-no-margin" id="scenes">
-                            <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationScenesForTrigger ?>"></i></label>
-                            <div class="alert-space alert-no-phase-data"></div>
-                            <div class="alert-space alert-no-scenes-assembled-link"></div>
-                            <div class="">
-                                <div class="transition-scenes-option-container">
-                                </div>
-                            </div>
-                            <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
-                        </div>
-                    </div>
-
-                </div>-->
+                <!--                <div class="row">
+                                    <div class="col-sm-11">
+                                        <div class="form-group form-group-no-margin" id="scenes">
+                                            <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationScenesForTrigger ?>"></i></label>
+                                            <div class="alert-space alert-no-phase-data"></div>
+                                            <div class="alert-space alert-no-scenes-assembled-link"></div>
+                                            <div class="">
+                                                <div class="transition-scenes-option-container">
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-primary btn-shadow font-bold btn-add-transition-scene" type="button"><span class="fa fa-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
+                                        </div>
+                                    </div>
+                
+                                </div>-->
 
 
                 <!--</div>-->
@@ -754,12 +754,11 @@ if (login_check($mysqli) == true) {
                 var tweenOffset = {offsetY: tweenTargetOffset.top - tweenElementOffset.top, offsetX: tweenTargetOffset.left - tweenElementOffset.left};
                 var alphaY = tweenOffset.offsetY < 0 ? '' + tweenOffset.offsetY : '+' + tweenOffset.offsetY;
                 var alphaX = tweenOffset.offsetX < 0 ? '' + tweenOffset.offsetX : '+' + tweenOffset.offsetX;
-                TweenMax.to($(event.target), .3, {x: alphaX, y: alphaY, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: onMovePhaseStepComplete});
+                TweenMax.to($(event.target), .3, {x: alphaX, y: alphaY, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: function () {
+                        TweenMax.from($(event.target), .2, {scale: .5});
+                        $('#mappingList').trigger('listItemAdded');
+                    }});
             });
-
-            function onMovePhaseStepComplete() {
-                $('#mappingList').trigger('listItemAdded');
-            }
 
             $('#mappingList').unbind('listItemAdded').bind('listItemAdded', function (event) {
                 event.preventDefault();
@@ -838,12 +837,12 @@ if (login_check($mysqli) == true) {
                             checkCurrentListState($(clone).find('.transition-scenes-option-container'));
                         }
                     } else {
-                        
+
                     }
                 } else if (format === 'gesture-mapping') {
                     // render mapping data for gesture mapping
                     renderAssembledGestures($(clone));
-                    
+
                     renderAssembledTriggerItems(clone.find('#assembled-trigger-container'), data && data.triggerIds ? data.triggerIds : null, true);
                     if (data) {
                         $(clone).find('.gestureSelect #' + data.gestureId).click();

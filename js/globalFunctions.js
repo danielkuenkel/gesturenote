@@ -509,7 +509,7 @@ $(document).on('mouseenter', '.select .option li', function (event) {
                     var top = button.offset().top - popover.height() - 2;
                     var left = button.offset().left + parseInt(((button.width() - popover.width()) / 2));
                     popover.css({left: left, top: top});
-                    playThroughThumbnails(popover.find('.previewGesture'));
+                    playThroughThumbnails(popover.find('#gesture-preview-container'));
                     TweenMax.to(popover, .3, {autoAlpha: 1});
                 });
                 break;
@@ -2978,7 +2978,7 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
         event.preventDefault();
         var loadedAllImages = $(this).find('.previewGesture').attr('data-loaded-all-images') === 'true';
         if (gesturePreviewOpened === false && loadedAllImages) {
-            playThroughThumbnails($(this).find('.previewGesture'), 0);
+            playThroughThumbnails($(this).find('#gesture-preview-container'), 0);
         }
     });
 
@@ -2986,7 +2986,7 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
         event.preventDefault();
         if (gesturePreviewOpened === false) {
             clearTimer();
-            resetThumbnails($(this).find('.previewGesture'));
+            resetThumbnails($(this).find('#gesture-preview-container'));
         }
     });
 

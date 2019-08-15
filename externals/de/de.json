@@ -1173,7 +1173,7 @@
             "notes": "yes"
         },
         "gus": {
-            "text": "GUS (einzelne Geste)",
+            "text": "GUS (Einzelne Geste)",
             "class": "evaluation",
             "moderated": {
                 "tester": {
@@ -1930,7 +1930,7 @@
     "gestureSequence": "Gesten-Sequenz",
     "gestureSequences": "Gesten-Sequenzen",
     "exchangeableGestureSet": "ProGesture-Gestenset",
-    "chooseStudyGestureSet": "Studien-Gestenset wählen",
+    "chooseStudyGestureSet": "Studien-Gesten auswählen",
     "gestureSharedWith": "Geste freigegeben für",
     "gestureSetSharedWith": "Geste-Set freigegeben für",
     "studySharedWith": "Studie freigegeben für",
@@ -2576,8 +2576,8 @@
     "tooltips": {
         "general": {
             "password": "Das Passwort muss mindestens 6 Zeichen lang sein. Es muss mindestens eine Zahl, einen Großbuchstaben und einen Kleinbuchstaben enthalten.",
-            "moveUp": "Mit oberem Element tauschen",
-            "moveDown": "Mit unterem Element tauschen",
+            "moveUp": "Mit vorherigem Element tauschen",
+            "moveDown": "Mit nächstem Element tauschen",
             "delete": "Element löschen",
             "dontUseQuestion": "Frage deaktivieren",
             "useQuestion": "Frage aktivieren",
