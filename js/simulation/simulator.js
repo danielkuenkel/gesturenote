@@ -144,6 +144,7 @@ function updateGestureSimluationThumbnail(gestureId, container, simulationMode, 
     }
     $(gestureThumbnail).attr('data-continuous-value-type', continuousValueType);
     $(gestureThumbnail).attr('data-woz-mode', wozMode || false);
+    $(gestureThumbnail).find('.gesture-thumbnail').attr('data-scale-on-mouse', 'false');
 
     if ((continuousValueType === CONTINUOUS_VALUE_TYPE_NONE && wozMode && wozMode === true) || gesture.interactionType === TYPE_GESTURE_DISCRETE) {
         $(gestureThumbnail).find('.simulator-trigger').removeClass("hidden");
@@ -635,6 +636,7 @@ function renderRecordedGestureSetSimulation() {
             if (!gesture) {
                 return false;
             }
+            
             var activeItem = $('#simulation-thumbnail-container .item-active');
             var thumbnail = $(activeItem).find('.gesture-thumbnail').parent();
             var wozMode = $(thumbnail).attr('data-woz-mode');
@@ -720,6 +722,7 @@ function renderRecordedGestureSetSimulation() {
                 if (recordedSimulation.track[i].start === true || recordedSimulation.track[i].start === 'true') {
                     panel = $('#template-simulation-container').find('#gesture-set-simulation-panel').clone();
                     var gestureThumbnail = getGestureCatalogListThumbnail(gesture, 'gesture-simulation-catalog-thumbnail', 'col-xs-12');
+                    $(gestureThumbnail).find('.thumbnail').attr('data-scale-on-mouse', 'false');
                     $(panel).find('#gesture-thumbnail-container').append(gestureThumbnail);
                     updateGestureSimluationThumbnail(gesture.id, panel, false, recordedSimulation.track[i].continuousValueType, recordedSimulation.source === 'studyExecution');
 
@@ -1168,7 +1171,8 @@ function cleanUpRecordedSimulation(recordedData) {
                 tempData.track.push(recordedData.track[i]);
             }
         }
-
+        
+        console.log('cleaned recorded Simulation', tempData);
         return tempData;
     } else {
         return recordedData;

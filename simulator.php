@@ -332,8 +332,6 @@ if (login_check($mysqli) == true) {
             }
 
             function showPageContent() {
-                console.warn('show page content');
-
                 $('.mainContent').removeClass('hidden');
                 TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
                         $('#loading-indicator').remove();
@@ -561,10 +559,13 @@ if (login_check($mysqli) == true) {
                     loadHTMLintoModal('custom-modal', 'externals/modal-load-simulation-recording.php');
                     $('#custom-modal').unbind('loadGestureSetSimulation').bind('loadGestureSetSimulation', function (event, data) {
                         event.preventDefault();
-                        setLocalItem(RECORDED_SIMULATION, cleanUpRecordedSimulation(data));
                         
                         $('#gestureSetContent').find('#gesture-sets-select #' + data.gestureSetId).click();
                         $('#main-tab-pane').find('#btn-player').removeClass('disabled');
+                        
+                        var cleanedRecordedData = cleanUpRecordedSimulation(data);
+                        console.log('cleaned recorded data 2', cleanedRecordedData);
+                        setLocalItem(RECORDED_SIMULATION, cleanedRecordedData);
 
                         if ($('#main-tab-pane').find('#btn-player').hasClass('active')) {
                             renderRecordedGestureSetSimulation();

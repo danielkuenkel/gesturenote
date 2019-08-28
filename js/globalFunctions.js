@@ -284,7 +284,6 @@ function unique(origArr) {
 }
 
 function renderSubPageElements(hasTopNavbar, isStudyCreatePage) {
-    console.warn('isStudyCreatePage', isStudyCreatePage);
     var header = $('#header-footer-container').find('#sub-page-header').clone().removeAttr('id');
     header.insertBefore($('body').find('#breadcrumb'));
     header.find('#btn-sign-out').on('click', function (event) {
@@ -3001,7 +3000,7 @@ function initMoreInfoGesture(button, clone, data, source, modalId) {
         event.preventDefault();
         $(button).popover('hide');
         clearTimer();
-        resetThumbnails($(clone).find('.previewGesture'));
+        resetThumbnails($(clone).find('#gesture-preview-container'));
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone};
         gesturePreviewOpened = true;
         $(clone).find('.btn-pause-gesture').click();

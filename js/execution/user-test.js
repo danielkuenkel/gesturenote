@@ -786,14 +786,19 @@ UserTest.prototype.renderModeratorView = function () {
                                     var gesture = getGestureById($(this).attr('data-gesture-id'));
                                     var triggerId = $(this).closest('.root').attr('data-trigger-id');
 
-                                    getGMT(function (timestamp) {
-                                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, triggerId: triggerId, time: timestamp});
-                                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                                    if (!previewModeEnabled && peerConnection) {
+                                        getGMT(function (timestamp) {
+                                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, triggerId: triggerId, time: timestamp});
+                                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
+                                            commitSimulationData({gestureId: gesture.id, triggerId: triggerId, continuousValueType: 'none'});
+                                            checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+                                        });
+                                    } else {
                                         commitSimulationData({gestureId: gesture.id, triggerId: triggerId, continuousValueType: 'none'});
                                         checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
-                                    });
+                                    }
                                 }
                             });
 

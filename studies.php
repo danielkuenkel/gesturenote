@@ -213,7 +213,7 @@ if (login_check($mysqli) == true) {
 
             <button type="button" class="btn btn-success hidden btn-block btn-shadow btn-create-study" id="btn-main-create-study" style="margin-top: 20px"><i class="fa fa-plus"></i> <?php echo $lang->createNewStudy ?></button>
 
-            <div style="margin-top: 35px;" class="text-center">
+            <div style="margin-top: 35px;" class="text-center hidden" id="color-explanation">
                 <span class="text"><?php echo $lang->studyColors->whatDoTheColorsMean ?></span>
                 <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #EEAC57"></i> <span class="text"><?php echo $lang->studyColors->notStarted ?></span></span>
                 <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5cb85c"></i> <span class="text"><?php echo $lang->studyColors->running ?></span></span>
@@ -276,6 +276,7 @@ if (login_check($mysqli) == true) {
                 getStudiesCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         if (result.studies && result.studies.length > 0) {
+                            
                             originalFilterData = sortByKey(result.studies, 'created');
 
                             var data = {
@@ -291,7 +292,8 @@ if (login_check($mysqli) == true) {
                                     sort: $('#item-view').find('#sort')
                                 }
                             };
-
+                            
+                            $('#color-explanation').removeClass('hidden');
                             $('.mainContent').removeClass('hidden');
                             TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
                                     $('#loading-indicator').remove();

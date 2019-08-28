@@ -4197,7 +4197,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer": "no"
             },
             "styleguide": "Gesten generalisieren. (Ruiz, Li, & Lank, 2011)"
         },
@@ -4211,7 +4212,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer": "yes"
+                "optionalAnswer": "no"
             },
             "styleguide": "Kognitive Belastung durch die Wahl von bekannten und zu erlernenden Gesten abwägen. (Intel, 2012)"
         },
@@ -5365,7 +5366,7 @@
         "noStudies": {
             "id": "no-studies",
             "type": "warning",
-            "text": "Es wurden keine Studien gefunden."
+            "text": "Es wurden noch keine Studien angelegt."
         },
         "studyUnmoderated": {
             "id": "study-unmoderated",

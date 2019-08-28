@@ -778,9 +778,15 @@ function attachSimulationRecording(data) {
 }
 
 function checkScreensharingHelp() {
-    var prewiew = getLocalItem('preview');
-    if (previewModeEnabled === true && (!prewiew || (prewiew && !prewiew.helpScreensharingTriggered) || (prewiew && prewiew.helpScreensharingTriggered && prewiew.helpScreensharingTriggered === false))) {
+    var preview = getLocalItem('preview');
+    if (previewModeEnabled === true && (!preview || (preview && !preview.helpScreensharingTriggered) || (preview && preview.helpScreensharingTriggered && preview.helpScreensharingTriggered === false))) {
         loadHTMLintoModal('custom-modal', 'externals/modal-help-screen-sharing.php', 'modal-lg');
-        setLocalItem('preview', {helpScreensharingTriggered: true});
+        if (!preview) {
+            preview = {helpScreensharingTriggered: true};
+        } else {
+            preview.helpScreensharingTriggered = true;
+        }
+
+        setLocalItem('preview', preview);
     }
 }

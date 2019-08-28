@@ -412,19 +412,15 @@ GestureSlideshow.prototype.renderTesterView = function () {
         $(container).find('#ask-gesture-container').removeClass('hidden');
         $(container).find('.trigger-title').text(trigger.title);
 
-        var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onAnswerTimeExpired, onCompleteParams: [container, data]});
-        timeline.add("start", 0)
-                .to(progress.find('.progress-bar'), parseInt(slideData.recognitionTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start");
-        timeline.play();
+        currentPhaseState = 'selectGesture';
+        TweenMax.to(progress.find('.progress-bar'), parseInt(slideData.recognitionTime), {delay: 1, width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone, onComplete: function () {
+                if (!previewModeEnabled && peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
+                }
 
-        function onAnswerTimeExpired(container, data) {
-            if (!previewModeEnabled && peerConnection) {
-                peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
+                renderCurrentPhaseState();
             }
-
-            currentPhaseState = 'selectGesture';
-            renderCurrentPhaseState();
-        }
+        });
     }
 
     function renderStateSelectGesture() {

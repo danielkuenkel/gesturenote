@@ -350,13 +350,24 @@ if (login_check($mysqli) == true) {
 
             // render data if all templates where loaded
             function onAllExternalsLoadedSuccessfully() {
-//                checkDarkMode(parseInt('<?php echo checkDarkMode(); ?>'));
+                var preview = getLocalItem('preview');                
                 var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
+                
                 if (tutorials && tutorials.studyPreview && parseInt(tutorials.studyPreview) === 1) {
                     $('#btn-introduction').click();
-                } else {
+                } else if(!preview || preview && (!preview.smallPreviewIntroductionTriggered || preview.smallPreviewIntroductionTriggered === false)) {
                     $('#custom-modal').unbind('showHelp').bind('showHelp', function (event) {
                         event.preventDefault();
+                        
+                        var preview = getLocalItem('preview');
+                        if (!preview) {
+                            preview = {smallPreviewIntroductionTriggered: true};
+                        } else {
+                            preview.smallPreviewIntroductionTriggered = true;
+                        }
+
+                        setLocalItem('preview', preview);
+                        
                         $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                             event.preventDefault();
                             $(this).unbind('hidden.bs.modal');
@@ -365,8 +376,21 @@ if (login_check($mysqli) == true) {
                             $('#custom-modal').attr('data-help-show-tutorial', <?php echo $_SESSION['tutorialStudyPreview'] ?>);
                             loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
                         });
+
                         $('#custom-modal').modal('hide');
                     });
+
+                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                        var prewiew = getLocalItem('preview');
+                        if (!prewiew) {
+                            prewiew = {smallPreviewIntroductionTriggered: true};
+                        } else {
+                            prewiew.smallPreviewIntroductionTriggered = true;
+                        }
+
+                        setLocalItem('preview', prewiew);
+                    });
+
                     loadHTMLintoModal('custom-modal', 'externals/modal-study-preview-introduction.php', 'modal-lg');
                 }
 
