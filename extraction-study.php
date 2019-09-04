@@ -152,8 +152,8 @@ if (login_check($mysqli) == true) {
         <div class="container" style="margin-top: 20px">
             <ul class="nav nav-tabs" role="tablist" id="tab-pane">
                 <li role="presentation" id="general"><a href="#general-infos" aria-controls="general-infos" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->general ?></a></li>
-                <li role="presentation" id="catalogs"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
-                <li role="presentation" id="mapping"><a href="#extraction-mapping" aria-controls="extraction-mapping" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->mapping ?></a></li>
+                <!--<li role="presentation" id="catalogs"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>-->
+                <!--<li role="presentation" id="mapping"><a href="#extraction-mapping" aria-controls="extraction-mapping" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->mapping ?></a></li>-->
                 <!--<li role="presentation" id="participants"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab"><?php echo $lang->participations ?> <span class="badge"></span></a></li>-->
                 <li role="presentation" class="dropdown hidden" id="extraction">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -180,8 +180,8 @@ if (login_check($mysqli) == true) {
 
             <div role="tabpanel" class="tab-pane" id="general-infos">
                 <h2 id="study-headline" style="margin-top: 0px; margin-bottom: 0px"></h2>
-                <div class="label label-default" id="type-method"></div>
                 <div class="label label-default" id="type-phase"></div>
+                <div class="label label-default" id="type-method"></div>
                 <div class="label label-default" id="type-survey"></div>
                 <div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>
 
@@ -199,9 +199,12 @@ if (login_check($mysqli) == true) {
 
                     </div>
                 </div>
+                
+                <button class="btn btn-default btn-shadow btn-edit-study" data-start-edit-at='generalData'><i class="fa fa-pencil"></i> <?php echo $lang->editThisData ?></button>
 
-                <div id="invited-users" style="margin-top: 60px">
+                <div id="invited-users" style="margin-top: 100px">
                     <h3 class="address"><?php echo $lang->sharedStudies ?></h3>
+                    <hr>
 
                     <!--<div class="row">-->
 
@@ -344,6 +347,7 @@ if (login_check($mysqli) == true) {
                             </div>
                         </div>
                     </div>
+                    
 
                     <div class="col-sm-8 col-md-9" id="extraction-navigation-content" style="margin-top: 0px">
                         <div id="content-btn-all-gestures" class="hidden"></div>

@@ -291,15 +291,15 @@ var Moderator = {
             }
         } else {
             // hide rtc
-            if (previewModeEnabled === true) {
-                resetWebcamPreview();
-            }
+//            if (previewModeEnabled === true) {
+//                resetWebcamPreview();
+//            }
             $('html, body').find('#web-rtc-placeholder').addClass('hidden');
         }
     },
     appendRTCPreviewStream: function appendRTCPreviewStream() {
-        resetWebcamPreview();
-        if (!webcamPreview) {
+//        resetWebcamPreview();
+//        if (!webcamPreview) {
             var source = getSourceContainer(currentView);
             var target = $('#viewModerator').find('.pinnedRTC');
             var callerElement = $(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder');
@@ -317,17 +317,17 @@ var Moderator = {
                 tween.reverse();
             });
 
-            var query = getQueryParams(document.location.search);
-            var options = {
-                parent: callerElement,
-                videoSource: query.vSource ? query.vSource : null,
-                audioSource: query.aSource ? query.aSource : null,
-                allowConfig: true
-            };
-
-            var instance = new WebcamRecorder(options);
-            webcamPreview = instance;
-        }
+//            var query = getQueryParams(document.location.search);
+//            var options = {
+//                parent: callerElement,
+//                videoSource: query.vSource ? query.vSource : null,
+//                audioSource: query.aSource ? query.aSource : null,
+//                allowConfig: true
+//            };
+//
+//            var instance = new WebcamRecorder(options);
+//            webcamPreview = instance;
+//        }
         
         pinRTC();
         updateRTCHeight($('#viewModerator #column-left').width(), true);

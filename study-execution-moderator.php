@@ -141,26 +141,33 @@ if ($h && $token && $studyId) {
         </div>
 
         <div id="study-execution-top-bar" style="opacity: 0">
-            <div style="position: fixed;top: 0;  width: 100%; z-index: 500">
-                <button class="btn-cancel btn btn-danger btn-block" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
-            </div>
+            <div style="position: fixed; top: 0px; width: 100%; z-index: 500" id="preview-bar-bottom">
+                <div class="row" style="">
 
-            <!-- progress bar -->
-            <div id="progressTop" style="position: fixed; top: 34px; left: 0; right: 0">
-                <div class="progress" style="border-radius: 0px">
-                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
-                        0%
+                    <!-- progress bar -->
+                    <div class="col-xs-7 col-sm-9 col-md-9 col-lg-10" style="padding-right: 0">
+                        <div id="progressTop">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
+                                    0%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2" style="padding-left: 0">
+                        <button class="btn btn-default btn-block btn-cancel" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 999; top: 150px; left:100px; display: block">
+        <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 999; top: 130px; left:100px; display: block">
             <img src="img/resize-white.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
         </div>
 
         <!-- Container (Panel Section) -->
-        <div class="mainContent" id="mainContent" style="padding-left: 15px; padding-right: 15px; padding-top: 70px; padding-bottom: 0px">
+        <div class="mainContent" id="mainContent" style="padding-left: 15px; padding-right: 15px; padding-top: 50px; padding-bottom: 0px">
             <div id="viewModerator">
                 <div id="sync-alert-container">
                     <div class="alert-space alert-general-please-wait" style=""></div>

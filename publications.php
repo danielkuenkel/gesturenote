@@ -67,7 +67,16 @@ if (login_check($mysqli) == true) {
             <hr>
             <div class="row">
                 <div class="col-xs-12">
-                    Beiträge angenommen, Update folgt.
+                    <div><span><?php echo $lang->title ?>:</span> <span class="text">Evaluation werkzeuggestützter Gesten-Extraktionen</span></div>
+                    <div><span><?php echo $lang->authors ?>:</span> <span class="text">Daniel Künkel, Dominik Rupprecht, Rainer Blum</span></div>
+                    <div><span><?php echo $lang->In ?>:</span> <span class="text">Alt, F., Bulling, A. & Döring, T. (Hrsg.), Mensch und Computer 2019 - Tagungsband. New York: ACM.</span></div>
+                    <a target="blank" href="https://dl.gi.de/handle/20.500.12116/24654"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF</a>
+                </div>
+                <div class="col-xs-12" style="margin-top: 20px">
+                    <div><span><?php echo $lang->title ?>:</span> <span class="text">Erstellung grafischer Darstellungen von dynamischen 3D-Gesten</span></div>
+                    <div><span><?php echo $lang->authors ?>:</span> <span class="text">Ksenia Rasin, Birgit Bomsdorf</span></div>
+                    <div><span><?php echo $lang->In ?>:</span> <span class="text">Alt, F., Bulling, A. & Döring, T. (Hrsg.), Mensch und Computer 2019 - Tagungsband. New York: ACM.</span></div>
+                    <a target="blank" href="https://dl.gi.de/handle/20.500.12116/24654"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF</a>
                 </div>
             </div>
             <h3 style="margin-top:50px">2018</h3>

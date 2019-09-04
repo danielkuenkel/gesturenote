@@ -114,9 +114,6 @@ if (login_check($mysqli) == true) {
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-preview-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->studyPreview ?> <i class="fa fa-eye" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->cache ?> <i class="fa fa-folder-open-o" style="margin-left: 15px"></i></button>
-                </div>
-                <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
@@ -131,7 +128,10 @@ if (login_check($mysqli) == true) {
                         </span></button>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-save-study" style="position: relative; float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->saveAndClose ?> <i class="fa fa-save" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" style="position: relative; float: right; border-radius: 0px;"><?php echo $lang->save ?> <i class="fa fa-save" style="margin-left: 15px"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-save-study" style="position: relative; float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->close ?> <i class="fa fa-close" style="margin-left: 15px"></i></button>
                 </div>
             </div>
         </div>
@@ -508,11 +508,8 @@ if (login_check($mysqli) == true) {
                 <!-- submit form button group -->
                 <div class="btn-group-vertical btn-block" role="group">
                     <button type="button" class="btn btn-default btn-shadow disabled btn-preview-study"><i class="fa fa-eye"></i> <?php echo $lang->studyPreview ?></button>
-                    <button type="button" class="btn btn-default btn-shadow btn-cache-study"><i class="fa fa-folder-open-o"></i> <?php echo $lang->cache ?></button>
-
-                </div>
-                <div class="btn-group-vertical btn-block" style="margin-top: 20px">
-                    <button type="button" class="btn btn-default btn-shadow btn-save-study"><i class="fa fa-save"></i> <?php echo $lang->saveAndClose ?></button>
+                    <button type="button" class="btn btn-default btn-shadow btn-cache-study"><i class="fa fa-save"></i> <?php echo $lang->save ?></button>
+                    <button type="button" class="btn btn-default btn-shadow btn-save-study"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
                 </div>
             </div>
 
@@ -1097,41 +1094,14 @@ if (login_check($mysqli) == true) {
                 event.stopImmediatePropagation();
                 jumpToId = $(button).attr('id');
                 loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
-
-                $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
-                    if (editableStudyId === null) {
-                        clearSceneImages();
-                        clearSounds();
-                    }
-
-                    clearLocalItems();
-                    checkJumpId();
-                });
-
-                $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
-                    $('#fixed-study-edit-controls').find('.btn-save-study').click();
-                });
+                $('#fixed-study-edit-controls').find('.btn-save-study').click();
             });
 
             $('body').on('click', '.main-burger-menu li a', function (event) {
                 var button = $(this);
                 event.stopImmediatePropagation();
                 jumpToId = $(button).parent().attr('data-id');
-                loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
-
-                $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
-                    $('#fixed-study-edit-controls').find('.btn-save-study').click();
-                });
-
-                $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
-                    if (editableStudyId === null) {
-                        clearSceneImages();
-                        clearSounds();
-                    }
-
-                    clearLocalItems();
-                    checkJumpId();
-                });
+                $('#fixed-study-edit-controls').find('.btn-save-study').click();
             });
 
             function checkJumpId() {
@@ -1194,49 +1164,71 @@ if (login_check($mysqli) == true) {
 
             $('.btn-save-study').click(function (event) {
                 event.preventDefault();
-                if (checkInputs() === true) {
-                    var button = $(this);
-                    $('.btn-preview-study').addClass('disabled');
-                    saveGeneralData();
+
+                var button = $(this);
+                $('.btn-preview-study').addClass('disabled');
+                saveGeneralData();
+
+                loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
+
+                $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
                     showCursor($('body'), CURSOR_POINTER);
-                    if (studyEditable === true) {
-                        var updateData = getStudyData();
-                        updateData.studyId = editableStudyId;
-                        updateStudy(updateData, function (result) {
-                            showCursor($('body'), CURSOR_DEFAULT);
-                            $(button).removeClass('disabled');
-                            $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
-                            if (result.status === RESULT_SUCCESS) {
-                                clearLocalItems();
+                    if (checkInputs() === true) {
+                        if (studyEditable === true) {
+                            var updateData = getStudyData();
+                            updateData.studyId = editableStudyId;
+                            updateStudy(updateData, function (result) {
+                                showCursor($('body'), CURSOR_DEFAULT);
+                                $(button).removeClass('disabled');
+                                $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
+                                if (result.status === RESULT_SUCCESS) {
+                                    clearLocalItems();
 
-                                if (jumpToId !== null) {
-                                    checkJumpId();
-                                } else {
-                                    var hash = sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                                    goto("study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+                                    if (jumpToId !== null) {
+                                        checkJumpId();
+                                    } else {
+                                        var hash = sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                        goto("study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        } else {
+                            saveStudy(getStudyData(), function (result) {
+                                showCursor($('body'), CURSOR_DEFAULT);
+                                $(button).removeClass('disabled');
+                                $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
+                                if (result.status === RESULT_SUCCESS) {
+                                    clearLocalItems();
+
+                                    if (jumpToId !== null) {
+                                        checkJumpId();
+                                    } else {
+                                        var hash = sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                        goto("study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+                                    }
+                                }
+                            });
+                        }
                     } else {
-                        saveStudy(getStudyData(), function (result) {
-                            showCursor($('body'), CURSOR_DEFAULT);
-                            $(button).removeClass('disabled');
-                            $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
-                            if (result.status === RESULT_SUCCESS) {
-                                clearLocalItems();
-
-                                if (jumpToId !== null) {
-                                    checkJumpId();
-                                } else {
-                                    var hash = sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                                    goto("study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
-                                }
-                            }
-                        });
+                        $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
                     }
-                } else {
-                    $('#create-tab-navigation').children().first().find('a').click();
-                }
+                });
+
+                $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
+                    jumpToId = 'btn-study';
+                    if (editableStudyId === null) {
+                        jumpToId = 'btn-studies';
+                        clearSceneImages();
+                        clearSounds();
+                    }
+
+                    clearLocalItems();
+                    checkJumpId();
+                });
+
+                $('#custom-modal').unbind('cancelSave').bind('cancelSave', function () {
+                    $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
+                });
             });
 
             $('.btn-cache-study').click(function (event) {
@@ -1255,13 +1247,6 @@ if (login_check($mysqli) == true) {
                             $(button).removeClass('disabled');
                             $('.btn-save-study, .btn-preview-study').removeClass('disabled');
                             unlockButton(button, true, 'fa-save');
-//                            if (result.status === RESULT_SUCCESS) {
-////                                clearLocalItems();
-////                                var hash = sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-////                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
-//                            } else {
-//                                //                            appendAlert()
-//                            }
                         });
                     } else {
                         saveStudy(getStudyData(), function (result) {
@@ -1273,9 +1258,7 @@ if (login_check($mysqli) == true) {
                                 clearLocalItems();
                                 var hash = sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                                 goto("study-create.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
-//                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
                             } else {
-                                //                            appendAlert()
                             }
                         });
                     }
@@ -1298,20 +1281,20 @@ if (login_check($mysqli) == true) {
                     errors++;
                 }
 
-                if ($('#phaseSelect').find('.chosen').attr('id') === 'unselected') {
-                    $('#phaseSelect').closest('.form-group').addClass('has-error');
+                if ($('#phaseSelect').find('.btn-option-checked').length === 0) {
+                    $('#phaseSelect').addClass('has-error');
                     errors++;
                 }
 
-                if ($('#surveyMethodSelect').find('.chosen').attr('id') === 'unselected') {
-                    $('#surveyMethodSelect').closest('.form-group').addClass('has-error');
-                    errors++;
-                }
-
-                if ($('#surveyTypeSelect').find('.chosen').attr('id') === 'unselected') {
-                    $('#surveyTypeSelect').closest('.form-group').addClass('has-error');
-                    errors++;
-                }
+//                if ($('#surveyMethodSelect').find('.chosen').attr('id') === 'unselected') {
+//                    $('#surveyMethodSelect').closest('.form-group').addClass('has-error');
+//                    errors++;
+//                }
+//
+//                if ($('#surveyTypeSelect').find('.chosen').attr('id') === 'unselected') {
+//                    $('#surveyTypeSelect').closest('.form-group').addClass('has-error');
+//                    errors++;
+//                }
 
                 return errors === 0;
             }

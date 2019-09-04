@@ -17,6 +17,7 @@
     height: 34px;
     border-radius: 8px;
     top: 5px;
+    box-shadow: 0px 0px 5px;
 }
 #playback-slider-container .slider-track {
     border-radius: 8px;
@@ -170,4 +171,8 @@
 
 .dark .mouse-simulation-slider, .dark .mouse-simulation-pad {
     box-shadow: rgb(255, 255, 255) 0px 0px 0px 3px !important;
+}
+
+.dark #playback-slider-container .slider-handle {
+    box-shadow: 0px 0px 5px rgba(0,0,0,1);
 }

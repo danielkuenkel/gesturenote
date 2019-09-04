@@ -31,7 +31,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
         var playButton = $(resultsPlayer).find('#btn-play-pause');
         var buttonStepBackward = $(resultsPlayer).find('#btn-step-backward');
         var buttonStepForward = $(resultsPlayer).find('#btn-step-forward');
-        var seekBar = $(resultsPlayer).find('#main-seek-bar');
+//        var seekBar = $(resultsPlayer).find('#main-seek-bar');
 
         var screenShareVideoHolder = null;
         var moderatorVideoHolder = null;
@@ -727,18 +727,81 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                         $(resultsPlayer.domElement).find('#moderator-video-container').removeClass('col-xs-12').addClass('col-xs-6').css({marginTop: ''});
                     }
 
+                    var slider = $(resultsPlayer.domElement).find('#playback-slider');
+
+                    console.log(mainVideo[0].duration, slider);
+                    var sliderOptions = {
+                        value: 0,
+                        min: 0,
+                        max: mainVideo[0].duration,
+                        enabled: true,
+                        step: 0.1
+                    };
+
+
+//                    sliderValues = {min: recordedSimulation.track[0].timestamp, max: recordedSimulation.track[recordedSimulation.track.length - 1].timestamp};
+                    $(slider).slider(sliderOptions);
+                    $(slider).slider('refresh', sliderOptions);
+
+                    $(slider).unbind('change').bind('change', function (event) {
+                        event.preventDefault();
+                        console.log('slider changed', event);
+                        var video = mainVideo[0];
+                        video.currentTime = Math.min(event.value.newValue, video.duration - 0.0001);
+//                        var currentValue = parseInt(sliderValues.min) + parseInt(event.value.newValue);
+//                        updateView(currentValue);
+//                        checkStepperButtons(currentValue);
+//                        checkStepperGestureButtons(currentValue);
+                        readGapInput();
+                    });
+
+                    $(slider).unbind('slideStart').bind('slideStart', function (event) {
+                        event.preventDefault();
+                        $(slider).attr('data-resume', 'false');
+//                        if (playThroughTimeout) {
+//                            $(slider).attr('data-resume', 'true');
+//                            $(pauseButton).click();
+//                        }
+                        var video = mainVideo[0];
+                        $(slider).attr('data-resume', 'true');
+                        if (video.paused === true) {
+                            $(slider).attr('data-resume', 'false');
+                        }
+                        video.pause();
+
+                        if (secondVideo) {
+                            secondVideo[0].pause();
+                        }
+                    });
+//
+                    $(slider).unbind('slideStop').bind('slideStop', function (event) {
+                        event.preventDefault();
+                        var video = mainVideo[0];
+                        $(mainVideo).parent().find('.video-time-code-current-time').text(secondsToHms(video.currentTime));
+                        readGapInput();
+
+                        if ($(slider).attr('data-resume') === 'true') {
+                            $(playButton).click();
+                        }
+                    });
+
+
+
+
+
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
                         updateTimeline(this.currentTime, content);
                         updateLinkList(this.currentTime, content);
 
-                        var percent = this.currentTime / this.duration * 100;
-                        $(seekBar).find('.progress-bar').css({width: percent + '%'});
-                        $(mainVideo).parent().find('.progress-bar').css({width: percent + '%'});
+//                        var percent = this.currentTime / this.duration * 100;
+//                        $(seekBar).find('.progress-bar').css({width: percent + '%'});
+                        $(slider).slider('setValue', this.currentTime);
+//                        $(mainVideo).parent().find('.progress-bar').css({width: percent + '%'});
                         $(mainVideo).parent().find('.video-time-code-current-time').text(secondsToHms(this.currentTime));
 
                         if (secondVideo) {
-                            var secondPercent = secondVideo[0].currentTime / secondVideo[0].duration * 100;
-                            $(secondVideo).parent().find('.progress-bar').css({width: secondPercent + '%'});
+//                            var secondPercent = secondVideo[0].currentTime / secondVideo[0].duration * 100;
+//                            $(secondVideo).parent().find('.progress-bar').css({width: secondPercent + '%'});
                             $(secondVideo).parent().find('.video-time-code-current-time').text(secondsToHms(secondVideo[0].currentTime));
                         }
 
@@ -752,56 +815,56 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                         readGapInput();
                     });
 
-                    $(seekBar).unbind('mousedown').bind('mousedown', function (event) {
-                        event.preventDefault();
-                        var resumePlaying = true;
-                        var video = mainVideo[0];
-                        if (video.paused === true) {
-                            resumePlaying = false;
-                        }
-                        video.pause();
-
-                        if (secondVideo) {
-                            secondVideo[0].pause();
-                        }
-
-                        $(document).unbind('mousemove').bind('mousemove', function (event) {
-                            var positionX = Math.max(0, Math.min(Math.round(event.pageX - $(seekBar).offset().left), $(seekBar).width()));
-                            var time = video.duration * (positionX / $(seekBar).width());
-                            video.currentTime = Math.min(time, video.duration - 0.0001);
-                            var percent = video.currentTime / video.duration * 100;
-                            $(seekBar).find('.progress-bar').css({width: percent + '%'});
-                            $(mainVideo).parent().find('.progress-bar').css({width: percent + '%'});
-                            $(mainVideo).parent().find('.video-time-code-current-time').text(secondsToHms(video.currentTime));
-                            readGapInput();
-                        });
-
-                        $(document).on('mouseup', function (event) {
-                            $(document).unbind('mouseup');
-                            $(document).unbind('mousemove');
-
-                            var positionX = Math.abs(event.pageX - $(seekBar).offset().left);
-                            var time = video.duration * (positionX / $(seekBar).width());
-                            var currentTime = Math.min(time, video.duration - 0.0001);
-                            video.currentTime = currentTime;
-
-                            var percent = currentTime / video.duration * 100;
-                            $(mainVideo).parent().find('.progress-bar').css({width: percent + '%'});
-                            $(mainVideo).parent().find('.video-time-code-current-time').text(secondsToHms(currentTime));
-
-                            if (secondVideo) {
-                                readGapInput();
-                                var isPlayingValid = secondVideo[0].currentTime < secondVideo[0].duration;
-                                if (isPlayingValid && resumePlaying === true) {
-                                    secondVideo[0].play();
-                                }
-                            }
-
-                            if (resumePlaying === true) {
-                                video.play();
-                            }
-                        });
-                    });
+//                    $(seekBar).unbind('mousedown').bind('mousedown', function (event) {
+//                        event.preventDefault();
+//                        var resumePlaying = true;
+//                        var video = mainVideo[0];
+//                        if (video.paused === true) {
+//                            resumePlaying = false;
+//                        }
+//                        video.pause();
+//
+//                        if (secondVideo) {
+//                            secondVideo[0].pause();
+//                        }
+//
+//                        $(document).unbind('mousemove').bind('mousemove', function (event) {
+//                            var positionX = Math.max(0, Math.min(Math.round(event.pageX - $(seekBar).offset().left), $(seekBar).width()));
+//                            var time = video.duration * (positionX / $(seekBar).width());
+//                            video.currentTime = Math.min(time, video.duration - 0.0001);
+//                            var percent = video.currentTime / video.duration * 100;
+//                            $(seekBar).find('.progress-bar').css({width: percent + '%'});
+////                            $(mainVideo).parent().find('.progress-bar').css({width: percent + '%'});
+//                            $(mainVideo).parent().find('.video-time-code-current-time').text(secondsToHms(video.currentTime));
+//                            readGapInput();
+//                        });
+//
+//                        $(document).on('mouseup', function (event) {
+//                            $(document).unbind('mouseup');
+//                            $(document).unbind('mousemove');
+//
+//                            var positionX = Math.abs(event.pageX - $(seekBar).offset().left);
+//                            var time = video.duration * (positionX / $(seekBar).width());
+//                            var currentTime = Math.min(time, video.duration - 0.0001);
+//                            video.currentTime = currentTime;
+//
+//                            var percent = currentTime / video.duration * 100;
+////                            $(mainVideo).parent().find('.progress-bar').css({width: percent + '%'});
+//                            $(mainVideo).parent().find('.video-time-code-current-time').text(secondsToHms(currentTime));
+//
+//                            if (secondVideo) {
+//                                readGapInput();
+//                                var isPlayingValid = secondVideo[0].currentTime < secondVideo[0].duration;
+//                                if (isPlayingValid && resumePlaying === true) {
+//                                    secondVideo[0].play();
+//                                }
+//                            }
+//
+//                            if (resumePlaying === true) {
+//                                video.play();
+//                            }
+//                        });
+//                    });
 
                     var togglePlayPauseButtons = $('#phase-results').find('.btn-toggle-playback');
                     $(playButton).unbind('click').bind('click', function (event) {
@@ -958,8 +1021,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
 
                             secondVideo[0].currentTime = Math.max(0, Math.min(mainVideo[0].duration, mainVideo[0].currentTime + gapInput));
 
-                            var percent = secondVideo[0].currentTime / secondVideo[0].duration * 100;
-                            $(secondVideo).parent().find('.progress-bar').css({width: percent + '%'});
+//                            var percent = secondVideo[0].currentTime / secondVideo[0].duration * 100;
+//                            $(secondVideo).parent().find('.progress-bar').css({width: percent + '%'});
                             $(secondVideo).parent().find('.video-time-code-current-time').text(secondsToHms(secondVideo[0].currentTime));
                         }
                     } else {
@@ -978,8 +1041,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, wizardResults, phaseD
                             screenVideo.currentTime = screenVideo.duration;
                         }
 
-                        var percent = screenVideo.currentTime / screenVideo.duration * 100;
-                        $(resultsPlayer.domElement).find('#screen-share-video-container .progress-bar').css({width: percent + '%'});
+//                        var percent = screenVideo.currentTime / screenVideo.duration * 100;
+//                        $(resultsPlayer.domElement).find('#screen-share-video-container .progress-bar').css({width: percent + '%'});
                         $(resultsPlayer.domElement).find('#screen-share-video-container .video-time-code-current-time').text(secondsToHms(screenVideo.currentTime));
                     }
                 }
@@ -1248,17 +1311,19 @@ function getVisDataSet() {
                 case ACTION_CUSTOM:
                     contentText = annotations[i].content;
                     originalContent = contentText;
-                    className = annotations[i].annotationColor;
+                    className = annotations[i].annotationColor || 'item-advanced-primary-full';
                     break;
                 case ACTION_NOTE:
                     contentText = '<i class="fa fa-ellipsis-v"></i> ' + translation.note + ': ' + (annotations[i].content.length > 20 ? annotations[i].content.substring(0, 20) + '…' : annotations[i].content);
                     originalContent = annotations[i].content;
-                    className = annotations[i].annotationColor;
+                    className = annotations[i].annotationColor || 'item-advanced-primary-full';
                     break;
                 case ACTION_RENDER_SCENE:
+                    originalContent = annotations[i].content;
                     var scene = getSceneById(annotations[i].scene);
-                    contentText = '<i class="fa fa-ellipsis-v"></i> ' + scene.title;
-                    originalContent = contentText;
+                    contentText = '<i class="fa fa-ellipsis-v"></i> ' + (originalContent ? originalContent : scene.title);
+                    console.log('classname', annotations[i].annotationColor)
+                    className = annotations[i].annotationColor || 'item-advanced-primary-full';
                     break;
                 case ACTION_START_PERFORM_GESTURE:
                     var gesture = getGestureById(annotations[i].gestureId);
@@ -1266,6 +1331,7 @@ function getVisDataSet() {
 //                    if (gesture && trigger) {
                     contentText = '<i class="fa fa-ellipsis-v"></i> ' + translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
                     originalContent = contentText;
+                    className = annotations[i].annotationColor || 'item-advanced-primary-full';
 //                    }
                     break;
                 case ACTION_START_GESTURE_TRAINING:
@@ -1275,36 +1341,39 @@ function getVisDataSet() {
                     var gesture = getGestureById(annotations[i].gestureId);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
                     originalContent = contentText;
+                    className = annotations[i].annotationColor || 'item-advanced-primary-full';
                     break;
                 case ACTION_START_PERFORM_GESTURE_IDENTIFICATION:
                     var trigger = getTriggerById(annotations[i].triggerId);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + trigger.title;
                     originalContent = contentText;
+                    className = annotations[i].annotationColor || 'item-advanced-primary-full';
                     break;
                 case ACTION_SELECT_GESTURE:
                     var gesture = getGestureById(annotations[i].selectedGestureId);
-                    className = 'item-success-full';
+                    className = annotations[i].annotationColor || 'item-success-full';
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
                     originalContent = contentText;
                     break;
                 case ACTION_NO_GESTURE_DEMONSTRATED:
                 case ACTION_NO_GESTURE_FIT_FOUND:
-                    className = 'item-warning-full';
+                    className = annotations[i].annotationColor || 'item-warning-full';
                     break;
                 case ACTION_START_TASK:
                     var task = getTaskById(annotations[i].taskId);
                     contentText = '<i class="fa fa-ellipsis-v"></i> ' + translation.task + ': ' + task.title;
                     originalContent = contentText;
+                    className = annotations[i].annotationColor || 'item-advanced-primary-full';
                     break;
                 case ACTION_ASSESSMENT:
 //                    console.log('task assessment:', annotations[i].assessmentId);
                     contentText = timelineData.phaseData.taskAssessments[annotations[i].assessmentId].title + ': ' + getTaskById(annotations[i].taskId).title;
                     originalContent = contentText;
-                    className = annotations[i].annotationColor;
+                    className = annotations[i].annotationColor || 'item-advanced-primary-full';
                     break;
                 case ACTION_SHOW_FEEDBACK:
                     if (annotations[i].feedback.parameters.negative === 'yes') {
-                        className = 'item-danger-full';
+                        className = annotations[i].annotationColor || 'item-danger-full';
                     }
                     break;
                 case ACTION_HIDE_FEEDBACK:
@@ -1317,24 +1386,26 @@ function getVisDataSet() {
                 case ACTION_RECORDER_LOST:
                     contentText = translation.annotationsList[annotations[i].action];
                     originalContent = contentText;
-                    className = 'item-danger-full';
+                    className = annotations[i].annotationColor || 'item-danger-full';
                     break;
                 case ACTION_SHOW_GESTURE_INFO:
                 case ACTION_HIDE_GESTURE_INFO:
                     var gesture = getGestureById(annotations[i].gestureId);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + gesture.title;
                     originalContent = gesture.title;
+                    className = annotations[i].annotationColor || 'item-advanced-primary-full';
                     break;
                 case ACTION_SHOW_TRIGGER_INFO:
                 case ACTION_HIDE_TRIGGER_INFO:
                     var trigger = getTriggerById(annotations[i].triggerId);
                     contentText = translation.annotationsList[annotations[i].action] + ': ' + trigger.title;
                     originalContent = contentText;
+                    className = annotations[i].annotationColor || 'item-advanced-primary-full';
                     break;
                 case ACTION_OBSERVER_ANNOTATION:
                     contentText = translation.observatorHint;
                     originalContent = contentText;
-                    className = annotations[i].annotationColor;
+                    className = annotations[i].annotationColor || 'item-advanced-primary-full';
                     break;
             }
 
@@ -1628,25 +1699,23 @@ function editAnnotation(annotationId, content, source, linkListItem) {
     }
 
     if (annotation) {
-        var selectedColor = 'item-advanced-primary-full';
         var contentText = translation.annotationsList[annotation.action];
+        var selectedColor = annotation.annotationColor || 'item-advanced-primary-full';
 
         switch (annotation.action) {
             case ACTION_CUSTOM:
                 contentText = annotation.content;
-                selectedColor = annotation.annotationColor;
+
                 break;
             case ACTION_NOTE:
                 contentText = annotation.content;
-                selectedColor = annotation.annotationColor;
                 break;
             case ACTION_RENDER_SCENE:
-                var scene = getSceneById(annotation.scene);
-                contentText = translation.scene + ': ' + scene.title;
+                contentText = annotation.content ? annotation.content : getSceneById(annotation.scene).title;
                 break;
             case ACTION_START_PERFORM_GESTURE:
                 var gesture = getGestureById(annotation.gestureId);
-                var trigger = getTriggerById(annotation.triggerId)
+                var trigger = getTriggerById(annotation.triggerId);
                 contentText = translation.annotationsList[annotation.action] + ': ' + gesture.title;
                 break;
             case ACTION_START_GESTURE_TRAINING:
@@ -1673,7 +1742,6 @@ function editAnnotation(annotationId, content, source, linkListItem) {
                 contentText = translation.task + ': ' + task.title;
                 break;
             case ACTION_ASSESSMENT:
-                selectedColor = annotation.annotationColor;
                 break;
             case ACTION_SHOW_FEEDBACK:
                 if (annotation.feedback.parameters.negative === 'yes') {
@@ -1684,7 +1752,6 @@ function editAnnotation(annotationId, content, source, linkListItem) {
                 break;
             case ACTION_ALL_RECORDER_READY:
                 contentText = translation.annotationsList[annotation.action];
-                selectedColor = annotation.annotationColor || 'item-success-full';
                 break;
             case ACTION_RECORDER_LOST:
                 contentText = translation.annotationsList[annotation.action];
@@ -1702,7 +1769,6 @@ function editAnnotation(annotationId, content, source, linkListItem) {
                 break;
             case ACTION_OBSERVER_ANNOTATION:
                 contentText = translation.observatorHint;
-                selectedColor = annotation.annotationColor;
                 break;
         }
 

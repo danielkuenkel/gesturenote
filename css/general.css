@@ -576,6 +576,13 @@ li.selected {
     background-color: #e7e7e7;
 }
 
+.has-error label {
+    color: #a94442;
+}
+.has-error .btn-radio {
+    color: #a94442;
+}
+
 .btn-radio.active.focus, .btn-radio.active:focus, .btn-radio.focus, .btn-radio:active.focus, .btn-radio:active:focus, .btn-radio:focus,
 .btn-checkbox.active.focus, .btn-checkbox.active:focus, .btn-checkbox.focus, .btn-checkbox:active.focus, .btn-checkbox:active:focus, .btn-checkbox:focus{
     background-color: #337ab7;
@@ -589,6 +596,10 @@ li.selected {
 .checkbox .form-control, .radio .form-control {
     position: relative;
     top: -6px;
+}
+
+.stepper-text {
+    z-index: 10;
 }
 
 label {

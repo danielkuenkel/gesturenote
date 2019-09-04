@@ -1263,7 +1263,7 @@ include '../includes/language.php';
                                     <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneLess ?></span>
                                 </button>
                             </div>
-                            <input type="text" class="form-control readonly text-center stepper-text" id="totalStressAmount" value="10">
+                            <input type="text" class="form-control text-center stepper-text" id="totalStressAmount" value="10">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="300">
                                     <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneMore ?></span>

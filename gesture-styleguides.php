@@ -64,16 +64,16 @@ if (login_check($mysqli) == true) {
         </div>
 
         <div class="mainContent hidden">
-            <div class="container" id="general-styleguides" style="margin-top: 0px">
+<!--            <div class="container" id="general-styleguides" style="margin-top: 0px">
                 <h2 style="margin-top: 20px"><?php echo $lang->gestureStyleguides->process->headline ?></h2>
                 <hr>
                 <div id="help-description" class="text">
                     <?php echo $lang->gestureStyleguides->process->info ?>
                 </div>
-                <!--<img src="<?php echo $lang->gestureStyleguides->process->processImage ?>" class="img-responsive" style="display: block; margin-left: auto; margin-right: auto"/>-->
-            </div>
+                <img src="<?php echo $lang->gestureStyleguides->process->processImage ?>" class="img-responsive" style="display: block; margin-left: auto; margin-right: auto"/>
+            </div>-->
 
-            <div class="container" id="general-styleguides" style="margin-top: 50px">
+            <div class="container" id="general-styleguides" style="margin-top: 0px">
                 <h2><?php echo $lang->gestureStyleguides->processStyleguides->headline ?></h2>
                 <hr>
                 <p><?php echo $lang->gestureStyleguides->processStyleguides->info ?></p>

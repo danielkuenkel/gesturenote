@@ -251,6 +251,22 @@ and open the template in the editor.
     background-color: #d9534f;
 }
 
+#playback-slider-container .slider-handle {
+    left: 50%;
+    height: 30px;
+    border-radius: 8px;
+    top: 5px;
+    box-shadow: 0px 0px 5px;
+}
+#playback-slider-container .slider-track {
+    border-radius: 8px;
+    height:30px;
+}
+
+#playback-slider-container .slider-selection {
+    display: none;
+}
+
 .link-list-item-url {
     cursor: pointer;
     display: inline;
@@ -414,4 +430,8 @@ and open the template in the editor.
 
 .dark .table-bordered {
     
+}
+
+.dark #playback-slider-container .slider-handle {
+    box-shadow: 0px 0px 5px rgba(0,0,0,1);
 }

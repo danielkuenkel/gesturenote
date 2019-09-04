@@ -253,7 +253,7 @@ include '../includes/language.php';
                                                         <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                                                     </button>
                                                 </div>
-                                                <input type="text" class="form-control readonly text-center stepper-text" value="100">
+                                                <input type="text" class="form-control text-center stepper-text" value="100">
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="500">
                                                         <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
@@ -842,7 +842,7 @@ include '../includes/language.php';
                                                 <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                                             </button>
                                         </div>
-                                        <input type="text" class="form-control readonly text-center stepper-text" value="100">
+                                        <input type="text" class="form-control text-center stepper-text" value="100">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="500">
                                                 <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>

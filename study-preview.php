@@ -114,7 +114,7 @@ if (login_check($mysqli) == true) {
         <div id="template-simulator"></div>
 
         <div id="study-preview-top-bar" style="opacity: 0">
-            <div id="preview-bar-top" class="" style="padding: 10px; position: fixed; width: 100%">
+            <div id="preview-bar-top" class="" style="padding: 10px; position: fixed;">
 
                 <div class="input-group">
                     <div class="input-group-btn">
@@ -148,19 +148,26 @@ if (login_check($mysqli) == true) {
                 </div>
             </div>
 
-            <div style="position: fixed; top: 53px; width: 100%; z-index: 500">
-                <button class="btn-cancel btn btn-danger btn-block" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
-            </div>
+            <div style="position: fixed; top: 53px; width: 100%; z-index: 500" id="preview-bar-bottom">
+                <div class="row" style="">
 
+                    <!-- progress bar -->
+                    <div class="col-xs-7 col-sm-9 col-md-9 col-lg-10" style="padding-right: 0">
+                        <div id="progressTop">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
+                                    0%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- progress bar -->
-            <div id="progressTop">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
-                        0%
+                    <div class="col-xs-5 col-sm-3 col-md-3 col-lg-2" style="padding-left: 0">
+                        <button class="btn btn-default btn-block btn-cancel" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
                     </div>
                 </div>
             </div>
+
         </div>
 
 
@@ -175,7 +182,7 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div id="animatableRTC" class="hidden" style="position: fixed; z-index: 99; top: 124px; left:15px; display: block">
+        <div id="animatableRTC" class="hidden" style="position: fixed; z-index: 99; top: 104px; left:15px; display: block">
         </div>
 
         <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 99; top: 150px; left:100px; display: block">
@@ -187,7 +194,7 @@ if (login_check($mysqli) == true) {
         </div>
 
         <!-- main content -->
-        <div class="mainContent" id="mainContent hidden" style="padding-top: 124px; padding-bottom: 0px">
+        <div class="mainContent" id="mainContent hidden" style="padding-top: 104px; padding-bottom: 0px">
             <div id="viewTester" class="hidden" style="padding-left: 15px; padding-right: 15px;">
                 <div class="pinnedRTC" style="position: fixed; z-index: 99"></div>
                 <div id="phase-content"></div>
@@ -350,15 +357,33 @@ if (login_check($mysqli) == true) {
 
             // render data if all templates where loaded
             function onAllExternalsLoadedSuccessfully() {
-                var preview = getLocalItem('preview');                
+                var preview = getLocalItem('preview');
                 var tutorials = <?php echo json_encode($_SESSION['tutorials']) ?>;
-                
+
+                // animate top control bar
+                var delay = .6;
+                TweenMax.from($('#preview-bar-top'), .3, {delay: delay, y: '+100', autoAlpha: 0});
+                TweenMax.from($('#preview-bar-top').find('#btnViewModerator'), .3, {delay: delay+.1, autoAlpha: 0});
+                TweenMax.from($('#preview-bar-top').find('#btnViewTester'), .3, {delay: delay+.2, autoAlpha: 0});
+                TweenMax.from($('#preview-bar-top').find('.option-phase-steps'), .3, {delay: delay+.3, autoAlpha: 0});
+                TweenMax.from($('#preview-bar-top').find('#btn-phaseStepSelect'), .3, {delay: delay+.4, autoAlpha: 0});
+                TweenMax.from($('#preview-bar-top').find('.previous'), .3, {delay: delay+.5, autoAlpha: 0});
+                TweenMax.from($('#preview-bar-top').find('.next'), .3, {delay: delay+.6, autoAlpha: 0, onComplete:function(){updatePager();}});
+                TweenMax.from($('#preview-bar-top').find('.btn-join-conversation'), .3, {delay: delay+.7, autoAlpha: 0});
+                TweenMax.from($('#preview-bar-top').find('.btn-leave-conversation'), .3, {delay: delay+.7, autoAlpha: 0});
+                TweenMax.from($('#preview-bar-top').find('.btn-leave-conversation'), .3, {delay: delay+.7, autoAlpha: 0});
+                TweenMax.from($('#preview-bar-top').find('#btn-introduction'), .3, {delay: delay+.8, autoAlpha: 0});
+                TweenMax.from($('#preview-bar-top').find('#btn-close-study-preview'), .3, {delay: delay+.9, autoAlpha: 0});
+
+                TweenMax.from($('#preview-bar-bottom'), .3, {delay: delay+.1, y: '+100', autoAlpha: 0});
+
+
                 if (tutorials && tutorials.studyPreview && parseInt(tutorials.studyPreview) === 1) {
                     $('#btn-introduction').click();
-                } else if(!preview || preview && (!preview.smallPreviewIntroductionTriggered || preview.smallPreviewIntroductionTriggered === false)) {
+                } else if (!preview || preview && (!preview.smallPreviewIntroductionTriggered || preview.smallPreviewIntroductionTriggered === false)) {
                     $('#custom-modal').unbind('showHelp').bind('showHelp', function (event) {
                         event.preventDefault();
-                        
+
                         var preview = getLocalItem('preview');
                         if (!preview) {
                             preview = {smallPreviewIntroductionTriggered: true};
@@ -367,7 +392,7 @@ if (login_check($mysqli) == true) {
                         }
 
                         setLocalItem('preview', preview);
-                        
+
                         $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                             event.preventDefault();
                             $(this).unbind('hidden.bs.modal');
@@ -491,7 +516,7 @@ if (login_check($mysqli) == true) {
             $('#btnViewModerator').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('active') && !$(this).hasClass('disabled')) {
-                    resetWebcamPreview();
+//                    resetWebcamPreview();
                     showModeratorView();
                     renderPhaseStep();
                 }
@@ -500,19 +525,19 @@ if (login_check($mysqli) == true) {
             $('#btnViewTester').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('active')) {
-                    resetWebcamPreview();
+//                    resetWebcamPreview();
                     showTesterView();
                     renderPhaseStep();
                 }
             });
 
 
-            function resetWebcamPreview() {
-                if (webcamPreview && webcamPreview !== null) {
-                    webcamPreview.destroy();
-                    webcamPreview = null;
-                }
-            }
+//            function resetWebcamPreview() {
+//                if (webcamPreview && webcamPreview !== null) {
+//                    webcamPreview.destroy();
+//                    webcamPreview = null;
+//                }
+//            }
 
 
             function showModeratorView() {

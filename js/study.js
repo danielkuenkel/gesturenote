@@ -583,36 +583,36 @@ function renderStudyParticipants(data, hash) {
         });
     }
 
-    var style = getComputedStyle(document.body);
-    var chartBorderCol = style.getPropertyValue('--chartBorderColor');
-
-    var chartOptions = {
-        rotation: -Math.PI,
-        cutoutPercentage: 30,
-        circumference: Math.PI,
-    };
-
-    var target = $('#study-participants');
-    var ctx = $(target).find('#chart-participant-statistics');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: [translation.studiesSucceeded, translation.studiesAborted],
-            datasets: [{
-                    data: [success, aborted],
-                    backgroundColor: [
-                        '#5cb85c',
-                        '#d9534f'
-                    ],
-                    borderColor: chartBorderCol
-                }]
-        },
-        options: chartOptions
-    });
-
-    $(target).find('#amount-participants-success').text(translation.studiesSucceeded + ': ' + success);
-    $(target).find('#amount-participants-aborted').text(translation.studiesAborted + ': ' + aborted);
-    $(target).find('#amount-participants-total').text(translation.gestureTypes.total + ': ' + (success + aborted));
+//    var style = getComputedStyle(document.body);
+//    var chartBorderCol = style.getPropertyValue('--chartBorderColor');
+//
+//    var chartOptions = {
+//        rotation: -Math.PI,
+//        cutoutPercentage: 30,
+//        circumference: Math.PI,
+//    };
+//
+//    var target = $('#study-participants');
+//    var ctx = $(target).find('#chart-participant-statistics');
+//    new Chart(ctx, {
+//        type: 'doughnut',
+//        data: {
+//            labels: [translation.studiesSucceeded, translation.studiesAborted],
+//            datasets: [{
+//                    data: [success, aborted],
+//                    backgroundColor: [
+//                        '#5cb85c',
+//                        '#d9534f'
+//                    ],
+//                    borderColor: chartBorderCol
+//                }]
+//        },
+//        options: chartOptions
+//    });
+//
+//    $(target).find('#amount-participants-success').text(translation.studiesSucceeded + ': ' + success);
+//    $(target).find('#amount-participants-aborted').text(translation.studiesAborted + ': ' + aborted);
+//    $(target).find('#amount-participants-total').text(translation.gestureTypes.total + ': ' + (success + aborted));
 
     $('#btn-show-all-participant-results').unbind('click').bind('click', function (event) {
         clearLocalItems();

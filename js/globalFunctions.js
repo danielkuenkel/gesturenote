@@ -431,6 +431,9 @@ $(document).on('click', '#language-selection li a', function (event) {
     }
 });
 
+$(document).on('input change', '.has-error', function (event) {
+    $(this).removeClass('has-error');
+});
 
 $(document).on('click', '.show-dropdown', function (event) {
     event.preventDefault();
@@ -1081,7 +1084,7 @@ $(document).on('click', '.simple-stepper .btn-stepper-decrease', function (event
     if (event.handled !== true)
     {
         event.handled = true;
-        var min = parseInt($(this).val());
+        var min = parseInt($(this).attr('data-min'));
         var currentValue = parseInt($(this).closest('.simple-stepper').find('.stepper-text').val());
         if (currentValue === "" || isNaN(currentValue)) {
             currentValue = min;
@@ -1100,8 +1103,8 @@ $(document).on('click', '.simple-stepper .btn-stepper-increase', function (event
     if (event.handled !== true)
     {
         event.handled = true;
-        var max = parseInt($(this).val());
-        var min = parseInt($(this).closest('.simple-stepper').find('.btn-stepper-decrease').val());
+        var max = parseInt($(this).attr('data-max'));
+        var min = parseInt($(this).closest('.simple-stepper').find('.btn-stepper-decrease').attr('data-min'));
         var currentValue = parseInt($(this).closest('.simple-stepper').find('.stepper-text').val());
 
         if (currentValue === "" || isNaN(currentValue)) {
@@ -1113,6 +1116,40 @@ $(document).on('click', '.simple-stepper .btn-stepper-increase', function (event
         }
         $(this).closest('.simple-stepper').find('.stepper-text').val(currentValue);
         $(this).closest('.simple-stepper').find('.stepper-text').trigger('change');
+    }
+});
+
+var updateStepperTimer = null;
+$(document).on('input change', '.stepper-text', function (event) {
+    event.preventDefault();
+    
+    var stepperInput = $(this);
+    var value = $(stepperInput).val();
+    var min = parseInt($(stepperInput).closest('.simple-stepper').find('.btn-stepper-decrease').attr('data-min'));
+    var max = parseInt($(stepperInput).closest('.simple-stepper').find('.btn-stepper-increase').attr('data-max'));
+    
+    clearTimeout(updateStepperTimer);
+    if (isNaN(value)) {
+        event.stopImmediatePropagation();
+        $(stepperInput).closest('.simple-stepper').addClass('has-error');
+        updateStepperTimer = setTimeout(function () {
+            $(stepperInput).val(min);
+            $(stepperInput).closest('.simple-stepper').removeClass('has-error');
+        }, 2000);
+    } else if (parseInt(value) < min) {
+        event.stopImmediatePropagation();
+        $(stepperInput).closest('.simple-stepper').addClass('has-error');
+        updateStepperTimer = setTimeout(function () {
+            $(stepperInput).val(min);
+            $(stepperInput).closest('.simple-stepper').removeClass('has-error');
+        }, 2000);
+    } else if (parseInt(value) > max) {
+        event.stopImmediatePropagation();
+        $(stepperInput).closest('.simple-stepper').addClass('has-error');
+        updateStepperTimer = setTimeout(function () {
+            $(stepperInput).val(max);
+            $(stepperInput).closest('.simple-stepper').removeClass('has-error');
+        }, 2000);
     }
 });
 

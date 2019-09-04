@@ -28,7 +28,7 @@ if (login_check($mysqli) == true) {
         <script src="js/greensock/TweenMax.min.js"></script>
 
 
-        <script src="js/sha512/sha512.min.js.js"></script>
+        <script src="js/sha512/sha512.min.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
@@ -108,7 +108,7 @@ if (login_check($mysqli) == true) {
         <div class="hidden-xs hidden-sm study-edit-controls" id="fixed-study-edit-controls" style="position: fixed; top: 50%; z-index: 100; opacity: 0;">
             <div class="btn-group-vertical left-controls" style="transform: translateY(-50%);">
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->cache ?> <i class="fa fa-folder-open-o" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-cache-study" style="position: relative; float: right; border-radius: 0px; border-top-right-radius: 8px"><?php echo $lang->save ?> <i class="fa fa-save" style="margin-left: 15px"></i></button>
                 </div>
                 <div>
                     <button type="button" class="btn btn-lg btn-default btn-shadow btn-join-conversation" style="position: relative;  float: right; border-radius: 0px;"><?php echo $lang->joinConversation ?> <i class="fa fa-group" style="margin-left: 15px"></i></button>
@@ -125,7 +125,7 @@ if (login_check($mysqli) == true) {
                         </span></button>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-save-study" style="position: relative; float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->saveAndClose ?> <i class="fa fa-save" style="margin-left: 15px"></i></button>
+                    <button type="button" class="btn btn-lg btn-default btn-shadow btn-save-study" style="position: relative; float: right; border-radius: 0px; border-bottom-right-radius: 8px"><?php echo $lang->close ?> <i class="fa fa-close" style="margin-left: 15px"></i></button>
                 </div>
             </div>
         </div>
@@ -857,42 +857,16 @@ if (login_check($mysqli) == true) {
                 event.stopImmediatePropagation();
                 jumpToId = $(button).attr('id');
                 loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
-
-                $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
-                    if (editableStudyId === null) {
-                        clearSceneImages();
-                        clearSounds();
-                    }
-
-                    clearLocalItems();
-                    checkJumpId();
-                });
-
-                $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
-                    $('#fixed-study-edit-controls').find('.btn-save-study').click();
-                });
+                $('#fixed-study-edit-controls').find('.btn-save-study').click();
             });
 
             $('body').on('click', '.main-burger-menu li a', function (event) {
                 var button = $(this);
                 event.stopImmediatePropagation();
                 jumpToId = $(button).parent().attr('data-id');
-                loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
-
-                $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
-                    $('#fixed-study-edit-controls').find('.btn-save-study').click();
-                });
-
-                $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
-                    if (editableStudyId === null) {
-                        clearSceneImages();
-                        clearSounds();
-                    }
-
-                    clearLocalItems();
-                    checkJumpId();
-                });
+                $('#fixed-study-edit-controls').find('.btn-save-study').click();
             });
+
 
             function checkJumpId() {
                 if (jumpToId !== null) {
@@ -940,48 +914,71 @@ if (login_check($mysqli) == true) {
 
             $('.btn-save-study').click(function (event) {
                 event.preventDefault();
-                if (checkInputs() === true) {
-                    var button = $(this);
-                    saveGeneralData();
+
+                var button = $(this);
+                $('.btn-preview-study').addClass('disabled');
+                saveGeneralData();
+
+                loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-md');
+
+                $('#custom-modal').unbind('saveDataClose').bind('saveDataClose', function () {
                     showCursor($('body'), CURSOR_POINTER);
-                    if (studyEditable === true) {
-                        var updateData = getExtractionStudyData();
-                        updateData.studyId = editableStudyId;
-                        updateStudy(updateData, function (result) {
-                            showCursor($('body'), CURSOR_DEFAULT);
-                            $(button).removeClass('disabled');
-                            $('.btn-cache-study').removeClass('disabled');
-                            if (result.status === RESULT_SUCCESS) {
-                                clearLocalItems();
+                    if (checkInputs() === true) {
+                        if (studyEditable === true) {
+                            var updateData = getExtractionStudyData();
+                            updateData.studyId = editableStudyId;
+                            updateStudy(updateData, function (result) {
+                                showCursor($('body'), CURSOR_DEFAULT);
+                                $(button).removeClass('disabled');
+                                $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
+                                if (result.status === RESULT_SUCCESS) {
+                                    clearLocalItems();
 
-                                if (jumpToId !== null) {
-                                    checkJumpId();
-                                } else {
-                                    var hash = sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                                    goto("extraction-study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+                                    if (jumpToId !== null) {
+                                        checkJumpId();
+                                    } else {
+                                        var hash = sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                        goto("extraction-study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        } else {
+                            saveStudy(getExtractionStudyData(), function (result) {
+                                showCursor($('body'), CURSOR_DEFAULT);
+                                $(button).removeClass('disabled');
+                                $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
+                                if (result.status === RESULT_SUCCESS) {
+                                    clearLocalItems();
+
+                                    if (jumpToId !== null) {
+                                        checkJumpId();
+                                    } else {
+                                        var hash = sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                        goto("extraction-study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
+                                    }
+                                }
+                            });
+                        }
                     } else {
-                        saveStudy(getExtractionStudyData(), function (result) {
-                            showCursor($('body'), CURSOR_DEFAULT);
-                            $(button).removeClass('disabled');
-                            $('.btn-cache-study').removeClass('disabled');
-                            if (result.status === RESULT_SUCCESS) {
-                                clearLocalItems();
-
-                                if (jumpToId !== null) {
-                                    checkJumpId();
-                                } else {
-                                    var hash = sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                                    goto("extraction-study.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
-                                }
-                            }
-                        });
+                        $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
                     }
-                } else {
-                    $('#create-tab-navigation').children().first().find('a').click();
-                }
+                });
+
+                $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
+                    jumpToId = 'btn-study';
+                    if (editableStudyId === null) {
+                        jumpToId = 'btn-studies';
+                        clearSceneImages();
+                        clearSounds();
+                    }
+
+                    clearLocalItems();
+                    checkJumpId();
+                });
+
+                $('#custom-modal').unbind('cancelSave').bind('cancelSave', function () {
+                    $('.btn-cache-study, .btn-preview-study').removeClass('disabled');
+                });
             });
 
             $('.btn-cache-study').click(function (event) {
@@ -1009,7 +1006,7 @@ if (login_check($mysqli) == true) {
                             unlockButton(button, true, 'fa-save');
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
-                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                var hash = sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                                 goto("extraction-create.php?studyId=" + result.studyId + "&h=" + hash + "&joinedConv=" + joinedRoom + getWebRTCSources());
                             } else {
                             }

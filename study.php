@@ -151,10 +151,10 @@ if (login_check($mysqli) == true) {
 
         <div class="container" style="margin-top: 20px">
             <ul class="nav nav-tabs" role="tablist" id="tab-pane-study" style="opacity: 0">
-                <li role="presentation" id="general"><a href="#general-infos" aria-controls="general-infos" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->general ?></a></li>
-                <li role="presentation" id="catalogs"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
-                <li role="presentation" id="phase-steps"><a href="#study-phase-steps" aria-controls="study-phase-steps" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->phases ?></a></li>
-                <li role="presentation" id="participants"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab"><?php echo $lang->participations ?> <span class="badge"></span></a></li>
+                <li role="presentation" id="general"><a href="#general-infos" aria-controls="general-infos" role="tab" data-toggle="tab"><?php echo $lang->general ?></a></li>
+                <!--<li role="presentation" id="catalogs"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>-->
+                <!--<li role="presentation" id="phase-steps"><a href="#study-phase-steps" aria-controls="study-phase-steps" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->phases ?></a></li>-->
+                <li role="presentation" id="participants"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab"><?php echo $lang->akquireAndResults ?> <span class="badge"></span></a></li>
                 <li role="presentation" class="dropdown hidden" id="extraction">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <?php echo $lang->phaseType->extraction ?> <span class="caret"></span>
@@ -178,8 +178,8 @@ if (login_check($mysqli) == true) {
 
             <div role="tabpanel" class="tab-pane" id="general-infos">
                 <h2 id="study-headline" style="margin-top: 0px; margin-bottom: 0px"></h2>
-                <div class="label label-default" id="type-method"></div>
                 <div class="label label-default" id="type-phase"></div>
+                <div class="label label-default" id="type-method"></div>
                 <!--<div class="label label-default" id="type-survey"></div>-->
                 <div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>
 
@@ -198,12 +198,11 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
 
-                <hr>
+                <button class="btn btn-default btn-shadow btn-edit-study" data-start-edit-at='generalData' style="margin-top: 20px"><i class="fa fa-pencil"></i> <?php echo $lang->editThisData ?></button>
 
-                <button class="btn btn-default btn-shadow btn-edit-study" data-start-edit-at='generalData'><i class="fa fa-pencil"></i> <?php echo $lang->editThisData ?></button>
-
-                <div id="invited-users" style="margin-top: 80px">
+                <div id="invited-users" style="margin-top: 100px">
                     <h3 class="address"><?php echo $lang->sharedStudies ?></h3>
+                    <hr>
 
                     <!--<div class="row">-->
 
@@ -293,8 +292,9 @@ if (login_check($mysqli) == true) {
 
                     <input type="text" class="form-control readonly" id="static-study-url">
 
-                    <div style="margin-top: 50px">
+                    <div style="margin-top: 100px">
                         <h3 class="address" style="margin-top: 0px"><?php echo $lang->executionEvaluator ?></h3>
+                        <hr>
                         <p class="text"><?php echo $lang->studyURLDescriptionEvaluator ?></p>
                         <div class="btn-group">
                             <button class="btn btn-default btn-shadow btn-preview-study" type="button" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->execution->studyPreview ?>"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->studyPreview ?></span></button>
@@ -304,22 +304,24 @@ if (login_check($mysqli) == true) {
 
                 </div>
 
-                <div style="margin-top: 50px"><h3><?php echo $lang->participations ?></h3></div>
+                <div style="margin-top: 100px"><h3><?php echo $lang->participations ?></h3></div>
+                <hr>
                 <div class="alert-space alert-no-participant-data"></div>
 
-                <div class="row" id="statistic-participants">
+<!--                <div class="row" id="statistic-participants">
                     <div class="col-xs-12 text-center">
                         <div class="bordered-statics" style="border: 1px solid #eee; border-radius: 8px; padding: 15px">
-                            <!--<div class="text text-center"><?php echo $lang->studyExecutionStatistic ?></div>-->
+                            <div class="text text-center"><?php echo $lang->studyExecutionStatistic ?></div>
                             <canvas id="chart-participant-statistics" style="max-width:400px; margin: 0 auto"></canvas>
                             <div class="text text-center" style="font-size: 10pt">
                                 <span id="amount-participants-success"></span>, <span id="amount-participants-aborted"></span>, <span id="amount-participants-total"></span>
                             </div>
-                            <div class="btn btn-block btn-default btn-shadow" id="btn-show-all-participant-results" style="margin-top: 20px"><i class="fa fa-bar-chart"></i> <?php echo $lang->showAllParticipantResults ?></div>
+                            
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <div class="list-container row" style="margin-top: 20px"></div>
+                <div class="btn btn-block btn-default btn-shadow" id="btn-show-all-participant-results" style="margin-top: 20px"><i class="fa fa-bar-chart"></i> <?php echo $lang->showAllParticipantResults ?></div>
             </div>
 
 

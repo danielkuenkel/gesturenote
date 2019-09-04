@@ -368,20 +368,22 @@ function rescueVideoCaller() {
 
 function updatePager() {
     var phaseSteps = getContextualPhaseSteps();
+    
     if (phaseSteps && phaseSteps.length > 1) {
         if (currentPhaseStepIndex <= 0) {
-            $('.previous').addClass('disabled');
-            $('.next').removeClass('disabled');
+            $('.previous').addClass('disabled').css({opacity:.65});
+            $('.next').removeClass('disabled').css({opacity:1});
+            
         } else if (currentPhaseStepIndex >= phaseSteps.length - 1) {
-            $('.previous').removeClass('disabled');
-            $('.next').addClass('disabled');
+            $('.previous').removeClass('disabled').css({opacity:1});
+            $('.next').addClass('disabled').css({opacity:.65});
         } else {
-            $('.previous').removeClass('disabled');
-            $('.next').removeClass('disabled');
+            $('.previous').removeClass('disabled').css({opacity:1});
+            $('.next').removeClass('disabled').css({opacity:1});
         }
     } else {
-        $('.previous').addClass('disabled');
-        $('.next').addClass('disabled');
+        $('.previous').addClass('disabled').css({opacity:.65});
+        $('.next').addClass('disabled').css({opacity:.65});
     }
 }
 

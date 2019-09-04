@@ -2583,12 +2583,12 @@ function renderCounterInput(item, parameters) {
     var counterFrom = parseInt(parameters.countFrom);
     var counterTo = parseInt(parameters.countTo);
     if (isNaN(counterFrom) || isNaN(counterTo)) {
-        item.find('.btn-stepper-decrease').attr('value', 0);
-        item.find('.btn-stepper-increase').attr('value', 100);
+        item.find('.btn-stepper-decrease').attr('data-min', 0);
+        item.find('.btn-stepper-increase').attr('data-max', 100);
         item.find('.stepper-text').val(0);
     } else {
-        item.find('.btn-stepper-decrease').attr('value', counterFrom);
-        item.find('.btn-stepper-increase').attr('value', counterTo);
+        item.find('.btn-stepper-decrease').attr('data-min', counterFrom);
+        item.find('.btn-stepper-increase').attr('data-max', counterTo);
         item.find('.stepper-text').val(counterFrom);
     }
 }

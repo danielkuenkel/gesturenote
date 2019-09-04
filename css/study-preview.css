@@ -10,18 +10,30 @@ and open the template in the editor.
 
 #progressTop .progress {
     border-radius: 0px;
-    /*height: 24px;*/
-    -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+    height: 34px;
+/*    -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
     -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);*/
+    border: 1px solid #ccc;
+    border-left: none;
+    border-right: none;
 }
 
 #progressTop {
-    width: 100%;
+/*    width: 100%;
     position: fixed;
-    top: 87px;
+    top: 87px;*/
     z-index: 500;
 }
+
+#progressTop .progress-bar {
+    height: 34px;
+    box-shadow: none;
+    line-height: 34px;
+    font-weight: bold;
+    background-color: #999;
+}
+
 
 #custom-modal {
     z-index: 9999;
@@ -39,6 +51,7 @@ and open the template in the editor.
 .web-rtc-placeholder {
     border-radius: 8px;
     /*border: 1px solid #eeeeee;*/
+    background-color: #eee;
 }
 .web-rtc-placeholder img {
     pointer-events: none;
