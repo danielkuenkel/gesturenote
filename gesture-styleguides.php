@@ -58,80 +58,131 @@ if (login_check($mysqli) == true) {
                 </ol>
             </div>
         </div>
-        
+
         <div id="loading-indicator" class="window-sized-loading text-center">
             <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
         </div>
 
-        <div class="mainContent hidden">
-<!--            <div class="container" id="general-styleguides" style="margin-top: 0px">
-                <h2 style="margin-top: 20px"><?php echo $lang->gestureStyleguides->process->headline ?></h2>
-                <hr>
-                <div id="help-description" class="text">
-                    <?php echo $lang->gestureStyleguides->process->info ?>
-                </div>
-                <img src="<?php echo $lang->gestureStyleguides->process->processImage ?>" class="img-responsive" style="display: block; margin-left: auto; margin-right: auto"/>
-            </div>-->
+        <div class="mainContent container hidden">
 
-            <div class="container" id="general-styleguides" style="margin-top: 0px">
-                <h2><?php echo $lang->gestureStyleguides->processStyleguides->headline ?></h2>
-                <hr>
-                <p><?php echo $lang->gestureStyleguides->processStyleguides->info ?></p>
-                <div class="text">
-                    <ul>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg1 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg2 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg3 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg4 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg5 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg6 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg7 ?></li>
+            <ul class="nav nav-tabs" role="tablist" id="" style="">
+                <li role="presentation" id="btn-gus-for-gesturenote" class="active"><a href="#gus-for-gesturenote" aria-controls="gus-for-gesturenote" role="tab" data-toggle="tab"><?php echo $lang->gestureStyleguides->usabilityScale->headline ?></a></li>
+                <li role="presentation" id="btn-general-styleguides"><a href="#general-styleguides" aria-controls="general-styleguides" role="tab" data-toggle="tab"><?php echo $lang->gestureStyleguides->processStyleguides->headline ?></a></li>
+                <li role="presentation" id="btn-multiple-gus"><a href="#multiple-gus" aria-controls="multiple-gus" role="tab" data-toggle="tab"><?php echo $lang->gusForMultipleGestures ?></a></li>
+                <li role="presentation" id="btn-single-gus"><a href="#single-gus" aria-controls="single-gus" role="tab" data-toggle="tab"><?php echo $lang->gusForSingleGesture ?></a></li>
+                <li role="presentation" id="btn-gus-observer"><a href="#gus-observer" aria-controls="gus-observer" role="tab" data-toggle="tab"><?php echo $lang->gusForObserver ?></a></li>
+            </ul>
+
+
+            <!-- Tab panes -->
+
+            <div class="tab-content" style="margin-top: 40px">
+
+                <div role="tabpanel" class="tab-pane active" id="gus-for-gesturenote">
+                    <div id="help-description"><div class="image-with-caption text-center"><img class='img-image' style="max-width: 968px" src="<?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageUrl ?>"/><div class='image-caption'><?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageCaption ?></div></div></div>
+                    <p class="text"><?php echo $lang->gestureStyleguides->usabilityScale->info ?></p>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="general-styleguides">
+                    <p class="text font-bold"><?php echo $lang->gestureStyleguides->processStyleguides->info ?></p>
+                    <div class="text">
                         <ul>
-                            <li><?php echo $lang->generalGestureProcessStyleguides->sg71 ?></li>
-                            <li><?php echo $lang->generalGestureProcessStyleguides->sg72 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg1 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg2 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg3 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg4 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg5 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg6 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg7 ?></li>
+                            <ul>
+                                <li><?php echo $lang->generalGestureProcessStyleguides->sg71 ?></li>
+                                <li><?php echo $lang->generalGestureProcessStyleguides->sg72 ?></li>
+                            </ul>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg8 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg9 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg10 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg11 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg12 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg13 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg14 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg15 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg16 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg17 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg18 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg19 ?></li>
+                            <li><?php echo $lang->generalGestureProcessStyleguides->sg20 ?></li>
                         </ul>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg8 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg9 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg10 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg11 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg12 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg13 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg14 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg15 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg16 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg17 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg18 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg19 ?></li>
-                        <li><?php echo $lang->generalGestureProcessStyleguides->sg20 ?></li>
-                    </ul>
+                    </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="multiple-gus">
+                    <div class="text" id="multiple-gus-list-container"></div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="single-gus">
+                    <div class="text" id="single-gus-list-container"></div>
+                </div>
+                
+                <div role="tabpanel" class="tab-pane" id="gus-observer">
+                    <div class="text" id="observer-gus-list-container"></div>
                 </div>
             </div>
 
-            <div class="container" id="gus-styleguides" style="margin-top: 50px">
+
+
+
+            <!--            <div class="container" id="general-styleguides" style="margin-top: 0px">
+                            <h2 style="margin-top: 20px"><?php echo $lang->gestureStyleguides->process->headline ?></h2>
+                            <hr>
+                            <div id="help-description" class="text">
+            <?php echo $lang->gestureStyleguides->process->info ?>
+                            </div>
+                            <img src="<?php echo $lang->gestureStyleguides->process->processImage ?>" class="img-responsive" style="display: block; margin-left: auto; margin-right: auto"/>
+                        </div>-->
+
+            <!--            <div class="container" id="general-styleguides" style="margin-top: 0px">
+                            <h2><?php echo $lang->gestureStyleguides->processStyleguides->headline ?></h2>
+                            <hr>
+            
+                        </div>-->
+
+            <!--<div class="container" id="" style="margin-top: 50px">
                 <h2><?php echo $lang->gestureStyleguides->usabilityScale->headline ?></h2>
                 <hr>
                 <div id="help-description"><div class="image-with-caption text-center"><img class='img-image' style="max-width: 968px" src="<?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageUrl ?>"/><div class='image-caption'><?php echo $lang->gestureStyleguides->usabilityScale->createGUSImageCaption ?></div></div></div>
                 <p class="text"><?php echo $lang->gestureStyleguides->usabilityScale->info ?></p>
-                <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-single">
-                    <h4><span class="plus-sign pull-left" style="margin-right: 10px"><i class="fa fa-plus"></i></span> <?php echo $lang->gusForSingleGesture ?></h4>
-                </div>
-                <div style="clear: both"></div>
-                <div id="single-gus-list" class="hidden">
-                    <hr style="margin-top: 10px; margin-bottom: 20px">
-                    <div class="text" id="single-gus-list-container"></div>
-                </div>
+            </div>-->
 
-                <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-multiple">
-                    <h4><span class="plus-sign pull-left" style="margin-right: 10px"><i class="fa fa-plus"></i></span> <?php echo $lang->gusForMultipleGestures ?></h4>
-                </div>
-                <div style="clear: both"></div>
-                <div id="multiple-gus-list" class="hidden">
-                    <hr style="margin-top: 10px; margin-bottom: 20px">
-                    <div class="text" id="multiple-gus-list-container"></div>
-                </div>
+            <!--<div class="container" id="gus-styleguides" style="margin-top: 50px">
+                <h2><?php echo $lang->gestureStyleguides->gusItems->headlineUserQuestions ?></h2>
+                <hr>
+                 Nav tabs 
+            
+            
+            
+                                <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-single">
+                                    <h4><span class="plus-sign pull-left" style="margin-right: 10px"><i class="fa fa-plus"></i></span> <?php echo $lang->gusForSingleGesture ?></h4>
+                                </div>
+                
+                                <div style="clear: both"></div>
+                                <div id="single-gus-list" class="hidden">
+                                    <hr style="margin-top: 10px; margin-bottom: 20px">
+                                    <div class="text" id="single-gus-list-container"></div>
+                                </div>
+                
+                                <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-multiple">
+                                    <h4><span class="plus-sign pull-left" style="margin-right: 10px"><i class="fa fa-plus"></i></span> <?php echo $lang->gusForMultipleGestures ?></h4>
+                                </div>
+                                <div style="clear: both"></div>
+                                <div id="multiple-gus-list" class="hidden">
+                                    <hr style="margin-top: 10px; margin-bottom: 20px">
+                                    <div class="text" id="multiple-gus-list-container"></div>
+                                </div>
+            
+            </div>-->
 
-            </div>
-            <div class="container" id="references" style="margin-bottom: 60px; margin-top: 50px">
+
+            <div class="" id="references" style="margin-bottom: 60px; margin-top: 100px">
                 <h2><?php echo $lang->gestureStyleguides->references->headline ?></h2>
                 <hr>
                 <div class="text">
@@ -146,15 +197,16 @@ if (login_check($mysqli) == true) {
                     <p>Ruiz, J., Li, Y., & Lank, E. (2011). User-defined motion gestures for mobile interaction. Proceedings of the 2011 Annual Conference on Human Factors in Computing Systems - CHI ’11, 197. http://doi.org/10.1145/1978942.1978971</p>
                     <p>Wachs, J. P., Kölsch, M., Stern, H., & Edan, Y. (2011). Vision-based hand-gesture applications. Communications of the ACM, 54(2), 60. http://doi.org/10.1145/1897816.1897838</p>
                     <p>Wobbrock, J. O., Aung, H. H., Rothrock, B., & Myers, B. A. (2005). Maximizing the guessability of symbolic input. CHI ’05 Extended Abstracts on Human Factors in Computing Systems - CHI ’05, 1869. http://doi.org/10.1145/1056808.1057043</p>
-
                 </div>
             </div>
+
         </div>
+
 
         <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors-headline">
             <div class="row">
                 <div class="col-sm-6 col-md-5 col-lg-4">
-                    <div class="panel panel-default panel-shadow style-headline" style="background-color: #0480BE;color: white;">
+                    <div class="panel panel-default panel-shadow style-headline" style="background-color: #337ab7;color: white;">
                         <div class="panel-body" style="padding: 15px 15px 10px 15px">
                             <h3 class="factor-headline" style="margin: 0; font-weight: bold;"></h3>
                             <div class="factor-description" style="margin-top: 10px; line-height: 12pt; font-size: 10pt;"></div>
@@ -188,6 +240,7 @@ if (login_check($mysqli) == true) {
 
                 renderGUSStyleguides($('#single-gus-list-container'), translation.singleGUS);
                 renderGUSStyleguides($('#multiple-gus-list-container'), translation.multipleGUS);
+                renderGUSStyleguides($('#observer-gus-list-container'), translation.observerGUS);
 
                 $('.mainContent').removeClass('hidden');
                 TweenMax.to($('#loading-indicator'), .4, {opacity: 0, onComplete: function () {
@@ -210,7 +263,7 @@ if (login_check($mysqli) == true) {
 
                         column = document.createElement('div');
                         $(column).addClass('col-xs-6');
-                        $(column).html(gus[i].styleguide); // html because of the html tags in the translation
+                        $(column).html(translation.styleguidesGUS[gus[i].styleguide]); // html because of the html tags in the translation
                         $(row).append(column);
 
                         if (currentDimension !== gus[i].dimension) {
@@ -228,7 +281,6 @@ if (login_check($mysqli) == true) {
                         }
 
                         var totalItems = parseInt($(headline).find('.factor-total-items').attr('data-total')) + 1;
-//                        console.log($(headline).find('.factor-total-items').attr('data-total'));
                         var totalItemsText = totalItems === 1 ? translation.totalGUSItem : translation.totalGUSItems;
                         totalItemsText = totalItemsText.replace('{x}', totalItems);
                         $(headline).find('.factor-total-items').text(totalItemsText);
@@ -238,38 +290,38 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-            $('.btn-toggle-gus-items').click(function (event) {
-                event.preventDefault();
-
-                if (!$(this).hasClass('disabled')) {
-
-                    if ($(this).hasClass('active')) {
-                        $(this).removeClass('active');
-
-                        TweenMax.to($(this).find('.plus-sign'), .3, {rotation: '0'});
-                        $('#multiple-gus-list, #single-gus-list').addClass('hidden');
-                    } else {
-
-                        $('.btn-toggle-gus-items').removeClass('active');
-                        $(this).addClass('active');
-                        TweenMax.to($('.btn-toggle-gus-items').find('.plus-sign'), .3, {rotation: '0'});
-                        TweenMax.to($(this).find('.plus-sign'), .3, {rotation: '45'});
-
-                        if ($(this).attr('id') === 'btn-toggle-single') {
-                            $('#single-gus-list').removeClass('hidden');
-                            $('#multiple-gus-list').addClass('hidden');
-                            TweenMax.from($('#single-gus-list'), .5, {opacity: 0});
-                        } else {
-                            $('#single-gus-list').addClass('hidden');
-                            $('#multiple-gus-list').removeClass('hidden');
-                            TweenMax.from($('#multiple-gus-list'), .5, {opacity: 0});
-                        }
-
-                        var offset = $(this).offset();
-                        $("html, body").animate({scrollTop: offset.top - 60}, "fast");
-                    }
-                }
-            });
+//            $('.btn-toggle-gus-items').click(function (event) {
+//                event.preventDefault();
+//
+//                if (!$(this).hasClass('disabled')) {
+//
+//                    if ($(this).hasClass('active')) {
+//                        $(this).removeClass('active');
+//
+//                        TweenMax.to($(this).find('.plus-sign'), .3, {rotation: '0'});
+//                        $('#multiple-gus-list, #single-gus-list').addClass('hidden');
+//                    } else {
+//
+//                        $('.btn-toggle-gus-items').removeClass('active');
+//                        $(this).addClass('active');
+//                        TweenMax.to($('.btn-toggle-gus-items').find('.plus-sign'), .3, {rotation: '0'});
+//                        TweenMax.to($(this).find('.plus-sign'), .3, {rotation: '45'});
+//
+//                        if ($(this).attr('id') === 'btn-toggle-single') {
+//                            $('#single-gus-list').removeClass('hidden');
+//                            $('#multiple-gus-list').addClass('hidden');
+//                            TweenMax.from($('#single-gus-list'), .5, {opacity: 0});
+//                        } else {
+//                            $('#single-gus-list').addClass('hidden');
+//                            $('#multiple-gus-list').removeClass('hidden');
+//                            TweenMax.from($('#multiple-gus-list'), .5, {opacity: 0});
+//                        }
+//
+//                        var offset = $(this).offset();
+//                        $("html, body").animate({scrollTop: offset.top - 60}, "fast");
+//                    }
+//                }
+//            });
         </script>
 
     </body>
