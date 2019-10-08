@@ -1259,13 +1259,13 @@ include '../includes/language.php';
                         <label><?php echo $lang->runsPerGesture ?></label>
                         <div class="input-group simple-stepper">
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="2">
+                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='2'>
                                     <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneLess ?></span>
                                 </button>
                             </div>
                             <input type="text" class="form-control text-center stepper-text" id="totalStressAmount" value="10">
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="300">
+                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-min='300'>
                                     <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneMore ?></span>
                                 </button>
                             </div>

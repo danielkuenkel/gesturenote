@@ -33,7 +33,7 @@ function checkCookies(cookiesAccepted) {
 
 function checkDarkMode(darkModeEnabled) {
     if (darkModeEnabled === 11) {
-        $('body').addClass('dark');
+        $('html,body').addClass('dark');
         $('body').find('.navbar-fixed-index #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
         $('body').find('.sub-page-header #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
         $('body').find('#preview-bar-top #toggle-dark-mode .fa').removeClass('fa-moon-o').addClass('fa-sun-o');
@@ -360,10 +360,10 @@ $(document).on('click', '#toggle-dark-mode', function (event) {
 
     toggleDarkmode({darkmode: $('body').hasClass('dark') ? '0' : '1'});
     if ($('body').hasClass('dark')) {
-        $('body').removeClass('dark');
+        $('body,html').removeClass('dark');
         $(this).find('.fa').removeClass('fa-sun-o').addClass('fa-moon-o');
     } else {
-        $('body').addClass('dark');
+        $('body,html').addClass('dark');
         $(this).find('.fa').removeClass('fa-moon-o').addClass('fa-sun-o');
     }
 });
@@ -1122,12 +1122,13 @@ $(document).on('click', '.simple-stepper .btn-stepper-increase', function (event
 var updateStepperTimer = null;
 $(document).on('input change', '.stepper-text', function (event) {
     event.preventDefault();
-    
+
     var stepperInput = $(this);
     var value = $(stepperInput).val();
     var min = parseInt($(stepperInput).closest('.simple-stepper').find('.btn-stepper-decrease').attr('data-min'));
     var max = parseInt($(stepperInput).closest('.simple-stepper').find('.btn-stepper-increase').attr('data-max'));
-    
+
+console.log('check stepper', value, isNaN(value), min);
     clearTimeout(updateStepperTimer);
     if (isNaN(value)) {
         event.stopImmediatePropagation();
@@ -4946,3 +4947,64 @@ function getCurrentPhaseData() {
     }
     return null;
 }
+
+
+
+var helpOverlayOpened = false;
+$(document).on('click', '.btn-popover-show-help', function (event) {
+    console.log('help clicked, id:', $(event.target).attr('data-help-id'));
+
+    helpOverlayOpened = true;
+    var helpOverlay = document.createElement('div');
+    $(helpOverlay).addClass('help-overlay');
+    var helpOverlayContent = document.createElement('div');
+    $(helpOverlayContent).html(translation.helpItems['help' + $(event.target).attr('data-help-id')].help).css({overflowY: 'scroll', height: '100%', padding: '15px 15px 15px 0px'});
+    $(helpOverlay).append(helpOverlayContent);
+
+    var closeButton = document.createElement('button');
+    $(closeButton).html('&times;').attr('type', 'button').addClass('close btn-close-help-popover').css({position: 'absolute', top: '4px', left: '8px'});
+    $(helpOverlay).append(closeButton);
+
+    $(helpOverlay).insertBefore($('body'));
+    var resizeButton = document.createElement('div');
+    $(resizeButton).addClass('btn-help-popover-resize');
+    $(helpOverlay).append(resizeButton);
+    $('body').addClass('not-scrollable');
+    $('html').addClass('text-select-disabled');
+    TweenMax.from(helpOverlay, .2, {right: '-400px', opacity: 0, clearProps: 'all'});
+    TweenMax.to($('body'), .3, {delay: .1, x: -100});
+
+    $(closeButton).unbind('click').bind('click', function () {
+        closeHelpOverlay();
+    });
+
+    $('body').on('click', function () {
+        closeHelpOverlay();
+    });
+
+    function closeHelpOverlay() {
+        $('body').removeClass('not-scrollable');
+        $('html').removeClass('text-select-disabled');
+        if (helpOverlayOpened === true) {
+            helpOverlayOpened = false;
+            TweenMax.to($('body'), .1, {x: 0});
+            TweenMax.to($('html').find('.help-overlay'), .1, {delay: .05, right: '-400px', opacity: 0, onComplete: function () {
+                    $('html').find('.help-overlay').remove();
+                }});
+        }
+    }
+});
+
+$(document).on('mousedown', '.btn-help-popover-resize', function (event) {
+    var overlay = $(this).parent();
+    var mouseOffset = event.pageX - $(this).offset().left + 5;
+
+    $('html').unbind('mousemove').bind('mousemove', function (event) {
+        var newWidth = $(window).width() - event.pageX + mouseOffset;
+        $(overlay).css({width: newWidth});
+    });
+});
+
+$(window).on('mouseup', function (event) {
+    $('html').unbind('mousemove');
+});

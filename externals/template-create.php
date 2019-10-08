@@ -175,13 +175,13 @@ include '../includes/language.php';
 
                             <div class="input-group simple-stepper" id="counter-number" style="max-width: 100%;">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='0'>
                                         <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                                     </button>
                                 </div>
                                 <input type="text" class="form-control text-center stepper-text" value="0">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='1000'>
                                         <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                                     </button>
                                 </div>
@@ -251,13 +251,13 @@ include '../includes/language.php';
 
                             <div class="input-group simple-stepper" id="counter-number" style="max-width: 100%;">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='0'>
                                         <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                                     </button>
                                 </div>
                                 <input type="text" class="form-control text-center stepper-text" value="0">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='1000'>
                                         <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                                     </button>
                                 </div>
@@ -294,9 +294,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->openQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -328,9 +328,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->openQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body hide-when-unused">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -354,9 +354,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->dichotomousQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body">
 
@@ -452,9 +452,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->alternativeQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body hide-when-unused">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -682,9 +682,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->counter->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body">
             <div class="form-group form-group-no-margin">
@@ -697,13 +697,13 @@ include '../includes/language.php';
                     <label style="margin: 0"><?php echo $lang->counterFrom ?></label><br/>
                     <div class="input-group simple-stepper" id="counter-from" style="max-width: 140px;">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='0'>
                                 <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                             </button>
                         </div>
                         <input type="text" class="form-control text-center stepper-text" value="0">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='1000'>
                                 <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                             </button>
                         </div>
@@ -714,13 +714,13 @@ include '../includes/language.php';
                     <label style="margin: 0"><?php echo $lang->counterTo ?></label><br/>
                     <div class="input-group simple-stepper" id="counter-to" style="max-width: 140px;">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='0'>
                                 <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                             </button>
                         </div>
                         <input type="text" class="form-control text-center stepper-text" value="0">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='1000'>
                                 <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                             </button>
                         </div>
@@ -745,9 +745,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -928,9 +928,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body hide-when-unused">
 
@@ -1118,9 +1118,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body">
 
@@ -1317,9 +1317,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->rating->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -1484,9 +1484,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->matrix->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -1518,9 +1518,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->sumQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -1565,13 +1565,13 @@ include '../includes/language.php';
 
                     <div class="input-group simple-stepper" id="counter-maximum" style="max-width: 140px;">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='0'>
                                 <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                             </button>
                         </div>
                         <input type="text" class="form-control text-center stepper-text" value="0">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='1000'>
                                 <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                             </button>
                         </div>
@@ -1619,9 +1619,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->delete ?>"><i class="fa fa-trash"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->ranking->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -1697,19 +1697,19 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>
-<!--                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label><?php echo $lang->scene ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpScene ?>"></i></label>
-                        <div class="alert-space alert-assembled-scene-removed"></div>
-                        <div class="input-group">
-                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                            <div class="input-group-btn select sceneSelect" role="group">
-                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
+                <!--                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label><?php echo $lang->scene ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpScene ?>"></i></label>
+                                        <div class="alert-space alert-assembled-scene-removed"></div>
+                                        <div class="input-group">
+                                            <input class="form-control item-input-text show-dropdown" tabindex="-1" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                            <div class="input-group-btn select sceneSelect" role="group">
+                                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
             </div>
 
             <div class="form-group">
@@ -2017,13 +2017,13 @@ include '../includes/language.php';
                                             <br/>
                                             <div class="input-group simple-stepper">
                                                 <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='1'>
                                                         <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
                                                     </button>
                                                 </div>
                                                 <input type="text" class="form-control text-center stepper-text" value="1">
                                                 <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='20'>
                                                         <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
                                                     </button>
                                                 </div>
@@ -2209,13 +2209,13 @@ include '../includes/language.php';
                             <label style=""><?php echo $lang->transitionalPeriod ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingSceneTransitionTime ?>"></i></label>
                             <div class="input-group simple-stepper" >
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='1'>
                                         <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
                                     </button>
                                 </div>
                                 <input type="text" class="form-control text-center stepper-text" value="1">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='20'>
                                         <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
                                     </button>
                                 </div>
@@ -2292,13 +2292,13 @@ include '../includes/language.php';
                             <label style=""><?php echo $lang->transitionalPeriod ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingSceneTransitionTime ?>"></i></label>
                             <div class="input-group simple-stepper" >
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='1'>
                                         <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
                                     </button>
                                 </div>
                                 <input type="text" class="form-control text-center stepper-text" value="1">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='20'>
                                         <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
                                     </button>
                                 </div>
@@ -2627,13 +2627,13 @@ include '../includes/language.php';
                         <label><?php echo $lang->repeats ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTrainingRepeats ?>"></i></label><br/>
                         <div class="input-group simple-stepper">
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='1'>
                                     <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneLess ?></span>
                                 </button>
                             </div>
                             <input type="text" class="form-control text-center stepper-text" value="5" tabindex="-1">
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
+                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='10'>
                                     <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneMore ?></span>
                                 </button>
                             </div>
@@ -2676,13 +2676,13 @@ include '../includes/language.php';
                         <br/>
                         <div class="input-group simple-stepper" >
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='0'>
                                     <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
                                 </button>
                             </div>
                             <input type="text" class="form-control text-center stepper-text" value="1">
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='20'>
                                     <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
                                 </button>
                             </div>
@@ -2849,13 +2849,13 @@ include '../includes/language.php';
                 <label style="margin: 0"><?php echo $lang->reactionPeriod ?></label>
                 <div class="input-group simple-stepper">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                        <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='1'>
                             <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
                         </button>
                     </div>
                     <input type="text" class="form-control text-center stepper-text" value="3">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                        <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='20'>
                             <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
                         </button>
                     </div>
@@ -3314,9 +3314,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->rating->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body hide-when-unused">
             <div>
@@ -3350,9 +3350,9 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>
             </div>
             <span><?php echo $lang->questionFormats->dichotomousQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body hide-when-unused">
 
@@ -3453,9 +3453,9 @@ include '../includes/language.php';
                 <!--<button class="btn btn-default btn-shadow btn-use not-used" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->general->useQuestion ?>"><i class="fa fa-star-o"></i></button>-->
             </div>
             <span><?php echo $lang->questionFormats->ueqItem->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-<!--            <div class="btn-group btn-group-sm pull-right">
-                <button class="btn btn-default btn-shadow btn-sm btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
-            </div>-->
+            <!--            <div class="btn-group btn-group-sm pull-right">
+                            <button class="btn btn-default btn-shadow btn-sm btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+                        </div>-->
         </div>
         <div class="panel-body">
 

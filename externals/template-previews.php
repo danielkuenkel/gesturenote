@@ -3685,13 +3685,13 @@ include '../includes/language.php';
             <label class="question text"></label>
             <div class="input-group simple-stepper" style="max-width: 130px;">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='0'>
                         <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                     </button>
                 </div>
                 <input type="text" class="form-control text-center stepper-text" value="0">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
+                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='10'>
                         <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                     </button>
                 </div>
@@ -3746,13 +3746,13 @@ include '../includes/language.php';
     <div id="sumQuestion-item" style="margin-bottom: 5px; display: inline">
         <div class="input-group simple-stepper" style="max-width: 140px; float: left;  clear: left">
             <div class="input-group-btn">
-                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='0'>
                     <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                 </button>
             </div>
             <input type="text" class="form-control text-center stepper-text" value="0">
             <div class="input-group-btn">
-                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="0">
+                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='10'>
                     <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                 </button>
             </div>

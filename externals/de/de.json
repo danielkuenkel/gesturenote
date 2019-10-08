@@ -2746,6 +2746,32 @@
             "veryStrong": "Die beiden Gesten stimmen sehr genau überein."
         }
     },
+    "helpItems": {
+        "help01": {
+            "popover": {
+                "content": "Um Probanden zu akquirieren, teilen Sie die von GestureNote bereitgestellte URL z. B. über E-Mails oder soziale Netzwerke.",
+                "contentExtension": "Klicken, um mehr zu erfahren."
+            },
+            "help": [
+                "<p>Um Probanden zu akquirieren, teilen Sie die von GestureNote bereitgestellte URL z. B. über E-Mails oder soziale Netzwerke. Um eine Befragung durchzuführen, klicken Sie auf den Button <button class='btn btn-default btn-xs btn-shadow'><i class='fa fa-street-view'></i> Befragung durchführen</button>. Oder kopieren Sie die URL in das Adressfeld Ihres Browsers.</p>",
+                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study/help-01-01.png' style='max-width:718px' /><div class='image-caption'>Übersicht und Statistik über alle durchgeführten Befragungen.</div></div>",
+                "<p>Falls bereits Probanden an einer Studie teilgenommen haben, werden diese hier angezeigt. Um die erhobenen Daten zu sichten, klicken Sie auf eine Teilnahme. Darüber hinaus wird für jede Teilnahme der Erfolg und die Durchführungsdauer angzeigt (falls erfolgreich).</p>",
+                "<p>Im Falle eines Abbruchs liegen nur die erhobenen Daten bis zum Zeitpunkt des Abbruchs vor. Möglicherweise gab es Probleme mit der Technik, oder der Proband/Moderator musste die Befragung abbrechen.</p>"
+            ]
+        },
+        "help02": {
+            "popover": {
+                "content": "Um Probanden zu akquirieren, teilen Sie die von GestureNote bereitgestellte URL z. B. über E-Mails oder soziale Netzwerke.",
+                "contentExtension": "Klicken, um mehr zu erfahren."
+            },
+            "help": [
+                "<p>Um Probanden zu akquirieren, teilen Sie die von GestureNote bereitgestellte URL z. B. über E-Mails oder soziale Netzwerke. Um eine Befragung durchzuführen, klicken Sie auf den Button <button class='btn btn-default btn-xs btn-shadow'><i class='fa fa-street-view'></i> Befragung durchführen</button>. Oder kopieren Sie die URL in das Adressfeld Ihres Browsers.</p>",
+                "<div class='image-with-caption text-center'><img class='img-image' src='img/de/introduction/study/help-02-01.png' style='max-width:489px' /><div class='image-caption'>Übersicht und Statistik über alle durchgeführten Befragungen.</div></div>",
+                "<p>Falls bereits Probanden an einer Studie teilgenommen haben, werden diese hier angezeigt. Um die erhobenen Daten zu sichten, klicken Sie auf eine Teilnahme. Darüber hinaus wird für jede Teilnahme der Erfolg und die Durchführungsdauer angzeigt (falls erfolgreich).</p>",
+                "<p>Im Falle eines Abbruchs liegen nur die erhobenen Daten bis zum Zeitpunkt des Abbruchs vor. Möglicherweise gab es Probleme mit der Technik, oder der Proband/Moderator musste die Befragung abbrechen.</p>"
+            ]
+        }
+    },
     "gestureStyleguides": {
         "process": {
             "headline": "Gesten-Design-Prozess",
@@ -6381,6 +6407,20 @@
     "moreNews": "Alle News abrufen",
     "allNews": [
         {
+            "title": "Umstellung auf Let's Encrypt SSL-Zertifikat",
+            "date": "10/8/2019",
+            "content": [
+                "<p>Aufgrund einer Umstellung im Tarif durch unseren Hostinganbieter, wird die Kommnukation zukünftig über ein SSL-Zertifikat von Let's Encrypt verschlüsselt. Es entstehen keinerlei Einschränkungen durch die Umstellung.</p>"
+            ]
+        },
+        {
+            "title": "Evaluierungsphase beendet",
+            "date": "8/22/2019",
+            "content": [
+                "<p>Die Phase der Evaluierung ist beendet und die Ergebnisse werden nun ausgewertet, analysiert und veröffentlicht. Ich bedanken mich nochmals herzlich bei allen Probanden für die Teilnahme an Studien zur Bewertung unterschiedlicher Bereiche von GestureNote.</p>"
+            ]
+        },
+        {
             "title": "Evaluierungsphase gestartet",
             "date": "8/28/2018",
             "content": [
@@ -6408,20 +6448,6 @@
             "content": [
                 "<p>Aufgrund eines Problems beim Verschlüsseln von Passwörtern während des Anmeldevorgangs, müssen alle Passwörter zurückgesetzt werden.</p>",
                 "<p>Haben Sie bereits bei GestureNote einen Account eingerichtet? Setzen Sie einfach Ihr Passwort mit der Funktion <em>Passwort vergessen</em> auf der Startseite von GestureNote zurück.</p>"
-            ]
-        },
-        {
-            "title": "Frohes neues Jahr",
-            "date": "1/1/2018",
-            "content": [
-                "<p>GestureNote wünscht allen ein erfolgreiches Jahr 2018.</p>"
-            ]
-        },
-        {
-            "title": "Weihnachtsgrüße",
-            "date": "12/24/2017",
-            "content": [
-                "<p>GestureNote wünscht allen ein gesegnetes Weihnachtsfest und ruhige Feiertage.</p>"
             ]
         }
     ],

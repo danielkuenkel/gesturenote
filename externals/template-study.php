@@ -914,13 +914,13 @@ include '../includes/language.php';
                                         </label><br>
                                         <div class="input-group simple-stepper" id="counter-from" style="">
                                             <div class="input-group-btn">
-                                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="80">
+                                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='80'>
                                                     <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                                                 </button>
                                             </div>
                                             <input type="text" class="form-control readonly text-center stepper-text" value="100">
                                             <div class="input-group-btn">
-                                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="500">
+                                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='500'>
                                                     <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                                                 </button>
                                             </div>
@@ -2519,13 +2519,13 @@ include '../includes/language.php';
         <div class="panel-body">
             <div class="input-group simple-stepper" style="max-width: 130px;">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" data-min='0'>
                         <span class="fa fa-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                     </button>
                 </div>
                 <input type="text" class="form-control readonly text-center stepper-text" value="0">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
+                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" data-max='10'>
                         <span class="fa fa-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                     </button>
                 </div>

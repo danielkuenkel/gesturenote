@@ -164,7 +164,7 @@ if (login_check($mysqli) == true) {
                         <li role="presentation" id="trigger-extraction" class="disabled"><a href="#study-trigger-extraction" aria-controls="study-trigger-extraction" role="tab" data-toggle="tab"><?php echo $lang->trigger ?></a></li>
                     </ul>
                 </li>
-                <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>
+                <!--<li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>-->
             </ul>
         </div>
 
@@ -281,7 +281,10 @@ if (login_check($mysqli) == true) {
 
             <div role="tabpanel" class="tab-pane" id="study-participants">
 
-                <h3 class="address" style="margin-top: 0"><?php echo $lang->executionTester ?></h3>
+                <h3 class="address" style="margin-top: 0">
+                    <?php echo $lang->executionTester ?>
+                    <i class="fa fa-info-circle text btn-show-info btn-popover-show-help" data-help-id="01" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->helpItems->help01->popover->content ?>"></i>
+                </h3>
                 <div class="alert-space alert-plan-expired"></div>
                 <div class="alert-space alert-plan-not-started"></div>
                 <div class="alert-space alert-no-plan"></div>
@@ -304,22 +307,15 @@ if (login_check($mysqli) == true) {
 
                 </div>
 
-                <div style="margin-top: 100px"><h3><?php echo $lang->participations ?></h3></div>
+                <div style="margin-top: 100px">
+                    <h3>
+                        <?php echo $lang->participations ?>
+                        <i class="fa fa-info-circle text btn-show-info btn-popover-show-help" data-help-id="02" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->helpItems->help02->popover->content ?>"></i>
+                    </h3>
+                </div>
                 <hr>
                 <div class="alert-space alert-no-participant-data"></div>
 
-<!--                <div class="row" id="statistic-participants">
-                    <div class="col-xs-12 text-center">
-                        <div class="bordered-statics" style="border: 1px solid #eee; border-radius: 8px; padding: 15px">
-                            <div class="text text-center"><?php echo $lang->studyExecutionStatistic ?></div>
-                            <canvas id="chart-participant-statistics" style="max-width:400px; margin: 0 auto"></canvas>
-                            <div class="text text-center" style="font-size: 10pt">
-                                <span id="amount-participants-success"></span>, <span id="amount-participants-aborted"></span>, <span id="amount-participants-total"></span>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>-->
                 <div class="list-container row" style="margin-top: 20px"></div>
                 <div class="btn btn-block btn-default btn-shadow" id="btn-show-all-participant-results" style="margin-top: 20px"><i class="fa fa-bar-chart"></i> <?php echo $lang->showAllParticipantResults ?></div>
             </div>
@@ -1226,65 +1222,45 @@ if (login_check($mysqli) == true) {
                 checkCollaborativeConversation();
             }
 
-            $('#tab-introduction a').on('click', function (event) {
-                event.preventDefault();
-                var showTutorial = false;
-
-                var activeTab = $($('#tab-pane-study').find('.active a').last()).attr('href');
-                if (activeTab !== '#gesture-extraction' && activeTab !== '#trigger-extraction') {
-                    $('.study-owner-controls').removeClass('hidden');
-                } else {
-                    $('.study-owner-controls').addClass('hidden');
-                }
-
-                if (tutorialAutomaticClicked === false || (tutorialAutomaticClicked === true && (showStudyTutorial === 1 || showExtractionTutorial === 1))) {
-//                    console.log('tab introduction clicked', activeTab, $('#tab-pane-study').find('.active'));
-                    var helpContext = 'study';
-                    var helpKey = 'introductionStudy';
-
-                    if (activeTab !== '#generalData') {
-                        switch (activeTab) {
-                            case '#general-infos':
-                                $('#custom-modal').removeAttr('data-start-tab-id');
-                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
-                                break;
-                            case '#study-catalogs':
-                                $('#custom-modal').attr('data-start-tab-id', 'study-catalogs');
-                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
-                                break;
-                            case '#study-phase-steps':
-                                $('#custom-modal').attr('data-start-tab-id', 'study-phase-steps');
-                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
-                                break;
-                            case '#study-participants':
-                                $('#custom-modal').attr('data-start-tab-id', 'study-participants');
-                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
-                                break;
-                            case '#study-trigger-extraction':
-                            case '#study-gesture-extraction':
-                                var activeExtractionTab = $('#gesture-extraction-navigation').find('.active').attr('id');
-
-                                switch (activeExtractionTab) {
-                                    case 'btn-all-gestures':
-                                    case 'btn-gesture-classification':
-                                    case 'btn-checklist':
-                                        $('#custom-modal').removeAttr('data-start-tab-id');
-                                        break;
-                                    case 'btn-potential-gestures':
-                                    case 'btn-gesture-sets':
-                                    case 'btn-potential-trigger':
-                                        $('#custom-modal').attr('data-start-tab-id', 'analysis');
-                                        break;
-                                }
-
-                                helpKey = 'introductionExtraction';
-                                helpContext = 'extraction';
-                                showTutorial = tutorialAutomaticClicked === false || showExtractionTutorial === 1;
-                                break;
-                            case '#trigger-extraction':
-                                var activeTriggerExtractionTab = $('#gesture-extraction-navigation').find('.active').attr('id');
-
-                                switch (activeTriggerExtractionTab) {
+//            $('#tab-introduction a').on('click', function (event) {
+//                event.preventDefault();
+//                var showTutorial = false;
+//
+//                var activeTab = $($('#tab-pane-study').find('.active a').last()).attr('href');
+//                if (activeTab !== '#gesture-extraction' && activeTab !== '#trigger-extraction') {
+//                    $('.study-owner-controls').removeClass('hidden');
+//                } else {
+//                    $('.study-owner-controls').addClass('hidden');
+//                }
+//
+//                if (tutorialAutomaticClicked === false || (tutorialAutomaticClicked === true && (showStudyTutorial === 1 || showExtractionTutorial === 1))) {
+////                    console.log('tab introduction clicked', activeTab, $('#tab-pane-study').find('.active'));
+//                    var helpContext = 'study';
+//                    var helpKey = 'introductionStudy';
+//
+//                    if (activeTab !== '#generalData') {
+//                        switch (activeTab) {
+//                            case '#general-infos':
+//                                $('#custom-modal').removeAttr('data-start-tab-id');
+//                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
+//                                break;
+//                            case '#study-catalogs':
+//                                $('#custom-modal').attr('data-start-tab-id', 'study-catalogs');
+//                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
+//                                break;
+//                            case '#study-phase-steps':
+//                                $('#custom-modal').attr('data-start-tab-id', 'study-phase-steps');
+//                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
+//                                break;
+//                            case '#study-participants':
+//                                $('#custom-modal').attr('data-start-tab-id', 'study-participants');
+//                                showTutorial = tutorialAutomaticClicked === false || showStudyTutorial === 1;
+//                                break;
+//                            case '#study-trigger-extraction':
+//                            case '#study-gesture-extraction':
+//                                var activeExtractionTab = $('#gesture-extraction-navigation').find('.active').attr('id');
+//
+//                                switch (activeExtractionTab) {
 //                                    case 'btn-all-gestures':
 //                                    case 'btn-gesture-classification':
 //                                    case 'btn-checklist':
@@ -1295,24 +1271,44 @@ if (login_check($mysqli) == true) {
 //                                    case 'btn-potential-trigger':
 //                                        $('#custom-modal').attr('data-start-tab-id', 'analysis');
 //                                        break;
-                                }
-
-                                helpKey = 'introductionExtraction';
-                                helpContext = 'extraction';
-                                showTutorial = tutorialAutomaticClicked === false || showExtractionTutorial === 1;
-                                break;
-                        }
-                    }
-
-                    if (showTutorial) {
-                        $('#custom-modal').attr('data-help-items-key', helpKey);
-                        $('#custom-modal').attr('data-help-context', helpContext);
-                        $('#custom-modal').attr('data-help-show-tutorial', parseInt(helpContext === 'study' ? showStudyTutorial : showExtractionTutorial));
-                        loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
-                    }
-                }
-                tutorialAutomaticClicked = false;
-            });
+//                                }
+//
+//                                helpKey = 'introductionExtraction';
+//                                helpContext = 'extraction';
+//                                showTutorial = tutorialAutomaticClicked === false || showExtractionTutorial === 1;
+//                                break;
+//                            case '#trigger-extraction':
+//                                var activeTriggerExtractionTab = $('#gesture-extraction-navigation').find('.active').attr('id');
+//
+//                                switch (activeTriggerExtractionTab) {
+////                                    case 'btn-all-gestures':
+////                                    case 'btn-gesture-classification':
+////                                    case 'btn-checklist':
+////                                        $('#custom-modal').removeAttr('data-start-tab-id');
+////                                        break;
+////                                    case 'btn-potential-gestures':
+////                                    case 'btn-gesture-sets':
+////                                    case 'btn-potential-trigger':
+////                                        $('#custom-modal').attr('data-start-tab-id', 'analysis');
+////                                        break;
+//                                }
+//
+//                                helpKey = 'introductionExtraction';
+//                                helpContext = 'extraction';
+//                                showTutorial = tutorialAutomaticClicked === false || showExtractionTutorial === 1;
+//                                break;
+//                        }
+//                    }
+//
+//                    if (showTutorial) {
+//                        $('#custom-modal').attr('data-help-items-key', helpKey);
+//                        $('#custom-modal').attr('data-help-context', helpContext);
+//                        $('#custom-modal').attr('data-help-show-tutorial', parseInt(helpContext === 'study' ? showStudyTutorial : showExtractionTutorial));
+//                        loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
+//                    }
+//                }
+//                tutorialAutomaticClicked = false;
+//            });
 
             $('#study-gestures-catalog').find('#btn-download-as-json').unbind('click').bind('click', function (event) {
                 event.preventDefault();

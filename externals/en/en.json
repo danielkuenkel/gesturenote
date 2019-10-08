@@ -401,7 +401,7 @@
     "studyCreateNav": {
         "general": "General data",
         "catalogs": "Interaction data",
-        "phases": "Guide",
+        "phases": "Study guide",
         "mapping": "Mapping",
         "panel": "Who, What & When?"
     },
@@ -584,7 +584,7 @@
     "cache": "Cache",
     "saveAndClose": "Save & Close",
     "acceptAndClose": "Apply & Close",
-    "next": "Continue",
+    "next": "Next",
     "previous": "Back",
     "furtherUp": "Next up",
     "furtherDown": "Next down",
@@ -2602,7 +2602,7 @@
             "sus": "Dies ist ein einfacher und technologieunabhängiger Fragebogen, mit dem die Gebrauchstauglichkeit eines Systems bewertet werden kann. Der errechnete Scorewert (zwischen 0 und 100) kann zur quantitativen Analyse der Gebrauchstauglichkeit herangezogen werden. Sie müssen deshalb nichts weiter tun als diesen Fragebogen dem Leitfaden hinzuzufügen.",
             "ueq": "Der User Experience Questionnaire (UEQ) ermöglicht eine schnelle Beurteilung der Benutzererfahrung mit interaktiven Produkten. Das Format des Fragebogens unterstützt Benutzer sich über Gefühle, Eindrücke und Einstellungen auszudrücken, die entstehen, wenn sie ein Produkt verwenden.",
             "gestureTraining": "Bevor Gesten (z.B. in einem Benutzertest) zum Einsatz kommen, können diese unter Umständen vorab explorativ trainiert werden. Dem Probanden kann dabei ein UI mit dazugehöriger Funktionalität (Gesten, Systemrückmeldung, UI-Übergänge) gezeigt werden. Alternativ können nur die Gesten mit dazugehöriger Interaktionsaufgabe trainiert werden.",
-            "gestureTrainingOverlay": "Bevor Gesten (z.B. in einem Benutzertest) zum Einsatz kommen, sollten diese unter Umständen vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Interaktionsaufgaben und Systemrückmeldungen nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich kann ein Gesten-Training durch hinterlegte User Interfaces angereichert werden.",
+            "gestureTrainingOverlay": "Before gestures are used (e.g. in a user test), they may need to be trained in advance. GestureNote offers the possibility to display gestures to the user with corresponding interaction tasks and system feedback one after the other, with the request to repeat these X times. In addition, a gesture training can be enriched by stored user interfaces.",
             "gestureTrainingTrigger": "Welche Interaktionsaufgabe soll der Benutzer erlernen?",
             "gestureTrainingGesture": "Welche Geste soll ein Benutzer vorführen, damit die Funktion ausgelöst werden kann?",
             "gestureTrainingFeedback": "Soll dem Benutzer eine Systemrückmeldung angezeigt werden? Oder genügt ein UI-Übergang als Rückmeldung (falls UIs verwendet werden)?",

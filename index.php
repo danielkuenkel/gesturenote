@@ -213,7 +213,7 @@ if (login_check($mysqli) == true) {
                             <i class="fa fa-lock logo-small" style="font-size: 50px"></i>
                             <h4 class="uppercase"><?php echo $lang->whatOffersGesturenote8headline ?></h4>
                             <p>
-                                <a href="https://www.positivessl.com" style="font-family: arial; font-size: 10px; color: #212121; text-decoration: none;"><img src="img/PositiveSSL_tl_trans.png" alt="SSL Certificate" title="SSL Certificate" border="0" /></a>
+                                <a href="https://letsencrypt.org" target="_blank"><img src="img/le-logo-standard.svg" alt="SSL Certificate" title="SSL Certificate" border="0" style="width:100px" /></a>
                             </p>
                         </div>
                     </div>

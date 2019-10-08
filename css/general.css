@@ -606,6 +606,15 @@ label {
     color: #333333;
 }
 
+.text-select-disabled {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .readonly {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -1009,16 +1018,21 @@ li.disabledTab > a[data-toggle="tab"] {
     bottom: 0px;
 }
 
-#help-description img, #news-list img {
+/*#help-description img, #news-list img {
     width: 100%;
     display: block;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
-}
+}*/
 
 .img-image {
     margin-top: 20px;
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
 }
 
 .svg-image {
@@ -1485,6 +1499,40 @@ canvas {
     background-color: #fbfbfb;
 }
 
+.help-overlay {
+    font: 400 15px Lato, sans-serif;
+    line-height: 1.8;
+    color: #818181;
+    width: 400px;
+    position: fixed;
+    height: 100vh;
+    right: 0px;
+    z-index: 100;
+    padding-left: 30px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+    background-color: white;
+}
+
+.btn-help-popover-resize {
+    width: 4px;
+    height: 30px;
+    background-color: #d2d2d2;
+    border-radius: 50px;
+    position: fixed;
+    top: 50%;
+    transform: translate(-25px,-50%);
+    cursor: col-resize;
+}
+
+.btn-help-popover-resize:hover {
+    background-color: #777777;
+}
+
+body.not-scrollable {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 
 
 
@@ -1936,4 +1984,13 @@ ul.dropdown-menu-center {
 .dark .btns-control-overlay-top {
     box-shadow: 0px 0px 13px 9px rgba(105,105,105,1);
     background-color: #696969;
+}
+
+.dark .help-overlay {
+    background-color: #5f5e5e;
+    color: white;
+}
+
+.dark .btn-help-popover-resize:hover {
+    background-color: white;
 }
