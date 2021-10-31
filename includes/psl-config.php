@@ -1,21 +1,16 @@
 <?php
 
-/**
- * These are the database login details
- */  
-//define("HOST", "localhost");        // The host you want to connect to.
-//define("USER", "web23266739");             // The database username. 
-//define("PASSWORD", "U7U7HEsv");             // The new database password. zn9RTNAKGkUxRZH/QTazZM4F2MCAGbiBANcLoKup, alt XYnQ8VHFQCrDprkBMcjLVxNdMsmFCWA
-//define("DATABASE", "usr_web23266739_1");  // The database name.
+// write environment wars into array
+$envs = parse_ini_file(__DIR__ . '/../.env');
+foreach ($envs as $key => $value) {
+    $_ENV[$key] = $value;
+}
 
 //local
-define("HOST", "localhost");        // The host you want to connect to.
-define("USER", "root");             // The database username. 
-define("PASSWORD", "");             // The new database password. zn9RTNAKGkUxRZH/QTazZM4F2MCAGbiBANcLoKup, alt XYnQ8VHFQCrDprkBMcjLVxNdMsmFCWA
-define("DATABASE", "usr_web23266739_1");  // The database name.
+define("HOST", $_ENV['DB_HOST']);
+define("USER", $_ENV['DB_USER']);
+define("PASSWORD", $_ENV['DB_PASSWORD']);
+define("DATABASE", $_ENV['DB_DATABASE']);
  
 define("CAN_REGISTER", "any");
 define("DEFAULT_ROLE", "member");
- 
-//define("SECURE", FALSE);            // FOR DEVELOPMENT ONLY!!!!
-?>

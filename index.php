@@ -10,6 +10,8 @@ if (login_check($mysqli) == true) {
         header('Location: dashboard-tester.php');
     }
 }
+
+$googleAPIKey = $_ENV['GOOGLE_API_KEY'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -292,32 +294,40 @@ if (login_check($mysqli) == true) {
             <div id="googleMap" style="height:600px; width:100vw;"></div>
 
             <!-- Google Maps -->
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzo6c0KN02aScKccnj-Cs7JD00gcLYkZA"></script>
             <script>
-                var myCenter = new google.maps.LatLng(50.564726, 9.685376);
+                var maps_api_key = "<?php echo $googleAPIKey; ?>";
+                document.write("\<script async defer type=\"text/javascript\" src='" + "https://maps.googleapis.com/maps/api/js?key=" + maps_api_key + "&callback=initMap'\>\</script\>");        
+            </script>
+            <script>
+                
 
-                function initialize() {
-                    setTimeout(function () {
-                        var mapProp = {
-                            center: myCenter,
-                            zoom: 15,
-                            scrollwheel: false,
-//                            draggable: false,
-                            mapTypeId: google.maps.MapTypeId.ROADMAP
-                        };
+                function initMap() {
+                    console.log('test');
+                    
+                    var myCenter = new google.maps.LatLng(50.564726, 9.685376);
+                    
+                    function initialize() {
+                        setTimeout(function () {
+                            var mapProp = {
+                                center: myCenter,
+                                zoom: 15,
+                                scrollwheel: false,
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                            };
 
-                        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
-                        var marker = new google.maps.Marker({
-                            position: myCenter
-                        });
+                            var marker = new google.maps.Marker({
+                                position: myCenter
+                            });
 
-                        marker.setMap(map);
-                    }, 1000);
+                            marker.setMap(map);
+                        }, 1000);
 
+                    }
+
+                    google.maps.event.addDomListener(window, 'load', initialize);
                 }
-
-                google.maps.event.addDomListener(window, 'load', initialize);
             </script>
 
             <footer class="container-fluid text-center">
